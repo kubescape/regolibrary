@@ -1,0 +1,27 @@
+{
+    "name": "rule-name-similarity",
+    "attributes": {
+      "m$K8sThreatMatrix": "Defense evasion::Pod / container name similarity",
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Pod",
+          "ReplicaSet",
+          "Job"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "fails if there are objects with names similar to system pods, or other known deployments",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

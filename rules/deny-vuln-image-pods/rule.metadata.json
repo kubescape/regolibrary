@@ -1,0 +1,39 @@
+{
+  "name": "deny-vuln-image-pods",
+  "attributes": {
+    "m$K8sThreatMatrix": "Initial Access::Application Vulnerability",
+    "mitre": "Exploit Public-Facing Application",
+    "mitreCode": "T1190",
+    "armoBuiltin": true,
+    "armoOpa": "true"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet",
+        "Job",
+        "CronJob",
+        "Pod",
+        "services"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+    {
+      "packageName": "cautils"
+    }
+  ],
+  "description": "determines if pods/deployments has vulnerable image",
+  "remediation": "Isolate such deployments in sandboxes if possible. Otherwise, keep scanning frequently for in case a patch will be available - MAKE SURE it has least privileges as necessary!",
+  "ruleQuery": "armo_builtins"
+}

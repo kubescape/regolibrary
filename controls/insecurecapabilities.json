@@ -1,0 +1,10 @@
+{
+    "name": "Insecure capabilities",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "description": "Giving insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
+    "remediation": "Remove all insecure capabilities which aren’t necessary for the container.",
+      "rulesNames": [ "insecure-capabilities"
+    ]
+  }

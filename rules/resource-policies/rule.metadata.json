@@ -1,0 +1,34 @@
+{
+    "name": "resource-policies",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet",
+          "Job",
+          "CronJob",
+          "Pod",
+          "LimitRange",
+          "ResourceQuota"
+
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "fails if namespace has no resource policies defined",
+    "remediation": "Make sure that you definy resource policies (LimitRange or ResourceQuota) which limit the usage of resources for all the namespaces",
+    "ruleQuery": "armo_builtins"
+}

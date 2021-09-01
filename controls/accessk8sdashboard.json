@@ -1,0 +1,11 @@
+{
+  "name": "Access Kubernetes dashboard",
+  "attributes": {
+    "armoBuiltin": true,
+    "microsoftMitreColumns": ["Discovery","Lateral Movement"]
+  },
+  "description": "Attackers who gain access to the dashboard service account or have its RBAC permissions can use its network access to retrieve information about resources in the cluster or change them. Checks if subject that is not dashboard service account is bound to dashboard role/clusterrole, or - if anyone that is not dashboard pod is associated with its service account.",
+  "remediation": "Make sure that the “Kubernetes Dashboard” service account is only bound to the Kubernetes dashboard following the least privilege principle.",
+  "rulesNames": ["rule-access-dashboard"
+  ]
+}

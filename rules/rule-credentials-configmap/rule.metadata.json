@@ -1,0 +1,25 @@
+{
+    "name": "rule-credentials-configmap",
+    "attributes": {
+      "m$K8sThreatMatrix": "Credential access::Applications credentials in configuration files, Lateral Movement::Applications credentials in configuration files",
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "ConfigMap"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "fails if ConfigMaps have sensitive information in configuration",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

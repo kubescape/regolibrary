@@ -1,0 +1,11 @@
+{
+  "name": "Exposed dashboard",
+  "attributes": {
+    "armoBuiltin": true,
+    "microsoftMitreColumns": ["Initial Access"]
+  },
+  "description": "If Kubernetes dashboard is exposed externally in Dashboard versions before 2.01, it will allow unauthenticated remote management of the cluster.",
+  "remediation": "Update dashboard version to v2.0.1 or above.",
+  "rulesNames": ["rule-exposed-dashboard"
+  ]
+}

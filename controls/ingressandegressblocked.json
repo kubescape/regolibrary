@@ -1,0 +1,10 @@
+{
+    "name": "Ingress and Egress blocked",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "description": "By default, you should disable Ingress and Egress traffic on all pods.",
+    "remediation": "Define a network policy that restricts ingress and egress connections. ",
+      "rulesNames": [ "ingress-and-egress-blocked"
+    ]
+  }

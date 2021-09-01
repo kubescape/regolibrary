@@ -1,0 +1,25 @@
+{
+    "name": "list-all-mutating-webhooks",
+    "attributes": {
+      "m$K8sThreatMatrix": "Persistence::Malicious admission controller",
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "MutatingWebhookConfiguration"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "Returns mutating webhook configurations to be verified",
+    "remediation": "Analyze webhook for malicious behavior",
+    "ruleQuery": "armo_builtins"
+  }

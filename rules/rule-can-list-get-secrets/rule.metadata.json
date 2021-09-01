@@ -1,0 +1,32 @@
+{
+    "name": "rule-can-list-get-secrets",
+    "attributes": {
+      "microsoftK8sThreatMatrix": "Discovery::Access the K8s API server",
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Role",
+            "ClusterRole",
+            "ClusterRoleBinding",
+            "RoleBinding"
+          ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      }
+    ],
+    "description": "determines which users can list/get secrets",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

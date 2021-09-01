@@ -1,0 +1,10 @@
+{
+    "name": "Linux hardening",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "description": "Often, containers are given more privileges than actually needed. This behavior can increase the impact of a container compromise.",
+    "remediation": "Make sure you define  at least one linux security hardening property out of AppArmor, Seccomp, SELinux or Capabilities.",
+      "rulesNames": [ "linux-hardening"
+    ]
+  }

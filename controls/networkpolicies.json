@@ -1,0 +1,11 @@
+{
+    "name": "Network policies",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "description": "If no network policy is defined, attackers who gain access to a single container may use it to probe the network. Lists namespaces in which no network policies are defined.",
+    "remediation": "Define network policy.",
+      "rulesNames": [ "internal-networking"
+    ]
+  }
+  

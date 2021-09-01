@@ -1,0 +1,31 @@
+{
+    "name": "host-network-access",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet",
+            "Job",
+            "Pod",
+            "CronJob"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "fails if pod has hostNetwork  enabled",
+    "remediation": "Make sure that the hostNetwork field of the pod spec is not set to true (set to false or not present)",
+    "ruleQuery": "armo_builtins"
+}

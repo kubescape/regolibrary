@@ -1,0 +1,37 @@
+{
+  "name": "deny-RCE-vuln-image-pods",
+  "attributes": {
+    "m$K8sThreatMatrix": "Execution::Application Exploit (RCE)",
+    "armoBuiltin": true,
+    "armoOpa": "true"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet",
+        "Job",
+        "CronJob",
+        "Pod",
+        "services"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+    {
+      "packageName": "cautils"
+    }
+  ],
+  "description": "determines if pods has vulnerable image with remote code execution",
+  "remediation": "",
+  "ruleQuery": "package armo_builtins"
+}

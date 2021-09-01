@@ -1,0 +1,25 @@
+{
+  "name": "instance-metadata-api-access",
+  "attributes": {
+    "m$K8sThreatMatrix": "Credential Access::Instance Metadata API",
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "nodes"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Checks if there is access from the nodes to cloud prividers instance metadata services",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

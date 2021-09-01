@@ -1,0 +1,32 @@
+{
+    "name": "rule-can-delete-logs",
+    "attributes": {
+      "microsoftK8sThreatMatrix": "Defense Evasion::Clear container logs",
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Role",
+            "ClusterRole",
+            "ClusterRoleBinding",
+            "RoleBinding"
+          ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      }
+    ],
+    "description": "determines which users can delete logs inside a container",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

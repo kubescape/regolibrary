@@ -1,0 +1,32 @@
+{
+    "name": "rule-can-create-modify-pod",
+    "attributes": {
+      "m$K8sThreatMatrix": "Execution::New container, Persistence::Backdoor container",
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Role",
+          "ClusterRole",
+          "ClusterRoleBinding",
+          "RoleBinding"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      }
+    ],
+    "description": "determines which users have create/modify  permissions on pods",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

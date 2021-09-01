@@ -1,0 +1,10 @@
+{
+    "name": "Resources CPU limit",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "description": "CPU limits are not set.",
+    "remediation": "Ensure CPU limits are set.",
+      "rulesNames": [ "resources-cpu-limit"
+    ]
+  }

@@ -1,0 +1,28 @@
+{
+    "name": "rule-excessive-delete-rights",
+    "attributes": {
+      "m$K8sThreatMatrix": "Impact::Data Destruction",
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Role",
+            "ClusterRole",
+            "ClusterRoleBinding",
+            "RoleBinding"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "fails if user can delete important resources",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

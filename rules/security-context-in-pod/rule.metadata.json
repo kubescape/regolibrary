@@ -1,0 +1,31 @@
+{
+    "name": "security-context-in-pod",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet",
+            "Job",
+            "Pod",
+            "CronJob"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "fails if pod/container does not define a security context.",
+    "remediation": "Make sure that the securityContext field is defined for pod/container.",
+    "ruleQuery": "armo_builtins"
+}

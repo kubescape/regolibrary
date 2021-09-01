@@ -1,0 +1,10 @@
+{
+    "name": "Dangerous capabilities",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "description": "Giving dangerous and unnecessary capabilities for a container can increase the impact of a container compromise.",
+    "remediation": "Remove all dangerous capabilities which aren’t necessary for the container.",
+      "rulesNames": [ "dangerous-capabilities"
+    ]
+  }

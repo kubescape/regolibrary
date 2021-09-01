@@ -1,0 +1,36 @@
+{
+    "name": "exposed-sensitive-interfaces",
+    "attributes": {
+      "microsoftK8sThreatMatrix": "Initial access::Exposed sensitive interfaces",
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Service",
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet",
+          "Job",
+          "Pod",
+          "CronJob"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "kubernetes.api.client"
+      }
+    ],
+    "description": "fails if known interfaces have exposed services",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}

@@ -1,0 +1,32 @@
+{
+    "name": "rule-can-create-bind-escalate-role",
+    "attributes": {
+      "microsoftK8sThreatMatrix": "Discovery::Access the K8s API server",
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Role",
+            "ClusterRole",
+            "ClusterRoleBinding",
+            "RoleBinding"
+          ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      }
+    ],
+    "description": "determines which users can create/update rolebindings/clusterrolebindings or bind roles/clusterroles",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

@@ -1,0 +1,31 @@
+{
+    "name": "user-id-less-than-thousands",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet",
+            "Job",
+            "Pod",
+            "CronJob"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "fails if container can run as high user (id less than 1000)",
+    "remediation": "Make sure that the user/group in the securityContext of pod/container is set to an id less than 1000.",
+    "ruleQuery": "armo_builtins"
+}

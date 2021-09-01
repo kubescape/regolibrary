@@ -1,0 +1,36 @@
+{
+    "name": "rule-can-bash-cmd-inside-container",
+    "attributes": {
+      "microsoftK8sThreatMatrix": "Execution::Bash/cmd inside container",
+      "armoBuiltin": true,
+      "armoOpa": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet",
+          "Job",
+          "CronJob",
+          "Pod"
+          ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      }
+    ],
+    "description": "determines which containers have bash/cmd inside it",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

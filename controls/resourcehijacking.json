@@ -1,0 +1,11 @@
+{
+    "name": "Resource Hijacking",
+    "attributes": {
+      "armoBuiltin": true,
+      "microsoftMitreColumns": ["Impact"]
+    },
+    "description": "Attackers who have access to a container in the cluster or have permissions to create new containers may abuse them to run compromising tasks, such as running digital currency mining. Determines which subjects have permissions to create/modify pods.",
+    "remediation": "You should apply least privilege principle. Approve the users who can create/delete pods.",
+      "rulesNames": [ "rule-can-create-modify-pod"
+    ]
+  }

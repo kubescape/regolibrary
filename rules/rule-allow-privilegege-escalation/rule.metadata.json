@@ -1,0 +1,31 @@
+{
+    "name": "rule-allow-privilege-escalation",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet",
+            "Job",
+            "Pod",
+            "CronJob"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "fails if container allows privilege escalation",
+    "remediation": "Make sure that the allowPrivilegeEscalation field in the securityContext of pod/container is set to false",
+    "ruleQuery": "armo_builtins"
+}

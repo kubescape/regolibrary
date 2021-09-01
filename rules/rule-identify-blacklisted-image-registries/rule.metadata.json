@@ -1,0 +1,31 @@
+{
+  "name": "rule-identify-blacklisted-image-registries",
+  "attributes": {
+    "m$K8sThreatMatrix": "Initial Access::Compromised images in registry",
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Pods",
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet",
+        "Job",
+        "CronJob"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Identifying if pod container images are from unallowed registries",
+  "remediation": "Use images from safe registry",
+  "ruleQuery": ""
+}

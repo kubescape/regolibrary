@@ -1,0 +1,29 @@
+{
+    "name": "NSA",
+    "description": "Implement NSA security advices for K8s ",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "controlsNames": [
+      "Control plane hardening",
+      "Host PID/IPC privileges",
+      "Immutable container filesystem",
+      "Non-root containers",
+      "Privileged container",
+      "Allowed hostPath",
+      "Automatic mapping of service account",
+      "hostNetwork access",
+      "Resource policies",
+      "Exposed dashboard",
+      "Allow privilege escalation",
+      "Applications credentials in configuration files",
+      "Cluster-admin binding",
+      "Exec into container",
+      "Dangerous capabilities",
+      "Insecure capabilities",
+      "Linux hardening",
+      "Ingress and Egress blocked",
+      "Container hostPort",
+      "Network policies"
+    ]
+  }

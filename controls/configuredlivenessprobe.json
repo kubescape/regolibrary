@@ -1,0 +1,10 @@
+{
+    "name": "Configured liveness probe",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "description": "Liveness probe is not configured.",
+    "remediation": "Ensure Liveness probe is configured",
+      "rulesNames": [ "configured-liveness-probe"
+    ]
+  }

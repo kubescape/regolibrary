@@ -1,0 +1,10 @@
+{
+    "name": "Specific version tag",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "description": "",
+    "remediation": "",
+      "rulesNames": [ "pod-specific-version-tag"
+    ]
+  }

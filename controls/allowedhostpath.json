@@ -1,0 +1,10 @@
+{
+    "name": "Allowed hostPath",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "description": "Mounting host directory to the container can be abused to get access to sensitive data and gain persistence on the host machine.",
+    "remediation": "Refrain from using host path mount.",
+      "rulesNames": [ "alert-rw-hostpath"
+    ]
+  }

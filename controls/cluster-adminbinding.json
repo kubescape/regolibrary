@@ -1,0 +1,11 @@
+{
+  "name": "Cluster-admin binding",
+  "attributes": {
+    "armoBuiltin": true,
+    "microsoftMitreColumns": ["Privilege escalation"]
+  },
+  "description": "Attackers who have Cluster-admin permissions (can perform any action on any resource), can take advantage of their high privileges for malicious intentions. Determines which subjects have cluster admin permissions.",
+  "remediation": "You should apply least privilege principle. Monitor and approve cluster admins and make sure users that do not require cluster-admin are not assigned with this role.",
+    "rulesNames": [ "rule-list-all-cluster-admins"
+  ]
+}

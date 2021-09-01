@@ -1,0 +1,32 @@
+{
+    "name": "ingress-and-egress-blocked",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet",
+            "Job",
+            "Pod",
+            "CronJob",
+            "NetworkPolicy"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "fails if there are no ingress and egress defined for pod",
+    "remediation": "Make sure you define ingress and egress policies for all your Pods",
+    "ruleQuery": "armo_builtins"
+}

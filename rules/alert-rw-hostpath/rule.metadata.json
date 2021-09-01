@@ -1,0 +1,38 @@
+{
+  "name": "alert-rw-hostpath",
+  "attributes": {
+    "m$K8sThreatMatrix": "Persistance::Writable hostPath mount, Lateral Movement::Writable volume mounts on the host",
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet",
+        "Job",
+        "CronJob",
+        "Pod"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+    {
+      "packageName": "cautils"
+    },
+    {
+      "packageName": "kubernetes.api.client"
+    }
+  ],
+  "description": "determines if any workload contains a hostPath volume with rw permissions",
+  "remediation": "Set the readOnly field of the mount to true",
+  "ruleQuery": ""
+}

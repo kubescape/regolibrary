@@ -1,0 +1,33 @@
+{
+    "name": "rule-can-update-configmap",
+    "attributes": {
+      "microsoftK8sThreatMatrix": "Lateral Movement::CoreDNS poisoning",
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Role",
+            "ClusterRole",
+            "ClusterRoleBinding",
+            "RoleBinding",
+            "ConfigMap"
+          ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      }
+    ],
+    "description": "determines which users can update/patch the 'coredns' configmap",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

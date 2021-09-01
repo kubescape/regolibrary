@@ -1,0 +1,25 @@
+{
+    "name": "automount-service-account",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Serviceaccount"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "fails if service account automountServiceAccountToken enabled",
+    "remediation": "Make sure that the automountServiceAccountToken field on the service account spec if set to false",
+    "ruleQuery": "armo_builtins"
+}

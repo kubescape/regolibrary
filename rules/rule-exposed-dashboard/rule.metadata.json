@@ -1,0 +1,26 @@
+{
+    "name": "rule-exposed-dashboard",
+    "attributes": {
+      "m$K8sThreatMatrix": "Initial Access::Exposed Dashboard",
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Deployment",
+          "Service"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "fails if dashboard exists and is exposed",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

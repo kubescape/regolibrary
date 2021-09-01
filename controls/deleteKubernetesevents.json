@@ -1,0 +1,11 @@
+{
+    "name": "Delete Kubernetes events",
+    "attributes": {
+      "armoBuiltin": true,
+      "microsoftMitreColumns": ["Defense evasion"]
+    },
+    "description": "Attackers may delete these events to avoid detection of their activity in the cluster. Determines which subjects can delete k8s events.",
+    "remediation": "You should apply least privilege principle. Monitor and approve the users who can delete events.",
+      "rulesNames": [ "rule-can-delete-k8s-events"
+    ]
+  }

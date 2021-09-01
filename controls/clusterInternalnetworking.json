@@ -1,0 +1,11 @@
+{
+  "name": "Cluster internal networking",
+  "attributes": {
+    "armoBuiltin": true,
+    "microsoftMitreColumns": ["Lateral movement"]
+  },
+  "description": "If no network policy is defined, attackers who gain access to a single container may use it to probe the network. Lists namespaces in which no network policies are defined.",
+  "remediation": "Define network policy (native K8s or using ARMO runtime protection).",
+    "rulesNames": [ "internal-networking"
+  ]
+}

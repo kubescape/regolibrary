@@ -1,0 +1,31 @@
+{
+    "name": "configured-liveness-probe",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet",
+            "Job",
+            "Pod",
+            "CronJob"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "Liveness probe is not configured",
+    "remediation": "Ensure Liveness probe is configured",
+    "ruleQuery": "armo_builtins"
+}

@@ -1,0 +1,10 @@
+{
+    "name": "Configured readiness probe",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "description": "Readiness probe is not configured.",
+    "remediation": "Ensure Readiness probe is configured.",
+      "rulesNames": [ "configured-readiness-probe"
+    ]
+  }

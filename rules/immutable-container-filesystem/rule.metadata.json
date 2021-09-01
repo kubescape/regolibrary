@@ -1,0 +1,31 @@
+{
+    "name": "immutable-container-filesystem",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet",
+            "Job",
+            "Pod",
+            "CronJob"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "fails if container has mutable filesystem",
+    "remediation": "Make sure that the securityContext.readOnlyRootFilesystem field in the container/pod spec is set to true",
+    "ruleQuery": "armo_builtins"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "Privileged container",
+  "attributes": {
+    "armoBuiltin": true,
+    "microsoftMitreColumns": ["Privilege escalation"]
+  },
+  "description": "Potential attackers may gain access to privileged containers and inherit access to the host resources. Therefore, it is not recommended to deploy privileged containers unless it is absolutely necessary.",
+  "remediation": "Change the deployment and/or pod definition to unprivileged. The securityContext.privileged should be false.",
+    "rulesNames": [ "rule-privilege-escalation"
+  ]
+}

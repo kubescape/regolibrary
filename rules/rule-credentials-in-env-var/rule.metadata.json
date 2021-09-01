@@ -1,0 +1,31 @@
+{
+    "name": "rule-credentials-in-env-var",
+    "attributes": {
+      "m$K8sThreatMatrix": "Credential access::Applications credentials in configuration files, Lateral Movement::Applications credentials in configuration files",
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet",
+          "Job",
+          "Pod",
+          "CronJob"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "fails if Pods have sensitive information in configuration",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }
