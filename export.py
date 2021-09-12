@@ -10,7 +10,7 @@ currDir = os.path.abspath(os.getcwd())
 
 
 def load_rules():
-    p1 = currDir + '/rules'
+    p1 = os.path.join(currDir, 'rules') 
     regofile = 'raw.rego'
     rules_path = Path(p1).glob('**/*.json')
     loaded_rules = {}  # rules loaded from file system
@@ -32,7 +32,7 @@ def load_rules():
 
 
 def load_controls(loaded_rules: dict):
-    p2 = currDir + '/controls'
+    p2 = os.path.join(currDir, 'controls') 
     controls_path = Path(p2).glob('**/*.json')
     loaded_controls = {}
 
@@ -54,7 +54,7 @@ def load_controls(loaded_rules: dict):
 
 
 def load_frameworks(loaded_controls: dict):
-    p3 = currDir + '/frameworks'
+    p3 = os.path.join(currDir, 'frameworks') 
     frameworks_path = Path(p3).glob('**/*.json')
     loaded_frameworks = {}
 
@@ -73,6 +73,23 @@ def load_frameworks(loaded_controls: dict):
 
     return loaded_frameworks
 
+def validate_controls():
+    p4 = os.path.join(currDir, 'controls') 
+    controls_path = list(Path(p4).glob('**/*.json'))
+    set_of_ids = set()
+
+    for path in  controls_path:
+        path_in_str = str(path)
+
+        with open(path_in_str, "r") as f:
+            new_control = json.load(f)
+        
+        set_of_ids.add(int(new_control["id"][2:]))
+
+    sum_of_controls = len(controls_path)
+    if sum_of_controls != len(set_of_ids):
+        raise Exception("Error validate the numbers of controls, {} != {}".format(sum_of_controls ,len(set_of_ids)))
+
 
 def export_json(d: dict, output_path: str):
     os.makedirs(output_path, exist_ok=True)
@@ -85,7 +102,7 @@ def export_json(d: dict, output_path: str):
 if __name__ == '__main__':
     rules = load_rules()
     controls = load_controls(loaded_rules=rules)
-    # TODO - validate controls
+    validate_controls()
     frameworks = load_frameworks(loaded_controls=controls)
 
     export_json(d=frameworks, output_path="release")
