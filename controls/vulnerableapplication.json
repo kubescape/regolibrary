@@ -11,5 +11,5 @@
     "rulesNames": [
         "deny-vuln-image-pods"
     ],
-    "id": "c_0024"
+    "id": "C-0024"
 }
