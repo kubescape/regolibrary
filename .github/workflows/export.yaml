@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        framework: [ mitre, nsa, developer_framework ]
+        framework: [ nsa ]
     steps:
       - uses: actions/checkout@v2
         name: checkout repo content
