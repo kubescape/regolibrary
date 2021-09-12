@@ -1,10 +1,12 @@
 {
     "name": "Allow privilege escalation",
     "attributes": {
-      "armoBuiltin": true
+        "armoBuiltin": true
     },
     "description": "Attackers may gain access to a container and uplift its privilege to enable excessive capabilities.",
     "remediation": "If your application does not need it, make sure the allowPrivilegeEscalation field of the securityContext is set to false.",
-      "rulesNames": [ "rule-allow-privilege-escalation"
-    ]
-  }
+    "rulesNames": [
+        "rule-allow-privilege-escalation"
+    ],
+    "id": "c_0016"
+}

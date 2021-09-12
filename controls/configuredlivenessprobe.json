@@ -1,10 +1,12 @@
 {
     "name": "Configured liveness probe",
     "attributes": {
-      "armoBuiltin": true
+        "armoBuiltin": true
     },
     "description": "Liveness probe is not configured.",
     "remediation": "Ensure Liveness probe is configured",
-      "rulesNames": [ "configured-liveness-probe"
-    ]
-  }
+    "rulesNames": [
+        "configured-liveness-probe"
+    ],
+    "id": "c_0056"
+}

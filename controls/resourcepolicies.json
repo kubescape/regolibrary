@@ -1,10 +1,12 @@
 {
     "name": "Resource policies",
     "attributes": {
-      "armoBuiltin": true
+        "armoBuiltin": true
     },
     "description": "CPU and memory resources should have a limit set for every container to prevent resource exhaustion.",
     "remediation": "Define LimitRange and ResourceQuota policies to limit resource usage for namespaces or nodes.",
-      "rulesNames": ["resource-policies"
-    ]
-  }
+    "rulesNames": [
+        "resource-policies"
+    ],
+    "id": "c_0009"
+}

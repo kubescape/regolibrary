@@ -1,11 +1,15 @@
 {
     "name": "Mount service principal",
     "attributes": {
-      "armoBuiltin": true,
-      "microsoftMitreColumns": ["Credential Access"]
+        "armoBuiltin": true,
+        "microsoftMitreColumns": [
+            "Credential Access"
+        ]
     },
     "description": "Determines if any workload contains a hostPath volume.",
     "remediation": "Try to refrain from using host path mount. You can use ARMO runtime protection (encryption capability) to encrypt these files.",
-      "rulesNames": [ "alert-any-hostpath"
-    ]
+    "rulesNames": [
+        "alert-any-hostpath"
+    ],
+    "id": "c_0020"
 }

@@ -1,11 +1,16 @@
 {
-  "name": "Writable hostPath mount",
-  "attributes": {
-    "armoBuiltin": true,
-    "microsoftMitreColumns": ["Persistence", "Lateral Movement"]
-  },
-  "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host.",
-  "remediation": "Try to refrain from using host path mount. You can use ARMO runtime protection (encryption capability) to encrypt these files.",
-    "rulesNames": [ "alert-rw-hostpath"
-  ]
+    "name": "Writable hostPath mount",
+    "attributes": {
+        "armoBuiltin": true,
+        "microsoftMitreColumns": [
+            "Persistence",
+            "Lateral Movement"
+        ]
+    },
+    "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host.",
+    "remediation": "Try to refrain from using host path mount. You can use ARMO runtime protection (encryption capability) to encrypt these files.",
+    "rulesNames": [
+        "alert-rw-hostpath"
+    ],
+    "id": "c_0045"
 }

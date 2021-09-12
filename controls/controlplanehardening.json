@@ -1,10 +1,12 @@
 {
     "name": "Control plane hardening",
     "attributes": {
-      "armoBuiltin": true
+        "armoBuiltin": true
     },
     "description": "Kubernetes control plane API is running with non-secure port enabled which allows attackers to gain unprotected access to the cluster.",
     "remediation": "Set the insecure-port flag of the API server to zero.",
-      "rulesNames": ["insecure-port-flag"
-    ]
-  }
+    "rulesNames": [
+        "insecure-port-flag"
+    ],
+    "id": "c_0005"
+}

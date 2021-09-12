@@ -1,11 +1,15 @@
 {
     "name": "Backdoor container",
     "attributes": {
-      "armoBuiltin": true,
-      "microsoftMitreColumns": ["Persistence"]
+        "armoBuiltin": true,
+        "microsoftMitreColumns": [
+            "Persistence"
+        ]
     },
-    "description":  "Attackers run their malicious code in a container in the cluster. By using the Kubernetes controllers such as DaemonSets or Deployments, attackers can ensure that a constant number of containers run in one, or all, the nodes in the cluster." ,
+    "description": "Attackers run their malicious code in a container in the cluster. By using the Kubernetes controllers such as DaemonSets or Deployments, attackers can ensure that a constant number of containers run in one, or all, the nodes in the cluster.",
     "remediation": "You should apply least privilege principle (we can point to our audit/least privilege screen). Approve the users who can create new containers.",
-      "rulesNames": [ "rule-can-create-modify-pod"
-    ]
-  }
+    "rulesNames": [
+        "rule-can-create-modify-pod"
+    ],
+    "id": "c_0027"
+}

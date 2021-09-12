@@ -1,10 +1,12 @@
 {
     "name": "Host PID/IPC privileges",
     "attributes": {
-      "armoBuiltin": true
+        "armoBuiltin": true
     },
     "description": "Containers should be as isolated as possible from the host machine. The hostPID and hostIPC fields in Kubernetes may excessively expose the host for potentially malicious actions.",
     "remediation": "Apply least privilege principle and disable the hostPID and hostIPC  fields unless strictly needed.",
-      "rulesNames": ["host-pid-ipc-privileges"
-    ]
-  }
+    "rulesNames": [
+        "host-pid-ipc-privileges"
+    ],
+    "id": "c_0038"
+}

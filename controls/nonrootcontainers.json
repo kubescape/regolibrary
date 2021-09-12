@@ -1,10 +1,12 @@
 {
     "name": "Non-root containers",
     "attributes": {
-      "armoBuiltin": true
+        "armoBuiltin": true
     },
     "description": "Potential attackers may gain access to a container and leverage its privileges to conduct an attack. Hence it is not recommended to deploy containers with root privileges unless it is absolutely necessary.",
     "remediation": "If your application does not need root privileges, make sure to define the runAsUser  and runAsGroup under the PodSecurityContext to use user ID 1000 or higher, do not turn on allowPrivlegeEscalation bit and runAsNonRoot is true.",
-      "rulesNames": [ "non-root-containers"
-    ]
-  }
+    "rulesNames": [
+        "non-root-containers"
+    ],
+    "id": "c_0013"
+}

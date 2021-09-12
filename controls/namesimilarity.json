@@ -1,11 +1,15 @@
 {
     "name": "Pod / container name similarity",
     "attributes": {
-      "armoBuiltin": true,
-      "microsoftMitreColumns": ["Defense evasion"]
+        "armoBuiltin": true,
+        "microsoftMitreColumns": [
+            "Defense evasion"
+        ]
     },
     "description": "Pods that are created by controllers such as Deployment or DaemonSet have random suffix in their names. Attackers can use this fact and name their backdoor pods as they were created by the existing controllers. For example, an attacker could create a malicious pod named coredns-{random suffix} which would look related to the CoreDNS Deployment.",
     "remediation": "You should look at the reported Pods and make sure they were created and developed by your team. It would be wise to change the Pod names.",
-      "rulesNames": [ "rule-name-similarity"
-    ]
-  }
+    "rulesNames": [
+        "rule-name-similarity"
+    ],
+    "id": "c_0043"
+}

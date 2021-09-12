@@ -1,10 +1,12 @@
 {
     "name": "Resources memory limit",
     "attributes": {
-      "armoBuiltin": true
+        "armoBuiltin": true
     },
     "description": "memory limits are not set.",
     "remediation": "Ensure memory limits are set.",
-      "rulesNames": [ "resources-memory-limit"
-    ]
-  }
+    "rulesNames": [
+        "resources-memory-limit"
+    ],
+    "id": "c_0004"
+}

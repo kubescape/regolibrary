@@ -1,11 +1,15 @@
 {
     "name": "Clear container logs",
     "attributes": {
-      "armoBuiltin": true,
-      "microsoftMitreColumns": ["Defense Evasion"]
+        "armoBuiltin": true,
+        "microsoftMitreColumns": [
+            "Defense Evasion"
+        ]
     },
-    "description":  "Attackers may delete the application or OS logs on a compromised container in an attempt to prevent detection of their activity." ,
+    "description": "Attackers may delete the application or OS logs on a compromised container in an attempt to prevent detection of their activity.",
     "remediation": "You should apply least privilege principle. Approve the users who can delete logs inside containers.",
-      "rulesNames": [ "rule-can-delete-logs"
-    ]
-  }
+    "rulesNames": [
+        "rule-can-delete-logs"
+    ],
+    "id": "c_0029"
+}

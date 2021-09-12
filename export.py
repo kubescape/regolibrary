@@ -85,6 +85,7 @@ def export_json(d: dict, output_path: str):
 if __name__ == '__main__':
     rules = load_rules()
     controls = load_controls(loaded_rules=rules)
+    # TODO - validate controls
     frameworks = load_frameworks(loaded_controls=controls)
 
     export_json(d=frameworks, output_path="release")

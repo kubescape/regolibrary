@@ -1,11 +1,15 @@
 {
     "name": "Bash/cmd inside container",
     "attributes": {
-      "armoBuiltin": true,
-      "microsoftMitreColumns": ["Execution"]
+        "armoBuiltin": true,
+        "microsoftMitreColumns": [
+            "Execution"
+        ]
     },
-    "description":  "Attackers who can run new processes inside a container might use cmd/bash script inside a container can use it to execute malicious code. Determines which containers have bash/cmd inside it." ,
+    "description": "Attackers who can run new processes inside a container might use cmd/bash script inside a container can use it to execute malicious code. Determines which containers have bash/cmd inside it.",
     "remediation": "Remove cmd/bash from the containers you are using.",
-      "rulesNames": [ "rule-can-bash-cmd-inside-container"
-    ]
-  }
+    "rulesNames": [
+        "rule-can-bash-cmd-inside-container"
+    ],
+    "id": "c_0019"
+}

@@ -1,10 +1,12 @@
 {
     "name": "More than one replicas",
     "attributes": {
-      "armoBuiltin": true
+        "armoBuiltin": true
     },
     "description": "Replicas are set to one.",
     "remediation": "Ensure replicas field is set and value is bigger than one.",
-      "rulesNames": [ "more-than-one-replicas"
-    ]
-  }
+    "rulesNames": [
+        "more-than-one-replicas"
+    ],
+    "id": "c_0032"
+}

@@ -1,10 +1,12 @@
 {
     "name": "Specific version tag",
     "attributes": {
-      "armoBuiltin": true
+        "armoBuiltin": true
     },
     "description": "",
     "remediation": "",
-      "rulesNames": [ "pod-specific-version-tag"
-    ]
-  }
+    "rulesNames": [
+        "pod-specific-version-tag"
+    ],
+    "id": "c_0040"
+}

@@ -1,11 +1,15 @@
 {
-  "name": "SSH server running inside container",
-  "attributes": {
-    "armoBuiltin": true,
-    "microsoftMitreColumns": ["Execution"]
-  },
-  "description":  "An SSH server that is running inside a container may be used by attackers to get remote access to the container. Checks if pods have an open SSH port (22/2222).",
-  "remediation": "Remove SSH from the container image or limit the access to the SSH server using network policy (Native or ARMO runtime protection).",
-    "rulesNames": [ "rule-can-ssh-to-pod"
-  ]
+    "name": "SSH server running inside container",
+    "attributes": {
+        "armoBuiltin": true,
+        "microsoftMitreColumns": [
+            "Execution"
+        ]
+    },
+    "description": "An SSH server that is running inside a container may be used by attackers to get remote access to the container. Checks if pods have an open SSH port (22/2222).",
+    "remediation": "Remove SSH from the container image or limit the access to the SSH server using network policy (Native or ARMO runtime protection).",
+    "rulesNames": [
+        "rule-can-ssh-to-pod"
+    ],
+    "id": "c_0042"
 }

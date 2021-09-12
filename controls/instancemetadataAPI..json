@@ -1,11 +1,15 @@
 {
-  "name": "Instance Metadata API",
-  "attributes": {
-    "armoBuiltin": true,
-    "microsoftMitreColumns": ["Discovery"]
-  },
-  "description": "Attackers who gain access to a container, may query the metadata API service for getting information about the underlying node. Checks if there is access from the nodes to cloud providers instance metadata services.",
-  "remediation": "Disable metadata services for pods in cloud provider settings.",
-    "rulesNames": [ "instance-metadata-api-access"
-  ]
+    "name": "Instance Metadata API",
+    "attributes": {
+        "armoBuiltin": true,
+        "microsoftMitreColumns": [
+            "Discovery"
+        ]
+    },
+    "description": "Attackers who gain access to a container, may query the metadata API service for getting information about the underlying node. Checks if there is access from the nodes to cloud providers instance metadata services.",
+    "remediation": "Disable metadata services for pods in cloud provider settings.",
+    "rulesNames": [
+        "instance-metadata-api-access"
+    ],
+    "id": "c_0052"
 }
