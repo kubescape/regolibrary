@@ -24,6 +24,7 @@
       "Linux hardening",
       "Ingress and Egress blocked",
       "Container hostPort",
-      "Network policies"
+      "Network policies",
+      "Symlink Exchange Can Allow Host Filesystem Access (CVE-2021-25741)"
     ]
   }

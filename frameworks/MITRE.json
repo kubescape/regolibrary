@@ -32,6 +32,7 @@
     "Delete Kubernetes events",
     "CoreDNS poisoning",
     "Data Destruction",
-    "Resource Hijacking"
+    "Resource Hijacking",
+    "Symlink Exchange Can Allow Host Filesystem Access (CVE-2021-25741)"
   ]
 }
