@@ -1,5 +1,6 @@
 package armo_builtins
 import data.kubernetes.api.client as client
+import data
 
 # loadbalancer
 deny[msga] {
@@ -12,10 +13,8 @@ deny[msga] {
 	workload_types[wl.kind]
 	wl_connectedto_service(wl, service)
     
-    # "Apache NiFi", Kubeflow, "Argo Workflows", "Weave Scope", "Kubernetes dashboard".
-    services_names := {"nifi-service", "argo-server", "minio", "postgres", "workflow-controller-metrics", 
-                       "weave-scope-app", "kubernetes-dashboard"}
-	services_names[service.metadata.name]
+    services_name := data.postureControlInputs.servicesNames[_]
+	services_name == service.metadata.name
     # externalIP := service.spec.externalIPs[_]
 	externalIP := service.status.loadBalancer.ingress[0].ip
 
@@ -39,10 +38,8 @@ deny[msga] {
 	service.kind == "Service"
 	service.spec.type == "NodePort"
     
-    # "Apache NiFi", Kubeflow, "Argo Workflows", "Weave Scope", "Kubernetes dashboard".
-    services_names := {"nifi-service", "argo-server", "minio", "postgres", "workflow-controller-metrics", 
-                       "weave-scope-app", "kubernetes-dashboard"}
-	services_names[service.metadata.name]
+    services_name := data.postureControlInputs.servicesNames[_]
+	services_name == service.metadata.name
     
 	pod := input[_]
 	pod.kind == "Pod"
@@ -69,10 +66,8 @@ deny[msga] {
 	service.kind == "Service"
 	service.spec.type == "NodePort"
     
-    # "Apache NiFi", Kubeflow, "Argo Workflows", "Weave Scope", "Kubernetes dashboard".
-    services_names := {"nifi-service", "argo-server", "minio", "postgres", "workflow-controller-metrics", 
-                       "weave-scope-app", "kubernetes-dashboard"}
-	services_names[service.metadata.name]
+    services_name := data.postureControlInputs.servicesNames[_]
+	services_name == service.metadata.name
     
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "CronJob"}
