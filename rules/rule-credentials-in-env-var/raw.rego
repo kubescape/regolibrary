@@ -1,12 +1,12 @@
 package armo_builtins
 # import data.cautils as cautils
 # import data.kubernetes.api.client as client
+import data
 
 deny[msga] {
 	pod := input[_]
     pod.kind == "Pod"
-    sensitive_key_names := {"aws_access_key_id", "aws_secret_access_key", "azure_batchai_storage_account", "azure_batchai_storage_key",
-                            "azure_batch_account", "azure_batch_key", "passwd","password", "username", "pwd", "cred", "token", "key", "cert"}
+    sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
     key_name := sensitive_key_names[_]
     container := pod.spec.containers[_]
     env := container.env[_]
@@ -27,8 +27,7 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
 
-    sensitive_key_names := {"aws_access_key_id", "aws_secret_access_key", "azure_batchai_storage_account", "azure_batchai_storage_key",
-                            "azure_batch_account", "azure_batch_key", "passwd","password", "username", "pwd", "cred", "token", "key", "cert"}
+    sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
     key_name := sensitive_key_names[_]
     container := wl.spec.template.spec.containers[_]
     env := container.env[_]
@@ -47,8 +46,7 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-    sensitive_key_names := {"aws_access_key_id", "aws_secret_access_key", "azure_batchai_storage_account", "azure_batchai_storage_key",
-                            "azure_batch_account", "azure_batch_key", "passwd","password", "username", "pwd", "cred", "token", "key", "cert"}
+    sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
     key_name := sensitive_key_names[_]
 	container := wl.spec.jobTemplate.spec.template.spec.containers[_]
     env := container.env[_]
