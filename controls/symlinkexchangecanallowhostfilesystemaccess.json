@@ -1,5 +1,5 @@
 {
-    "name": "Container SubPath volume mount Can Allow Host Filesystem Access (CVE-2021-25741)",
+    "name": "CVE-2021-25741 - Using symlink for arbitrary host file system access.",
     "attributes": {
         "armoBuiltin": true
     },

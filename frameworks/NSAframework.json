@@ -25,6 +25,6 @@
       "Ingress and Egress blocked",
       "Container hostPort",
       "Network policies",
-      "Container SubPath volume mount Can Allow Host Filesystem Access (CVE-2021-25741)"
+      "CVE-2021-25741 - Using symlink for arbitrary host file system access."
     ]
   }
