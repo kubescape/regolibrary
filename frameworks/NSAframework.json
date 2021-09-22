@@ -25,6 +25,6 @@
       "Ingress and Egress blocked",
       "Container hostPort",
       "Network policies",
-      "Symlink Exchange Can Allow Host Filesystem Access (CVE-2021-25741)"
+      "Container SubPath volume mount Can Allow Host Filesystem Access (CVE-2021-25741)"
     ]
   }

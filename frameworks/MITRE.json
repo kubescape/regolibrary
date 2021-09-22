@@ -33,6 +33,6 @@
     "CoreDNS poisoning",
     "Data Destruction",
     "Resource Hijacking",
-    "Symlink Exchange Can Allow Host Filesystem Access (CVE-2021-25741)"
+    "Container SubPath volume mount Can Allow Host Filesystem Access (CVE-2021-25741)"
   ]
 }
