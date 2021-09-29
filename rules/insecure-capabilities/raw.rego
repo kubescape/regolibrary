@@ -1,5 +1,5 @@
 package armo_builtins
-import data
+
 
 deny[msga] {
     pod := input[_]
@@ -48,7 +48,7 @@ deny[msga] {
 }
 
 isDangerousCapabilities(container){
-    insecureCapabilities := data.postureControlInputs.insecureCapabilities
+    insecureCapabilities := ["CHOWN", "DAC_OVERRIDE", "FSETID", "FOWNER", "MKNOD", "NET_RAW", "SETGID", "SETUID", "SETFCAP", "NET_BIND_SERVICE","SYS_CHROOT","KILL","AUDIT_WRITE"]
     insecureCapabilitie := insecureCapabilities[_]
     contains(container.securityContext.capabilities.add[_], insecureCapabilitie)
 }
