@@ -48,7 +48,7 @@ deny[msga] {
 }
 
 isDangerousCapabilities(container){
-    dangerousCapabilities := data.postureControlInputs.dangerousCapabilities
+    dangerousCapabilities := ["ALL", "SYS_ADMIN", "NET_ADMIN"]
     dangerousCapabilitie := dangerousCapabilities[_]
     contains(container.securityContext.capabilities.add[_], dangerousCapabilitie)
 }
