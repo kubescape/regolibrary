@@ -1,5 +1,4 @@
 package armo_builtins
-import data.cautils as cautils
 
 
 deny [msga] {
@@ -7,13 +6,11 @@ deny [msga] {
     admissionwebhook := admissionwebhooks[_]
 
     	msga := {
-		"alertMessage": sprintf("the following validating webhook configuration should be checked %v.", [admissionwebhook]),
+		"alertMessage": sprintf("The following validating webhook configuration should be checked %v.", [admissionwebhook.metadata.name]),
 		"alertScore": 6,
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [admissionwebhook]
 		}
 	}
-
-
 }
