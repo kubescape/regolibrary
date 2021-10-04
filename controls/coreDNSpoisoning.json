@@ -6,8 +6,8 @@
             "Lateral Movement"
         ]
     },
-    "description": "If attackers have permissions to modify the coredns ConfigMap, they can change the behavior of the cluster\u2019s DNS, poison it, and take the network identity of other services. Determines which users can update/patch the 'coredns' configmap.",
-    "remediation": "You should apply least privilege principle. Monitor and approve the users who can modify the 'coredns' configmap.",
+    "description": "If attackers have permissions to modify the coredns ConfigMap they can change the behavior of the cluster\u2019s DNS, poison it, and take the network identity of other services. This control determines which subjects can update/patch the 'coredns' configmap.",
+    "remediation": "You should apply least privilege principle. Monitor and approve the subjects who can modify the 'coredns' configmap.",
     "rulesNames": [
         "rule-can-update-configmap"
     ],

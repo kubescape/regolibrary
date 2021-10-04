@@ -6,8 +6,8 @@
             "Execution"
         ]
     },
-    "description": "Attackers who can run new processes inside a container might use cmd/bash script inside a container can use it to execute malicious code. Determines which containers have bash/cmd inside it.",
-    "remediation": "Remove cmd/bash from the containers you are using.",
+    "description": "Attackers who can run new processes inside a container might use cmd/bash script inside a container to execute malicious code. This control determines which containers have bash/cmd inside it.",
+    "remediation": "Consider removing cmd/bash from your containers.",
     "rulesNames": [
         "rule-can-bash-cmd-inside-container"
     ],

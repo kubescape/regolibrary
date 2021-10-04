@@ -3,7 +3,7 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "A user may be able to create a container with subPath volume mounts to access files & directories outside of the volume, including on the host filesystem. This was affected at the following versions: v1.22.0 - v1.22.1, v1.21.0 - v1.21.4, v1.20.0 - v1.20.10, version v1.19.14 and lower. ",
+    "description": "A user may be able to create a container with subPath volume mounts to access files & directories outside of the volume, including on the host filesystem. This was affected at the following versions: v1.22.0 - v1.22.1, v1.21.0 - v1.21.4, v1.20.0 - v1.20.10, version v1.19.14 and lower.",
     "remediation": "To mitigate this vulnerability without upgrading kubelet, you can disable the VolumeSubpath feature gate on kubelet and kube-apiserver, and remove any existing Pods making use of the feature.",
     "rulesNames": [
         "Symlink-Exchange-Can-Allow-Host-Filesystem-Access"
