@@ -1,13 +1,12 @@
 package armo_builtins
 # Check for images from blacklisted repos
-import data
 
 untrusted_registries(z) = x {
-	x := data.postureControlInputs.untrustedRegistries	
+	x := ["015253967648.dkr.ecr.eu-central-1.amazonaws.com/"]	
 }
 
 public_registries(z) = y{
-	y := data.postureControlInputs.publicRegistries
+	y := ["quay.io/kiali/","quay.io/datawire/","quay.io/keycloak/","quay.io/bitnami/"]
 }
 
 untrustedImageRepo[msga] {
