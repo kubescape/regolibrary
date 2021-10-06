@@ -72,7 +72,7 @@ class ReadmeApi(object):
         if r.status_code < 200 or 299 < r.status_code:
             raise Exception('Failed to delete doc (%d)'%r.status_code)
     
-    def create_doc(self, parent_id: str, order: int, title: str, body: str, category: str):
+    def create_doc(self, slug: str, parent_id: str, order: int, title: str, body: str, category: str):
         url = "https://dash.readme.com/api/v1/docs"
 
         payload = {
@@ -82,7 +82,8 @@ class ReadmeApi(object):
             "type": "basic",
             "body": body,
             "category": category,
-            "parentDoc": parent_id
+            "parentDoc": parent_id,
+            "slug": slug
         }
         headers = {
             "Accept": "application/json",
@@ -181,12 +182,7 @@ def create_md_for_control(control):
     return md_text
 
 def generate_slug(control):
-    fixed_name = control['name']
-    for c in '/.()!@#$%^&*_+=[]{};:",':
-        fixed_name = fixed_name.replace(c,'')
-    slug = (control['id']+ ' ' + fixed_name).replace(' ','-').lower()
-    slug = re.sub('-+','-',slug)
-    return slug
+    return control['id'].lower()
 
 def main():
     API_KEY = os.getenv('README_API_KEY')
@@ -229,7 +225,7 @@ def main():
                 readmeapi.update_doc(control_slug,int(control_obj['id'][2:]),title,md,control_category_obj['_id'])
                 print('\tupdated')
             else:
-                readmeapi.create_doc(parent_control_doc['_id'],int(control_obj['id'][2:]),title,md,control_category_obj['_id'])
+                readmeapi.create_doc(control_slug,parent_control_doc['_id'],int(control_obj['id'][2:]),title,md,control_category_obj['_id'])
                 print('\tcreated')
 
         except Exception as e:
