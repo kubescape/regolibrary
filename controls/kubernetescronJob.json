@@ -6,8 +6,8 @@
             "Persistence"
         ]
     },
-    "description": "Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a container in the cluster. Lists all CronJobs that exist in the cluster for the user to approve.",
-    "remediation": "Watch Kubernetes CronJobs and make sure there is a reason for creating these CronJobs.",
+    "description": "Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a container in the cluster. This control lists all CronJobs that exist in the cluster for the user to approve.",
+    "remediation": "Watch Kubernetes CronJobs and make sure they are necessary.",
     "rulesNames": [
         "rule-deny-cronjobs"
     ],

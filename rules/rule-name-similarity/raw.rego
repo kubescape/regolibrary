@@ -1,7 +1,6 @@
 package armo_builtins
 # import data.cautils as cautils
 # import data.kubernetes.api.client as client
-import data
 
 # input: pods
 # apiversion: v1
@@ -12,7 +11,10 @@ deny[msga] {
 	wanted_kinds := {"Pod", "ReplicaSet", "Job"}
 	wanted_kinds[object.kind]
 
-    wl_known_names := data.postureControlInputs.wlKnownNames
+    wl_known_names := {"coredns", "kube-proxy", 
+						"event-exporter-gke", "kube-dns", "17-default-backend", "metrics-server",
+						"ca-audit", "ca-dashboard-aggregator","ca-notification-server", "ca-ocimage","ca-oracle", 
+						"ca-posture", "ca-rbac", "ca-vuln-scan", "ca-webhook", "ca-websocket", "clair-clair"}
     wl_name := wl_known_names[_]
     contains(object.metadata.name, wl_name)
 	

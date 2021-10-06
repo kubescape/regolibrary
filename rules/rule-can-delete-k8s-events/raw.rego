@@ -19,7 +19,7 @@ deny [msga] {
     subjects := rolebinding.subjects[_]
 
     	msga := {
-	"alertMessage": sprintf("the following %v: %v can delete  events", [subjects.kind, subjects.name]),
+	"alertMessage": sprintf("The following %v: %v can delete events", [subjects.kind, subjects.name]),
 		"alertScore": 6,
 		"packagename": "armo_builtins",
           "alertObject": {
@@ -49,7 +49,7 @@ deny[msga] {
     subjects := rolebinding.subjects[_]
 
     	msga := {
-	"alertMessage": sprintf("the following %v: %v can delete  events", [subjects.kind, subjects.name]),
+	"alertMessage": sprintf("The following %v: %v can delete events", [subjects.kind, subjects.name]),
 		"alertScore": 6,
 		"packagename": "armo_builtins",
           "alertObject": {
@@ -78,7 +78,7 @@ deny[msga] {
     subjects := clusterrolebinding.subjects[_]
 
     	msga := {
-	"alertMessage": sprintf("the following %v: %v can delete  events", [subjects.kind, subjects.name]),
+	"alertMessage": sprintf("The following %v: %v can delete events", [subjects.kind, subjects.name]),
 		"alertScore": 6,
 		"packagename": "armo_builtins",
           "alertObject": {

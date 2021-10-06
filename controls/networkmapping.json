@@ -6,8 +6,8 @@
             "Discovery"
         ]
     },
-    "description": "If no network policy is defined, attackers who gain access to a single container may use it to probe the network. Lists namespaces in which no network policies are defined.",
-    "remediation": "Define network policy (native Kubernetes or using ARMO runtime protection). Use ARMO runtime protection capabilities to monitor network traffic.",
+    "description": "If no network policy is defined, attackers who gain access to a single container may use it to probe the network. This control lists namespaces in which no network policies are defined.",
+    "remediation": "Define network policies.",
     "rulesNames": [
         "internal-networking"
     ],

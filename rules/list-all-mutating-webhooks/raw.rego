@@ -1,5 +1,4 @@
 package armo_builtins
-import data.cautils as cautils
 
 
 deny [msga] {
@@ -7,7 +6,7 @@ deny [msga] {
     mutatingwebhook := mutatingwebhooks[_]
 
     	msga := {
-		"alertMessage": sprintf("the following mutating webhook configuration should be checked %v.", [mutatingwebhook]),
+		"alertMessage": sprintf("The following mutating webhook configuration should be checked %v.", [mutatingwebhook.metadata.name]),
 		"alertScore": 6,
 		"packagename": "armo_builtins",
 		"alertObject": {

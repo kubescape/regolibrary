@@ -20,7 +20,7 @@ deny[msga] {
     subjects := rolebinding.subjects[_]
 
     	msga := {
-	"alertMessage": sprintf("the following %v: %v can read  secrets", [subjects.kind, subjects.name]),
+	"alertMessage": sprintf("The following %v: %v can read secrets", [subjects.kind, subjects.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
           "alertObject": {
@@ -51,7 +51,7 @@ deny[msga] {
     subjects := rolebinding.subjects[_]
 
     	msga := {
-	"alertMessage": sprintf("the following %v: %v can read  secrets", [subjects.kind, subjects.name]),
+	"alertMessage": sprintf("The following %v: %v can read secrets", [subjects.kind, subjects.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
           "alertObject": {
@@ -78,7 +78,7 @@ deny[msga] {
     subjects := clusterrolebinding.subjects[_]
 
     	msga := {
-	"alertMessage": sprintf("the following %v: %v can read  secrets", [subjects.kind, subjects.name]),
+	"alertMessage": sprintf("The following %v: %v can read secrets", [subjects.kind, subjects.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
           "alertObject": {

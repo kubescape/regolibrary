@@ -6,8 +6,8 @@
             "Impact"
         ]
     },
-    "description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources. Determines which subjects can delete resources.",
-    "remediation": "You should apply least privilege principle. Monitor and approve the users who can delete resources.",
+    "description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources. This control determines which subjects can delete resources.",
+    "remediation": "You should apply least privilege principle. Monitor and approve the subjects who can delete resources.",
     "rulesNames": [
         "rule-excessive-delete-rights"
     ],

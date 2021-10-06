@@ -6,8 +6,8 @@
             "Credential Access"
         ]
     },
-    "description": "Determines if any workload contains a hostPath volume.",
-    "remediation": "Try to refrain from using host path mount. You can use ARMO runtime protection (encryption capability) to encrypt these files.",
+    "description": "When a cluster is deployed in the cloud, in some cases attackers can leverage their access to a container in the cluster to gain cloud credentials. This control determines if any workload contains a hostPath volume.",
+    "remediation": "Try to refrain from using host path mount.",
     "rulesNames": [
         "alert-any-hostpath"
     ],
