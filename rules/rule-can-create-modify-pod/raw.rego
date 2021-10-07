@@ -26,7 +26,10 @@ deny [msga] {
 		"alertScore": 9,
 		"packagename": "armo_builtins",
         "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+			"k8sApiObjects": [role,rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
      }
 }
@@ -52,7 +55,10 @@ deny [msga]{
 		"alertScore": 9,
 		"packagename": "armo_builtins",
         "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+			"k8sApiObjects": [role,rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
      }
 }
@@ -79,7 +85,10 @@ deny [msga]{
 		"alertScore": 9,
 		"packagename": "armo_builtins",
           "alertObject": {
-			"k8sApiObjects": [role,clusterrolebinding]
+			"k8sApiObjects": [role,clusterrolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
      }
 }

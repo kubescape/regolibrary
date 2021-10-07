@@ -17,7 +17,10 @@ deny[msga] {
 		"alertScore": 9,
 		"packagename": "armo_builtins",
          "alertObject": {
-			"k8sApiObjects": [roleBinding]
+			"k8sApiObjects": [roleBinding],
+			"externalObjects": {
+				"subject" : [subject]
+			}
 		}
      }
 }
@@ -39,7 +42,10 @@ deny[msga] {
 		"alertScore": 9,
 		"packagename": "armo_builtins",
 		"alertObject": {
-			"k8sApiObjects": [roleBinding]
+			"k8sApiObjects": [roleBinding],
+			"externalObjects": {
+				"subject" : [subject]
+			}
 		}
 	}
 }

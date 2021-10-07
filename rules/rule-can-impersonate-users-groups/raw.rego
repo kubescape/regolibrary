@@ -20,11 +20,14 @@ deny[msga] {
     subjects := rolebinding.subjects[_]
 
     	msga := {
-	"alertMessage": sprintf("the following %v: %v can impersonate users/groups", [subjects.kind, subjects.name]),
+	     "alertMessage": sprintf("The following %v: %v can impersonate users/groups", [subjects.kind, subjects.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
           "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+			"k8sApiObjects": [role,rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
      }
 }
@@ -48,11 +51,14 @@ deny [msga]{
     subjects := rolebinding.subjects[_]
 
     	msga := {
-	"alertMessage": sprintf("the following %v: %v can impersonate users/groups", [subjects.kind, subjects.name]),
+	     "alertMessage": sprintf("The following %v: %v can impersonate users/groups", [subjects.kind, subjects.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
           "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+			"k8sApiObjects": [role,rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
      }
 }
@@ -75,11 +81,14 @@ deny [msga]{
     subjects := clusterrolebinding.subjects[_]
 
     	msga := {
-	"alertMessage": sprintf("the following %v: %v can impersonate users/groups", [subjects.kind, subjects.name]),
+	     "alertMessage": sprintf("The following %v: %v can impersonate users/groups", [subjects.kind, subjects.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
           "alertObject": {
-			"k8sApiObjects": [role,clusterrolebinding]
+			"k8sApiObjects": [role,clusterrolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
      }
 }

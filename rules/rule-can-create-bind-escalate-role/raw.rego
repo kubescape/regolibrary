@@ -19,13 +19,17 @@ deny[msga] {
   
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
+    subject := rolebinding.subjects[_]
 
     	msga := {
-		"alertMessage": sprintf("the following users: %v , can create/update rolebinding/clusterrolebinding", [rolebinding.subjects]),
+		"alertMessage": sprintf("The following %v: %v, can create/update rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
           "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+			"k8sApiObjects": [role, rolebinding],
+			"externalObjects": {
+				"subject" : [subject]
+			}
 		}
      }
 }
@@ -44,13 +48,17 @@ deny [msga]{
 
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
+    subject := rolebinding.subjects[_]
 
   	msga := {
-		"alertMessage": sprintf("the following users: %v , can create/update rolebinding/clusterrolebinding", [rolebinding.subjects]),
+		"alertMessage": sprintf("The following %v: %v, can create/update rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
-     "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+          "alertObject": {
+			"k8sApiObjects": [role,rolebinding],
+			"externalObjects": {
+				"subject" : [subject]
+			}
 		}
      }
 }
@@ -69,13 +77,17 @@ deny [msga]{
 
     clusterrolebinding.roleRef.kind == "ClusterRole"
     clusterrolebinding.roleRef.name == role.metadata.name
+    subject := clusterrolebinding.subjects[_]
 
   	msga := {
-		"alertMessage": sprintf("the following users: %v , can create/update rolebinding/clusterrolebinding", [clusterrolebinding.subjects]),
+		"alertMessage": sprintf("The following %v: %v, can create/update rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
-     "alertObject": {
-			"k8sApiObjects": [role,clusterrolebinding]
+          "alertObject": {
+			"k8sApiObjects": [role,clusterrolebinding],
+			"externalObjects": {
+				"subject" : [subject]
+			}
 		}
      }
 }
@@ -98,13 +110,17 @@ deny [msga] {
 
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
+    subject := rolebinding.subjects[_]
 
     	msga := {
-		"alertMessage": sprintf("the following users: %v , can bind  roles/clusterroles", [rolebinding.subjects]),
+		"alertMessage": sprintf("The following %v: %v, can bind roles/clusterroles", [subject.kind, subject.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
           "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+			"k8sApiObjects": [role,rolebinding],
+			"externalObjects": {
+				"subject" : [subject]
+			}
 		}
      }
 }
@@ -125,13 +141,17 @@ deny [msga]{
 
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
+    subject := rolebinding.subjects[_]
 
   msga := {
-		"alertMessage": sprintf("the following users: %v , can bind  roles/clusterroles", [rolebinding.subjects]),
+		"alertMessage": sprintf("The following %v: %v, can bind roles/clusterroles", [subject.kind, subject.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
           "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+			"k8sApiObjects": [role,rolebinding],
+			"externalObjects": {
+				"subject" : [subject]
+			}
 		}
      }
 }
@@ -151,13 +171,17 @@ deny [msga]{
 
     clusterrolebinding.roleRef.kind == "ClusterRole"
     clusterrolebinding.roleRef.name == role.metadata.name
+    subject := clusterrolebinding.subjects[_]
     	
    msga := {
-		"alertMessage": sprintf("the following users: %v , can bind  roles/clusterroles", [clusterrolebinding.subjects]),
+		"alertMessage": sprintf("The following %v: %v, can bind roles/clusterroles", [subject.kind, subject.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
           "alertObject": {
-			"k8sApiObjects": [role,clusterrolebinding]
+			"k8sApiObjects": [role,clusterrolebinding],
+			"externalObjects": {
+				"subject" : [subject]
+			}
 		}
      }
 }
@@ -181,13 +205,17 @@ deny[msga] {
   
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
+    subject := rolebinding.subjects[_]
 
     	msga := {
-		"alertMessage": sprintf("the following users: %v , can escalate rolebinding/clusterrolebinding", [rolebinding.subjects]),
+		"alertMessage": sprintf("The following %v: %v, can escalate rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
           "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+			"k8sApiObjects": [role,rolebinding],
+			"externalObjects": {
+				"subject" : [subject]
+			}
 		}
      }
 }
@@ -206,13 +234,17 @@ deny [msga]{
 
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
+    subject := rolebinding.subjects[_]
 
   	msga := {
-		"alertMessage": sprintf("the following users: %v , can escalaterolebinding/clusterrolebinding", [rolebinding.subjects]),
+		"alertMessage": sprintf("The following %v: %v, can escalate rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
-         "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+          "alertObject": {
+			"k8sApiObjects": [role,rolebinding],
+			"externalObjects": {
+				"subject" : [subject]
+			}
 		}
      }
 }
@@ -231,13 +263,17 @@ deny [msga]{
 
     clusterrolebinding.roleRef.kind == "ClusterRole"
     clusterrolebinding.roleRef.name == role.metadata.name
+    subject := clusterrolebinding.subjects[_]
     	
   	msga := {
-		"alertMessage": sprintf("the following users: %v , can escalate rolebinding/clusterrolebinding", [clusterrolebinding.subjects]),
+		"alertMessage": sprintf("The following %v: %v, can escalate rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
-         "alertObject": {
-			"k8sApiObjects": [role,clusterrolebinding]
+          "alertObject": {
+			"k8sApiObjects": [role,clusterrolebinding],
+			"externalObjects": {
+				"subject" : [subject]
+			}
 		}
      }
 }

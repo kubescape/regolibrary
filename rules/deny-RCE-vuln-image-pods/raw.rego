@@ -19,11 +19,11 @@ deny[msga] {
         "alertScore": 5,
         "packagename": "armo_builtins",
         "alertObject": {
-			"k8sApiObjects": [pod]
+			"k8sApiObjects": [pod],
+			"externalObjects": {
+				"vulnerabilities" : [vulnerabilities]
+			}
 		},
-		"externalObjects": {
-			"vulnerabilities" : [vulnerabilities]
-		}
     }
 }
 
@@ -47,11 +47,11 @@ deny[msga] {
         "alertScore": 5,
         "packagename": "armo_builtins",
         "alertObject": {
-		"k8sApiObjects": [wl]
+			"k8sApiObjects": [wl],
+			"externalObjects": {
+				"vulnerabilities" : [vulnerabilities]
+			}
 		},
-		"externalObjects": {
-			"vulnerabilities" : [vulnerabilities]
-		}
     }
 }
 
@@ -74,11 +74,11 @@ deny[msga] {
         "alertScore": 5,
         "packagename": "armo_builtins",
         "alertObject": {
-		"k8sApiObjects": [wl]
+			"k8sApiObjects": [wl],
+			"externalObjects": {
+				"vulnerabilities" : [vulnerabilities]
+			}
 		},
-		"externalObjects": {
-			"vulnerabilities" : [vulnerabilities]
-		}
     }
 }
 
@@ -109,11 +109,11 @@ deny[msga] {
         "alertScore": 7,
         "packagename": "armo_builtins",
         "alertObject": {
-		"k8sApiObjects": [pod]
+			"k8sApiObjects": [pod],
+			"externalObjects": {
+				"vulnerabilities" : [vulnerabilities]
+			}
 		},
-		"externalObjects": {
-			"vulnerabilities" : [vulnerabilities]
-		}
     }
 }
 
@@ -145,11 +145,11 @@ deny[msga] {
         "alertScore": 7,
         "packagename": "armo_builtins",
 		"alertObject": {
-		"k8sApiObjects": [wl]
+			"k8sApiObjects": [wl],
+			"externalObjects": {
+				"vulnerabilities" : [vulnerabilities]
+			}
 		},
-		"externalObjects": {
-			"vulnerabilities" : [vulnerabilities]
-		}
     
     }
 }
@@ -180,11 +180,11 @@ deny[msga] {
         "alertScore": 7,
         "packagename": "armo_builtins",
 		"alertObject": {
-			"k8sApiObjects": [wl]
+			"k8sApiObjects": [wl],
+			"externalObjects": {
+				"vulnerabilities" : [vulnerabilities]
+			}
 		},
-		"externalObjects": {
-			"vulnerabilities" : [vulnerabilities]
-		}
     }
 }
 
@@ -215,11 +215,11 @@ deny[msga] {
         "alertScore": 10,
         "packagename": "armo_builtins",
 		"alertObject": {
-			"k8sApiObjects": [pod]
+			"k8sApiObjects": [pod],
+			"externalObjects": {
+				"vulnerabilities" : [vulnerabilities]
+			}
 		},
-		"externalObjects": {
-			"vulnerabilities" : [vulnerabilities]
-		}
     }
 }
 
@@ -251,11 +251,11 @@ deny[msga] {
         "alertScore": 10,
         "packagename": "armo_builtins",
 		"alertObject": {
-			"k8sApiObjects": [wl]
+			"k8sApiObjects": [wl],
+			"externalObjects": {
+				"vulnerabilities" : [vulnerabilities]
+			}
 		},
-		"externalObjects": {
-			"vulnerabilities" : [vulnerabilities]
-		}
     }
 }
 
@@ -286,11 +286,11 @@ deny[msga] {
         "alertScore": 10,
         "packagename": "armo_builtins",
 		"alertObject": {
-			"k8sApiObjects": [wl]
+			"k8sApiObjects": [wl],
+			"externalObjects": {
+				"vulnerabilities" : [vulnerabilities]
+			}
 		},
-		"externalObjects": {
-			"vulnerabilities" : [vulnerabilities]
-		}
     }
 }
 
