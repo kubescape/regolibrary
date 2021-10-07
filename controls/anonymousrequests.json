@@ -4,7 +4,7 @@
         "armoBuiltin": true
     },
     "description": "In Kubernetes 1.6 and newer, anonymous requests are allowed by default. If there is no RBAC enabled, this type of requests will have authorization to do everything.",
-    "remediation": "Anonymous requests should be disabled by passing the --anonymous-auth=false option to the API server. Leaving anonymous requests enabled could allow a cyber actor to access cluster resources without authentication.",
+    "remediation": "Anonymous requests should be disabled by passing the --anonymous-auth=false option to the API server. Leaving anonymous requests enabled could allow malicious actors to access cluster resources without authentication.",
     "rulesNames": [
         "anonymous-requests"
     ],

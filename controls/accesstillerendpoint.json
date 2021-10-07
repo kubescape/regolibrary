@@ -6,7 +6,7 @@
             "Lateral movement"
         ]
     },
-    "description": "Attackers may run code on any container that is accessible to the tiller\u2019s service and perform actions in the cluster, using the tiller\u2019s service account, which often has high privileges. This control checks if Tiller exists in cluster.",
+    "description": "Attackers may run code on any container that is accessible to the tiller\u2019s service and perform actions in the cluster, using the tiller\u2019s service account, which often has high privileges. This control checks if unauthenticated version of the Tiller runs in cluster.",
     "remediation": "Use version higher than 2 of Helm which doesn\u2019t use Tiller",
     "rulesNames": [
         "access-tiller-endpoint"
