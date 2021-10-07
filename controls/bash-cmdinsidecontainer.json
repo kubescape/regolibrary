@@ -11,5 +11,7 @@
     "rulesNames": [
         "rule-can-bash-cmd-inside-container"
     ],
-    "id": "C-0019"
+    "id": "C-0019",
+    "long_description": "Attackers who have permissions to run a cmd/bash script inside a container can use it to execute malicious code. ",
+    "test": "Searching the image from pod spec in the vulnerability scan database, if the container has bash/cmd we raise an alert.Needs to add user config"
 }

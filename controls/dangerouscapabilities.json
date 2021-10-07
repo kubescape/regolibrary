@@ -8,5 +8,7 @@
     "rulesNames": [
         "dangerous-capabilities"
     ],
-    "id": "C-0028"
+    "id": "C-0028",
+    "long_description": "Giving dangerous and unnecessary capabilities for a container can increase the impact of a container compromise.",
+    "test": "Check capabilities given against a blacklist of dangerous capabilities (https://github.com/FairwindsOps/polaris/blob/master/checks/dangerousCapabilities.yaml). "
 }

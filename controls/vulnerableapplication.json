@@ -11,5 +11,7 @@
     "rulesNames": [
         "deny-vuln-image-pods"
     ],
-    "id": "C-0024"
+    "id": "C-0024",
+    "long_description": "Running a public-facing vulnerable application in a cluster can enable initial access to the cluster. A container that runs an application that is vulnerable to remote code execution vulnerability (RCE) may be exploited. If service account is mounted to the container (default behavior in Kubernetes), the attacker will be able to send requests to the API server using this service account credentials.",
+    "test": "Searching the image from pod spec in the vulnerability scan database, if there is at least one high vulnerability we raise an alert."
 }

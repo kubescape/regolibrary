@@ -8,5 +8,7 @@
     "rulesNames": [
         "insecure-capabilities"
     ],
-    "id": "C-0046"
+    "id": "C-0046",
+    "long_description": "Giving insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
+    "test": "Check capabilities given against a blacklist of insecure capabilities (https://github.com/FairwindsOps/polaris/blob/master/checks/insecureCapabilities.yaml). "
 }

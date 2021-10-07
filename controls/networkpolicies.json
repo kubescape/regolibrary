@@ -8,5 +8,7 @@
     "rulesNames": [
         "internal-networking"
     ],
-    "id": "C-0011"
+    "id": "C-0011",
+    "long_description": "We have a MITRE check that fails if there are no policies defined for a specific namespace (cluster internal networking).",
+    "test": ""
 }

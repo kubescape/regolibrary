@@ -11,5 +11,7 @@
     "rulesNames": [
         "access-tiller-endpoint"
     ],
-    "id": "C-0033"
+    "id": "C-0033",
+    "long_description": "Helm is a popular package manager for Kubernetes maintained by CNCF. Tiller is the server-side component of Helm up to version 2. Tiller exposes internal gRPC endpoint in the cluster, listens to port 44134. By default, this endpoint does not require authentication. Attackers may run code on any container that is accessible to the tiller\u2019s service and perform actions in the cluster, using the tiller\u2019s service account, which often has high privileges.",
+    "test": "Check if tiller exists in any namespace by verifying the name of Deployments."
 }

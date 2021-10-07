@@ -8,5 +8,7 @@
     "rulesNames": [
         "rule-allow-privilege-escalation"
     ],
-    "id": "C-0016"
+    "id": "C-0016",
+    "long_description": "",
+    "test": " Check that the allowPrivilegeEscalation field in securityContext of container is set to false.   "
 }
