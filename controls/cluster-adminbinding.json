@@ -7,7 +7,7 @@
         ]
     },
     "description": "Attackers who have Cluster-admin permissions (can perform any action on any resource), can take advantage of their high privileges for malicious intentions. This control determines which subjects have cluster admin permissions.",
-    "remediation": "You should apply least privilege principle. Monitor and approve cluster admins and make sure subjects that do not require cluster-admin are not assigned this role.",
+    "remediation": "You should apply least privilege principle. Make sure cluster admin permissions are granted only when it is absolutely necessary. Don't use subjects with such high permissions for daily operations.",
     "rulesNames": [
         "rule-list-all-cluster-admins"
     ],

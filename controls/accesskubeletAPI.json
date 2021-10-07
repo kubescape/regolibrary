@@ -6,8 +6,8 @@
             "Discovery"
         ]
     },
-    "description": "Attackers with network access to the host can send API requests to the Kubelet API. This control checks if there is a network policy defined.",
-    "remediation": "Define network policies.",
+    "description": "Attackers with network access to the host can send requests to the Kubelet API. This control checks if there is a network policy defined.",
+    "remediation": "Define network policy restricting POD access to the nodes.",
     "rulesNames": [],
     "id": "C-0003"
 }
