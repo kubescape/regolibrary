@@ -22,14 +22,16 @@ deny[msga] {
 	
     subjects := rolebinding.subjects[_]
 
-    	msga := {
-	"alertMessage": sprintf("the following %v: %v, can exec into  containers", [subjects.kind, subjects.name]),
+	msga := {
+		"alertMessage": sprintf("the following %v: %v, can exec into  containers", [subjects.kind, subjects.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
-  	"alertObject": {
-			"k8sApiObjects": [role, rolebinding]
+		"alertObject": {
+			"k8sApiObjects": [role, rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
-
 	}
 }
 
@@ -53,12 +55,15 @@ deny[msga] {
 	
     subjects := rolebinding.subjects[_]
 
-    	msga := {
-	"alertMessage": sprintf("the following %v: %v, can exec into  containers", [subjects.kind, subjects.name]),
+	msga := {
+		"alertMessage": sprintf("the following %v: %v, can exec into  containers", [subjects.kind, subjects.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
-  	"alertObject": {
-			"k8sApiObjects": [role, rolebinding]
+		"alertObject": {
+			"k8sApiObjects": [role, rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
 	}
 }
@@ -82,12 +87,15 @@ deny[msga] {
 	
     subjects := rolebinding.subjects[_]
 
-    	msga := {
-	"alertMessage": sprintf("the following %v: %v, can exec into  containers", [subjects.kind, subjects.name]),
+    msga := {
+		"alertMessage": sprintf("the following %v: %v, can exec into  containers", [subjects.kind, subjects.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
-  	"alertObject": {
-			"k8sApiObjects": [role, rolebinding]
+  		"alertObject": {
+			"k8sApiObjects": [role, rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
 	}
 }

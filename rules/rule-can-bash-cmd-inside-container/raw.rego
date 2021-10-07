@@ -17,11 +17,11 @@ deny [msga] {
 		"alertScore": 6,
 		"packagename": "armo_builtins",
 		"alertObject": {
-			"k8sApiObjects": [pod]
+			"k8sApiObjects": [pod],
+			"externalObjects": {
+				"container" : [{container.name}]
+			}
 		},
-		"externalObjects": {
-			"container" : [{container.name}]
-		}
 	}
 }
 
@@ -42,11 +42,11 @@ deny [msga] {
 		"alertScore": 6,
 		"packagename": "armo_builtins",
 		"alertObject": {
-			"k8sApiObjects": [wl]
+			"k8sApiObjects": [wl],
+			"externalObjects": {
+				"container" : [{container.name}]
+			}
 		},
-		"externalObjects": {
-			"container" : [{container.name}]
-		}
 	}
 }
 
@@ -64,11 +64,11 @@ deny [msga] {
 		"alertScore": 6,
 		"packagename": "armo_builtins",
 		"alertObject": {
-			"k8sApiObjects": [wl]
+			"k8sApiObjects": [wl],
+			"externalObjects": {
+				"container" : [{container.name}]
+			}
 		},
-		"externalObjects": {
-			"container" : [{container.name}]
-		}
 	}
 }
 

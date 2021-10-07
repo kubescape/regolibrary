@@ -162,13 +162,19 @@ def create_md_for_control(control):
     md_text = ''
     md_text += '# %s\n' % control['name']
     md_text += '## Framework\n'
-    md_text += ','.join(get_frameworks_for_control(control)) + '\n'
+    md_text += ', '.join(get_frameworks_for_control(control)) + '\n'
     md_text += '## Description of the the issue\n'
     description = control['long_description'] if 'long_description' in control else control['description']
     md_text += description + '\n'
     md_text += '## Related resources\n'
-    scanned_objects = control['scanned_objects'] if 'scanned_objects' in control else ['none']
-    md_text += ','.join(scanned_objects) + '\n'
+
+    related_resources = set()
+    for rule_obj in control['rules']:
+        if 'match' in rule_obj:
+            for match_obj in rule_obj['match']:
+                if 'resources' in match_obj:
+                    related_resources.update(set(match_obj['resources']))
+    md_text += ', '.join(sorted(list(related_resources))) + '\n'
     md_text += '## What does this control tests\n'
     test = control['test'] if 'test' in control else control['description']
     md_text += test + '\n'
@@ -213,8 +219,17 @@ def main():
         try:
             print('processing %s' % control_json_file_name)
             control_obj = json.load(open(os.path.join('controls',control_json_file_name)))
-            md = create_md_for_control(control_obj)
+            
+            control_obj['rules'] = []
+            for rule_directory_name in os.listdir('rules'):
+                rule_metadata_file_name = os.path.join('rules',rule_directory_name,'rule.metadata.json')
+                if os.path.isfile(rule_metadata_file_name):
+                    rule_obj = json.load(open(rule_metadata_file_name))
+                    if rule_obj['name'] in control_obj['rulesNames']:
+                        control_obj['rules'].append(rule_obj)
 
+            md = create_md_for_control(control_obj)
+            
             title = '%(id)s - %(name)s' % control_obj
 
             control_slug = generate_slug(control_obj)
