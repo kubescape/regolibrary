@@ -6,8 +6,8 @@
             "Privilege escalation"
         ]
     },
-    "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host.",
-    "remediation": "Try to refrain from using host path mount.",
+    "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host. This control identifies all the PODs using hostPath mount.",
+    "remediation": "Remove hostPath mounts unless they are absolutely necessary and use exception mechanism to remove notifications.",
     "rulesNames": [
         "alert-any-hostpath"
     ],

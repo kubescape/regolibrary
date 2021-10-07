@@ -3,12 +3,12 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "Giving dangerous and unnecessary capabilities for a container can increase the impact of a container compromise.",
-    "remediation": "Remove all dangerous capabilities which aren\u2019t necessary for the container.",
+    "description": "Giving dangerous and unnecessary LINUX capabilities to a container can increase the impact of the container compromise. This control identifies all the PODs with dangerous capabilities such as SYS_ADMIN and others.",
+    "remediation": "Check and remove all unnecessary capabilities from the POD security context of the containers and use the exception mechanism to remove warnings where these capabilities are necessary.",
     "rulesNames": [
         "dangerous-capabilities"
     ],
     "id": "C-0028",
     "long_description": "Giving dangerous and unnecessary capabilities for a container can increase the impact of a container compromise.",
-    "test": "Check capabilities given against a blacklist of dangerous capabilities (https://github.com/FairwindsOps/polaris/blob/master/checks/dangerousCapabilities.yaml). "
+    "test": "Check capabilities given against a blacklist of dangerous capabilities (e.g. https://github.com/FairwindsOps/polaris/blob/master/checks/dangerousCapabilities.yaml)."
 }

@@ -3,12 +3,12 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "Giving insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
+    "description": "Giving insecure or excsessive capabilities to a container can increase the impact of the container compromise. This control identifies all the PODs with dangerous capabilities (see documentation pages for details).",
     "remediation": "Remove all insecure capabilities which aren\u2019t necessary for the container.",
     "rulesNames": [
         "insecure-capabilities"
     ],
     "id": "C-0046",
-    "long_description": "Giving insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
+    "long_description": "Giving  insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
     "test": "Check capabilities given against a blacklist of insecure capabilities (https://github.com/FairwindsOps/polaris/blob/master/checks/insecureCapabilities.yaml). "
 }

@@ -6,8 +6,8 @@
             "Persistence"
         ]
     },
-    "description": "Attackers can use mutating webhooks to intercept and modify resources in the cluster. This control lists mutating webhook configurations to be verified.",
-    "remediation": "Analyze webhook for malicious behavior",
+    "description": "Attackers may use mutating webhooks to intercept and modify all the resources in the cluster. This control lists all mutating webhook configurations that must be verified.",
+    "remediation": "Ensure all the webhooks are necessary. Use exception mechanism to prevent repititive notifications.",
     "rulesNames": [
         "list-all-mutating-webhooks"
     ],

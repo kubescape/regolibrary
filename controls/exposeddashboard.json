@@ -6,12 +6,12 @@
             "Initial Access"
         ]
     },
-    "description": "If Kubernetes dashboard is exposed externally in Dashboard versions before v2.0.1, it will allow unauthenticated remote management of the cluster.",
-    "remediation": "Update dashboard version to v2.0.1 or above.",
+    "description": "Kubernetes dashboard versions before v2.0.1 do not support user authentication. If exposed externally, it will allow unauthenticated remote management of the cluster. This control checks presence of the kubernetes-dashboard deployment and its version number.",
+    "remediation": "Update dashboard version to v2.0.1 and above.",
     "rulesNames": [
         "rule-exposed-dashboard"
     ],
     "id": "C-0047",
-    "long_description": "The Kubernetes dashboard is a web-based user interface that enables monitoring and managing a Kubernetes cluster. By default, the dashboard exposes an internal endpoint (ClusterIP service). If the dashboard is exposed externally, it can allow unauthenticated remote management of the cluster.",
+    "long_description": "The Kubernetes dashboard is a web-based user interface that enables monitoring and managment of the Kubernetes cluster. By default, the dashboard exposes an internal endpoint (ClusterIP service). If the dashboard is exposed externally, it can allow unauthenticated remote management of the cluster.",
     "test": "Checking if Kubernetes dashboard exists deployment and exposed externally as a service (nodeport/loadbalancer), check if the version of the container image is older than v2.0.1 we raise an alert."
 }

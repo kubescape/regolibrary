@@ -7,7 +7,7 @@
             "Lateral Movement"
         ]
     },
-    "description": "Attackers who gain access to the dashboard service account or have its RBAC permissions can use its network access to retrieve information about resources in the cluster or change them. This control checks if a subject that is not dashboard service account is bound to dashboard role/clusterrole, or - if anyone that is not dashboard pod is associated with its service account.",
+    "description": "Attackers who gain access to the dashboard service account or have its RBAC permissions can use its network access to retrieve information about resources in the cluster or change them. This control checks if a subject that is not dashboard service account is bound to dashboard role/clusterrole, or - if anyone that is not the dashboard pod is associated with dashboard service account.",
     "remediation": "Make sure that the \u201cKubernetes Dashboard\u201d service account is only bound to the Kubernetes dashboard following the least privilege principle.",
     "rulesNames": [
         "rule-access-dashboard"

@@ -6,8 +6,8 @@
             "Execution"
         ]
     },
-    "description": "Attackers who have the relevant permissions can run malicious commands in containers in the cluster using the exec command (\u201ckubectl exec\u201d). This control determines which subjects have permissions to exec into containers.",
-    "remediation": "You should apply least privilege principal. You should monitor and approve subjects who can exec into containers.",
+    "description": "Attackers with relevant permissions can run malicious commands in the context of legitimate containers in the cluster using \u201ckubectl exec\u201d command. This control determines which subjects have permissions to use this command.",
+    "remediation": "It is recommended to prohibit \u201ckubectl exec\u201d command in production environments. It is also recommended not to use subjects with this permission for daily cluster operations.",
     "rulesNames": [
         "exec-into-container"
     ],

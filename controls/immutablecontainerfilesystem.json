@@ -3,8 +3,8 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "Mutable container filesystem can be abused to gain malicious code and data injection into containers. Use immutable (read-only) filesystem to limit potential attacks.",
-    "remediation": "Set the filesystem of the container to read-only when possible. If the containers application needs to write into the filesystem, it is possible to mount secondary filesystems for specific directories where application require write access. ",
+    "description": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks.",
+    "remediation": "Set the filesystem of the container to read-only when possible (POD securityContext, readOnlyRootFilesystem: true). If containers application needs to write into the filesystem, it is recommended to mount secondary filesystems for specific directories where application require write access.",
     "rulesNames": [
         "immutable-container-filesystem"
     ],

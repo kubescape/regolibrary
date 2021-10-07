@@ -6,8 +6,8 @@
             "Initial access"
         ]
     },
-    "description": "Exposing a sensitive interface to the internet poses a security risk. It might enable attackers to run malicious code or deploy containers in the cluster. This control checks if known interfaces have externally exposed services.",
-    "remediation": "Consider not exposing such interfaces.",
+    "description": "Exposing a sensitive interface to the internet poses a security risk. It might enable attackers to run malicious code or deploy containers in the cluster. This control checks if known components (e.g. Kubeflow, Argo Workflows, etc.) are deployed and exposed services externally.",
+    "remediation": "Consider blocking external interfaces or protect them with appropriate security tools.",
     "rulesNames": [
         "exposed-sensitive-interfaces"
     ],

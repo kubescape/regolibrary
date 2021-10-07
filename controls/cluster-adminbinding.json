@@ -6,7 +6,7 @@
             "Privilege escalation"
         ]
     },
-    "description": "Attackers who have Cluster-admin permissions (can perform any action on any resource), can take advantage of their high privileges for malicious intentions. This control determines which subjects have cluster admin permissions.",
+    "description": "Attackers who have cluster admin permissions (can perform any action on any resource), can take advantage of their privileges for malicious activities. This control determines which subjects have cluster admin permissions.",
     "remediation": "You should apply least privilege principle. Make sure cluster admin permissions are granted only when it is absolutely necessary. Don't use subjects with such high permissions for daily operations.",
     "rulesNames": [
         "rule-list-all-cluster-admins"
