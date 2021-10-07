@@ -6,7 +6,7 @@ import data.cautils as cautils
 # does: returns roles+ related subjects in rolebinding
 
 deny[msga] {
-	 roles := [role |  role= input[_]; role.kind == "Role"]
+	roles := [role |  role= input[_]; role.kind == "Role"]
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
     role:= roles[_]
     rolebinding := rolebindings[_]
@@ -19,14 +19,17 @@ deny[msga] {
 	rolebinding.roleRef.name == role.metadata.name
     subjects := rolebinding.subjects[_]
 
-    	msga := {
-	"alertMessage": sprintf("the following %v: %v have high privileges, such as cluster-admin", [subjects.kind, subjects.name]),
+    msga := {
+		"alertMessage": sprintf("The following %v: %v have high privileges, such as cluster-admin", [subjects.kind, subjects.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
-         "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+        "alertObject": {
+			"k8sApiObjects": [role,rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
-     }
+    }
 }
 
 # input: ClusterRole
@@ -48,14 +51,17 @@ deny[msga] {
     
     subjects := rolebinding.subjects[_]
 
-    	msga := {
-	"alertMessage": sprintf("the following %v: %v have high privileges, such as cluster-admin", [subjects.kind, subjects.name]),
+    msga := {
+		"alertMessage": sprintf("The following %v: %v have high privileges, such as cluster-admin", [subjects.kind, subjects.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
-         "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+        "alertObject": {
+			"k8sApiObjects": [role,rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
-     }
+    }
 }
 
 # input: ClusterRole
@@ -77,14 +83,17 @@ deny[msga] {
 	
     subjects := rolebinding.subjects[_]
 
-    	msga := {
-	"alertMessage": sprintf("the following %v: %v have high privileges, such as cluster-admin", [subjects.kind, subjects.name]),
+	msga := {
+		"alertMessage": sprintf("The following %v: %v have high privileges, such as cluster-admin", [subjects.kind, subjects.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
-         "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+		"alertObject": {
+			"k8sApiObjects": [role,rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
-     }
+	}
 }
 
 

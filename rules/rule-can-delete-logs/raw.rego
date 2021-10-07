@@ -18,14 +18,17 @@ deny [msga] {
     rolebinding.roleRef.name == role.metadata.name
     subjects := rolebinding.subjects[_]
 
-    	msga := {
-	"alertMessage": sprintf("the following %v: %v can delete logs", [subjects.kind, subjects.name]),
-		"alertScore": 6,
-		"packagename": "armo_builtins",
+    msga := {
+      "alertMessage": sprintf("The following %v: %v can delete logs", [subjects.kind, subjects.name]),
+      "alertScore": 6,
+      "packagename": "armo_builtins",
       "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
-		}
-     }
+        "k8sApiObjects": [role,rolebinding],
+			    "externalObjects": {
+				    "subject" : [subjects]
+			    }
+      }
+    }
 
 }
 
@@ -39,7 +42,7 @@ deny[msga] {
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-  canDeleteLogs(rule)
+    canDeleteLogs(rule)
 
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
@@ -47,14 +50,17 @@ deny[msga] {
 
     subjects := rolebinding.subjects[_]
 
-    	msga := {
-	"alertMessage": sprintf("the following %v: %v can delete logs", [subjects.kind, subjects.name]),
-		"alertScore": 6,
-		"packagename": "armo_builtins",
+    msga := {
+      "alertMessage": sprintf("The following %v: %v can delete logs", [subjects.kind, subjects.name]),
+      "alertScore": 6,
+      "packagename": "armo_builtins",
       "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
-		}
-     }
+        "k8sApiObjects": [role,rolebinding],
+        "externalObjects": {
+          "subject" : [subjects]
+        }
+      }
+    }
 }
 
 # fails if user can delete logs of pod 
@@ -74,14 +80,17 @@ deny[msga] {
 
     subjects := clusterrolebinding.subjects[_]
 
-    	msga := {
-	"alertMessage": sprintf("the following %v: %v can delete logs", [subjects.kind, subjects.name]),
-		"alertScore": 6,
-		"packagename": "armo_builtins",
-    "alertObject": {
-			"k8sApiObjects": [role,clusterrolebinding]
-		}
-     }
+    msga := {
+      "alertMessage": sprintf("The following %v: %v can delete logs", [subjects.kind, subjects.name]),
+      "alertScore": 6,
+      "packagename": "armo_builtins",
+      "alertObject": {
+        "k8sApiObjects": [role,clusterrolebinding],
+        "externalObjects": {
+          "subject" : [subjects]
+        }
+      }
+    }
 }
 
 
