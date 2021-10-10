@@ -6,8 +6,8 @@
             "Privilege escalation"
         ]
     },
-    "description": "Potential attackers may gain access to privileged containers and inherit access to the host resources. Therefore, it is not recommended to deploy privileged containers unless it is absolutely necessary.",
-    "remediation": "Change the deployment and/or pod definition to unprivileged. The securityContext.privileged should be false.",
+    "description": "Potential attackers may gain access to privileged containers and inherit access to the host resources. Therefore, it is not recommended to deploy privileged containers unless it is absolutely necessary. This control identifies all the privileged Pods.",
+    "remediation": "Remove privileged capabilities by setting the securityContext.privileged to false. If you must deploy a Pod as privileged, add other restriction to it, such as network policy, Seccomp etc and still remove all unnecessary capabilities. Use the exception mechanism to remove unnecessary notifocations.",
     "rulesNames": [
         "rule-privilege-escalation"
     ],

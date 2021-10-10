@@ -6,8 +6,8 @@
             "Defense evasion"
         ]
     },
-    "description": "An attacker could create a malicious pod whose prefix is identical to existing workloads (for example: coredns- {random suffix}, which would look related to the CoreDNS Deployment). This control checks if there are objects with names similar to system pods, or other known deployments.",
-    "remediation": "You should look at the reported Pods and make sure they were created and developed by your team. It would be wise to change the Pod names.",
+    "description": "An attacker could create a malicious pod whose prefix is identical to existing well-known workloads (for example: coredns- {random suffix}, which would look related to the CoreDNS Deployment). This control checks if there are objects with names similar to system pods, or other known deployments.",
+    "remediation": "Verify that all the reported Pods are legitimately created by your team. Check the name similarity among your own Pod names. It is recommended to review your Pods periodically and cross reference with the expected deployments.",
     "rulesNames": [
         "rule-name-similarity"
     ],

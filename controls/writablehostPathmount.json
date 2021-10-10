@@ -7,8 +7,8 @@
             "Lateral Movement"
         ]
     },
-    "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host.",
-    "remediation": "Try to refrain from using host path mount.",
+    "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host and gain persistence.",
+    "remediation": "Refrain from using the hostPath mount or use the exception mechanism to remove unnecessary notifications.",
     "rulesNames": [
         "alert-rw-hostpath"
     ],

@@ -7,7 +7,7 @@
         ]
     },
     "description": "Running a vulnerable application in a cluster can enable an attacker initial access to the cluster. This control determines if pods/deployments have vulnerable images using ARMO vulnerability scan (must run vulnerability scan before running posture scan). ",
-    "remediation": "Patch your container with a version that does not have this vulnerability or use ARMO runtime protection (sign the workload).",
+    "remediation": "Upgrade your containers to not vulnerble versions or use ARMO runtime protection (sign/verify the workload in the runtime).",
     "rulesNames": [
         "deny-vuln-image-pods"
     ],

@@ -7,7 +7,7 @@
         ]
     },
     "description": "Attackers who have access to a container in the cluster or have permissions to create new containers may abuse them to run compromising tasks, such as running digital currency mining. This control determines which subjects have permissions to create/modify pods.",
-    "remediation": "You should apply least privilege principle. Approve the subjects who can create/delete pods.",
+    "remediation": "Follow the least privilege principle and minimize the amount of subjects who can create/delete pods.",
     "rulesNames": [
         "rule-can-create-modify-pod"
     ],

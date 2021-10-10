@@ -3,8 +3,8 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "",
-    "remediation": "",
+    "description": "It is not recommended to use the :latest container image tag. This may result in deploying different containers over time or even in different replicas. This control identifies alld the Pods using the :latest tag.",
+    "remediation": "Refer to a specific container version that you aim to deploy instead of the latest.",
     "rulesNames": [
         "pod-specific-version-tag"
     ],

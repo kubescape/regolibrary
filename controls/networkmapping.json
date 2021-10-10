@@ -6,8 +6,8 @@
             "Discovery"
         ]
     },
-    "description": "If no network policy is defined, attackers who gain access to a single container may use it to probe the network. This control lists namespaces in which no network policies are defined.",
-    "remediation": "Define network policies.",
+    "description": "If no network policy is defined, attackers who gain access to a single container may use it to probe the network. This control lists all namespaces in which no network policies are defined.",
+    "remediation": "Define network policies or use similar network protection mechanisms.",
     "rulesNames": [
         "internal-networking"
     ],
