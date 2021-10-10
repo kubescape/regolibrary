@@ -25,7 +25,7 @@
     ],
     "ruleDependencies": [
     ],
-    "description": "fails if pod has hostIPC/hostPID enabled",
+    "description": "Containers should be as isolated as possible from the host machine. The hostPID and hostIPC fields in Kubernetes may excessively expose the host to potentially malicious actions.",
     "remediation": "Make sure that the fields hostIPC and hostPID in the pod spec are not set to true (set to false or not present)",
     "ruleQuery": "armo_builtins"
 }
