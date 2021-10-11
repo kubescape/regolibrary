@@ -1,4 +1,5 @@
 import json
+import csv
 import os
 import subprocess as s
 from pathlib import Path
@@ -8,6 +9,8 @@ Export rules controls and frameworks to files in json format
 """
 currDir = os.path.abspath(os.getcwd())
 
+control_rule_rows = []
+framework_control_rows = []
 
 def load_rules():
     p1 = os.path.join(currDir, 'rules') 
@@ -46,6 +49,8 @@ def load_controls(loaded_rules: dict):
         for rule_name in new_control["rulesNames"]:
             if rule_name in loaded_rules:
                 new_control["rules"].append(loaded_rules[rule_name])
+                new_row = [new_control['id'], rule_name] # TODO : change 'id' to 'controlID'
+                control_rule_rows.append(new_row)
 
         del new_control["rulesNames"]  # remove rule names list from dict
         loaded_controls[new_control['name']] = new_control
@@ -67,6 +72,8 @@ def load_frameworks(loaded_controls: dict):
         for control_name in new_framework["controlsNames"]:
             if control_name in loaded_controls:
                 new_framework["controls"].append(loaded_controls[control_name])
+                new_row = [new_framework['name'], loaded_controls[control_name]['id'], control_name] # TODO : change 'id' to 'controlID'
+                framework_control_rows.append(new_row)
 
         del new_framework["controlsNames"]
         loaded_frameworks[new_framework['name']] = new_framework
@@ -99,6 +106,14 @@ def export_json(d: dict, output_path: str):
             f.write(json.dumps(v, indent=4))
 
 
+def create_cvs_file(header, rows, filename, output_path):
+    os.makedirs(output_path, exist_ok=True)
+    with open(os.path.join(output_path, f"{filename}.csv"), 'w', encoding='UTF8', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(header)
+        writer.writerows(rows)
+
+
 if __name__ == '__main__':
     rules = load_rules()
     controls = load_controls(loaded_rules=rules)
@@ -106,3 +121,11 @@ if __name__ == '__main__':
     frameworks = load_frameworks(loaded_controls=controls)
 
     export_json(d=frameworks, output_path="release")
+
+    # file 1 - 'ControlID', 'RuleName'
+    header1 = ['ControlID', 'RuleName']
+    create_cvs_file(header1, control_rule_rows, 'ControlID_RuleName', "release")
+
+    # file 2 - frameworkName, ControlID, ControlName
+    header2 = ['frameworkName', 'ControlID', 'ControlName']
+    create_cvs_file(header2, framework_control_rows, 'FWName_CID_CName', "release")
