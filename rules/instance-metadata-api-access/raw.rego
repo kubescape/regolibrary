@@ -32,12 +32,15 @@ azure_metadata[msga] {
 	metadata_object := metadata_azure("aaa")
 	metadata_object.status_code == 200
 	node_name := metadata_object.body.compute.name
+	nodes := input[_]
+	nodes.metadata.name == node_name
 	msga := {
 		"alertMessage": sprintf("Node '%s' has access to Instance Metadata Services of Azure.", [node_name]),
 		"alert": true,
 		"prevent": false,
 		"alertScore": 1,
 		"alertObject": {
+			"k8SApiObjects": [nodes],
 			"externalObjects": {
 				"azureMetadata" : [metadata_object.body]
 			}
@@ -49,12 +52,15 @@ gcp_metadata[msga] {
 	metadata_object := metadata_gcp("aaa")
 	metadata_object.status_code == 200
 	node_name := metadata_object.body.instance.hostname
+	nodes := input[_]
+	nodes.metadata.name == node_name
 	msga := {
 		"alertMessage": sprintf("Node '%s' has access to Instance Metadata Services of GCP.", [node_name]),
 		"alert": true,
 		"prevent": false,
 		"alertScore": 1,
 		"alertObject": {
+			"k8SApiObjects": [nodes],
 			"externalObjects": {
 				"gcpMetadata" : [metadata_object.raw_body]
 			}
@@ -66,12 +72,15 @@ aws_metadata[msga] {
 	metadata_object := metadata_aws("aaa")
 	metadata_object.status_code == 200
 	node_name := metadata_object.hostname
+	nodes := input[_]
+	nodes.metadata.name == node_name
 	msga := {
 		"alertMessage": sprintf("Node '%s' has access to Instance Metadata Services of AWS.", [node_name]),
 		"alert": true,
 		"prevent": false,
 		"alertScore": 1,
 		"alertObject": {
+			"k8SApiObjects": [nodes],
 			"externalObjects": {
 				"awsMetadata" : [metadata_object.raw_body]
 			}
