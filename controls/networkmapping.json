@@ -13,5 +13,6 @@
     ],
     "id": "C-0049",
     "long_description": "Attackers may try to map the cluster network to get information on the running applications, including scanning for known vulnerabilities. By default, there is no restriction on pods communication in Kubernetes. Therefore, attackers who gain access to a single container, may use it to probe the network.",
-    "test": "Check for each namespace if there is a network policy defined."
+    "test": "Check for each namespace if there is a network policy defined.",
+    "controlID": "C-0049"
 }

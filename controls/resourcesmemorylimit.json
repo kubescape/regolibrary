@@ -8,5 +8,6 @@
     "rulesNames": [
         "resources-memory-limit"
     ],
-    "id": "C-0004"
+    "id": "C-0004",
+    "controlID": "C-0004"
 }

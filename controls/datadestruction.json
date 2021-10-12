@@ -13,5 +13,6 @@
     ],
     "id": "C-0007",
     "long_description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources.",
-    "test": "Check which subjects have delete/deletecollection RBAC permissions on workloads."
+    "test": "Check which subjects have delete/deletecollection RBAC permissions on workloads.",
+    "controlID": "C-0007"
 }

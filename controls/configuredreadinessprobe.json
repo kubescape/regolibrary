@@ -8,5 +8,6 @@
     "rulesNames": [
         "configured-readiness-probe"
     ],
-    "id": "C-0018"
+    "id": "C-0018",
+    "controlID": "C-0018"
 }
