@@ -8,5 +8,6 @@
     "rulesNames": [
         "configured-liveness-probe"
     ],
-    "id": "C-0056"
+    "id": "C-0056",
+    "controlID": "C-0056"
 }

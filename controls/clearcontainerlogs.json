@@ -13,5 +13,6 @@
     ],
     "id": "C-0029",
     "long_description": "Attackers may delete the application or OS logs on a compromised container in an attempt to prevent detection of their activity.",
-    "test": "Check which subjects have RBAC permissions to delete/ deletecollection the resource pods/logs.Deleted"
+    "test": "Check which subjects have RBAC permissions to delete/ deletecollection the resource pods/logs.Deleted",
+    "controlID": "C-0029"
 }

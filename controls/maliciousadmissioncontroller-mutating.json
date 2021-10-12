@@ -11,5 +11,6 @@
     "rulesNames": [
         "list-all-mutating-webhooks"
     ],
-    "id": "C-0039"
+    "id": "C-0039",
+    "controlID": "C-0039"
 }

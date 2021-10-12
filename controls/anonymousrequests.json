@@ -10,5 +10,6 @@
     ],
     "id": "C-0051",
     "long_description": "Anonymous requests are requests that are rejected by other configured authentication methods and are not tied to any individual user or Pod. In a server set up for token authentication with anonymous requests enabled, a request without a token present would be performed as an anonymous request. In Kubernetes 1.6 and newer, anonymous requests are enabled by default. When RBAC is enabled, anonymous requests require explicit authorization of the system:anonymous user or system:unauthenticated group. In ",
-    "test": "Send anonymous http request to the apiserver. If we succeed, alert."
+    "test": "Send anonymous http request to the apiserver. If we succeed, alert.",
+    "controlID": "C-0051"
 }

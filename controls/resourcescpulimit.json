@@ -8,5 +8,6 @@
     "rulesNames": [
         "resources-cpu-limit"
     ],
-    "id": "C-0050"
+    "id": "C-0050",
+    "controlID": "C-0050"
 }
