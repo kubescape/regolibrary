@@ -3,6 +3,7 @@ import csv
 import os
 import subprocess as s
 from pathlib import Path
+import copy
 
 """
 Export rules controls and frameworks to files in json format
@@ -17,6 +18,7 @@ def load_rules():
     regofile = 'raw.rego'
     rules_path = Path(p1).glob('**/*.json')
     loaded_rules = {}  # rules loaded from file system
+    rules_list = []
 
     for path in rules_path:
         path_in_str = str(path)
@@ -28,16 +30,17 @@ def load_rules():
             rule = f.read()
             if new_rule:
                 new_rule["rule"] = rule
-
+        rules_list.append(new_rule) 
         loaded_rules[new_rule['name']] = new_rule
 
-    return loaded_rules
+    return loaded_rules, rules_list
 
 
 def load_controls(loaded_rules: dict):
     p2 = os.path.join(currDir, 'controls') 
     controls_path = Path(p2).glob('**/*.json')
     loaded_controls = {}
+    controls_list = []
 
     for path in controls_path:
         path_in_str = str(path)
@@ -45,6 +48,8 @@ def load_controls(loaded_rules: dict):
         with open(path_in_str, "r") as f:
             new_control = json.load(f)
         new_control["rules"] = []
+        new_control_copy = copy.deepcopy(new_control)
+        controls_list.append(new_control_copy)
 
         for rule_name in new_control["rulesNames"]:
             if rule_name in loaded_rules:
@@ -55,19 +60,22 @@ def load_controls(loaded_rules: dict):
         del new_control["rulesNames"]  # remove rule names list from dict
         loaded_controls[new_control['name']] = new_control
 
-    return loaded_controls
+    return loaded_controls, controls_list
 
 
 def load_frameworks(loaded_controls: dict):
     p3 = os.path.join(currDir, 'frameworks') 
     frameworks_path = Path(p3).glob('**/*.json')
     loaded_frameworks = {}
+    frameworks_list = []
 
     for path in frameworks_path:
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
             new_framework = json.load(f)
         new_framework["controls"] = []
+        new_framework_copy = copy.deepcopy(new_framework)
+        frameworks_list.append(new_framework_copy)
 
         for control_name in new_framework["controlsNames"]:
             if control_name in loaded_controls:
@@ -78,7 +86,7 @@ def load_frameworks(loaded_controls: dict):
         del new_framework["controlsNames"]
         loaded_frameworks[new_framework['name']] = new_framework
 
-    return loaded_frameworks
+    return loaded_frameworks, frameworks_list
 
 def validate_controls():
     p4 = os.path.join(currDir, 'controls') 
@@ -98,12 +106,10 @@ def validate_controls():
         raise Exception("Error validate the numbers of controls, {} != {}".format(sum_of_controls ,len(set_of_ids)))
 
 
-def export_json(d: dict, output_path: str):
+def export_json(data: dict, f_name:str, output_path: str):
     os.makedirs(output_path, exist_ok=True)
-
-    for k, v in d.items():
-        with open(os.path.join(output_path, f"{k.lower()}.json"), "w") as f:
-            f.write(json.dumps(v, indent=4))
+    with open(os.path.join(output_path, f"{f_name.lower()}.json"), "w") as f:
+        f.write(json.dumps(data, indent=4))
 
 
 def create_cvs_file(header, rows, filename, output_path):
@@ -115,12 +121,20 @@ def create_cvs_file(header, rows, filename, output_path):
 
 
 if __name__ == '__main__':
-    rules = load_rules()
-    controls = load_controls(loaded_rules=rules)
+    rules, rules_list = load_rules()
+    controls, controls_list = load_controls(loaded_rules=rules)
     validate_controls()
-    frameworks = load_frameworks(loaded_controls=controls)
+    frameworks, frameworks_list = load_frameworks(loaded_controls=controls)
 
-    export_json(d=frameworks, output_path="release")
+    # create full framework json files
+    # TODO - delete when kubescape works with csv files
+    for k, v in frameworks.items():
+        export_json(data=v, f_name=k, output_path="release")
+
+    # create object jsons - frameworks, controls, rules
+    export_json(frameworks_list, 'frameworks', "release")
+    export_json(controls_list, 'controls', "release")
+    export_json(rules_list, 'rules', "release")
 
     # file 1 - 'ControlID', 'RuleName'
     header1 = ['ControlID', 'RuleName']
