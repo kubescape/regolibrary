@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        framework: [ nsa , mitre ]
+        json_file: [ nsa , mitre, frameworks, controls, rules ]
     steps:
       - uses: actions/checkout@v2
         name: checkout repo content
@@ -50,8 +50,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.once.outputs.upload_url }}
-          asset_path: release/${{ matrix.framework }}.json
-          asset_name: ${{ matrix.framework }}
+          asset_path: release/${{ matrix.json_file }}.json
+          asset_name: ${{ matrix.json_file }}
           asset_content_type: application/octet-stream
   csv:
     name: Upload csv binaries
