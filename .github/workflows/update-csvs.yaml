@@ -22,3 +22,5 @@ jobs:
       run: git commit -m "Auto updating csv files"
     - name: push code to dev
       run: git push origin HEAD:dev
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
