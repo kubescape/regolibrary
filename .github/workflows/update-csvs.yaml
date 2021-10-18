@@ -21,4 +21,5 @@ jobs:
     - name: Commit & Push changes
       uses: Andro999b/push@v1.3
       with:
+        branch: dev
         github_token: ${{ secrets.GITHUB_TOKEN }}
