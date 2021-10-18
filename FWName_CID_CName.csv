@@ -1,4 +1,25 @@
 frameworkName,ControlID,ControlName
+NSA,C-0005,Control plane hardening
+NSA,C-0038,Host PID/IPC privileges
+NSA,C-0017,Immutable container filesystem
+NSA,C-0013,Non-root containers
+NSA,C-0057,Privileged container
+NSA,C-0006,Allowed hostPath
+NSA,C-0034,Automatic mapping of service account
+NSA,C-0041,hostNetwork access
+NSA,C-0009,Resource policies
+NSA,C-0047,Exposed dashboard
+NSA,C-0016,Allow privilege escalation
+NSA,C-0012,Applications credentials in configuration files
+NSA,C-0035,Cluster-admin binding
+NSA,C-0002,Exec into container
+NSA,C-0028,Dangerous capabilities
+NSA,C-0046,Insecure capabilities
+NSA,C-0055,Linux hardening
+NSA,C-0030,Ingress and Egress blocked
+NSA,C-0044,Container hostPort
+NSA,C-0011,Network policies
+NSA,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
 developer_framework,C-0053,Access container service account
 developer_framework,C-0014,Access Kubernetes dashboard
 developer_framework,C-0003,Access Kubelet API
@@ -42,24 +63,3 @@ MITRE,C-0031,Delete Kubernetes events
 MITRE,C-0037,CoreDNS poisoning
 MITRE,C-0007,Data Destruction
 MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-NSA,C-0005,Control plane hardening
-NSA,C-0038,Host PID/IPC privileges
-NSA,C-0017,Immutable container filesystem
-NSA,C-0013,Non-root containers
-NSA,C-0057,Privileged container
-NSA,C-0006,Allowed hostPath
-NSA,C-0034,Automatic mapping of service account
-NSA,C-0041,hostNetwork access
-NSA,C-0009,Resource policies
-NSA,C-0047,Exposed dashboard
-NSA,C-0016,Allow privilege escalation
-NSA,C-0012,Applications credentials in configuration files
-NSA,C-0035,Cluster-admin binding
-NSA,C-0002,Exec into container
-NSA,C-0028,Dangerous capabilities
-NSA,C-0046,Insecure capabilities
-NSA,C-0055,Linux hardening
-NSA,C-0030,Ingress and Egress blocked
-NSA,C-0044,Container hostPort
-NSA,C-0011,Network policies
-NSA,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
