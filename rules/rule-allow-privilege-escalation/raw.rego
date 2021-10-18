@@ -56,3 +56,8 @@ deny[msga] {
 isAllowPrivilegeEscalationContainer(container) {
      container.securityContext.allowPrivilegeEscalation == true
 }
+
+isAllowPrivilegeEscalationContainer(container) {
+    sysAdminCap := "SYS_ADMIN"
+    contains(container.securityContext.capabilities.add[_], sysAdminCap)
+}
