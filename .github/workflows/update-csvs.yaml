@@ -1,0 +1,25 @@
+name: update-csvs
+
+on:
+  push:
+    branches: [ dev ]
+  pull_request:
+    branches: [ dev ]
+    types: [ closed ]
+
+jobs:
+  once:
+    name: Auto update csv files
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run a update-csv-files script
+      run: python ./scripts/update-csv-files.py
+    - name: stage changed files
+      run: git add .
+    - name: Commit & Push changes
+      uses: Andro999b/push@v1.3
+      with:
+        branch: dev
+        github_token: ${{ secrets.GITHUB_TOKEN }}
