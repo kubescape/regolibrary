@@ -8,5 +8,6 @@
     "rulesNames": [
         "Symlink-Exchange-Can-Allow-Host-Filesystem-Access"
     ],
-    "id": "C-0058"
+    "id": "C-0058",
+    "controlID": "C-0058"
 }

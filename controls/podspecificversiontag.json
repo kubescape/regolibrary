@@ -8,5 +8,6 @@
     "rulesNames": [
         "pod-specific-version-tag"
     ],
-    "id": "C-0040"
+    "id": "C-0040",
+    "controlID": "C-0040"
 }

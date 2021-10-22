@@ -8,5 +8,6 @@
     "rulesNames": [
         "host-pid-ipc-privileges"
     ],
-    "id": "C-0038"
+    "id": "C-0038",
+    "controlID": "C-0038"
 }
