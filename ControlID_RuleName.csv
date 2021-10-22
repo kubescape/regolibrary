@@ -56,4 +56,5 @@ C-0021,exposed-sensitive-interfaces
 C-0013,non-root-containers
 C-0058,Symlink-Exchange-Can-Allow-Host-Filesystem-Access
 C-0030,ingress-and-egress-blocked
+C-0059,nginx-ingress-snippet-annotation-vulnerability
 C-0036,list-all-validating-webhooks
