@@ -20,6 +20,7 @@ NSA,C-0030,Ingress and Egress blocked
 NSA,C-0044,Container hostPort
 NSA,C-0011,Network policies
 NSA,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+NSA,C-0059,CVE-2921-25742-nginx-ingress-snippet-annotation-vulnerability
 developer_framework,C-0053,Access container service account
 developer_framework,C-0014,Access Kubernetes dashboard
 developer_framework,C-0003,Access Kubelet API
