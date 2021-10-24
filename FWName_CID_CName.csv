@@ -64,3 +64,4 @@ MITRE,C-0031,Delete Kubernetes events
 MITRE,C-0037,CoreDNS poisoning
 MITRE,C-0007,Data Destruction
 MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+MITRE,C-0059,CVE-2921-25742-nginx-ingress-snippet-annotation-vulnerability
