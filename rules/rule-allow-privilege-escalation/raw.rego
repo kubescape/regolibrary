@@ -53,11 +53,19 @@ deny[msga] {
 }
 
 
+
 isAllowPrivilegeEscalationContainer(container) {
-     container.securityContext.allowPrivilegeEscalation == true
+    not container.securityContext.allowPrivilegeEscalation == false
+	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
+	count(psps) == 0
 }
 
 isAllowPrivilegeEscalationContainer(container) {
-    sysAdminCap := "SYS_ADMIN"
-    contains(container.securityContext.capabilities.add[_], sysAdminCap)
+    not container.securityContext.allowPrivilegeEscalation == false
+	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
+	count(psps) > 0
+	psp := psps[_]
+	not psp.spec.allowPrivilegeEscalation == false
 }
+
+

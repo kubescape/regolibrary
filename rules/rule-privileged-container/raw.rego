@@ -7,8 +7,9 @@ deny[msga] {
 
 	pod := input[_]
 	pod.kind == "Pod"
-	containers := pod.spec.containers[_]
-	containers.securityContext.privileged == true
+	container := pod.spec.containers[_]
+	isPrivilegedContainer(container)
+
     msga := {
 		"alertMessage": sprintf("the following pods are defined as privileged: %v", [pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -25,8 +26,8 @@ deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-	containers := wl.spec.template.spec.containers[_]
-	containers.securityContext.privileged == true
+	container := wl.spec.template.spec.containers[_]
+	isPrivilegedContainer(container)
 
     msga := {
 		"alertMessage": sprintf("%v: %v is defined as privileged:", [wl.kind, wl.metadata.name]),
@@ -42,8 +43,8 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-	containers := wl.spec.jobTemplate.spec.template.spec.containers[_]
-	containers.securityContext.privileged == true
+	container := wl.spec.jobTemplate.spec.template.spec.containers[_]
+	isPrivilegedContainer(container)
 
     msga := {
 		"alertMessage": sprintf("the following cronjobs are defined as privileged: %v", [wl.metadata.name]),
@@ -55,3 +56,12 @@ deny[msga] {
      }
 }
 
+
+isPrivilegedContainer(container) {
+	sysAdminCap := "SYS_ADMIN"
+    contains(container.securityContext.capabilities.add[_], sysAdminCap)
+}
+
+isPrivilegedContainer(container) {
+	container.securityContext.privileged == true
+}
