@@ -19,7 +19,8 @@
             "StatefulSet",
             "Job",
             "Pod",
-            "CronJob"
+            "CronJob",
+            "PodSecurityPolicy"
         ]
       }
     ],
