@@ -1,0 +1,15 @@
+{
+    "name": "Sudo in container entyrpoint",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "",
+    "remediation": "",
+    "rulesNames": [
+        "sudo-in-container-entrypoint"
+    ],
+    "id": "C-0062",
+    "long_description": "",
+    "test": "",
+    "controlID": "C-0062"
+}
