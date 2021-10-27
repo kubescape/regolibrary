@@ -1,0 +1,26 @@
+{
+    "name": "namespace-without-service-account",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Namespace",
+            "ServiceAccount"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "fails if namespace does not have service accounts (not incluiding default)",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}

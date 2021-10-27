@@ -5,7 +5,7 @@
 
 
 # Get current highest id from all controls
-HIGHEST_ID=$(grep \"id\": ../controls/*.json -h | cut -d "-" -f 2 | sort | tail -n1 |   sed 's/"//g;s/0//g' | tr -d ,)
+HIGHEST_ID=$(grep \"id\": ../controls/*.json -h | cut -d "-" -f 2 | sort | tail -n1 |   sed 's/"//g;s///g' | tr -d , | sed 's/^0*//') 
 
 NEW_ID=$(echo $(($HIGHEST_ID + 1)))
 
