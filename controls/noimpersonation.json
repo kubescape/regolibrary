@@ -7,7 +7,7 @@
     "remediation": "",
     "test": "Check for RBACs giving 'impersonate' privileges to users/groups/uids/serviceaccounts",
     "rulesNames": [
-        "rule-can-impersonate"
+        "rule-can-impersonate-users-groups"
     ],
     "id": "C-0065",
     "controlID": "C-0065"

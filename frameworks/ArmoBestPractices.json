@@ -1,5 +1,5 @@
 {
-    "name": "Security Overview",
+    "name": "ARMO Best practice",
     "description": "",
     "attributes": {
       "armoBuiltin": true
@@ -26,6 +26,13 @@
       "Container hostPort",
       "Network policies",
       "CVE-2021-25741 - Using symlink for arbitrary host file system access.",
-      "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability"
+      "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability",
+      "No impersonation",
+      "Pods in default namespace",
+      "Sudo in container entrypoint",
+      "Portforwarding privileges",
+      "Image pull policy on latest image tag",
+      "Namespace without service accounts"
+
     ]
   }

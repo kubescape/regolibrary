@@ -1,5 +1,5 @@
 {
-    "name": "Sudo in container entyrpoint",
+    "name": "Sudo in container entrypoint",
     "attributes": {
         "armoBuiltin": true
     },
