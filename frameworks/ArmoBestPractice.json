@@ -33,6 +33,5 @@
       "Portforwarding privileges",
       "Image pull policy on latest image tag",
       "Namespace without service accounts"
-
     ]
   }
