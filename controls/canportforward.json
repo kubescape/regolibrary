@@ -10,6 +10,6 @@
     ],
     "id": "C-0063",
     "long_description": "",
-    "test": "",
+    "test": "List subjects that have permission to do portforwarding",
     "controlID": "C-0063"
 }
