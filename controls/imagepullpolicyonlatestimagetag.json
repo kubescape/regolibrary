@@ -1,0 +1,15 @@
+{
+    "name": "Image pull policy on latest image tag",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "",
+    "remediation": "",
+    "rulesNames": [
+        "image-pull-policy-on-latest-image-tag"
+    ],
+    "id": "C-0064",
+    "controlID": "C-0064",
+    "test": "Check all images that have latest tag or have no tag, and on top of that have the 'imagePullPolicy' field set to 'Never'/'IfNotPresent",
+    "long_description": ""
+}
