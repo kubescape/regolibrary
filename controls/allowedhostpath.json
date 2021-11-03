@@ -11,5 +11,6 @@
     "id": "C-0006",
     "long_description": "hostPath mount can be used by attackers to get access to the underlying host and thus break from the container to the host. (See \u201c3: Writable hostPath mount\u201d for details).",
     "test": "Check in POD spec if there are hostPath mounts. ",
-    "controlID": "C-0006"
+    "controlID": "C-0006",
+    "baseScore": 6.0
 }
