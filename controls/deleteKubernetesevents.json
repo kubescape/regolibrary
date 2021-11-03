@@ -14,5 +14,6 @@
     "id": "C-0031",
     "long_description": "A Kubernetes event is a Kubernetes object that logs state changes and failures of the resources in the cluster. Example events are a container creation, an image pull, or a pod scheduling on a node. Kubernetes events can be very useful for identifying changes that occur in the cluster. Therefore, attackers may want to delete these events (e.g., by using: \u201ckubectl delete events\u2013all\u201d) in an attempt to avoid detection of their activity in the cluster.",
     "test": "List who has delete/deletecollection RBAC permissions on events.",
-    "controlID": "C-0031"
+    "controlID": "C-0031",
+    "baseScore": 4.0
 }
