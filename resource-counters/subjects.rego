@@ -11,5 +11,12 @@ deny[msg] {
 
     subjects := array.concat(s1,s2)
 
-    msg := subjects
+    msg :=  {
+        "alertObject": {
+			"k8sApiObjects": [],
+			"externalObjects": {
+				"subjects" : [subjects]
+			}
+		},
+    }
 }
