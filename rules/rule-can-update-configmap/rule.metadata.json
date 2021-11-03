@@ -29,5 +29,6 @@
     ],
     "description": "determines which users can update/patch the 'coredns' configmap",
     "remediation": "",
-    "ruleQuery": "armo_builtins"
+    "ruleQuery": "armo_builtins",
+    "resourceCount": "subjects"
   }
