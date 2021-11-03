@@ -14,5 +14,6 @@
     "id": "C-0008",
     "long_description": "A Kubernetes Pod is a group of one or more containers with shared storage and network resources. Sidecar container is a term that is used to describe an additional container that resides alongside the main container. For example, service-mesh proxies are operating as sidecars in the applications\u2019 pods. Attackers can run their code and hide their activity by injecting a sidecar container to a legitimate pod in the cluster instead of running their own separated pod in the cluster.",
     "test": "Checking in POD spec if container.lyfecycle.type == \u201cSidecar\u201d (is not yet supported in k8s), or if any container name contains \u201csidecar\u201d. If so, we raise an alert.",
-    "controlID": "C-0008"
+    "controlID": "C-0008",
+    "baseScore": 5.0
 }

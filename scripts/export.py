@@ -30,6 +30,8 @@ def load_rules():
             rule = f.read()
             if new_rule:
                 new_rule["rule"] = rule
+                if "resourceCount" in new_rule:
+                    new_rule["resourceEnumerator"] = get_rego_for_resource_count(new_rule["resourceCount"])
         rules_list.append(new_rule) 
         loaded_rules[new_rule['name']] = new_rule
 
@@ -104,6 +106,12 @@ def validate_controls():
     sum_of_controls = len(controls_path)
     if sum_of_controls != len(set_of_ids):
         raise Exception("Error validate the numbers of controls, {} != {}".format(sum_of_controls ,len(set_of_ids)))
+
+
+def get_rego_for_resource_count(count_type):
+    with open(os.path.join(currDir, 'resource-counters' , count_type + '.rego'), 'r') as f:
+        rego = f.read()
+    return rego
 
 
 def export_json(data: dict, f_name:str, output_path: str):

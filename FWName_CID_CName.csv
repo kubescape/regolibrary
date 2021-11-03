@@ -1,42 +1,4 @@
 frameworkName,ControlID,ControlName
-NSA,C-0005,Control plane hardening
-NSA,C-0038,Host PID/IPC privileges
-NSA,C-0017,Immutable container filesystem
-NSA,C-0013,Non-root containers
-NSA,C-0057,Privileged container
-NSA,C-0006,Allowed hostPath
-NSA,C-0034,Automatic mapping of service account
-NSA,C-0041,hostNetwork access
-NSA,C-0009,Resource policies
-NSA,C-0047,Exposed dashboard
-NSA,C-0016,Allow privilege escalation
-NSA,C-0012,Applications credentials in configuration files
-NSA,C-0035,Cluster-admin binding
-NSA,C-0002,Exec into container
-NSA,C-0028,Dangerous capabilities
-NSA,C-0046,Insecure capabilities
-NSA,C-0055,Linux hardening
-NSA,C-0030,Ingress and Egress blocked
-NSA,C-0044,Container hostPort
-NSA,C-0011,Network policies
-NSA,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-NSA,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-developer_framework,C-0053,Access container service account
-developer_framework,C-0014,Access Kubernetes dashboard
-developer_framework,C-0003,Access Kubelet API
-developer_framework,C-0012,Applications credentials in configuration files
-developer_framework,C-0035,Cluster-admin binding
-developer_framework,C-0054,Cluster internal networking
-developer_framework,C-0001,Compromised images in registry
-developer_framework,C-0047,Exposed dashboard
-developer_framework,C-0048,hostPath mount
-developer_framework,C-0052,Instance Metadata API
-developer_framework,C-0026,Kubernetes CronJob
-developer_framework,C-0043,Pod / container name similarity
-developer_framework,C-0049,Network mapping
-developer_framework,C-0057,Privileged container
-developer_framework,C-0042,SSH server running inside container
-developer_framework,C-0045,Writable hostPath mount
 MITRE,C-0053,Access container service account
 MITRE,C-0014,Access Kubernetes dashboard
 MITRE,C-0033,Access tiller endpoint
@@ -64,4 +26,69 @@ MITRE,C-0031,Delete Kubernetes events
 MITRE,C-0037,CoreDNS poisoning
 MITRE,C-0007,Data Destruction
 MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-MITRE,C-0059,CVE-2921-25742-nginx-ingress-snippet-annotation-vulnerability
+ARMO Best practice,C-0005,Control plane hardening
+ARMO Best practice,C-0038,Host PID/IPC privileges
+ARMO Best practice,C-0017,Immutable container filesystem
+ARMO Best practice,C-0013,Non-root containers
+ARMO Best practice,C-0057,Privileged container
+ARMO Best practice,C-0006,Allowed hostPath
+ARMO Best practice,C-0034,Automatic mapping of service account
+ARMO Best practice,C-0041,hostNetwork access
+ARMO Best practice,C-0009,Resource policies
+ARMO Best practice,C-0047,Exposed dashboard
+ARMO Best practice,C-0016,Allow privilege escalation
+ARMO Best practice,C-0012,Applications credentials in configuration files
+ARMO Best practice,C-0035,Cluster-admin binding
+ARMO Best practice,C-0002,Exec into container
+ARMO Best practice,C-0028,Dangerous capabilities
+ARMO Best practice,C-0046,Insecure capabilities
+ARMO Best practice,C-0055,Linux hardening
+ARMO Best practice,C-0030,Ingress and Egress blocked
+ARMO Best practice,C-0044,Container hostPort
+ARMO Best practice,C-0011,Network policies
+ARMO Best practice,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+ARMO Best practice,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+ARMO Best practice,C-0065,No impersonation
+ARMO Best practice,C-0061,Pods in default namespace
+ARMO Best practice,C-0062,Sudo in container entrypoint
+ARMO Best practice,C-0063,Portforwarding privileges
+ARMO Best practice,C-0064,Image pull policy on latest image tag
+ARMO Best practice,C-0060,Namespace without service accounts
+developer_framework,C-0053,Access container service account
+developer_framework,C-0014,Access Kubernetes dashboard
+developer_framework,C-0003,Access Kubelet API
+developer_framework,C-0012,Applications credentials in configuration files
+developer_framework,C-0035,Cluster-admin binding
+developer_framework,C-0054,Cluster internal networking
+developer_framework,C-0001,Compromised images in registry
+developer_framework,C-0047,Exposed dashboard
+developer_framework,C-0048,hostPath mount
+developer_framework,C-0052,Instance Metadata API
+developer_framework,C-0026,Kubernetes CronJob
+developer_framework,C-0043,Pod / container name similarity
+developer_framework,C-0049,Network mapping
+developer_framework,C-0057,Privileged container
+developer_framework,C-0042,SSH server running inside container
+developer_framework,C-0045,Writable hostPath mount
+NSA,C-0005,Control plane hardening
+NSA,C-0038,Host PID/IPC privileges
+NSA,C-0017,Immutable container filesystem
+NSA,C-0013,Non-root containers
+NSA,C-0057,Privileged container
+NSA,C-0006,Allowed hostPath
+NSA,C-0034,Automatic mapping of service account
+NSA,C-0041,hostNetwork access
+NSA,C-0009,Resource policies
+NSA,C-0047,Exposed dashboard
+NSA,C-0016,Allow privilege escalation
+NSA,C-0012,Applications credentials in configuration files
+NSA,C-0035,Cluster-admin binding
+NSA,C-0002,Exec into container
+NSA,C-0028,Dangerous capabilities
+NSA,C-0046,Insecure capabilities
+NSA,C-0055,Linux hardening
+NSA,C-0030,Ingress and Egress blocked
+NSA,C-0044,Container hostPort
+NSA,C-0011,Network policies
+NSA,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+NSA,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability

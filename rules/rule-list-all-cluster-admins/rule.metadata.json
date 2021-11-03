@@ -28,5 +28,6 @@
   ],
   "description": "determines which users have cluster admin permissions",
   "remediation": "",
-  "ruleQuery": "armo_builtins"
+  "ruleQuery": "armo_builtins",
+  "resourceCount": "subjects"
 }
