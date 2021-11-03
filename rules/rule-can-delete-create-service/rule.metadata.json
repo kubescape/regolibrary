@@ -28,5 +28,6 @@
     ],
     "description": "determines which users have create/delete  permissions on services",
     "remediation": "",
-    "ruleQuery": "armo_builtins"
+    "ruleQuery": "armo_builtins",
+    "resourceCount": "subjects"
   }
