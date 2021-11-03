@@ -2,9 +2,9 @@ name: update-csvs
 
 on:
   push:
-    branches: [ dev , master]
+    branches: [ dev ]
   pull_request:
-    branches: [ dev, master ]
+    branches: [ dev ]
     types: [ closed ]
 
 jobs:
