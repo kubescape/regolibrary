@@ -24,5 +24,6 @@
     "ruleDependencies": [],
     "description": "fails if user can delete important resources",
     "remediation": "",
-    "ruleQuery": "armo_builtins"
+    "ruleQuery": "armo_builtins",
+    "resourceCount": "subjects"
   }
