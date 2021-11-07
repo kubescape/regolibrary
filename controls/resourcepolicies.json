@@ -11,5 +11,6 @@
     "id": "C-0009",
     "long_description": " ",
     "test": " Check for each container if there is a \u2018limits\u2019 field defined. Check for each limitrange/resourcequota  if there is a max/hard field defined, respectively. ",
-    "controlID": "C-0009"
+    "controlID": "C-0009",
+    "baseScore": 2.0
 }

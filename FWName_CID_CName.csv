@@ -26,34 +26,6 @@ MITRE,C-0031,Delete Kubernetes events
 MITRE,C-0037,CoreDNS poisoning
 MITRE,C-0007,Data Destruction
 MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-ARMO Best practice,C-0005,Control plane hardening
-ARMO Best practice,C-0038,Host PID/IPC privileges
-ARMO Best practice,C-0017,Immutable container filesystem
-ARMO Best practice,C-0013,Non-root containers
-ARMO Best practice,C-0057,Privileged container
-ARMO Best practice,C-0006,Allowed hostPath
-ARMO Best practice,C-0034,Automatic mapping of service account
-ARMO Best practice,C-0041,hostNetwork access
-ARMO Best practice,C-0009,Resource policies
-ARMO Best practice,C-0047,Exposed dashboard
-ARMO Best practice,C-0016,Allow privilege escalation
-ARMO Best practice,C-0012,Applications credentials in configuration files
-ARMO Best practice,C-0035,Cluster-admin binding
-ARMO Best practice,C-0002,Exec into container
-ARMO Best practice,C-0028,Dangerous capabilities
-ARMO Best practice,C-0046,Insecure capabilities
-ARMO Best practice,C-0055,Linux hardening
-ARMO Best practice,C-0030,Ingress and Egress blocked
-ARMO Best practice,C-0044,Container hostPort
-ARMO Best practice,C-0011,Network policies
-ARMO Best practice,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-ARMO Best practice,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-ARMO Best practice,C-0065,No impersonation
-ARMO Best practice,C-0061,Pods in default namespace
-ARMO Best practice,C-0062,Sudo in container entrypoint
-ARMO Best practice,C-0063,Portforwarding privileges
-ARMO Best practice,C-0064,Image pull policy on latest image tag
-ARMO Best practice,C-0060,Namespace without service accounts
 developer_framework,C-0053,Access container service account
 developer_framework,C-0014,Access Kubernetes dashboard
 developer_framework,C-0003,Access Kubelet API
@@ -70,6 +42,34 @@ developer_framework,C-0049,Network mapping
 developer_framework,C-0057,Privileged container
 developer_framework,C-0042,SSH server running inside container
 developer_framework,C-0045,Writable hostPath mount
+ArmoBest,C-0005,Control plane hardening
+ArmoBest,C-0038,Host PID/IPC privileges
+ArmoBest,C-0017,Immutable container filesystem
+ArmoBest,C-0013,Non-root containers
+ArmoBest,C-0057,Privileged container
+ArmoBest,C-0006,Allowed hostPath
+ArmoBest,C-0034,Automatic mapping of service account
+ArmoBest,C-0041,hostNetwork access
+ArmoBest,C-0009,Resource policies
+ArmoBest,C-0047,Exposed dashboard
+ArmoBest,C-0016,Allow privilege escalation
+ArmoBest,C-0012,Applications credentials in configuration files
+ArmoBest,C-0035,Cluster-admin binding
+ArmoBest,C-0002,Exec into container
+ArmoBest,C-0028,Dangerous capabilities
+ArmoBest,C-0046,Insecure capabilities
+ArmoBest,C-0055,Linux hardening
+ArmoBest,C-0030,Ingress and Egress blocked
+ArmoBest,C-0044,Container hostPort
+ArmoBest,C-0011,Network policies
+ArmoBest,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+ArmoBest,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+ArmoBest,C-0065,No impersonation
+ArmoBest,C-0061,Pods in default namespace
+ArmoBest,C-0062,Sudo in container entrypoint
+ArmoBest,C-0063,Portforwarding privileges
+ArmoBest,C-0064,Image pull policy on latest image tag
+ArmoBest,C-0060,Namespace without service accounts
 NSA,C-0005,Control plane hardening
 NSA,C-0038,Host PID/IPC privileges
 NSA,C-0017,Immutable container filesystem

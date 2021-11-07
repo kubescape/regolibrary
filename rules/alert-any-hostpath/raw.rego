@@ -6,7 +6,7 @@ deny[msga] {
     pod.kind == "Pod"
     volumes := pod.spec.volumes
     volume := volumes[_]
-    volume.hostPath
+	isDangerousHostPath(volume)
     podname := pod.metadata.name
 
 
@@ -27,7 +27,7 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
     volumes := wl.spec.template.spec.volumes
     volume := volumes[_]
-    volume.hostPath
+    isDangerousHostPath(volume)
 
 
 	msga := {
@@ -46,7 +46,7 @@ deny[msga] {
 	wl.kind == "CronJob"
     volumes := wl.spec.jobTemplate.spec.template.spec.volumes
     volume := volumes[_]
-    volume.hostPath
+    isDangerousHostPath(volume)
 
 
 	msga := {
@@ -57,4 +57,14 @@ deny[msga] {
 			"k8sApiObjects": [wl]
 		}
 	}
+}
+
+
+
+isDangerousHostPath(volume) {
+    startswith(volume.hostPath.path, "/etc")
+}
+
+isDangerousHostPath(volume) {
+    startswith(volume.hostPath.path, "/var")
 }

@@ -9,5 +9,6 @@
         "host-pid-ipc-privileges"
     ],
     "id": "C-0038",
-    "controlID": "C-0038"
+    "controlID": "C-0038",
+    "baseScore": 5.0
 }

@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        json_file: [ nsa , mitre, frameworks, controls, rules ]
+        json_file: [ nsa , mitre, armobest, frameworks, controls, rules ]
     steps:
       - uses: actions/checkout@v2
         name: checkout repo content

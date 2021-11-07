@@ -12,6 +12,8 @@ deny[msga] {
     pod := pods[_]
     pod.spec.serviceAccountName == serviceAccountName
 
+    not isNotAutoMount(serviceaccount, pod)
+
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
 	rolebinding := rolebindings[_]
     rolesubject := rolebinding.subjects[_]
@@ -40,6 +42,8 @@ deny[msga] {
     pods := [pod | pod=input[_]; pod.kind =="Pod"]
     pod := pods[_]
     pod.spec.serviceAccountName == serviceAccountName
+
+    not isNotAutoMount(serviceaccount, pod)
 
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
 	rolebinding := rolebindings[_]
@@ -70,6 +74,8 @@ deny[msga] {
     pods := [pod | pod=input[_]; pod.kind =="Pod"]
     pod := pods[_]
     pod.spec.serviceAccountName == serviceAccountName
+
+    not isNotAutoMount(serviceaccount, pod)
 
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "ClusterRoleBinding"]
 	rolebinding := rolebindings[_]
@@ -109,6 +115,8 @@ deny[msga] {
 
     wl.spec.template.spec.serviceAccountName == serviceAccountName
 
+    not isNotAutoMount(serviceaccount, wl.spec.template)
+
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
 	rolebinding := rolebindings[_]
     rolesubject := rolebinding.subjects[_]
@@ -126,9 +134,6 @@ deny[msga] {
 			"k8sApiObjects": [rolebinding, role, wl]
 		}
 	}
-
-
-
 }
 
 
@@ -144,7 +149,9 @@ deny[msga] {
 
     wl.spec.template.spec.serviceAccountName == serviceAccountName
 
-   rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
+    not isNotAutoMount(serviceaccount, wl.spec.template)
+
+    rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
 	rolebinding := rolebindings[_]
     rolesubject := rolebinding.subjects[_]
     rolesubject.name == serviceAccountName
@@ -161,8 +168,6 @@ deny[msga] {
 			"k8sApiObjects": [rolebinding, role, wl]
 		}
 	}
-
-
 }
 
 
@@ -178,6 +183,8 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
 
     wl.spec.template.spec.serviceAccountName == serviceAccountName
+
+    not isNotAutoMount(serviceaccount, wl.spec.template)
 
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "ClusterRoleBinding"]
 	rolebinding := rolebindings[_]
@@ -197,7 +204,6 @@ deny[msga] {
 			"k8sApiObjects": [rolebinding, role, wl]
 		}
 	}
-
 }
 
 
@@ -217,6 +223,8 @@ deny[msga] {
 	wl.kind == "CronJob"
 	wl.spec.jobTemplate.spec.template.spec.serviceAccountName  == serviceAccountName
 
+    not isNotAutoMount(serviceaccount, wl.spec.jobTemplate.spec.template)
+
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
 	rolebinding := rolebindings[_]
     rolesubject := rolebinding.subjects[_]
@@ -249,6 +257,8 @@ deny[msga] {
 	wl.kind == "CronJob"
 	wl.spec.jobTemplate.spec.template.spec.serviceAccountName  == serviceAccountName
 
+    not isNotAutoMount(serviceaccount, wl.spec.jobTemplate.spec.template)
+
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
 	rolebinding := rolebindings[_]
     rolesubject := rolebinding.subjects[_]
@@ -266,7 +276,6 @@ deny[msga] {
 			"k8sApiObjects": [rolebinding, role, wl]
 		}
 	}
-
 }
 
 
@@ -281,6 +290,7 @@ deny[msga] {
 	wl.kind == "CronJob"
 	wl.spec.jobTemplate.spec.template.spec.serviceAccountName  == serviceAccountName
 
+    not isNotAutoMount(serviceaccount, wl.spec.jobTemplate.spec.template)
      
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "ClusterRoleBinding"]
 	rolebinding := rolebindings[_]
@@ -300,5 +310,15 @@ deny[msga] {
 			"k8sApiObjects": [rolebinding, role, wl]
 		}
 	}
-
 }
+
+# ===============================================================
+
+isNotAutoMount(serviceaccount, pod) {
+    pod.spec.automountServiceAccountToken == false
+}
+isNotAutoMount(serviceaccount, pod) {
+    serviceaccount.automountServiceAccountToken == false
+    not pod.spec["automountServiceAccountToken"]
+}
+
