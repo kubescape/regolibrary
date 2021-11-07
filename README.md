@@ -1,11 +1,10 @@
-# Regostore
-Here we store regos
+# ARMO rego library
 
-
+ARMO rego library for detecting miss-configurations in Kubernetes manifests
 
 ### [NSA Framework](https://www.nsa.gov/Press-Room/News-Highlights/Article/Article/2716980/nsa-cisa-release-kubernetes-hardening-guidance/)
 
-### [MITRE Framework](https://www.microsoft.com/security/blog/wp-content/uploads/2021/03/Matrix-1536x926.png)
+### [MITRE ATT&CK® Framework](https://www.microsoft.com/security/blog/wp-content/uploads/2021/03/Matrix-1536x926.png)
 
 | Initial Access | Execution | Persistence | Privilege Escalation | Defense Evasion | Credential Access| Discovery | Lateral Movement | Collection | Impact |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | 
