@@ -25,6 +25,8 @@ jobs:
           draft: false
           prerelease: false
   build:
+    env:
+        RELEASE: v1.0.${{ github.run_number }} 
     name: Create cross-platform release build, tag and upload binaries
     needs: once
     runs-on: ubuntu-latest

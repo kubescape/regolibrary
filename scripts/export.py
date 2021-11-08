@@ -75,6 +75,7 @@ def load_frameworks(loaded_controls: dict):
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
             new_framework = json.load(f)
+        new_framework["version"] = os.getenv("RELEASE")
         new_framework["controls"] = []
         new_framework_copy = copy.deepcopy(new_framework)
         frameworks_list.append(new_framework_copy)

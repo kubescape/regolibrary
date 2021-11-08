@@ -3,13 +3,13 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "",
-    "remediation": "",
+    "description": "It is recommended to avoid running any PODs in cluster without explicit namespace assignment. This control identifies all the PODs running in the default namespace.",
+    "remediation": "Create necessary namespaces and move all the PODs from default namespace to the newly created namespaces.",
     "rulesNames": [
         "pods-in-default-namespace"
     ],
     "id": "C-0061",
-    "long_description": "",
+    "long_description": "It is recommended to avoid running any PODs in cluster without explicit namespace assignment. This control identifies all the PODs running in the default namespace.",
     "test": "Check that there are no pods in the 'default' namespace",
     "controlID": "C-0061"
 }
