@@ -1,4 +1,5 @@
 package armo_builtins
+import data
 
 
 deny[msga] {
@@ -48,7 +49,7 @@ deny[msga] {
 }
 
 isDangerousCapabilities(container){
-    dangerousCapabilities := ["ALL", "SYS_ADMIN", "NET_ADMIN", "SYS_PTRACE"]
+    dangerousCapabilities := data.postureControlInputs.dangerousCapabilities
     dangerousCapabilitie := dangerousCapabilities[_]
     contains(container.securityContext.capabilities.add[_], dangerousCapabilitie)
 }
