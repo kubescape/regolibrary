@@ -3,10 +3,11 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "Liveness probe is not configured.",
-    "remediation": "Ensure Liveness probe is configured",
+    "description": "Liveness probe is not configured. It is necessary to restart stuck PODs.",
+    "remediation": "Ensure Liveness probe is configured.",
     "rulesNames": [
         "configured-liveness-probe"
     ],
-    "id": "C-0056"
+    "id": "C-0056",
+    "controlID": "C-0056"
 }

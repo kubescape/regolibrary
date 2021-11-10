@@ -22,7 +22,6 @@
     "List Kubernetes secrets",
     "Mount service principal",
     "Network mapping",
-    "New container",
     "Privileged container",
     "SSH server running inside container",
     "Vulnerable application",
@@ -32,7 +31,7 @@
     "Delete Kubernetes events",
     "CoreDNS poisoning",
     "Data Destruction",
-    "Resource Hijacking",
-    "CVE-2021-25741 - Using symlink for arbitrary host file system access."
+    "CVE-2021-25741 - Using symlink for arbitrary host file system access.",
+    "CVE-2921-25742-nginx-ingress-snippet-annotation-vulnerability"
   ]
 }

@@ -8,5 +8,6 @@
     "rulesNames": [
         "more-than-one-replicas"
     ],
-    "id": "C-0032"
+    "id": "C-0032",
+    "controlID": "C-0032"
 }

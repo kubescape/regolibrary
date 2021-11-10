@@ -1,0 +1,15 @@
+{
+    "name": "Image pull policy on latest image tag",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "Check all images with latest tag (or no tag at all) that have the 'imagePullPolicy' field set to 'Never' or 'IfNotPresent'. If exist, Kubernetes may run older version of the container images (if they happen to be cached on a node) without user knowing about this.",
+    "remediation": "Use 'imagePullPolicy' field set to 'Always'. It will not pull images if they have the same digest as the cached one.",
+    "rulesNames": [
+        "image-pull-policy-on-latest-image-tag"
+    ],
+    "id": "C-0064",
+    "controlID": "C-0064",
+    "test": "Check all images that have latest tag or have no tag, and have the 'imagePullPolicy' field set to 'Never' or 'IfNotPresent'. ",
+    "long_description": "Check all images with latest tag (or no tag at all) that have the 'imagePullPolicy' field set to 'Never' or 'IfNotPresent'. If exist, Kubernetes may run older version of the container images (if they happen to be cached on a node) without user knowing about this."
+}

@@ -2,108 +2,119 @@
 package armo_builtins
 import data.cautils as cautils
 
-# fails if user has impersonate access to users/groups
-# RoleBinding to Role
+
 deny[msga] {
-    roles := [role |  role= input[_]; role.kind == "Role"]
+	 roles := [role |  role= input[_]; role.kind == "Role"]
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
-
     role:= roles[_]
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-    canImpersonateToUsersGroupsResource(rule)
-    canImpersonateToUsersGroupsVerb(rule)
+	canImpersonateVerb(rule)
+    canImpersonateResource(rule)
 
-    rolebinding.roleRef.kind == "Role"
-    rolebinding.roleRef.name == role.metadata.name
+	rolebinding.roleRef.kind == "Role"
+	rolebinding.roleRef.name == role.metadata.name
+	
     subjects := rolebinding.subjects[_]
 
-    	msga := {
-	"alertMessage": sprintf("the following %v: %v can impersonate users/groups", [subjects.kind, subjects.name]),
-		"alertScore": 3,
+	msga := {
+		"alertMessage": sprintf("the following %v: %v, can impersonate users", [subjects.kind, subjects.name]),
+		"alertScore": 9,
 		"packagename": "armo_builtins",
-          "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+		"alertObject": {
+			"k8sApiObjects": [role, rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
-     }
+	}
 }
 
-# fails if user has impersonate access to users/groups
-# RoleBinding to ClusterRole
-deny [msga]{
+
+deny[msga] {
     roles := [role |  role= input[_]; role.kind == "ClusterRole"]
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
     role:= roles[_]
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-    canImpersonateToUsersGroupsResource(rule)
-    canImpersonateToUsersGroupsVerb(rule)
+	canImpersonateVerb(rule)
+    canImpersonateResource(rule)
 
-
-    rolebinding.roleRef.kind == "ClusterRole"
-    rolebinding.roleRef.name == role.metadata.name
-
+	rolebinding.roleRef.kind == "ClusterRole"
+	rolebinding.roleRef.name == role.metadata.name
+	
     subjects := rolebinding.subjects[_]
 
-    	msga := {
-	"alertMessage": sprintf("the following %v: %v can impersonate users/groups", [subjects.kind, subjects.name]),
-		"alertScore": 3,
+	msga := {
+		"alertMessage": sprintf("the following %v: %v,  can impersonate users", [subjects.kind, subjects.name]),
+		"alertScore": 9,
 		"packagename": "armo_builtins",
-          "alertObject": {
-			"k8sApiObjects": [role,rolebinding]
+		"alertObject": {
+			"k8sApiObjects": [role, rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
-     }
+	}
 }
 
 
-# fails if user has impersonate access to users/groups
-# ClusterRoleBinding to ClusterRole
-deny [msga]{
+
+deny[msga] {
     roles := [role |  role= input[_]; role.kind == "ClusterRole"]
-     clusterrolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "ClusterRoleBinding"]
+    rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "ClusterRoleBinding"]
     role:= roles[_]
-     clusterrolebinding := clusterrolebindings[_]
+    rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-    canImpersonateToUsersGroupsResource(rule)
-    canImpersonateToUsersGroupsVerb(rule)
+	canImpersonateVerb(rule)
+    canImpersonateResource(rule)
 
-    clusterrolebinding.roleRef.kind == "ClusterRole"
-    clusterrolebinding.roleRef.name == role.metadata.name
-    subjects := clusterrolebinding.subjects[_]
+	rolebinding.roleRef.kind == "ClusterRole"
+	rolebinding.roleRef.name == role.metadata.name
+	
+    subjects := rolebinding.subjects[_]
 
-    	msga := {
-	"alertMessage": sprintf("the following %v: %v can impersonate users/groups", [subjects.kind, subjects.name]),
-		"alertScore": 3,
+    msga := {
+		"alertMessage": sprintf("the following %v: %v, can impersonate users", [subjects.kind, subjects.name]),
+		"alertScore": 9,
 		"packagename": "armo_builtins",
-          "alertObject": {
-			"k8sApiObjects": [role,clusterrolebinding]
+  		"alertObject": {
+			"k8sApiObjects": [role, rolebinding],
+			"externalObjects": {
+				"subject" : [subjects]
+			}
 		}
-     }
+	}
 }
 
 
-
-canImpersonateToUsersGroupsResource(rule) {
-     cautils.list_contains(rule.resources,"users")
+canImpersonateVerb(rule) {
+		cautils.list_contains(rule.verbs, "impersonate")
 }
-
-canImpersonateToUsersGroupsResource(rule) {
-     cautils.list_contains(rule.resources,"groups")
-}
-
-canImpersonateToUsersGroupsResource(rule) {
-     cautils.list_contains(rule.resources,"*")
-}
-
-canImpersonateToUsersGroupsVerb(rule) {
-    cautils.list_contains(rule.verbs, "impersonate")
-}
-
-canImpersonateToUsersGroupsVerb(rule) {
-    cautils.list_contains(rule.verbs, "*")
+canImpersonateVerb(rule) {
+		cautils.list_contains(rule.verbs, "*")
 }
 
 
+canImpersonateResource(rule) {
+	cautils.list_contains(rule.resources,"users")
+}
+
+canImpersonateResource(rule) {
+	cautils.list_contains(rule.resources,"serviceaccounts")
+}
+
+canImpersonateResource(rule) {
+	cautils.list_contains(rule.resources,"groups")
+}
+
+canImpersonateResource(rule) {
+	cautils.list_contains(rule.resources,"uids")
+}
+
+canImpersonateResource(rule) {
+	cautils.list_contains(rule.resources,"*")
+}

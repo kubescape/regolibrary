@@ -25,12 +25,14 @@ jobs:
           draft: false
           prerelease: false
   build:
+    env:
+        RELEASE: v1.0.${{ github.run_number }} 
     name: Create cross-platform release build, tag and upload binaries
     needs: once
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        framework: [ nsa , mitre ]
+        json_file: [ nsa , mitre, armobest, frameworks, controls, rules ]
     steps:
       - uses: actions/checkout@v2
         name: checkout repo content
@@ -50,6 +52,35 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.once.outputs.upload_url }}
-          asset_path: release/${{ matrix.framework }}.json
-          asset_name: ${{ matrix.framework }}
+          asset_path: release/${{ matrix.json_file }}.json
+          asset_name: ${{ matrix.json_file }}
+          asset_content_type: application/octet-stream
+  csv:
+    name: Upload csv binaries
+    needs: once
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        csv-files: [ControlID_RuleName, FWName_CID_CName]
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout repo content
+
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8 #install the python needed
+      - name: execute py script # run the run.py to get the latest data
+        run: |
+          python ./scripts/export.py
+          
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.once.outputs.upload_url }}
+          asset_path: release/${{ matrix.csv-files }}.csv
+          asset_name: ${{ matrix.csv-files }}
           asset_content_type: application/octet-stream

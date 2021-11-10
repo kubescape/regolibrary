@@ -4,9 +4,12 @@
         "armoBuiltin": true
     },
     "description": "Potential attackers may gain access to a container and leverage its privileges to conduct an attack. Hence it is not recommended to deploy containers with user/group id less than 1000, unless it is absolutely necessary.",
-    "remediation": "If your application does not need root privileges, make sure to define the runAsUser  and runAsGroup under the PodSecurityContext to use user ID 1000 or higher, do not turn on allowPrivlegeEscalation bit and runAsNonRoot is true.",
+    "remediation": "If your application does not need the root privileges, make sure to define the runAsUser and runAsGroup under the PodSecurityContext to use user ID 1000 or higher, do not turn on allowPrivlegeEscalation bit and set runAsNonRoot to true.",
     "rulesNames": [
         "user-id-less-than-thousands"
     ],
-    "id": "C-0022"
+    "id": "C-0022",
+    "long_description": "Container engines allow containers to run applications as a non-root user with non-root group membership. Typically, this non-default setting is configured when the container image is built. Alternatively, Kubernetes can load containers into a Pod with SecurityContext:runAsUser specifying a non-zero user. While the runAsUser directive effectively forces non-root execution at deployment, NSA and CISA encourage developers to build container applications to execute as a non-root user. Having non-root execution integrated at build time provides better assurance that applications will function correctly without root privileges.",
+    "test": "Verify if runAsUser  and runAsGroup are set to a user id greater than 999. Check all the combinations with PodSecurityContext and SecurityContext (for containers).",
+    "controlID": "C-0022"
 }

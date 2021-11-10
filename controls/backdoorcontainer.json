@@ -7,9 +7,13 @@
         ]
     },
     "description": "Attackers run their malicious code in a container in the cluster. By using the Kubernetes controllers such as DaemonSets or Deployments, attackers can ensure that a constant number of containers run in one, or all, the nodes in the cluster. This control determines which subjects have permissions to create/modify pods.",
-    "remediation": "You should apply least privilege principle. Approve the subjects who can create new containers.",
+    "remediation": "You should apply least privilege principle when allow a subject to create new persistent deployments. Verify and approve everyone who can do this.",
     "rulesNames": [
         "rule-can-create-modify-pod"
     ],
-    "id": "C-0027"
+    "id": "C-0027",
+    "long_description": "Attackers run their malicious code in a container in the cluster. By using the Kubernetes controllers such as DaemonSets or Deployments, attackers can ensure that a constant number of containers run in one, or all, the nodes in the cluster.",
+    "test": "Check which subjects have create/patch/update workloads RBAC permissions. Disabled until further notice",
+    "controlID": "C-0027",
+    "baseScore": 7.0
 }

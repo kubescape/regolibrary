@@ -25,6 +25,7 @@
       "Ingress and Egress blocked",
       "Container hostPort",
       "Network policies",
-      "CVE-2021-25741 - Using symlink for arbitrary host file system access."
+      "CVE-2021-25741 - Using symlink for arbitrary host file system access.",
+      "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability"
     ]
   }

@@ -3,10 +3,11 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "memory limits are not set.",
-    "remediation": "Ensure memory limits are set.",
+    "description": "This control identifies all Pods for which the memory limit is not set.",
+    "remediation": "Set the memory limit or use exception mechanism to avoid unnecessary notifications.",
     "rulesNames": [
         "resources-memory-limit"
     ],
-    "id": "C-0004"
+    "id": "C-0004",
+    "controlID": "C-0004"
 }

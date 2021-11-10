@@ -28,5 +28,6 @@
     ],
     "description": "determines which users can impersonate users/groups",
     "remediation": "",
-    "ruleQuery": "armo_builtins"
+    "ruleQuery": "armo_builtins",
+    "resourceCount": "subjects"
   }

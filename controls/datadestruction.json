@@ -6,10 +6,14 @@
             "Impact"
         ]
     },
-    "description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources. This control determines which subjects can delete resources.",
-    "remediation": "You should apply least privilege principle. Monitor and approve the subjects who can delete resources.",
+    "description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources. This control identifies all subjects that can delete resources.",
+    "remediation": "You should follow the least privilege principle and minimize the number of subjects that can delete resources.",
     "rulesNames": [
         "rule-excessive-delete-rights"
     ],
-    "id": "C-0007"
+    "id": "C-0007",
+    "long_description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources.",
+    "test": "Check which subjects have delete/deletecollection RBAC permissions on workloads.",
+    "controlID": "C-0007",
+    "baseScore": 10.0
 }

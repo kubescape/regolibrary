@@ -3,10 +3,11 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "A user may be able to create a container with subPath volume mounts to access files & directories outside of the volume, including on the host filesystem. This was affected at the following versions: v1.22.0 - v1.22.1, v1.21.0 - v1.21.4, v1.20.0 - v1.20.10, version v1.19.14 and lower.",
-    "remediation": "To mitigate this vulnerability without upgrading kubelet, you can disable the VolumeSubpath feature gate on kubelet and kube-apiserver, and remove any existing Pods making use of the feature.",
+    "description": "A user may be able to create a container with subPath or subPathExpr volume mounts to access files & directories anywhere on the host filesystem. Following Kubernetes versions are affected: v1.22.0 - v1.22.1, v1.21.0 - v1.21.4, v1.20.0 - v1.20.10, version v1.19.14 and lower. This control checks the vulnerable versions and the actual usage of the subPath feature in all Pods in the cluster.",
+    "remediation": "To mitigate this vulnerability without upgrading kubelet, you can disable the VolumeSubpath feature gate on kubelet and kube-apiserver, or remove any existing Pods using subPath or subPathExpr feature.",
     "rulesNames": [
         "Symlink-Exchange-Can-Allow-Host-Filesystem-Access"
     ],
-    "id": "C-0058"
+    "id": "C-0058",
+    "controlID": "C-0058"
 }

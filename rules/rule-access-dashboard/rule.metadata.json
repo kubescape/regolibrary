@@ -22,5 +22,6 @@
     "ruleDependencies": [],
     "description": "fails if subject that is not dashboard service account is bound to dashboard role/clusterrole, or- if anyone that is not dashboard pod is associated with its service account.",
     "remediation": "",
-    "ruleQuery": "armo_builtins"
+    "ruleQuery": "armo_builtins",
+    "resourceCount": "subjects"
   }

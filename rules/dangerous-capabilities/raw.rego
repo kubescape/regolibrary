@@ -1,4 +1,5 @@
 package armo_builtins
+import data
 
 
 deny[msga] {

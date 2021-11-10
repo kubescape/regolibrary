@@ -1,5 +1,5 @@
 {
-    "name": "rule-allow-privilege-escalation",
+    "name": "image-pull-policy-on-latest-image-tag",
     "attributes": {
       "armoBuiltin": true
     },
@@ -25,7 +25,7 @@
     ],
     "ruleDependencies": [
     ],
-    "description": "fails if container allows privilege escalation",
-    "remediation": "Make sure that the allowPrivilegeEscalation field in the securityContext of pod/container is set to false",
+    "description": "",
+    "remediation": "",
     "ruleQuery": "armo_builtins"
 }
