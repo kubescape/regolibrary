@@ -26,12 +26,14 @@ jobs:
           draft: true
           prerelease: false
   build:
+    env:
+      RELEASE: v1.0.${{ github.run_number }} 
     name: Create cross-platform release build, tag and upload binaries
     needs: once
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        json_file: [ nsa , mitre, frameworks, controls, rules ]
+        json_file: [ nsa , mitre, armobest, frameworks, controls, rules ]
     steps:
       - uses: actions/checkout@v2
         name: checkout repo content
