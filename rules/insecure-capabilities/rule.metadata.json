@@ -25,6 +25,7 @@
     ],
     "ruleDependencies": [
     ],
+    "configInputs": ["data.postureControlInputs.insecureCapabilities"],
     "description": "fails if container has insecure capabilities",
     "remediation": "Remove all insecure capabilities which aren’t necessary for the container.",
     "ruleQuery": "armo_builtins"

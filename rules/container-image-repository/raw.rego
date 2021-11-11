@@ -1,8 +1,9 @@
 package armo_builtins
+import data
 # import data.kubernetes.api.client as client
 
 allowlist(z) = x {
-	x := ["mcr.microsoft.com/", "gcr.io/", "azurecr.io/"]	
+	x := data.postureControlInputs.imageRepositoryAllowList
 }
 
 untrustedImageRepo[msga] {

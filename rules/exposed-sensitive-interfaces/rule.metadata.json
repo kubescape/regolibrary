@@ -30,6 +30,7 @@
         "packageName": "kubernetes.api.client"
       }
     ],
+    "configInputs": ["data.postureControlInputs.servicesNames"],
     "description": "fails if known interfaces have exposed services",
     "remediation": "",
     "ruleQuery": "armo_builtins"

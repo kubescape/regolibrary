@@ -25,6 +25,7 @@
       }
     ],
     "ruleDependencies": [],
+    "configInputs": ["data.postureControlInputs.sensitiveKeyNames"],
     "description": "fails if Pods have sensitive information in configuration",
     "remediation": "",
     "ruleQuery": "armo_builtins"
