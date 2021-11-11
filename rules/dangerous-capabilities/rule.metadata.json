@@ -25,6 +25,7 @@
     ],
     "ruleDependencies": [
     ],
+    "configInputs": ["data.postureControlInputs.dangerousCapabilities"],
     "description": "fails if container has dangrous capabilities",
     "remediation": "Remove all dangerous capabilities which aren’t necessary for the container.",
     "ruleQuery": "armo_builtins"

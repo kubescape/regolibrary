@@ -19,6 +19,7 @@
       }
     ],
     "ruleDependencies": [],
+    "configInputs": ["data.postureControlInputs.sensitiveValues","data.postureControlInputs.sensitiveKeyNames"],
     "description": "fails if ConfigMaps have sensitive information in configuration",
     "remediation": "",
     "ruleQuery": "armo_builtins"
