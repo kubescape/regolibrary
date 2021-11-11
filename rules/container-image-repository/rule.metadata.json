@@ -25,7 +25,7 @@
       }
     ],
     "ruleDependencies": [],
-    "configInputs": ["data.postureControlInputs.imageRepositoryAllowList"],
+    "configInputs": ["settings.postureControlInputs.imageRepositoryAllowList"],
     "description": "fails if image is not from allowlisted registry (microsoft, google, azure) and also has no imagePullSecrets",
     "remediation": "",
     "ruleQuery": ""

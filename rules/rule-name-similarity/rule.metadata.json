@@ -21,7 +21,7 @@
       }
     ],
     "ruleDependencies": [],
-    "configInputs": ["data.postureControlInputs.wlKnownNames"],
+    "configInputs": ["settings.postureControlInputs.wlKnownNames"],
     "description": "fails if there are objects with names similar to system pods, or other known deployments",
     "remediation": "",
     "ruleQuery": "armo_builtins"

@@ -25,7 +25,7 @@
     }
   ],
   "ruleDependencies": [],
-  "configInputs": ["data.postureControlInputs.publicRegistries", "data.postureControlInputs.untrustedRegistries"],
+  "configInputs": ["settings.postureControlInputs.publicRegistries", "settings.postureControlInputs.untrustedRegistries"],
   "description": "Identifying if pod container images are from unallowed registries",
   "remediation": "Use images from safe registry",
   "ruleQuery": ""
