@@ -9,5 +9,6 @@
         "Symlink-Exchange-Can-Allow-Host-Filesystem-Access"
     ],
     "id": "C-0058",
-    "controlID": "C-0058"
+    "controlID": "C-0058",
+	"baseScore": 6.0
 }
