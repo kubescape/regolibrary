@@ -182,7 +182,7 @@ def create_md_for_control(control):
     md_text += control['remediation'] + '\n'
     md_text += '## Example\n'
     if 'example' in control:
-        md_text += '```\n' +control['example'] + '```\n' + '\n'
+        md_text += '```\n' +control['example'] + '\n```' + '\n'
     else:
         md_text += 'No example\n'
     return md_text
