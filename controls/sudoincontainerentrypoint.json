@@ -11,5 +11,6 @@
     "id": "C-0062",
     "long_description": "Adding sudo to a container entry point command may escalate process privileges and allow access to forbiden resources. This control checks all the entry point commands in all containers in the POD to find those that have sudo command.",
     "test": "Check that there is no 'sudo' in the container entrypoint",
-    "controlID": "C-0062"
+    "controlID": "C-0062",
+	"baseScore": 7.0
 }

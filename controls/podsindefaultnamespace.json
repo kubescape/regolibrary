@@ -11,5 +11,6 @@
     "id": "C-0061",
     "long_description": "It is recommended to avoid running any PODs in cluster without explicit namespace assignment. This control identifies all the PODs running in the default namespace.",
     "test": "Check that there are no pods in the 'default' namespace",
-    "controlID": "C-0061"
+    "controlID": "C-0061",
+	"baseScore": 4.0
 }

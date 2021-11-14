@@ -11,5 +11,6 @@
         "rule-can-impersonate-users-groups"
     ],
     "id": "C-0065",
-    "controlID": "C-0065"
+    "controlID": "C-0065",
+    "baseScore": 5.0
 }
