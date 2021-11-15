@@ -121,7 +121,18 @@ canCreateModifyToPodResource(rule){
     cautils.list_contains(rule.resources,"cronjobs")
 }
 canCreateModifyToPodResource(rule){
+    isApiGroup(rule)
     cautils.list_contains(rule.resources,"*")
+}
+
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == "*"
+}
+
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == ""
 }
 
 canCreateModifyToPodVerb(rule) {

@@ -98,6 +98,7 @@ deny[msga] {
 
 canDeleteLogs(rule) {
  cautils.list_contains(rule.resources,"*")
+ isApiGroup(rule)
  cautils.list_contains(rule.verbs,"*")
 }
 
@@ -112,6 +113,7 @@ canDeleteLogs(rule) {
 
 canDeleteLogs(rule) {
  cautils.list_contains(rule.resources,"*")
+ isApiGroup(rule)
  cautils.list_contains(rule.verbs,"delete")
 }
 
@@ -126,5 +128,14 @@ canDeleteLogs(rule) {
 
 canDeleteLogs(rule) {
  cautils.list_contains(rule.resources,"*")
+ isApiGroup(rule)
  cautils.list_contains(rule.verbs,"deletecollection")
+}
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == "*"
+}
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == ""
 }

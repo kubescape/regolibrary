@@ -135,5 +135,24 @@ canDeleteResource(rule) {
     cautils.list_contains(rule.resources,"cronjobs")
 }
 canDeleteResource(rule) {
+    isApiGroup(rule)
     cautils.list_contains(rule.resources,"*")
 }
+
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == ""
+}
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == "*"
+}
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == "apps"
+}
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == "batch"
+}
+

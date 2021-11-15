@@ -290,6 +290,7 @@ canEscalateToRoleResource(rule){
 }
 
 canEscalateToRoleResource(rule){
+     isApiGroup(rule)
      cautils.list_contains(rule.resources,"*")
 }
 
@@ -313,6 +314,7 @@ canBindToRoleResource(rule){
 }
 
 canBindToRoleResource(rule){
+     isApiGroup(rule)
      cautils.list_contains(rule.resources,"*")
 }
 
@@ -336,7 +338,8 @@ canCreateUpdateToRoleResource(rule) {
 }
 
 canCreateUpdateToRoleResource(rule) {
-      cautils.list_contains(rule.resources,"*")
+     isApiGroup(rule)
+     cautils.list_contains(rule.resources,"*")
 }
 
 
@@ -354,4 +357,14 @@ canCreateUpdateToRoleVerb(rule) {
 
 canCreateUpdateToRoleVerb(rule) {
      cautils.list_contains(rule.verbs, "*")
+}
+
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == "*"
+}
+
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == "rbac.authorization.k8s.io"
 }
