@@ -100,9 +100,19 @@ canDeleteEventsResource(rule) {
  cautils.list_contains(rule.resources,"events")
 }
 canDeleteEventsResource(rule) {
+ isApiGroup(rule)
  cautils.list_contains(rule.resources,"*")
 }
 
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == "*"
+}
+
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == ""
+}
 
 canDeleteEventsVerb(rule) {
     cautils.list_contains(rule.verbs,"delete")
