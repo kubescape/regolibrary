@@ -1,0 +1,33 @@
+{
+    "name": "rule-can-delete-create-service-v1",
+    "attributes": {
+      "m$K8sThreatMatrix": "Discovery::Access the K8s API server",
+      "armoBuiltin": true,
+      "resourcesAggregator": "subject-role-rolebinding"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Role",
+          "ClusterRole",
+          "ClusterRoleBinding",
+          "RoleBinding"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      }
+    ],
+    "description": "determines which users have create/delete  permissions on services",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

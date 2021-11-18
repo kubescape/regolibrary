@@ -1,0 +1,33 @@
+{
+    "name": "rule-can-delete-k8s-events-v1",
+    "attributes": {
+      "microsoftK8sThreatMatrix": "Defense Evasion::Delete K8S events",
+      "armoBuiltin": true,
+      "resourcesAggregator": "subject-role-rolebinding"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Role",
+            "ClusterRole",
+            "ClusterRoleBinding",
+            "RoleBinding"
+          ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      }
+    ],
+    "description": "determines which users can delete events",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }
