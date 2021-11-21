@@ -20,7 +20,7 @@ deny[msga] {
 		"alertScore": 9,
 		"packagename": "armo_builtins",
 		"alertObject": {
-			"k8sApiObjects": [role, rolebinding],
+			"k8sApiObjects": [],
 			"externalObjects": subjectVector
 		}
 	}

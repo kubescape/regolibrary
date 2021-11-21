@@ -20,7 +20,7 @@ deny[msga] {
           "alertScore": 3,
           "packagename": "armo_builtins",
           "alertObject": {
-               "k8sApiObjects": [role, rolebinding],
+               "k8sApiObjects": [],
                "externalObjects": subjectVector
           }
      }
@@ -46,7 +46,7 @@ deny [msga] {
           "alertScore": 3,
           "packagename": "armo_builtins",
           "alertObject": {
-               "k8sApiObjects": [role, rolebinding],
+               "k8sApiObjects": [],
                "externalObjects": subjectVector
           }
      }
@@ -71,7 +71,7 @@ deny[msga] {
           "alertScore": 3,
           "packagename": "armo_builtins",
           "alertObject": {
-               "k8sApiObjects": [role,rolebinding],
+               "k8sApiObjects": [],
                "externalObjects": subjectVector
           }
      }

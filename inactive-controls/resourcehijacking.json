@@ -9,7 +9,7 @@
     "description": "Attackers who have access to a container in the cluster or have permissions to create new containers may abuse them to run compromising tasks, such as running digital currency mining. This control determines which subjects have permissions to create/modify pods.",
     "remediation": "Follow the least privilege principle and minimize the amount of subjects who can create/delete pods.",
     "rulesNames": [
-        "rule-can-create-modify-pod", "rule-can-create-modify-pod-v1"
+        "rule-can-create-modify-pod-v0", "rule-can-create-modify-pod-v1"
     ],
     "id": "C-0023",
     "long_description": "Attackers may abuse a compromised resource for running tasks. A common abuse is to use compromised resources for running digital currency mining. Attackers who have access to a container in the cluster or have permissions to create new containers may use them for such activity.",
