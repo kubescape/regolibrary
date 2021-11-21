@@ -182,7 +182,7 @@ def create_md_for_control(control):
     md_text += control['remediation'] + '\n'
     md_text += '## Example\n'
     if 'example' in control:
-        md_text += '```\n' +control['example'] + '```\n' + '\n'
+        md_text += '```\n' +control['example'] + '\n```' + '\n'
     else:
         md_text += 'No example\n'
     return md_text
@@ -219,6 +219,15 @@ def main():
         try:
             print('processing %s' % control_json_file_name)
             control_obj = json.load(open(os.path.join('controls',control_json_file_name)))
+
+            base_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+            if 'example' in control_obj and control_obj['example'][0] == '@':
+                example_file_name = os.path.join(base_dir,control_obj['example'][1:])
+                if os.path.isfile(example_file_name):
+                    with open(example_file_name) as f:
+                        control_obj['example'] = f.read()
+                else:
+                    print('warning: %s is not a file' % example_file_name)
             
             control_obj['rules'] = []
             for rule_directory_name in os.listdir('rules'):
