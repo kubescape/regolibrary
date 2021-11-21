@@ -56,6 +56,8 @@ def load_controls(loaded_rules: dict):
                 new_control["rules"].append(loaded_rules[rule_name])
                 new_row = [new_control['id'], rule_name] # TODO : change 'id' to 'controlID'
                 control_rule_rows.append(new_row)
+            else:
+                raise Exception("Error in ruleNames of control {}, rule {} does not exist".format(new_control["name"], rule_name))
 
         del new_control["rulesNames"]  # remove rule names list from dict
         loaded_controls[new_control['name']] = new_control
