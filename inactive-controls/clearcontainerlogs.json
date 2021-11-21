@@ -9,7 +9,7 @@
     "description": "Attackers may delete the application or OS logs on a compromised container in an attempt to prevent detection of their activity. This control determines which subjects have permissions to delete logs.",
     "remediation": "You should apply least privilege principle. Approve the subjects who can delete logs inside containers.",
     "rulesNames": [
-        "rule-can-delete-logs"
+        "rule-can-delete-logs-v0", "rule-can-delete-logs-v1"
     ],
     "id": "C-0029",
     "long_description": "Attackers may delete the application or OS logs on a compromised container in an attempt to prevent detection of their activity.",

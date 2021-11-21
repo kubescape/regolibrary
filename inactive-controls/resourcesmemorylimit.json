@@ -9,5 +9,6 @@
         "resources-memory-limit"
     ],
     "id": "C-0004",
-    "controlID": "C-0004"
+    "controlID": "C-0004", 
+    "example": "@controls/examples/c004.yaml"
 }

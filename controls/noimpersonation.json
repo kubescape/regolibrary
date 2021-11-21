@@ -8,7 +8,7 @@
     "long_description": "Impersonation is an explicit RBAC permission to use other roles rather than the one assigned to a user, group or service account. This is sometimes needed for testing purposes. However, it is highly recommended not to use this capability in the production environments for daily operations. This control identifies all subjects whose roles include impersonate verb.",
     "test": "Check for RBACs giving 'impersonate' verb to users/groups/uids/serviceaccounts",
     "rulesNames": [
-        "rule-can-impersonate-users-groups"
+        "rule-can-impersonate-users-groups-v0", "rule-can-impersonate-users-groups-v1"
     ],
     "id": "C-0065",
     "controlID": "C-0065",
