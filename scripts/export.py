@@ -85,6 +85,8 @@ def load_frameworks(loaded_controls: dict):
                 new_framework["controls"].append(loaded_controls[control_name])
                 new_row = [new_framework['name'], loaded_controls[control_name]['id'], control_name] # TODO : change 'id' to 'controlID'
                 framework_control_rows.append(new_row)
+            else:
+                raise Exception("Error in controlsNames of framework {}, control {} does not exist".format(new_framework["name"], control_name))
 
         del new_framework["controlsNames"]
         loaded_frameworks[new_framework['name']] = new_framework
