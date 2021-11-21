@@ -1,5 +1,5 @@
 {
-    "name": "rule-can-portforward",
+    "name": "rule-can-portforward-v0",
     "attributes": {
       "armoBuiltin": true
     },

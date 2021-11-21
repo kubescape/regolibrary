@@ -1,5 +1,5 @@
 {
-    "name": "rule-can-delete-k8s-events",
+    "name": "rule-can-delete-k8s-events-v0",
     "attributes": {
       "microsoftK8sThreatMatrix": "Defense Evasion::Delete K8S events",
       "armoBuiltin": true

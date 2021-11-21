@@ -1,5 +1,5 @@
 {
-    "name": "rule-can-list-get-secrets",
+    "name": "rule-can-list-get-secrets-v0",
     "attributes": {
       "microsoftK8sThreatMatrix": "Discovery::Access the K8s API server",
       "armoBuiltin": true
