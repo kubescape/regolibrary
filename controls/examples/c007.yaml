@@ -1,0 +1,12 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: default
+  name: pod-exec
+rules:
+- apiGroups: [""]
+  resources: ["secrets","pods","services","depolyments","replicasets","deamonsets","stateflsets","jobs,"cronjobs"]  # we look for one of these resources or *
+  verbs: ["delete","deletecollection"]	    # we look for one of these verbs or * 	
+
+
+

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bookings-v1-b54bc7c9c-v42f6
+  labels:
+    app: demoapp
+spec:
+  containers:
+  - name: bookings
+    image: docker.io/allspark:0.1.1
+    ...
+  - name: istio-proxy
+    image: docker.io/istio/proxyv2:1.4.3
+    lifecycle:
+      type: Sidecar      # we are looking for this field
