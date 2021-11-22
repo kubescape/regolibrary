@@ -127,6 +127,7 @@ deny[msga] {
 
   canModifyConfigMapResource(rule) {
        not rule.resourceNames
+       isApiGroup(rule)
        cautils.list_contains(rule.resources,"*")
   }
 
@@ -147,3 +148,14 @@ deny[msga] {
       canModifyConfigMapVerb(rule) {
        cautils.list_contains(rule.verbs,"*")
    }
+
+
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == "*"
+}
+
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == ""
+}
