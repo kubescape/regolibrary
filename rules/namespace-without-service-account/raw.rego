@@ -11,6 +11,7 @@ deny[msga] {
 		"alertMessage": sprintf("Namespace: %v does not have any service accounts besides 'default'", [namespace.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [namespace]
 		}

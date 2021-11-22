@@ -11,6 +11,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v does not have memory-limit", [ container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -28,6 +29,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have memory-limit", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -44,6 +46,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have memory-limit", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}

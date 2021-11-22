@@ -4,10 +4,10 @@ import data.cautils as cautils
 # ========= RCE : no service score 5 ================
 deny[msga] {
 	pod := input[_]
-	container := pod.spec.containers[_]
+	container := pod.spec.containers[i]
+	path := "spec.containers[i].image"
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
-
     is_unsafe_image(scan)
 	scan.containersScanID
 	vulnerabilities := armo.get_image_scan_details({"containersScanID":scan.containersScanID, "fieldCreteria":{"description":"RCE|like,Remote Code Execution|like,remote code execution|like,remote command execution|like,Remote Command Execution|like,arbitrary code|like,code execution|like,Arbitrary Code|like,Code Execution|like,code injection|like,Code Injection|like,execute code|like,Execute Code|like,arbitrary command|like,Arbitrary Command|like,arbitrary commands|like,Arbitrary Commands|like,command injection|like,Command Injection|like,command execution|like,Command Execution|like,inject arbitrary commands|like,Inject Arbitrary Commands|like"} })
@@ -17,6 +17,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 5,
+		"failedPaths": [path],
         "packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [pod],
@@ -32,7 +33,8 @@ deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[_]
+	container := wl.spec.template.spec.containers[i]
+	path := "spec.containers[i].image"
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -45,6 +47,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 5,
+		"failedPaths": [path],
         "packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [wl],
@@ -59,7 +62,8 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-	container := wl.spec.jobTemplate.spec.template.spec.containers[_]
+	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
+	path := "spec.jobTemplate.spec.template.spec.containers[i]"
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -72,6 +76,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 5,
+		"failedPaths": [path],
         "packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [wl],
@@ -85,7 +90,8 @@ deny[msga] {
 # ======== RCE + service (not nodeport and not loadbalancer) 7 =====================
 deny[msga] {
 	pod := input[_]
-	container := pod.spec.containers[_]
+	container := pod.spec.containers[i]
+	path := "spec.containers[i]"
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -107,6 +113,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 7,
+		"failedPaths": [path],
         "packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [pod],
@@ -122,7 +129,8 @@ deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[_]
+	container := wl.spec.template.spec.containers[i]
+	path := "spec.template.spec.containers[i]"
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -143,6 +151,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 7,
+		"failedPaths": [path],
         "packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl],
@@ -157,7 +166,8 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-	container := wl.spec.jobTemplate.spec.template.spec.containers[_]
+	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
+	path := "spec.jobTemplate.spec.template.spec.containers[i]"
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -178,6 +188,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 7,
+		"failedPaths": [path],
         "packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl],
@@ -191,7 +202,8 @@ deny[msga] {
 # ======= RCE + service nodeport/loadbalancer 10 ===========================
 deny[msga] {
 	pod := input[_]
-	container := pod.spec.containers[_]
+	container := pod.spec.containers[i]
+	path := "spec.containers[i]"
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -213,6 +225,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 10,
+		"failedPaths": [path],
         "packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [pod],
@@ -228,7 +241,8 @@ deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[_]
+	container := wl.spec.template.spec.containers[i]
+	path := "spec.template.spec.containers[i]"
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -249,6 +263,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 10,
+		"failedPaths": [path],
         "packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl],
@@ -263,7 +278,8 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-	container := wl.spec.jobTemplate.spec.template.spec.containers[_]
+	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
+	path := "spec.jobTemplate.spec.template.spec.containers[i]"
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -284,6 +300,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 10,
+		"failedPaths": [path],
         "packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl],

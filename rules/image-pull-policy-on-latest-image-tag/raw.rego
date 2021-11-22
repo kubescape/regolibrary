@@ -4,12 +4,14 @@ package armo_builtins
 deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
-	container := pod.spec.containers[_]
+	container := pod.spec.containers[i]
     isBadContainer(container)
+	paths = [sprintf("spec.containers[%v].image", [format_int(i, 10)]), sprintf("spec.containers[%v].imagePullPolicy", [format_int(i, 10)])]
 	msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  has 'latest' tag on image but imagePullPolicy is not set to 'Always'", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": paths,
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -20,12 +22,14 @@ deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[_]
+	container := wl.spec.template.spec.containers[i]
+	paths = [sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)]), sprintf("spec.template.spec.containers[%v].imagePullPolicy", [format_int(i, 10)])]
     isBadContainer(container)
 	msga := {
 		"alertMessage": sprintf("container: %v in %v: %v  has 'latest' tag on image but imagePullPolicy is not set to 'Always'", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": paths,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -35,12 +39,14 @@ deny[msga] {
 deny[msga] {
     wl := input[_]
 	wl.kind == "CronJob"
-	container := wl.spec.jobTemplate.spec.template.spec.containers[_]
+	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
+	paths = [sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)]), sprintf("spec.jobTemplate.spec.template.spec.containers[%v].imagePullPolicy", [format_int(i, 10)])]
     isBadContainer(container)
 	msga := {
 		"alertMessage": sprintf("container: %v in cronjob: %v  has 'latest' tag on image but imagePullPolicy is not set to 'Always'", [container.name, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": paths,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}

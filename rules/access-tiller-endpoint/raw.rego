@@ -12,6 +12,7 @@ deny[msga] {
 		"alertMessage": sprintf("tiller exists in namespace: %v", [deployment.metadata.namespace]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": ["metadata.name"],
 		"alertObject": {
 			"k8sApiObjects": [deployment]
 		}

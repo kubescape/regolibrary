@@ -9,6 +9,7 @@ import data.kubernetes.api.client as client
 		msga := {
 			"alertMessage": sprintf("%v", [output]),
 			"alertScore": 2,
+			"failedPaths": [""],
 			"packagename": "armo_builtins",
 			"alertObject": {
 			},

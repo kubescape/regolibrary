@@ -6,7 +6,8 @@ package armo_builtins
 
 deny[msga] {
 
-    image = input[i].imagePullSecrets[_] == input[j].imagePullSecrets[_]
+    image = input[i].imagePullSecrets[k] == input[j].imagePullSecrets[_]
+	path := sprintf("imagePullSecrets[%v]", [format_int(k, 10)])
 	i > j
 
 	msga := {

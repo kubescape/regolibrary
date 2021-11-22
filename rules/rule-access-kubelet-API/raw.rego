@@ -11,6 +11,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "no network policy is defined",
 		"alertScore": 9,
+		"failedPaths": [""],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			

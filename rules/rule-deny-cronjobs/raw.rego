@@ -10,6 +10,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("the following cronjobs are defined: %v/%v", [wl.metadata.namespace,wl.metadata.name]),
 		"alertScore": 2,
+		"failedPaths": [""],
 		"packagename": "armo_builtins",
          "alertObject": {
 			"k8sApiObjects": [wl]

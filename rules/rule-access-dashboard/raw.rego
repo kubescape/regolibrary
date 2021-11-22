@@ -58,11 +58,12 @@ deny[msga] {
     pod := input[_]
     pod.spec.serviceaccountname == "kubernetes-dashboard"
     not startswith(pod.metadata.name, "kubernetes-dashboard")
-
+	path := "spec.serviceaccountname"
 	msga := {
 		"alertMessage": sprintf("the following pods: %s are associated with dashboard service account", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -79,11 +80,12 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
     wl.spec.template.spec.serviceaccountname == "kubernetes-dashboard"
     not startswith(wl.metadata.name, "kubernetes-dashboard")
-
+	path := "spec.template.spec.serviceaccountname"
 	msga := {
 		"alertMessage": sprintf("%v: %v is associated with dashboard service account", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -99,11 +101,12 @@ deny[msga] {
 	wl.kind == "CronJob"
     wl.spec.jobTemplate.spec.template.spec.serviceaccountname == "kubernetes-dashboard"
     not startswith(wl.metadata.name, "kubernetes-dashboard")
-
+	path := "spec.jobTemplate.spec.template.spec.serviceaccountname"
 	msga := {
 		"alertMessage": sprintf("the following cronjob: %s is associated with dashboard service account", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}

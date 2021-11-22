@@ -13,15 +13,15 @@ deny[msga] {
 	container := pod.spec.containers[_]
 	volumeMount := container.volumeMounts[_]
 	volumeMount.name == volume.name
-	isRWMount(volumeMount)
+	result := isRWMount(volumeMount)
 
     podname := pod.metadata.name
-
 
 	msga := {
 		"alertMessage": sprintf("pod: %v has: %v as hostPath volume", [podname, volume.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -39,14 +39,13 @@ deny[msga] {
 	container := wl.spec.template.spec.containers[_]
 	volumeMount := container.volumeMounts[_]
 	volumeMount.name == volume.name
-	isRWMount(volumeMount)
-
-
+	result := isRWMount(volumeMount)
 
 	msga := {
 		"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -65,22 +64,24 @@ deny[msga] {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[_]
 	volumeMount := container.volumeMounts[_]
 	volumeMount.name == volume.name
-	isRWMount(volumeMount)
+	result := isRWMount(volumeMount)
 
-  
 	msga := {
 	"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
 	"packagename": "armo_builtins",
 	"alertScore": 7,
+	"failedPaths": [result],
 	"alertObject": {
 			"k8sApiObjects": [wl]
 		}
 	}
 }
 
-isRWMount(mount) {
+isRWMount(mount) = path {
  not mount.readOnly
+ path = ""
 }
-isRWMount(mount) {
+isRWMount(mount) = path {
   mount.readOnly == false
+  path = "mount.readOnly"
 } 

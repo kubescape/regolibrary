@@ -6,10 +6,12 @@ deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
 	isHostPID(pod.spec)
+	path := "spec.hostPID"
 	msga := {
 		"alertMessage": sprintf("Pod: %v has hostPID enabled", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -21,10 +23,12 @@ deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
 	isHostIPC(pod.spec)
+	path := "spec.hostIPC"
 	msga := {
 		"alertMessage": sprintf("Pod: %v has hostIPC enabled", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -37,9 +41,11 @@ deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	isHostPID(wl.spec.template.spec)
+	path := "spec.template.spec.hostPID"
     msga := {
 	"alertMessage": sprintf("%v: %v has a pod with hostPID enabled", [wl.kind, wl.metadata.name]),
 		"alertScore": 9,
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -53,9 +59,11 @@ deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	isHostIPC(wl.spec.template.spec)
+	path := "spec.template.spec.hostIPC"
     msga := {
 	"alertMessage": sprintf("%v: %v has a pod with hostIPC enabled", [wl.kind, wl.metadata.name]),
 		"alertScore": 9,
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -68,9 +76,11 @@ deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	isHostPID(wl.spec.jobTemplate.spec.template.spec)
+	path := "spec.jobTemplate.spec.template.spec.hostPID"
     msga := {
 	"alertMessage": sprintf("CronJob: %v has a pod with hostPID enabled", [wl.metadata.name]),
 		"alertScore": 9,
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -84,9 +94,11 @@ deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	isHostIPC(wl.spec.jobTemplate.spec.template.spec)
+	path := "spec.jobTemplate.spec.template.spec.hostIPC"
     msga := {
 	"alertMessage": sprintf("CronJob: %v has a pod with hostIPC enabled", [wl.metadata.name]),
 		"alertScore": 9,
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl]
