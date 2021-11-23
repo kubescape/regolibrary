@@ -16,16 +16,18 @@ deny [msga] {
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
 
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     msga := {
-	    "alertMessage": sprintf("The following %v: %v can delete events", [subjects.kind, subjects.name]),
+	    "alertMessage": sprintf("The following %v: %v can delete events", [subject.kind, subject.name]),
 		"alertScore": 6,
+        "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
     }
@@ -48,16 +50,18 @@ deny[msga] {
     rolebinding.roleRef.name == role.metadata.name
 
 
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     msga := {
-	    "alertMessage": sprintf("The following %v: %v can delete events", [subjects.kind, subjects.name]),
+	    "alertMessage": sprintf("The following %v: %v can delete events", [subject.kind, subject.name]),
 		"alertScore": 6,
+        "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
     }
@@ -80,16 +84,18 @@ deny[msga] {
     clusterrolebinding.roleRef.name == role.metadata.name
 
 
-    subjects := clusterrolebinding.subjects[_]
+    subject := clusterrolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     msga := {
-	    "alertMessage": sprintf("The following %v: %v can delete events", [subjects.kind, subjects.name]),
+	    "alertMessage": sprintf("The following %v: %v can delete events", [subject.kind, subject.name]),
 		"alertScore": 6,
+        "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
     }

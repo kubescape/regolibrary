@@ -19,11 +19,13 @@ deny[msga] {
   
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
-    subject := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     	msga := {
 		"alertMessage": sprintf("The following %v: %v, can create/update rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
+          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role, rolebinding],
@@ -48,11 +50,13 @@ deny [msga]{
 
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
-    subject := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
   	msga := {
 		"alertMessage": sprintf("The following %v: %v, can create/update rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
+          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -77,11 +81,13 @@ deny [msga]{
 
     clusterrolebinding.roleRef.kind == "ClusterRole"
     clusterrolebinding.roleRef.name == role.metadata.name
-    subject := clusterrolebinding.subjects[_]
+    subject := clusterrolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
   	msga := {
 		"alertMessage": sprintf("The following %v: %v, can create/update rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
+          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
@@ -110,11 +116,13 @@ deny [msga] {
 
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
-    subject := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     	msga := {
 		"alertMessage": sprintf("The following %v: %v, can bind roles/clusterroles", [subject.kind, subject.name]),
 		"alertScore": 3,
+          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -141,11 +149,13 @@ deny [msga]{
 
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
-    subject := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
   msga := {
 		"alertMessage": sprintf("The following %v: %v, can bind roles/clusterroles", [subject.kind, subject.name]),
 		"alertScore": 3,
+          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -171,11 +181,13 @@ deny [msga]{
 
     clusterrolebinding.roleRef.kind == "ClusterRole"
     clusterrolebinding.roleRef.name == role.metadata.name
-    subject := clusterrolebinding.subjects[_]
+    subject := clusterrolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
     	
    msga := {
 		"alertMessage": sprintf("The following %v: %v, can bind roles/clusterroles", [subject.kind, subject.name]),
 		"alertScore": 3,
+          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
@@ -205,11 +217,13 @@ deny[msga] {
   
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
-    subject := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     	msga := {
 		"alertMessage": sprintf("The following %v: %v, can escalate rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
+          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -234,11 +248,13 @@ deny [msga]{
 
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
-    subject := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
   	msga := {
 		"alertMessage": sprintf("The following %v: %v, can escalate rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
+          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -263,11 +279,13 @@ deny [msga]{
 
     clusterrolebinding.roleRef.kind == "ClusterRole"
     clusterrolebinding.roleRef.name == role.metadata.name
-    subject := clusterrolebinding.subjects[_]
+    subject := clusterrolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
     	
   	msga := {
 		"alertMessage": sprintf("The following %v: %v, can escalate rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
+          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],

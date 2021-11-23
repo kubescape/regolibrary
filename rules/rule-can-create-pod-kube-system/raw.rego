@@ -18,16 +18,18 @@ deny[msga] {
 
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     msga := {
-	    "alertMessage": sprintf("The following %v: %v can create pods in kube-system", [subjects.kind, subjects.name]),
+	    "alertMessage": sprintf("The following %v: %v can create pods in kube-system", [subject.kind, subject.name]),
 		"alertScore": 3,
+        "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
      }
@@ -53,16 +55,18 @@ deny [msga]{
 
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     msga := {
-    	"alertMessage": sprintf("The following %v: %v can create pods in kube-system", [subjects.kind, subjects.name]),
+    	"alertMessage": sprintf("The following %v: %v can create pods in kube-system", [subject.kind, subject.name]),
 		"alertScore": 3,
+        "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
      }
@@ -86,16 +90,18 @@ deny [msga]{
     clusterrolebinding.roleRef.kind == "ClusterRole"
     clusterrolebinding.roleRef.name == role.metadata.name
 
-    subjects := clusterrolebinding.subjects[_]
+    subject := clusterrolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     msga := {
-	    "alertMessage": sprintf("The following %v: %v can create pods in kube-system", [subjects.kind, subjects.name]),
+	    "alertMessage": sprintf("The following %v: %v can create pods in kube-system", [subject.kind, subject.name]),
 		"alertScore": 3,
+        "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
      }

@@ -15,10 +15,12 @@ deny[msga] {
     wl_known_names := data.postureControlInputs.wlKnownNames
     wl_name := wl_known_names[_]
     contains(object.metadata.name, wl_name)
+	path := "metadata.name"
 	
 	msga := {
 		"alertMessage": sprintf("this %v has a similar name to %v", [object.kind, wl_name]),
 		"alertScore": 9,
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
          "alertObject": {
 			"k8sApiObjects": [object]

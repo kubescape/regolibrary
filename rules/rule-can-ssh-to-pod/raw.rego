@@ -11,7 +11,7 @@ deny[msga] {
 	podname := pod.metadata.name
 	labels := pod.metadata.labels
 	filtered_labels := json.remove(labels, ["pod-template-hash"])
-    
+    path := "metadata.labels"
 	service := 	input[_]
 	service.kind == "Service"
 	service.metadata.namespace == podns
@@ -23,6 +23,7 @@ deny[msga] {
 		"alertMessage": sprintf("pod %v/%v exposed by SSH services: %v", [podns, podname, service]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [path],
           "alertObject": {
 			"k8sApiObjects": [pod,service]
 		}
@@ -34,7 +35,7 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
 	labels := wl.spec.template.metadata.labels
-    
+    path := "spec.template.metadata.labels"
 	service := 	input[_]
 	service.kind == "Service"
 	service.metadata.namespace == wl.metadata.namespace
@@ -46,6 +47,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v is exposed by SSH services: %v", [wl.kind, wl.metadata.name, service]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [path],
         "alertObject": {
 			"k8sApiObjects": [wl,service]
 		}
@@ -56,7 +58,7 @@ deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	labels := wl.spec.jobTemplate.spec.template.metadata.labels
-    
+    path := "spec.jobTemplate.spec.template.metadata.labels"
 	service := 	input[_]
 	service.kind == "Service"
 	service.metadata.namespace == wl.metadata.namespace
@@ -68,6 +70,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v is exposed by SSH services: %v", [wl.kind, wl.metadata.name, service]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [path],
         "alertObject": {
 			"k8sApiObjects": [wl,service]
 		}

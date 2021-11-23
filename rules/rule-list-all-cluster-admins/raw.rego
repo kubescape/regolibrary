@@ -11,22 +11,24 @@ deny[msga] {
     role:= roles[_]
     rolebinding := rolebindings[_]
 
-    rule:= role.rules[_]
-	canCreate(rule)
-	canCreateResources(rule)
+    rule:= role.rules[i]
+	canCreate(rule, i)
+	canCreateResources(rule, i)
 
 	rolebinding.roleRef.kind == "Role"
 	rolebinding.roleRef.name == role.metadata.name
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     msga := {
-		"alertMessage": sprintf("The following %v: %v have high privileges, such as cluster-admin", [subjects.kind, subjects.name]),
+		"alertMessage": sprintf("The following %v: %v have high privileges, such as cluster-admin", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
     }
@@ -42,23 +44,25 @@ deny[msga] {
     role:= roles[_]
     rolebinding := rolebindings[_]
 
-    rule:= role.rules[_]
-	canCreate(rule)
-	canCreateResources(rule)
+    rule:= role.rules[i]
+	canCreate(rule, i)
+	canCreateResources(rule, i)
 
 	rolebinding.roleRef.kind == "ClusterRole"
 	rolebinding.roleRef.name == role.metadata.name
     
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     msga := {
-		"alertMessage": sprintf("The following %v: %v have high privileges, such as cluster-admin", [subjects.kind, subjects.name]),
+		"alertMessage": sprintf("The following %v: %v have high privileges, such as cluster-admin", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
     }
@@ -74,36 +78,40 @@ deny[msga] {
     role:= roles[_]
     rolebinding := rolebindings[_]
 
-    rule:= role.rules[_]
-	canCreate(rule)
-	canCreateResources(rule)
+    rule:= role.rules[i]
+	canCreate(rule, i)
+    canCreateResources(rule, i)
 
 	rolebinding.roleRef.kind == "ClusterRole"
 	rolebinding.roleRef.name == role.metadata.name
 	
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
 	msga := {
-		"alertMessage": sprintf("The following %v: %v have high privileges, such as cluster-admin", [subjects.kind, subjects.name]),
+		"alertMessage": sprintf("The following %v: %v have high privileges, such as cluster-admin", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
 	}
 }
 
 
-canCreate(rule) {
-	cautils.list_contains(rule.verbs,"*")
+canCreate(rule, i) {
+	verb := rule.verbs[j]
+	verb == "*"
 }
 
-canCreateResources(rule){
+canCreateResources(rule, i){
 	isApiGroup(rule)
-	cautils.list_contains(rule.resources,"*")
+	resource := rule.resources[j]
+	resource == "*"
 }
 
 isApiGroup(rule) {
