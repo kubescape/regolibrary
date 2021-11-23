@@ -10,10 +10,11 @@ deny[msga] {
     volumes := pod.spec.volumes
     volume := volumes[_]
     volume.hostPath
-	container := pod.spec.containers[_]
-	volumeMount := container.volumeMounts[_]
+	container := pod.spec.containers[i]
+	volumeMount := container.volumeMounts[k]
 	volumeMount.name == volume.name
-	result := isRWMount(volumeMount)
+	begginingOfPath := "spec."
+	result := isRWMount(volumeMount, begginingOfPath,  i, k)
 
     podname := pod.metadata.name
 
@@ -36,10 +37,11 @@ deny[msga] {
     volumes := wl.spec.template.spec.volumes
     volume := volumes[_]
     volume.hostPath
-	container := wl.spec.template.spec.containers[_]
-	volumeMount := container.volumeMounts[_]
+	container := wl.spec.template.spec.containers[i]
+	volumeMount := container.volumeMounts[k]
 	volumeMount.name == volume.name
-	result := isRWMount(volumeMount)
+	begginingOfPath := "spec.template.spec."
+	result := isRWMount(volumeMount, begginingOfPath,  i, k)
 
 	msga := {
 		"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
@@ -61,10 +63,11 @@ deny[msga] {
     volume := volumes[_]
     volume.hostPath
 
-	container = wl.spec.jobTemplate.spec.template.spec.containers[_]
-	volumeMount := container.volumeMounts[_]
+	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+	volumeMount := container.volumeMounts[k]
 	volumeMount.name == volume.name
-	result := isRWMount(volumeMount)
+	begginingOfPath := "spec.jobTemplate.spec.template.spec."
+	result := isRWMount(volumeMount, begginingOfPath,  i, k)
 
 	msga := {
 	"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
@@ -77,11 +80,11 @@ deny[msga] {
 	}
 }
 
-isRWMount(mount) = path {
+isRWMount(mount, begginingOfPath,  i, k) = path {
  not mount.readOnly
  path = ""
 }
-isRWMount(mount) = path {
+isRWMount(mount, begginingOfPath,  i, k) = path {
   mount.readOnly == false
-  path = "mount.readOnly"
+  path = sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [begginingOfPath, format_int(i, 10), format_int(k, 10)])
 } 

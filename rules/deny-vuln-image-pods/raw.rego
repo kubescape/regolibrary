@@ -5,7 +5,7 @@ deny[msga] {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	path := "spec.containers[i]"
+	path := sprintf("spec.containers[%v]", [format_int(i, 10)])
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -43,7 +43,7 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
-	path := "spec.template.spec.containers[i]"
+	path := sprintf("spec.template.spec.containers[%v]", [format_int(i, 10)])
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -78,8 +78,8 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-	container := wl.spec.jobTemplate.spec.template.spec.containers[_]
-	path := "spec.jobTemplate.spec.template.spec.containers[_]"
+	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
+	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v]", [format_int(i, 10)])
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 

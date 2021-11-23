@@ -57,6 +57,7 @@ deny[msga] {
 isDangerousCapabilities(container, i, begginingOfPath) = path {
     dangerousCapabilities := data.postureControlInputs.dangerousCapabilities
     dangerousCapabilitie := dangerousCapabilities[_]
-    contains(container.securityContext.capabilities.add[j], dangerousCapabilitie)
+	capabilitie := container.securityContext.capabilities.add[j]
+    capabilitie == dangerousCapabilitie
 	path  = sprintf("%vcontainers[%v].securityContext.capabilities.add[%v]", [begginingOfPath, format_int(i, 10), format_int(j, 10)])
 }
