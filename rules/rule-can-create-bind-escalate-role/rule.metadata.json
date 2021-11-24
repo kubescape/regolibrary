@@ -1,5 +1,5 @@
 {
-    "name": "rule-can-create-bind-escalate-role-v0",
+    "name": "rule-can-create-bind-escalate-role",
     "attributes": {
       "microsoftK8sThreatMatrix": "Discovery::Access the K8s API server",
       "armoBuiltin": true

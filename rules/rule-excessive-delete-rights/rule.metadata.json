@@ -1,5 +1,5 @@
 {
-    "name": "rule-excessive-delete-rights-v0",
+    "name": "rule-excessive-delete-rights",
     "attributes": {
       "m$K8sThreatMatrix": "Impact::Data Destruction",
       "armoBuiltin": true

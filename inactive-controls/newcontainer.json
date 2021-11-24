@@ -9,7 +9,7 @@
     "description": "Attackers who have permissions to deploy a pod or a controller in the cluster (such as DaemonSet / ReplicaSet / Deployment) can create a new resource for running their code. This control determines which subjects have permissions to create/modify pods.",
     "remediation": "Follow the least privilege principle and minimize the number of subjects who can create/modify Pods.",
     "rulesNames": [
-        "rule-can-create-modify-pod-v0", "rule-can-create-modify-pod-v1"
+        "rule-can-create-modify-pod", "rule-can-create-modify-pod-v1"
     ],
     "id": "C-0010",
     "long_description": "Attackers may attempt to run their code in the cluster by deploying a container. Attackers who have permissions to deploy a pod or a controller in the cluster (such as DaemonSet \\ ReplicaSet\\ Deployment) can create a new resource for running their code.",

@@ -1,5 +1,5 @@
 {
-  "name": "exec-into-container-v0",
+  "name": "exec-into-container",
   "attributes": {
     "m$K8sThreatMatrix": "Privilege Escalation::Exec into container",
     "armoBuiltin": true
