@@ -11,6 +11,7 @@ deny[msga] {
 		"alertMessage": sprintf("The API server container: %v has insecure-port flag enabled", [ container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}

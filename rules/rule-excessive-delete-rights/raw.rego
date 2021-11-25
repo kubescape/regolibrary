@@ -17,16 +17,18 @@ deny[msga] {
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
 
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     msga := {
-	    "alertMessage": sprintf("The following %v: %v can delete important resources", [subjects.kind, subjects.name]),
+	    "alertMessage": sprintf("The following %v: %v can delete important resources", [subject.kind, subject.name]),
 		"alertScore": 9,
+        "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
     }
@@ -48,16 +50,18 @@ deny[msga] {
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
 
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     msga := {
-	    "alertMessage": sprintf("The following %v: %v can delete important resources", [subjects.kind, subjects.name]),
+	    "alertMessage": sprintf("The following %v: %v can delete important resources", [subject.kind, subject.name]),
 		"alertScore": 9,
+        "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
     }
@@ -79,16 +83,18 @@ deny[msga] {
     clusterrolebinding.roleRef.name == role.metadata.name
 
 
-    subjects := clusterrolebinding.subjects[_]
+    subject := clusterrolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     msga := {
-	    "alertMessage": sprintf("The following %v: %v can delete important resources", [subjects.kind, subjects.name]),
+	    "alertMessage": sprintf("The following %v: %v can delete important resources", [subject.kind, subject.name]),
 		"alertScore": 9,
+        "failedPaths": [path],
 		"packagename": "armo_builtins",
          "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
     }
@@ -96,48 +102,49 @@ deny[msga] {
 
 
 canDeleteVerb(rule) {
-    cautils.list_contains(rule.verbs,"delete")
+	cautils.list_contains(rule.verbs, "delete")
 }
 
 canDeleteVerb(rule) {
-    cautils.list_contains(rule.verbs,"deletecollection")
+	cautils.list_contains(rule.verbs, "deletecollection")
 }
 
-canDeleteVerb(rule) {
-    cautils.list_contains(rule.verbs,"*")
+canDeleteVerb(rule)  {
+	cautils.list_contains(rule.verbs, "*")
 }
 
 canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"secrets")
+	cautils.list_contains(rule.resources, "secrets")
+}
+canDeleteResource(rule)  {
+	cautils.list_contains(rule.resources, "pods")
+}
+canDeleteResource(rule)  {
+	cautils.list_contains(rule.resources, "services")
 }
 canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"pods")
+	cautils.list_contains(rule.resources, "deployments")
 }
 canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"services")
+	cautils.list_contains(rule.resources, "replicasets")
 }
 canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"deployments")
+	cautils.list_contains(rule.resources, "daemonsets")
 }
 canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"replicasets")
+	cautils.list_contains(rule.resources, "statefulsets")
 }
 canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"daemonsets")
+	cautils.list_contains(rule.resources, "jobs")
 }
 canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"statefulsets")
+	cautils.list_contains(rule.resources, "cronjobs")
 }
-canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"jobs")
-}
-canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"cronjobs")
-}
-canDeleteResource(rule) {
+canDeleteResource(rule)  {
     isApiGroup(rule)
-    cautils.list_contains(rule.resources,"*")
+	cautils.list_contains(rule.resources, "*")
 }
+
 
 isApiGroup(rule) {
 	apiGroup := rule.apiGroups[_]

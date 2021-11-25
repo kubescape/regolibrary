@@ -24,16 +24,18 @@ deny [msga] {
     rolebinding.metadata.namespace == "kube-system"
 
 
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     	msga := {
-	     "alertMessage": sprintf("The following %v: %v can modify 'coredns' configmap", [subjects.kind, subjects.name]),
+	     "alertMessage": sprintf("The following %v: %v can modify 'coredns' configmap", [subject.kind, subject.name]),
 		"alertScore": 6,
+          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
      }
@@ -62,16 +64,18 @@ deny[msga] {
 
 
 
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     	msga := {
-	     "alertMessage": sprintf("The following %v: %v can modify 'coredns' configmap", [subjects.kind, subjects.name]),
+	     "alertMessage": sprintf("The following %v: %v can modify 'coredns' configmap", [subject.kind, subject.name]),
 		"alertScore": 6,
+          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
      }
@@ -101,16 +105,18 @@ deny[msga] {
 
 
 
-    subjects := clusterrolebinding.subjects[_]
+    subject := clusterrolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     	msga := {
-	     "alertMessage": sprintf("The following %v: %v can modify 'coredns'  configmap", [subjects.kind, subjects.name]),
+	     "alertMessage": sprintf("The following %v: %v can modify 'coredns'  configmap", [subject.kind, subject.name]),
 		"alertScore": 6,
+          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
      }
@@ -127,6 +133,7 @@ deny[msga] {
 
   canModifyConfigMapResource(rule) {
        not rule.resourceNames
+       isApiGroup(rule)
        cautils.list_contains(rule.resources,"*")
   }
 
@@ -147,3 +154,14 @@ deny[msga] {
       canModifyConfigMapVerb(rule) {
        cautils.list_contains(rule.verbs,"*")
    }
+
+
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == "*"
+}
+
+isApiGroup(rule) {
+	apiGroup := rule.apiGroups[_]
+	apiGroup == ""
+}

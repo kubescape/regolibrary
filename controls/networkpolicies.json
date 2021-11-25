@@ -12,5 +12,6 @@
     "long_description": "We have a MITRE check that fails if there are no policies defined for a specific namespace (cluster internal networking).",
     "test": "",
     "controlID": "C-0011",
-    "baseScore": 4.0
+    "baseScore": 4.0, 
+    "example": "@controls/examples/c011.yaml"
 }

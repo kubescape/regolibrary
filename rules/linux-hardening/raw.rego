@@ -13,6 +13,7 @@ deny[msga] {
 		"alertMessage": sprintf("Pod: %v does not define any linux security hardening", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -31,6 +32,7 @@ deny[msga] {
 		"alertMessage": sprintf("Workload: %v does not define any linux security hardening", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -50,6 +52,7 @@ deny[msga] {
 		"alertMessage": sprintf("Cronjob: %v does not define any linux security hardening", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}

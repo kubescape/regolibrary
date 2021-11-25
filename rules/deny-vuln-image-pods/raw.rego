@@ -4,7 +4,8 @@ import data.cautils as cautils
 deny[msga] {
 	pod := input[_]
 	pod.kind == "Pod"
-	container := pod.spec.containers[_]
+	container := pod.spec.containers[i]
+	path := sprintf("spec.containers[%v]", [format_int(i, 10)])
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -25,6 +26,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("pod %v/%v has vulnerabilities", [pod.metadata.namespace,pod.metadata.name]),
         "alertScore": 2,
+		"failedPaths": [path],
         "packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [pod]
@@ -40,7 +42,8 @@ deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[_]
+	container := wl.spec.template.spec.containers[i]
+	path := sprintf("spec.template.spec.containers[%v]", [format_int(i, 10)])
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -60,6 +63,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("%v: %v/%v has vulnerabilities", [wl.kind, wl.metadata.namespace, wl.metadata.name]),
         "alertScore": 2,
+		"failedPaths": [path],
         "packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [wl]
@@ -74,7 +78,8 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-	container := wl.spec.jobTemplate.spec.template.spec.containers[_]
+	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
+	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v]", [format_int(i, 10)])
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 
@@ -95,6 +100,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("%v: %v/%v has vulnerabilities", [wl.kind, wl.metadata.namespace, wl.metadata.name]),
         "alertScore": 2,
+		"failedPaths": [path],
         "packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [wl]

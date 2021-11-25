@@ -10,18 +10,19 @@ deny[msga] {
     volumes := pod.spec.volumes
     volume := volumes[_]
     volume.hostPath
-	container := pod.spec.containers[_]
-	volumeMount := container.volumeMounts[_]
+	container := pod.spec.containers[i]
+	volumeMount := container.volumeMounts[k]
 	volumeMount.name == volume.name
-	isRWMount(volumeMount)
+	begginingOfPath := "spec."
+	result := isRWMount(volumeMount, begginingOfPath,  i, k)
 
     podname := pod.metadata.name
-
 
 	msga := {
 		"alertMessage": sprintf("pod: %v has: %v as hostPath volume", [podname, volume.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -36,17 +37,17 @@ deny[msga] {
     volumes := wl.spec.template.spec.volumes
     volume := volumes[_]
     volume.hostPath
-	container := wl.spec.template.spec.containers[_]
-	volumeMount := container.volumeMounts[_]
+	container := wl.spec.template.spec.containers[i]
+	volumeMount := container.volumeMounts[k]
 	volumeMount.name == volume.name
-	isRWMount(volumeMount)
-
-
+	begginingOfPath := "spec.template.spec."
+	result := isRWMount(volumeMount, begginingOfPath,  i, k)
 
 	msga := {
 		"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -62,25 +63,28 @@ deny[msga] {
     volume := volumes[_]
     volume.hostPath
 
-	container = wl.spec.jobTemplate.spec.template.spec.containers[_]
-	volumeMount := container.volumeMounts[_]
+	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+	volumeMount := container.volumeMounts[k]
 	volumeMount.name == volume.name
-	isRWMount(volumeMount)
+	begginingOfPath := "spec.jobTemplate.spec.template.spec."
+	result := isRWMount(volumeMount, begginingOfPath,  i, k)
 
-  
 	msga := {
 	"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
 	"packagename": "armo_builtins",
 	"alertScore": 7,
+	"failedPaths": [result],
 	"alertObject": {
 			"k8sApiObjects": [wl]
 		}
 	}
 }
 
-isRWMount(mount) {
+isRWMount(mount, begginingOfPath,  i, k) = path {
  not mount.readOnly
+ path = ""
 }
-isRWMount(mount) {
+isRWMount(mount, begginingOfPath,  i, k) = path {
   mount.readOnly == false
+  path = sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [begginingOfPath, format_int(i, 10), format_int(k, 10)])
 } 

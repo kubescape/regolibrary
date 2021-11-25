@@ -16,16 +16,18 @@ deny[msga] {
 	rolebinding.roleRef.kind == "Role"
 	rolebinding.roleRef.name == role.metadata.name
 	
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
 	msga := {
-		"alertMessage": sprintf("the following %v: %v, can do port forwarding", [subjects.kind, subjects.name]),
+		"alertMessage": sprintf("the following %v: %v, can do port forwarding", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [role, rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
 	}
@@ -45,16 +47,18 @@ deny[msga] {
 	rolebinding.roleRef.kind == "ClusterRole"
 	rolebinding.roleRef.name == role.metadata.name
 	
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
 	msga := {
-		"alertMessage": sprintf("the following %v: %v, can do port forwarding", [subjects.kind, subjects.name]),
+		"alertMessage": sprintf("the following %v: %v, can do port forwarding", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [role, rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
 	}
@@ -75,16 +79,18 @@ deny[msga] {
 	rolebinding.roleRef.kind == "ClusterRole"
 	rolebinding.roleRef.name == role.metadata.name
 	
-    subjects := rolebinding.subjects[_]
+    subject := rolebinding.subjects[i]
+    path := sprintf("subjects[%v]", [format_int(i, 10)])
 
     msga := {
-		"alertMessage": sprintf("the following %v: %v, can do port forwarding", [subjects.kind, subjects.name]),
+		"alertMessage": sprintf("the following %v: %v, can do port forwarding", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
   		"alertObject": {
 			"k8sApiObjects": [role, rolebinding],
 			"externalObjects": {
-				"subject" : [subjects]
+				"subject" : [subject]
 			}
 		}
 	}

@@ -12,6 +12,7 @@ deny[msga] {
 		"alertMessage": sprintf("there are no resource limits defined for container : %v",  [container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -34,6 +35,7 @@ deny[msga] {
 		"alertMessage": sprintf("there are no resource limits defined for container : %v",  [container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -54,6 +56,7 @@ deny [msga] {
 		"alertMessage": sprintf("there are no resource limits defined for container : %v",  [container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -74,6 +77,7 @@ deny[msga] {
 		"alertMessage": sprintf("the following LimitRange: %v does not define a maximum field for resources",  [limitRange.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [limitRange]
 		}
@@ -91,6 +95,7 @@ deny[msga] {
 		"alertMessage": sprintf("the following ResourQuota: %v does not define a hard field",  [resourceQuota.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [resourceQuota]
 		}

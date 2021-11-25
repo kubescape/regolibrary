@@ -30,8 +30,6 @@ def load_rules():
             rule = f.read()
             if new_rule:
                 new_rule["rule"] = rule
-                if "resourceCount" in new_rule:
-                    new_rule["resourceEnumerator"] = get_rego_for_resource_count(new_rule["resourceCount"])
         rules_list.append(new_rule) 
         loaded_rules[new_rule['name']] = new_rule
 
@@ -58,6 +56,8 @@ def load_controls(loaded_rules: dict):
                 new_control["rules"].append(loaded_rules[rule_name])
                 new_row = [new_control['id'], rule_name] # TODO : change 'id' to 'controlID'
                 control_rule_rows.append(new_row)
+            else:
+                raise Exception("Error in ruleNames of control {}, rule {} does not exist".format(new_control["name"], rule_name))
 
         del new_control["rulesNames"]  # remove rule names list from dict
         loaded_controls[new_control['name']] = new_control
@@ -85,6 +85,8 @@ def load_frameworks(loaded_controls: dict):
                 new_framework["controls"].append(loaded_controls[control_name])
                 new_row = [new_framework['name'], loaded_controls[control_name]['id'], control_name] # TODO : change 'id' to 'controlID'
                 framework_control_rows.append(new_row)
+            else:
+                raise Exception("Error in controlsNames of framework {}, control {} does not exist".format(new_framework["name"], control_name))
 
         del new_framework["controlsNames"]
         loaded_frameworks[new_framework['name']] = new_framework
@@ -107,12 +109,6 @@ def validate_controls():
     sum_of_controls = len(controls_path)
     if sum_of_controls != len(set_of_ids):
         raise Exception("Error validate the numbers of controls, {} != {}".format(sum_of_controls ,len(set_of_ids)))
-
-
-def get_rego_for_resource_count(count_type):
-    with open(os.path.join(currDir, 'resource-counters' , count_type + '.rego'), 'r') as f:
-        rego = f.read()
-    return rego
 
 
 def export_json(data: dict, f_name:str, output_path: str):

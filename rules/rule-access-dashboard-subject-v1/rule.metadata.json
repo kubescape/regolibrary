@@ -1,0 +1,29 @@
+{
+  "name": "rule-access-dashboard-subject-v1",
+  "attributes": {
+    "m$K8sThreatMatrix": "Lateral Movement::Access Kubernetes dashboard, Discovery::Access Kubernetes dashboard",
+    "armoBuiltin": true,
+    "resourcesAggregator": "subject-role-rolebinding",
+    "useFromKubescapeVersion": "v1.0.133"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Role",
+        "ClusterRole",
+        "ClusterRoleBinding",
+        "RoleBinding"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "fails if subject that is not dashboard service account is bound to dashboard role/clusterrole, or- if anyone that is not dashboard pod is associated with its service account.",
+  "remediation": ""
+}

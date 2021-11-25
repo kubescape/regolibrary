@@ -9,6 +9,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("Container: %v in pod: %v does not define a securityContext.", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
+		"failedPaths": [""],
 		"alertScore": 7,
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -27,6 +28,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v does not define a securityContext.", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
+		"failedPaths": [""],
 		"alertScore": 7,
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -43,6 +45,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v does not define a securityContext.", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
+		"failedPaths": [""],
 		"alertScore": 7,
 		"alertObject": {
 			"k8sApiObjects": [wl]

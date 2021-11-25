@@ -11,7 +11,7 @@ deny[msga] {
 	wl := input[_]
 	workload_types = {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "Pod", "CronJob"}
 	workload_types[wl.kind]
-	wl_connectedto_service(wl, service)
+	result := wl_connectedto_service(wl, service)
     
     # "Apache NiFi", Kubeflow, "Argo Workflows", "Weave Scope", "Kubernetes dashboard".
     services_names := data.postureControlInputs.servicesNames
@@ -24,6 +24,7 @@ deny[msga] {
 		"alertMessage": sprintf("service: %v is exposed", [service.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [wl, service]
 		}
@@ -46,7 +47,7 @@ deny[msga] {
 	pod := input[_]
 	pod.kind == "Pod"
 
-	wl_connectedto_service(pod, service)
+	result := wl_connectedto_service(pod, service)
 
 
 
@@ -54,6 +55,7 @@ deny[msga] {
 		"alertMessage": sprintf("service: %v is exposed", [service.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [pod, service]
 		}
@@ -76,7 +78,7 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "CronJob"}
 	spec_template_spec_patterns[wl.kind]
 
-	wl_connectedto_service(wl, service)
+	result := wl_connectedto_service(wl, service)
 
 	pods_resource := client.query_all("pods")
 	pod := pods_resource.body.items[_]
@@ -88,6 +90,7 @@ deny[msga] {
 		"alertMessage": sprintf("service: %v is exposed", [service.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [wl, service]
 		}
@@ -96,10 +99,12 @@ deny[msga] {
 
 # ====================================================================================
 
-wl_connectedto_service(wl, service){
+wl_connectedto_service(wl, service) = paths{
 	count({x | service.spec.selector[x] == wl.metadata.labels[x]}) == count(service.spec.selector)
+	paths = ["spec.selector.matchLabels", "service.spec.selector"]
 }
 
-wl_connectedto_service(wl, service){
+wl_connectedto_service(wl, service) = paths {
 	wl.spec.selector.matchLabels == service.spec.selector
+	paths = ["spec.selector.matchLabels", "service.spec.selector"]
 }
