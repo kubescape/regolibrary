@@ -2,7 +2,8 @@
     "name": "rule-can-portforward-v1",
     "attributes": {
       "armoBuiltin": true,
-      "resourcesAggregator": "subject-role-rolebinding"
+      "resourcesAggregator": "subject-role-rolebinding",
+      "useFromKubescapeVersion": "v1.0.133"
     },
     "ruleLanguage": "Rego",
     "match": [

@@ -3,7 +3,8 @@
   "attributes": {
     "m$K8sThreatMatrix": "Privilege Escalation::Cluster-admin binding",
     "armoBuiltin": true,
-    "resourcesAggregator": "subject-role-rolebinding"
+    "resourcesAggregator": "subject-role-rolebinding",
+    "useFromKubescapeVersion": "v1.0.133"
   },
   "ruleLanguage": "Rego",
   "match": [
