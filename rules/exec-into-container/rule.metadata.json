@@ -2,7 +2,8 @@
   "name": "exec-into-container",
   "attributes": {
     "m$K8sThreatMatrix": "Privilege Escalation::Exec into container",
-    "armoBuiltin": true
+    "armoBuiltin": true,
+    "useUntilKubescapeVersion": "v1.0.133"
   },
   "ruleLanguage": "Rego",
   "match": [
