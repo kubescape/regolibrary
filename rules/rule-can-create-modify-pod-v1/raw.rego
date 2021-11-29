@@ -15,7 +15,7 @@ deny [msga] {
     canCreateModifyToPodVerb(rule)
 
     subject := rolebinding.subjects[k]
-     path := sprintf("subjects[%v]", [format_int(k, 10)])
+    path := sprintf("subjects[%v]", [format_int(k, 10)])
 
     msga := {
         "alertMessage": sprintf("Subject: %v-%v can create/modify workloads", [subjectVector.kind, subjectVector.name]),
