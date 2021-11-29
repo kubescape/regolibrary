@@ -1,6 +1,6 @@
 package armo_builtins
 import data.cautils as cautils
-
+import data
 
 # Fails if container has bash/cmd inside it 
 # Pods
@@ -79,29 +79,7 @@ deny [msga] {
 
 
 isBashContainer(scan) {
-    cautils.list_contains(scan.listOfDangerousArtifcats, "bin/bash")
-}
-isBashContainer(scan) {
-    cautils.list_contains(scan.listOfDangerousArtifcats, "sbin/sh")
-}
-isBashContainer(scan) {
-    cautils.list_contains(scan.listOfDangerousArtifcats, "bin/ksh")
-}
-isBashContainer(scan) {
-    cautils.list_contains(scan.listOfDangerousArtifcats, "bin/tcsh")
-}
-isBashContainer(scan) {
-    cautils.list_contains(scan.listOfDangerousArtifcats, "bin/zsh")
-}
-isBashContainer(scan) {
-    cautils.list_contains(scan.listOfDangerousArtifcats, "usr/bin/scsh")
-}
-isBashContainer(scan) {
-    cautils.list_contains(scan.listOfDangerousArtifcats, "bin/csh")
-}
-isBashContainer(scan) {
-    cautils.list_contains(scan.listOfDangerousArtifcats, "bin/busybox")
-}
-isBashContainer(scan) {
-    cautils.list_contains(scan.listOfDangerousArtifcats, "usr/bin/busybox")
+	shells :=  data.postureControlInputs.listOfDangerousArtifcats
+	shell := shells[_]
+    cautils.list_contains(scan.listOfDangerousArtifcats, shell)
 }
