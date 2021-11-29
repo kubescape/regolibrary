@@ -15,9 +15,13 @@ deny[msga] {
      canCreateUpdateToRoleResource(rule)
      canCreateUpdateToRoleVerb(rule)
 
+     subject := rolebinding.subjects[k]
+     path := sprintf("subjects[%v]", [format_int(k, 10)])
+
      msga := {
           "alertMessage": sprintf("Subject: %v-%v can create/update rolebinding/clusterrolebinding", [subjectVector.kind, subjectVector.name]),
           "alertScore": 3,
+          "failedPaths": [path],
           "packagename": "armo_builtins",
           "alertObject": {
                "k8sApiObjects": [],
@@ -41,9 +45,13 @@ deny [msga] {
      canBindToRoleResource(rule)
      canBindToRoleVerb(rule)
 
+     subject := rolebinding.subjects[k]
+     path := sprintf("subjects[%v]", [format_int(k, 10)])
+
      msga := {
           "alertMessage": sprintf("Subject: %v-%v can bind roles/clusterroles", [subjectVector.kind, subjectVector.name]),
           "alertScore": 3,
+          "failedPaths": [path],
           "packagename": "armo_builtins",
           "alertObject": {
                "k8sApiObjects": [],
@@ -66,9 +74,13 @@ deny[msga] {
      canEscalateToRoleResource(rule)
      canEscalateToRoleVerb(rule)
 
+     subject := rolebinding.subjects[k]
+     path := sprintf("subjects[%v]", [format_int(k, 10)])
+
      msga := {
           "alertMessage": sprintf("Subject: %v-%v can escalate rolebinding/clusterrolebinding", [subjectVector.kind, subjectVector.name]),
           "alertScore": 3,
+          "failedPaths": [path],
           "packagename": "armo_builtins",
           "alertObject": {
                "k8sApiObjects": [],

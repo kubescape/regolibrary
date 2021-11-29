@@ -13,6 +13,7 @@ deny[msga] {
 		"alertMessage": sprintf("the following pods: %s are associated with dashboard service account", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}

@@ -15,10 +15,14 @@ deny[msga] {
 	canExecToPodVerb(rule)
 	canExecToPodResource(rule)
 
+	subject := rolebinding.subjects[k]
+    path := sprintf("subjects[%v]", [format_int(k, 10)])
+
 	msga := {
 		"alertMessage": sprintf("Subject: %v-%v can exec into containers", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [],
 			"externalObjects": subjectVector
