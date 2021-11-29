@@ -12,9 +12,13 @@ deny[msga] {
 	canImpersonateVerb(rule)
 	canImpersonateResource(rule)
 
+	subject := rolebinding.subjects[k]
+ 	path := sprintf("subjects[%v]", [format_int(k, 10)])
+
 	msga := {
 		"alertMessage": sprintf("Subject: %v-%v can impersonate users", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
+		 "failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [],
