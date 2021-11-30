@@ -1,9 +1,8 @@
 {
-    "name": "rule-can-create-modify-pod",
+    "name": "rule-can-create-modify-pod-v0",
     "attributes": {
       "m$K8sThreatMatrix": "Execution::New container, Persistence::Backdoor container",
-      "armoBuiltin": true,
-      "useUntilKubescapeVersion": "v1.0.133"
+      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

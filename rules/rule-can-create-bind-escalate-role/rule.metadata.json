@@ -1,9 +1,8 @@
 {
-    "name": "rule-can-create-bind-escalate-role",
+    "name": "rule-can-create-bind-escalate-role-v0",
     "attributes": {
       "microsoftK8sThreatMatrix": "Discovery::Access the K8s API server",
-      "armoBuiltin": true,
-      "useUntilKubescapeVersion": "v1.0.133"
+      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

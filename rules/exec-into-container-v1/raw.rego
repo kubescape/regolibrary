@@ -21,8 +21,8 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("Subject: %v-%v can exec into containers", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 9,
-		"failedPaths": [path],
 		"packagename": "armo_builtins",
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [],
 			"externalObjects": subjectVector

@@ -13,7 +13,7 @@
         "alert-any-hostpath"
     ],
     "id": "C-0020",
-    "long_description": "When the cluster is deployed in the cloud, in some cases attackers can leverage their access to a container in the cluster to gain cloud credentials. For example, in AKS each node contains service principal credential.",
+    "long_description": "When the cluster is deployed in the cloud, in some cases attackers can leverage their access to a container in the cluster to gain cloud credentials. For example, in AKS each node contains service principal credential. (See \u201c4: Access cloud resources\u201d for more details.)",
     "test": "Check which workloads have hostPath volumes to known cloud credentials files in node, like \u201c/etc/kubernetes/azure.json\u201d for Azure.",
     "controlID": "C-0020",
     "baseScore": 4.0

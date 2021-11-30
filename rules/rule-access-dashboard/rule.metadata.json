@@ -1,9 +1,8 @@
 {
-    "name": "rule-access-dashboard",
+    "name": "rule-access-dashboard-v0",
     "attributes": {
       "m$K8sThreatMatrix": "Lateral Movement::Access Kubernetes dashboard, Discovery::Access Kubernetes dashboard",
-      "armoBuiltin": true,
-      "useUntilKubescapeVersion": "v1.0.133"
+      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

@@ -1,9 +1,8 @@
 {
-    "name": "rule-can-delete-create-service",
+    "name": "rule-can-delete-create-service-v0",
     "attributes": {
       "m$K8sThreatMatrix": "Discovery::Access the K8s API server",
-      "armoBuiltin": true,
-      "useUntilKubescapeVersion": "v1.0.133"
+      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

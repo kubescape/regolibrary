@@ -1,9 +1,8 @@
 {
-  "name": "rule-list-all-cluster-admins",
+  "name": "rule-list-all-cluster-admins-v0",
   "attributes": {
     "m$K8sThreatMatrix": "Privilege Escalation::Cluster-admin binding",
-    "armoBuiltin": true,
-    "useUntilKubescapeVersion": "v1.0.133"
+    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

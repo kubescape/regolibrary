@@ -20,7 +20,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("Subject: %v-%v can create pods in kube-system", [subjectVector.kind, subjectVector.name]),
         "alertScore": 3,
-        "failedPaths": [path],
+         "failedPaths": [path],
         "packagename": "armo_builtins",
         "alertObject": {
             "k8sApiObjects": [],

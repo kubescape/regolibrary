@@ -3,8 +3,7 @@
     "attributes": {
       "m$K8sThreatMatrix": "Discovery::Access the K8s API server",
       "armoBuiltin": true,
-      "resourcesAggregator": "subject-role-rolebinding",
-      "useFromKubescapeVersion": "v1.0.133"
+      "resourcesAggregator": "subject-role-rolebinding"
     },
     "ruleLanguage": "Rego",
     "match": [
