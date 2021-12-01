@@ -9,13 +9,30 @@ deny[msga] {
 	endswith(subjectVector.relatedObjects[i].kind, "Role")
 	endswith(subjectVector.relatedObjects[j].kind, "Binding")
 
-    rule:= role.rules[_]
-    canDeleteResource(rule)
-    canDeleteVerb(rule)
+	rule:= role.rules[p]
+	subject := rolebinding.subjects[k]
+
+	verbs := ["delete", "deletecollection", "*"]
+  	verbsPath := [sprintf("relatedObjects[%v].rules[%v].verbs[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | verb =  rule.verbs[l];cautils.list_contains(verbs, verb)]
+	count(verbsPath) > 0
+
+	apiGroups := ["", "*", "apps", "batch"]
+	apiGroupsPath := [sprintf("relatedObjects[%v].rules[%v].apiGroups[%v]", [format_int(i, 10),format_int(p, 10), format_int(a, 10)])  | apiGroup =  rule.apiGroups[a];cautils.list_contains(apiGroups, apiGroup)]
+	count(apiGroupsPath) > 0
+
+	resources := ["secrets", "pods", "services", "deployments", "replicasets", "daemonsets", "statefulsets", "jobs","cronjobs", "*"]
+	resourcesPath := [sprintf("relatedObjects[%v].rules[%v].resources[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | resource =  rule.resources[l]; cautils.list_contains(resources, resource)]
+	count(resourcesPath) > 0
+
+	path := array.concat(resourcesPath, verbsPath)
+	path2 := array.concat(path, apiGroupsPath)
+	path3 := array.concat(path2, [sprintf("relatedObjects[%v].roleRef.subjects[%v]", [format_int(j, 10), format_int(k, 10)])])
+	finalpath := array.concat(path3, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
 
     msga := {
 		"alertMessage": sprintf("Subject: %v-%v can delete important resources", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
+		"failedPaths": finalpath,
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [],
@@ -23,63 +40,3 @@ deny[msga] {
 		}
   	}
 }
-
-canDeleteVerb(rule) {
-    cautils.list_contains(rule.verbs,"delete")
-}
-canDeleteVerb(rule) {
-    cautils.list_contains(rule.verbs,"deletecollection")
-}
-canDeleteVerb(rule) {
-    cautils.list_contains(rule.verbs,"*")
-}
-
-canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"secrets")
-}
-canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"pods")
-}
-canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"services")
-}
-canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"deployments")
-}
-canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"replicasets")
-}
-canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"daemonsets")
-}
-canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"statefulsets")
-}
-canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"jobs")
-}
-canDeleteResource(rule) {
-    cautils.list_contains(rule.resources,"cronjobs")
-}
-canDeleteResource(rule) {
-    isApiGroup(rule)
-    cautils.list_contains(rule.resources,"*")
-}
-
-isApiGroup(rule) {
-	apiGroup := rule.apiGroups[_]
-	apiGroup == ""
-}
-isApiGroup(rule) {
-	apiGroup := rule.apiGroups[_]
-	apiGroup == "*"
-}
-isApiGroup(rule) {
-	apiGroup := rule.apiGroups[_]
-	apiGroup == "apps"
-}
-isApiGroup(rule) {
-	apiGroup := rule.apiGroups[_]
-	apiGroup == "batch"
-}
-

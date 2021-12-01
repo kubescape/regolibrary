@@ -34,6 +34,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("%v: %v is associated with dashboard service account", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
+		"failedPaths": [""],
 		"alertScore": 7,
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -55,6 +56,7 @@ deny[msga] {
 		"alertMessage": sprintf("the following cronjob: %s is associated with dashboard service account", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
