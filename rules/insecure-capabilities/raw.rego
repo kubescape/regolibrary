@@ -54,6 +54,7 @@ deny[msga] {
 }
 
 isDangerousCapabilities(container, begginingOfPath, i) = path {
+	path = ""
     insecureCapabilities := data.postureControlInputs.insecureCapabilities
     insecureCapabilitie := insecureCapabilities[_]
 	capabilite := container.securityContext.capabilities.add[k]

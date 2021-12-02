@@ -118,12 +118,14 @@ deny[msga] {
 
 
 isRootPod(pod, container, i, begginingOfPath) = path {
+	path = ""
     not container.securityContext.runAsUser
     pod.spec.securityContext.runAsUser == 0
 	path = "spec.securityContext.runAsUser"
 }
 
 isRootPod(pod, container, i, begginingOfPath) = path {
+	path = ""
     not container.securityContext.runAsUser
 	not container.securityContext.runAsGroup
 	not container.securityContext.runAsNonRoot
@@ -134,12 +136,14 @@ isRootPod(pod, container, i, begginingOfPath) = path {
 }
 
 isRootPod(pod, container, i, begginingOfPath) = path {
+	path = ""
     not container.securityContext.runAsGroup
     pod.spec.securityContext.runAsGroup == 0
 	path = sprintf("%vsecurityContext.runAsGroup", [begginingOfPath])
 }
 
 isRootPod(pod, container, i, begginingOfPath)= path  {
+	path = ""
 	not pod.spec.securityContext.runAsGroup
 	not pod.spec.securityContext.runAsUser
    	container.securityContext.runAsNonRoot == false
@@ -147,11 +151,13 @@ isRootPod(pod, container, i, begginingOfPath)= path  {
 }
 
 isRootContainer(container, i, begginingOfPath) = path  {
+	path = ""
     container.securityContext.runAsUser == 0
 	path = sprintf("%vcontainers[%v].securityContext.runAsUser", [begginingOfPath, format_int(i, 10)])
 }
 
 isRootContainer(container, i, begginingOfPath) = path  {
+	path = ""
      container.securityContext.runAsGroup == 0
 	 path = sprintf("%vcontainers[%v].securityContext.runAsGroup", [begginingOfPath, format_int(i, 10)])
 }

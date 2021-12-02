@@ -59,6 +59,7 @@ deny[msga] {
 
 
 isHostPort(container, i, begginingOfPath) = path {
+	path = ""
 	ports := container.ports[j]
     ports.hostPort
 	path = sprintf("%vcontainers[%v].ports[%v].hostPort", [begginingOfPath, format_int(i, 10), format_int(j, 10)])

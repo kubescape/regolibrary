@@ -64,6 +64,7 @@ deny[msga] {
 
 
 isPrivilegedContainer(container, i, begginingOfPath) = path {
+	path = ""
 	sysAdminCap := "SYS_ADMIN"
 	capabilite := container.securityContext.capabilities.add[k]
     capabilite ==  sysAdminCap
@@ -71,6 +72,7 @@ isPrivilegedContainer(container, i, begginingOfPath) = path {
 }
 
 isPrivilegedContainer(container, i, begginingOfPath) = path {
+	path = ""
 	container.securityContext.privileged == true
 	path = sprintf("%vcontainers[%v].securityContext.privileged", [begginingOfPath, format_int(i, 10)])
 }

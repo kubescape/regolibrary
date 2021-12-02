@@ -66,11 +66,13 @@ deny[msga] {
 
 
 isDangerousHostPath(volume, begginingOfPath, i) = path {
+	path = ""
     startswith(volume.hostPath.path, "/etc")
 	path = sprintf("%vvolumes[%v].hostPath.path", [begginingOfPath, format_int(i, 10)])
 }
 
 isDangerousHostPath(volume, begginingOfPath, i) = path {
+	path = ""
     startswith(volume.hostPath.path, "/var")
 	path = sprintf("%vvolumes[%v].hostPath.path", [begginingOfPath, format_int(i, 10)])
 }

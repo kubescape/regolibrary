@@ -54,6 +54,7 @@ deny[msga] {
 }
 
 isSudoEntrypoint(container, begginingOfPath, i) = path {
+	path = ""
     command := container.command[k]
     contains(command, "sudo") 
 	path = sprintf("%vcontainers[%v].command[%v]", [begginingOfPath, format_int(i, 10), format_int(k, 10)])

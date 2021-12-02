@@ -59,11 +59,13 @@ deny[msga] {
 
 # Default of readOnlyRootFilesystem is false. This field is only in container spec and not pod spec
 isMutableFilesystem(container, begginingOfPath, i) = path {
-    container.securityContext.readOnlyRootFilesystem == false
+	path = ""
+	container.securityContext.readOnlyRootFilesystem == false
 	path = sprintf("%vcontainers[%v].securityContext.readOnlyRootFilesystem", [begginingOfPath, format_int(i, 10)])
  }
 
  isMutableFilesystem(container, begginingOfPath, i) = path{
+	path = ""
 	 not container.securityContext.readOnlyRootFilesystem == false
      not container.securityContext.readOnlyRootFilesystem == true
 	 path = ""

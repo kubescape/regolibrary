@@ -21,11 +21,12 @@ deny[msga] {
 
 
 replicasOneOrLess(spec) = path {
-	not spec.replicas
 	path = ""
+	not spec.replicas
 }
 
 replicasOneOrLess(spec) = path{
+	path = ""
 	spec.replicas == 1
 	path = "spec.replicas"
 }
