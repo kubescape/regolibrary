@@ -10,7 +10,7 @@ deny[msga] {
     sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
     key_name := sensitive_key_names[_]
     map_secret := configmap.data[map_key]
-    contains(lower(map_key), key_name)
+    contains(lower(map_key), lower(key_name))
 	msga := {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
 		"alertScore": 9,
@@ -30,7 +30,7 @@ deny[msga] {
 	configmap := input[_]
     configmap.kind == "ConfigMap"
     map_secret := configmap.data[map_key]
-    contains(map_secret, value)
+    regex.match(value , map_secret)
 
 	msga := {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
@@ -52,7 +52,7 @@ deny[msga] {
     configmap.kind == "ConfigMap"
     map_secret := configmap.data[map_key]
     decoded_secret := base64.decode(map_secret)
-    contains(decoded_secret, value)
+    regex.match(value , decoded_secret)
 
 	msga := {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
