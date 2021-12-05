@@ -1,5 +1,5 @@
 {
-  "name": "rule-list-all-cluster-admins-v0",
+  "name": "rule-list-all-cluster-admins",
   "attributes": {
     "m$K8sThreatMatrix": "Privilege Escalation::Cluster-admin binding",
     "armoBuiltin": true
