@@ -31,9 +31,6 @@ deny[msga] {
 	path3 := array.concat(path2, [sprintf("relatedObjects[%v].roleRef.subjects[%v]", [format_int(j, 10), format_int(k, 10)])])
 	finalpath := array.concat(path3, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
 
-	
-
-
     	msga := {
           "alertMessage": sprintf("Subject: %v-%v can create/delete services", [subjectVector.kind, subjectVector.name]),
           "alertScore": 3,

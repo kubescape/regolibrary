@@ -11,7 +11,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in pod: %v  have sudo in entrypoint", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -29,7 +29,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in %v: %v  have sudo in entrypoint", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -46,7 +46,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in cronjob: %v  have sudo in entrypoint", [container.name, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -54,8 +54,6 @@ deny[msga] {
 }
 
 isSudoEntrypoint(container, begginingOfPath, i) = path {
-	path = ""
-    command := container.command[k]
-    contains(command, "sudo") 
-	path = sprintf("%vcontainers[%v].command[%v]", [begginingOfPath, format_int(i, 10), format_int(k, 10)])
+	path = [sprintf("%vcontainers[%v].command[%v]", [begginingOfPath, format_int(i, 10), format_int(k, 10)]) |  command = container.command[k];  contains(command, "sudo")]
+	count(path) > 0
 }

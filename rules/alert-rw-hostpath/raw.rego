@@ -81,11 +81,11 @@ deny[msga] {
 }
 
 isRWMount(mount, begginingOfPath,  i, k) = path {
+ not mount.readOnly == true
+ not mount.readOnly == false
  path = ""
- not mount.readOnly
 }
 isRWMount(mount, begginingOfPath,  i, k) = path {
-  path = ""
   mount.readOnly == false
   path = sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [begginingOfPath, format_int(i, 10), format_int(k, 10)])
 } 

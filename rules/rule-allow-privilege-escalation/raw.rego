@@ -61,7 +61,6 @@ deny[msga] {
 
 
 isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = path {
-	path = ""
     not container.securityContext.allowPrivilegeEscalation == false
 	not container.securityContext.allowPrivilegeEscalation == true
 	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
@@ -70,7 +69,6 @@ isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = path {
 }
 
 isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)  = path {
-	path = ""
     not container.securityContext.allowPrivilegeEscalation == false
 	not container.securityContext.allowPrivilegeEscalation == true
 	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
@@ -82,7 +80,6 @@ isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)  = path {
 
 
 isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)  = path {
-	path = ""
     container.securityContext.allowPrivilegeEscalation == true
 	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) == 0
@@ -90,7 +87,6 @@ isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)  = path {
 }
 
 isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = path {
-	path = ""
     container.securityContext.allowPrivilegeEscalation == true
 	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) > 0

@@ -1,5 +1,6 @@
 package armo_builtins
 
+# TODO - FIX FAILED PATHS IF THE CONTROL WILL BE ACTIVE AGAIN
 
 # Fails if pod has container  configured to run with id less than 1000
 deny[msga] {
