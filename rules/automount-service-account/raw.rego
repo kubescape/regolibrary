@@ -23,7 +23,7 @@ isAutoMount(serviceaccount)  = path {
 }
 
 isAutoMount(serviceaccount) = path {
-	path = ""
 	not serviceaccount.automountServiceAccountToken == false
 	not serviceaccount.automountServiceAccountToken == true
+	path = ""
 }
