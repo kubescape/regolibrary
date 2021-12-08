@@ -145,7 +145,7 @@ wlConnectedToNetworkPolicy(wl, networkpolicie){
 
 
 wlConnectedToNetworkPolicy(wl, networkpolicie){
-	wl.metadata.namespace == wl.metadata.namespace
+	wl.metadata.namespace == networkpolicie.metadata.namespace
 	count(networkpolicie.spec.podSelector) > 0
     count({x | networkpolicie.spec.podSelector.matchLabels[x] == wl.spec.template.metadata.labels[x]}) == count(networkpolicie.spec.podSelector.matchLabels)
 }

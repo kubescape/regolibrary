@@ -15,7 +15,7 @@ deny[msga] {
 		"alertMessage": sprintf("the following pods are defined as privileged: %v", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 3,
-		"failedPaths": [path],
+		"failedPaths": path,
          "alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -36,7 +36,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v is defined as privileged:", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 3,
-		"failedPaths": [path],
+		"failedPaths": path,
          "alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -55,7 +55,7 @@ deny[msga] {
 		"alertMessage": sprintf("the following cronjobs are defined as privileged: %v", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 3,
-		"failedPaths": [path],
+		"failedPaths": path,
          "alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -63,14 +63,25 @@ deny[msga] {
 }
 
 
+# Only SYS_ADMIN capabilite
 isPrivilegedContainer(container, i, begginingOfPath) = path {
-	sysAdminCap := "SYS_ADMIN"
-	capabilite := container.securityContext.capabilities.add[k]
-    capabilite ==  sysAdminCap
-	path = sprintf("%vcontainers[%v].securityContext.capabilities.add[%v]", [begginingOfPath, format_int(i, 10), format_int(k, 10)])
+	not container.securityContext.privileged == true
+	path = [sprintf("%vcontainers[%v].securityContext.capabilities.add[%v]", [begginingOfPath, format_int(i, 10), format_int(k, 10)]) | capabilite = container.securityContext.capabilities.add[k]; capabilite == "SYS_ADMIN"]
+	count(path) > 0
 }
 
+# Only securityContext.privileged == true
 isPrivilegedContainer(container, i, begginingOfPath) = path {
 	container.securityContext.privileged == true
-	path = sprintf("%vcontainers[%v].securityContext.privileged", [begginingOfPath, format_int(i, 10)])
+	path1 = [sprintf("%vcontainers[%v].securityContext.capabilities.add[%v]", [begginingOfPath, format_int(i, 10), format_int(k, 10)]) | capabilite = container.securityContext.capabilities.add[k]; capabilite == "SYS_ADMIN"]
+	count(path1) < 1
+	path = [sprintf("%vcontainers[%v].securityContext.privileged", [begginingOfPath, format_int(i, 10)])]
+}
+
+# SYS_ADMIN capabilite && securityContext.privileged == true
+isPrivilegedContainer(container, i, begginingOfPath) = path {
+	path1 = [sprintf("%vcontainers[%v].securityContext.capabilities.add[%v]", [begginingOfPath, format_int(i, 10), format_int(k, 10)]) | capabilite = container.securityContext.capabilities.add[k]; capabilite == "SYS_ADMIN"]
+	count(path1) > 0
+	container.securityContext.privileged == true
+	path = array.concat(path1, [sprintf("%vcontainers[%v].securityContext.privileged", [begginingOfPath, format_int(i, 10)])])
 }

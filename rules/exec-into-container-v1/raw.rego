@@ -11,44 +11,36 @@ deny[msga] {
 	endswith(subjectVector.relatedObjects[i].kind, "Role")
 	endswith(subjectVector.relatedObjects[j].kind, "Binding")
 
-	rule:= role.rules[_]
-	canExecToPodVerb(rule)
-	canExecToPodResource(rule)
+	rule:= role.rules[p]
 
+	subject := rolebinding.subjects[k]
+
+	verbs := ["create", "*"]
+    verbsPath := [sprintf("relatedObjects[%v].rules[%v].verbs[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | verb =  rule.verbs[l];cautils.list_contains(verbs, verb)]
+	count(verbsPath) > 0
+
+	apiGroups := ["", "*"]
+	apiGroupsPath := [sprintf("relatedObjects[%v].rules[%v].apiGroups[%v]", [format_int(i, 10),format_int(p, 10), format_int(a, 10)])  | apiGroup =  rule.apiGroups[a];cautils.list_contains(apiGroups, apiGroup)]
+	count(apiGroupsPath) > 0
+
+	resources := ["pods/exec", "pods/*", "*"]
+	resourcesPath := [sprintf("relatedObjects[%v].rules[%v].resources[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | resource =  rule.resources[l]; cautils.list_contains(resources, resource)]
+	count(resourcesPath) > 0
+
+
+	path := array.concat(resourcesPath, verbsPath)
+	path2 := array.concat(path, apiGroupsPath)
+	path3 := array.concat(path2, [sprintf("relatedObjects[%v].roleRef.subjects[%v]", [format_int(j, 10), format_int(k, 10)])])
+	finalpath := array.concat(path3, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
+	
 	msga := {
 		"alertMessage": sprintf("Subject: %v-%v can exec into containers", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
+		"failedPaths": finalpath,
 		"alertObject": {
 			"k8sApiObjects": [],
 			"externalObjects": subjectVector
 		}
 	}
-}
-
-canExecToPodVerb(rule) {
-	cautils.list_contains(rule.verbs, "create")
-}
-canExecToPodVerb(rule) {
-	cautils.list_contains(rule.verbs, "*")
-}
-
-canExecToPodResource(rule) {
-	cautils.list_contains(rule.resources,"pods/exec")
-}
-canExecToPodResource(rule) {
-	cautils.list_contains(rule.resources,"pods/*")
-}
-canExecToPodResource(rule) {
-	isApiGroup(rule)
-	cautils.list_contains(rule.resources,"*")
-}
-
-isApiGroup(rule) {
-	apiGroup := rule.apiGroups[_]
-	apiGroup == ""
-}
-isApiGroup(rule) {
-	apiGroup := rule.apiGroups[_]
-	apiGroup == "*"
 }
