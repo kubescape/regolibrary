@@ -22,6 +22,7 @@ C-0019,rule-can-bash-cmd-inside-container
 C-0014,rule-access-dashboard
 C-0014,rule-access-dashboard-subject-v1
 C-0014,rule-access-dashboard-wl-v1
+C-0031,rule-can-delete-k8s-events
 C-0031,rule-can-delete-k8s-events-v1
 C-0059,nginx-ingress-snippet-annotation-vulnerability
 C-0012,rule-credentials-in-env-var
