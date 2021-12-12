@@ -7,7 +7,6 @@ deny[msga] {
     pod.kind == "Pod"
 	contains(pod.metadata.name, "kube-apiserver")
     container := pod.spec.containers[_]
-	isInsecurePortFlag(container)
 	msga := {
 		"alertMessage": sprintf("The API server container: %v has insecure-port flag enabled", [ container.name]),
 		"packagename": "armo_builtins",
@@ -17,8 +16,4 @@ deny[msga] {
 			"k8sApiObjects": [pod]
 		}
 	}
-}
-	
-isInsecurePortFlag(container){
-    cautils.list_contains(container.command, "--insecure-port=1")
 }
