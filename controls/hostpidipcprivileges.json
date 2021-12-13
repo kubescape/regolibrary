@@ -10,5 +10,6 @@
     ],
     "id": "C-0038",
     "controlID": "C-0038",
-    "baseScore": 5.0
+    "baseScore": 5.0, 
+    "example": "@controls/examples/c038.yaml"
 }

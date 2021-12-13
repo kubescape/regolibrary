@@ -12,5 +12,6 @@
     "long_description": "Giving  insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
     "test": "Check capabilities given against a blacklist of insecure capabilities (https://github.com/FairwindsOps/polaris/blob/master/checks/insecureCapabilities.yaml). ",
     "controlID": "C-0046",
-    "baseScore": 5.0
+    "baseScore": 5.0, 
+    "example": "@controls/examples/c046.yaml"
 }
