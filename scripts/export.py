@@ -16,6 +16,7 @@ framework_control_rows = []
 def load_rules():
     p1 = os.path.join(currDir, 'rules') 
     regofile = 'raw.rego'
+    filterregofile = 'filter.rego'
     rules_path = Path(p1).glob('**/*.json')
     loaded_rules = {}  # rules loaded from file system
     rules_list = []
@@ -30,6 +31,12 @@ def load_rules():
             rule = f.read()
             if new_rule:
                 new_rule["rule"] = rule
+                try:
+                    with open(path_in_str[:pos + 1] + filterregofile, 'r') as f:
+                        filter_rego = f.read()
+                        new_rule["resourceEnumerator"] = filter_rego
+                except:
+                    pass
         rules_list.append(new_rule) 
         loaded_rules[new_rule['name']] = new_rule
 

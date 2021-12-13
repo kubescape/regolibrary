@@ -12,6 +12,7 @@
     "long_description": "Attackers who have relevant RBAC permissions, can run open a backdoor communication channel directly to the sockets inside target container using exec command \u201ckubectl portforward\u201d command. Using this method, attackers can bypass network security restrictions and communicate directly with software in the containers.",
     "test": "Check which subjects have RBAC permissions to portforward into pods\u2013 if they have the \u201cpods/portforward\u201d resource.",
     "controlID": "C-0063",
-	"baseScore": 5.0
+	"baseScore": 5.0, 
+    "example": "@controls/examples/c063.yaml"
 
 }

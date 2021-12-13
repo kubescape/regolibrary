@@ -9,5 +9,6 @@
         "configured-readiness-probe"
     ],
     "id": "C-0018",
-    "controlID": "C-0018"
+    "controlID": "C-0018", 
+    "example": "@controls/examples/c018.yaml"
 }

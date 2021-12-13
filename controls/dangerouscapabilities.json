@@ -12,5 +12,6 @@
     "long_description": "Giving dangerous and unnecessary capabilities for a container can increase the impact of a container compromise.",
     "test": "Check capabilities given against a blacklist of dangerous capabilities (e.g. SYS_ADMIN or NET_ADMIN).",
     "controlID": "C-0028",
-    "baseScore": 6.0
+    "baseScore": 6.0, 
+    "example": "@controls/examples/c028.yaml"
 }

@@ -7,8 +7,6 @@ deny[msga] {
     serviceaccount := serviceAccounts[_]
     serviceAccountName := serviceaccount.metadata.name
 
-    not saTokenNotAutoMount(serviceaccount)
-
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
 	rolebinding := rolebindings[_]
     rolesubject := rolebinding.subjects[_]
@@ -41,8 +39,6 @@ deny[msga] {
     serviceAccounts := [serviceaccount |  serviceaccount= input[_]; serviceaccount.kind == "ServiceAccount"]
     serviceaccount := serviceAccounts[_]
     serviceAccountName := serviceaccount.metadata.name
-
-    not saTokenNotAutoMount(serviceaccount)
 
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
 	rolebinding := rolebindings[_]
@@ -77,8 +73,6 @@ deny[msga] {
     serviceaccount := serviceAccounts[_]
     serviceAccountName := serviceaccount.metadata.name
 
-    not saTokenNotAutoMount(serviceaccount)
-
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "ClusterRoleBinding"]
 	rolebinding := rolebindings[_]
     rolesubject := rolebinding.subjects[_]
@@ -105,10 +99,3 @@ deny[msga] {
 		}
 	}
 }
-
-# ===============================================================
-
-saTokenNotAutoMount(serviceaccount) {
-    serviceaccount.automountServiceAccountToken == false
-}
-

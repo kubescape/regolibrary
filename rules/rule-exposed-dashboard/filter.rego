@@ -13,7 +13,6 @@ deny[msga] {
 	
 	service := input[_]
 	service.kind == "Service"
-	isNodePortLbService(service)
 	count({x | service.spec.selector[x]; deployment.metadata.labels[x]}) == count(service.spec.selector)
 	path := sprintf("spec.template.spec.containers[%v]", [format_int(j, 10)])
 

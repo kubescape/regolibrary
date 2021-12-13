@@ -15,5 +15,6 @@
     "long_description": "Attackers who have permissions to run a cmd/bash script inside a container can use it to execute malicious code. ",
     "test": "Searching the image from pod spec in the vulnerability scan database, if the container has bash/cmd we raise an alert.Needs to add user config",
     "controlID": "C-0019",
-    "baseScore": 4.0
+    "baseScore": 4.0, 
+    "example": "@controls/examples/c019.yaml"
 }
