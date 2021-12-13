@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: private-image-test-1
+spec:
+  containers:
+    - name: uses-private-image)
+      image: gcr.io/google-samples/microservices-demo/loadgenerator:latest # we look at the image tag (afer the ":")
+      imagePullPolicy: Always   # we look at this field
+      command: [ "echo", "SUCCESS" ]
