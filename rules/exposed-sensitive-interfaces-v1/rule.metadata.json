@@ -1,9 +1,9 @@
 {
-    "name": "exposed-sensitive-interfaces",
+    "name": "exposed-sensitive-interfaces-v1",
     "attributes": {
       "microsoftK8sThreatMatrix": "Initial access::Exposed sensitive interfaces",
       "armoBuiltin": true,
-      "useUntilKubescapeVersion": "v1.0.133"
+      "useFromKubescapeVersion": "v1.0.133"
     },
     "ruleLanguage": "Rego",
     "match": [

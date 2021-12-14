@@ -2,7 +2,8 @@
   "name": "access-container-service-account",
   "attributes": {
     "m$K8sThreatMatrix": "Credential Access::Access container service account, Lateral Movement::Container service account",
-    "armoBuiltin": true
+    "armoBuiltin": true,
+    "useUntilKubescapeVersion": "v1.0.133"
   },
   "ruleLanguage": "Rego",
   "match": [
