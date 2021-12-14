@@ -1,0 +1,41 @@
+{
+    "name": "access-container-service-account-v1",
+    "attributes": {
+      "m$K8sThreatMatrix": "Credential Access::Access container service account, Lateral Movement::Container service account",
+      "armoBuiltin": true,
+      "useFromKubescapeVersion": "v1.0.133"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet",
+          "Job",
+          "Pod",
+          "CronJob",
+          "ServiceAccounts",
+          "RoleBinding",
+          "ClusterRoleBinding",
+          "Role",
+          "ClusterRole"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+  
+    ],
+    "description": "determines which service accounts can be used to access other resources in the cluster",
+    "remediation": "",
+    "ruleQuery": "armo_builtins",
+    "resourceCount": "subjects"
+  }
+  

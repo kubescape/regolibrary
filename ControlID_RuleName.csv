@@ -18,11 +18,13 @@ C-0028,dangerous-capabilities
 C-0049,internal-networking
 C-0045,alert-rw-hostpath
 C-0053,access-container-service-account
+C-0053,access-container-service-account-v1
 C-0063,rule-can-portforward
 C-0063,rule-can-portforward-v1
 C-0015,rule-can-list-get-secrets
 C-0015,rule-can-list-get-secrets-v1
 C-0021,exposed-sensitive-interfaces
+C-0021,exposed-sensitive-interfaces-v1
 C-0031,rule-can-delete-k8s-events
 C-0031,rule-can-delete-k8s-events-v1
 C-0013,non-root-containers
@@ -46,6 +48,7 @@ C-0025,deny-RCE-vuln-image-pods
 C-0002,exec-into-container
 C-0002,exec-into-container-v1
 C-0047,rule-exposed-dashboard
+C-0047,rule-exposed-dashboard-v1
 C-0033,access-tiller-endpoint
 C-0037,rule-can-update-configmap
 C-0037,rule-can-update-configmap-v1
