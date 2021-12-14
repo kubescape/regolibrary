@@ -1,0 +1,26 @@
+{
+  "name": "psp-enabled-cloud",
+  "attributes": {
+  "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "cloudvendordata.armo.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "eks/description",
+        "gke/description"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+  ],
+  "description": "",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

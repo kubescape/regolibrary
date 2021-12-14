@@ -13,16 +13,25 @@ deny[msga] {
 	wl_name := wl_names[_]
 	contains(wl.metadata.name, wl_name)
 
+	service := 	input[_]
+	service.kind == "Service"
+	service.spec.type == "LoadBalancer"
+
+	result := wl_connectedto_service(wl, service)
+    
+    # externalIP := service.spec.externalIPs[_]
+	externalIP := service.status.loadBalancer.ingress[0].ip
+
 	wlvector = {"name": wl.metadata.name,
 				"namespace": wl.metadata.namespace,
 				"kind": wl.kind,
-				"relatedObjects": []}
+				"relatedObjects": [service]}
 
 	msga := {
-		"alertMessage": sprintf("wl: %v is in the cluster", [wl.metadata.name]),
+		"alertMessage": sprintf("service: %v is exposed", [service.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": wlvector
@@ -42,17 +51,23 @@ deny[msga] {
     wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl_name := wl_names[_]
 	contains(wl.metadata.name, wl_name)
+    
+	service := 	input[_]
+	service.kind == "Service"
+	service.spec.type == "NodePort"
+
+	result := wl_connectedto_service(wl, service)
 
 	wlvector = {"name": wl.metadata.name,
 				"namespace": wl.metadata.namespace,
 				"kind": wl.kind,
-				"relatedObjects": []}
+				"relatedObjects": [service]}
 
 	msga := {
-		"alertMessage": sprintf("wl: %v is in the cluster", [wl.metadata.name]),
+		"alertMessage": sprintf("service: %v is exposed", [service.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": wlvector
@@ -72,20 +87,38 @@ deny[msga] {
     wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl_name := wl_names[_]
 	contains(wl.metadata.name, wl_name)
+    
+	service := 	input[_]
+	service.kind == "Service"
+	service.spec.type == "NodePort"
+
+	result := wl_connectedto_service(wl, service)
 
 	wlvector = {"name": wl.metadata.name,
 				"namespace": wl.metadata.namespace,
 				"kind": wl.kind,
-				"relatedObjects": []}
+				"relatedObjects": [service]}
 
 	msga := {
-		"alertMessage": sprintf("wl: %v is in the cluster", [wl.metadata.name]),
+		"alertMessage": sprintf("service: %v is exposed", [service.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": wlvector
 		}
 	}
+}
+
+# ====================================================================================
+
+wl_connectedto_service(wl, service) = paths{
+	count({x | service.spec.selector[x] == wl.metadata.labels[x]}) == count(service.spec.selector)
+	paths = ["spec.selector.matchLabels", "service.spec.selector"]
+}
+
+wl_connectedto_service(wl, service) = paths {
+	wl.spec.selector.matchLabels == service.spec.selector
+	paths = ["spec.selector.matchLabels", "service.spec.selector"]
 }

@@ -11,10 +11,11 @@ deny[msga] {
     key_name := sensitive_key_names[_]
     map_secret := configmap.data[map_key]
     contains(lower(map_key), lower(key_name))
+    path := sprintf("data[%v]", [map_key])
 	msga := {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
 		"alertScore": 9,
-        "failedPaths": [""],
+        "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [configmap]
@@ -31,11 +32,11 @@ deny[msga] {
     configmap.kind == "ConfigMap"
     map_secret := configmap.data[map_key]
     regex.match(value , map_secret)
-
+    path := sprintf("data[%v]", [map_key])
 	msga := {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
 		"alertScore": 9,
-        "failedPaths": [""],
+        "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [configmap]
@@ -53,11 +54,12 @@ deny[msga] {
     map_secret := configmap.data[map_key]
     decoded_secret := base64.decode(map_secret)
     regex.match(value , decoded_secret)
+    path := sprintf("data[%v]", [map_key])
 
 	msga := {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
 		"alertScore": 9,
-        "failedPaths": [""],
+        "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [configmap]

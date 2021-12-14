@@ -1,9 +1,9 @@
 {
-    "name": "rule-exposed-dashboard",
+    "name": "rule-exposed-dashboard-v1",
     "attributes": {
       "m$K8sThreatMatrix": "Initial Access::Exposed Dashboard",
       "armoBuiltin": true,
-      "useUntilKubescapeVersion": "v1.0.133"
+      "useFromKubescapeVersion": "v1.0.133"
     },
     "ruleLanguage": "Rego",
     "match": [

@@ -21,7 +21,6 @@
     "Kubernetes CronJob",
     "List Kubernetes secrets",
     "Mount service principal",
-    "Network mapping",
     "Privileged container",
     "SSH server running inside container",
     "Vulnerable application",
