@@ -65,7 +65,7 @@ isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = path {
 	not container.securityContext.allowPrivilegeEscalation == true
 	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) == 0
-	path = ""
+	path = sprintf("%vcontainers[%v]", [begginingOfPath, format_int(i, 10)])
 }
 
 isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)  = path {
@@ -75,7 +75,7 @@ isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)  = path {
 	count(psps) > 0
 	psp := psps[_]
 	not psp.spec.allowPrivilegeEscalation == false
-	path = ""
+	path = sprintf("%vcontainers[%v]", [begginingOfPath, format_int(i, 10)])
 }
 
 
