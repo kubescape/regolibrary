@@ -1,5 +1,5 @@
 {
-    "name": "etcd encryption disabled",
+    "name": "etcd encryption enabled",
     "attributes": {
         "armoBuiltin": true
     },

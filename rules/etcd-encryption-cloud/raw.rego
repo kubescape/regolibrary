@@ -53,6 +53,10 @@ isNotEncrypted(clusterConfig) {
 }
 
 isNotEncrypted(clusterConfig) {
+	clusterConfig.cluster.encryptionConfig == null
+}
+
+isNotEncrypted(clusterConfig) {
 	count(clusterConfig.cluster.encryptionConfig) == 0
 }
 
