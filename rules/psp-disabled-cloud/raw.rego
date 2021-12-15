@@ -4,7 +4,7 @@ package armo_builtins
 # Check if PSP is enabled for GKE
 deny[msga] {
 	clusterConfig := input[_]
-	clusterConfig.kind == "description"
+	clusterConfig.kind == "ClusterDescription"
     clusterConfig.group == "cloudvendordata.armo.cloud"
     clusterConfig.provider == "gke"
     not clusterConfig.podSecurityPolicyConfig.enabled == "true"

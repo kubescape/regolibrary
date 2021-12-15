@@ -29,7 +29,7 @@ deny[msga] {
 # Check if encryption in etcd in enabled for GKE
 deny[msga] {
 	clusterConfig := input[_]
-	clusterConfig.kind == "description"
+	clusterConfig.kind == "ClusterDescription"
     clusterConfig.group == "cloudvendordata.armo.cloud"
     clusterConfig.provider == "gke"
     not clusterConfig.databaseEncryption.state == "ENCRYPTED"
