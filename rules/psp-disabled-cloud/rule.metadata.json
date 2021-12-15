@@ -23,7 +23,7 @@
           "v1beta0"
         ],
         "resources": [
-          "gke/description"
+          "gke/ClusterDescription"
         ]
       }
     ],

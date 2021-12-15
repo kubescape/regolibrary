@@ -23,8 +23,8 @@
           "v1beta0"
         ],
         "resources": [
-          "eks/description",
-          "gke/description"
+          "eks/ClusterDescription",
+          "gke/ClusterDescription"
         ]
       }
     ],
