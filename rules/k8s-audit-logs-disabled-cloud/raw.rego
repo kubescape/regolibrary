@@ -9,8 +9,7 @@ deny[msga] {
     clusterConfig.provider == "gke"
     # If enableComponents is empty, it will disable logging
     # https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters#loggingcomponentconfig
-	not count(clusterConfig.loggingConfig.componentConfig.enableComponents) > 0
-	
+	isLoggingDisabled(clusterConfig)
 	msga := {
 		"alertMessage": "audit logs is disabled",
 		"alertScore": 9,
@@ -47,6 +46,15 @@ deny[msga] {
 			"externalObjects": clusterConfig
 		}
 	}
+}
+
+
+isLoggingDisabled(clusterConfig) {
+	not clusterConfig.loggingConfig.componentConfig.enableComponents
+}
+isLoggingDisabled(clusterConfig) {
+	clusterConfig.loggingConfig.componentConfig.enableComponents
+	count(clusterConfig.loggingConfig.componentConfig.enableComponents) == 0
 }
 
 isAuditLogs(logSetup) {

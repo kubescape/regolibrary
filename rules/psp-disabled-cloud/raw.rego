@@ -7,7 +7,7 @@ deny[msga] {
 	clusterConfig.kind == "ClusterDescription"
     clusterConfig.group == "cloudvendordata.armo.cloud"
     clusterConfig.provider == "gke"
-    not clusterConfig.podSecurityPolicyConfig.enabled == "true"
+    not clusterConfig.podSecurityPolicyConfig.enabled == true
 	
 	msga := {
 		"alertMessage": "pod security policy configuration is not enabled",
