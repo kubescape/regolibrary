@@ -1,0 +1,16 @@
+{
+    "name": "Audit logs disabled",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "",
+    "remediation": "",
+    "rulesNames": [
+        "k8s-audit-logs-disabled-cloud"
+    ],
+    "id": "C-0067",
+    "long_description": "",
+    "test": "",
+    "controlID": "C-0067",
+    "baseScore": 3
+}

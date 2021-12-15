@@ -1,0 +1,16 @@
+{
+    "name": "PSP disabled",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "",
+    "remediation": "",
+    "rulesNames": [
+        "psp-disabled-cloud"
+    ],
+    "id": "C-0068",
+    "long_description": "",
+    "test": "",
+    "controlID": "C-0068",
+    "baseScore": 3
+}

@@ -1,5 +1,5 @@
 {
-  "name": "psp-enabled-cloud",
+  "name": "etcd-encryption-cloud",
   "attributes": {
   "armoBuiltin": true
   },

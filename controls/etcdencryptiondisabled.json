@@ -1,0 +1,16 @@
+{
+    "name": "etcd encryption disabled",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "",
+    "remediation": "",
+    "rulesNames": [
+        "etcd-encryption-cloud"
+    ],
+    "id": "C-0066",
+    "long_description": "",
+    "test": "",
+    "controlID": "C-0066",
+    "baseScore": 3
+}
