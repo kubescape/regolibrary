@@ -8,8 +8,8 @@ deny[msga] {
     clusterConfig.group == "cloudvendordata.armo.cloud"	
     clusterConfig.provider == "eks"
 
+	count(clusterConfig.cluster.encryptionConfig) > 0
     encryptionConfig := clusterConfig.cluster.encryptionConfig[_]
-	count(encryptionConfig) > 0
 	count(encryptionConfig.resources) > 0
     resource := encryptionConfig.resources[_]
     resource == "secrets"
