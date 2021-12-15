@@ -39,10 +39,10 @@ C-0019,rule-can-bash-cmd-inside-container
 C-0065,rule-can-impersonate-users-groups
 C-0065,rule-can-impersonate-users-groups-v1
 C-0011,internal-networking
-C-0067,k8s-audit-logs-disabled-cloud
+C-0067,k8s-audit-logs-enabled-cloud
 C-0039,list-all-mutating-webhooks
 C-0016,rule-allow-privilege-escalation
-C-0068,psp-disabled-cloud
+C-0068,psp-enabled-cloud
 C-0060,namespace-without-service-account
 C-0005,insecure-port-flag
 C-0059,nginx-ingress-snippet-annotation-vulnerability
