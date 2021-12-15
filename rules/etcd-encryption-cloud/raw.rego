@@ -47,20 +47,20 @@ deny[msga] {
 
 
 isNotEncrypted(clusterConfig) {
-	encryptionConfig := clusterConfig.cluster.encryptionConfig[_]
-    goodResources := [resource  | resource =   encryptionConfig.resources[_]; resource == "secrets"]
-	count(goodResources) > 0
+	encryptionConfig := clusterConfig.Cluster.EncryptionConfig[_]
+    goodResources := [resource  | resource =   clusterConfig.Cluster.EncryptionConfig.Resources[_]; resource == "secrets"]
+	count(goodResources) == 0
 }
 
 isNotEncrypted(clusterConfig) {
-	clusterConfig.cluster.encryptionConfig == null
+	clusterConfig.Cluster.EncryptionConfig == null
 }
 
 isNotEncrypted(clusterConfig) {
-	count(clusterConfig.cluster.encryptionConfig) == 0
+	count(clusterConfig.Cluster.EncryptionConfig) == 0
 }
 
 isNotEncrypted(clusterConfig) {
-	encryptionConfig := clusterConfig.cluster.encryptionConfig[_]
-    count(encryptionConfig.resources) == 0
+	encryptionConfig := clusterConfig.Cluster.EncryptionConfig[_]
+    count(encryptionConfig.Resources) == 0
 }
