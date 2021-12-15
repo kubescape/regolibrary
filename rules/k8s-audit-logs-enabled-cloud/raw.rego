@@ -32,9 +32,8 @@ deny[msga] {
     # logSetup is an object representing the enabled or disabled Kubernetes control plane logs for your cluster.
     # types - available cluster control plane log types
     # https://docs.aws.amazon.com/eks/latest/APIReference/API_LogSetup.html
-	count(clusterConfig.cluster.logging.clusterLogging) > 0
     goodTypes := [logSetup  | logSetup =  clusterConfig.cluster.logging.clusterLogging[_]; isAuditLogs(logSetup)]
-    count(goodTypes) < 0
+    count(goodTypes) == 0
 	
 	msga := {
 		"alertMessage": "audit logs is disabled",

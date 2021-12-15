@@ -1,5 +1,5 @@
 {
-    "name": "psp-disabled-cloud",
+    "name": "k8s-audit-logs-enabled-cloud",
     "attributes": {
     "armoBuiltin": true
     },
@@ -23,6 +23,7 @@
           "v1beta0"
         ],
         "resources": [
+          "eks/ClusterDescription",
           "gke/ClusterDescription"
         ]
       }

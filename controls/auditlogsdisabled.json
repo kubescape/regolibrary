@@ -1,12 +1,12 @@
 {
-    "name": "Audit logs disabled",
+    "name": "Audit logs enabled",
     "attributes": {
         "armoBuiltin": true
     },
     "description": "",
     "remediation": "",
     "rulesNames": [
-        "k8s-audit-logs-disabled-cloud"
+        "k8s-audit-logs-enabled-cloud"
     ],
     "id": "C-0067",
     "long_description": "",

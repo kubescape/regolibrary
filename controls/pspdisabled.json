@@ -1,12 +1,12 @@
 {
-    "name": "PSP disabled",
+    "name": "PSP enabled",
     "attributes": {
         "armoBuiltin": true
     },
     "description": "",
     "remediation": "",
     "rulesNames": [
-        "psp-disabled-cloud"
+        "psp-enabled-cloud"
     ],
     "id": "C-0068",
     "long_description": "",
