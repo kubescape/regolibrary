@@ -10,7 +10,7 @@ deny[msga] {
     not clusterConfig.podSecurityPolicyConfig.enabled == "true"
 	
 	msga := {
-		"alertMessage": sprintf("pod ecurity policy configuration is not enabled"),
+		"alertMessage": "pod security policy configuration is not enabled",
 		"alertScore": 9,
 		"packagename": "armo_builtins",
 		"failedPaths": [],

@@ -12,7 +12,7 @@ deny[msga] {
 	not count(clusterConfig.loggingConfig.componentConfig.enableComponents) > 0
 	
 	msga := {
-		"alertMessage": sprintf("audit logs is disabled"),
+		"alertMessage": "audit logs is disabled",
 		"alertScore": 9,
 		"packagename": "armo_builtins",
 		"failedPaths": ,
@@ -38,7 +38,7 @@ deny[msga] {
     count(goodTypes) < 0
 	
 	msga := {
-		"alertMessage": sprintf("audit logs is disabled"),
+		"alertMessage": "audit logs is disabled",
 		"alertScore": 9,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
