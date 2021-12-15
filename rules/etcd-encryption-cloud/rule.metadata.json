@@ -7,6 +7,16 @@
   "match": [
     {
       "apiGroups": [
+      ],
+      "apiVersions": [
+      ],
+      "resources": [
+      ]
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
         "cloudvendordata.armo.cloud"
       ],
       "apiVersions": [

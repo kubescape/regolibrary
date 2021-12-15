@@ -4,8 +4,8 @@ package armo_builtins
 # Check if audit logs is enabled for GKE
 deny[msga] {
 	clusterConfig := input[_]
-	clusterConfig.kind == "Description"
-    clusterConfig.group == "CloudProviderData"
+	clusterConfig.kind == "description"
+    clusterConfig.group == "cloudvendordata.armo.cloud"
     clusterConfig.provider == "gke"
     # If enableComponents is empty, it will disable logging
     # https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters#loggingcomponentconfig
@@ -18,7 +18,7 @@ deny[msga] {
 		"failedPaths": ,
 		"alertObject": {
 			"k8sApiObjects": [],
-			"externalObjects": 
+            "externalObjects": clusterConfig
 		}
 	}
 }
@@ -27,9 +27,9 @@ deny[msga] {
 # Check if audit logs is enabled for EKS
 deny[msga] {
 	clusterConfig := input[_]
-	clusterConfig.kind == "Description"
-    clusterConfig.group == "CloudProviderData"
-    clusterConfig.provider == "gke"
+	clusterConfig.kind == "description"
+    clusterConfig.group == "cloudvendordata.armo.cloud"
+    clusterConfig.provider == "eks"
     # logSetup is an object representing the enabled or disabled Kubernetes control plane logs for your cluster.
     # types - available cluster control plane log types
     # https://docs.aws.amazon.com/eks/latest/APIReference/API_LogSetup.html
@@ -43,7 +43,7 @@ deny[msga] {
 		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],
-			"externalObjects": 
+			"externalObjects": clusterConfig
 		}
 	}
 }
