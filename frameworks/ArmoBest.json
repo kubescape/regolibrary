@@ -32,6 +32,9 @@
       "Portforwarding privileges",
       "Image pull policy on latest image tag",
       "Namespace without service accounts",
-      "Cluster internal networking"
+      "Cluster internal networking",
+      "Audit logs enabled",
+      "etcd encryption enabled",
+      "PSP enabled"
     ]
   }
