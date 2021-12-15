@@ -11,11 +11,12 @@ C-0064,image-pull-policy-on-latest-image-tag
 C-0042,rule-can-ssh-to-pod
 C-0046,insecure-capabilities
 C-0036,list-all-validating-webhooks
-C-0066,etcd-encryption-cloud
+C-0068,psp-enabled-cloud
 C-0062,sudo-in-container-entrypoint
 C-0058,Symlink-Exchange-Can-Allow-Host-Filesystem-Access
 C-0054,internal-networking
 C-0028,dangerous-capabilities
+C-0067,k8s-audit-logs-enabled-cloud
 C-0049,internal-networking
 C-0045,alert-rw-hostpath
 C-0053,access-container-service-account
@@ -39,10 +40,8 @@ C-0019,rule-can-bash-cmd-inside-container
 C-0065,rule-can-impersonate-users-groups
 C-0065,rule-can-impersonate-users-groups-v1
 C-0011,internal-networking
-C-0067,k8s-audit-logs-enabled-cloud
 C-0039,list-all-mutating-webhooks
 C-0016,rule-allow-privilege-escalation
-C-0068,psp-enabled-cloud
 C-0060,namespace-without-service-account
 C-0005,insecure-port-flag
 C-0059,nginx-ingress-snippet-annotation-vulnerability
@@ -53,6 +52,7 @@ C-0002,exec-into-container-v1
 C-0047,rule-exposed-dashboard
 C-0047,rule-exposed-dashboard-v1
 C-0033,access-tiller-endpoint
+C-0066,etcd-encryption-cloud
 C-0037,rule-can-update-configmap
 C-0037,rule-can-update-configmap-v1
 C-0017,immutable-container-filesystem
