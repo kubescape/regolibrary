@@ -1,5 +1,5 @@
 package armo_builtins
-
+import data.cautils as cautils
 
 # Check if audit logs is enabled for GKE
 deny[msga] {
@@ -15,7 +15,7 @@ deny[msga] {
 		"alertMessage": "audit logs is disabled",
 		"alertScore": 9,
 		"packagename": "armo_builtins",
-		"failedPaths": ,
+		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": clusterConfig
