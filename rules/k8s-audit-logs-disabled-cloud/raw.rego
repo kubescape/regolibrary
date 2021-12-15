@@ -27,7 +27,7 @@ deny[msga] {
 # Check if audit logs is enabled for EKS
 deny[msga] {
 	clusterConfig := input[_]
-	clusterConfig.kind == "description"
+	clusterConfig.kind == "ClusterDescription"
     clusterConfig.group == "cloudvendordata.armo.cloud"
     clusterConfig.provider == "eks"
     # logSetup is an object representing the enabled or disabled Kubernetes control plane logs for your cluster.

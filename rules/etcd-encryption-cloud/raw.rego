@@ -4,7 +4,7 @@ package armo_builtins
 # Check if encryption in etcd in enabled for EKS
 deny[msga] {
 	clusterConfig := input[_]
-	clusterConfig.kind == "description"
+	clusterConfig.kind == "ClusterDescription"
     clusterConfig.group == "cloudvendordata.armo.cloud"	
     clusterConfig.provider == "eks"
 
