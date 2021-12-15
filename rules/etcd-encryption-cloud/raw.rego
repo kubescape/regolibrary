@@ -9,6 +9,8 @@ deny[msga] {
     clusterConfig.provider == "eks"
 
     encryptionConfig := clusterConfig.cluster.encryptionConfig[_]
+	count(encryptionConfig) > 0
+	count(encryptionConfig.resources) > 0
     resource := encryptionConfig.resources[_]
     resource == "secrets"
 	
