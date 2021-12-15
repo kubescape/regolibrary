@@ -21,6 +21,9 @@ NSA,C-0044,Container hostPort
 NSA,C-0054,Cluster internal networking
 NSA,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
 NSA,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+NSA,C-0067,Audit logs enabled
+NSA,C-0066,etcd encryption enabled
+NSA,C-0068,PSP enabled
 MITRE,C-0053,Access container service account
 MITRE,C-0014,Access Kubernetes dashboard
 MITRE,C-0033,Access tiller endpoint
@@ -48,6 +51,9 @@ MITRE,C-0037,CoreDNS poisoning
 MITRE,C-0007,Data Destruction
 MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
 MITRE,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+MITRE,C-0067,Audit logs enabled
+MITRE,C-0066,etcd encryption enabled
+MITRE,C-0068,PSP enabled
 ArmoBest,C-0005,Control plane hardening
 ArmoBest,C-0038,Host PID/IPC privileges
 ArmoBest,C-0017,Immutable container filesystem
@@ -76,3 +82,6 @@ ArmoBest,C-0063,Portforwarding privileges
 ArmoBest,C-0064,Image pull policy on latest image tag
 ArmoBest,C-0060,Namespace without service accounts
 ArmoBest,C-0054,Cluster internal networking
+ArmoBest,C-0067,Audit logs enabled
+ArmoBest,C-0066,etcd encryption enabled
+ArmoBest,C-0068,PSP enabled
