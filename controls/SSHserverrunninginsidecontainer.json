@@ -9,7 +9,7 @@
     "description": "An SSH server that is running inside a container may be used by attackers to get remote access to the container. This control checks if pods have an open SSH port (22/2222).",
     "remediation": "Remove SSH from the container image or limit the access to the SSH server using network policies.",
     "rulesNames": [
-        "rule-can-ssh-to-pod"
+        "rule-can-ssh-to-pod", "rule-can-ssh-to-pod-v1"
     ],
     "id": "C-0042",
     "long_description": "SSH server that is running inside a container may be used by attackers. If attackers gain valid credentials to a container, whether by brute force attempts or by other methods (such as phishing), they can use it to get remote access to the container by SSH.",
