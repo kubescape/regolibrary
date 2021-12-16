@@ -9,6 +9,7 @@ C-0014,rule-access-dashboard-wl-v1
 C-0048,alert-any-hostpath
 C-0064,image-pull-policy-on-latest-image-tag
 C-0042,rule-can-ssh-to-pod
+C-0042,rule-can-ssh-to-pod-v1
 C-0046,insecure-capabilities
 C-0036,list-all-validating-webhooks
 C-0068,psp-enabled-cloud
