@@ -3,6 +3,7 @@ import data
 # import data.kubernetes.api.client as client
 
 allowlist(z) = x {
+	# see default-config-inputs.json for list values
 	x := data.postureControlInputs.imageRepositoryAllowList
 }
 

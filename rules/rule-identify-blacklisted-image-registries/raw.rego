@@ -3,10 +3,12 @@ import data
 # Check for images from blacklisted repos
 
 untrusted_registries(z) = x {
+	# see default-config-inputs.json for list values
 	x := data.postureControlInputs.untrustedRegistries
 }
 
 public_registries(z) = y{
+	# see default-config-inputs.json for list values
 	y := data.postureControlInputs.publicRegistries
 }
 

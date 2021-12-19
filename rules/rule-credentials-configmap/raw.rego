@@ -7,6 +7,7 @@ import data
 deny[msga] {
 	configmap := input[_]
     configmap.kind == "ConfigMap"
+    # see default-config-inputs.json for list values
     sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
     key_name := sensitive_key_names[_]
     map_secret := configmap.data[map_key]
@@ -25,6 +26,7 @@ deny[msga] {
 
 # fails if config map has values with suspicious content - not base 64
 deny[msga] {
+    # see default-config-inputs.json for list values
     sensitive_values := data.postureControlInputs.sensitiveValues
     value := sensitive_values[_]
 
@@ -46,6 +48,7 @@ deny[msga] {
 
 # fails if config map has values with suspicious content - base 64
 deny[msga] {
+    # see default-config-inputs.json for list values
     sensitive_values := data.postureControlInputs.sensitiveValues
     value := sensitive_values[_]
 

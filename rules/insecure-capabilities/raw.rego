@@ -55,6 +55,7 @@ deny[msga] {
 }
 
 isDangerousCapabilities(container, begginingOfPath, i) = path {
+	# see default-config-inputs.json for list values
     insecureCapabilities := data.postureControlInputs.insecureCapabilities
 	path = [sprintf("%vcontainers[%v].securityContext.capabilities.add[%v]", [begginingOfPath, format_int(i, 10), format_int(k, 10)]) | capability = container.securityContext.capabilities.add[k]; cautils.list_contains(insecureCapabilities, capability)]
 	count(path) > 0
