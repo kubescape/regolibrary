@@ -16,7 +16,6 @@ C-0068,psp-enabled-cloud
 C-0062,sudo-in-container-entrypoint
 C-0058,Symlink-Exchange-Can-Allow-Host-Filesystem-Access
 C-0054,internal-networking
-C-0028,dangerous-capabilities
 C-0067,k8s-audit-logs-enabled-cloud
 C-0049,internal-networking
 C-0045,alert-rw-hostpath

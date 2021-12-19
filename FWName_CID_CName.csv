@@ -13,7 +13,6 @@ NSA,C-0016,Allow privilege escalation
 NSA,C-0012,Applications credentials in configuration files
 NSA,C-0035,Cluster-admin binding
 NSA,C-0002,Exec into container
-NSA,C-0028,Dangerous capabilities
 NSA,C-0046,Insecure capabilities
 NSA,C-0055,Linux hardening
 NSA,C-0030,Ingress and Egress blocked
@@ -68,7 +67,6 @@ ArmoBest,C-0016,Allow privilege escalation
 ArmoBest,C-0012,Applications credentials in configuration files
 ArmoBest,C-0035,Cluster-admin binding
 ArmoBest,C-0002,Exec into container
-ArmoBest,C-0028,Dangerous capabilities
 ArmoBest,C-0046,Insecure capabilities
 ArmoBest,C-0055,Linux hardening
 ArmoBest,C-0030,Ingress and Egress blocked
