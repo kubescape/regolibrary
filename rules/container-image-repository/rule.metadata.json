@@ -1,32 +1,41 @@
 {
-    "name": "container-image-repository",
-    "attributes": {
-      "m$K8sThreatMatrix": "Collection::Images from private registry",
-      "armoBuiltin": true
-    },
-    "ruleLanguage": "Rego",
-    "match": [
-      {
-        "apiGroups": [
-          "*"
-        ],
-        "apiVersions": [
-          "*"
-        ],
-        "resources": [
-          "Pods",
-          "Deployment",
-          "ReplicaSet",
-          "DaemonSet",
-          "StatefulSet",
-          "Job",
-          "CronJob"
-        ]
-      }
-    ],
-    "ruleDependencies": [],
-    "configInputs": ["settings.postureControlInputs.imageRepositoryAllowList"],
-    "description": "fails if image is not from allowlisted registry (microsoft, google, azure) and also has no imagePullSecrets",
-    "remediation": "",
-    "ruleQuery": ""
-  }
+  "name": "container-image-repository",
+  "attributes": {
+    "m$K8sThreatMatrix": "Collection::Images from private registry",
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Pods",
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet",
+        "Job",
+        "CronJob"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "configInputs": [
+    "settings.postureControlInputs.imageRepositoryAllowList"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.imageRepositoryAllowList",
+      "name": "Allowed image repositories",
+      "description": "Kubescape checks that all containers are using an image from an allowed repository from the following list."
+    }
+  ],
+  "description": "fails if image is not from allowlisted registry (microsoft, google, azure) and also has no imagePullSecrets",
+  "remediation": "",
+  "ruleQuery": ""
+}
