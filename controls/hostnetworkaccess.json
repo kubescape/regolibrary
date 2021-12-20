@@ -1,5 +1,5 @@
 {
-    "name": "hostNetwork access",
+    "name": "HostNetwork access",
     "attributes": {
         "armoBuiltin": true
     },
