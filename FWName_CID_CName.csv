@@ -6,7 +6,6 @@ NSA,C-0013,Non-root containers
 NSA,C-0057,Privileged container
 NSA,C-0006,Allowed hostPath
 NSA,C-0034,Automatic mapping of service account
-NSA,C-0041,hostNetwork access
 NSA,C-0009,Resource policies
 NSA,C-0047,Exposed dashboard
 NSA,C-0016,Allow privilege escalation
@@ -21,7 +20,6 @@ NSA,C-0054,Cluster internal networking
 NSA,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
 NSA,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
 NSA,C-0067,Audit logs enabled
-NSA,C-0066,etcd encryption enabled
 NSA,C-0068,PSP enabled
 MITRE,C-0053,Access container service account
 MITRE,C-0014,Access Kubernetes dashboard
@@ -34,7 +32,6 @@ MITRE,C-0054,Cluster internal networking
 MITRE,C-0002,Exec into container
 MITRE,C-0047,Exposed dashboard
 MITRE,C-0021,Exposed sensitive interfaces
-MITRE,C-0048,hostPath mount
 MITRE,C-0052,Instance Metadata API
 MITRE,C-0026,Kubernetes CronJob
 MITRE,C-0015,List Kubernetes secrets
@@ -51,7 +48,6 @@ MITRE,C-0007,Data Destruction
 MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
 MITRE,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
 MITRE,C-0067,Audit logs enabled
-MITRE,C-0066,etcd encryption enabled
 MITRE,C-0068,PSP enabled
 ArmoBest,C-0005,Control plane hardening
 ArmoBest,C-0038,Host PID/IPC privileges
@@ -60,7 +56,6 @@ ArmoBest,C-0013,Non-root containers
 ArmoBest,C-0057,Privileged container
 ArmoBest,C-0006,Allowed hostPath
 ArmoBest,C-0034,Automatic mapping of service account
-ArmoBest,C-0041,hostNetwork access
 ArmoBest,C-0009,Resource policies
 ArmoBest,C-0047,Exposed dashboard
 ArmoBest,C-0016,Allow privilege escalation
@@ -81,5 +76,4 @@ ArmoBest,C-0064,Image pull policy on latest image tag
 ArmoBest,C-0060,Namespace without service accounts
 ArmoBest,C-0054,Cluster internal networking
 ArmoBest,C-0067,Audit logs enabled
-ArmoBest,C-0066,etcd encryption enabled
 ArmoBest,C-0068,PSP enabled
