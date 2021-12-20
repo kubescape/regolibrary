@@ -14,7 +14,7 @@ deny[msga] {
 	
 	msga := {
 		"alertMessage": "etcd encryption is not enabled",
-		"alertScore": 9,
+		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths":[] ,
 		"alertObject": {
@@ -39,7 +39,7 @@ deny[msga] {
 	
 	msga := {
 		"alertMessage": "etcd encryption is not enabled",
-		"alertScore": 9,
+		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"alertObject": {

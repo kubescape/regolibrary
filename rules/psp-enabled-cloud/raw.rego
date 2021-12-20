@@ -15,7 +15,7 @@ deny[msga] {
 	
 	msga := {
 		"alertMessage": "pod security policy configuration is not enabled",
-		"alertScore": 9,
+		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"alertObject": {

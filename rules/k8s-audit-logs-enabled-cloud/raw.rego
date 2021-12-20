@@ -14,7 +14,7 @@ deny[msga] {
 	isLoggingDisabled(config)
 	msga := {
 		"alertMessage": "audit logs is disabled",
-		"alertScore": 9,
+		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"alertObject": {
@@ -40,7 +40,7 @@ deny[msga] {
 	
 	msga := {
 		"alertMessage": "audit logs is disabled",
-		"alertScore": 9,
+		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"alertObject": {
