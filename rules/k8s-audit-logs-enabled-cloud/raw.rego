@@ -4,12 +4,14 @@ import data.cautils as cautils
 # Check if audit logs is enabled for GKE
 deny[msga] {
 	clusterConfig := input[_]
-	clusterConfig.kind == "ClusterDescription"
-    clusterConfig.group == "cloudvendordata.armo.cloud"
-    clusterConfig.provider == "gke"
+	clusterConfig.apiVersion == "container.googleapis.com/v1"
+	clusterConfig.kind == "Describe"
+    clusterConfig.metadata.provider == "gke"	
+	config := clusterConfig.data
+	
     # If enableComponents is empty, it will disable logging
     # https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters#loggingcomponentconfig
-	isLoggingDisabled(clusterConfig)
+	isLoggingDisabled(config)
 	msga := {
 		"alertMessage": "audit logs is disabled",
 		"alertScore": 9,
@@ -26,13 +28,14 @@ deny[msga] {
 # Check if audit logs is enabled for EKS
 deny[msga] {
 	clusterConfig := input[_]
-	clusterConfig.kind == "ClusterDescription"
-    clusterConfig.group == "cloudvendordata.armo.cloud"
-    clusterConfig.provider == "eks"
+	clusterConfig.apiVersion == "eks.amazonaws.com/v1"
+	clusterConfig.kind == "Describe"
+    clusterConfig.metadata.provider == "eks"	
+	config := clusterConfig.data
     # logSetup is an object representing the enabled or disabled Kubernetes control plane logs for your cluster.
     # types - available cluster control plane log types
     # https://docs.aws.amazon.com/eks/latest/APIReference/API_LogSetup.html
-    goodTypes := [logSetup  | logSetup =  clusterConfig.Cluster.Logging.ClusterLogging[_];  isAuditLogs(logSetup)]
+    goodTypes := [logSetup  | logSetup =  config.Cluster.Logging.ClusterLogging[_];  isAuditLogs(logSetup)]
     count(goodTypes) == 0
 	
 	msga := {

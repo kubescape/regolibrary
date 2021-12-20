@@ -17,13 +17,13 @@
     "dynamicMatch": [
       {
         "apiGroups": [
-          "cloudvendordata.armo.cloud"
+          "container.googleapis.com"
         ],
         "apiVersions": [
-          "v1beta0"
+          "v1"
         ],
         "resources": [
-          "gke/ClusterDescription"
+          "Describe"
         ]
       }
     ],

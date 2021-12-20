@@ -4,11 +4,12 @@ package armo_builtins
 # Check if encryption in etcd in enabled for EKS
 deny[msga] {
 	clusterConfig := input[_]
-	clusterConfig.kind == "ClusterDescription"
-    clusterConfig.group == "cloudvendordata.armo.cloud"	
-    clusterConfig.provider == "eks"
+	clusterConfig.apiVersion == "eks.amazonaws.com/v1"
+	clusterConfig.kind == "Describe"
+    clusterConfig.metadata.provider == "eks"	
+	config = clusterConfig.data
 
-	isNotEncrypted(clusterConfig)
+	isNotEncryptedEKS(config)
     
 	
 	msga := {
@@ -28,10 +29,13 @@ deny[msga] {
 # Check if encryption in etcd in enabled for GKE
 deny[msga] {
 	clusterConfig := input[_]
-	clusterConfig.kind == "ClusterDescription"
-    clusterConfig.group == "cloudvendordata.armo.cloud"
-    clusterConfig.provider == "gke"
-    not clusterConfig.databaseEncryption.state == "ENCRYPTED"
+	clusterConfig.apiVersion == "container.googleapis.com/v1"
+	clusterConfig.kind == "Describe"
+    clusterConfig.metadata.provider == "gke"	
+	config := clusterConfig.data
+
+	not isEncryptedGKE(config)
+    
 	
 	msga := {
 		"alertMessage": "etcd encryption is not enabled",
@@ -45,22 +49,28 @@ deny[msga] {
 	}
 }
 
+isEncryptedGKE(config) {
+	 config.databaseEncryption.state == "1"
+}
+isEncryptedGKE(config) {
+	 config.databaseEncryption.state == "ENCRYPTED"
+}
 
-isNotEncrypted(clusterConfig) {
+isNotEncryptedEKS(clusterConfig) {
 	encryptionConfig := clusterConfig.Cluster.EncryptionConfig[_]
     goodResources := [resource  | resource =   clusterConfig.Cluster.EncryptionConfig.Resources[_]; resource == "secrets"]
 	count(goodResources) == 0
 }
 
-isNotEncrypted(clusterConfig) {
+isNotEncryptedEKS(clusterConfig) {
 	clusterConfig.Cluster.EncryptionConfig == null
 }
 
-isNotEncrypted(clusterConfig) {
+isNotEncryptedEKS(clusterConfig) {
 	count(clusterConfig.Cluster.EncryptionConfig) == 0
 }
 
-isNotEncrypted(clusterConfig) {
+isNotEncryptedEKS(clusterConfig) {
 	encryptionConfig := clusterConfig.Cluster.EncryptionConfig[_]
     count(encryptionConfig.Resources) == 0
 }
