@@ -34,6 +34,7 @@ MITRE,C-0054,Cluster internal networking
 MITRE,C-0002,Exec into container
 MITRE,C-0047,Exposed dashboard
 MITRE,C-0021,Exposed sensitive interfaces
+MITRE,C-0048,HostPath mount
 MITRE,C-0052,Instance Metadata API
 MITRE,C-0026,Kubernetes CronJob
 MITRE,C-0015,List Kubernetes secrets
