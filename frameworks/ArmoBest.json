@@ -12,7 +12,7 @@
       "Privileged container",
       "Allowed hostPath",
       "Automatic mapping of service account",
-      "hostNetwork access",
+      "HostNetwork access",
       "Resource policies",
       "Exposed dashboard",
       "Allow privilege escalation",
@@ -33,7 +33,7 @@
       "Namespace without service accounts",
       "Cluster internal networking",
       "Audit logs enabled",
-      "etcd encryption enabled",
+      "Etcd encryption enabled",
       "PSP enabled"
     ]
   }
