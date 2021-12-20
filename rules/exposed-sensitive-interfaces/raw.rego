@@ -13,7 +13,7 @@ deny[msga] {
 	workload_types[wl.kind]
 	result := wl_connectedto_service(wl, service)
     
-    # "Apache NiFi", Kubeflow, "Argo Workflows", "Weave Scope", "Kubernetes dashboard".
+    # see default-config-inputs.json for list values
     services_names := data.postureControlInputs.servicesNames
 	services_names[service.metadata.name]
     # externalIP := service.spec.externalIPs[_]
@@ -40,7 +40,7 @@ deny[msga] {
 	service.kind == "Service"
 	service.spec.type == "NodePort"
     
-    # "Apache NiFi", Kubeflow, "Argo Workflows", "Weave Scope", "Kubernetes dashboard".
+    # see default-config-inputs.json for list values
     services_names := data.postureControlInputs.servicesNames
 	services_names[service.metadata.name]
     
@@ -70,7 +70,7 @@ deny[msga] {
 	service.kind == "Service"
 	service.spec.type == "NodePort"
     
-    # "Apache NiFi", Kubeflow, "Argo Workflows", "Weave Scope", "Kubernetes dashboard".
+    # see default-config-inputs.json for list values
     services_names := data.postureControlInputs.servicesNames
 	services_names[service.metadata.name]
     

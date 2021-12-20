@@ -1,32 +1,40 @@
 {
-    "name": "insecure-capabilities",
-    "attributes": {
-      "armoBuiltin": true
-    },
-    "ruleLanguage": "Rego",
-    "match": [
-      {
-        "apiGroups": [
-          "*"
-        ],
-        "apiVersions": [
-          "*"
-        ],
-        "resources": [
-            "Deployment",
-            "ReplicaSet",
-            "DaemonSet",
-            "StatefulSet",
-            "Job",
-            "Pod",
-            "CronJob"
-        ]
-      }
-    ],
-    "ruleDependencies": [
-    ],
-    "configInputs": ["settings.postureControlInputs.insecureCapabilities"],
-    "description": "fails if container has insecure capabilities",
-    "remediation": "Remove all insecure capabilities which aren’t necessary for the container.",
-    "ruleQuery": "armo_builtins"
+  "name": "insecure-capabilities",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet",
+        "Job",
+        "Pod",
+        "CronJob"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "configInputs": [
+    "settings.postureControlInputs.insecureCapabilities"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.insecureCapabilities",
+      "name": "Insecure capabilities",
+      "description": "You can see the list of capabilities in https://man7.org/linux/man-pages/man7/capabilities.7.html. Kubescape looks for the following capabilities in containers which might lead to attackers getting high privileges in your system."
+    }
+  ],
+  "description": "fails if container has insecure capabilities",
+  "remediation": "Remove all insecure capabilities which aren’t necessary for the container.",
+  "ruleQuery": "armo_builtins"
 }

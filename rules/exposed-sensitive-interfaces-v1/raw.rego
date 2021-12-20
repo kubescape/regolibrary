@@ -8,7 +8,7 @@ deny[msga] {
 	workload_types = {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "Pod", "CronJob"}
 	workload_types[wl.kind]
 
-    # "Apache NiFi", Kubeflow, "Argo Workflows", "Weave Scope", "Kubernetes dashboard".
+    # see default-config-inputs.json for list values
     wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl_name := wl_names[_]
 	contains(wl.metadata.name, wl_name)
@@ -47,7 +47,7 @@ deny[msga] {
 	wl := input[_]
 	wl.kind == "Pod"
     
-    # "Apache NiFi", Kubeflow, "Argo Workflows", "Weave Scope", "Kubernetes dashboard".
+    # see default-config-inputs.json for list values
     wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl_name := wl_names[_]
 	contains(wl.metadata.name, wl_name)
@@ -83,7 +83,7 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "CronJob"}
 	spec_template_spec_patterns[wl.kind]
     
-    # "Apache NiFi", Kubeflow, "Argo Workflows", "Weave Scope", "Kubernetes dashboard".
+    # see default-config-inputs.json for list values
     wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl_name := wl_names[_]
 	contains(wl.metadata.name, wl_name)

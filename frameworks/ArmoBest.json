@@ -19,7 +19,6 @@
       "Applications credentials in configuration files",
       "Cluster-admin binding",
       "Exec into container",
-      "Dangerous capabilities",
       "Insecure capabilities",
       "Linux hardening",
       "Ingress and Egress blocked",

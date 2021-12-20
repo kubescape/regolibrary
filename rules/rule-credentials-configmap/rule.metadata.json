@@ -1,26 +1,41 @@
 {
-    "name": "rule-credentials-configmap",
-    "attributes": {
-      "m$K8sThreatMatrix": "Credential access::Applications credentials in configuration files, Lateral Movement::Applications credentials in configuration files",
-      "armoBuiltin": true
+  "name": "rule-credentials-configmap",
+  "attributes": {
+    "m$K8sThreatMatrix": "Credential access::Applications credentials in configuration files, Lateral Movement::Applications credentials in configuration files",
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "ConfigMap"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "configInputs": [
+    "settings.postureControlInputs.sensitiveValues",
+    "settings.postureControlInputs.sensitiveKeyNames"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.sensitiveValues",
+      "name": "Values",
+      "description": "Secrets are stored as a key/value pair. The names of the keys/values may change from one company to the other. Below you can find some examples of popular value phrases that Kubescape is searching for"
     },
-    "ruleLanguage": "Rego",
-    "match": [
-      {
-        "apiGroups": [
-          "*"
-        ],
-        "apiVersions": [
-          "*"
-        ],
-        "resources": [
-          "ConfigMap"
-        ]
-      }
-    ],
-    "ruleDependencies": [],
-    "configInputs": ["settings.postureControlInputs.sensitiveValues","settings.postureControlInputs.sensitiveKeyNames"],
-    "description": "fails if ConfigMaps have sensitive information in configuration",
-    "remediation": "",
-    "ruleQuery": "armo_builtins"
-  }
+    {
+      "path": "settings.postureControlInputs.sensitiveKeyNames",
+      "name": "Keys",
+      "description": "Secrets are stored as a key/value pair. The names of the keys/values may change from one company to the other. Here you can find some examples of popular key phrases that Kubescape is searching for"
+    }
+  ],
+  "description": "fails if ConfigMaps have sensitive information in configuration",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}
