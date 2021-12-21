@@ -50,10 +50,10 @@ deny[msga] {
 }
 
 isEncryptedGKE(config) {
-	 config.databaseEncryption.state == "1"
+	 config.database_encryption.state == "1"
 }
 isEncryptedGKE(config) {
-	 config.databaseEncryption.state == "ENCRYPTED"
+	 config.database_encryption.state == "ENCRYPTED"
 }
 
 isNotEncryptedEKS(clusterConfig) {

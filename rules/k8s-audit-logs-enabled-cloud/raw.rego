@@ -52,11 +52,11 @@ deny[msga] {
 
 
 isLoggingDisabled(clusterConfig) {
-	not clusterConfig.loggingConfig.componentConfig.enableComponents
+	not clusterConfig.logging_config.component_config.enable_components
 }
 isLoggingDisabled(clusterConfig) {
-	clusterConfig.loggingConfig.componentConfig.enableComponents
-	count(clusterConfig.loggingConfig.componentConfig.enableComponents) == 0
+	clusterConfig.logging_config.component_config.enable_components
+	count(clusterConfig.logging_config.component_config.enable_components) == 0
 }
 
 isAuditLogs(logSetup) {

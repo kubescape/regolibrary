@@ -8,7 +8,7 @@ deny[msga] {
 	clusterConfig.kind == "ClusterDescribe"
     clusterConfig.metadata.provider == "gke"	
 	config := clusterConfig.data
-    not config.podSecurityPolicyConfig.enabled == true
+    not config.pod_security_policy_config.enabled == true
 
 
 	
