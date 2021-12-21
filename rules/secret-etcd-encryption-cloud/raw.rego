@@ -5,7 +5,7 @@ package armo_builtins
 deny[msga] {
 	clusterConfig := input[_]
 	clusterConfig.apiVersion == "eks.amazonaws.com/v1"
-	clusterConfig.kind == "Describe"
+	clusterConfig.kind == "ClusterDescribe"
     clusterConfig.metadata.provider == "eks"	
 	config = clusterConfig.data
 
@@ -13,7 +13,7 @@ deny[msga] {
     
 	
 	msga := {
-		"alertMessage": "etcd encryption is not enabled",
+		"alertMessage": "etcd/secret encryption is not enabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths":[] ,
@@ -30,7 +30,7 @@ deny[msga] {
 deny[msga] {
 	clusterConfig := input[_]
 	clusterConfig.apiVersion == "container.googleapis.com/v1"
-	clusterConfig.kind == "Describe"
+	clusterConfig.kind == "ClusterDescribe"
     clusterConfig.metadata.provider == "gke"	
 	config := clusterConfig.data
 
@@ -38,7 +38,7 @@ deny[msga] {
     
 	
 	msga := {
-		"alertMessage": "etcd encryption is not enabled",
+		"alertMessage": "etcd/secret encryption is not enabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths": [],

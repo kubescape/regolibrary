@@ -33,7 +33,7 @@
     "CVE-2021-25741 - Using symlink for arbitrary host file system access.",
     "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability",
     "Audit logs enabled",
-    "Etcd encryption enabled",
+    "Secret/ETCD encryption enabled",
     "PSP enabled"
   ]
 }

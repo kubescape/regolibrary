@@ -5,7 +5,7 @@ import data.cautils as cautils
 deny[msga] {
 	clusterConfig := input[_]
 	clusterConfig.apiVersion == "container.googleapis.com/v1"
-	clusterConfig.kind == "Describe"
+	clusterConfig.kind == "ClusterDescribe"
     clusterConfig.metadata.provider == "gke"	
 	config := clusterConfig.data
 	
@@ -29,7 +29,7 @@ deny[msga] {
 deny[msga] {
 	clusterConfig := input[_]
 	clusterConfig.apiVersion == "eks.amazonaws.com/v1"
-	clusterConfig.kind == "Describe"
+	clusterConfig.kind == "ClusterDescribe"
     clusterConfig.metadata.provider == "eks"	
 	config := clusterConfig.data
     # logSetup is an object representing the enabled or disabled Kubernetes control plane logs for your cluster.

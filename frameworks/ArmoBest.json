@@ -33,7 +33,7 @@
       "Namespace without service accounts",
       "Cluster internal networking",
       "Audit logs enabled",
-      "Etcd encryption enabled",
+      "Secret/ETCD encryption enabled",
       "PSP enabled"
     ]
   }

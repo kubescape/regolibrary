@@ -1,5 +1,5 @@
 {
-  "name": "etcd-encryption-cloud",
+  "name": "secret-etcd-encryption-cloud",
   "attributes": {
   "armoBuiltin": true
   },
