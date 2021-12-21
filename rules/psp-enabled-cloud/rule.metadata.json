@@ -23,7 +23,7 @@
           "v1"
         ],
         "resources": [
-          "Describe"
+          "ClusterDescribe"
         ]
       }
     ],
