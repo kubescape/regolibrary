@@ -67,6 +67,7 @@ C-0041,host-network-access
 C-0052,instance-metadata-api-access
 C-0030,ingress-and-egress-blocked
 C-0069,anonymous-requests-to-kubelet-service
+C-0070,enforce-kubelet-client-tls-authentication
 C-0012,rule-credentials-in-env-var
 C-0012,rule-credentials-configmap
 C-0020,alert-any-hostpath
