@@ -23,6 +23,8 @@ NSA,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
 NSA,C-0067,Audit logs enabled
 NSA,C-0066,Etcd encryption enabled
 NSA,C-0068,PSP enabled
+NSA,C-0071,Validate Kubelet TLS configuration
+NSA,C-0069,Disable anonymous access to Kubelet service
 MITRE,C-0053,Access container service account
 MITRE,C-0014,Access Kubernetes dashboard
 MITRE,C-0033,Access tiller endpoint
