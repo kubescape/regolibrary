@@ -1,5 +1,5 @@
 {
-    "name": "etcd-encryption-native",
+    "name": "k8s-audit-logs-enabled-native",
     "attributes": {
     "armoBuiltin": true,
     "resourcesAggregator": "apiserver-pod",

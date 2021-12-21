@@ -28,6 +28,9 @@
       "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability",
       "Audit logs enabled",
       "Etcd encryption enabled",
-      "PSP enabled"
+      "PSP enabled",
+      "Validate Kubelet TLS configuration",
+      "Enforce Kubelet client TLS authentication",
+      "Disable anonymous access to Kubelet service"
     ]
   }

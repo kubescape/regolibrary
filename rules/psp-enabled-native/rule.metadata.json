@@ -1,5 +1,5 @@
 {
-    "name": "etcd-encryption-native",
+    "name": "psp-enabled-native",
     "attributes": {
     "armoBuiltin": true,
     "resourcesAggregator": "apiserver-pod",

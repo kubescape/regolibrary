@@ -1,0 +1,42 @@
+{
+    "name": "anonymous-requests-to-kubelet-service",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+        ],
+        "apiVersions": [
+        ],
+        "resources": [
+        ]
+      }
+    ],
+    "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.armo.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletConfiguration",
+        "KubeletCommandLine"
+      ]
+    }
+  ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      },
+      {
+        "packageName": "kubernetes.api.client"
+      }
+    ],
+    "description": "Determines if anonymous requests are to kubelet service are allowed.",
+    "remediation": "Disable anonymous requests by setting  the anonymous-auth flag to false, or using the kubelet configuration file.",
+    "ruleQuery": ""
+  }

@@ -1,0 +1,42 @@
+{
+    "name": "validate-kubelet-tls-configuration",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+          "apiGroups": [
+          ],
+          "apiVersions": [
+          ],
+          "resources": [
+          ]
+        }
+      ],
+      "dynamicMatch": [
+      {
+        "apiGroups": [
+          "hostdata.armo.cloud"
+        ],
+        "apiVersions": [
+          "v1beta0"
+        ],
+        "resources": [
+          "KubeletConfiguration",
+          "KubeletCommandLine"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      },
+      {
+        "packageName": "kubernetes.api.client"
+      }
+    ],
+    "description": "Determines if kubelet has tls configuration.",
+    "remediation": "Start the kubelet with the --tls-cert-file and --tls-private-key-file flags, providing the X509 certificate and its matching private key.",
+    "ruleQuery": ""
+  }
