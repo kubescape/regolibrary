@@ -6,7 +6,7 @@ deny[msga] {
 	apiserverpod := input[_]
     cmd := apiserverpod.spec.containers[0].command
     not cautils.list_contains(cmd, "--encryption-provider-config=")
-	path := sprintf("spec.containers[0].command", [format_int(j, 10)])	
+	path := "spec.containers[0].command"	
 	
 	msga := {
 		"alertMessage": "etcd encryption is not enabled",
