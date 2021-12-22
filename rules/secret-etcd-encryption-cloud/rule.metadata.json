@@ -1,5 +1,5 @@
 {
-  "name": "psp-enabled-cloud",
+  "name": "secret-etcd-encryption-cloud",
   "attributes": {
   "armoBuiltin": true
   },
@@ -7,14 +7,24 @@
   "match": [
     {
       "apiGroups": [
-        "cloudvendordata.armo.cloud"
       ],
       "apiVersions": [
-        "v1beta0"
       ],
       "resources": [
-        "eks/description",
-        "gke/description"
+      ]
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "container.googleapis.com",
+        "eks.amazonaws.com"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "ClusterDescribe"
       ]
     }
   ],

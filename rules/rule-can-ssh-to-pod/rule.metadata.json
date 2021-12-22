@@ -2,7 +2,8 @@
   "name": "rule-can-ssh-to-pod",
   "attributes": {
     "microsoftK8sThreatMatrix": "Execution::SSH server running inside container",
-    "armoBuiltin": true
+    "armoBuiltin": true,
+    "useUntilKubescapeVersion": "v1.0.133"
   },
   "ruleLanguage": "Rego",
   "match": [

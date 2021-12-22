@@ -12,14 +12,13 @@
       "Privileged container",
       "Allowed hostPath",
       "Automatic mapping of service account",
-      "hostNetwork access",
+      "HostNetwork access",
       "Resource policies",
       "Exposed dashboard",
       "Allow privilege escalation",
       "Applications credentials in configuration files",
       "Cluster-admin binding",
       "Exec into container",
-      "Dangerous capabilities",
       "Insecure capabilities",
       "Linux hardening",
       "Ingress and Egress blocked",
@@ -32,6 +31,9 @@
       "Portforwarding privileges",
       "Image pull policy on latest image tag",
       "Namespace without service accounts",
-      "Cluster internal networking"
+      "Cluster internal networking",
+      "Audit logs enabled",
+      "Secret/ETCD encryption enabled",
+      "PSP enabled"
     ]
   }

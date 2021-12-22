@@ -1,5 +1,5 @@
 {
-    "name": "hostPath mount",
+    "name": "HostPath mount",
     "attributes": {
         "armoBuiltin": true,
         "microsoftMitreColumns": [

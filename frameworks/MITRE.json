@@ -16,7 +16,7 @@
     "Exec into container",
     "Exposed dashboard",
     "Exposed sensitive interfaces",
-    "hostPath mount",
+    "HostPath mount",
     "Instance Metadata API",
     "Kubernetes CronJob",
     "List Kubernetes secrets",
@@ -31,6 +31,9 @@
     "CoreDNS poisoning",
     "Data Destruction",
     "CVE-2021-25741 - Using symlink for arbitrary host file system access.",
-    "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability"
+    "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability",
+    "Audit logs enabled",
+    "Secret/ETCD encryption enabled",
+    "PSP enabled"
   ]
 }

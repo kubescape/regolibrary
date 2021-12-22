@@ -6,6 +6,7 @@
 	deny[msga] {
 		pod := input[_]
 		pod.kind == "Pod"
+		# see default-config-inputs.json for list values
 		sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
 		key_name := sensitive_key_names[_]
 		container := pod.spec.containers[i]
@@ -30,6 +31,7 @@
 		spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 		spec_template_spec_patterns[wl.kind]
 
+		# see default-config-inputs.json for list values
 		sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
 		key_name := sensitive_key_names[_]
 		container := wl.spec.template.spec.containers[i]
@@ -52,6 +54,7 @@
 	deny[msga] {
 		wl := input[_]
 		wl.kind == "CronJob"
+		# see default-config-inputs.json for list values
 		sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
 		key_name := sensitive_key_names[_]
 		container := wl.spec.jobTemplate.spec.template.spec.containers[i]

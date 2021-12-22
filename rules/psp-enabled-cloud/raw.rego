@@ -4,19 +4,23 @@ package armo_builtins
 # Check if PSP is enabled for GKE
 deny[msga] {
 	clusterConfig := input[_]
-	clusterConfig.kind == "Description"
-    clusterConfig.group == "CloudProviderData"
-    clusterConfig.provider == "gke"
-    clusterConfig.podSecurityPolicyConfig.enabled == "true"
+	clusterConfig.apiVersion == "container.googleapis.com/v1"
+	clusterConfig.kind == "ClusterDescribe"
+    clusterConfig.metadata.provider == "gke"	
+	config := clusterConfig.data
+    not config.pod_security_policy_config.enabled == true
+
+
+	
 	
 	msga := {
-		"alertMessage": sprintf("etcd encryption is not enabled"),
-		"alertScore": 9,
+		"alertMessage": "pod security policy configuration is not enabled",
+		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],
-			"externalObjects": 
+            "externalObjects": clusterConfig
 		}
 	}
 }
