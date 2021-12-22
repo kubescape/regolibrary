@@ -1,6 +1,7 @@
 ControlID,RuleName
 C-0035,rule-list-all-cluster-admins
 C-0035,rule-list-all-cluster-admins-v1
+C-0077,K8s common labels usage
 C-0006,alert-rw-hostpath
 C-0055,linux-hardening
 C-0014,rule-access-dashboard
@@ -17,6 +18,7 @@ C-0068,psp-enabled-native
 C-0062,sudo-in-container-entrypoint
 C-0058,Symlink-Exchange-Can-Allow-Host-Filesystem-Access
 C-0054,internal-networking
+C-0074,containers-mounting-docker-socket
 C-0049,internal-networking
 C-0045,alert-rw-hostpath
 C-0053,access-container-service-account
@@ -46,16 +48,19 @@ C-0065,rule-can-impersonate-users-groups
 C-0065,rule-can-impersonate-users-groups-v1
 C-0011,internal-networking
 C-0039,list-all-mutating-webhooks
+C-0073,naked-pods
 C-0016,rule-allow-privilege-escalation
 C-0060,namespace-without-service-account
 C-0005,insecure-port-flag
 C-0059,nginx-ingress-snippet-annotation-vulnerability
 C-0026,rule-deny-cronjobs
 C-0025,deny-RCE-vuln-image-pods
+C-0075,image-pull-policy-is-not-set-to-always
 C-0002,exec-into-container
 C-0002,exec-into-container-v1
 C-0047,rule-exposed-dashboard
 C-0047,rule-exposed-dashboard-v1
+C-0076,label-usage-for-resources
 C-0033,access-tiller-endpoint
 C-0037,rule-can-update-configmap
 C-0037,rule-can-update-configmap-v1

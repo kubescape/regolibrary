@@ -86,3 +86,8 @@ ArmoBest,C-0054,Cluster internal networking
 ArmoBest,C-0067,Audit logs enabled
 ArmoBest,C-0066,Secret/ETCD encryption enabled
 ArmoBest,C-0068,PSP enabled
+DevOpsBest,C-0073,Naked PODs
+DevOpsBest,C-0074,Containers mounting docker socket
+DevOpsBest,C-0075,Image pull policy is not set to always
+DevOpsBest,C-0076,Label usage for resources
+DevOpsBest,C-0077,K8s common labels usage
