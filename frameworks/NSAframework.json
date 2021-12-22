@@ -25,12 +25,6 @@
       "Container hostPort",
       "Cluster internal networking",
       "CVE-2021-25741 - Using symlink for arbitrary host file system access.",
-      "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability",
-      "Audit logs enabled",
-      "Secret/ETCD encryption enabled",
-      "PSP enabled",
-      "Validate Kubelet TLS configuration",
-      "Enforce Kubelet client TLS authentication",
-      "Disable anonymous access to Kubelet service"
+      "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability"
     ]
   }
