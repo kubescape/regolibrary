@@ -1,0 +1,16 @@
+{
+    "name": "Image pull policy is not set to always",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "Using the always pull policy will assure updates to the image repository are propagated to the cluster.",
+    "remediation": "",
+    "rulesNames": [
+        "image-pull-policy-is-not-set-to-always"
+    ],
+    "id": "C-0075",
+    "long_description": "Using the always pull policy will assure updates to the image repository are propagated to the cluster.",
+    "test": "If  imagePullPolicy = always pass, else fail.",
+    "controlID": "C-0075",
+    "baseScore": 0
+}

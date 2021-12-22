@@ -1,0 +1,14 @@
+{
+    "name": "DevOpsBest",
+    "description": "",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "controlsNames": [
+        "Naked PODs",
+        "Containers mounting docker socket",
+        "Image pull policy is not set to always",
+        "Label usage for resources",
+        "K8s common labels usage"
+    ]
+  }

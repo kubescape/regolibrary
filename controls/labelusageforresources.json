@@ -1,0 +1,16 @@
+{
+    "name": "Label usage for resources",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "Define and use labels that identify semantic attributes of your application or Deployment, such as { app: myapp, tier: frontend, phase: test, deployment: v3 }. You can use these labels to select the appropriate Pods for other resources.",
+    "remediation": "",
+    "rulesNames": [
+        "label-usage-for-resources"
+    ],
+    "id": "C-0076",
+    "long_description": "Define and use labels that identify semantic attributes of your application or Deployment, such as { app: myapp, tier: frontend, phase: test, deployment: v3 }. You can use these labels to select the appropriate Pods for other resources.",
+    "test": "Test will check if a certain set of labels is defined, this is a configurable control. Initial list: app, tier, phase, version, owner, env.",
+    "controlID": "C-0076",
+    "baseScore": 0
+}
