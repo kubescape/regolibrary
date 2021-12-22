@@ -1,0 +1,30 @@
+{
+    "name": "label-usage-for-resources",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Pods",
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet",
+          "Job",
+          "CronJob"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "check if a certain set of labels is defined, this is a configurable control. Initial list: app, tier, phase, version, owner, env.",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

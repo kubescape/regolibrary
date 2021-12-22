@@ -1,0 +1,16 @@
+{
+    "name": "Naked PODs",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "Don't use naked Pods (that is, Pods not bound to a ReplicaSet or Deployment) if you can avoid it. Naked Pods will not be rescheduled in the event of a node failure.",
+    "remediation": "",
+    "rulesNames": [
+        "naked-pods"
+    ],
+    "id": "C-0073",
+    "long_description": "Don't use naked Pods (that is, Pods not bound to a ReplicaSet or Deployment) if you can avoid it. Naked Pods will not be rescheduled in the event of a node failure.",
+    "test": "Test if pods are not associated to replica-set or deployment, if not – fail.",
+    "controlID": "C-0073",
+    "baseScore": 0
+}
