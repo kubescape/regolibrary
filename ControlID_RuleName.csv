@@ -78,3 +78,4 @@ C-0070,enforce-kubelet-client-tls-authentication
 C-0012,rule-credentials-in-env-var
 C-0012,rule-credentials-configmap
 C-0020,alert-any-hostpath
+C-0001,rule-identify-blocklisted-image-registries
