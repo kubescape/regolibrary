@@ -74,8 +74,3 @@ ArmoBest,C-0063,Portforwarding privileges
 ArmoBest,C-0064,Image pull policy on latest image tag
 ArmoBest,C-0060,Namespace without service accounts
 ArmoBest,C-0054,Cluster internal networking
-DevOpsBest,C-0073,Naked PODs
-DevOpsBest,C-0074,Containers mounting docker socket
-DevOpsBest,C-0075,Image pull policy is not set to always
-DevOpsBest,C-0076,Label usage for resources
-DevOpsBest,C-0077,K8s common labels usage
