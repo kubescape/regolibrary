@@ -2,18 +2,12 @@ package armo_builtins
 import data
 # import data.kubernetes.api.client as client
 
-allowlist(z) = x {
-	# see default-config-inputs.json for list values
-	x := data.postureControlInputs.imageRepositoryAllowList
-}
-
 untrustedImageRepo[msga] {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
 	image := container.image
-    registry := allowlist(image)[_]
-	not contains(image, registry)
+	not imageInAllowedList(image)
 	path := sprintf("spec.containers[%v].image", [format_int(i, 10)])
     not pod.spec["imagePullSecrets"]
 
@@ -34,8 +28,7 @@ untrustedImageRepo[msga] {
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 	image := container.image
-    registry := allowlist(image)[_]
-	not contains(image, registry)
+    not imageInAllowedList(image)
 
     not wl.spec.template.spec["imagePullSecrets"]
 	path := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
@@ -55,8 +48,7 @@ untrustedImageRepo[msga] {
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 	image := container.image
-    registry := allowlist(image)[_]
-	not contains(image, registry)
+    not imageInAllowedList(image)
 
     not wl.spec.jobTemplate.spec.template.spec["imagePullSecrets"]
 	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)])
@@ -69,4 +61,11 @@ untrustedImageRepo[msga] {
 			"k8sApiObjects": [wl]
 		}
 	}
+}
+
+imageInAllowedList(image){
+	# see default-config-inputs.json for list values
+	allowedlist := data.postureControlInputs.imageRepositoryAllowList
+	registry := allowedlist[_]
+	regex.match(registry, image)
 }
