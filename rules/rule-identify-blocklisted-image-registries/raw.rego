@@ -1,25 +1,25 @@
 package armo_builtins
 import data
-# import data.kubernetes.api.client as client
+# Check for images from blocklisted repos
 
 untrustedImageRepo[msga] {
 	pod := input[_]
-	pod.kind == "Pod"
+	k := pod.kind
+	k == "Pod"
 	container := pod.spec.containers[i]
-	image := container.image
-	not imageInAllowedList(image)
 	path := sprintf("spec.containers[%v].image", [format_int(i, 10)])
-    not pod.spec["imagePullSecrets"]
+	image := container.image
+    untrusted_or_public_registries(image)
 
 	msga := {
 		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [image, container.name]),
+		"packagename": "armo_builtins",
 		"alertScore": 2,
-        "packagename": "armo_builtins",
 		"failedPaths": [path],
-		"alertObject": {
+         "alertObject": {
 			"k8sApiObjects": [pod]
 		}
-	}
+    }
 }
 
 untrustedImageRepo[msga] {
@@ -27,45 +27,55 @@ untrustedImageRepo[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
-	image := container.image
-    not imageInAllowedList(image)
-
-    not wl.spec.template.spec["imagePullSecrets"]
 	path := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
+	image := container.image
+    untrusted_or_public_registries(image)
+
 	msga := {
 		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [image, container.name]),
+		"packagename": "armo_builtins",
 		"alertScore": 2,
-        "packagename": "armo_builtins",
 		"failedPaths": [path],
-		"alertObject": {
+         "alertObject": {
 			"k8sApiObjects": [wl]
 		}
-	}
+    }
 }
 
 untrustedImageRepo[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
-	image := container.image
-    not imageInAllowedList(image)
-
-    not wl.spec.jobTemplate.spec.template.spec["imagePullSecrets"]
 	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)])
+	image := container.image
+    untrusted_or_public_registries(image)
+
 	msga := {
 		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [image, container.name]),
+		"packagename": "armo_builtins",
 		"alertScore": 2,
-        "packagename": "armo_builtins",
 		"failedPaths": [path],
-			"alertObject": {
+        "alertObject": {
 			"k8sApiObjects": [wl]
 		}
-	}
+    }
 }
 
-imageInAllowedList(image){
+untrusted_or_public_registries(image){
 	# see default-config-inputs.json for list values
-	allowedlist := data.postureControlInputs.imageRepositoryAllowList
-	registry := allowedlist[_]
-	regex.match(registry, image)
+	untrusted_registries := data.postureControlInputs.untrustedRegistries
+	repo_prefix := untrusted_registries[_]
+	startswith(image, repo_prefix)
+}
+
+untrusted_or_public_registries(image){
+	# see default-config-inputs.json for list values
+	public_registries := data.postureControlInputs.publicRegistries
+	repo_prefix := public_registries[_]
+	startswith(image, repo_prefix)
+}
+
+untrusted_or_public_registries(image){
+	# the lack of registry name defaults to docker hub
+	not contains(image, "/")
 }

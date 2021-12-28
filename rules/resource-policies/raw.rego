@@ -6,12 +6,14 @@ deny[msga] {
   	pods := [pod | pod = input[_]; pod.kind == "Pod"]
     pod := pods[_]
 	container := pod.spec.containers[i]
-	not  container.resources.limits
-	path := sprintf("spec.containers[%v]", [format_int(i, 10)])
+	
+	
+	begginingOfPath := "spec."
+	path := isNoCpuAndMemoryLimitsDefined(container, begginingOfPath, i)
 	
 
 	msga := {
-		"alertMessage": sprintf("there are no resource limits defined for container : %v",  [container.name]),
+		"alertMessage": sprintf("there are no cpu and memory  limits defined for container : %v",  [container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [path],
@@ -30,13 +32,14 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
-	not  container.resources.limits
-	isNamespaceWithLimits(wl.metadata.namespace)
-	path := sprintf("spec.template.spec.containers[%v]", [format_int(i, 10)])
-
+	
+	begginingOfPath	:= "spec.template.spec."
+	path := isNoCpuAndMemoryLimitsDefined(container, begginingOfPath, i)
+	
+	
 
 	msga := {
-		"alertMessage": sprintf("there are no resource limits defined for container : %v",  [container.name]),
+		"alertMessage": sprintf("there are no cpu and memory limits defined for container : %v",  [container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [path],
@@ -54,12 +57,12 @@ deny [msga] {
     wl := input[_]
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
-	not  container.resources.limits
-	isNamespaceWithLimits(wl.metadata.namespace)
-	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v]", [format_int(i, 10)])
-
+	
+	begginingOfPath := "spec.jobTemplate.spec.template.spec."
+	path := isNoCpuAndMemoryLimitsDefined(container, begginingOfPath, i)
+	
 	msga := {
-		"alertMessage": sprintf("there are no resource limits defined for container : %v",  [container.name]),
+		"alertMessage": sprintf("there are no cpu and memory limits defined for container : %v",  [container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [path],
@@ -69,56 +72,19 @@ deny [msga] {
 	}
 }
 
-
-# Fails if LimitRange exists but it does not define maximum usage of resources
-deny[msga] {
-
-    limitRanges := [limitRange | limitRange = input[_]; limitRange.kind == "LimitRange"]
-    limitRange := limitRanges[_]
-
-	limits := limitRange.spec.limits[i]
-    not limits.max
-	path := sprintf("spec.limits[%v]", [format_int(i, 10)])
-
-	msga := {
-		"alertMessage": sprintf("the following LimitRange: %v does not define a maximum field for resources",  [limitRange.metadata.name]),
-		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"failedPaths": [path],
-		"alertObject": {
-			"k8sApiObjects": [limitRange]
-		}
-	}
+isNoCpuAndMemoryLimitsDefined(container, begginingOfPath, i) =	path {
+	not container.resources.limits
+	path := sprintf("%vcontainers[%v].resources", [begginingOfPath, format_int(i, 10)])
 }
 
-# Fails if ResourQuota exists but it does not define maximum usage of resources
-deny[msga] {
-    resourceQuotas := [resourceQuota | resourceQuota = input[_]; resourceQuota.kind == "ResourceQuota"]
-    resourceQuota := resourceQuotas[_]
-
-    not resourceQuota.spec.hard
-	path := "spec"
-
-	msga := {
-		"alertMessage": sprintf("the following ResourQuota: %v does not define a hard field",  [resourceQuota.metadata.name]),
-		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"failedPaths": [path],
-		"alertObject": {
-			"k8sApiObjects": [resourceQuota]
-		}
-	}
+isNoCpuAndMemoryLimitsDefined(container, begginingOfPath, i) =	path {
+	container.resources.limits
+	not container.resources.limits.cpu
+	path := sprintf("%vcontainers[%v].resources.limits", [begginingOfPath, format_int(i, 10)])
 }
 
-
-list_contains(list, element) {
-  some i
-  list[i] == element
-}
-
-
-# Check only LimitRange. For ResourceQuota limits need to be specified. 
-isNamespaceWithLimits(namespace) {
-    limitRanges := [policy.metadata.namespace | policy = input[_]; policy.kind == "LimitRange"]
-    not list_contains(limitRanges, namespace)
+isNoCpuAndMemoryLimitsDefined(container, begginingOfPath, i)  =	path {
+	container.resources.limits
+	not container.resources.limits.memory
+	path := sprintf("%vcontainers[%v].resources.limits", [begginingOfPath, format_int(i, 10)])
 }

@@ -4,11 +4,12 @@ import data.kubernetes.api.client as client
 deny[msga] {
 		kubeletConfig := input[_]
 		kubeletConfig.kind == "KubeletConfiguration"
-		kubeletConfig.apiVersion == "hostdata.armo.cloud/v1beta0"
+		kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
 		kubeletCli := input[_]            
 		kubeletCli.kind == "KubeletCommandLine"
-		kubeletCli.apiVersion == "hostdata.armo.cloud/v1beta0"
+		kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+		
 
 		externalObj := isAnonymouRequestsDisabled(kubeletConfig, kubeletCli)
 
@@ -26,14 +27,15 @@ deny[msga] {
 
 # CLI overrides config
 isAnonymouRequestsDisabled(kubeletConfig, kubeletCli) = obj {
-	flag := kubeletCli.data["anonymous-auth"]
-	flag == true
+	kubeletCliData := kubeletCli.data
+	contains(kubeletCliData["fullCommand"], "anonymous-auth=true")
     obj := kubeletCli
 }
 
 isAnonymouRequestsDisabled(kubeletConfig, kubeletCli) = obj {
 	kubeletConfig.data.authentication.anonymous.enabled == true
-	not kubeletCli.data["anonymous-auth"] == false
-    not kubeletCli.data["anonymous-auth"] == true
+	kubeletCliData := kubeletCli.data
+	not contains(kubeletCliData["fullCommand"], "anonymous-auth=false")
+    not contains(kubeletCliData["fullCommand"], "anonymous-auth=true")
     obj := kubeletConfig
 }

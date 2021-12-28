@@ -182,7 +182,7 @@ def create_md_for_control(control):
     md_text += '## Related resources\n'
 
     md_text += ', '.join(sorted(list(related_resources))) + '\n'
-    md_text += '## What does this control tests\n'
+    md_text += '## What does this control test\n'
     test = control['test'] if 'test' in control else control['description']
     md_text += test + '\n'
     md_text += '## Remediation\n'
