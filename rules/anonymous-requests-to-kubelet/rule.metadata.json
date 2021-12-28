@@ -17,7 +17,7 @@
     "dynamicMatch": [
     {
       "apiGroups": [
-        "hostdata.armo.cloud"
+        "hostdata.kubescape.cloud"
       ],
       "apiVersions": [
         "v1beta0"
