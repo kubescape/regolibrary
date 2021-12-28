@@ -37,7 +37,6 @@ C-0031,rule-can-delete-k8s-events
 C-0031,rule-can-delete-k8s-events-v1
 C-0013,non-root-containers
 C-0024,deny-vuln-image-pods
-C-0071,validate-kubelet-tls-configuration
 C-0061,pods-in-default-namespace
 C-0009,resource-policies
 C-0038,host-pid-ipc-privileges
