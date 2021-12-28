@@ -4,13 +4,15 @@ import data.kubernetes.api.client as client
 deny[msga] {
 		kubeletConfig := input[_]
 		kubeletConfig.kind == "KubeletConfiguration"
-		kubeletConfig.apiVersion == "hostdata.armo.cloud/v1beta0"
+		kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
 		kubeletCli := input[_]            
 		kubeletCli.kind == "KubeletCommandLine"
-		kubeletCli.apiVersion == "hostdata.armo.cloud/v1beta0"
+		kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+		kubeletCliData := kubeletCli.data
 
-		isClientTlsDisabled(kubeletConfig, kubeletCli)
+
+		isClientTlsDisabled(kubeletConfig, kubeletCliData)
 
 
 		msga := {
@@ -25,7 +27,7 @@ deny[msga] {
 	}
 
 # CLI overrides config
-isClientTlsDisabled(kubeletConfig, kubeletCli) {
-	not kubeletCli.data["client-ca-file"]
+isClientTlsDisabled(kubeletConfig, kubeletCliData) {
+	not contains(kubeletCliData["fullCommand"], "client-ca-file")
     not kubeletConfig.data.authentication.x509.clientCAFile
 }
