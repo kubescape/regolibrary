@@ -3,15 +3,16 @@ package armo_builtins
 
 # Fails if workload is Pod
 deny[msga] {
-    wl := input[_]
-	wl.kind == "Pod"
+    pod := input[_]
+	pod.kind == "Pod"
+	not pod.metadata.ownerReferences
 	msga := {
-		"alertMessage": sprintf("Pod: %v not associated with ReplicaSet or Deployment", [wl.metadata.name]),
+		"alertMessage": sprintf("Pod: %v not associated with ReplicaSet or Deployment", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 0,
-		"failedPaths": "kind",
+		"failedPaths": ["metadata"],
 		"alertObject": {
-			"k8sApiObjects": [wl]
+			"k8sApiObjects": [pod]
 		}
 	}
 }
