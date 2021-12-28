@@ -7,7 +7,7 @@ deny[msga] {
     pod.kind == "Pod"
     container := pod.spec.containers[i]
 	not container.resources.limits.memory
-	path := sprintf("spec.containers[%v]", [format_int(i, 10)])
+	path := sprintf("spec.containers[%v].resources", [format_int(i, 10)])
 
 
 	msga := {
@@ -28,7 +28,7 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
     container := wl.spec.template.spec.containers[i]
     not container.resources.limits.memory
-	path := sprintf("spec.template.spec.containers[%v]", [format_int(i, 10)])
+	path := sprintf("spec.template.spec.containers[%v].resources", [format_int(i, 10)])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have memory-limit", [ container.name, wl.kind, wl.metadata.name]),
@@ -47,7 +47,7 @@ deny[msga] {
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
     not container.resources.limits.memory
-	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v]", [format_int(i, 10)])
+	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources", [format_int(i, 10)])
 
     msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have memory-limit", [ container.name, wl.kind, wl.metadata.name]),

@@ -7,7 +7,7 @@ deny[msga] {
     pod := pods[_]
 	container := pod.spec.containers[i]
 	not  container.resources.limits
-	path := sprintf("spec.containers[%v]", [format_int(i, 10)])
+	path := sprintf("spec.containers[%v].resources", [format_int(i, 10)])
 	
 
 	msga := {
@@ -32,7 +32,7 @@ deny[msga] {
 	container := wl.spec.template.spec.containers[i]
 	not  container.resources.limits
 	isNamespaceWithLimits(wl.metadata.namespace)
-	path := sprintf("spec.template.spec.containers[%v]", [format_int(i, 10)])
+	path := sprintf("spec.template.spec.containers[%v].resources", [format_int(i, 10)])
 
 
 	msga := {
@@ -56,7 +56,7 @@ deny [msga] {
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 	not  container.resources.limits
 	isNamespaceWithLimits(wl.metadata.namespace)
-	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v]", [format_int(i, 10)])
+	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources", [format_int(i, 10)])
 
 	msga := {
 		"alertMessage": sprintf("there are no resource limits defined for container : %v",  [container.name]),
