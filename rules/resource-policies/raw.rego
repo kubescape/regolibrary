@@ -5,14 +5,16 @@ package armo_builtins
 deny[msga] {
   	pods := [pod | pod = input[_]; pod.kind == "Pod"]
     pod := pods[_]
-	container := pod.spec.containers[_]
+	container := pod.spec.containers[i]
 	not  container.resources.limits
+	path := sprintf("spec.containers[%v]", [format_int(i, 10)])
+	
 
 	msga := {
 		"alertMessage": sprintf("there are no resource limits defined for container : %v",  [container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -27,15 +29,17 @@ deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[_]
+	container := wl.spec.template.spec.containers[i]
 	not  container.resources.limits
 	isNamespaceWithLimits(wl.metadata.namespace)
+	path := sprintf("spec.template.spec.containers[%v]", [format_int(i, 10)])
+
 
 	msga := {
 		"alertMessage": sprintf("there are no resource limits defined for container : %v",  [container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -49,14 +53,16 @@ deny[msga] {
 deny [msga] {
     wl := input[_]
 	wl.kind == "CronJob"
-	container := wl.spec.jobTemplate.spec.template.spec.containers[_]
+	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 	not  container.resources.limits
 	isNamespaceWithLimits(wl.metadata.namespace)
+	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v]", [format_int(i, 10)])
+
 	msga := {
 		"alertMessage": sprintf("there are no resource limits defined for container : %v",  [container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -70,14 +76,15 @@ deny[msga] {
     limitRanges := [limitRange | limitRange = input[_]; limitRange.kind == "LimitRange"]
     limitRange := limitRanges[_]
 
-	limits := limitRange.spec.limits[_]
+	limits := limitRange.spec.limits[i]
     not limits.max
+	path := sprintf("spec.limits[%v]", [format_int(i, 10)])
 
 	msga := {
 		"alertMessage": sprintf("the following LimitRange: %v does not define a maximum field for resources",  [limitRange.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [limitRange]
 		}
@@ -90,12 +97,13 @@ deny[msga] {
     resourceQuota := resourceQuotas[_]
 
     not resourceQuota.spec.hard
+	path := "spec"
 
 	msga := {
 		"alertMessage": sprintf("the following ResourQuota: %v does not define a hard field",  [resourceQuota.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [resourceQuota]
 		}

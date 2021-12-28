@@ -1,5 +1,6 @@
 package armo_builtins
 
+# TODO - FIX FAILED PATHS IF THE CONTROL WILL BE ACTIVE AGAIN
 
 # Fails if pod has container  configured to run with id less than 1000
 deny[msga] {
@@ -118,23 +119,27 @@ deny[msga] {
 
 
 isRootPod(pod, container, begginingOfPath) = path {
+	path = ""
     not container.securityContext.runAsUser
     pod.spec.securityContext.runAsUser < 1000
 	path = sprintf("%vspec.securityContext.runAsUser", [begginingOfPath])
 }
 
 isRootPod(pod, container, begginingOfPath) = path {
+	path = ""
     not container.securityContext.runAsGroup
     pod.spec.securityContext.runAsGroup < 1000
 	path = sprintf("%vspec.securityContext.runAsGroup", [begginingOfPath])
 }
 
 isRootContainer(container, begginingOfPath, i) = path {
+	path = ""
     container.securityContext.runAsUser < 1000
 	path = sprintf("%vcontainers[%v].securityContext.runAsUser", [begginingOfPath, format_int(i, 10)])
 }
 
 isRootContainer(container, begginingOfPath, i) = path {
+	path = ""
      container.securityContext.runAsGroup < 1000
 	 path = sprintf("%vcontainers[%v].securityContext.runAsGroup", [begginingOfPath, format_int(i, 10)])
 }

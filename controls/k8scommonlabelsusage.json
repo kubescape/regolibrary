@@ -1,0 +1,16 @@
+{
+    "name": "K8s common labels usage",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "Use the Kubernetes common labels for common use cases. These standardized labels enrich the metadata in a way that allows tools, including kubectl and dashboard, to work in an interoperable way.",
+    "remediation": "",
+    "rulesNames": [
+        "K8s common labels usage"
+    ],
+    "id": "C-0077",
+    "long_description": "Use the Kubernetes common labels for common use cases. These standardized labels enrich the metadata in a way that allows tools, including kubectl and dashboard, to work in an interoperable way.",
+    "test": "Test will check if the list of label that start with app.kubernetes.io/ are defined.",
+    "controlID": "C-0077",
+    "baseScore": 0
+}

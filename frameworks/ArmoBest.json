@@ -12,19 +12,17 @@
       "Privileged container",
       "Allowed hostPath",
       "Automatic mapping of service account",
-      "hostNetwork access",
+      "HostNetwork access",
       "Resource policies",
       "Exposed dashboard",
       "Allow privilege escalation",
       "Applications credentials in configuration files",
       "Cluster-admin binding",
       "Exec into container",
-      "Dangerous capabilities",
       "Insecure capabilities",
       "Linux hardening",
       "Ingress and Egress blocked",
       "Container hostPort",
-      "Network policies",
       "CVE-2021-25741 - Using symlink for arbitrary host file system access.",
       "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability",
       "No impersonation",
@@ -32,6 +30,7 @@
       "Sudo in container entrypoint",
       "Portforwarding privileges",
       "Image pull policy on latest image tag",
-      "Namespace without service accounts"
+      "Namespace without service accounts",
+      "Cluster internal networking"
     ]
   }

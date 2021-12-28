@@ -3,7 +3,8 @@
     "attributes": {
       "microsoftK8sThreatMatrix": "Defense Evasion::Clear container logs",
       "armoBuiltin": true,
-      "resourcesAggregator": "subject-role-rolebinding"
+      "resourcesAggregator": "subject-role-rolebinding",
+      "useFromKubescapeVersion": "v1.0.133"
     },
     "ruleLanguage": "Rego",
     "match": [

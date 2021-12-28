@@ -1,5 +1,5 @@
 {
-    "name": "hostNetwork access",
+    "name": "HostNetwork access",
     "attributes": {
         "armoBuiltin": true
     },
@@ -12,5 +12,6 @@
     "long_description": "We have it in ArmoBest",
     "test": "",
     "controlID": "C-0041",
-    "baseScore": 5.0
+    "baseScore": 5.0, 
+    "example": "@controls/examples/c041.yaml"
 }

@@ -1,5 +1,6 @@
 package armo_builtins
 import data
+import data.cautils as cautils
 
 deny[msga] {
     pod := input[_]
@@ -11,7 +12,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in pod: %v  have dangerous capabilities", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -29,7 +30,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in workload: %v  have dangerous capabilities", [container.name, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -46,7 +47,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in cronjob: %v  have dangerous capabilities", [container.name, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -54,9 +55,8 @@ deny[msga] {
 }
 
 isDangerousCapabilities(container, begginingOfPath, i) = path {
+	# see default-config-inputs.json for list values
     insecureCapabilities := data.postureControlInputs.insecureCapabilities
-    insecureCapabilitie := insecureCapabilities[_]
-	capabilite := container.securityContext.capabilities.add[k]
-    capabilite == insecureCapabilitie
-	path = sprintf("%vcontainers[%v].securityContext.capabilities.add[%v]", [begginingOfPath, format_int(i, 10), format_int(k, 10)])
+	path = [sprintf("%vcontainers[%v].securityContext.capabilities.add[%v]", [begginingOfPath, format_int(i, 10), format_int(k, 10)]) | capability = container.securityContext.capabilities.add[k]; cautils.list_contains(insecureCapabilities, capability)]
+	count(path) > 0
 }

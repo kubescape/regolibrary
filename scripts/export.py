@@ -16,6 +16,7 @@ framework_control_rows = []
 def load_rules():
     p1 = os.path.join(currDir, 'rules') 
     regofile = 'raw.rego'
+    filterregofile = 'filter.rego'
     rules_path = Path(p1).glob('**/*.json')
     loaded_rules = {}  # rules loaded from file system
     rules_list = []
@@ -30,6 +31,12 @@ def load_rules():
             rule = f.read()
             if new_rule:
                 new_rule["rule"] = rule
+                try:
+                    with open(path_in_str[:pos + 1] + filterregofile, 'r') as f:
+                        filter_rego = f.read()
+                        new_rule["resourceEnumerator"] = filter_rego
+                except:
+                    pass
         rules_list.append(new_rule) 
         loaded_rules[new_rule['name']] = new_rule
 
@@ -110,6 +117,13 @@ def validate_controls():
     if sum_of_controls != len(set_of_ids):
         raise Exception("Error validate the numbers of controls, {} != {}".format(sum_of_controls ,len(set_of_ids)))
 
+def load_default_config_inputs():
+    default_filename = "default-config-inputs"
+    p5 = os.path.join(currDir, default_filename + ".json")
+    with open(p5, "r") as f:
+        config_inputs = json.load(f)
+    return config_inputs
+
 
 def export_json(data: dict, f_name:str, output_path: str):
     os.makedirs(output_path, exist_ok=True)
@@ -130,6 +144,7 @@ if __name__ == '__main__':
     controls, controls_list = load_controls(loaded_rules=rules)
     validate_controls()
     frameworks, frameworks_list = load_frameworks(loaded_controls=controls)
+    default_config_inputs = load_default_config_inputs()
 
     # create full framework json files
     # TODO - delete when kubescape works with csv files
@@ -140,6 +155,7 @@ if __name__ == '__main__':
     export_json(frameworks_list, 'frameworks', "release")
     export_json(controls_list, 'controls', "release")
     export_json(rules_list, 'rules', "release")
+    export_json(default_config_inputs, 'default_config_inputs', "release")
 
     # file 1 - 'ControlID', 'RuleName'
     header1 = ['ControlID', 'RuleName']

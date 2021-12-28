@@ -1,7 +1,7 @@
 package armo_builtins
 import data.cautils as cautils
 
-# Fails if user can modify all configmaps, or if he can modify the 'coredns' configmap (default for coredns)
+# Fails if user can modify all configmaps
 deny [msga] {
      subjectVector := input[_]
 	role := subjectVector.relatedObjects[i]
@@ -9,13 +9,31 @@ deny [msga] {
 	endswith(subjectVector.relatedObjects[i].kind, "Role")
 	endswith(subjectVector.relatedObjects[j].kind, "Binding")
 
-     rule:= role.rules[_]
-     canModifyConfigMapResource(rule)
-     canModifyConfigMapVerb(rule)
+     rule:= role.rules[p]
+	subject := rolebinding.subjects[k]
+
+	verbs := ["update", "patch", "*"]
+  	verbsPath := [sprintf("relatedObjects[%v].rules[%v].verbs[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | verb =  rule.verbs[l];cautils.list_contains(verbs, verb)]
+	count(verbsPath) > 0
+
+	apiGroups := ["", "*"]
+	apiGroupsPath := [sprintf("relatedObjects[%v].rules[%v].apiGroups[%v]", [format_int(i, 10),format_int(p, 10), format_int(a, 10)])  | apiGroup =  rule.apiGroups[a];cautils.list_contains(apiGroups, apiGroup)]
+	count(apiGroupsPath) > 0
+
+	resources := ["configmaps", "*"]
+     not rule.resourceNames
+	resourcesPath := [sprintf("relatedObjects[%v].rules[%v].resources[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | resource =  rule.resources[l]; cautils.list_contains(resources, resource)]
+	count(resourcesPath) > 0
+
+	path := array.concat(resourcesPath, verbsPath)
+	path2 := array.concat(path, apiGroupsPath)
+	path3 := array.concat(path2, [sprintf("relatedObjects[%v].roleRef.subjects[%v]", [format_int(j, 10), format_int(k, 10)])])
+	finalpath := array.concat(path3, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
 
     	msga := {
 		"alertMessage": sprintf("Subject: %v-%v can modify 'coredns' configmap", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
+          "failedPaths": finalpath,
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [],
@@ -24,25 +42,43 @@ deny [msga] {
   	}
 }
 
-canModifyConfigMapResource(rule) {
-     not rule.resourceNames
-     cautils.list_contains(rule.resources,"configmaps")
-}
-canModifyConfigMapResource(rule) {
-     not rule.resourceNames
-     cautils.list_contains(rule.resources,"*")
-}
-canModifyConfigMapResource(rule) {
-     cautils.list_contains(rule.resources,"configmaps")
-     cautils.list_contains(rule.resourceNames,"coredns")
-}
 
-canModifyConfigMapVerb(rule) {
-     cautils.list_contains(rule.verbs,"update")
-}
-canModifyConfigMapVerb(rule) {
-     cautils.list_contains(rule.verbs,"patch")
-}
-canModifyConfigMapVerb(rule) {
-     cautils.list_contains(rule.verbs,"*")
+# Fails if user  can modify the 'coredns' configmap (default for coredns)
+deny [msga] {
+     subjectVector := input[_]
+	role := subjectVector.relatedObjects[i]
+	rolebinding := subjectVector.relatedObjects[j]
+	endswith(subjectVector.relatedObjects[i].kind, "Role")
+	endswith(subjectVector.relatedObjects[j].kind, "Binding")
+
+     rule:= role.rules[p]
+	subject := rolebinding.subjects[k]
+
+	verbs := ["update", "patch", "*"]
+  	verbsPath := [sprintf("relatedObjects[%v].rules[%v].verbs[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | verb =  rule.verbs[l];cautils.list_contains(verbs, verb)]
+	count(verbsPath) > 0
+
+	apiGroups := ["", "*"]
+	apiGroupsPath := [sprintf("relatedObjects[%v].rules[%v].apiGroups[%v]", [format_int(i, 10),format_int(p, 10), format_int(a, 10)])  | apiGroup =  rule.apiGroups[a];cautils.list_contains(apiGroups, apiGroup)]
+	count(apiGroupsPath) > 0
+
+	resources := ["configmaps", "*"]
+     cautils.list_contains(rule.resourceNames,"coredns")
+	resourcesPath := [sprintf("relatedObjects[%v].rules[%v].resources[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | resource =  rule.resources[l]; cautils.list_contains(resources, resource)]
+	count(resourcesPath) > 0
+
+	path := array.concat(resourcesPath, verbsPath)
+	path2 := array.concat(path, apiGroupsPath)
+	path3 := array.concat(path2, [sprintf("relatedObjects[%v].roleRef.subjects[%v]", [format_int(j, 10), format_int(k, 10)])])
+	finalpath := array.concat(path3, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
+    	msga := {
+		"alertMessage": sprintf("Subject: %v-%v can modify 'coredns' configmap", [subjectVector.kind, subjectVector.name]),
+		"alertScore": 3,
+          "failedPaths": finalpath,
+		"packagename": "armo_builtins",
+		"alertObject": {
+			"k8sApiObjects": [],
+			"externalObjects": subjectVector
+		}
+  	}
 }

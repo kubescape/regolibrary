@@ -1,0 +1,7 @@
+readinessProbe:  # we are looking for this section in the reasorce defenition
+  exec:
+    command:
+    - cat
+    - /tmp/healthy
+  initialDelaySeconds: 5
+  periodSeconds: 5

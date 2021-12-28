@@ -1,37 +1,47 @@
 {
-    "name": "exposed-sensitive-interfaces",
-    "attributes": {
-      "microsoftK8sThreatMatrix": "Initial access::Exposed sensitive interfaces",
-      "armoBuiltin": true
-    },
-    "ruleLanguage": "Rego",
-    "match": [
-      {
-        "apiGroups": [
-          "*"
-        ],
-        "apiVersions": [
-          "*"
-        ],
-        "resources": [
-          "Service",
-          "Deployment",
-          "ReplicaSet",
-          "DaemonSet",
-          "StatefulSet",
-          "Job",
-          "Pod",
-          "CronJob"
-        ]
-      }
-    ],
-    "ruleDependencies": [
-      {
-        "packageName": "kubernetes.api.client"
-      }
-    ],
-    "configInputs": ["settings.postureControlInputs.servicesNames"],
-    "description": "fails if known interfaces have exposed services",
-    "remediation": "",
-    "ruleQuery": "armo_builtins"
+  "name": "exposed-sensitive-interfaces",
+  "attributes": {
+    "microsoftK8sThreatMatrix": "Initial access::Exposed sensitive interfaces",
+    "armoBuiltin": true,
+    "useUntilKubescapeVersion": "v1.0.133"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Service",
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet",
+        "Job",
+        "Pod",
+        "CronJob"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+    {
+      "packageName": "kubernetes.api.client"
+    }
+  ],
+  "configInputs": [
+    "settings.postureControlInputs.servicesNames"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.servicesNames",
+      "name": "Service names",
+      "description": "Kubescape will look for the following services that exposes sensitive interfaces of common K8s projects/applications"
+    }
+  ],
+  "description": "fails if known interfaces have exposed services",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
 }

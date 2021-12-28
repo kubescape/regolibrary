@@ -34,7 +34,7 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
-	path := sprintf("spec.containers[%v].image", [format_int(i, 10)])
+	path := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
 

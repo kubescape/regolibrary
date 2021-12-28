@@ -18,8 +18,8 @@ deny [msga]{
 }    
 
 isAutoMount(serviceaccount)  = path {
-	serviceaccount.automountServiceAccountToken == true
 	path = "automountServiceAccountToken"
+	serviceaccount.automountServiceAccountToken == true
 }
 
 isAutoMount(serviceaccount) = path {

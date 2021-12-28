@@ -1,0 +1,47 @@
+{
+  "name": "exposed-sensitive-interfaces-v1",
+  "attributes": {
+    "microsoftK8sThreatMatrix": "Initial access::Exposed sensitive interfaces",
+    "armoBuiltin": true,
+    "useFromKubescapeVersion": "v1.0.133"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Service",
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet",
+        "Job",
+        "Pod",
+        "CronJob"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+    {
+      "packageName": "kubernetes.api.client"
+    }
+  ],
+  "configInputs": [
+    "settings.postureControlInputs.sensitiveInterfaces"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.sensitiveInterfaces",
+      "name": "Sensitive interfaces",
+      "description": "The following interfaces were seen exploited. Kubescape checks it they are externally exposed."
+    }
+  ],
+  "description": "fails if known interfaces have exposed services",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

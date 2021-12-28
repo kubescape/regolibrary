@@ -7,12 +7,12 @@ deny[msga] {
     pod.kind == "Pod"
     container := pod.spec.containers[i]
 	begginingOfPath := "spec."
-	result := isHostPort(container, i, begginingOfPath)
+	path := isHostPort(container, i, begginingOfPath)
 	msga := {
 		"alertMessage": sprintf("Container: %v has Host-port", [ container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": path,
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -26,12 +26,12 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
     container := wl.spec.template.spec.containers[i]
 	begginingOfPath := "spec.template.spec."
-    result := isHostPort(container, i, begginingOfPath)
+    path := isHostPort(container, i, begginingOfPath)
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   has Host-port", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": path,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -44,12 +44,12 @@ deny[msga] {
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 	begginingOfPath := "spec.jobTemplate.spec.template.spec."
-    result := isHostPort(container, i, begginingOfPath)
+    path := isHostPort(container, i, begginingOfPath)
     msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   has Host-port", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": path,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -59,7 +59,6 @@ deny[msga] {
 
 
 isHostPort(container, i, begginingOfPath) = path {
-	ports := container.ports[j]
-    ports.hostPort
-	path = sprintf("%vcontainers[%v].ports[%v].hostPort", [begginingOfPath, format_int(i, 10), format_int(j, 10)])
+	path = [sprintf("%vcontainers[%v].ports[%v].hostPort", [begginingOfPath, format_int(i, 10), format_int(j, 10)]) | port = container.ports[j];  port.hostPort]
+	count(path) > 0
 }

@@ -175,7 +175,7 @@ def create_md_for_control(control):
                 if 'resources' in match_obj:
                     related_resources.update(set(match_obj['resources']))
     md_text += ', '.join(sorted(list(related_resources))) + '\n'
-    md_text += '## What does this control tests\n'
+    md_text += '## What does this control test\n'
     test = control['test'] if 'test' in control else control['description']
     md_text += test + '\n'
     md_text += '## Remediation\n'

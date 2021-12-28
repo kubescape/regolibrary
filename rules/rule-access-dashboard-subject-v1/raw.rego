@@ -14,12 +14,12 @@ deny[msga] {
 	subjectVector.name != "kubernetes-dashboard"
 
 	subject := rolebinding.subjects[k]
-    path := sprintf("subjects[%v]", [format_int(k, 10)])
-
+    path := [sprintf("relatedObjects[%v].subjects[%v]", [format_int(j, 10), format_int(k, 10)])]
+	finalpath := array.concat(path, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
 	msga := {
 		"alertMessage": sprintf("Subject: %v-%v is bound to dashboard role/clusterrole", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 9,
-		"failedPaths": [path],
+		"failedPaths": finalpath,
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [],

@@ -1,0 +1,36 @@
+{
+  "name": "secret-etcd-encryption-cloud",
+  "attributes": {
+  "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+      ],
+      "apiVersions": [
+      ],
+      "resources": [
+      ]
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "container.googleapis.com",
+        "eks.amazonaws.com"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "ClusterDescribe"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+  ],
+  "description": "",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

@@ -40,7 +40,7 @@ deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	isHostNetwork(wl.spec.jobTemplate.spec.template.spec)
-	path := "spec.jobTemplate.spec.template.spec"
+	path := "spec.jobTemplate.spec.template.spec.hostNetwork"
     msga := {
 	"alertMessage": sprintf("CronJob: %v has a pod connected to the host network", [wl.metadata.name]),
 		"alertScore": 9,

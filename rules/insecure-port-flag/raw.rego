@@ -5,19 +5,22 @@ import data.cautils as cautils
 deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
-    container := pod.spec.containers[_]
-	isInsecurePortFlag(container)
+	contains(pod.metadata.name, "kube-apiserver")
+    container := pod.spec.containers[i]
+	path = isInsecurePortFlag(container, i)
 	msga := {
 		"alertMessage": sprintf("The API server container: %v has insecure-port flag enabled", [ container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
 	}
 }
 	
-isInsecurePortFlag(container){
-    cautils.list_contains(container.command, "--insecure-port=1")
+isInsecurePortFlag(container, i) = path {
+	command := container.command[j]
+	contains(command, "--insecure-port=1")
+	path := sprintf("spec.containers[%v].command[%v]", [format_int(i, 10), format_int(j, 10)])
 }

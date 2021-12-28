@@ -1,7 +1,7 @@
 package armo_builtins
 
 
-# Fails if workload doas not have replicas more than one
+# Fails if workload  has only one replica
 deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","StatefulSet"}
@@ -9,7 +9,7 @@ deny[msga] {
     spec := wl.spec
     result := replicasOneOrLess(spec)
 	msga := {
-		"alertMessage": sprintf("Workload: %v: %v   doas not have replicas more than one", [ wl.kind, wl.metadata.name]),
+		"alertMessage": sprintf("Workload: %v: %v has only one replica", [ wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [result],

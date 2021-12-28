@@ -12,6 +12,7 @@ deny[msga] {
 	wanted_kinds := {"Pod", "ReplicaSet", "Job"}
 	wanted_kinds[object.kind]
 
+	# see default-config-inputs.json for list values
     wl_known_names := data.postureControlInputs.wlKnownNames
     wl_name := wl_known_names[_]
     contains(object.metadata.name, wl_name)

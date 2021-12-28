@@ -81,7 +81,8 @@ deny[msga] {
 }
 
 isRWMount(mount, begginingOfPath,  i, k) = path {
- not mount.readOnly
+ not mount.readOnly == true
+ not mount.readOnly == false
  path = ""
 }
 isRWMount(mount, begginingOfPath,  i, k) = path {

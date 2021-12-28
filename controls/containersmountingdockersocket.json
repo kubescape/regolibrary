@@ -1,0 +1,16 @@
+{
+    "name": "Containers mounting docker socket",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "Mounting docker socket will enable a container to access the docker internals.",
+    "remediation": "",
+    "rulesNames": [
+        "containers-mounting-docker-socket"
+    ],
+    "id": "C-0074",
+    "long_description": "Mounting docker socket will enable a container to access the docker internals.",
+    "test": "Check hostpath. If the path is set to /var/run/docker.sock or /var/lib/docker , the container has access to Docker internals - fail.",
+    "controlID": "C-0074",
+    "baseScore": 0
+}

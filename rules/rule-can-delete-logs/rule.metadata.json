@@ -1,8 +1,9 @@
 {
-    "name": "rule-can-delete-logs-v0",
+    "name": "rule-can-delete-logs",
     "attributes": {
       "microsoftK8sThreatMatrix": "Defense Evasion::Clear container logs",
-      "armoBuiltin": true
+      "armoBuiltin": true,
+      "useUntilKubescapeVersion": "v1.0.133"
     },
     "ruleLanguage": "Rego",
     "match": [

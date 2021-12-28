@@ -1,0 +1,30 @@
+{
+    "name": "containers-mounting-docker-socket",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Pods",
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet",
+          "Job",
+          "CronJob"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "Check hostpath. If the path is set to /var/run/docker.sock or /var/lib/docker , the container has access to Docker internals - fail.",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }
