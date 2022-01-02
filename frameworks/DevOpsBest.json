@@ -15,8 +15,6 @@
 
         "Pods in default namespace",
         "Container hostPort",
-        "Host PID/IPC privileges",
-        "Privileged container",
 
 
         "Resources CPU limit and request",

@@ -13,7 +13,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("in the following pods a certain set of labels is not defined: %v", [pod.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 0,
+		"alertScore": 2,
 		"failedPaths": path,
          "alertObject": {
 			"k8sApiObjects": [pod]

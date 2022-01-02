@@ -13,7 +13,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("in the following pod the kubernetes common labels are not defined: %v", [pod.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 0,
+		"alertScore": 1,
 		"failedPaths": path,
          "alertObject": {
 			"k8sApiObjects": [pod]
@@ -34,7 +34,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("%v: %v the kubernetes common labels are is not defined:", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 0,
+		"alertScore": 1,
 		"failedPaths": path,
          "alertObject": {
 			"k8sApiObjects": [wl]
@@ -55,7 +55,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("the following cronjobs the kubernetes common labels are not defined: %v", [wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 0,
+		"alertScore": 1,
 		"failedPaths": path,
          "alertObject": {
 			"k8sApiObjects": [wl]

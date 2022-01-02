@@ -9,7 +9,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("Pod: %v not associated with ReplicaSet or Deployment", [pod.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 0,
+		"alertScore": 3,
 		"failedPaths": ["metadata"],
 		"alertObject": {
 			"k8sApiObjects": [pod]
