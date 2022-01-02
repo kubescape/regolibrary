@@ -1,5 +1,5 @@
 {
-  "name": "rule-identify-blacklisted-image-registries",
+  "name": "rule-identify-blocklisted-image-registries",
   "attributes": {
     "m$K8sThreatMatrix": "Initial Access::Compromised images in registry",
     "armoBuiltin": true

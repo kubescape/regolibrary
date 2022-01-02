@@ -19,6 +19,8 @@ C-0062,sudo-in-container-entrypoint
 C-0058,Symlink-Exchange-Can-Allow-Host-Filesystem-Access
 C-0054,internal-networking
 C-0074,containers-mounting-docker-socket
+C-0067,k8s-audit-logs-enabled-cloud
+C-0067,k8s-audit-logs-enabled-native
 C-0049,internal-networking
 C-0045,alert-rw-hostpath
 C-0053,access-container-service-account
@@ -34,10 +36,7 @@ C-0066,etcd-encryption-native
 C-0031,rule-can-delete-k8s-events
 C-0031,rule-can-delete-k8s-events-v1
 C-0013,non-root-containers
-C-0067,k8s-audit-logs-enabled-cloud
-C-0067,k8s-audit-logs-enabled-native
 C-0024,deny-vuln-image-pods
-C-0071,validate-kubelet-tls-configuration
 C-0061,pods-in-default-namespace
 C-0009,resource-policies
 C-0038,host-pid-ipc-privileges
@@ -62,6 +61,8 @@ C-0047,rule-exposed-dashboard
 C-0047,rule-exposed-dashboard-v1
 C-0076,label-usage-for-resources
 C-0033,access-tiller-endpoint
+C-0078,container-image-repository
+C-0078,image-pull-secrets
 C-0037,rule-can-update-configmap
 C-0037,rule-can-update-configmap-v1
 C-0017,immutable-container-filesystem
@@ -76,3 +77,4 @@ C-0070,enforce-kubelet-client-tls-authentication
 C-0012,rule-credentials-in-env-var
 C-0012,rule-credentials-configmap
 C-0020,alert-any-hostpath
+C-0001,rule-identify-blocklisted-image-registries
