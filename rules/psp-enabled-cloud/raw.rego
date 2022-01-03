@@ -10,8 +10,6 @@ deny[msga] {
 	config := clusterConfig.data
     not config.pod_security_policy_config.enabled == true
 
-
-	
 	
 	msga := {
 		"alertMessage": "pod security policy configuration is not enabled",
