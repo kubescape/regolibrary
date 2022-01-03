@@ -17,7 +17,8 @@
     "dynamicMatch": [
       {
         "apiGroups": [
-          "container.googleapis.com"
+          "container.googleapis.com",
+          "eks.amazonaws.com"
         ],
         "apiVersions": [
           "v1"

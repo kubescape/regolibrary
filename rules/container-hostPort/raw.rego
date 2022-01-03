@@ -11,7 +11,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("Container: %v has Host-port", [ container.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 7,
+		"alertScore": 4,
 		"failedPaths": path,
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -30,7 +30,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   has Host-port", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 7,
+		"alertScore": 4,
 		"failedPaths": path,
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -48,7 +48,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   has Host-port", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 7,
+		"alertScore": 4,
 		"failedPaths": path,
 		"alertObject": {
 			"k8sApiObjects": [wl]
