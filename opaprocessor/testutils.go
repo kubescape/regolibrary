@@ -7,6 +7,8 @@ import (
 	"os"
 	"reflect"
 
+	"github.com/armosec/k8s-interface/workloadinterface"
+	"github.com/armosec/opa-utils/objectsenvelopes"
 	"github.com/armosec/opa-utils/reporthandling"
 	"gopkg.in/yaml.v2"
 )
@@ -42,6 +44,22 @@ func convertYamlToJson(i interface{}) interface{} {
 	return i
 }
 
+func GetInputRawResources(dir string, policyRule *reporthandling.PolicyRule) ([]map[string]interface{}, error) {
+	var IMetadataResources []workloadinterface.IMetadata
+
+	resources, err := GetInputResources(fmt.Sprintf("%v/input", dir))
+	if err != nil {
+		return nil, err
+	}
+	for _, resp := range resources {
+		metadataResource := objectsenvelopes.NewObject(resp)
+		IMetadataResources = append(IMetadataResources, metadataResource)
+		IMetadataResources, _ = reporthandling.RegoResourcesAggregator(policyRule, IMetadataResources)
+	}
+	inputRawResources := workloadinterface.ListMetaToMap(IMetadataResources)
+	return inputRawResources, nil
+}
+
 func GetMockContentFromFile(filename string) (string, error) {
 	mockContent, err := os.ReadFile(filename)
 	if err != nil {
@@ -61,36 +79,57 @@ func GetMockContentFromFile(filename string) (string, error) {
 }
 
 func AssertResponses(responses []reporthandling.RuleResponse, expectedResponses []reporthandling.RuleResponse) bool {
-	if len(expectedResponses) != len(responses) {
-		return false
-	}
-	for i := 0; i < len(expectedResponses); i++ {
-		if expectedResponses[i].RuleStatus != responses[i].RuleStatus {
-			return false
-		}
-		if len(expectedResponses[i].AlertObject.ExternalObjects) != len(responses[i].AlertObject.ExternalObjects) {
-			return false
-		}
-		if len(expectedResponses[i].AlertObject.K8SApiObjects) != len(responses[i].AlertObject.K8SApiObjects) {
-			return false
-		}
-		if !CompareAlertObject(expectedResponses[i].AlertObject, responses[i].AlertObject) {
-			return false
-		}
-	}
-
-	return true
-
+	return reflect.DeepEqual(responses, expectedResponses)
 }
 
-func CompareAlertObject(obj1 reporthandling.AlertObject, obj2 reporthandling.AlertObject) bool {
+// 	if len(expectedResponses) != len(responses) {
+// 		return false
+// 	}
+// 	for i := 0; i < len(expectedResponses); i++ {
+// 		if expectedResponses[i].RuleStatus != responses[i].RuleStatus {
+// 			return false
+// 		}
+// 		if len(expectedResponses[i].AlertObject.ExternalObjects) != len(responses[i].AlertObject.ExternalObjects) {
+// 			return false
+// 		}
+// 		if len(expectedResponses[i].AlertObject.K8SApiObjects) != len(responses[i].AlertObject.K8SApiObjects) {
+// 			return false
+// 		}
+// 		if !CompareAlertObject(expectedResponses[i].AlertObject, responses[i].AlertObject) {
+// 			return false
+// 		}
+// 	}
 
-	eq := reflect.DeepEqual(obj1.ExternalObjects, obj2.ExternalObjects)
-	if !eq {
-		return false
+// 	return true
+
+// }
+
+// func CompareAlertObject(obj1 reporthandling.AlertObject, obj2 reporthandling.AlertObject) bool {
+
+// 	eq := reflect.DeepEqual(obj1.ExternalObjects, obj2.ExternalObjects)
+// 	if !eq {
+// 		return false
+// 	}
+// 	eq = reflect.DeepEqual(obj1.K8SApiObjects, obj2.K8SApiObjects)
+// 	return eq
+// }
+func IsDirectory(path string) (bool, error) {
+	fileInfo, err := os.Stat(path)
+	if err != nil {
+		return false, err
 	}
-	eq = reflect.DeepEqual(obj1.K8SApiObjects, obj2.K8SApiObjects)
-	return eq
+
+	return fileInfo.IsDir(), err
+}
+
+func SetPolicyRule(policy string, rego string) (*reporthandling.PolicyRule, error) {
+	policyRule := reporthandling.PolicyRule{}
+	err := json.Unmarshal([]byte(policy), &policyRule)
+	if err != nil {
+		return nil, err
+	}
+	policyRule.Rule = rego
+	return &policyRule, nil
 }
 
 func GetExpectedResults(dir string) ([]reporthandling.RuleResponse, error) {
@@ -98,12 +137,16 @@ func GetExpectedResults(dir string) ([]reporthandling.RuleResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-	expectedResponse := reporthandling.RuleResponse{}
-	err = json.Unmarshal([]byte(expected), &expectedResponse)
+	expectedResponses := []reporthandling.RuleResponse{}
+	err = json.Unmarshal([]byte(expected), &expectedResponses)
 	if err != nil {
-		return nil, err
+		expectedResponse := reporthandling.RuleResponse{}
+		err = json.Unmarshal([]byte(expected), &expectedResponse)
+		if err != nil {
+			return nil, err
+		}
+		expectedResponses = []reporthandling.RuleResponse{expectedResponse}
 	}
-	expectedResponses := []reporthandling.RuleResponse{expectedResponse}
 	return expectedResponses, nil
 }
 

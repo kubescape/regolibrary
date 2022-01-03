@@ -1,0 +1,48 @@
+[
+    {
+        "alertMessage": "Deployment: my-deployment has: test-volume as hostPath volume",
+        "failedPaths": [
+            "spec.template.spec.volumes[0].hostPath.path"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-command"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Deployment: my-deployment has: test-volume2 as hostPath volume",
+        "failedPaths": [
+            "spec.template.spec.volumes[1].hostPath.path"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-command"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]

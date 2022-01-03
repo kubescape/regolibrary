@@ -2,36 +2,60 @@ package testing
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"regolibrary/opaprocessor"
 	"testing"
 )
 
-// for file in current directory
-//     get input
-//     get expected
-//     test
-
-func TestRunAllTests(t *testing.T) {
-	ruleTestDirectories, err := ioutil.ReadDir("./")
+func TestAllRules(t *testing.T) {
+	file, err := os.Open("./")
 	if err != nil {
 		t.Errorf("err: %v", err.Error())
 	}
-	for _, f := range ruleTestDirectories {
-		rego, err := opaprocessor.GetRego(f.Name())
+	defer file.Close()
+	ruleTestDirectories, err := file.Readdirnames(0)
+	if err != nil {
+		t.Errorf("err: %v", err.Error())
+	}
+	for _, dir := range ruleTestDirectories {
+		isDir, err := opaprocessor.IsDirectory(dir)
 		if err != nil {
 			t.Errorf("err: %v", err.Error())
 		}
-		testsForRule, _ := ioutil.ReadDir(f.Name())
-
+		if !isDir {
+			continue
+		}
+		rego, err := opaprocessor.GetRego(dir)
+		if err != nil {
+			t.Errorf("err: %v", err.Error())
+		}
+		policy, err := opaprocessor.GetPolicy(dir)
+		if err != nil {
+			t.Errorf("err: %v", err.Error())
+		}
+		policyRule, err := opaprocessor.SetPolicyRule(policy, rego)
+		if err != nil {
+			t.Errorf("err: %v", err.Error())
+		}
+		f, err := os.Open(dir)
+		if err != nil {
+			t.Errorf("err: %v", err.Error())
+		}
+		defer f.Close()
+		testsForRule, err := f.Readdirnames(0)
+		if err != nil {
+			t.Errorf("err: %v", err.Error())
+		}
 		// Iterate over each test
 		for _, testFile := range testsForRule {
-			dir := fmt.Sprintf("%v/%v", f.Name(), testFile.Name())
-			resources, err := opaprocessor.GetInputResources(fmt.Sprintf("%v/input", dir))
+			dir := fmt.Sprintf("%v/%v", dir, testFile)
+
+			inputRawResources, err := opaprocessor.GetInputRawResources(dir, policyRule)
 			if err != nil {
 				t.Errorf("err: %v", err.Error())
 			}
-			responses, err := opaprocessor.RunSingleRego(rego, resources)
+
+			responses, err := opaprocessor.RunSingleRego(policyRule, inputRawResources)
 			if err != nil {
 				t.Errorf("err: %v", err.Error())
 			}
@@ -47,32 +71,6 @@ func TestRunAllTests(t *testing.T) {
 	}
 }
 
-// func TestRego(t *testing.T) {
-// 	rego, err := opaprocessor.GetRego()
-// 	if err != nil {
-// 		t.Errorf("err: %v", err.Error())
-// 	}
-
-// 	mocks := []string{"mock1.yaml"}
-
-// 	resources, err := opaprocessor.GetMocks(mocks)
-// 	if err != nil {
-// 		t.Errorf("err: %v", err.Error())
-// 	}
-
-// 	responses, err := opaprocessor.RunSingleRego(rego, resources)
-// 	if err != nil {
-// 		t.Errorf("err: %v", err.Error())
-// 	}
-// 	expectedResponse := reporthandling.RuleResponse{}
-// 	err = json.Unmarshal([]byte(mockResponse), &expectedResponse)
-// 	if err != nil {
-// 		t.Errorf("err: %v", err.Error())
-// 	}
-// 	expectedResponses := []reporthandling.RuleResponse{expectedResponse}
-
-// 	if !opaprocessor.AssertResponses(responses, expectedResponses) {
-// 		t.Fail()
-// 	}
-
-// }
+func TestSingleRule(t *testing.T) {
+	// TODO
+}

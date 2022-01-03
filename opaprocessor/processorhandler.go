@@ -22,6 +22,7 @@ type OPAProcessor struct {
 }
 
 var regoFile = "raw.rego"
+var metadataFile = "rule.metadata.json"
 
 func NewOPAProcessorMock() *OPAProcessor {
 	return &OPAProcessor{
@@ -44,6 +45,20 @@ func GetRego(currentDirectoryOfTest string) (string, error) {
 
 }
 
+func GetPolicy(currentDirectoryOfTest string) (string, error) {
+	ruleNameSplited := strings.Split(currentDirectoryOfTest, "/")
+	ruleName := ruleNameSplited[len(ruleNameSplited)-1]
+
+	dir := fmt.Sprintf("%v/../../rules/%v/%v", currentDirectoryOfTest, ruleName, metadataFile)
+
+	policy, err := os.ReadFile(dir)
+	if err != nil {
+		return "", err
+	}
+	return string(policy), err
+
+}
+
 func NewOPAProcessor(sessionObj *cautils.OPASessionObj, regoDependenciesData *resources.RegoDependenciesData) *OPAProcessor {
 	if regoDependenciesData != nil && sessionObj != nil {
 		regoDependenciesData.PostureControlInputs = sessionObj.RegoInputData.PostureControlInputs
@@ -62,14 +77,16 @@ func getRuleDependencies() (map[string]string, error) {
 	return modules, nil
 }
 
-func RunSingleRego(rule string, inputObj []map[string]interface{}) ([]reporthandling.RuleResponse, error) {
-	ruleName := "some rule"
+func RunSingleRego(rule *reporthandling.PolicyRule, inputObj []map[string]interface{}) ([]reporthandling.RuleResponse, error) {
+	ruleReport := reporthandling.RuleReport{
+		Name: rule.Name,
+	}
 
 	modules, err := getRuleDependencies()
 	if err != nil {
 		return nil, err
 	}
-	modules[ruleName] = rule
+	modules[rule.Name] = rule.Rule
 	compiled, err := ast.CompileModules(modules)
 	if err != nil {
 		return nil, err
@@ -78,7 +95,6 @@ func RunSingleRego(rule string, inputObj []map[string]interface{}) ([]reporthand
 	opaProcessor := NewOPAProcessorMock()
 
 	result, err := opaProcessor.regoEval(inputObj, compiled)
-	ruleReport := reporthandling.RuleReport{}
 	ruleReport.RuleResponses = result
 	keepFields := []string{"kind", "apiVersion", "metadata"}
 	keepMetadataFields := []string{"name", "labels"}

@@ -3,6 +3,7 @@ module regolibrary
 go 1.17
 
 require (
+	github.com/armosec/k8s-interface v0.0.51
 	github.com/armosec/kubescape v1.0.136
 	github.com/armosec/opa-utils v0.0.79
 	github.com/golang/glog v1.0.0
@@ -20,7 +21,6 @@ require (
 	github.com/Azure/go-autorest/tracing v0.6.0 // indirect
 	github.com/OneOfOne/xxhash v1.2.8 // indirect
 	github.com/armosec/armoapi-go v0.0.40 // indirect
-	github.com/armosec/k8s-interface v0.0.51 // indirect
 	github.com/armosec/rbac-utils v0.0.9 // indirect
 	github.com/armosec/utils-go v0.0.3 // indirect
 	github.com/armosec/utils-k8s-go v0.0.1 // indirect
