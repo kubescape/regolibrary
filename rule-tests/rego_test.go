@@ -8,7 +8,14 @@ import (
 	"github.com/armosec/opa-utils/reporthandling"
 )
 
-func TestFailed(t *testing.T) {
+// for file in current directory
+//     get input
+//     get expected
+//     test
+
+func runAllTests()
+
+func TestRego(t *testing.T) {
 	rego, err := opaprocessor.GetRego()
 	if err != nil {
 		t.Errorf("err: %v", err.Error())

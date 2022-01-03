@@ -10,7 +10,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var relevantFields = []string{"AlertMessage", "FailedPaths", "RuleStatus", "AlertObject"}
+var relevantFields = []string{"FailedPaths", "RuleStatus", "AlertObject"}
 
 // AlertMessage string                            `json:"alertMessage"`
 // 	FailedPaths  []string                          `json:"failedPaths"`
@@ -80,11 +80,34 @@ func GetMockContentFromFile(mock string) (string, error) {
 }
 
 func AssertResponses(responses []reporthandling.RuleResponse, expectedResponses []reporthandling.RuleResponse) bool {
-	// expectedResponsesMap := make(map[string]interface{})
-	// for _,r := range expectedResponses {
-	// 	key := fmt.Sprintf("", r.AlertMessage)
-	// 	expectedResponsesMap[r] = r
-	// }
+	if len(expectedResponses) != len(responses) {
+		return false
+	}
+	for i := 0; i < len(expectedResponses); i++ {
+		if expectedResponses[i].RuleStatus != responses[i].RuleStatus {
+			return false
+		}
+		if len(expectedResponses[i].AlertObject.ExternalObjects) != len(responses[i].AlertObject.ExternalObjects) {
+			return false
+		}
+		if len(expectedResponses[i].AlertObject.K8SApiObjects) != len(responses[i].AlertObject.K8SApiObjects) {
+			return false
+		}
+		if !CompareAlertObject(expectedResponses[i].AlertObject, responses[i].AlertObject) {
+			return false
+		}
+	}
 
-	return reflect.DeepEqual(responses, expectedResponses)
+	return true
+
+}
+
+func CompareAlertObject(obj1 reporthandling.AlertObject, obj2 reporthandling.AlertObject) bool {
+
+	eq := reflect.DeepEqual(obj1.ExternalObjects, obj2.ExternalObjects)
+	if !eq {
+		return false
+	}
+	eq = reflect.DeepEqual(obj1.K8SApiObjects, obj2.K8SApiObjects)
+	return eq
 }

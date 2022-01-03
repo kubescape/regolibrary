@@ -82,6 +82,11 @@ func RunSingleRego(rule string, inputObj []map[string]interface{}) ([]reporthand
 	opaProcessor := NewOPAProcessorMock()
 
 	result, err := opaProcessor.regoEval(inputObj, compiled)
+	ruleReport := reporthandling.RuleReport{}
+	ruleReport.RuleResponses = result
+	keepFields := []string{"kind", "apiVersion", "metadata"}
+	keepMetadataFields := []string{"name", "labels"}
+	ruleReport.RemoveData(keepFields, keepMetadataFields)
 	if err != nil {
 		return nil, err
 	}
