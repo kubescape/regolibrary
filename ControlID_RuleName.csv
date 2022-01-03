@@ -21,12 +21,14 @@ C-0054,internal-networking
 C-0074,containers-mounting-docker-socket
 C-0067,k8s-audit-logs-enabled-cloud
 C-0067,k8s-audit-logs-enabled-native
+C-0056,configured-liveness-probe
 C-0049,internal-networking
 C-0045,alert-rw-hostpath
 C-0053,access-container-service-account
 C-0053,access-container-service-account-v1
 C-0063,rule-can-portforward
 C-0063,rule-can-portforward-v1
+C-0050,resources-cpu-limit-and-request
 C-0015,rule-can-list-get-secrets
 C-0015,rule-can-list-get-secrets-v1
 C-0021,exposed-sensitive-interfaces
@@ -35,6 +37,7 @@ C-0066,secret-etcd-encryption-cloud
 C-0066,etcd-encryption-native
 C-0031,rule-can-delete-k8s-events
 C-0031,rule-can-delete-k8s-events-v1
+C-0004,resources-memory-limit-and-request
 C-0013,non-root-containers
 C-0024,deny-vuln-image-pods
 C-0061,pods-in-default-namespace
@@ -65,6 +68,7 @@ C-0078,container-image-repository
 C-0078,image-pull-secrets
 C-0037,rule-can-update-configmap
 C-0037,rule-can-update-configmap-v1
+C-0018,configured-readiness-probe
 C-0017,immutable-container-filesystem
 C-0044,container-hostPort
 C-0057,rule-privilege-escalation
