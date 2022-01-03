@@ -7,8 +7,8 @@
     "controlsNames": [
 
         "Naked PODs",
-        "Containers mounting docker socket",
-        "Image pull policy is not set to always",
+        "Containers mounting Docker socket",
+        "Image pull policy on latest tag",
         "Label usage for resources",
         "K8s common labels usage",
 
