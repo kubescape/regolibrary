@@ -3,6 +3,7 @@ package opaprocessor
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"reflect"
 
@@ -21,23 +22,7 @@ var relevantFields = []string{"FailedPaths", "RuleStatus", "AlertObject"}
 // 	Context      []string                          `json:"context,omitempty"`  // TODO - Remove
 // 	Rulename     string                            `json:"rulename,omitempty"` // TODO - Remove
 // 	Exception    *armotypes.PostureExceptionPolicy `json:"exception,omitempty"`
-
-func GetMocks(mocks []string) ([]map[string]interface{}, error) {
-	resource := make(map[string]interface{})
-	var resources []map[string]interface{}
-	for _, mock := range mocks {
-		mock, err := GetMockContentFromFile(mock)
-		if err != nil {
-			return nil, err
-		}
-		err = json.Unmarshal([]byte(mock), &resource)
-		if err != nil {
-			return nil, err
-		}
-		resources = append(resources, resource)
-	}
-	return resources, nil
-}
+var expectedFilename = "expected.json"
 
 func convertYamlToJson(i interface{}) interface{} {
 	switch x := i.(type) {
@@ -57,12 +42,8 @@ func convertYamlToJson(i interface{}) interface{} {
 	return i
 }
 
-func GetMockContentFromFile(mock string) (string, error) {
-	currentDirectoryOfTest, err := os.Getwd()
-	if err != nil {
-		return "", err
-	}
-	mockContent, err := os.ReadFile(fmt.Sprintf("%v/%v", currentDirectoryOfTest, mock))
+func GetMockContentFromFile(filename string) (string, error) {
+	mockContent, err := os.ReadFile(filename)
 	if err != nil {
 		return "", err
 	}
@@ -110,4 +91,33 @@ func CompareAlertObject(obj1 reporthandling.AlertObject, obj2 reporthandling.Ale
 	}
 	eq = reflect.DeepEqual(obj1.K8SApiObjects, obj2.K8SApiObjects)
 	return eq
+}
+
+func GetExpectedResults(dir string) ([]reporthandling.RuleResponse, error) {
+	expected, err := ioutil.ReadFile(fmt.Sprintf("%v/%v", dir, expectedFilename))
+	if err != nil {
+		return nil, err
+	}
+	expectedResponse := reporthandling.RuleResponse{}
+	err = json.Unmarshal([]byte(expected), &expectedResponse)
+	if err != nil {
+		return nil, err
+	}
+	expectedResponses := []reporthandling.RuleResponse{expectedResponse}
+	return expectedResponses, nil
+}
+
+func GetInputResources(dir string) ([]map[string]interface{}, error) {
+	inputs, _ := ioutil.ReadDir(dir)
+	var resources []map[string]interface{}
+	resource := make(map[string]interface{})
+	for _, input := range inputs {
+		mock, _ := GetMockContentFromFile(fmt.Sprintf("%v/%v", dir, input.Name()))
+		err := json.Unmarshal([]byte(mock), &resource)
+		if err != nil {
+			return nil, err
+		}
+		resources = append(resources, resource)
+	}
+	return resources, nil
 }

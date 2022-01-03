@@ -30,11 +30,7 @@ func NewOPAProcessorMock() *OPAProcessor {
 	}
 }
 
-func GetRego() (string, error) {
-	currentDirectoryOfTest, err := os.Getwd()
-	if err != nil {
-		return "", err
-	}
+func GetRego(currentDirectoryOfTest string) (string, error) {
 	ruleNameSplited := strings.Split(currentDirectoryOfTest, "/")
 	ruleName := ruleNameSplited[len(ruleNameSplited)-1]
 
