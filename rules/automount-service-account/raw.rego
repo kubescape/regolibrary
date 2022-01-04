@@ -118,8 +118,8 @@ isSAAutoMounted(spec, begginingOfPath, wlNamespace) = path   {
 
  #  -- ----     For SAs     -- ----     
 isAutoMount(serviceaccount)  = path {
-	path = "automountServiceAccountToken"
 	serviceaccount.automountServiceAccountToken == true
+	path = "automountServiceAccountToken"
 }
 
 isAutoMount(serviceaccount) = path {

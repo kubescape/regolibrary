@@ -15,7 +15,7 @@ deny[msga] {
 		"alertMessage": sprintf("Pod: %v does not have ingress/egress defined", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -35,7 +35,7 @@ deny[msga] {
 		"alertMessage": sprintf("Pod: %v does not have ingress/egress defined", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -58,7 +58,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -78,7 +78,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -99,7 +99,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -119,7 +119,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
