@@ -13,17 +13,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var relevantFields = []string{"FailedPaths", "RuleStatus", "AlertObject"}
-
-// AlertMessage string                            `json:"alertMessage"`
-// 	FailedPaths  []string                          `json:"failedPaths"`
-// 	RuleStatus   string                            `json:"ruleStatus"`
-// 	PackageName  string                            `json:"packagename"`
-// 	AlertScore   AlertScore                        `json:"alertScore"`
-// 	AlertObject  AlertObject                       `json:"alertObject"`
-// 	Context      []string                          `json:"context,omitempty"`  // TODO - Remove
-// 	Rulename     string                            `json:"rulename,omitempty"` // TODO - Remove
-// 	Exception    *armotypes.PostureExceptionPolicy `json:"exception,omitempty"`
 var expectedFilename = "expected.json"
 
 func convertYamlToJson(i interface{}) interface{} {
@@ -78,47 +67,66 @@ func GetMockContentFromFile(filename string) (string, error) {
 	return string(mockContentJson), err
 }
 
-func AssertResponses(responses []reporthandling.RuleResponse, expectedResponses []reporthandling.RuleResponse) bool {
-	return reflect.DeepEqual(responses, expectedResponses)
+// func AssertResponses(responses []reporthandling.RuleResponse, expectedResponses []reporthandling.RuleResponse) bool {
+// 	return reflect.DeepEqual(responses, expectedResponses)
+// }
+
+func AssertResponses(responses []reporthandling.RuleResponse, expectedResponses []reporthandling.RuleResponse) error {
+	if len(expectedResponses) != len(responses) {
+		return fmt.Errorf("lenght of responses is different")
+	}
+	for i := 0; i < len(expectedResponses); i++ {
+		if expectedResponses[i].RuleStatus != responses[i].RuleStatus {
+			return fmt.Errorf("the field 'RuleStatus' is different for response %v", i)
+		}
+		if len(expectedResponses[i].AlertObject.ExternalObjects) != len(responses[i].AlertObject.ExternalObjects) {
+			return fmt.Errorf("lenght of 'ExternalObjects' is different for response %v", i)
+		}
+		if len(expectedResponses[i].AlertObject.K8SApiObjects) != len(responses[i].AlertObject.K8SApiObjects) {
+			return fmt.Errorf("lenght of 'K8SApiObjects' is different for response %v", i)
+		}
+		err := CompareAlertObject(expectedResponses[i].AlertObject, responses[i].AlertObject)
+		if err != nil {
+			return fmt.Errorf("%v for response %v", err.Error(), i)
+		}
+		if len(expectedResponses[i].FailedPaths) != len(responses[i].FailedPaths) {
+			return fmt.Errorf("lenght of 'FailedPaths' is different for response %v", i)
+		}
+		err = CompareFailedPaths(expectedResponses[i].FailedPaths, responses[i].FailedPaths)
+		if err != nil {
+			return fmt.Errorf("%v for response %v", err.Error(), i)
+		}
+
+	}
+	return nil
 }
 
-// 	if len(expectedResponses) != len(responses) {
-// 		return false
-// 	}
-// 	for i := 0; i < len(expectedResponses); i++ {
-// 		if expectedResponses[i].RuleStatus != responses[i].RuleStatus {
-// 			return false
-// 		}
-// 		if len(expectedResponses[i].AlertObject.ExternalObjects) != len(responses[i].AlertObject.ExternalObjects) {
-// 			return false
-// 		}
-// 		if len(expectedResponses[i].AlertObject.K8SApiObjects) != len(responses[i].AlertObject.K8SApiObjects) {
-// 			return false
-// 		}
-// 		if !CompareAlertObject(expectedResponses[i].AlertObject, responses[i].AlertObject) {
-// 			return false
-// 		}
-// 	}
+func CompareFailedPaths(expected []string, actual []string) error {
+	eq := reflect.DeepEqual(expected, actual)
+	if !eq {
+		return fmt.Errorf("field 'FailedPaths' is different. expected: %v, got :%v", expected, actual)
+	}
+	return nil
+}
 
-// 	return true
+func CompareAlertObject(expected reporthandling.AlertObject, actual reporthandling.AlertObject) error {
 
-// }
+	eq := reflect.DeepEqual(expected.ExternalObjects, actual.ExternalObjects)
+	if !eq {
+		return fmt.Errorf("field 'ExternalObjects' is different. expected: %v, got :%v", expected, actual)
+	}
+	eq = reflect.DeepEqual(expected.K8SApiObjects, actual.K8SApiObjects)
+	if !eq {
+		return fmt.Errorf("field 'K8SApiObjects' is different .expected: %v, got :%v", expected, actual)
+	}
+	return nil
+}
 
-// func CompareAlertObject(obj1 reporthandling.AlertObject, obj2 reporthandling.AlertObject) bool {
-
-// 	eq := reflect.DeepEqual(obj1.ExternalObjects, obj2.ExternalObjects)
-// 	if !eq {
-// 		return false
-// 	}
-// 	eq = reflect.DeepEqual(obj1.K8SApiObjects, obj2.K8SApiObjects)
-// 	return eq
-// }
 func IsDirectory(path string) (bool, error) {
 	fileInfo, err := os.Stat(path)
 	if err != nil {
 		return false, err
 	}
-
 	return fileInfo.IsDir(), err
 }
 
