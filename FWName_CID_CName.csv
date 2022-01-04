@@ -1,47 +1,4 @@
 frameworkName,ControlID,ControlName
-ArmoBest,C-0005,Control plane hardening
-ArmoBest,C-0038,Host PID/IPC privileges
-ArmoBest,C-0017,Immutable container filesystem
-ArmoBest,C-0013,Non-root containers
-ArmoBest,C-0057,Privileged container
-ArmoBest,C-0006,Allowed hostPath
-ArmoBest,C-0034,Automatic mapping of service account
-ArmoBest,C-0041,HostNetwork access
-ArmoBest,C-0009,Resource policies
-ArmoBest,C-0047,Exposed dashboard
-ArmoBest,C-0016,Allow privilege escalation
-ArmoBest,C-0012,Applications credentials in configuration files
-ArmoBest,C-0035,Cluster-admin binding
-ArmoBest,C-0002,Exec into container
-ArmoBest,C-0046,Insecure capabilities
-ArmoBest,C-0055,Linux hardening
-ArmoBest,C-0030,Ingress and Egress blocked
-ArmoBest,C-0044,Container hostPort
-ArmoBest,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-ArmoBest,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-ArmoBest,C-0065,No impersonation
-ArmoBest,C-0061,Pods in default namespace
-ArmoBest,C-0062,Sudo in container entrypoint
-ArmoBest,C-0063,Portforwarding privileges
-ArmoBest,C-0064,Image pull policy on latest image tag
-ArmoBest,C-0060,Namespace without service accounts
-ArmoBest,C-0054,Cluster internal networking
-ArmoBest,C-0067,Audit logs enabled
-ArmoBest,C-0066,Secret/ETCD encryption enabled
-ArmoBest,C-0068,PSP enabled
-ArmoBest,C-0069,Disable anonymous access to Kubelet service
-ArmoBest,C-0070,Enforce Kubelet client TLS authentication
-DevOpsBest,C-0073,Naked PODs
-DevOpsBest,C-0074,Containers mounting Docker socket
-DevOpsBest,C-0075,Image pull policy on latest tag
-DevOpsBest,C-0076,Label usage for resources
-DevOpsBest,C-0077,K8s common labels usage
-DevOpsBest,C-0061,Pods in default namespace
-DevOpsBest,C-0044,Container hostPort
-DevOpsBest,C-0050,Resources CPU limit and request
-DevOpsBest,C-0004,Resources memory limit and request
-DevOpsBest,C-0056,Configured liveness probe
-DevOpsBest,C-0018,Configured readiness probe
 NSA,C-0005,Control plane hardening
 NSA,C-0038,Host PID/IPC privileges
 NSA,C-0017,Immutable container filesystem
@@ -100,3 +57,46 @@ MITRE,C-0066,Secret/ETCD encryption enabled
 MITRE,C-0068,PSP enabled
 MITRE,C-0069,Disable anonymous access to Kubelet service
 MITRE,C-0070,Enforce Kubelet client TLS authentication
+ArmoBest,C-0005,Control plane hardening
+ArmoBest,C-0038,Host PID/IPC privileges
+ArmoBest,C-0017,Immutable container filesystem
+ArmoBest,C-0013,Non-root containers
+ArmoBest,C-0057,Privileged container
+ArmoBest,C-0006,Allowed hostPath
+ArmoBest,C-0034,Automatic mapping of service account
+ArmoBest,C-0041,HostNetwork access
+ArmoBest,C-0009,Resource policies
+ArmoBest,C-0047,Exposed dashboard
+ArmoBest,C-0016,Allow privilege escalation
+ArmoBest,C-0012,Applications credentials in configuration files
+ArmoBest,C-0035,Cluster-admin binding
+ArmoBest,C-0002,Exec into container
+ArmoBest,C-0046,Insecure capabilities
+ArmoBest,C-0055,Linux hardening
+ArmoBest,C-0030,Ingress and Egress blocked
+ArmoBest,C-0044,Container hostPort
+ArmoBest,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+ArmoBest,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+ArmoBest,C-0065,No impersonation
+ArmoBest,C-0061,Pods in default namespace
+ArmoBest,C-0062,Sudo in container entrypoint
+ArmoBest,C-0063,Portforwarding privileges
+ArmoBest,C-0064,Image pull policy on latest image tag
+ArmoBest,C-0060,Namespace without service accounts
+ArmoBest,C-0054,Cluster internal networking
+ArmoBest,C-0067,Audit logs enabled
+ArmoBest,C-0066,Secret/ETCD encryption enabled
+ArmoBest,C-0068,PSP enabled
+ArmoBest,C-0069,Disable anonymous access to Kubelet service
+ArmoBest,C-0070,Enforce Kubelet client TLS authentication
+DevOpsBest,C-0073,Naked PODs
+DevOpsBest,C-0074,Containers mounting Docker socket
+DevOpsBest,C-0075,Image pull policy on latest tag
+DevOpsBest,C-0076,Label usage for resources
+DevOpsBest,C-0077,K8s common labels usage
+DevOpsBest,C-0061,Pods in default namespace
+DevOpsBest,C-0044,Container hostPort
+DevOpsBest,C-0050,Resources CPU limit and request
+DevOpsBest,C-0004,Resources memory limit and request
+DevOpsBest,C-0056,Configured liveness probe
+DevOpsBest,C-0018,Configured readiness probe
