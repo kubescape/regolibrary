@@ -9,7 +9,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("Pod: %v is running in the 'default' namespace", [pod.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 7,
+		"alertScore": 3,
 		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -27,7 +27,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("%v: %v has pods running in the 'default' namespace", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 7,
+		"alertScore": 3,
 		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -43,7 +43,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("CronJob: %v had pods  running in the 'default' namespace", [wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 7,
+		"alertScore": 3,
 		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [wl]

@@ -3,14 +3,14 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "Don't use naked Pods (that is, Pods not bound to a ReplicaSet or Deployment) if you can avoid it. Naked Pods will not be rescheduled in the event of a node failure.",
-    "remediation": "",
+    "description": "It is not recommended to create PODs without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if PODs may lead to a configuration drifts and other untracked changes in the system. Such PODs won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every POD that does not have corresponding parental object.",
+    "remediation": "Create necessary Deployment object for every POD making any POD a first class citizen in your IaC architecture.",
     "rulesNames": [
         "naked-pods"
     ],
     "id": "C-0073",
-    "long_description": "Don't use naked Pods (that is, Pods not bound to a ReplicaSet or Deployment) if you can avoid it. Naked Pods will not be rescheduled in the event of a node failure.",
-    "test": "Test if pods are not associated to replica-set or deployment, if not – fail.",
+    "long_description": "It is not recommended to create PODs without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if PODs may lead to a configuration drifts and other untracked changes in the system. Such PODs won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every POD that does not have corresponding parental object.",
+    "test": "Test if PODs are not associated with Deployment, ReplicaSet etc. If not, fail.",
     "controlID": "C-0073",
     "baseScore": 0
 }
