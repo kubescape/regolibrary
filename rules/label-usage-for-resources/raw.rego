@@ -34,7 +34,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("%v: %v a certain set of labels is not defined:", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 0,
+		"alertScore": 2,
 		"failedPaths": path,
          "alertObject": {
 			"k8sApiObjects": [wl]
@@ -55,7 +55,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("the following cronjobs a certain set of labels is not defined: %v", [wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 0,
+		"alertScore": 2,
 		"failedPaths": path,
          "alertObject": {
 			"k8sApiObjects": [wl]
