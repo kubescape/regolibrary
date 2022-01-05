@@ -41,10 +41,16 @@ func GetInputRawResources(dir string, policyRule *reporthandling.PolicyRule) ([]
 		return nil, err
 	}
 	for _, resp := range resources {
+		if resp == nil {
+			return nil, fmt.Errorf("resource is nil")
+		}
 		metadataResource := objectsenvelopes.NewObject(resp)
+		if metadataResource.GetNamespace() == "" {
+			metadataResource.SetNamespace("default")
+		}
 		IMetadataResources = append(IMetadataResources, metadataResource)
-		IMetadataResources, _ = reporthandling.RegoResourcesAggregator(policyRule, IMetadataResources)
 	}
+	IMetadataResources, _ = reporthandling.RegoResourcesAggregator(policyRule, IMetadataResources)
 	inputRawResources := workloadinterface.ListMetaToMap(IMetadataResources)
 	return inputRawResources, nil
 }
@@ -73,24 +79,24 @@ func GetMockContentFromFile(filename string) (string, error) {
 
 func AssertResponses(responses []reporthandling.RuleResponse, expectedResponses []reporthandling.RuleResponse) error {
 	if len(expectedResponses) != len(responses) {
-		return fmt.Errorf("lenght of responses is different")
+		return fmt.Errorf("length of responses is different")
 	}
 	for i := 0; i < len(expectedResponses); i++ {
 		if expectedResponses[i].RuleStatus != responses[i].RuleStatus {
 			return fmt.Errorf("the field 'RuleStatus' is different for response %v", i)
 		}
 		if len(expectedResponses[i].AlertObject.ExternalObjects) != len(responses[i].AlertObject.ExternalObjects) {
-			return fmt.Errorf("lenght of 'ExternalObjects' is different for response %v", i)
+			return fmt.Errorf("length of 'ExternalObjects' is different for response %v", i)
 		}
 		if len(expectedResponses[i].AlertObject.K8SApiObjects) != len(responses[i].AlertObject.K8SApiObjects) {
-			return fmt.Errorf("lenght of 'K8SApiObjects' is different for response %v", i)
+			return fmt.Errorf("length of 'K8SApiObjects' is different for response %v", i)
 		}
 		err := CompareAlertObject(expectedResponses[i].AlertObject, responses[i].AlertObject)
 		if err != nil {
 			return fmt.Errorf("%v for response %v", err.Error(), i)
 		}
 		if len(expectedResponses[i].FailedPaths) != len(responses[i].FailedPaths) {
-			return fmt.Errorf("lenght of 'FailedPaths' is different for response %v", i)
+			return fmt.Errorf("length of 'FailedPaths' is different for response %v", i)
 		}
 		err = CompareFailedPaths(expectedResponses[i].FailedPaths, responses[i].FailedPaths)
 		if err != nil {
@@ -111,13 +117,26 @@ func CompareFailedPaths(expected []string, actual []string) error {
 
 func CompareAlertObject(expected reporthandling.AlertObject, actual reporthandling.AlertObject) error {
 
-	eq := reflect.DeepEqual(expected.ExternalObjects, actual.ExternalObjects)
-	if !eq {
-		return fmt.Errorf("field 'ExternalObjects' is different. expected: %v, got :%v", expected, actual)
+	expectedinJson, err := json.Marshal(expected)
+	if err != nil {
+		return fmt.Errorf("expected response is not valid json")
 	}
-	eq = reflect.DeepEqual(expected.K8SApiObjects, actual.K8SApiObjects)
-	if !eq {
-		return fmt.Errorf("field 'K8SApiObjects' is different .expected: %v, got :%v", expected, actual)
+	actualinJson, err := json.Marshal(actual)
+	if err != nil {
+		return fmt.Errorf(" response is not valid json")
+	}
+	var eq bool
+	if len(expected.ExternalObjects) > 0 {
+		eq = reflect.DeepEqual(expected.ExternalObjects, actual.ExternalObjects)
+		if !eq {
+			return fmt.Errorf("field 'ExternalObjects' is different. expected: %v, got :%v", string(expectedinJson), string(actualinJson))
+		}
+	}
+	if len(expected.K8SApiObjects) > 0 {
+		eq = reflect.DeepEqual(expected.K8SApiObjects, actual.K8SApiObjects)
+		if !eq {
+			return fmt.Errorf("field 'K8SApiObjects' is different .expected: %v, got :%v", string(expectedinJson), string(actualinJson))
+		}
 	}
 	return nil
 }
@@ -161,10 +180,14 @@ func GetExpectedResults(dir string) ([]reporthandling.RuleResponse, error) {
 func GetInputResources(dir string) ([]map[string]interface{}, error) {
 	inputs, _ := ioutil.ReadDir(dir)
 	var resources []map[string]interface{}
-	resource := make(map[string]interface{})
+
 	for _, input := range inputs {
-		mock, _ := GetMockContentFromFile(fmt.Sprintf("%v/%v", dir, input.Name()))
-		err := json.Unmarshal([]byte(mock), &resource)
+		var resource map[string]interface{}
+		mock, err := GetMockContentFromFile(fmt.Sprintf("%v/%v", dir, input.Name()))
+		if err != nil {
+			return nil, err
+		}
+		err = json.Unmarshal([]byte(mock), &resource)
 		if err != nil {
 			return nil, err
 		}

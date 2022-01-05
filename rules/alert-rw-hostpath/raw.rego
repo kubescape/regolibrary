@@ -1,8 +1,6 @@
 package armo_builtins
 
-# input: pod
-# apiversion: v1
-# does: returns hostPath volumes
+# Fails if container has a hostPath volume which is not readOnly
 
 deny[msga] {
     pod := input[_]

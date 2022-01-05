@@ -2,12 +2,18 @@ package opaprocessor
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strings"
 
+	"github.com/armosec/armoapi-go/armotypes"
+	"github.com/armosec/k8s-interface/workloadinterface"
 	"github.com/armosec/kubescape/cautils"
+	"github.com/armosec/opa-utils/objectsenvelopes"
 	"github.com/armosec/opa-utils/reporthandling"
+	"gopkg.in/yaml.v2"
 
 	"github.com/golang/glog"
 
@@ -76,7 +82,49 @@ func getRuleDependencies() (map[string]string, error) {
 	}
 	return modules, nil
 }
-
+func RunRegoFromYamls(ymls []string, policyRule *reporthandling.PolicyRule) (string, error) {
+	policyRule.Name = "test"
+	var body interface{}
+	var resources []map[string]interface{}
+	for _, yml := range ymls {
+		if err := yaml.Unmarshal([]byte(yml), &body); err != nil {
+			return "", err
+		}
+		body = convertYamlToJson(body)
+		mockContentJson, err := json.Marshal(body)
+		if err != nil {
+			return "", err
+		}
+		var resource map[string]interface{}
+		err = json.Unmarshal([]byte(mockContentJson), &resource)
+		if err != nil {
+			return "", err
+		}
+		resources = append(resources, resource)
+	}
+	var IMetadataResources []workloadinterface.IMetadata
+	for _, resp := range resources {
+		if resp == nil {
+			return "", fmt.Errorf("resource is nil")
+		}
+		metadataResource := objectsenvelopes.NewObject(resp)
+		if metadataResource.GetNamespace() == "" {
+			metadataResource.SetNamespace("default")
+		}
+		IMetadataResources = append(IMetadataResources, metadataResource)
+	}
+	IMetadataResources, _ = reporthandling.RegoResourcesAggregator(policyRule, IMetadataResources)
+	inputRawResources := workloadinterface.ListMetaToMap(IMetadataResources)
+	response, err := RunSingleRego(policyRule, inputRawResources)
+	if err != nil {
+		return "", err
+	}
+	responseMarshal, err := json.Marshal(response)
+	if err != nil {
+		return "", err
+	}
+	return string(responseMarshal), nil
+}
 func RunSingleRego(rule *reporthandling.PolicyRule, inputObj []map[string]interface{}) ([]reporthandling.RuleResponse, error) {
 	ruleReport := reporthandling.RuleReport{
 		Name: rule.Name,
@@ -106,6 +154,18 @@ func RunSingleRego(rule *reporthandling.PolicyRule, inputObj []map[string]interf
 }
 
 func (opap *OPAProcessor) regoEval(inputObj []map[string]interface{}, compiledRego *ast.Compiler) ([]reporthandling.RuleResponse, error) {
+	configInput, err := ioutil.ReadFile("../default-config-inputs.json")
+	if err != nil {
+		return nil, err
+	}
+
+	var customerConfig *armotypes.CustomerConfig
+	err = json.Unmarshal(configInput, &customerConfig)
+	if err != nil {
+		return nil, err
+	}
+	postureControlInput := customerConfig.Settings.PostureControlInputs
+	opap.regoDependenciesData.PostureControlInputs = postureControlInput
 	store, err := opap.regoDependenciesData.TOStorage() // get store
 	if err != nil {
 		return nil, err

@@ -1,0 +1,34 @@
+{
+    "name": "exec-into-container-v1",
+    "attributes": {
+      "m$K8sThreatMatrix": "Privilege Escalation::Exec into container",
+      "armoBuiltin": true,
+      "resourcesAggregator": "subject-role-rolebinding",
+      "useFromKubescapeVersion": "v1.0.133"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "*"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "Role",
+          "ClusterRole",
+          "ClusterRoleBinding",
+          "RoleBinding"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      }
+    ],
+    "description": "determines which users have permissions to exec into pods",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }

@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "image 'influxdb' in container 'influxdb' comes from untrusted registry",
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.containers[0].image"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]

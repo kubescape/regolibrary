@@ -1,0 +1,23 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec :
+          containers :
+            -
+              name : influxdb
+              image : influxdb
+              ports :
+                -
+                  containerPort : 8089
+                -
+                  containerPort : 8086
+                  hostPort : 8086 # We look for this
+                -
+                  containerPort : 8087
+          restartPolicy: OnFailure

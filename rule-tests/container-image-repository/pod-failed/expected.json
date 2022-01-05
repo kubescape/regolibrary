@@ -1,0 +1,25 @@
+[
+    {
+        "alertMessage": "image 'debian' in container 'command-demo-container' comes from untrusted registry",
+        "failedPaths": [
+            "spec.containers[0].image"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-command"
+                        },
+                        "name": "command-demo2"
+                    }
+                }
+            ]
+        }
+    }
+]
