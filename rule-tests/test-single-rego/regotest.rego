@@ -1,173 +1,92 @@
 package armo_builtins
 
 
-# For pods
+# Fails if pod does not define linux security hardening 
 deny[msga] {
- 		pods := [pod |  pod= input[_]; pod.kind == "Pod"]
-		networkpolicies := [networkpolicie |  networkpolicie= input[_]; networkpolicie.kind == "NetworkPolicy"]
-		pod := pods[_]
-		networkpoliciesConnectedToPod := [networkpolicie |  networkpolicie= networkpolicies[_];  podConnectedToNetworkPolicy(pod, networkpolicie)]
-		count(networkpoliciesConnectedToPod) > 0
-        goodPolicies := [goodpolicie |  goodpolicie= networkpoliciesConnectedToPod[_];  isIngerssEgressPolicy(goodpolicie)]
-		count(goodPolicies) < 1
-
-    msga := {
-		"alertMessage": sprintf("Pod: %v does not have ingress/egress defined", [pod.metadata.name]),
+    pod := input[_]
+    pod.kind == "Pod"
+    isUnsafePod(pod)
+    container := pod.spec.containers[_]
+    isUnsafeContainer(container)
+ 
+	path := "spec.securityContext"
+	msga := {
+		"alertMessage": sprintf("Pod: %v does not define any linux security hardening", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [],
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
 	}
-
 }
 
-# For pods
-deny[msga] {
- 		pods := [pod |  pod= input[_]; pod.kind == "Pod"]
-		networkpolicies := [networkpolicie |  networkpolicie= input[_]; networkpolicie.kind == "NetworkPolicy"]
-		pod := pods[_]
-		networkpoliciesConnectedToPod := [networkpolicie |  networkpolicie= networkpolicies[_];  podConnectedToNetworkPolicy(pod, networkpolicie)]
-		count(networkpoliciesConnectedToPod) < 1
-
-    msga := {
-		"alertMessage": sprintf("Pod: %v does not have ingress/egress defined", [pod.metadata.name]),
-		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"failedPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [pod]
-		}
-	}
-
-}
-
-# For workloads
+# Fails if workload does not define linux security hardening 
 deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-    networkpolicies := [networkpolicie |  networkpolicie= input[_]; networkpolicie.kind == "NetworkPolicy"]
-	networkpoliciesConnectedToPod := [networkpolicie |  networkpolicie= networkpolicies[_];  wlConnectedToNetworkPolicy(wl, networkpolicie)]
-	count(networkpoliciesConnectedToPod) > 0
-    goodPolicies := [goodpolicie |  goodpolicie= networkpoliciesConnectedToPod[_];  isIngerssEgressPolicy(goodpolicie)]
-	count(goodPolicies) < 1
+    isUnsafeWorkload(wl)
+    container := wl.spec.template.spec.containers[_]
+    isUnsafeContainer(container)
 
-    msga := {
-		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, wl.metadata.name]),
+	path := "spec.template.spec.securityContext"
+	msga := {
+		"alertMessage": sprintf("Workload: %v does not define any linux security hardening", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [],
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
 	}
 }
 
-# For workloads
-deny[msga] {
-    wl := input[_]
-	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-	spec_template_spec_patterns[wl.kind]
-    networkpolicies := [networkpolicie |  networkpolicie= input[_]; networkpolicie.kind == "NetworkPolicy"]
-	networkpoliciesConnectedToPod := [networkpolicie |  networkpolicie= networkpolicies[_];  wlConnectedToNetworkPolicy(wl, networkpolicie)]
-	count(networkpoliciesConnectedToPod) < 1
 
-    msga := {
-		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, wl.metadata.name]),
-		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"failedPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
-	}
-}
-
-# For Cronjobs
+# Fails if pod does not define linux security hardening 
 deny[msga] {
-    wl := input[_]
+	wl := input[_]
 	wl.kind == "CronJob"
-    networkpolicies := [networkpolicie |  networkpolicie= input[_]; networkpolicie.kind == "NetworkPolicy"]
-	networkpoliciesConnectedToPod := [networkpolicie |  networkpolicie= networkpolicies[_];  cronjobConnectedToNetworkPolicy(wl, networkpolicie)]
-	count(networkpoliciesConnectedToPod) > 0
-    goodPolicies := [goodpolicie |  goodpolicie= networkpoliciesConnectedToPod[_];  isIngerssEgressPolicy(goodpolicie)]
-	count(goodPolicies) < 1
+    isUnsafeCronJob(wl)
+	container = wl.spec.jobTemplate.spec.template.spec.containers[_]
+    isUnsafeContainer(container)
 
-    msga := {
-		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, wl.metadata.name]),
+	path := "spec.jobTemplate.spec.template.spec.securityContext"
+	msga := {
+		"alertMessage": sprintf("Cronjob: %v does not define any linux security hardening", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [],
+		"failedPaths": [path],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
 	}
 }
 
-
-# For Cronjobs
-deny[msga] {
-    wl := input[_]
-	wl.kind == "CronJob"
-    networkpolicies := [networkpolicie |  networkpolicie= input[_]; networkpolicie.kind == "NetworkPolicy"]
-	networkpoliciesConnectedToPod := [networkpolicie |  networkpolicie= networkpolicies[_];  cronjobConnectedToNetworkPolicy(wl, networkpolicie)]
-	count(networkpoliciesConnectedToPod) < 1
-
-    msga := {
-		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, wl.metadata.name]),
-		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"failedPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
-	}
+isUnsafePod(pod){
+    not pod.spec.securityContext.seccompProfile
+    not pod.spec.securityContext.seLinuxOptions
+	annotations := [pod.metadata.annotations[i] | annotaion = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
+	not count(annotations) > 0
 }
 
-
-podConnectedToNetworkPolicy(pod, networkpolicie){
-	networkpolicie.metadata.namespace == pod.metadata.namespace
-    count(networkpolicie.spec.podSelector) > 0
-    count({x | networkpolicie.spec.podSelector.matchLabels[x] == pod.metadata.labels[x]}) == count(networkpolicie.spec.podSelector.matchLabels)
+isUnsafeContainer(container){
+    not container.securityContext.seccompProfile
+    not container.securityContext.seLinuxOptions
+    not container.securityContext.capabilities.drop
 }
 
-podConnectedToNetworkPolicy(pod, networkpolicie){
-	networkpolicie.metadata.namespace == pod.metadata.namespace
-    count(networkpolicie.spec.podSelector) == 0
+isUnsafeWorkload(wl) {
+    not wl.spec.template.spec.securityContext.seccompProfile
+    not wl.spec.template.spec.securityContext.seLinuxOptions
+	annotations := [wl.spec.template.metadata.annotations[i] | annotaion = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
+	not count(annotations) > 0
 }
 
-wlConnectedToNetworkPolicy(wl, networkpolicie){
-	wl.metadata.namespace == networkpolicie.metadata.namespace
-    count(networkpolicie.spec.podSelector) == 0
+isUnsafeCronJob(cronjob) {
+    not cronjob.spec.jobTemplate.spec.template.spec.securityContext.seccompProfile
+    not cronjob.spec.jobTemplate.spec.template.spec.securityContext.seLinuxOptions
+	annotations := [cronjob.spec.jobTemplate.spec.template.metadata.annotations[i] | annotaion = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
+	not count(annotations) > 0
 }
 
-
-wlConnectedToNetworkPolicy(wl, networkpolicie){
-	wl.metadata.namespace == networkpolicie.metadata.namespace
-	count(networkpolicie.spec.podSelector) > 0
-    count({x | networkpolicie.spec.podSelector.matchLabels[x] == wl.spec.template.metadata.labels[x]}) == count(networkpolicie.spec.podSelector.matchLabels)
-}
-
-
-cronjobConnectedToNetworkPolicy(cj, networkpolicie){
-	cj.metadata.namespace == networkpolicie.metadata.namespace
-    count(networkpolicie.spec.podSelector) == 0
-}
-
-cronjobConnectedToNetworkPolicy(cj, networkpolicie){
-	cj.metadata.namespace == networkpolicie.metadata.namespace
-	count(networkpolicie.spec.podSelector) > 0
-    count({x | networkpolicie.spec.podSelector.matchLabels[x] == cj.spec.jobTemplate.spec.template.metadata.labels[x]}) == count(networkpolicie.spec.podSelector.matchLabels)
-}
-
-isIngerssEgressPolicy(networkpolicie) {
-    list_contains(networkpolicie.spec.policyTypes, "Ingress")
-    list_contains(networkpolicie.spec.policyTypes, "Egress")
- }
-
-list_contains(list, element) {
-  some i
-  list[i] == element
-}

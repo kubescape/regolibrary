@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "Cronjob: hello does not define any linux security hardening",
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.securityContext"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]

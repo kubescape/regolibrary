@@ -13,6 +13,9 @@ spec:
             -
               name : mysql
               image : mysql
+              securityContext:
+                capabilities:
+                  add: ["ALL"]
               env :
                 -
                   name : MYSQL_ROOT_PASSWORD
