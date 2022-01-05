@@ -38,7 +38,7 @@ func TestAllRules(t *testing.T) {
 }
 
 func TestSingleRule(t *testing.T) {
-	dir := "exec-into-container-v1"
+	dir := "immutable-container-filesystem"
 	err := runAllTestsForRule(dir)
 	if err != nil {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)

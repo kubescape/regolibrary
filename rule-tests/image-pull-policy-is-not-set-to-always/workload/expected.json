@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "container: mysql in Deployment: my-deployment  has 'latest' tag on image but imagePullPolicy is not set to 'Always'",
+        "failedPaths": [
+            "spec.template.spec.containers[0].image",
+            "spec.template.spec.containers[0].imagePullPolicy"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "goproxy"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]

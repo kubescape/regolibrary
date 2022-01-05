@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "Pod: test is connected to the host network",
+        "failedPaths": [
+            "spec.hostNetwork"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

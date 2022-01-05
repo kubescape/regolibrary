@@ -1,0 +1,25 @@
+[
+    {
+        "alertMessage": "Deployment: my-deployment has a pod connected to the host network",
+        "failedPaths": [
+            "spec.template.spec.hostNetwork"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "goproxy"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]

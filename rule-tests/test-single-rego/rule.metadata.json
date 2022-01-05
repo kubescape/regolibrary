@@ -1,10 +1,7 @@
 {
-    "name": "exec-into-container-v1",
+    "name": "ingress-and-egress-blocked",
     "attributes": {
-      "m$K8sThreatMatrix": "Privilege Escalation::Exec into container",
-      "armoBuiltin": true,
-      "resourcesAggregator": "subject-role-rolebinding",
-      "useFromKubescapeVersion": "v1.0.133"
+      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [
@@ -16,19 +13,20 @@
           "*"
         ],
         "resources": [
-          "Role",
-          "ClusterRole",
-          "ClusterRoleBinding",
-          "RoleBinding"
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet",
+            "Job",
+            "Pod",
+            "CronJob",
+            "NetworkPolicy"
         ]
       }
     ],
     "ruleDependencies": [
-      {
-        "packageName": "cautils"
-      }
     ],
-    "description": "determines which users have permissions to exec into pods",
-    "remediation": "",
+    "description": "fails if there are no ingress and egress defined for pod",
+    "remediation": "Make sure you define ingress and egress policies for all your Pods",
     "ruleQuery": "armo_builtins"
-  }
+}

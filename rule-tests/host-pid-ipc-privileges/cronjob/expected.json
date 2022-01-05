@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "CronJob: hello has a pod with hostIPC enabled",
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.hostIPC"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]
