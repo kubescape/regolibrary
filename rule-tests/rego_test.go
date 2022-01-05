@@ -27,7 +27,7 @@ func TestAllRules(t *testing.T) {
 		if err != nil {
 			t.Errorf("err: %v", err.Error())
 		}
-		if !isDir {
+		if !isDir || dir == testSingleRegoDirectory {
 			continue
 		}
 		err = runAllTestsForRule(dir)
