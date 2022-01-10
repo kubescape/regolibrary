@@ -9,7 +9,7 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-
+      - uses: actions/checkout@v2
       - name: Set up Go
         uses: actions/setup-go@v2
         with: 
@@ -17,6 +17,5 @@ jobs:
 
 
       - name: Test
-        uses: actions/checkout@v2
         working-directory: ./rule-tests
         run:  go test -v rego_test.go -run TestAllRules
