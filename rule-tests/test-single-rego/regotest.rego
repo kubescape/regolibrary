@@ -1,41 +1,38 @@
 package armo_builtins
 
 
-# Fails if pod does not define linux security hardening 
+# Fails if pod has container  that allow privilege escalation
 deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
-    isUnsafePod(pod)
-    container := pod.spec.containers[_]
-    isUnsafeContainer(container)
- 
-	path := "spec.securityContext"
+	container := pod.spec.containers[i]
+	begginingOfPath := "spec."
+    result := isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)
 	msga := {
-		"alertMessage": sprintf("Pod: %v does not define any linux security hardening", [pod.metadata.name]),
+		"alertMessage": sprintf("container: %v in pod: %v  allow privilege escalation", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [path],
+		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
 	}
 }
 
-# Fails if workload does not define linux security hardening 
+
+# Fails if workload has a container that allow privilege escalation
 deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-    isUnsafeWorkload(wl)
-    container := wl.spec.template.spec.containers[_]
-    isUnsafeContainer(container)
-
-	path := "spec.template.spec.securityContext"
-	msga := {
-		"alertMessage": sprintf("Workload: %v does not define any linux security hardening", [wl.metadata.name]),
+    container := wl.spec.template.spec.containers[i]
+	begginingOfPath := "spec.template.spec."
+    result := isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)
+    msga := {
+		"alertMessage": sprintf("container :%v in %v: %v  allow privilege escalation", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [path],
+		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -43,50 +40,59 @@ deny[msga] {
 }
 
 
-# Fails if pod does not define linux security hardening 
+# Fails if cronjob has a container that allow privilege escalation
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-    isUnsafeCronJob(wl)
-	container = wl.spec.jobTemplate.spec.template.spec.containers[_]
-    isUnsafeContainer(container)
-
-	path := "spec.jobTemplate.spec.template.spec.securityContext"
-	msga := {
-		"alertMessage": sprintf("Cronjob: %v does not define any linux security hardening", [wl.metadata.name]),
+	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+	begginingOfPath := "spec.jobTemplate.spec.template.spec."
+	result := isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)
+    msga := {
+		"alertMessage": sprintf("container :%v in %v: %v allow privilege escalation", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [path],
+		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
 	}
 }
 
-isUnsafePod(pod){
-    not pod.spec.securityContext.seccompProfile
-    not pod.spec.securityContext.seLinuxOptions
-	annotations := [pod.metadata.annotations[i] | annotaion = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
-	not count(annotations) > 0
+
+
+isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = path {
+    not container.securityContext.allowPrivilegeEscalation == false
+	not container.securityContext.allowPrivilegeEscalation == true
+	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
+	count(psps) == 0
+	path = sprintf("%vcontainers[%v]", [begginingOfPath, format_int(i, 10)])
 }
 
-isUnsafeContainer(container){
-    not container.securityContext.seccompProfile
-    not container.securityContext.seLinuxOptions
-    not container.securityContext.capabilities.drop
+isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)  = path {
+    not container.securityContext.allowPrivilegeEscalation == false
+	not container.securityContext.allowPrivilegeEscalation == true
+	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
+	count(psps) > 0
+	psp := psps[_]
+	not psp.spec.allowPrivilegeEscalation == false
+	path = sprintf("%vcontainers[%v]", [begginingOfPath, format_int(i, 10)])
 }
 
-isUnsafeWorkload(wl) {
-    not wl.spec.template.spec.securityContext.seccompProfile
-    not wl.spec.template.spec.securityContext.seLinuxOptions
-	annotations := [wl.spec.template.metadata.annotations[i] | annotaion = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
-	not count(annotations) > 0
+
+isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)  = path {
+    container.securityContext.allowPrivilegeEscalation == true
+	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
+	count(psps) == 0
+	path = sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [begginingOfPath, format_int(i, 10)])
 }
 
-isUnsafeCronJob(cronjob) {
-    not cronjob.spec.jobTemplate.spec.template.spec.securityContext.seccompProfile
-    not cronjob.spec.jobTemplate.spec.template.spec.securityContext.seLinuxOptions
-	annotations := [cronjob.spec.jobTemplate.spec.template.metadata.annotations[i] | annotaion = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
-	not count(annotations) > 0
+isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = path {
+    container.securityContext.allowPrivilegeEscalation == true
+	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
+	count(psps) > 0
+	psp := psps[_]
+	not psp.spec.allowPrivilegeEscalation == false
+	path = sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [begginingOfPath, format_int(i, 10)])
 }
+
 

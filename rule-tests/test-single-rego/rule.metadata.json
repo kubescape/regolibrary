@@ -1,5 +1,5 @@
 {
-  "name": "linux-hardening",
+  "name": "rule-allow-privilege-escalation",
   "attributes": {
     "armoBuiltin": true
   },
@@ -19,13 +19,14 @@
           "StatefulSet",
           "Job",
           "Pod",
-          "CronJob"
+          "CronJob",
+          "PodSecurityPolicy"
       ]
     }
   ],
   "ruleDependencies": [
   ],
-  "description": "fails if container does not defien any linux security hardening",
-  "remediation": "Make sure you define  at least one linux security hardening property out of Seccomp, SELinux or Capabilities.",
+  "description": "fails if container allows privilege escalation",
+  "remediation": "Make sure that the allowPrivilegeEscalation field in the securityContext of pod/container is set to false",
   "ruleQuery": "armo_builtins"
 }

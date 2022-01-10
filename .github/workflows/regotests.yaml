@@ -14,8 +14,6 @@ jobs:
         uses: actions/setup-go@v2
         with: 
           go-version: 1.17
-
-
       - name: Test
         working-directory: ./rule-tests
         run:  go test -v rego_test.go -run TestAllRules
