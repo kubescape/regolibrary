@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "the following cronjobs are defined: default/hello",
+        "failedPaths": [
+            ""
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]

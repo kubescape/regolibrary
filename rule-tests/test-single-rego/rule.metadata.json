@@ -1,7 +1,10 @@
 {
-  "name": "rule-allow-privilege-escalation",
+  "name": "rule-list-all-cluster-admins-v1",
   "attributes": {
-    "armoBuiltin": true
+    "m$K8sThreatMatrix": "Privilege Escalation::Cluster-admin binding",
+    "armoBuiltin": true,
+    "resourcesAggregator": "subject-role-rolebinding",
+    "useFromKubescapeVersion": "v1.0.133"
   },
   "ruleLanguage": "Rego",
   "match": [
@@ -13,20 +16,19 @@
         "*"
       ],
       "resources": [
-          "Deployment",
-          "ReplicaSet",
-          "DaemonSet",
-          "StatefulSet",
-          "Job",
-          "Pod",
-          "CronJob",
-          "PodSecurityPolicy"
+        "Role",
+        "ClusterRole",
+        "ClusterRoleBinding",
+        "RoleBinding"
       ]
     }
   ],
   "ruleDependencies": [
+    {
+      "packageName": "cautils"
+    }
   ],
-  "description": "fails if container allows privilege escalation",
-  "remediation": "Make sure that the allowPrivilegeEscalation field in the securityContext of pod/container is set to false",
+  "description": "determines which users have cluster admin permissions",
+  "remediation": "",
   "ruleQuery": "armo_builtins"
 }

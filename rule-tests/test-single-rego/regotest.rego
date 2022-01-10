@@ -1,98 +1,42 @@
 package armo_builtins
+import data.cautils as cautils
 
-
-# Fails if pod has container  that allow privilege escalation
+# returns subjects with cluster admin permissions
 deny[msga] {
-    pod := input[_]
-    pod.kind == "Pod"
-	container := pod.spec.containers[i]
-	begginingOfPath := "spec."
-    result := isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)
-	msga := {
-		"alertMessage": sprintf("container: %v in pod: %v  allow privilege escalation", [container.name, pod.metadata.name]),
-		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"failedPaths": [result],
-		"alertObject": {
-			"k8sApiObjects": [pod]
-		}
-	}
-}
+	subjectVector := input[_]
+	role := subjectVector.relatedObjects[i]
+	rolebinding := subjectVector.relatedObjects[j]
+	endswith(subjectVector.relatedObjects[i].kind, "Role")
+	endswith(subjectVector.relatedObjects[j].kind, "Binding")
 
+	rule:= role.rules[p]
+	subject := rolebinding.subjects[k]
 
-# Fails if workload has a container that allow privilege escalation
-deny[msga] {
-    wl := input[_]
-	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-	spec_template_spec_patterns[wl.kind]
-    container := wl.spec.template.spec.containers[i]
-	begginingOfPath := "spec.template.spec."
-    result := isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)
+	verbs := ["*"]
+  	verbsPath := [sprintf("relatedObjects[%v].rules[%v].verbs[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | verb =  rule.verbs[l];cautils.list_contains(verbs, verb)]
+	count(verbsPath) > 0
+
+	apiGroups := ["*", ""]
+	apiGroupsPath := [sprintf("relatedObjects[%v].rules[%v].apiGroups[%v]", [format_int(i, 10),format_int(p, 10), format_int(a, 10)])  | apiGroup =  rule.apiGroups[a];cautils.list_contains(apiGroups, apiGroup)]
+	count(apiGroupsPath) > 0
+
+	resources := ["*"]
+	resourcesPath := [sprintf("relatedObjects[%v].rules[%v].resources[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | resource =  rule.resources[l]; cautils.list_contains(resources, resource)]
+	count(resourcesPath) > 0
+
+	path := array.concat(resourcesPath, verbsPath)
+	path2 := array.concat(path, apiGroupsPath)
+	path3 := array.concat(path2, [sprintf("relatedObjects[%v].roleRef.subjects[%v]", [format_int(j, 10), format_int(k, 10)])])
+	finalpath := array.concat(path3, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
+
     msga := {
-		"alertMessage": sprintf("container :%v in %v: %v  allow privilege escalation", [container.name, wl.kind, wl.metadata.name]),
+		"alertMessage": sprintf("Subject: %v-%v have high privileges, such as cluster-admin", [subjectVector.kind, subjectVector.name]),
+		"alertScore": 3,
+		"failedPaths": finalpath,
 		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"failedPaths": [result],
 		"alertObject": {
-			"k8sApiObjects": [wl]
+			"k8sApiObjects": [],
+			"externalObjects": subjectVector
 		}
-	}
+  	}
 }
-
-
-# Fails if cronjob has a container that allow privilege escalation
-deny[msga] {
-	wl := input[_]
-	wl.kind == "CronJob"
-	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	begginingOfPath := "spec.jobTemplate.spec.template.spec."
-	result := isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)
-    msga := {
-		"alertMessage": sprintf("container :%v in %v: %v allow privilege escalation", [container.name, wl.kind, wl.metadata.name]),
-		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"failedPaths": [result],
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
-	}
-}
-
-
-
-isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = path {
-    not container.securityContext.allowPrivilegeEscalation == false
-	not container.securityContext.allowPrivilegeEscalation == true
-	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
-	count(psps) == 0
-	path = sprintf("%vcontainers[%v]", [begginingOfPath, format_int(i, 10)])
-}
-
-isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)  = path {
-    not container.securityContext.allowPrivilegeEscalation == false
-	not container.securityContext.allowPrivilegeEscalation == true
-	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
-	count(psps) > 0
-	psp := psps[_]
-	not psp.spec.allowPrivilegeEscalation == false
-	path = sprintf("%vcontainers[%v]", [begginingOfPath, format_int(i, 10)])
-}
-
-
-isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)  = path {
-    container.securityContext.allowPrivilegeEscalation == true
-	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
-	count(psps) == 0
-	path = sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [begginingOfPath, format_int(i, 10)])
-}
-
-isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = path {
-    container.securityContext.allowPrivilegeEscalation == true
-	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
-	count(psps) > 0
-	psp := psps[_]
-	not psp.spec.allowPrivilegeEscalation == false
-	path = sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [begginingOfPath, format_int(i, 10)])
-}
-
-

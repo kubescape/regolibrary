@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "Cronjob: hello has sensitive information in environment variables",
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.containers[0].env[0].name"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]

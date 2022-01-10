@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: audit-pod
+  labels:
+    app: audit-pod
+spec:
+  containers:
+  - name: test-container
+    env :
+      - name : azure_batch_key
+        value : "Hello from the environment"
+    image: quay.io/http-echo:0.2.3
