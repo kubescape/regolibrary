@@ -13,7 +13,7 @@
 		env := container.env[j]
 		contains(lower(env.name), key_name)
 		isNotReference(env)
-		path := sprintf("spec.containers[%v].env[%v]", [format_int(i, 10), format_int(j, 10)])
+		path := sprintf("spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
 
 		msga := {
 			"alertMessage": sprintf("Pod: %v has sensitive information in environment variables", [pod.metadata.name]),
@@ -38,7 +38,7 @@
 		env := container.env[j]
 		contains(lower(env.name), key_name)
 		isNotReference(env)
-		path := sprintf("spec.template.spec.containers[%v].env[%v]", [format_int(i, 10), format_int(j, 10)])	
+		path := sprintf("spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])	
 
 		msga := {
 			"alertMessage": sprintf("%v: %v has sensitive information in environment variables", [wl.kind, wl.metadata.name]),
@@ -61,7 +61,7 @@
 		env := container.env[j]
 		contains(lower(env.name), key_name)
 		isNotReference(env)
-		path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v]", [format_int(i, 10), format_int(j, 10)])
+		path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
 
 		msga := {
 			"alertMessage": sprintf("Cronjob: %v has sensitive information in environment variables", [wl.metadata.name]),

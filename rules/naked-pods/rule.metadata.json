@@ -10,7 +10,7 @@
           "*"
         ],
         "apiVersions": [
-          "*"
+          "v1"
         ],
         "resources": [
             "Pod"

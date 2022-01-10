@@ -39,7 +39,7 @@ azure_metadata[msga] {
 		"alert": true,
 		"prevent": false,
 		"alertScore": 1,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"alertObject": {
 			"k8SApiObjects": [nodes],
 			"externalObjects": {
@@ -60,7 +60,7 @@ gcp_metadata[msga] {
 		"alert": true,
 		"prevent": false,
 		"alertScore": 1,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"alertObject": {
 			"k8SApiObjects": [nodes],
 			"externalObjects": {
@@ -81,7 +81,7 @@ aws_metadata[msga] {
 		"alert": true,
 		"prevent": false,
 		"alertScore": 1,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"alertObject": {
 			"k8SApiObjects": [nodes],
 			"externalObjects": {

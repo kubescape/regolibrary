@@ -1,5 +1,5 @@
 {
-  "name": "resources-memory-limit",
+  "name": "resources-memory-limit-and-request",
   "attributes": {
     "armoBuiltin": true
   },
@@ -25,7 +25,7 @@
   ],
   "ruleDependencies": [
   ],
-  "description": "memory limits are not set.",
-  "remediation": "Ensure memory limits are set.",
+  "description": "memory limits and requests are not set.",
+  "remediation": "Ensure memory limits and requests are set.",
   "ruleQuery": "armo_builtins"
 }
