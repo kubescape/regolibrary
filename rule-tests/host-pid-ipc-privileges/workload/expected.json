@@ -1,8 +1,8 @@
 [
     {
-        "alertMessage": "Deployment: my-deployment has a pod with hostIPC enabled",
+        "alertMessage": "Deployment: my-deployment has a pod with hostPID enabled",
         "failedPaths": [
-            "spec.template.spec.hostIPC"
+            "spec.template.spec.hostPID"
         ],
         "ruleStatus": "",
         "packagename": "armo_builtins",
@@ -23,9 +23,9 @@
         }
     },
     {
-        "alertMessage": "Deployment: my-deployment has a pod with hostPID enabled",
+        "alertMessage": "Deployment: my-deployment has a pod with hostIPC enabled",
         "failedPaths": [
-            "spec.template.spec.hostPID"
+            "spec.template.spec.hostIPC"
         ],
         "ruleStatus": "",
         "packagename": "armo_builtins",

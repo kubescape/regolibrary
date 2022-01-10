@@ -1,14 +1,14 @@
-module regolibrary
+module tests
 
 go 1.17
 
 require (
-	github.com/armosec/armoapi-go v0.0.40
-	github.com/armosec/k8s-interface v0.0.51
-	github.com/armosec/kubescape v1.0.136
-	github.com/armosec/opa-utils v0.0.79
+	github.com/armosec/armoapi-go v0.0.41
+	github.com/armosec/k8s-interface v0.0.50
+	github.com/armosec/kubescape v1.0.138
+	github.com/armosec/opa-utils v0.0.78
 	github.com/golang/glog v1.0.0
-	github.com/open-policy-agent/opa v0.35.0
+	github.com/open-policy-agent/opa v0.33.1
 	gopkg.in/yaml.v2 v2.4.0
 )
 
@@ -21,7 +21,8 @@ require (
 	github.com/Azure/go-autorest/logger v0.2.1 // indirect
 	github.com/Azure/go-autorest/tracing v0.6.0 // indirect
 	github.com/OneOfOne/xxhash v1.2.8 // indirect
-	github.com/armosec/rbac-utils v0.0.9 // indirect
+	github.com/armosec/armo-interfaces v0.0.3 // indirect
+	github.com/armosec/rbac-utils v0.0.10 // indirect
 	github.com/armosec/utils-go v0.0.3 // indirect
 	github.com/armosec/utils-k8s-go v0.0.1 // indirect
 	github.com/aws/aws-sdk-go v1.41.11 // indirect
@@ -68,9 +69,9 @@ require (
 	go.uber.org/multierr v1.6.0 // indirect
 	go.uber.org/zap v1.19.1 // indirect
 	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
-	golang.org/x/net v0.0.0-20211111083644-e5c967477495 // indirect
+	golang.org/x/net v0.0.0-20210825183410-e898025ed96a // indirect
 	golang.org/x/oauth2 v0.0.0-20211005180243-6b3c2da341f1 // indirect
-	golang.org/x/sys v0.0.0-20211110154304-99a53858aa08 // indirect
+	golang.org/x/sys v0.0.0-20210823070655-63515b42dcdf // indirect
 	golang.org/x/term v0.0.0-20210220032956-6a3ed077a48d // indirect
 	golang.org/x/text v0.3.6 // indirect
 	golang.org/x/time v0.0.0-20210723032227-1f47c861a9ac // indirect

@@ -3,14 +3,15 @@ package testing
 import (
 	"fmt"
 	"os"
-	"regolibrary/opaprocessor"
 	"strings"
 	"testing"
+	"tests/opaprocessor"
 
 	"github.com/armosec/opa-utils/reporthandling"
 )
 
 var testSingleRegoDirectory = "test-single-rego"
+var opaProcessorDir = "opaprocessor"
 
 func TestAllRules(t *testing.T) {
 	file, err := os.Open("./")
@@ -27,7 +28,7 @@ func TestAllRules(t *testing.T) {
 		if err != nil {
 			t.Errorf("err: %v", err.Error())
 		}
-		if !isDir || dir == testSingleRegoDirectory {
+		if !isDir || dir == testSingleRegoDirectory || dir == opaProcessorDir {
 			continue
 		}
 		err = runAllTestsForRule(dir)
@@ -38,7 +39,7 @@ func TestAllRules(t *testing.T) {
 }
 
 func TestSingleRule(t *testing.T) {
-	dir := "linux-hardening"
+	dir := "host-pid-ipc-privileges"
 	err := runAllTestsForRule(dir)
 	if err != nil {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)

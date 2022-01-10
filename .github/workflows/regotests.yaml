@@ -16,4 +16,5 @@ jobs:
 
 
       - name: Test
-        run:  go test -v ./rule-tests/rego_test.go -run TestAllRules
+        working-directory: ./rule-tests
+        run:  go test -v rego_test.go -run TestAllRules

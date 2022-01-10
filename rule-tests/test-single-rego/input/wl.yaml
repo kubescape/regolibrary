@@ -36,4 +36,3 @@ spec:
               persistentVolumeClaim :
                 claimName : my-lamp-site-data
           restartPolicy: OnFailure
-          
