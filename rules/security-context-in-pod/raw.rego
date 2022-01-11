@@ -60,6 +60,10 @@ deny[msga] {
 }
 
 
+isNotSecurityContext(pod, container) {
+   not pod.spec.securityContext == 0
+   not container.securityContext
+}
 
 isNotSecurityContext(pod, container) {
    count(pod.spec.securityContext) == 0

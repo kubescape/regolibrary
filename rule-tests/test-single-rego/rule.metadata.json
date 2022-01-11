@@ -1,10 +1,7 @@
 {
-  "name": "rule-list-all-cluster-admins-v1",
+  "name": "security-context-in-pod",
   "attributes": {
-    "m$K8sThreatMatrix": "Privilege Escalation::Cluster-admin binding",
-    "armoBuiltin": true,
-    "resourcesAggregator": "subject-role-rolebinding",
-    "useFromKubescapeVersion": "v1.0.133"
+    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [
@@ -16,19 +13,19 @@
         "*"
       ],
       "resources": [
-        "Role",
-        "ClusterRole",
-        "ClusterRoleBinding",
-        "RoleBinding"
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet",
+          "Job",
+          "Pod",
+          "CronJob"
       ]
     }
   ],
   "ruleDependencies": [
-    {
-      "packageName": "cautils"
-    }
   ],
-  "description": "determines which users have cluster admin permissions",
-  "remediation": "",
+  "description": "fails if pod/container does not define a security context.",
+  "remediation": "Make sure that the securityContext field is defined for pod/container.",
   "ruleQuery": "armo_builtins"
 }

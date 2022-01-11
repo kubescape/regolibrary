@@ -1,0 +1,25 @@
+[
+    {
+        "alertMessage": "container: command-demo-container in pod: command-demo  have sudo in entrypoint",
+        "failedPaths": [
+            "spec.containers[0].command[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-command"
+                        },
+                        "name": "command-demo"
+                    }
+                }
+            ]
+        }
+    }
+]

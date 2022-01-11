@@ -5,9 +5,6 @@ metadata:
   labels:
     purpose: demonstrate-command
 spec:
-  securityContext :
-    runAsUser : 999
-    runAsGroup: 3000
   containers:
   - name: command-demo-container
     image: debian

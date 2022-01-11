@@ -1,0 +1,25 @@
+[
+    {
+        "alertMessage": "the following pods are defined as privileged: audit-pod",
+        "failedPaths": [
+            "spec.containers[0].securityContext.capabilities.add[1]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "audit-pod"
+                        },
+                        "name": "audit-pod"
+                    }
+                }
+            ]
+        }
+    }
+]

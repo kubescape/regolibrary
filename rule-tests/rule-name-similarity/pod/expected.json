@@ -1,0 +1,25 @@
+[
+    {
+        "alertMessage": "this Pod has a similar name to coredns",
+        "failedPaths": [
+            "metadata.name"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-envars"
+                        },
+                        "name": "coredns"
+                    }
+                }
+            ]
+        }
+    }
+]

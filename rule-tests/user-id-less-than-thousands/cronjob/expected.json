@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "container :hello in CronJob: hello  runs with id less than 1000",
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.containers[0].securityContext.runAsUser"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]

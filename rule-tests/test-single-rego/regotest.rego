@@ -1,42 +1,166 @@
 package armo_builtins
-import data.cautils as cautils
 
-# returns subjects with cluster admin permissions
+# TODO - FIX FAILED PATHS IF THE CONTROL WILL BE ACTIVE AGAIN
+
+# Fails if pod has container  configured to run with id less than 1000
 deny[msga] {
-	subjectVector := input[_]
-	role := subjectVector.relatedObjects[i]
-	rolebinding := subjectVector.relatedObjects[j]
-	endswith(subjectVector.relatedObjects[i].kind, "Role")
-	endswith(subjectVector.relatedObjects[j].kind, "Binding")
-
-	rule:= role.rules[p]
-	subject := rolebinding.subjects[k]
-
-	verbs := ["*"]
-  	verbsPath := [sprintf("relatedObjects[%v].rules[%v].verbs[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | verb =  rule.verbs[l];cautils.list_contains(verbs, verb)]
-	count(verbsPath) > 0
-
-	apiGroups := ["*", ""]
-	apiGroupsPath := [sprintf("relatedObjects[%v].rules[%v].apiGroups[%v]", [format_int(i, 10),format_int(p, 10), format_int(a, 10)])  | apiGroup =  rule.apiGroups[a];cautils.list_contains(apiGroups, apiGroup)]
-	count(apiGroupsPath) > 0
-
-	resources := ["*"]
-	resourcesPath := [sprintf("relatedObjects[%v].rules[%v].resources[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | resource =  rule.resources[l]; cautils.list_contains(resources, resource)]
-	count(resourcesPath) > 0
-
-	path := array.concat(resourcesPath, verbsPath)
-	path2 := array.concat(path, apiGroupsPath)
-	path3 := array.concat(path2, [sprintf("relatedObjects[%v].roleRef.subjects[%v]", [format_int(j, 10), format_int(k, 10)])])
-	finalpath := array.concat(path3, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
-
-    msga := {
-		"alertMessage": sprintf("Subject: %v-%v have high privileges, such as cluster-admin", [subjectVector.kind, subjectVector.name]),
-		"alertScore": 3,
-		"failedPaths": finalpath,
+    pod := input[_]
+    pod.kind == "Pod"
+	container := pod.spec.containers[i]
+	begginingOfPath := "spec."
+    result := isRootContainer(container, begginingOfPath, i)
+	msga := {
+		"alertMessage": sprintf("container: %v in pod: %v  runs with id less than 1000", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"failedPaths": [result],
 		"alertObject": {
-			"k8sApiObjects": [],
-			"externalObjects": subjectVector
+			"k8sApiObjects": [pod]
 		}
-  	}
+	}
+}
+
+# Fails if pod has container  configured to run with id less than 1000
+deny[msga] {
+    pod := input[_]
+    pod.kind == "Pod"
+	container := pod.spec.containers[i]
+	begginingOfPath := ""
+    result := isRootPod(pod, container, begginingOfPath)
+	msga := {
+		"alertMessage": sprintf("container: %v in pod: %v  runs with id less than 1000", [container.name, pod.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"failedPaths": [result],
+		"alertObject": {
+			"k8sApiObjects": [pod]
+		}
+	}
+}
+
+
+
+# Fails if workload has container configured to run with id less than 1000
+deny[msga] {
+    wl := input[_]
+	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	spec_template_spec_patterns[wl.kind]
+    container := wl.spec.template.spec.containers[i]
+	begginingOfPath := "spec.template.spec."
+    result := isRootContainer(container, begginingOfPath, i)
+    msga := {
+		"alertMessage": sprintf("container :%v in %v: %v runs with id less than 1000", [container.name, wl.kind, wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"failedPaths": [result],
+		"alertObject": {
+			"k8sApiObjects": [wl]
+		}
+	}
+}
+
+# Fails if workload has container configured to run with id less than 1000
+deny[msga] {
+    wl := input[_]
+	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	spec_template_spec_patterns[wl.kind]
+    container := wl.spec.template.spec.containers[i]
+	begginingOfPath := "spec.template."
+    result := isRootPod(wl.spec.template, container, begginingOfPath)
+    msga := {
+		"alertMessage": sprintf("container :%v in %v: %v runs with id less than 1000", [container.name, wl.kind, wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"failedPaths": [result],
+		"alertObject": {
+			"k8sApiObjects": [wl]
+		}
+	}
+}
+
+
+# Fails if cronjob has a container configured to run with id less than 1000
+deny[msga] {
+	wl := input[_]
+	wl.kind == "CronJob"
+	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+	begginingOfPath := "spec.jobTemplate.spec.template.spec."
+	result := isRootContainer(container, begginingOfPath, i)
+    msga := {
+		"alertMessage": sprintf("container :%v in %v: %v  runs with id less than 1000", [container.name, wl.kind, wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"failedPaths": [result],
+		"alertObject": {
+			"k8sApiObjects": [wl]
+		}
+	}
+}
+
+
+
+# Fails if workload has container configured to run with id less than 1000
+deny[msga] {
+  	wl := input[_]
+	wl.kind == "CronJob"
+	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+	begginingOfPath := "spec.jobTemplate.spec.template."
+    result := isRootPod(wl.spec.jobTemplate.spec.template, container, begginingOfPath)
+    msga := {
+		"alertMessage": sprintf("container :%v in %v: %v runs with id less than 1000", [container.name, wl.kind, wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"failedPaths": [result],
+		"alertObject": {
+			"k8sApiObjects": [wl]
+		}
+	}
+}
+
+
+isRootPod(pod, container, begginingOfPath) = path {
+	not container.securityContext.runAsGroup
+    not container.securityContext.runAsUser
+    pod.spec.securityContext.runAsUser < 1000
+	not pod.spec.securityContext.runAsGroup
+	path = sprintf("%vspec.securityContext.runAsUser", [begginingOfPath])
+}
+
+isRootPod(pod, container, begginingOfPath) = path {
+	not container.securityContext.runAsUser
+    not container.securityContext.runAsGroup
+    pod.spec.securityContext.runAsGroup < 1000
+	not pod.spec.securityContext.runAsUser
+	path = sprintf("%vspec.securityContext.runAsGroup", [begginingOfPath])
+}
+
+isRootPod(pod, container, begginingOfPath) = path {
+    pod.spec.securityContext.runAsGroup > 1000
+	 pod.spec.securityContext.runAsUser < 1000
+	path = sprintf("%vspec.securityContext.runAsUser", [begginingOfPath])
+}
+
+isRootPod(pod, container, begginingOfPath) = path {
+    pod.spec.securityContext.runAsGroup < 1000
+	pod.spec.securityContext.runAsUser > 1000
+	path = sprintf("%vspec.securityContext.runAsGroup", [begginingOfPath])
+}
+
+isRootPod(pod, container, begginingOfPath) = path {
+    pod.spec.securityContext.runAsGroup < 1000
+	 pod.spec.securityContext.runAsUser < 1000
+	path = sprintf("%vspec.securityContext", [begginingOfPath])
+}
+
+
+isRootContainer(container, begginingOfPath, i) = path {
+    container.securityContext.runAsUser < 1000
+	not container.securityContext.runAsGroup
+	path = sprintf("%vcontainers[%v].securityContext.runAsUser", [begginingOfPath, format_int(i, 10)])
+}
+
+isRootContainer(container, begginingOfPath, i) = path {
+    container.securityContext.runAsGroup < 1000
+	not container.securityContext.runAsUser
+	path = sprintf("%vcontainers[%v].securityContext.runAsGroup", [begginingOfPath, format_int(i, 10)])
 }
