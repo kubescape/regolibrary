@@ -39,7 +39,7 @@ func TestAllRules(t *testing.T) {
 }
 
 func TestSingleRule(t *testing.T) {
-	dir := "rule-deny-cronjobs"
+	dir := "access-container-service-account-v1"
 	err := runAllTestsForRule(dir)
 	if err != nil {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)

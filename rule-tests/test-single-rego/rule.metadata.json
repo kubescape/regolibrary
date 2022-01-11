@@ -1,6 +1,7 @@
 {
-  "name": "security-context-in-pod",
+  "name": "access-tiller-endpoint",
   "attributes": {
+    "microsoftK8sThreatMatrix": "Lateral movement::Access tiller endpoint",
     "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
@@ -13,19 +14,12 @@
         "*"
       ],
       "resources": [
-          "Deployment",
-          "ReplicaSet",
-          "DaemonSet",
-          "StatefulSet",
-          "Job",
-          "Pod",
-          "CronJob"
+        "Deployment"
       ]
     }
   ],
-  "ruleDependencies": [
-  ],
-  "description": "fails if pod/container does not define a security context.",
-  "remediation": "Make sure that the securityContext field is defined for pod/container.",
+  "ruleDependencies": [],
+  "description": "fails if tiller exists in cluster",
+  "remediation": "",
   "ruleQuery": "armo_builtins"
 }
