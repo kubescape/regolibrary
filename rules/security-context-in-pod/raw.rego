@@ -60,15 +60,24 @@ deny[msga] {
 }
 
 
-isNotSecurityContext(pod, container) {
+isNotSecurityContext(pod, container, begginingOfPath) = path  {
    not pod.spec.securityContext == 0
    not container.securityContext
+   path := begginingOfPath
 }
 
 isNotSecurityContext(pod, container, begginingOfPath) = path {
    count(pod.spec.securityContext) == 0
    not container.securityContext
    path := begginingOfPath
+}
+
+
+isNotSecurityContext(pod, container, begginingOfPath) = path {
+   not pod.spec.securityContext 
+	container.securityContext
+   count(container.securityContext) == 0
+	path := sprintf("%v.securityContext", [begginingOfPath])
 }
 
 isNotSecurityContext(pod, container, begginingOfPath) = path{

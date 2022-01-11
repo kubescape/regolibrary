@@ -1,32 +1,22 @@
-apiVersion: batch/v1beta1
-kind: CronJob
+apiVersion: v1
+kind: Pod
 metadata:
-  name: hello
+  name: audit-pod
+  labels:
+    app: audit-pod
 spec:
-  schedule: "*/1 * * * *"
-  jobTemplate:
-    spec:
-      template:
-        spec:
-          spec :
-            securityContext :
-              runAsUser : 1000
-              runAsGroup : 3000
-          serviceAccountName: kubernetes-dashboard
-          restartPolicy: OnFailure
-          containers:
-          - name: hello
-            image: busybox:latest
-            securityContext :
-              runAsUser : 1
-              capabilities :
-                add : [ "NET_ADMIN", "SYS_TIME", "SYS_ADMIN"]
-            env :
-              -
-                name : pwd
-                value : "Hpwd"
-            imagePullPolicy: IfNotPresent
-            command:
-            - /bin/sh
-            - -c
-            - date; echo Hello from the Kubernetes cluster
+  containers:
+  - name: test-container
+    env :
+      - name : azure_batch_key
+        value : "Hello from the environment"
+    image: hashicorp/http-echo:0.2.3
+    securityContext:
+      capabilities:
+        add: ["NET_ADMIN", "SYS_ADMIN"]
+      allowPrivilegeEscalation: true
+  - name : test-container2
+    env :
+        - name : random
+          value : "Hello from the environment"
+    image : hashicorp/http-echo:0.2.3

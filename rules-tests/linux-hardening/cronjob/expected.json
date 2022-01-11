@@ -2,7 +2,7 @@
     {
         "alertMessage": "Cronjob: hello does not define any linux security hardening",
         "failedPaths": [
-            "spec.jobTemplate.spec.template.spec.securityContext"
+            "spec.jobTemplate.spec.template.spec"
         ],
         "ruleStatus": "",
         "packagename": "armo_builtins",

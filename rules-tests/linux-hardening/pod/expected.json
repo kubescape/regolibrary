@@ -2,7 +2,7 @@
     {
         "alertMessage": "Pod: audit-pod does not define any linux security hardening",
         "failedPaths": [
-            "spec.securityContext"
+            "spec"
         ],
         "ruleStatus": "",
         "packagename": "armo_builtins",

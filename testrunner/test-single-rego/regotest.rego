@@ -1,119 +1,88 @@
 package armo_builtins
-# Deny mutating action unless user is in group owning the resource
-
 
 
 deny[msga] {
-
-	pod := input[_]
-	pod.kind == "Pod"
-	metadata := pod.metadata
-	path := noLabelOrNoLabelUsage(metadata, "")
+    pod := input[_]
+    pod.kind == "Pod"
+    container := pod.spec.containers[i]
+	begginingOfPath := sprintf("spec.containers[%v]", [format_int(i, 10)])
+    path := isNotSecurityContext(pod, container, begginingOfPath)
 
     msga := {
-		"alertMessage": sprintf("in the following pods a certain set of labels is not defined: %v", [pod.metadata.name]),
+		"alertMessage": sprintf("Container: %v in pod: %v does not define a securityContext.", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 2,
-		"failedPaths": path,
-         "alertObject": {
+		"failedPaths": [path],
+		"alertScore": 7,
+		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
-     }
+	}	
 }
 
 
+
 deny[msga] {
-	wl := input[_]
+    wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-	wlMetadata := wl.metadata
-	podMetadata := wl.spec.template.metadata
-	begginingOfPodPath := "spec.template."
-	path := noLabelUsage(wlMetadata, podMetadata, begginingOfPodPath)
+    container := wl.spec.template.spec.containers[i]
+	begginingOfPath := sprintf("spec.template.spec.containers[%v]", [format_int(i, 10)])
+    path := isNotSecurityContext(wl.spec.template, container, begginingOfPath)
 
-    msga := {
-		"alertMessage": sprintf("%v: %v a certain set of labels is not defined:", [wl.kind, wl.metadata.name]),
+	msga := {
+		"alertMessage": sprintf("Container: %v in %v: %v does not define a securityContext.", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 2,
-		"failedPaths": path,
-         "alertObject": {
+		"failedPaths": [path],
+		"alertScore": 7,
+		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
-     }
+	}
 }
 
-#handles cronjob
+
 deny[msga] {
-	wl := input[_]
+  	wl := input[_]
 	wl.kind == "CronJob"
-	wlMetadata := wl.metadata
-	podMetadata := wl.spec.jobTemplate.spec.template.metadata
-	begginingOfPodPath := "spec.jobTemplate.spec.template."
-	path := noLabelUsage(wlMetadata, podMetadata, begginingOfPodPath)
-
+	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+	begginingOfPath := sprintf("spec.jobTemplate.spec.template.spec.containers[%v]", [format_int(i, 10)])
+    path := isNotSecurityContext(wl.spec.jobTemplate.spec.template, container, begginingOfPath)
 
     msga := {
-		"alertMessage": sprintf("the following cronjobs a certain set of labels is not defined: %v", [wl.metadata.name]),
+		"alertMessage": sprintf("Container: %v in %v: %v does not define a securityContext.", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 2,
-		"failedPaths": path,
-         "alertObject": {
+		"failedPaths": [path],
+		"alertScore": 7,
+		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
-     }
+	}
 }
 
 
-# There is no label-usage in WL and also for his Pod
-noLabelUsage(wlMetadata, podMetadata, begginingOfPodPath) = path{
-	path1 := noLabelOrNoLabelUsage(wlMetadata, "")
-	path2 := noLabelOrNoLabelUsage(podMetadata, begginingOfPodPath)
-	path = array.concat(path1, path2)
+isNotSecurityContext(pod, container, begginingOfPath) = path  {
+   not pod.spec.securityContext == 0
+   not container.securityContext
+   path := begginingOfPath
 }
 
-# There is label-usage for WL but not for his Pod
-noLabelUsage(wlMetadata, podMetadata, begginingOfPodPath) = path{
-	not noLabelOrNoLabelUsage(wlMetadata, "")
-	path := noLabelOrNoLabelUsage(podMetadata, begginingOfPodPath)
+isNotSecurityContext(pod, container, begginingOfPath) = path {
+   count(pod.spec.securityContext) == 0
+   not container.securityContext
+   path := begginingOfPath
 }
 
-# There is no label-usage for WL but there is for his Pod
-noLabelUsage(wlMetadata, podMetadata, begginingOfPodPath) = path{
-	not noLabelOrNoLabelUsage(podMetadata, begginingOfPodPath)
-	path := noLabelOrNoLabelUsage(wlMetadata, "")
+
+isNotSecurityContext(pod, container, begginingOfPath) = path {
+   not pod.spec.securityContext 
+	container.securityContext
+   count(container.securityContext) == 0
+	path := sprintf("%v.securityContext", [begginingOfPath])
 }
 
-noLabelOrNoLabelUsage(metadata, begginingOfPath) = path{
-	not metadata.labels
-	path = [sprintf("%vmetadata", [begginingOfPath])]
-}
-
-noLabelOrNoLabelUsage(metadata, begginingOfPath) = path{
-	labels := metadata.labels
-	not isDesiredLabel(labels)
-	path = [sprintf("%vmetadata.labels", [begginingOfPath])]
-}
-
-isDesiredLabel(labels) {
-	_ = labels.app
-}
-
-isDesiredLabel(labels) {
-	_ = labels.tier
-}
-
-isDesiredLabel(labels) {
-	_ = labels.phase
-}
-
-isDesiredLabel(labels) {
-	_ = labels.version
-}
-
-isDesiredLabel(labels){
-	_ = labels.owner
-}
-
-isDesiredLabel(labels) {
-	_ = labels.env
+isNotSecurityContext(pod, container, begginingOfPath) = path{
+   	count(pod.spec.securityContext) == 0
+   	container.securityContext
+  	count(container.securityContext) == 0
+	path := sprintf("%v.securityContext", [begginingOfPath])
 }
