@@ -15,7 +15,7 @@ import (
 )
 
 var (
-	relativeRulesPath = "../rules"
+	RelativeRulesPath = "../rules"
 	expectedFilename  = "expected.json"
 )
 
@@ -199,7 +199,7 @@ func GetInputResources(dir string) ([]map[string]interface{}, error) {
 func RunAllTestsForRule(dir string) error {
 	ruleNameSplited := strings.Split(dir, "/")
 	ruleName := ruleNameSplited[len(ruleNameSplited)-1]
-	regoDir := fmt.Sprintf("%v/%v", relativeRulesPath, ruleName)
+	regoDir := fmt.Sprintf("%v/%v", RelativeRulesPath, ruleName)
 
 	rego, err := GetRego(regoDir)
 	if err != nil {

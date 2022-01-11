@@ -48,7 +48,8 @@ func TestSingleRule(t *testing.T) {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)
 	}
 }
-func TestRunRegoOnMultipleYamls(t *testing.T) {
+func TestSingleRego(t *testing.T) {
+	testDir := "user-id-less-than-thousands"
 	dir := fmt.Sprintf("%v/input", testSingleRegoDirectory)
 	mocks, err := os.Open(dir)
 	if err != nil {
@@ -66,11 +67,12 @@ func TestRunRegoOnMultipleYamls(t *testing.T) {
 		}
 		yamlsInput = append(yamlsInput, mock)
 	}
-	rego, err := os.ReadFile(fmt.Sprintf("%v/regotest.rego", testSingleRegoDirectory))
+	testDir = fmt.Sprintf("%v/%v", opaprocessor.RelativeRulesPath, testDir)
+	rego, err := opaprocessor.GetRego(testDir)
 	if err != nil {
 		t.Errorf("%v", err.Error())
 	}
-	policyBytes, err := os.ReadFile(fmt.Sprintf("%v/rule.metadata.json", testSingleRegoDirectory))
+	policyBytes, err := opaprocessor.GetPolicy(testDir)
 	if err != nil {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)
 	}
