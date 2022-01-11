@@ -1,9 +1,9 @@
-module tests
+module testrunner
 
 go 1.17
 
 require (
-	github.com/armosec/armoapi-go v0.0.41
+	github.com/armosec/armoapi-go v0.0.43
 	github.com/armosec/k8s-interface v0.0.50
 	github.com/armosec/kubescape v1.0.138
 	github.com/armosec/opa-utils v0.0.78
@@ -21,7 +21,6 @@ require (
 	github.com/Azure/go-autorest/logger v0.2.1 // indirect
 	github.com/Azure/go-autorest/tracing v0.6.0 // indirect
 	github.com/OneOfOne/xxhash v1.2.8 // indirect
-	github.com/armosec/armo-interfaces v0.0.3 // indirect
 	github.com/armosec/rbac-utils v0.0.10 // indirect
 	github.com/armosec/utils-go v0.0.3 // indirect
 	github.com/armosec/utils-k8s-go v0.0.1 // indirect

@@ -5,16 +5,19 @@ import (
 	"os"
 	"strings"
 	"testing"
-	"tests/opaprocessor"
+	"testrunner/opaprocessor"
 
 	"github.com/armosec/opa-utils/reporthandling"
 )
 
-var testSingleRegoDirectory = "test-single-rego"
-var opaProcessorDir = "opaprocessor"
+var (
+	testSingleRegoDirectory = "test-single-rego"
+	relativeRulesPath       = "../rules"
+	relativeRuleTestsPath   = "../rules-tests"
+)
 
 func TestAllRules(t *testing.T) {
-	file, err := os.Open("./")
+	file, err := os.Open(relativeRuleTestsPath)
 	if err != nil {
 		t.Errorf("err: %v", err.Error())
 	}
@@ -24,11 +27,12 @@ func TestAllRules(t *testing.T) {
 		t.Errorf("err: %v", err.Error())
 	}
 	for _, dir := range ruleTestDirectories {
+		dir = fmt.Sprintf("%v/%v", relativeRuleTestsPath, dir)
 		isDir, err := opaprocessor.IsDirectory(dir)
 		if err != nil {
 			t.Errorf("err: %v", err.Error())
 		}
-		if !isDir || dir == testSingleRegoDirectory || dir == opaProcessorDir {
+		if !isDir {
 			continue
 		}
 		err = runAllTestsForRule(dir)
@@ -83,9 +87,12 @@ func TestRunRegoOnMultipleYamls(t *testing.T) {
 	t.Errorf(result)
 }
 
-// dir is the rule name
 func runAllTestsForRule(dir string) error {
-	rego, err := opaprocessor.GetRego(dir)
+	ruleNameSplited := strings.Split(dir, "/")
+	ruleName := ruleNameSplited[len(ruleNameSplited)-1]
+	regoDir := fmt.Sprintf("%v/%v", relativeRulesPath, ruleName)
+
+	rego, err := opaprocessor.GetRego(regoDir)
 	if err != nil {
 		return err
 	}

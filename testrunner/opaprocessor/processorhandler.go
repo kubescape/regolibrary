@@ -37,11 +37,9 @@ func NewOPAProcessorMock() *OPAProcessor {
 	}
 }
 
-func GetRego(currentDirectoryOfTest string) (string, error) {
-	ruleNameSplited := strings.Split(currentDirectoryOfTest, "/")
-	ruleName := ruleNameSplited[len(ruleNameSplited)-1]
+func GetRego(regoDir string) (string, error) {
 
-	dir := fmt.Sprintf("%v/../../rules/%v/%v", currentDirectoryOfTest, ruleName, regoFile)
+	dir := fmt.Sprintf("%v/%v", regoDir, regoFile)
 
 	rego, err := os.ReadFile(dir)
 	if err != nil {
