@@ -1,20 +1,26 @@
 package armo_builtins
 
-# input: deployment
-# fails if tiller exists in cluster
 
+# Check if PSP is enabled for GKE
 deny[msga] {
-	deployment := 	input[_]
-	deployment.kind == "Deployment"
-    deployment.metadata.name == "tiller-deploy"
+	clusterConfig := input[_]
+	clusterConfig.apiVersion == "container.googleapis.com/v1"
+	clusterConfig.kind == "ClusterDescribe"
+    clusterConfig.metadata.provider == "gke"	
+	config := clusterConfig.data
+    not config.pod_security_policy_config.enabled == true
 
+	
 	msga := {
-		"alertMessage": sprintf("tiller exists in namespace: %v", [deployment.metadata.namespace]),
+		"alertMessage": "pod security policy configuration is not enabled",
+		"alertScore": 3,
 		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"failedPaths": ["metadata.name"],
+		"failedPaths": [],
 		"alertObject": {
-			"k8sApiObjects": [deployment]
+			"k8sApiObjects": [],
+            "externalObjects": clusterConfig
 		}
 	}
 }
+
+# TODO - EKS. By default has a policy which allows everything

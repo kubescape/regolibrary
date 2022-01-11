@@ -1,25 +1,36 @@
 {
-  "name": "access-tiller-endpoint",
+  "name": "secret-etcd-encryption-cloud",
   "attributes": {
-    "microsoftK8sThreatMatrix": "Lateral movement::Access tiller endpoint",
-    "armoBuiltin": true
+  "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [
     {
       "apiGroups": [
-        "*"
       ],
       "apiVersions": [
-        "*"
       ],
       "resources": [
-        "Deployment"
       ]
     }
   ],
-  "ruleDependencies": [],
-  "description": "fails if tiller exists in cluster",
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "container.googleapis.com",
+        "eks.amazonaws.com"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "ClusterDescribe"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+  ],
+  "description": "",
   "remediation": "",
   "ruleQuery": "armo_builtins"
 }

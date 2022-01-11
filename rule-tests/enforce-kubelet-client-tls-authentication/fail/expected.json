@@ -1,0 +1,27 @@
+[
+    {
+        "alertMessage": "kubelet client TLS authentication is not enabled",
+        "failedPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                    "kind": "KubeletConfiguration",
+                    "metadata": {
+                        "name": "minikube"
+                    }
+                },
+                {
+                    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                    "kind": "KubeletCommandLine",
+                    "metadata": {
+                        "name": "minikube"
+                    }
+                }
+            ]
+        }
+    }
+]
