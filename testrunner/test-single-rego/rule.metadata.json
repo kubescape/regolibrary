@@ -1,36 +1,30 @@
 {
-  "name": "secret-etcd-encryption-cloud",
+  "name": "K8s common labels usage",
   "attributes": {
-  "armoBuiltin": true
+    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [
     {
       "apiGroups": [
+        "*"
       ],
       "apiVersions": [
+        "*"
       ],
       "resources": [
+        "Pods",
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet",
+        "Job",
+        "CronJob"
       ]
     }
   ],
-  "dynamicMatch": [
-    {
-      "apiGroups": [
-        "container.googleapis.com",
-        "eks.amazonaws.com"
-      ],
-      "apiVersions": [
-        "v1"
-      ],
-      "resources": [
-        "ClusterDescribe"
-      ]
-    }
-  ],
-  "ruleDependencies": [
-  ],
-  "description": "",
+  "ruleDependencies": [],
+  "description": "Check if the list of label that start with app.kubernetes.io/ are defined.",
   "remediation": "",
   "ruleQuery": "armo_builtins"
 }

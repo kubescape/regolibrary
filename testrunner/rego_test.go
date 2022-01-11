@@ -3,25 +3,23 @@ package testing
 import (
 	"fmt"
 	"os"
-	"strings"
 	"testing"
 	"testrunner/opaprocessor"
-
-	"github.com/armosec/opa-utils/reporthandling"
 )
 
 var (
 	testSingleRegoDirectory = "test-single-rego"
-	relativeRulesPath       = "../rules"
 	relativeRuleTestsPath   = "../rules-tests"
 )
 
+// Run all tests inside rules-tests
 func TestAllRules(t *testing.T) {
 	file, err := os.Open(relativeRuleTestsPath)
 	if err != nil {
 		t.Errorf("err: %v", err.Error())
 	}
 	defer file.Close()
+	// List all files
 	ruleTestDirectories, err := file.Readdirnames(0)
 	if err != nil {
 		t.Errorf("err: %v", err.Error())
@@ -35,7 +33,7 @@ func TestAllRules(t *testing.T) {
 		if !isDir {
 			continue
 		}
-		err = runAllTestsForRule(dir)
+		err = opaprocessor.RunAllTestsForRule(dir)
 		if err != nil {
 			t.Errorf("err: %v in rule: %v", err.Error(), dir)
 		}
@@ -43,8 +41,9 @@ func TestAllRules(t *testing.T) {
 }
 
 func TestSingleRule(t *testing.T) {
-	dir := "k8s-audit-logs-enabled-cloud"
-	err := runAllTestsForRule(dir)
+	dir := "rule-exposed-dashboard-v1"
+	dir = fmt.Sprintf("%v/%v", relativeRuleTestsPath, dir)
+	err := opaprocessor.RunAllTestsForRule(dir)
 	if err != nil {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)
 	}
@@ -85,73 +84,4 @@ func TestRunRegoOnMultipleYamls(t *testing.T) {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)
 	}
 	t.Errorf(result)
-}
-
-func runAllTestsForRule(dir string) error {
-	ruleNameSplited := strings.Split(dir, "/")
-	ruleName := ruleNameSplited[len(ruleNameSplited)-1]
-	regoDir := fmt.Sprintf("%v/%v", relativeRulesPath, ruleName)
-
-	rego, err := opaprocessor.GetRego(regoDir)
-	if err != nil {
-		return err
-	}
-	policy, err := opaprocessor.GetPolicy(dir)
-	if err != nil {
-		return err
-	}
-	policyRule, err := opaprocessor.SetPolicyRule(policy, rego)
-	if err != nil {
-		return err
-	}
-	f, err := os.Open(dir)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-	testsForRule, err := f.Readdirnames(0)
-	if err != nil {
-		return err
-	}
-
-	// Iterate over each test
-	for _, testFile := range testsForRule {
-		dir := fmt.Sprintf("%v/%v", dir, testFile)
-		err := runSingleTest(dir, policyRule)
-		if err != nil {
-			currentTest := getCurrentTest(dir)
-			return fmt.Errorf("%v in test: %v", err.Error(), currentTest)
-		}
-	}
-	return nil
-}
-
-func getCurrentTest(dir string) string {
-	testDir := strings.Split(dir, "/")
-	if len(testDir) > 1 {
-		return testDir[len(testDir)-1]
-	}
-	return ""
-}
-
-func runSingleTest(dir string, policyRule *reporthandling.PolicyRule) error {
-	inputRawResources, err := opaprocessor.GetInputRawResources(dir, policyRule)
-	if err != nil {
-		return err
-	}
-
-	responses, err := opaprocessor.RunSingleRego(policyRule, inputRawResources)
-	if err != nil {
-		return err
-	}
-
-	expectedResponses, err := opaprocessor.GetExpectedResults(dir)
-	if err != nil {
-		return err
-	}
-	err = opaprocessor.AssertResponses(responses, expectedResponses)
-	if err != nil {
-		return err
-	}
-	return nil
 }

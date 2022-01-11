@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"reflect"
+	"strings"
 
 	"github.com/armosec/k8s-interface/workloadinterface"
 	"github.com/armosec/opa-utils/objectsenvelopes"
@@ -13,7 +14,10 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-var expectedFilename = "expected.json"
+var (
+	relativeRulesPath = "../rules"
+	expectedFilename  = "expected.json"
+)
 
 func convertYamlToJson(i interface{}) interface{} {
 	switch x := i.(type) {
@@ -73,30 +77,26 @@ func GetMockContentFromFile(filename string) (string, error) {
 	return string(mockContentJson), err
 }
 
-// func AssertResponses(responses []reporthandling.RuleResponse, expectedResponses []reporthandling.RuleResponse) bool {
-// 	return reflect.DeepEqual(responses, expectedResponses)
-// }
-
 func AssertResponses(responses []reporthandling.RuleResponse, expectedResponses []reporthandling.RuleResponse) error {
 	if len(expectedResponses) != len(responses) {
 		return fmt.Errorf("length of responses is different")
 	}
 	for i := 0; i < len(expectedResponses); i++ {
 		if expectedResponses[i].RuleStatus != responses[i].RuleStatus {
-			return fmt.Errorf("the field 'RuleStatus' is different for response %v", i)
+			return fmt.Errorf("the field 'RuleStatus' is different for response %v. expected: %v, got :%v", i, expectedResponses[i].RuleStatus, responses[i].RuleStatus)
 		}
 		if len(expectedResponses[i].AlertObject.ExternalObjects) != len(responses[i].AlertObject.ExternalObjects) {
-			return fmt.Errorf("length of 'ExternalObjects' is different for response %v", i)
+			return fmt.Errorf("length of 'ExternalObjects' is different for response %v. expected: %v, got :%v", i, expectedResponses[i].AlertObject.ExternalObjects, responses[i].AlertObject.ExternalObjects)
 		}
 		if len(expectedResponses[i].AlertObject.K8SApiObjects) != len(responses[i].AlertObject.K8SApiObjects) {
-			return fmt.Errorf("length of 'K8SApiObjects' is different for response %v", i)
+			return fmt.Errorf("length of 'K8SApiObjects' is different for response %v. expected: %v, got :%v", i, expectedResponses[i].AlertObject.K8SApiObjects, responses[i].AlertObject.K8SApiObjects)
 		}
 		err := CompareAlertObject(expectedResponses[i].AlertObject, responses[i].AlertObject)
 		if err != nil {
 			return fmt.Errorf("%v for response %v", err.Error(), i)
 		}
 		if len(expectedResponses[i].FailedPaths) != len(responses[i].FailedPaths) {
-			return fmt.Errorf("length of 'FailedPaths' is different for response %v", i)
+			return fmt.Errorf("length of 'FailedPaths' is different for response %v. expected: %v, got :%v", i, expectedResponses[i].FailedPaths, responses[i].FailedPaths)
 		}
 		err = CompareFailedPaths(expectedResponses[i].FailedPaths, responses[i].FailedPaths)
 		if err != nil {
@@ -194,4 +194,73 @@ func GetInputResources(dir string) ([]map[string]interface{}, error) {
 		resources = append(resources, resource)
 	}
 	return resources, nil
+}
+
+func RunAllTestsForRule(dir string) error {
+	ruleNameSplited := strings.Split(dir, "/")
+	ruleName := ruleNameSplited[len(ruleNameSplited)-1]
+	regoDir := fmt.Sprintf("%v/%v", relativeRulesPath, ruleName)
+
+	rego, err := GetRego(regoDir)
+	if err != nil {
+		return err
+	}
+	policy, err := GetPolicy(dir)
+	if err != nil {
+		return err
+	}
+	policyRule, err := SetPolicyRule(policy, rego)
+	if err != nil {
+		return err
+	}
+	f, err := os.Open(dir)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	testsForRule, err := f.Readdirnames(0)
+	if err != nil {
+		return err
+	}
+
+	// Iterate over each test
+	for _, testFile := range testsForRule {
+		dir := fmt.Sprintf("%v/%v", dir, testFile)
+		err := RunSingleTest(dir, policyRule)
+		if err != nil {
+			currentTest := GetCurrentTest(dir)
+			return fmt.Errorf("%v in test: %v", err.Error(), currentTest)
+		}
+	}
+	return nil
+}
+
+func GetCurrentTest(dir string) string {
+	testDir := strings.Split(dir, "/")
+	if len(testDir) > 1 {
+		return testDir[len(testDir)-1]
+	}
+	return ""
+}
+
+func RunSingleTest(dir string, policyRule *reporthandling.PolicyRule) error {
+	inputRawResources, err := GetInputRawResources(dir, policyRule)
+	if err != nil {
+		return err
+	}
+
+	responses, err := RunSingleRego(policyRule, inputRawResources)
+	if err != nil {
+		return err
+	}
+
+	expectedResponses, err := GetExpectedResults(dir)
+	if err != nil {
+		return err
+	}
+	err = AssertResponses(responses, expectedResponses)
+	if err != nil {
+		return err
+	}
+	return nil
 }
