@@ -3,7 +3,7 @@ name: update-csvs
 
 on:
   push:
-    branches: [ dev, rego-tests ]
+    branches: [ dev ]
   pull_request:
     branches: [ dev ]
     types: [ closed ]
