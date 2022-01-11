@@ -31,6 +31,11 @@
       "Portforwarding privileges",
       "Image pull policy on latest image tag",
       "Namespace without service accounts",
-      "Cluster internal networking"
+      "Cluster internal networking",
+      "Audit logs enabled",
+      "Secret/ETCD encryption enabled",
+      "PSP enabled",
+      "Disable anonymous access to Kubelet service",
+      "Enforce Kubelet client TLS authentication"
     ]
   }

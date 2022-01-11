@@ -1,13 +1,14 @@
 {
-    "name": "Resources CPU limit",
+    "name": "Resources CPU limit and request",
     "attributes": {
         "armoBuiltin": true
     },
     "description": "This control identifies all Pods for which the CPU limit is not set.",
     "remediation": "Set the CPU limit or use exception mechanism to avoid unnecessary notifications.",
     "rulesNames": [
-        "resources-cpu-limit"
+        "resources-cpu-limit-and-request"
     ],
     "id": "C-0050",
-    "controlID": "C-0050"
+    "controlID": "C-0050",
+    "baseScore": 7
 }

@@ -3,14 +3,14 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "CPU and memory resources should have a limit set for every container to prevent resource exhaustion. This control identifies all the Pods without resource limit definition.",
-    "remediation": "Define LimitRange and ResourceQuota policies to limit resource usage for namespaces or nodes.",
+    "description": "CPU and memory resources should have a limit set for every container or a namespace to prevent resource exhaustion. This control identifies all the Pods without resource limit definitions by checking thier yaml definition file as well as their namespace LimitRange objects. It is also recommended to use ResourceQuota object to restrict overall namespace resources, but this is not verified by this control.",
+    "remediation": "Define LimitRange and Resource Limits in the namespace or in the deployment/POD yamls.",
     "rulesNames": [
         "resource-policies"
     ],
     "id": "C-0009",
-    "long_description": " ",
-    "test": " Check for each container if there is a \u2018limits\u2019 field defined. Check for each limitrange/resourcequota  if there is a max/hard field defined, respectively. ",
+    "long_description": "CPU and memory resources should have a limit set for every container or a namespace to prevent resource exhaustion. This control identifies all the Pods without resource limit definitions by checking thier yaml definition file as well as their namespace LimitRange objects. It is also recommended to use ResourceQuota object to restrict overall namespace resources, but this is not verified by this control.",
+    "test": " Check for each container if there is a \u2018limits\u2019 field defined for both cpu and memory",
     "controlID": "C-0009",
     "baseScore": 2.0, 
     "example": "@controls/examples/c009.yaml"

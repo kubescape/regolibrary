@@ -64,7 +64,13 @@ isMutableFilesystem(container, begginingOfPath, i) = path {
  }
 
  isMutableFilesystem(container, begginingOfPath, i) = path{
-	 not container.securityContext.readOnlyRootFilesystem == false
-     not container.securityContext.readOnlyRootFilesystem == true
-	 path = ""
+	container.securityContext
+	not container.securityContext.readOnlyRootFilesystem == false
+    not container.securityContext.readOnlyRootFilesystem == true
+	path = sprintf("%vcontainers[%v].securityContext", [begginingOfPath, format_int(i, 10)])
+ }
+
+ isMutableFilesystem(container, begginingOfPath, i) = path{
+	not container.securityContext
+	path = sprintf("%vcontainers[%v]", [begginingOfPath, format_int(i, 10)])
  }

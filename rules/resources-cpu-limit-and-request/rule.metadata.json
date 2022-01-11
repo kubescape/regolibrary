@@ -1,5 +1,5 @@
 {
-    "name": "resources-cpu-limit",
+    "name": "resources-cpu-limit-and-request",
     "attributes": {
       "armoBuiltin": true
     },
@@ -25,7 +25,7 @@
     ],
     "ruleDependencies": [
     ],
-    "description": "CPU limits are not set.",
-    "remediation": "Ensure CPU limits are set.",
+    "description": "CPU limits and requests are not set.",
+    "remediation": "Ensure CPU limits and requests are set.",
     "ruleQuery": "armo_builtins"
 }

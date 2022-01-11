@@ -10,9 +10,9 @@
     "settings": {
         "postureControlInputs": {
             "imageRepositoryAllowList": [
-                "mcr.microsoft.com/",
-                "gcr.io/",
-                "azurecr.io/"
+                "ecr.*amazonaws.com",
+                ".*.gcr.io", 
+                ".*azurecr.io"
             ],
             "insecureCapabilities": [
                 "SETPCAP",
@@ -41,10 +41,8 @@
                 "usr/bin/busybox"
             ],
             "publicRegistries": [
-                "quay.io/kiali/",
-                "quay.io/datawire/",
-                "quay.io/keycloak/",
-                "quay.io/bitnami/"
+                "quay.io",
+                "registry.hub.docker.com"
             ],
             "sensitiveInterfaces": [
                 "nifi",
@@ -64,12 +62,10 @@
                 "key",
                 "password",
                 "pwd",
-                "username",
                 "token",
                 "jwt",
                 "bearer",
-                "credential",
-                "cred"
+                "credential"
             ],
             "sensitiveValues": [
                 "BEGIN \\w+ PRIVATE KEY",
@@ -87,9 +83,7 @@
                 "weave-scope-app",
                 "kubernetes-dashboard"
             ],
-            "untrustedRegistries": [
-                "015253967648.dkr.ecr.eu-central-1.amazonaws.com/"
-            ],
+            "untrustedRegistries": [],
             "wlKnownNames": [
                 "coredns",
                 "kube-proxy",
