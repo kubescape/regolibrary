@@ -12,7 +12,7 @@ Currently, tests compare the `k8sApiObjects`, `externalObjects`, `failedPaths`, 
 1 - Browse into `rule-tests` directory.  
 2 - Create a new folder with the same name as the rule to be tested  
 3 - Inside this folder, create a new folder for your test (arbitrary name), and browse into it    
-4 - Create a file name `expected.json` and put the expected response
+4 - Create a file name `expected.json` and put the expected response  
 5 - Create a folder name `input` and put the files which are the input for the test (yaml/json)  
 6 - That's it. The test will run using the rego and metadata.json from the `rules` file, using what's inside the `input` folder as input
 
