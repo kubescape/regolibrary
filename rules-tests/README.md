@@ -4,7 +4,8 @@
 When adding a new rule, create a test for it.  
 All tests are run upon pushing, please make sure they all pass.    
 This mechanism will aggregate resources accordingly, and get the default config inputs as input automatically.  
-Currently, tests compare the `k8sApiObjects`, `externalObjects`, `failedPaths`, and `RuleStatus` fields.
+Currently, tests compare the `k8sApiObjects`, `externalObjects`, `failedPaths`, and `RuleStatus` fields.  
+To run all tests:  `cd testrunner/ && go test -v rego_test.go -run TestAllRules`
 
 ## How to create a test
 <br />

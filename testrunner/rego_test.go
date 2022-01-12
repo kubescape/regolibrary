@@ -40,16 +40,19 @@ func TestAllRules(t *testing.T) {
 	}
 }
 
+// Change the dir variable to the name of the rule you want to test (in the rules-tests dir)
 func TestSingleRule(t *testing.T) {
-	dir := "rule-exposed-dashboard-v1"
+	dir := "K8s common labels usage"
 	dir = fmt.Sprintf("%v/%v", relativeRuleTestsPath, dir)
 	err := opaprocessor.RunAllTestsForRule(dir)
 	if err != nil {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)
 	}
 }
+
+// Change the testDir variable to the directory of the regoe you want to test
 func TestSingleRego(t *testing.T) {
-	testDir := "user-id-less-than-thousands"
+	testDir := "K8s common labels usage"
 	dir := fmt.Sprintf("%v/input", testSingleRegoDirectory)
 	mocks, err := os.Open(dir)
 	if err != nil {
