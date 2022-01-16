@@ -23,10 +23,7 @@ jobs:
 
     - name: Test Regoes
       working-directory: testrunner
-      run: |
-        pwd
-        ls -la
-        go test -v rego_test.go -run TestAllRules
+      run: go test -v rego_test.go -run TestAllRules
 
     - name: Run a update-csv-files script
       run: python ./scripts/update-csv-files.py
