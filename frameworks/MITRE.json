@@ -37,5 +37,6 @@
     "PSP enabled",
     "Disable anonymous access to Kubelet service",
     "Enforce Kubelet client TLS authentication"
+    
   ]
 }

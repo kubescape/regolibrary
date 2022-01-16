@@ -57,6 +57,7 @@ MITRE,C-0066,Secret/ETCD encryption enabled
 MITRE,C-0068,PSP enabled
 MITRE,C-0069,Disable anonymous access to Kubelet service
 MITRE,C-0070,Enforce Kubelet client TLS authentication
+ArmoBest,C-0001,Forbidden Container Registries
 ArmoBest,C-0005,Control plane hardening
 ArmoBest,C-0038,Host PID/IPC privileges
 ArmoBest,C-0017,Immutable container filesystem
