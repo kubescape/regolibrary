@@ -22,7 +22,7 @@ jobs:
         go-version: 1.17
 
     - name: Test Regoes
-      working-directory: ./testrunner
+      working-directory: testrunner
       run:  go test -v rego_test.go -run TestAllRules
 
     - name: Run a update-csv-files script
