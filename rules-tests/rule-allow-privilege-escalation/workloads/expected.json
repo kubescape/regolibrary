@@ -1,0 +1,48 @@
+[
+    {
+        "alertMessage": "container :mysql in Deployment: my-deployment  allow privilege escalation",
+        "failedPaths": [
+            "spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "goproxy"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "container :php in Deployment: my-deployment  allow privilege escalation",
+        "failedPaths": [
+            "spec.template.spec.containers[1]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "goproxy"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,38 @@
+[
+    {
+        "alertMessage": "Deployment: test2 is exposed by SSH services: {\"apiVersion\": \"v1\", \"kind\": \"Service\", \"metadata\": {\"name\": \"my-service\", \"namespace\": \"default\"}, \"spec\": {\"ports\": [{\"port\": 2222, \"protocol\": \"TCP\", \"targetPort\": 2222}], \"selector\": {\"app\": \"audit-pod\"}}}",
+        "failedPaths": [
+            "spec.template.metadata.labels"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "externalObjects": {
+                "kind": "Deployment",
+                "name": "test2",
+                "namespace": "default",
+                "relatedObjects": {
+                    "apiVersion": "v1",
+                    "kind": "Service",
+                    "metadata": {
+                        "name": "my-service",
+                        "namespace": "default"
+                    },
+                    "spec": {
+                        "ports": [
+                            {
+                                "port": 2222,
+                                "protocol": "TCP",
+                                "targetPort": 2222
+                            }
+                        ],
+                        "selector": {
+                            "app": "audit-pod"
+                        }
+                    }
+                }
+            }
+        }
+    }
+]

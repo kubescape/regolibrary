@@ -15,11 +15,7 @@
         "resources": [
             "Deployment",
             "ReplicaSet",
-            "DaemonSet",
-            "StatefulSet",
-            "Job",
-            "Pod",
-            "CronJob"
+            "StatefulSet"
         ]
       }
     ],

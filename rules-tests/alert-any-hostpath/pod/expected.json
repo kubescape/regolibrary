@@ -1,0 +1,20 @@
+{
+	"alertMessage": "pod: test-pd has: test-volume as hostPath volume",
+	"failedPaths": [
+		"spec.volumes[0].hostPath.path"
+	],
+	"ruleStatus": "",
+	"packagename": "armo_builtins",
+	"alertScore": 7,
+	"alertObject": {
+		"k8sApiObjects": [
+			{
+				"apiVersion": "v1",
+				"kind": "Pod",
+				"metadata": {
+					"name": "test-pd"
+				}
+			}
+        ]
+	}
+}

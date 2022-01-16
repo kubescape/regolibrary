@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: test
+spec:
+  podSelector:
+    matchLabels:
+      purpose: demonstrate-command
+  egress:
+    -
+      to :
+        -
+          ipBlock :
+            cidr : 10.0.0.0/24
+      ports :
+        -
+          protocol : TCP
+          port : 5978

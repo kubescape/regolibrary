@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: test
+  namespace: default
+rules:
+- apiGroups: ["*"]
+  resources: ["pods", "clusterrolebindings"]
+  verbs: ["*", "watch", "list"]

@@ -1,0 +1,42 @@
+[
+    {
+        "alertMessage": "container: test in pod: test  has  mutable filesystem",
+        "failedPaths": [
+            "spec.containers[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "container: test2 in pod: test  has  mutable filesystem",
+        "failedPaths": [
+            "spec.containers[1].securityContext"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

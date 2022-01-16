@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "container: test2 in pod: test  have dangerous capabilities",
+        "failedPaths": [
+            "spec.containers[1].securityContext.capabilities.add[0]",
+            "spec.containers[1].securityContext.capabilities.add[1]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

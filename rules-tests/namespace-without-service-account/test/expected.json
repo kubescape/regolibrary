@@ -1,0 +1,38 @@
+[
+    {
+        "alertMessage": "Namespace: default does not have any service accounts besides 'default'",
+        "failedPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Namespace",
+                    "metadata": {
+                        "name": "default"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Namespace: test does not have any service accounts besides 'default'",
+        "failedPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Namespace",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

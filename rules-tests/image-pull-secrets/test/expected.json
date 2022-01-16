@@ -1,0 +1,12 @@
+[
+    {
+        "alertMessage": "the following ImagePullSecret: true, is exposed to more than one serviceaccount",
+        "failedPaths": [
+            "imagePullSecrets[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {}
+    }
+]

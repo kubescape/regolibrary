@@ -1,0 +1,18 @@
+{
+    "apiVersion": "v1",
+    "kind": "Namespace",
+    "metadata": {
+        "creationTimestamp": "2022-01-10T06:47:46Z",
+        "name": "default",
+        "resourceVersion": "203",
+        "uid": "c88acb20-3b61-4467-8ce9-104e8a5663f7"
+    },
+    "spec": {
+        "finalizers": [
+            "kubernetes"
+        ]
+    },
+    "status": {
+        "phase": "Active"
+    }
+}

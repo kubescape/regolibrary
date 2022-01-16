@@ -1,0 +1,25 @@
+[
+    {
+        "alertMessage": "Pod: envar-demo not associated with ReplicaSet or Deployment",
+        "failedPaths": [
+            "metadata"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-envars"
+                        },
+                        "name": "envar-demo"
+                    }
+                }
+            ]
+        }
+    }
+]

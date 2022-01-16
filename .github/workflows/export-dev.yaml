@@ -15,10 +15,22 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with: 
+        go-version: 1.17
+
+    - name: Test Regoes
+      working-directory: ./testrunner
+      run:  go test -v rego_test.go -run TestAllRules
+
     - name: Run a update-csv-files script
       run: python ./scripts/update-csv-files.py
+
     - name: stage changed files
       run: git add .
+
     - name: Commit & Push changes
       uses: Andro999b/push@v1.3
       with:

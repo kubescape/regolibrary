@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "container: php in cronjob: hello  has 'latest' tag on image but imagePullPolicy is not set to 'Always'",
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.containers[1].image",
+            "spec.jobTemplate.spec.template.spec.containers[1].imagePullPolicy"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]

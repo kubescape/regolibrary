@@ -1,0 +1,62 @@
+[
+    {
+        "alertMessage": "service account: jane has the following permissions in the cluster: test",
+        "failedPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "externalObjects": {
+                "kind": "ServiceAccount",
+                "name": "jane",
+                "namespace": "default",
+                "relatedObjects": [
+                    {
+                        "apiVersion": "rbac.authorization.k8s.io/v1",
+                        "kind": "ClusterRole",
+                        "metadata": {
+                            "name": "test",
+                            "namespace": "default"
+                        },
+                        "rules": [
+                            {
+                                "apiGroups": [
+                                    "*"
+                                ],
+                                "resources": [
+                                    "pods",
+                                    "clusterrolebindings"
+                                ],
+                                "verbs": [
+                                    "*",
+                                    "watch",
+                                    "list"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "apiVersion": "rbac.authorization.k8s.io/v1",
+                        "kind": "RoleBinding",
+                        "metadata": {
+                            "name": "pod",
+                            "namespace": "default"
+                        },
+                        "roleRef": {
+                            "apiGroup": "rbac.authorization.k8s.io",
+                            "kind": "ClusterRole",
+                            "name": "test"
+                        },
+                        "subjects": [
+                            {
+                                "kind": "ServiceAccount",
+                                "name": "jane",
+                                "namespace": "default"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+]

@@ -1,0 +1,25 @@
+[
+    {
+        "alertMessage": "container: test-container2 in Deployment: test2  have sudo in entrypoint",
+        "failedPaths": [
+            "spec.template.spec.containers[1].command[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "audit-pod"
+                        },
+                        "name": "test2"
+                    }
+                }
+            ]
+        }
+    }
+]

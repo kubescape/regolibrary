@@ -1,0 +1,25 @@
+[
+    {
+        "alertMessage": "Deployment: test has pods running in the 'default' namespace",
+        "failedPaths": [
+            "metadata.namespace"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-command"
+                        },
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

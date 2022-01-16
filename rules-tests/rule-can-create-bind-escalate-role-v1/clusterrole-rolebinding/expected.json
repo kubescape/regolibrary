@@ -1,0 +1,134 @@
+[
+    {
+        "alertMessage": "Subject: User-jane can create/update rolebinding/clusterrolebinding",
+        "failedPaths": [
+            "relatedObjects[1].rules[0].resources[1]",
+            "relatedObjects[1].rules[0].verbs[0]",
+            "relatedObjects[1].rules[0].apiGroups[0]",
+            "relatedObjects[0].roleRef.subjects[0]",
+            "relatedObjects[0].roleRef.name"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "externalObjects": {
+                "apiGroup": "rbac.authorization.k8s.io",
+                "kind": "User",
+                "name": "jane",
+                "relatedObjects": [
+                    {
+                        "apiVersion": "rbac.authorization.k8s.io/v1",
+                        "kind": "RoleBinding",
+                        "metadata": {
+                            "name": "pod",
+                            "namespace": "default"
+                        },
+                        "roleRef": {
+                            "apiGroup": "rbac.authorization.k8s.io",
+                            "kind": "ClusterRole",
+                            "name": "test"
+                        },
+                        "subjects": [
+                            {
+                                "apiGroup": "rbac.authorization.k8s.io",
+                                "kind": "User",
+                                "name": "jane"
+                            }
+                        ]
+                    },
+                    {
+                        "apiVersion": "rbac.authorization.k8s.io/v1",
+                        "kind": "ClusterRole",
+                        "metadata": {
+                            "name": "test",
+                            "namespace": "default"
+                        },
+                        "rules": [
+                            {
+                                "apiGroups": [
+                                    "*"
+                                ],
+                                "resources": [
+                                    "pods",
+                                    "clusterrolebindings"
+                                ],
+                                "verbs": [
+                                    "*",
+                                    "watch",
+                                    "list"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "alertMessage": "Subject: User-jane can escalate rolebinding/clusterrolebinding",
+        "failedPaths": [
+            "relatedObjects[1].rules[0].resources[1]",
+            "relatedObjects[1].rules[0].verbs[0]",
+            "relatedObjects[1].rules[0].apiGroups[0]",
+            "relatedObjects[0].roleRef.subjects[0]",
+            "relatedObjects[0].roleRef.name"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "externalObjects": {
+                "apiGroup": "rbac.authorization.k8s.io",
+                "kind": "User",
+                "name": "jane",
+                "relatedObjects": [
+                    {
+                        "apiVersion": "rbac.authorization.k8s.io/v1",
+                        "kind": "RoleBinding",
+                        "metadata": {
+                            "name": "pod",
+                            "namespace": "default"
+                        },
+                        "roleRef": {
+                            "apiGroup": "rbac.authorization.k8s.io",
+                            "kind": "ClusterRole",
+                            "name": "test"
+                        },
+                        "subjects": [
+                            {
+                                "apiGroup": "rbac.authorization.k8s.io",
+                                "kind": "User",
+                                "name": "jane"
+                            }
+                        ]
+                    },
+                    {
+                        "apiVersion": "rbac.authorization.k8s.io/v1",
+                        "kind": "ClusterRole",
+                        "metadata": {
+                            "name": "test",
+                            "namespace": "default"
+                        },
+                        "rules": [
+                            {
+                                "apiGroups": [
+                                    "*"
+                                ],
+                                "resources": [
+                                    "pods",
+                                    "clusterrolebindings"
+                                ],
+                                "verbs": [
+                                    "*",
+                                    "watch",
+                                    "list"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+]

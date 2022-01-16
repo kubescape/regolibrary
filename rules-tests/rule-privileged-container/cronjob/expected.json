@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "the following cronjobs are defined as privileged: hello",
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.containers[0].securityContext.capabilities.add[2]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]

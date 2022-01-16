@@ -1,0 +1,48 @@
+[
+    {
+        "alertMessage": "Container: test-container in Deployment: test2 does not define a securityContext.",
+        "failedPaths": [
+            "spec.template.spec.containers[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "audit-pod"
+                        },
+                        "name": "test2"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Container: test-container2 in Deployment: test2 does not define a securityContext.",
+        "failedPaths": [
+            "spec.template.spec.containers[1]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "audit-pod"
+                        },
+                        "name": "test2"
+                    }
+                }
+            ]
+        }
+    }
+]

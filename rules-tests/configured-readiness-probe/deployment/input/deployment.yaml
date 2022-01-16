@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    app : goproxy
+spec:
+  selector:
+    matchLabels:
+      app : goproxy
+  template:
+    metadata :
+      name : goproxy
+      labels :
+        app : goproxy
+    spec :
+        containers : # Missing readiness probe
+          -
+            name : goproxy
+            image : k8s.gcr.io/gazurecr.io
+            ports :
+              -
+                containerPort : 8080
+            livenessProbe :
+              tcpSocket :
+                port : 8080
+              initialDelaySeconds : 15
+              periodSeconds : 20
+          -
+            name : goproxy2
+            image : k8s.gcr.io/goproxy:0.1
+            ports :
+              -
+                containerPort : 8080
+            livenessProbe :
+              tcpSocket :
+                port : 8080
+              initialDelaySeconds : 15
+              periodSeconds : 20

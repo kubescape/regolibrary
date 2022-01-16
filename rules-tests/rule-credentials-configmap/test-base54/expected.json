@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "this configmap has sensitive information: game-demo",
+        "failedPaths": [
+            "data[pwd]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "ConfigMap",
+                    "metadata": {
+                        "name": "game-demo"
+                    }
+                }
+            ]
+        }
+    }
+]

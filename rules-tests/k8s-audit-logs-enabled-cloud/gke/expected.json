@@ -1,0 +1,161 @@
+[
+    {
+        "alertMessage": "audit logs is disabled",
+        "failedPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "container.googleapis.com/v1",
+                "data": {
+                    "addons_config": {
+                        "dns_cache_config": {},
+                        "horizontal_pod_autoscaling": {},
+                        "http_load_balancing": {},
+                        "kubernetes_dashboard": {
+                            "disabled": true
+                        },
+                        "network_policy_config": {
+                            "disabled": true
+                        }
+                    },
+                    "authenticator_groups_config": {},
+                    "autoscaling": {},
+                    "cluster_ipv4_cidr": "10.36.0.0/14",
+                    "create_time": "2021-07-07T05:42:10+00:00",
+                    "current_master_version": "1.21.5-gke.1302",
+                    "current_node_count": 6,
+                    "current_node_version": "1.21.5-gke.1302",
+                    "database_encryption": {
+                        "state": 2
+                    },
+                    "default_max_pods_constraint": {
+                        "max_pods_per_node": 110
+                    },
+                    "endpoint": "35.202.27.228",
+                    "initial_cluster_version": "1.19.9-gke.1900",
+                    "instance_group_urls": [
+                        "https://www.googleapis.com/compute/v1/projects/test"
+                    ],
+                    "ip_allocation_policy": {
+                        "cluster_ipv4_cidr": "10.36.0.0/14",
+                        "cluster_ipv4_cidr_block": "10.36.0.0/14",
+                        "cluster_secondary_range_name": "random-3-pods-a609d8f1",
+                        "services_ipv4_cidr": "10.40.0.0/20",
+                        "services_ipv4_cidr_block": "10.40.0.0/20",
+                        "services_secondary_range_name": "gke-random-longrun-3-services-a609d8f1",
+                        "use_ip_aliases": true
+                    },
+                    "label_fingerprint": "a9dc16a7",
+                    "legacy_abac": {},
+                    "location": "us-central1-c",
+                    "locations": [
+                        "us-central1-c"
+                    ],
+                    "logging_service": "none",
+                    "maintenance_policy": {
+                        "resource_version": "e3b0c442"
+                    },
+                    "master_auth": {
+                        "cluster_ca_certificate": "XXXX=="
+                    },
+                    "master_authorized_networks_config": {},
+                    "monitoring_service": "none",
+                    "name": "random-longrun-3",
+                    "network": "default",
+                    "network_config": {
+                        "default_snat_status": {},
+                        "network": "projects/random",
+                        "subnetwork": "projects/random"
+                    },
+                    "node_config": {
+                        "disk_size_gb": 100,
+                        "disk_type": "pd-standard",
+                        "image_type": "COS_CONTAINERD",
+                        "machine_type": "e2-medium",
+                        "metadata": {
+                            "disable-legacy-endpoints": "true"
+                        },
+                        "oauth_scopes": [
+                            "https://www.googleapis.com/auth/devstorage.read_only",
+                            "https://www.googleapis.com/auth/logging.write",
+                            "https://www.googleapis.com/auth/monitoring",
+                            "https://www.googleapis.com/auth/servicecontrol",
+                            "https://www.googleapis.com/auth/service.management.readonly",
+                            "https://www.googleapis.com/auth/trace.append"
+                        ],
+                        "service_account": "default",
+                        "shielded_instance_config": {
+                            "enable_integrity_monitoring": true
+                        }
+                    },
+                    "node_pools": [
+                        {
+                            "autoscaling": {},
+                            "config": {
+                                "disk_size_gb": 100,
+                                "disk_type": "pd-standard",
+                                "image_type": "COS_CONTAINERD",
+                                "machine_type": "e2-medium",
+                                "metadata": {
+                                    "disable-legacy-endpoints": "true"
+                                },
+                                "oauth_scopes": [
+                                    "https://www.googleapis.com/auth/devstorage.read_only",
+                                    "https://www.googleapis.com/auth/logging.write",
+                                    "https://www.googleapis.com/auth/monitoring",
+                                    "https://www.googleapis.com/auth/servicecontrol",
+                                    "https://www.googleapis.com/auth/service.management.readonly",
+                                    "https://www.googleapis.com/auth/trace.append"
+                                ],
+                                "service_account": "default",
+                                "shielded_instance_config": {
+                                    "enable_integrity_monitoring": true
+                                }
+                            },
+                            "initial_node_count": 6,
+                            "instance_group_urls": [
+                                "https://www.googleapis.com/compute/v1/projects/random"
+                            ],
+                            "locations": [
+                                "us-central1-c"
+                            ],
+                            "management": {
+                                "auto_repair": true,
+                                "auto_upgrade": true
+                            },
+                            "max_pods_constraint": {
+                                "max_pods_per_node": 110
+                            },
+                            "name": "default-pool",
+                            "pod_ipv4_cidr_size": 24,
+                            "self_link": "https://container.googleapis.com/v1/projects/random",
+                            "status": 2,
+                            "upgrade_settings": {
+                                "max_surge": 1
+                            },
+                            "version": "1.21.5-gke.1302"
+                        }
+                    ],
+                    "release_channel": {
+                        "channel": 2
+                    },
+                    "self_link": "https://container.googleapis.com/v1/projects/random",
+                    "services_ipv4_cidr": "10.40.0.0/20",
+                    "shielded_nodes": {
+                        "enabled": true
+                    },
+                    "status": 2,
+                    "subnetwork": "default",
+                    "zone": "us-central1-c"
+                },
+                "kind": "ClusterDescribe",
+                "metadata": {
+                    "name": "random-longrun-3",
+                    "provider": "gke"
+                }
+            }
+        }
+    }
+]

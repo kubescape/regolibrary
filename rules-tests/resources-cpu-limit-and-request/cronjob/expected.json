@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "Container: hello in CronJob: hello   does not have CPU-limit or request",
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.containers[0].resources"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]

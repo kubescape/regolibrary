@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "the following pods: frontend are associated with dashboard service account",
+        "failedPaths": [
+            "spec.serviceaccountname"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "frontend"
+                    }
+                }
+            ]
+        }
+    }
+]

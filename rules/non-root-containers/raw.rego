@@ -151,13 +151,11 @@ isRootPod(pod, container, i, begginingOfPath)= path  {
 }
 
 isRootContainer(container, i, begginingOfPath) = path  {
-	path = ""
     container.securityContext.runAsUser == 0
 	path = sprintf("%vcontainers[%v].securityContext.runAsUser", [begginingOfPath, format_int(i, 10)])
 }
 
 isRootContainer(container, i, begginingOfPath) = path  {
-	path = ""
      container.securityContext.runAsGroup == 0
 	 path = sprintf("%vcontainers[%v].securityContext.runAsGroup", [begginingOfPath, format_int(i, 10)])
 }

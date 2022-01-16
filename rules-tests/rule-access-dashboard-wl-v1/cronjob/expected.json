@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "the following cronjob: hello is associated with dashboard service account",
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.serviceaccountname"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]

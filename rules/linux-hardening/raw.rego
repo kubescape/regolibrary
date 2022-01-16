@@ -9,7 +9,8 @@ deny[msga] {
     container := pod.spec.containers[_]
     isUnsafeContainer(container)
  
-	path := "spec.securityContext"
+	begginingOfPath := "spec"
+	path := getPath(pod.spec, begginingOfPath)
 	msga := {
 		"alertMessage": sprintf("Pod: %v does not define any linux security hardening", [pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -30,7 +31,8 @@ deny[msga] {
     container := wl.spec.template.spec.containers[_]
     isUnsafeContainer(container)
 
-	path := "spec.template.spec.securityContext"
+	begginingOfPath := "spec.template.spec"
+	path := getPath(wl.spec.template.spec, begginingOfPath)
 	msga := {
 		"alertMessage": sprintf("Workload: %v does not define any linux security hardening", [wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -51,7 +53,8 @@ deny[msga] {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[_]
     isUnsafeContainer(container)
 
-	path := "spec.jobTemplate.spec.template.spec.securityContext"
+	begginingOfPath := "spec.jobTemplate.spec.template.spec"
+	path := getPath(wl.spec.jobTemplate.spec.template.spec, begginingOfPath)
 	msga := {
 		"alertMessage": sprintf("Cronjob: %v does not define any linux security hardening", [wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -61,6 +64,16 @@ deny[msga] {
 			"k8sApiObjects": [wl]
 		}
 	}
+}
+
+getPath(podSpec, begginingOfPath) = path {
+	podSpec.securityContext
+	path := sprintf("%v.securityContext", [begginingOfPath])
+}
+
+getPath(podSpec, begginingOfPath) = path {
+	not podSpec.securityContext
+	path := begginingOfPath
 }
 
 isUnsafePod(pod){

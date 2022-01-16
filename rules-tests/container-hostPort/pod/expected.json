@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "Container: influxdb has Host-port",
+        "failedPaths": [
+            "spec.containers[0].ports[0].hostPort"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 4,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "influxdb"
+                    }
+                }
+            ]
+        }
+    }
+]

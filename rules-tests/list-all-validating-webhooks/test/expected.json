@@ -1,0 +1,42 @@
+[
+    {
+        "alertMessage": "The following validating webhook configuration should be checked test-validating-webhook.",
+        "failedPaths": [
+            ""
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 6,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "admissionregistration.k8s.io/v1",
+                    "kind": "ValidatingWebhookConfiguration",
+                    "metadata": {
+                        "name": "test-validating-webhook"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "The following validating webhook configuration should be checked test-validating-webhook2.",
+        "failedPaths": [
+            ""
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 6,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "admissionregistration.k8s.io/v1",
+                    "kind": "ValidatingWebhookConfiguration",
+                    "metadata": {
+                        "name": "test-validating-webhook2"
+                    }
+                }
+            ]
+        }
+    }
+]
