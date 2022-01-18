@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "in the following pod the kubernetes common labels are not defined: command-demo",
+        "failedPaths": [
+            "metadata"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 1,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "command-demo"
+                    }
+                }
+            ]
+        }
+    }
+]

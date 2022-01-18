@@ -7,8 +7,7 @@ deny[msga] {
 
 	pod := input[_]
 	pod.kind == "Pod"
-	metadata := pod.metadata
-	path := noLabelOrNoLabelUsage(metadata, "")
+	path := noLabelOrNoLabelUsage(pod, "")
 
     msga := {
 		"alertMessage": sprintf("in the following pods a certain set of labels is not defined: %v", [pod.metadata.name]),
@@ -26,10 +25,9 @@ deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-	wlMetadata := wl.metadata
-	podMetadata := wl.spec.template.metadata
+	podSpec := wl.spec.template
 	begginingOfPodPath := "spec.template."
-	path := noLabelUsage(wlMetadata, podMetadata, begginingOfPodPath)
+	path := noLabelUsage(wl, podSpec, begginingOfPodPath)
 
     msga := {
 		"alertMessage": sprintf("%v: %v a certain set of labels is not defined:", [wl.kind, wl.metadata.name]),
@@ -46,10 +44,9 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-	wlMetadata := wl.metadata
-	podMetadata := wl.spec.jobTemplate.spec.template.metadata
+	podSpec := wl.spec.jobTemplate.spec.template
 	begginingOfPodPath := "spec.jobTemplate.spec.template."
-	path := noLabelUsage(wlMetadata, podMetadata, begginingOfPodPath)
+	path := noLabelUsage(wl, podSpec, begginingOfPodPath)
 
 
     msga := {
@@ -63,33 +60,39 @@ deny[msga] {
      }
 }
 
-
 # There is no label-usage in WL and also for his Pod
-noLabelUsage(wlMetadata, podMetadata, begginingOfPodPath) = path{
-	path1 := noLabelOrNoLabelUsage(wlMetadata, "")
-	path2 := noLabelOrNoLabelUsage(podMetadata, begginingOfPodPath)
+noLabelUsage(wl, podSpec, begginingOfPodPath) = path{
+	path1 := noLabelOrNoLabelUsage(wl, "")
+	path2 := noLabelOrNoLabelUsage(podSpec, begginingOfPodPath)
 	path = array.concat(path1, path2)
 }
 
 # There is label-usage for WL but not for his Pod
-noLabelUsage(wlMetadata, podMetadata, begginingOfPodPath) = path{
-	not noLabelOrNoLabelUsage(wlMetadata, "")
-	path := noLabelOrNoLabelUsage(podMetadata, begginingOfPodPath)
+noLabelUsage(wl, podSpec, begginingOfPodPath) = path{
+	not noLabelOrNoLabelUsage(wl, "")
+	path := noLabelOrNoLabelUsage(podSpec, begginingOfPodPath)
 }
 
 # There is no label-usage for WL but there is for his Pod
-noLabelUsage(wlMetadata, podMetadata, begginingOfPodPath) = path{
-	not noLabelOrNoLabelUsage(podMetadata, begginingOfPodPath)
-	path := noLabelOrNoLabelUsage(wlMetadata, "")
+noLabelUsage(wl, podSpec, begginingOfPodPath) = path{
+	not noLabelOrNoLabelUsage(podSpec, begginingOfPodPath)
+	path := noLabelOrNoLabelUsage(wl, "")
 }
 
-noLabelOrNoLabelUsage(metadata, begginingOfPath) = path{
+noLabelOrNoLabelUsage(wl, begginingOfPath) = path{
+	# TODO fix-path
+	not wl.metadata
+	path = [""]
+}
+
+noLabelOrNoLabelUsage(wl, begginingOfPath) = path{
+	metadata := wl.metadata
 	not metadata.labels
 	path = [sprintf("%vmetadata", [begginingOfPath])]
 }
 
-noLabelOrNoLabelUsage(metadata, begginingOfPath) = path{
-	labels := metadata.labels
+noLabelOrNoLabelUsage(wl, begginingOfPath) = path{
+	labels := wl.metadata.labels
 	not isDesiredLabel(labels)
 	path = [sprintf("%vmetadata.labels", [begginingOfPath])]
 }
