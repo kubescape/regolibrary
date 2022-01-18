@@ -36,6 +36,7 @@
       "Secret/ETCD encryption enabled",
       "PSP enabled",
       "Disable anonymous access to Kubelet service",
-      "Enforce Kubelet client TLS authentication"
+      "Enforce Kubelet client TLS authentication",
+      "Forbidden Container Registries"
     ]
   }
