@@ -1,0 +1,25 @@
+[
+    {
+        "alertMessage": "the following cronjobs the kubernetes common labels are not defined: hello",
+        "failedPaths": [
+            ""
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 1,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "labels": {
+                            "app.kubernetes.io/name": "app1"
+                        },
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]

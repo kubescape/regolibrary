@@ -1,5 +1,5 @@
 {
-    "name": "Compromised images in registry",
+    "name": "Forbidden Container Registries",
     "attributes": {
         "armoBuiltin": true,
         "microsoftMitreColumns": [

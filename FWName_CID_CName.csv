@@ -100,3 +100,4 @@ ArmoBest,C-0066,Secret/ETCD encryption enabled
 ArmoBest,C-0068,PSP enabled
 ArmoBest,C-0069,Disable anonymous access to Kubelet service
 ArmoBest,C-0070,Enforce Kubelet client TLS authentication
+ArmoBest,C-0001,Forbidden Container Registries

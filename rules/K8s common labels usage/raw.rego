@@ -7,8 +7,7 @@ deny[msga] {
 
 	pod := input[_]
 	pod.kind == "Pod"
-	metadata := pod.metadata
-	path := noK8sLabelOrNoK8sLabelUsage(metadata, "")
+	path := noK8sLabelOrNoK8sLabelUsage(pod, "")
 
     msga := {
 		"alertMessage": sprintf("in the following pod the kubernetes common labels are not defined: %v", [pod.metadata.name]),
@@ -26,10 +25,9 @@ deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-	wlMetadata := wl.metadata
-	podMetadata := wl.spec.template.metadata
+	podSpec := wl.spec.template
 	begginingOfPodPath := "spec.template."
-	path := noK8sLabelUsage(wlMetadata, podMetadata, begginingOfPodPath)
+	path := noK8sLabelUsage(wl, podSpec, begginingOfPodPath)
 
     msga := {
 		"alertMessage": sprintf("%v: %v the kubernetes common labels are is not defined:", [wl.kind, wl.metadata.name]),
@@ -46,10 +44,9 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-	wlMetadata := wl.metadata
-	podMetadata := wl.spec.jobTemplate.spec.template.metadata
+	podSpec := wl.spec.jobTemplate.spec.template
 	begginingOfPodPath := "spec.jobTemplate.spec.template."
-	path := noK8sLabelUsage(wlMetadata, podMetadata, begginingOfPodPath)
+	path := noK8sLabelUsage(wl, podSpec, begginingOfPodPath)
 
 
     msga := {
@@ -66,31 +63,38 @@ deny[msga] {
 
 
 # There is no label-usage in WL and also for his Pod
-noK8sLabelUsage(wlMetadata, podMetadata, begginingOfPodPath) = path{
-	path1 := noK8sLabelOrNoK8sLabelUsage(wlMetadata, "")
-	path2 := noK8sLabelOrNoK8sLabelUsage(podMetadata, begginingOfPodPath)
+noK8sLabelUsage(wl, podSpec, begginingOfPodPath) = path{
+	path1 := noK8sLabelOrNoK8sLabelUsage(wl, "")
+	path2 := noK8sLabelOrNoK8sLabelUsage(podSpec, begginingOfPodPath)
 	path = array.concat(path1, path2)
 }
 
 # There is label-usage for WL but not for his Pod
-noK8sLabelUsage(wlMetadata, podMetadata, begginingOfPodPath) = path{
-	not noK8sLabelOrNoK8sLabelUsage(wlMetadata, "")
-	path := noK8sLabelOrNoK8sLabelUsage(podMetadata, begginingOfPodPath)
+noK8sLabelUsage(wl, podSpec, begginingOfPodPath) = path{
+	not noK8sLabelOrNoK8sLabelUsage(wl, "")
+	path := noK8sLabelOrNoK8sLabelUsage(podSpec, begginingOfPodPath)
 }
 
 # There is no label-usage for WL but there is for his Pod
-noK8sLabelUsage(wlMetadata, podMetadata, begginingOfPodPath) = path{
-	not noK8sLabelOrNoK8sLabelUsage(podMetadata, begginingOfPodPath)
-	path := noK8sLabelOrNoK8sLabelUsage(wlMetadata, "")
+noK8sLabelUsage(wl, podSpec, begginingOfPodPath) = path{
+	not noK8sLabelOrNoK8sLabelUsage(podSpec, begginingOfPodPath)
+	path := noK8sLabelOrNoK8sLabelUsage(wl, "")
 }
 
-noK8sLabelOrNoK8sLabelUsage(metadata, begginingOfPath) = path{
+noK8sLabelOrNoK8sLabelUsage(wl, begginingOfPath) = path{
+	not wl.metadata
+	# TODO fix-path
+	path = [""]
+}
+
+noK8sLabelOrNoK8sLabelUsage(wl, begginingOfPath) = path{
+	metadata := wl.metadata
 	not metadata.labels
 	path = [sprintf("%vmetadata", [begginingOfPath])]
 }
 
-noK8sLabelOrNoK8sLabelUsage(metadata, begginingOfPath) = path{
-	labels := metadata.labels
+noK8sLabelOrNoK8sLabelUsage(wl, begginingOfPath) = path{
+	labels := wl.metadata.labels
 	not allKubernetesLabels(labels)
 	path = [sprintf("%vmetadata.labels", [begginingOfPath])]
 }
