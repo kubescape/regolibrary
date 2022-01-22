@@ -65,6 +65,7 @@ C-0053,access-container-service-account
 C-0053,access-container-service-account-v1
 C-0045,alert-rw-hostpath
 C-0038,host-pid-ipc-privileges
+C-0079,CVE-2022-0185
 C-0017,immutable-container-filesystem
 C-0013,non-root-containers
 C-0049,internal-networking
