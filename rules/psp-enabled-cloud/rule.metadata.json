@@ -28,6 +28,7 @@
         ]
       }
     ],
+    "relevantCloudProviders": ["EKS", "GKE"],
     "ruleDependencies": [
     ],
     "description": "",

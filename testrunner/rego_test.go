@@ -50,9 +50,10 @@ func TestSingleRule(t *testing.T) {
 	}
 }
 
-// Change the testDir variable to the directory of the regoe you want to test
+// To print the output
+// Change the testDir variable to the directory of the rego you want to test
 func TestSingleRego(t *testing.T) {
-	testDir := "K8s common labels usage"
+	testDir := "CVE-2022-0185"
 	dir := fmt.Sprintf("%v/input", testSingleRegoDirectory)
 	mocks, err := os.Open(dir)
 	if err != nil {

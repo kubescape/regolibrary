@@ -37,6 +37,7 @@
       "PSP enabled",
       "Disable anonymous access to Kubelet service",
       "Enforce Kubelet client TLS authentication",
-      "Forbidden Container Registries"
+      "Forbidden Container Registries",
+      "CVE-2022-0185-linux-kernel-container-escape"
     ]
   }
