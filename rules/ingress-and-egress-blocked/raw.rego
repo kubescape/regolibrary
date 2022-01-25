@@ -126,38 +126,56 @@ deny[msga] {
 	}
 }
 
+isSameNamespace(metadata1, metadata2) {
+	metadata1.namespace == metadata2.namespace
+}
+
+isSameNamespace(metadata1, metadata2) {
+	not metadata1.namespace
+	not metadata2.namespace
+}
+
+isSameNamespace(metadata1, metadata2) {
+	not metadata2.namespace
+	metadata1.namespace == "default"
+}
+
+isSameNamespace(metadata1, metadata2) {
+	not metadata1.namespace
+	metadata2.namespace == "default"
+}
 
 podConnectedToNetworkPolicy(pod, networkpolicie){
-	networkpolicie.metadata.namespace == pod.metadata.namespace
+	isSameNamespace(networkpolicie.metadata, pod.metadata)
     count(networkpolicie.spec.podSelector) > 0
     count({x | networkpolicie.spec.podSelector.matchLabels[x] == pod.metadata.labels[x]}) == count(networkpolicie.spec.podSelector.matchLabels)
 }
 
 podConnectedToNetworkPolicy(pod, networkpolicie){
-	networkpolicie.metadata.namespace == pod.metadata.namespace
+	isSameNamespace(networkpolicie.metadata ,pod.metadata)
     count(networkpolicie.spec.podSelector) == 0
 }
 
 wlConnectedToNetworkPolicy(wl, networkpolicie){
-	wl.metadata.namespace == networkpolicie.metadata.namespace
+	isSameNamespace(wl.metadata , networkpolicie.metadata)
     count(networkpolicie.spec.podSelector) == 0
 }
 
 
 wlConnectedToNetworkPolicy(wl, networkpolicie){
-	wl.metadata.namespace == networkpolicie.metadata.namespace
+	isSameNamespace(wl.metadata, networkpolicie.metadata)
 	count(networkpolicie.spec.podSelector) > 0
     count({x | networkpolicie.spec.podSelector.matchLabels[x] == wl.spec.template.metadata.labels[x]}) == count(networkpolicie.spec.podSelector.matchLabels)
 }
 
 
 cronjobConnectedToNetworkPolicy(cj, networkpolicie){
-	cj.metadata.namespace == networkpolicie.metadata.namespace
+	isSameNamespace(cj.metadata , networkpolicie.metadata)
     count(networkpolicie.spec.podSelector) == 0
 }
 
 cronjobConnectedToNetworkPolicy(cj, networkpolicie){
-	cj.metadata.namespace == networkpolicie.metadata.namespace
+	isSameNamespace(cj.metadata , networkpolicie.metadata)
 	count(networkpolicie.spec.podSelector) > 0
     count({x | networkpolicie.spec.podSelector.matchLabels[x] == cj.spec.jobTemplate.spec.template.metadata.labels[x]}) == count(networkpolicie.spec.podSelector.matchLabels)
 }
