@@ -45,6 +45,7 @@ C-0050,resources-cpu-limit-and-request
 C-0026,rule-deny-cronjobs
 C-0078,container-image-repository
 C-0078,image-pull-secrets
+C-0080,has-critical-vulnerability
 C-0007,rule-excessive-delete-rights
 C-0007,rule-excessive-delete-rights-v1
 C-0002,exec-into-container
