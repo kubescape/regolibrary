@@ -10,32 +10,6 @@ DevOpsBest,C-0050,Resources CPU limit and request
 DevOpsBest,C-0004,Resources memory limit and request
 DevOpsBest,C-0056,Configured liveness probe
 DevOpsBest,C-0018,Configured readiness probe
-NSA,C-0005,Control plane hardening
-NSA,C-0038,Host PID/IPC privileges
-NSA,C-0017,Immutable container filesystem
-NSA,C-0013,Non-root containers
-NSA,C-0057,Privileged container
-NSA,C-0006,Allowed hostPath
-NSA,C-0034,Automatic mapping of service account
-NSA,C-0041,HostNetwork access
-NSA,C-0009,Resource policies
-NSA,C-0047,Exposed dashboard
-NSA,C-0016,Allow privilege escalation
-NSA,C-0012,Applications credentials in configuration files
-NSA,C-0035,Cluster-admin binding
-NSA,C-0002,Exec into container
-NSA,C-0046,Insecure capabilities
-NSA,C-0055,Linux hardening
-NSA,C-0030,Ingress and Egress blocked
-NSA,C-0044,Container hostPort
-NSA,C-0054,Cluster internal networking
-NSA,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-NSA,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-NSA,C-0067,Audit logs enabled
-NSA,C-0066,Secret/ETCD encryption enabled
-NSA,C-0068,PSP enabled
-NSA,C-0069,Disable anonymous access to Kubelet service
-NSA,C-0070,Enforce Kubelet client TLS authentication
 MITRE,C-0053,Access container service account
 MITRE,C-0014,Access Kubernetes dashboard
 MITRE,C-0033,Access tiller endpoint
@@ -102,3 +76,29 @@ ArmoBest,C-0069,Disable anonymous access to Kubelet service
 ArmoBest,C-0070,Enforce Kubelet client TLS authentication
 ArmoBest,C-0001,Forbidden Container Registries
 ArmoBest,C-0079,CVE-2022-0185-linux-kernel-container-escape
+NSA,C-0005,Control plane hardening
+NSA,C-0038,Host PID/IPC privileges
+NSA,C-0017,Immutable container filesystem
+NSA,C-0013,Non-root containers
+NSA,C-0057,Privileged container
+NSA,C-0006,Allowed hostPath
+NSA,C-0034,Automatic mapping of service account
+NSA,C-0041,HostNetwork access
+NSA,C-0009,Resource policies
+NSA,C-0047,Exposed dashboard
+NSA,C-0016,Allow privilege escalation
+NSA,C-0012,Applications credentials in configuration files
+NSA,C-0035,Cluster-admin binding
+NSA,C-0002,Exec into container
+NSA,C-0046,Insecure capabilities
+NSA,C-0055,Linux hardening
+NSA,C-0030,Ingress and Egress blocked
+NSA,C-0044,Container hostPort
+NSA,C-0054,Cluster internal networking
+NSA,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+NSA,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+NSA,C-0067,Audit logs enabled
+NSA,C-0066,Secret/ETCD encryption enabled
+NSA,C-0068,PSP enabled
+NSA,C-0069,Disable anonymous access to Kubelet service
+NSA,C-0070,Enforce Kubelet client TLS authentication
