@@ -1,9 +1,9 @@
 [
     {
         "alertMessage": "Container: app in Deployment: test   does not have CPU-limit or request",
-        "failedPaths": [
-            "spec.template.spec.containers[0].resources"
-        ],
+        "failedPaths": [],
+        "fixPaths" : [{"path": "spec.template.spec.containers[0].resources.limits.cpu", "value": "<VALUE>"}, 
+                    {"path": "spec.template.spec.containers[0].resources.requests.cpu", "value": "<VALUE>"}],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,
