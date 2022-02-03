@@ -292,7 +292,7 @@ def main():
             control_obj = json.load(open(os.path.join('controls',control_json_file_name)))
 
             base_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-            if 'example' in control_obj and len(control_obj['example']) and control_obj['example'][0] == '@':
+            if 'example' in control_obj and len(control_obj['example']) > 0 and control_obj['example'][0] == '@':
                 example_file_name = os.path.join(base_dir,control_obj['example'][1:])
                 if os.path.isfile(example_file_name):
                     with open(example_file_name) as f:
@@ -316,7 +316,7 @@ def main():
             
             control_doc = readmeapi.get_doc(control_slug)
 
-            if control_doc:
+            if control_doc and len(control_obj['id']) > 2:
                 readmeapi.update_doc(control_slug,int(control_obj['id'][2:]),title,md,control_category_obj['_id'])
                 print('\tupdated')
             else:
