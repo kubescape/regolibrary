@@ -20,6 +20,7 @@ C-0031,rule-can-delete-k8s-events
 C-0031,rule-can-delete-k8s-events-v1
 C-0053,access-container-service-account
 C-0053,access-container-service-account-v1
+C-0081,CVE-2022-24348
 C-0018,configured-readiness-probe
 C-0065,rule-can-impersonate-users-groups
 C-0065,rule-can-impersonate-users-groups-v1
