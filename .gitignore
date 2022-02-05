@@ -15,3 +15,4 @@
 # vendor/
 .vscode/*
 json_to_string.sh
+release

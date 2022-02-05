@@ -25,14 +25,12 @@ def load_rules():
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
             new_rule = json.load(f)
-
-        pos = path_in_str.rfind('/')
-        with open(path_in_str[:pos + 1] + regofile, 'r') as f:
+        with open(os.path.join(os.path.dirname(path),regofile), 'r') as f:
             rule = f.read()
             if new_rule:
                 new_rule["rule"] = rule
                 try:
-                    with open(path_in_str[:pos + 1] + filterregofile, 'r') as f:
+                    with open(os.path.join(os.path.dirname(path),filterregofile), 'r') as f:
                         filter_rego = f.read()
                         new_rule["resourceEnumerator"] = filter_rego
                 except:
