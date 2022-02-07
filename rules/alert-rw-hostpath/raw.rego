@@ -13,6 +13,8 @@ deny[msga] {
 	volumeMount.name == volume.name
 	begginingOfPath := "spec."
 	result := isRWMount(volumeMount, begginingOfPath,  i, k)
+	failedPath := getFailedPath(result)
+    fixedPath := getFixedPath(result)
 
     podname := pod.metadata.name
 
@@ -20,7 +22,8 @@ deny[msga] {
 		"alertMessage": sprintf("pod: %v has: %v as hostPath volume", [podname, volume.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"fixPaths": fixedPath,
+		"failedPaths": failedPath,
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -40,12 +43,15 @@ deny[msga] {
 	volumeMount.name == volume.name
 	begginingOfPath := "spec.template.spec."
 	result := isRWMount(volumeMount, begginingOfPath,  i, k)
+	failedPath := getFailedPath(result)
+    fixedPath := getFixedPath(result)
 
 	msga := {
 		"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"fixPaths": fixedPath,
+		"failedPaths": failedPath,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -66,25 +72,41 @@ deny[msga] {
 	volumeMount.name == volume.name
 	begginingOfPath := "spec.jobTemplate.spec.template.spec."
 	result := isRWMount(volumeMount, begginingOfPath,  i, k)
+	failedPath := getFailedPath(result)
+    fixedPath := getFixedPath(result)
+
 
 	msga := {
 	"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
 	"packagename": "armo_builtins",
 	"alertScore": 7,
-	"failedPaths": [result],
+	"fixPaths": fixedPath,
+	"failedPaths": failedPath,
 	"alertObject": {
 			"k8sApiObjects": [wl]
 		}
 	}
 }
 
-isRWMount(mount, begginingOfPath,  i, k) = path {
+getFailedPath(paths) = [paths[0]] {
+	paths[0] != ""
+} else = []
+
+
+getFixedPath(paths) = [paths[1]] {
+	paths[1] != ""
+} else = []
+
+
+isRWMount(mount, begginingOfPath,  i, k) =  [failedPath, fixPath] {
 	not mount.readOnly == true
  	not mount.readOnly == false
-	path = sprintf("%vcontainers[%v].volumeMounts[%v]", [begginingOfPath, format_int(i, 10), format_int(k, 10)])
+	failedPath = ""
+    fixPath = {"path": sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [begginingOfPath, format_int(i, 10), format_int(k, 10)]), "value":"true"}
 }
 
-isRWMount(mount, begginingOfPath,  i, k) = path {
+isRWMount(mount, begginingOfPath,  i, k) =  [failedPath, fixPath] {
   	mount.readOnly == false
-  	path = sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [begginingOfPath, format_int(i, 10), format_int(k, 10)])
+  	failedPath = sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [begginingOfPath, format_int(i, 10), format_int(k, 10)])
+    fixPath = ""
 } 
