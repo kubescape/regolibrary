@@ -3,6 +3,7 @@ C-0035,rule-list-all-cluster-admins
 C-0035,rule-list-all-cluster-admins-v1
 C-0042,rule-can-ssh-to-pod
 C-0042,rule-can-ssh-to-pod-v1
+C-0082,read-only-port-enabled
 C-0073,naked-pods
 C-0066,secret-etcd-encryption-cloud
 C-0066,etcd-encryption-native
