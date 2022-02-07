@@ -1,0 +1,42 @@
+{
+    "name": "read-only-port-enabled",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+          "apiGroups": [
+          ],
+          "apiVersions": [
+          ],
+          "resources": [
+          ]
+        }
+      ],
+      "dynamicMatch": [
+      {
+        "apiGroups": [
+          "hostdata.kubescape.cloud"
+        ],
+        "apiVersions": [
+          "v1beta0"
+        ],
+        "resources": [
+          "KubeletConfiguration",
+          "KubeletCommandLine"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      },
+      {
+        "packageName": "kubernetes.api.client"
+      }
+    ],
+    "description": "Determines if kubelet has read-only port enabled.",
+    "remediation": "Start the kubelet with the --read-only-port flag set to 0.",
+    "ruleQuery": ""
+  }
