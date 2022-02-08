@@ -2,6 +2,7 @@
     {
         "alertMessage": "anonymous requests is enabled",
         "failedPaths": [],
+        "fixPaths":[],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 2,

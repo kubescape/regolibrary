@@ -5,6 +5,7 @@
             "spec.template.spec.containers[0].image",
             "spec.template.spec.containers[0].imagePullPolicy"
         ],
+        "fixPaths":[],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 2,

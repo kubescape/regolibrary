@@ -4,6 +4,7 @@
         "failedPaths": [
             "imagePullSecrets[0]"
         ],
+        "fixPaths":[],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 9,

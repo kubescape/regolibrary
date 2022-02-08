@@ -28,6 +28,7 @@ deny[msga] {
 		"alertMessage": sprintf("service account: %v has the following permissions in the cluster: %v", [serviceAccountName, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
         "failedPaths": [],
+        "fixPaths":[],
 		"alertScore": 7,
         "alertObject": {
 			"k8sApiObjects": [],
@@ -64,6 +65,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
         "failedPaths": [],
+        "fixPaths":[],
 		"alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": savector
@@ -99,6 +101,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
         "failedPaths": [],
+        "fixPaths":[],
         "alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": savector

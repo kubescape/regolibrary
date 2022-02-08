@@ -5,6 +5,7 @@
             "spec.selector.matchLabels",
             "service.spec.selector"
         ],
+        "fixPaths":[],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,

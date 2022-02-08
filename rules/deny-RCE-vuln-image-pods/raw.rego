@@ -17,6 +17,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 5,
+		"fixPaths":[],
 		"failedPaths": [path],
         "packagename": "armo_builtins",
         "alertObject": {
@@ -47,6 +48,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 5,
+		"fixPaths":[],
 		"failedPaths": [path],
         "packagename": "armo_builtins",
         "alertObject": {
@@ -76,6 +78,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 5,
+		"fixPaths":[],
 		"failedPaths": [path],
         "packagename": "armo_builtins",
         "alertObject": {
@@ -113,6 +116,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 7,
+		"fixPaths":[],
 		"failedPaths": [path],
         "packagename": "armo_builtins",
         "alertObject": {
@@ -151,6 +155,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 7,
+		"fixPaths":[],
 		"failedPaths": [path],
         "packagename": "armo_builtins",
 		"alertObject": {
@@ -188,6 +193,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 7,
+		"fixPaths":[],
 		"failedPaths": [path],
         "packagename": "armo_builtins",
 		"alertObject": {
@@ -225,6 +231,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 10,
+		"fixPaths":[],
 		"failedPaths": [path],
         "packagename": "armo_builtins",
 		"alertObject": {
@@ -263,6 +270,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 10,
+		"fixPaths":[],
 		"failedPaths": [path],
         "packagename": "armo_builtins",
 		"alertObject": {
@@ -300,6 +308,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("image %v has %v RCE vulnerabilities", [container.image,count(vulnerabilities)]),
         "alertScore": 10,
+		"fixPaths":[],
 		"failedPaths": [path],
         "packagename": "armo_builtins",
 		"alertObject": {

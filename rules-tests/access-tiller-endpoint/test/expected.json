@@ -4,6 +4,7 @@
         "failedPaths": [
             "metadata.name"
         ],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,

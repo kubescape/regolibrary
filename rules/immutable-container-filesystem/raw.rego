@@ -8,11 +8,14 @@ deny[msga] {
 	container := pod.spec.containers[i]
 	begginingOfPath := "spec."
     result := isMutableFilesystem(container, begginingOfPath, i)
+	failedPath := getFailedPath(result)
+    fixedPath := getFixedPath(result)
 	msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  has  mutable filesystem", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": failedPath,
+		"fixPaths": fixedPath,
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -27,11 +30,14 @@ deny[msga] {
     container := wl.spec.template.spec.containers[i]
 	begginingOfPath := "spec.template.spec."
     result := isMutableFilesystem(container, begginingOfPath, i)
+	failedPath := getFailedPath(result)
+    fixedPath := getFixedPath(result)
 	msga := {
 		"alertMessage": sprintf("container :%v in %v: %v has  mutable filesystem", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": failedPath,
+		"fixPaths": fixedPath,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -46,11 +52,15 @@ deny[msga] {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 	begginingOfPath := "spec.jobTemplate.spec.template.spec."
 	result := isMutableFilesystem(container, begginingOfPath, i)
+	failedPath := getFailedPath(result)
+    fixedPath := getFixedPath(result)
+
 	msga := {
 		"alertMessage": sprintf("container :%v in %v: %v has mutable filesystem", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": failedPath,
+		"fixPaths": fixedPath,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -58,19 +68,25 @@ deny[msga] {
 }
 
 # Default of readOnlyRootFilesystem is false. This field is only in container spec and not pod spec
-isMutableFilesystem(container, begginingOfPath, i) = path {
+isMutableFilesystem(container, begginingOfPath, i) = [failedPath, fixPath]  {
 	container.securityContext.readOnlyRootFilesystem == false
-	path = sprintf("%vcontainers[%v].securityContext.readOnlyRootFilesystem", [begginingOfPath, format_int(i, 10)])
+	failedPath = sprintf("%vcontainers[%v].securityContext.readOnlyRootFilesystem", [begginingOfPath, format_int(i, 10)])
+	fixPath = ""
  }
 
- isMutableFilesystem(container, begginingOfPath, i) = path{
-	container.securityContext
+ isMutableFilesystem(container, begginingOfPath, i)  = [failedPath, fixPath] {
 	not container.securityContext.readOnlyRootFilesystem == false
     not container.securityContext.readOnlyRootFilesystem == true
-	path = sprintf("%vcontainers[%v].securityContext", [begginingOfPath, format_int(i, 10)])
+	fixPath = {"path": sprintf("%vcontainers[%v].securityContext.readOnlyRootFilesystem", [begginingOfPath, format_int(i, 10)]), "value": "true"}
+	failedPath = ""
  }
 
- isMutableFilesystem(container, begginingOfPath, i) = path{
-	not container.securityContext
-	path = sprintf("%vcontainers[%v]", [begginingOfPath, format_int(i, 10)])
- }
+
+ getFailedPath(paths) = [paths[0]] {
+	paths[0] != ""
+} else = []
+
+
+getFixedPath(paths) = [paths[1]] {
+	paths[1] != ""
+} else = []

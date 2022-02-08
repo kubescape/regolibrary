@@ -27,6 +27,7 @@ deny[msga] {
         "alertMessage": sprintf("pod %v/%v has vulnerabilities", [pod.metadata.namespace,pod.metadata.name]),
         "alertScore": 2,
 		"failedPaths": [path],
+		"fixPaths":[],
         "packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [pod]
@@ -64,6 +65,7 @@ deny[msga] {
         "alertMessage": sprintf("%v: %v/%v has vulnerabilities", [wl.kind, wl.metadata.namespace, wl.metadata.name]),
         "alertScore": 2,
 		"failedPaths": [path],
+		"fixPaths":[],
         "packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [wl]
@@ -101,6 +103,7 @@ deny[msga] {
         "alertMessage": sprintf("%v: %v/%v has vulnerabilities", [wl.kind, wl.metadata.namespace, wl.metadata.name]),
         "alertScore": 2,
 		"failedPaths": [path],
+		"fixPaths":[],
         "packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [wl]

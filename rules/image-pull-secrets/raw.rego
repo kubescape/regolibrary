@@ -14,6 +14,7 @@ deny[msga] {
 		"alertMessage": sprintf("the following ImagePullSecret: %v, is exposed to more than one serviceaccount", [image]),
 		"alertScore": 9,
 		"failedPaths": [path],
+		"fixPaths":[],
 		"packagename": "armo_builtins",
 	   "alertObject": {
 		}

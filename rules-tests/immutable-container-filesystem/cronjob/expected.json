@@ -1,42 +1,39 @@
-[
-    {
-        "alertMessage": "container :mysql in CronJob: hello has mutable filesystem",
-        "failedPaths": [
-            "spec.jobTemplate.spec.template.spec.containers[0]"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "batch/v1beta1",
-                    "kind": "CronJob",
-                    "metadata": {
-                        "name": "hello"
-                    }
-                }
-            ]
-        }
-    },
-    {
-        "alertMessage": "container :php in CronJob: hello has mutable filesystem",
-        "failedPaths": [
-            "spec.jobTemplate.spec.template.spec.containers[1]"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "batch/v1beta1",
-                    "kind": "CronJob",
-                    "metadata": {
-                        "name": "hello"
-                    }
-                }
-            ]
-        }
+[{
+    "alertMessage": "container :mysql in CronJob: hello has mutable filesystem",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.readOnlyRootFilesystem",
+        "value": "true"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "batch/v1beta1",
+            "kind": "CronJob",
+            "metadata": {
+                "name": "hello"
+            }
+        }]
     }
-]
+}, {
+    "alertMessage": "container :php in CronJob: hello has mutable filesystem",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.readOnlyRootFilesystem",
+        "value": "true"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "batch/v1beta1",
+            "kind": "CronJob",
+            "metadata": {
+                "name": "hello"
+            }
+        }]
+    }
+}]

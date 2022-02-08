@@ -9,6 +9,7 @@
             "relatedObjects[0].roleRef.subjects[0]",
             "relatedObjects[0].roleRef.name"
         ],
+        "fixPaths":[],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 9,

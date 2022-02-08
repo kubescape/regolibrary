@@ -4,6 +4,7 @@
         "failedPaths": [
             "spec.template.spec.volumes[1].hostPath.path"
         ],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 5,

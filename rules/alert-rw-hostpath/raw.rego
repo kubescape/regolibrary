@@ -71,7 +71,7 @@ deny[msga] {
 	volumeMount := container.volumeMounts[k]
 	volumeMount.name == volume.name
 	begginingOfPath := "spec.jobTemplate.spec.template.spec."
-	result := isRWMount(volumeMount, begginingOfPath,  i, k)
+	result := isRWMount(volumeMount, begginingOfPath,  i, k) 
 	failedPath := getFailedPath(result)
     fixedPath := getFixedPath(result)
 

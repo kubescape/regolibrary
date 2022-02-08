@@ -4,6 +4,7 @@
         "failedPaths": [
             "spec.template.spec.hostNetwork"
         ],
+        "fixPaths":[],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 9,

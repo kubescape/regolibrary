@@ -5,6 +5,7 @@
             "spec.jobTemplate.spec.template.spec.containers[1].image",
             "spec.jobTemplate.spec.template.spec.containers[1].imagePullPolicy"
         ],
+        "fixPaths":[],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 2,

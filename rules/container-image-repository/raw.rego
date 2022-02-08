@@ -16,6 +16,7 @@ untrustedImageRepo[msga] {
 		"alertScore": 2,
         "packagename": "armo_builtins",
 		"failedPaths": [path],
+		"fixPaths":[],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -37,6 +38,7 @@ untrustedImageRepo[msga] {
 		"alertScore": 2,
         "packagename": "armo_builtins",
 		"failedPaths": [path],
+		"fixPaths":[],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -57,6 +59,7 @@ untrustedImageRepo[msga] {
 		"alertScore": 2,
         "packagename": "armo_builtins",
 		"failedPaths": [path],
+		"fixPaths":[],
 			"alertObject": {
 			"k8sApiObjects": [wl]
 		}
