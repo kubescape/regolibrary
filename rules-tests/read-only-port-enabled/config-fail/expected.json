@@ -1,0 +1,22 @@
+[{
+    "alertMessage": "kubelet read-only port is not disabled",
+    "failedPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 2,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "kind": "KubeletConfiguration",
+            "metadata": {
+                "name": ""
+            }
+        }, {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "kind": "KubeletCommandLine",
+            "metadata": {
+                "name": ""
+            }
+        }]
+    }
+}]

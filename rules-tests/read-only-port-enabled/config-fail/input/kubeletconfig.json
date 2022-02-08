@@ -1,0 +1,37 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "KubeletConfiguration",
+    "data": {
+        "authentication": {
+            "anonymous": {
+                "enabled": false
+            },
+            "webhook": {
+                "cacheTTL": "0s",
+                "enabled": true
+            },
+            "x509": {
+                "clientCAFile": "/var/lib/minikube/certs/ca.crt"
+            }
+        },
+        "readOnlyPort": 10,
+        "authorization": {
+            "mode": "Webhook",
+            "webhook": {
+                "cacheAuthorizedTTL": "0s",
+                "cacheUnauthorizedTTL": "0s"
+            }
+        },
+        "cgroupDriver": "cgroupfs",
+        "clusterDNS": [
+            "10.96.0.10"
+        ],
+        "clusterDomain": "cluster.local",
+        "cpuManagerReconcilePeriod": "0s",
+        "evictionHard": {
+            "imagefs.available": "0%",
+            "nodefs.available": "0%",
+            "nodefs.inodesFree": "0%"
+        }
+    }
+}

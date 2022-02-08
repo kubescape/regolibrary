@@ -1,9 +1,9 @@
 [
     {
         "alertMessage": "Container: hello in CronJob: hello   does not have CPU-limit or request",
-        "failedPaths": [
-            "spec.jobTemplate.spec.template.spec.containers[0].resources"
-        ],
+        "failedPaths": [],
+        "fixPaths" : [{"path": "spec.jobTemplate.template.spec.containers[0].resources.limits.cpu", "value": "YOUR_VALUE"}, 
+                        {"path": "spec.jobTemplate.template.spec.containers[0].resources.requests.cpu", "value": "YOUR_VALUE"}],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,

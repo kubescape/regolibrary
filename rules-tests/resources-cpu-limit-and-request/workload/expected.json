@@ -1,25 +1,26 @@
-[
-    {
-        "alertMessage": "Container: app in Deployment: test   does not have CPU-limit or request",
-        "failedPaths": [
-            "spec.template.spec.containers[0].resources"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "apps/v1",
-                    "kind": "Deployment",
-                    "metadata": {
-                        "labels": {
-                            "purpose": "demonstrate-command"
-                        },
-                        "name": "test"
-                    }
-                }
-            ]
-        }
+[{
+    "alertMessage": "Container: app in Deployment: test   does not have CPU-limit or request",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.template.spec.containers[0].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+    }, {
+        "path": "spec.template.spec.containers[0].resources.requests.cpu",
+        "value": "YOUR_VALUE"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "labels": {
+                    "purpose": "demonstrate-command"
+                },
+                "name": "test"
+            }
+        }]
     }
-]
+}]

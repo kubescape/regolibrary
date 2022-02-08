@@ -1,0 +1,16 @@
+{
+    "name": "Read-only port enabled",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "",
+    "remediation": "Start the kubelet with the --read-only-port flag set to 0.",
+    "rulesNames": [
+        "read-only-port-enabled"
+    ],
+    "id": "C-0082",
+    "long_description": "",
+    "test": "",
+    "controlID": "C-0082",
+    "baseScore": 10
+}

@@ -1,4 +1,4 @@
-readinessProbe:  # we are looking for this section in the reasorce defenition
+readinessProbe:  # we are looking for this section in the resource defenition
   exec:
     command:
     - cat

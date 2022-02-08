@@ -1,0 +1,17 @@
+[{
+    "alertMessage": "the following service account: default in the following namespace: default mounts service account tokens in pods by default",
+    "failedPaths": ["automountServiceAccountToken"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 9,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "v1",
+            "kind": "ServiceAccount",
+            "metadata": {
+                "name": "default"
+            }
+        }]
+    }
+}]
