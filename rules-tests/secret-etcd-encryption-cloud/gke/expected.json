@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "etcd/secret encryption is not enabled",
+        "fixPaths": [],
         "failedPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",

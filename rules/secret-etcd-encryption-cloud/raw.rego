@@ -16,6 +16,7 @@ deny[msga] {
 		"alertMessage": "etcd/secret encryption is not enabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
+		"fixPaths": [],
 		"failedPaths":[] ,
 		"alertObject": {
 			"k8sApiObjects": [],
@@ -41,6 +42,7 @@ deny[msga] {
 		"alertMessage": "etcd/secret encryption is not enabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
+		"fixPaths": [],
 		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],

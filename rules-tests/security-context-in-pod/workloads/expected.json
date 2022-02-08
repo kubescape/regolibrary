@@ -1,8 +1,12 @@
 [
     {
         "alertMessage": "Container: test-container in Deployment: test2 does not define a securityContext.",
-        "failedPaths": [
-            "spec.template.spec.containers[0]"
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[0].securityContext",
+                "value": "YOUR_VALUE"
+            }
         ],
         "ruleStatus": "",
         "packagename": "armo_builtins",
@@ -24,8 +28,12 @@
     },
     {
         "alertMessage": "Container: test-container2 in Deployment: test2 does not define a securityContext.",
-        "failedPaths": [
-            "spec.template.spec.containers[1]"
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[1].securityContext",
+                "value": "YOUR_VALUE"
+            }
         ],
         "ruleStatus": "",
         "packagename": "armo_builtins",

@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "the following cronjobs are defined as privileged: hello",
+        "fixPaths": [],
         "failedPaths": [
             "spec.jobTemplate.spec.template.spec.containers[0].securityContext.capabilities.add[2]"
         ],

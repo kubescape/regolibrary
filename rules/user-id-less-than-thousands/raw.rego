@@ -13,6 +13,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in pod: %v  runs with id less than 1000", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"fixPaths": [],
 		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -31,6 +32,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in pod: %v  runs with id less than 1000", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"fixPaths": [],
 		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -52,6 +54,7 @@ deny[msga] {
 		"alertMessage": sprintf("container :%v in %v: %v runs with id less than 1000", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"fixPaths": [],
 		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -71,6 +74,7 @@ deny[msga] {
 		"alertMessage": sprintf("container :%v in %v: %v runs with id less than 1000", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"fixPaths": [],
 		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -90,6 +94,7 @@ deny[msga] {
 		"alertMessage": sprintf("container :%v in %v: %v  runs with id less than 1000", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"fixPaths": [],
 		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -110,6 +115,7 @@ deny[msga] {
 		"alertMessage": sprintf("container :%v in %v: %v runs with id less than 1000", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"fixPaths": [],
 		"failedPaths": [result],
 		"alertObject": {
 			"k8sApiObjects": [wl]

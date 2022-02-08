@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "Deployment: test2 is defined as privileged:",
+        "fixPaths": [],
         "failedPaths": [
             "spec.template.spec.containers[0].securityContext.privileged"
         ],

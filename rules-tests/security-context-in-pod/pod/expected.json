@@ -1,8 +1,12 @@
 [
     {
         "alertMessage": "Container: test-container2 in pod: audit-pod does not define a securityContext.",
-        "failedPaths": [
-            "spec.containers[1]"
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[1].securityContext",
+                "value": "YOUR_VALUE"
+            }
         ],
         "ruleStatus": "",
         "packagename": "armo_builtins",
