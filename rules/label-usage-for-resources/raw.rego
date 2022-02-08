@@ -100,25 +100,8 @@ noLabelOrNoLabelUsage(wl, begginingOfPath) = path{
 }
 
 isDesiredLabel(labels) {
-	_ = labels.app
+	recommended_labels := data.postureControlInputs.recommendedLabels
+	recommended_label := recommended_labels[_]
+	labels[recommended_label]
 }
 
-isDesiredLabel(labels) {
-	_ = labels.tier
-}
-
-isDesiredLabel(labels) {
-	_ = labels.phase
-}
-
-isDesiredLabel(labels) {
-	_ = labels.version
-}
-
-isDesiredLabel(labels){
-	_ = labels.owner
-}
-
-isDesiredLabel(labels) {
-	_ = labels.env
-}
