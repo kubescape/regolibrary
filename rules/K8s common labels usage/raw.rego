@@ -102,7 +102,7 @@ noK8sLabelOrNoK8sLabelUsage(wl, begginingOfPath) = path{
 }
 
 allKubernetesLabels(labels){
-	_ := labels[name]
-	startswith(name, "app.kubernetes.io/")
-
+	recommended_labels := data.postureControlInputs.k8sRecommendedLabels
+	recommended_label := recommended_labels[_]
+	labels[recommended_label]
 }

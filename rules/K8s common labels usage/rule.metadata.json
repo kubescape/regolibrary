@@ -24,6 +24,13 @@
       }
     ],
     "ruleDependencies": [],
+    "controlConfigInputs": [
+      {
+        "path": "settings.postureControlInputs.k8sRecommendedLabels",
+        "name": "Kubernetes Recommended Labels",
+        "description": "Kubescape checks that workloads have at least one of the following kubernetes recommended labels."
+      }
+    ],
     "description": "Check if the list of label that start with app.kubernetes.io/ are defined.",
     "remediation": "",
     "ruleQuery": "armo_builtins"
