@@ -17,6 +17,7 @@ deny[msga] {
 		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
+		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": clusterConfig
@@ -43,6 +44,7 @@ deny[msga] {
 		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
+		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],
 			"externalObjects": clusterConfig

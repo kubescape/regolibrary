@@ -7,13 +7,14 @@ deny[msga] {
 
 	pod := input[_]
 	pod.kind == "Pod"
-	path := noK8sLabelOrNoK8sLabelUsage(pod, "")
+	fixPath := noK8sLabelOrNoK8sLabelUsage(pod, "")
 
     msga := {
 		"alertMessage": sprintf("in the following pod the kubernetes common labels are not defined: %v", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 1,
-		"failedPaths": path,
+		"failedPaths": [],
+		"fixPaths": fixPath,
          "alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -27,13 +28,14 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
 	podSpec := wl.spec.template
 	begginingOfPodPath := "spec.template."
-	path := noK8sLabelUsage(wl, podSpec, begginingOfPodPath)
+	fixPath := noK8sLabelUsage(wl, podSpec, begginingOfPodPath)
 
     msga := {
 		"alertMessage": sprintf("%v: %v the kubernetes common labels are is not defined:", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 1,
-		"failedPaths": path,
+		"failedPaths": [],
+		"fixPaths": fixPath,
          "alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -46,14 +48,15 @@ deny[msga] {
 	wl.kind == "CronJob"
 	podSpec := wl.spec.jobTemplate.spec.template
 	begginingOfPodPath := "spec.jobTemplate.spec.template."
-	path := noK8sLabelUsage(wl, podSpec, begginingOfPodPath)
+	fixPath := noK8sLabelUsage(wl, podSpec, begginingOfPodPath)
 
 
     msga := {
 		"alertMessage": sprintf("the following cronjobs the kubernetes common labels are not defined: %v", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 1,
-		"failedPaths": path,
+		"failedPaths": [],
+		"fixPaths": fixPath,
          "alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -82,21 +85,20 @@ noK8sLabelUsage(wl, podSpec, begginingOfPodPath) = path{
 }
 
 noK8sLabelOrNoK8sLabelUsage(wl, begginingOfPath) = path{
-	not wl.metadata
-	# TODO fix-path
-	path = [""]
+	not wl.metadata.labels
+	path = [{"path": sprintf("%vmetadata.labels", [begginingOfPath]), "value": "YOUR_VALUE"}]
 }
 
 noK8sLabelOrNoK8sLabelUsage(wl, begginingOfPath) = path{
 	metadata := wl.metadata
 	not metadata.labels
-	path = [sprintf("%vmetadata", [begginingOfPath])]
+	path = [{"path": sprintf("%vmetadata.labels", [begginingOfPath]), "value": "YOUR_VALUE"}]
 }
 
 noK8sLabelOrNoK8sLabelUsage(wl, begginingOfPath) = path{
 	labels := wl.metadata.labels
 	not allKubernetesLabels(labels)
-	path = [sprintf("%vmetadata.labels", [begginingOfPath])]
+	path = [{"path": sprintf("%vmetadata.labels", [begginingOfPath]), "value": "YOUR_VALUE"}]
 }
 
 allKubernetesLabels(labels){

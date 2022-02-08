@@ -13,6 +13,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}

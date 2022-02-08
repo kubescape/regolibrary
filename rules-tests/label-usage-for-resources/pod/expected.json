@@ -1,22 +1,20 @@
-[
-    {
-        "alertMessage": "in the following pods a certain set of labels is not defined: command-demo",
-        "failedPaths": [
-            "metadata"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 2,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "v1",
-                    "kind": "Pod",
-                    "metadata": {
-                        "name": "command-demo"
-                    }
-                }
-            ]
-        }
+[{
+    "alertMessage": "in the following pods a certain set of labels is not defined: command-demo",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "metadata.labels",
+        "value": "YOUR_VALUE"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 2,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "name": "command-demo"
+            }
+        }]
     }
-]
+}]

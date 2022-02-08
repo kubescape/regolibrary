@@ -2,6 +2,7 @@
     {
         "alertMessage": "CronJob: hello has Pods which don't have ingress/egress defined",
         "failedPaths": [],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: kubernetes-dashboard
+  labels:
+    app: audit-pod
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: audit-pod
+  template:
+    spec :
+      securityContext :
+        runAsUser : 999
+      containers :
+        -
+          name : kuberneets-dashboard
+          image : kubernetesui/dashboard:0.2.3

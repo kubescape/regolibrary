@@ -2,6 +2,7 @@
     {
         "alertMessage": "no policy is defined for namespace test",
         "failedPaths": [],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 9,

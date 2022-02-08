@@ -1,0 +1,24 @@
+[{
+    "alertMessage": "Deployment: kubernetes-dashboard the kubernetes common labels are is not defined:",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.template.metadata.labels",
+        "value": "YOUR_VALUE"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 1,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "labels": {
+                    "app": "audit-pod",
+                    "app.kubernetes.io/name": "audit-pod"
+                },
+                "name": "kubernetes-dashboard"
+            }
+        }]
+    }
+}]

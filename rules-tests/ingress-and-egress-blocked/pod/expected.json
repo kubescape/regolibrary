@@ -2,6 +2,7 @@
     {
         "alertMessage": "Pod: test does not have ingress/egress defined",
         "failedPaths": [],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,

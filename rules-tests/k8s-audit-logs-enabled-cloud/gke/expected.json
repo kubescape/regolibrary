@@ -2,6 +2,7 @@
     {
         "alertMessage": "audit logs is disabled",
         "failedPaths": [],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 3,
