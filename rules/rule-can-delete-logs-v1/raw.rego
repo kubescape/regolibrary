@@ -36,6 +36,7 @@ deny [msga] {
     "alertScore": 3,
     "packagename": "armo_builtins",
     "failedPaths": finalpath,
+    "fixPaths": [],
     "alertObject": {
       "k8sApiObjects": [],
       "externalObjects": subjectVector

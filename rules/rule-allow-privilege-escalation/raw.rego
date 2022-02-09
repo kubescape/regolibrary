@@ -8,11 +8,15 @@ deny[msga] {
 	container := pod.spec.containers[i]
 	begginingOfPath := "spec."
     result := isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)
+	failedPath := getFailedPath(result)
+    fixedPath := getFixedPath(result)
+
 	msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  allow privilege escalation", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": failedPath,
+		"fixPaths": fixedPath,
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -28,11 +32,15 @@ deny[msga] {
     container := wl.spec.template.spec.containers[i]
 	begginingOfPath := "spec.template.spec."
     result := isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)
+	failedPath := getFailedPath(result)
+    fixedPath := getFixedPath(result)
+
     msga := {
 		"alertMessage": sprintf("container :%v in %v: %v  allow privilege escalation", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": failedPath,
+		"fixPaths": fixedPath,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -47,11 +55,15 @@ deny[msga] {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 	begginingOfPath := "spec.jobTemplate.spec.template.spec."
 	result := isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)
+	failedPath := getFailedPath(result)
+    fixedPath := getFixedPath(result)
+
     msga := {
 		"alertMessage": sprintf("container :%v in %v: %v allow privilege escalation", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [result],
+		"failedPaths": failedPath,
+		"fixPaths": fixedPath,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -60,39 +72,51 @@ deny[msga] {
 
 
 
-isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = path {
+isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = [failedPath, fixPath] {
     not container.securityContext.allowPrivilegeEscalation == false
 	not container.securityContext.allowPrivilegeEscalation == true
 	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) == 0
-	path = sprintf("%vcontainers[%v]", [begginingOfPath, format_int(i, 10)])
+	failedPath = ""
+	fixPath = {"path": sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [begginingOfPath, format_int(i, 10)]), "value":"false"} 
 }
 
-isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)  = path {
+isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = [failedPath, fixPath] {
     not container.securityContext.allowPrivilegeEscalation == false
 	not container.securityContext.allowPrivilegeEscalation == true
 	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) > 0
 	psp := psps[_]
 	not psp.spec.allowPrivilegeEscalation == false
-	path = sprintf("%vcontainers[%v]", [begginingOfPath, format_int(i, 10)])
+	failedPath = ""
+	fixPath = {"path": sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [begginingOfPath, format_int(i, 10)]), "value":"false"} 
 }
 
 
-isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)  = path {
+isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = [failedPath, fixPath]  {
     container.securityContext.allowPrivilegeEscalation == true
 	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) == 0
-	path = sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [begginingOfPath, format_int(i, 10)])
+	fixPath = ""
+	failedPath = sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [begginingOfPath, format_int(i, 10)])
 }
 
-isAllowPrivilegeEscalationContainer(container, i, begginingOfPath) = path {
+isAllowPrivilegeEscalationContainer(container, i, begginingOfPath)= [failedPath, fixPath] {
     container.securityContext.allowPrivilegeEscalation == true
 	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) > 0
 	psp := psps[_]
 	not psp.spec.allowPrivilegeEscalation == false
-	path = sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [begginingOfPath, format_int(i, 10)])
+	fixPath = ""
+	failedPath = sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [begginingOfPath, format_int(i, 10)])
 }
 
+ getFailedPath(paths) = [paths[0]] {
+	paths[0] != ""
+} else = []
+
+
+getFixedPath(paths) = [paths[1]] {
+	paths[1] != ""
+} else = []
 

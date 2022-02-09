@@ -17,6 +17,7 @@ deny [msga] {
 		"alertMessage": sprintf("the following container: %v has bash/cmd inside it.", [container.name]),
 		"alertScore": 6,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [pod],
@@ -44,6 +45,7 @@ deny [msga] {
 		"alertMessage": sprintf("the following container: %v has bash/cmd inside it.", [container.name]),
 		"alertScore": 6,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl],
@@ -68,6 +70,7 @@ deny [msga] {
 		"alertMessage": sprintf("the following container: %v has bash/cmd inside it.", [container.name]),
 		"alertScore": 6,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl],

@@ -17,6 +17,7 @@ deny[msga] {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
 		"alertScore": 9,
         "failedPaths": [path],
+        "fixPaths": [],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [configmap]
@@ -39,6 +40,7 @@ deny[msga] {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
 		"alertScore": 9,
         "failedPaths": [path],
+        "fixPaths": [],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [configmap]
@@ -63,6 +65,7 @@ deny[msga] {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
 		"alertScore": 9,
         "failedPaths": [path],
+        "fixPaths": [],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [configmap]
