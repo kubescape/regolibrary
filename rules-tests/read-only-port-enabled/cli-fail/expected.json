@@ -1,6 +1,7 @@
 [{
     "alertMessage": "kubelet read-only port is not disabled",
     "failedPaths": [],
+    "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 2,

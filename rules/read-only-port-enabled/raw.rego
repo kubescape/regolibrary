@@ -16,6 +16,7 @@ deny[msga] {
 			"alertMessage": "kubelet read-only port is not disabled",
 			"alertScore": 2,
 			"failedPaths": [],
+			"fixPaths": [],
 			"packagename": "armo_builtins",
 			"alertObject": {
                 "k8sApiObjects": [kubeletConfig, kubeletCli]
