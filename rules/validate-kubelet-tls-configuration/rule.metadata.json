@@ -1,7 +1,8 @@
 {
     "name": "validate-kubelet-tls-configuration",
     "attributes": {
-      "armoBuiltin": true
+      "armoBuiltin": true,
+      "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",
     "match": [
