@@ -1,7 +1,8 @@
 {
     "name": "enforce-kubelet-client-tls-authentication",
     "attributes": {
-      "armoBuiltin": true
+      "armoBuiltin": true,
+      "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",
     "match": [

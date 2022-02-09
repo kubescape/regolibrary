@@ -1,7 +1,8 @@
 {
     "name": "read-only-port-enabled",
     "attributes": {
-      "armoBuiltin": true
+      "armoBuiltin": true,
+      "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",
     "match": [
