@@ -18,6 +18,7 @@
 		msga := {
 			"alertMessage": sprintf("Pod: %v has sensitive information in environment variables", [pod.metadata.name]),
 			"alertScore": 9,
+			"fixPaths": [],
 			"failedPaths": [path],
 			"packagename": "armo_builtins",
 			"alertObject": {
@@ -43,6 +44,7 @@
 		msga := {
 			"alertMessage": sprintf("%v: %v has sensitive information in environment variables", [wl.kind, wl.metadata.name]),
 			"alertScore": 9,
+			"fixPaths": [],
 			"failedPaths": [path],
 			"packagename": "armo_builtins",
 			"alertObject": {
@@ -66,6 +68,7 @@
 		msga := {
 			"alertMessage": sprintf("Cronjob: %v has sensitive information in environment variables", [wl.metadata.name]),
 			"alertScore": 9,
+			"fixPaths": [],
 			"failedPaths": [path],
 			"packagename": "armo_builtins",
 			"alertObject": {

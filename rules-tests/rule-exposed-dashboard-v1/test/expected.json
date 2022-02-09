@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "dashboard exists and is exposed kubernetesui/dashboard:v1.4.0",
+        "fixPaths": [],
         "failedPaths": [
             "spec.template.spec.containers[0]"
         ],

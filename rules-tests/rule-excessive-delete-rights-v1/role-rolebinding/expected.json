@@ -1,7 +1,7 @@
 [{
     "alertMessage": "Subject: User-jane can delete important resources",
     "failedPaths": ["relatedObjects[1].rules[0].resources[1]", "relatedObjects[1].rules[0].resources[3]", "relatedObjects[1].rules[0].resources[4]", "relatedObjects[1].rules[0].verbs[1]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[0]", "relatedObjects[0].roleRef.name"],
-    "fixPaths": null,
+    "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 3,

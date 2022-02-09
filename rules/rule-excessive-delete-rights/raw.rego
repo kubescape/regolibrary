@@ -23,6 +23,7 @@ deny[msga] {
     msga := {
 	    "alertMessage": sprintf("The following %v: %v can delete important resources", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"fixPaths": [],
         "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
@@ -56,6 +57,7 @@ deny[msga] {
     msga := {
 	    "alertMessage": sprintf("The following %v: %v can delete important resources", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"fixPaths": [],
         "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
@@ -89,6 +91,7 @@ deny[msga] {
     msga := {
 	    "alertMessage": sprintf("The following %v: %v can delete important resources", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"fixPaths": [],
         "failedPaths": [path],
 		"packagename": "armo_builtins",
          "alertObject": {

@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "Subject: Group-manager have high privileges, such as cluster-admin",
+        "fixPaths": [],
         "failedPaths": [
             "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].verbs[1]",
@@ -70,6 +71,7 @@
     },
     {
         "alertMessage": "Subject: Group-manager have high privileges, such as cluster-admin",
+		"fixPaths": [],
         "failedPaths": [
             "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].verbs[1]",
@@ -139,6 +141,7 @@
     },
     {
         "alertMessage": "Subject: Group-dev have high privileges, such as cluster-admin",
+        "fixPaths": [],
         "failedPaths": [
             "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].verbs[1]",
@@ -208,6 +211,7 @@
     },
     {
         "alertMessage": "Subject: Group-dev have high privileges, such as cluster-admin",
+        "fixPaths": [],
         "failedPaths": [
             "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].verbs[1]",

@@ -21,6 +21,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("this %v has a similar name to %v", [object.kind, wl_name]),
 		"alertScore": 9,
+		"fixPaths": [],
 		"failedPaths": [path],
 		"packagename": "armo_builtins",
          "alertObject": {
