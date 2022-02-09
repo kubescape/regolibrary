@@ -4,11 +4,11 @@ import data.kubernetes.api.client as client
 deny[msga] {
 		kubeletConfig := input[_]
 		kubeletConfig.kind == "KubeletConfiguration"
-		kubeletConfig.apiVersion == "hostdata.armo.cloud/v1beta0"
+		kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
 		kubeletCli := input[_]            
 		kubeletCli.kind == "KubeletCommandLine"
-		kubeletCli.apiVersion == "hostdata.armo.cloud/v1beta0"
+		kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
 		externalObj := getObj(kubeletConfig, kubeletCli)
 
