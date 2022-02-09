@@ -4,6 +4,7 @@
         "failedPaths": [
             "spec.template.spec"
         ],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,
