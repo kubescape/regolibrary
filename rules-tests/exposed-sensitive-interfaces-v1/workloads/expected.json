@@ -1,53 +1,42 @@
-[
-    {
-        "alertMessage": "service: my-service is exposed",
-        "failedPaths": [
-            "spec.selector.matchLabels",
-            "service.spec.selector"
-        ],
-        "fixPaths":[],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "externalObjects": {
-                "kind": "Deployment",
-                "name": "argo-server",
-                "namespace": "default",
-                "relatedObjects": [
-                    {
-                        "apiVersion": "v1",
-                        "kind": "Service",
-                        "metadata": {
-                            "name": "my-service",
-                            "namespace": "default"
-                        },
-                        "spec": {
-                            "clusterIP": "10.0.171.239",
-                            "ports": [
-                                {
-                                    "port": 80,
-                                    "protocol": "TCP",
-                                    "targetPort": 9376
-                                }
-                            ],
-                            "selector": {
-                                "app": "argo-server"
-                            },
-                            "type": "LoadBalancer"
-                        },
-                        "status": {
-                            "loadBalancer": {
-                                "ingress": [
-                                    {
-                                        "ip": "192.0.2.127"
-                                    }
-                                ]
-                            }
-                        }
+[{
+    "alertMessage": "service: my-service is exposed",
+    "failedPaths": ["spec.selector.matchLabels", "service.spec.selector"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "externalObjects": {
+            "kind": "Deployment",
+            "name": "argo-server",
+            "namespace": "default",
+            "relatedObjects": [{
+                "apiVersion": "v1",
+                "kind": "Service",
+                "metadata": {
+                    "name": "my-service",
+                    "namespace": "default"
+                },
+                "spec": {
+                    "clusterIP": "10.0.171.239",
+                    "ports": [{
+                        "port": 80,
+                        "protocol": "TCP",
+                        "targetPort": 9376
+                    }],
+                    "selector": {
+                        "app": "argo-server"
+                    },
+                    "type": "LoadBalancer"
+                },
+                "status": {
+                    "loadBalancer": {
+                        "ingress": [{
+                            "ip": "192.0.2.127"
+                        }]
                     }
-                ]
-            }
+                }
+            }]
         }
     }
-]
+}]

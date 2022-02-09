@@ -1,42 +1,33 @@
-[
-    {
-        "alertMessage": "The following mutating webhook configuration should be checked test-webhook.",
-        "failedPaths": [
-            ""
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 6,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "admissionregistration.k8s.io/v1",
-                    "kind": "MutatingWebhookConfiguration",
-                    "metadata": {
-                        "name": "test-webhook"
-                    }
-                }
-            ]
-        }
-    },
-    {
-        "alertMessage": "The following mutating webhook configuration should be checked test-webhook2.",
-        "failedPaths": [
-            ""
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 6,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "admissionregistration.k8s.io/v1",
-                    "kind": "MutatingWebhookConfiguration",
-                    "metadata": {
-                        "name": "test-webhook2"
-                    }
-                }
-            ]
-        }
+[{
+    "alertMessage": "The following mutating webhook configuration should be checked test-webhook.",
+    "failedPaths": [""],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 6,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "admissionregistration.k8s.io/v1",
+            "kind": "MutatingWebhookConfiguration",
+            "metadata": {
+                "name": "test-webhook"
+            }
+        }]
     }
-]
+}, {
+    "alertMessage": "The following mutating webhook configuration should be checked test-webhook2.",
+    "failedPaths": [""],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 6,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "admissionregistration.k8s.io/v1",
+            "kind": "MutatingWebhookConfiguration",
+            "metadata": {
+                "name": "test-webhook2"
+            }
+        }]
+    }
+}]

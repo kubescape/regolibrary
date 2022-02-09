@@ -1,73 +1,45 @@
-[
-    {
-        "alertMessage": "Subject: User-jane can exec into containers",
-        "failedPaths": [
-            "relatedObjects[1].rules[0].resources[2]",
-            "relatedObjects[1].rules[0].verbs[1]",
-            "relatedObjects[1].rules[0].verbs[3]",
-            "relatedObjects[1].rules[0].apiGroups[1]",
-            "relatedObjects[0].roleRef.subjects[0]",
-            "relatedObjects[0].roleRef.name"
-        ],
-        "fixPaths":[],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 9,
-        "alertObject": {
-            "externalObjects": {
-                "apiGroup": "rbac.authorization.k8s.io",
-                "kind": "User",
-                "name": "jane",
-                "relatedObjects": [
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "RoleBinding",
-                        "metadata": {
-                            "name": "pod",
-                            "namespace": "default"
-                        },
-                        "roleRef": {
-                            "apiGroup": "rbac.authorization.k8s.io",
-                            "kind": "Role",
-                            "name": "pod-reader"
-                        },
-                        "subjects": [
-                            {
-                                "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "User",
-                                "name": "jane"
-                            }
-                        ]
-                    },
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "Role",
-                        "metadata": {
-                            "name": "pod-reader",
-                            "namespace": "default"
-                        },
-                        "rules": [
-                            {
-                                "apiGroups": [
-                                    "extensions",
-                                    "*"
-                                ],
-                                "resources": [
-                                    "nodes",
-                                    "pods",
-                                    "*"
-                                ],
-                                "verbs": [
-                                    "impersonate",
-                                    "create",
-                                    "list",
-                                    "*"
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
+[{
+    "alertMessage": "Subject: User-jane can exec into containers",
+    "failedPaths": ["relatedObjects[1].rules[0].resources[2]", "relatedObjects[1].rules[0].verbs[1]", "relatedObjects[1].rules[0].verbs[3]", "relatedObjects[1].rules[0].apiGroups[1]", "relatedObjects[0].roleRef.subjects[0]", "relatedObjects[0].roleRef.name"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 9,
+    "alertObject": {
+        "externalObjects": {
+            "apiGroup": "rbac.authorization.k8s.io",
+            "kind": "User",
+            "name": "jane",
+            "relatedObjects": [{
+                "apiVersion": "rbac.authorization.k8s.io/v1",
+                "kind": "RoleBinding",
+                "metadata": {
+                    "name": "pod",
+                    "namespace": "default"
+                },
+                "roleRef": {
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "Role",
+                    "name": "pod-reader"
+                },
+                "subjects": [{
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "User",
+                    "name": "jane"
+                }]
+            }, {
+                "apiVersion": "rbac.authorization.k8s.io/v1",
+                "kind": "Role",
+                "metadata": {
+                    "name": "pod-reader",
+                    "namespace": "default"
+                },
+                "rules": [{
+                    "apiGroups": ["extensions", "*"],
+                    "resources": ["nodes", "pods", "*"],
+                    "verbs": ["impersonate", "create", "list", "*"]
+                }]
+            }]
         }
     }
-]
+}]

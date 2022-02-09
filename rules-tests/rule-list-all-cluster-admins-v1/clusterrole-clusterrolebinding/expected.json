@@ -21,8 +21,7 @@
                         "apiVersion": "rbac.authorization.k8s.io/v1",
                         "kind": "ClusterRoleBinding",
                         "metadata": {
-                            "name": "read-secrets-global",
-                            "namespace": "default"
+                            "name": "read-secrets-global"
                         },
                         "roleRef": {
                             "apiGroup": "rbac.authorization.k8s.io",
@@ -46,8 +45,7 @@
                         "apiVersion": "rbac.authorization.k8s.io/v1",
                         "kind": "ClusterRole",
                         "metadata": {
-                            "name": "test",
-                            "namespace": "default"
+                            "name": "test"
                         },
                         "rules": [
                             {
@@ -92,8 +90,7 @@
                         "apiVersion": "rbac.authorization.k8s.io/v1",
                         "kind": "ClusterRoleBinding",
                         "metadata": {
-                            "name": "read-secrets-global",
-                            "namespace": "default"
+                            "name": "read-secrets-global"
                         },
                         "roleRef": {
                             "apiGroup": "rbac.authorization.k8s.io",
@@ -117,8 +114,7 @@
                         "apiVersion": "rbac.authorization.k8s.io/v1",
                         "kind": "ClusterRole",
                         "metadata": {
-                            "name": "test",
-                            "namespace": "default"
+                            "name": "test"
                         },
                         "rules": [
                             {
@@ -163,8 +159,7 @@
                         "apiVersion": "rbac.authorization.k8s.io/v1",
                         "kind": "ClusterRoleBinding",
                         "metadata": {
-                            "name": "read-secrets-global",
-                            "namespace": "default"
+                            "name": "read-secrets-global"
                         },
                         "roleRef": {
                             "apiGroup": "rbac.authorization.k8s.io",
@@ -188,8 +183,7 @@
                         "apiVersion": "rbac.authorization.k8s.io/v1",
                         "kind": "ClusterRole",
                         "metadata": {
-                            "name": "test",
-                            "namespace": "default"
+                            "name": "test"
                         },
                         "rules": [
                             {
@@ -234,8 +228,7 @@
                         "apiVersion": "rbac.authorization.k8s.io/v1",
                         "kind": "ClusterRoleBinding",
                         "metadata": {
-                            "name": "read-secrets-global",
-                            "namespace": "default"
+                            "name": "read-secrets-global"
                         },
                         "roleRef": {
                             "apiGroup": "rbac.authorization.k8s.io",
@@ -259,8 +252,7 @@
                         "apiVersion": "rbac.authorization.k8s.io/v1",
                         "kind": "ClusterRole",
                         "metadata": {
-                            "name": "test",
-                            "namespace": "default"
+                            "name": "test"
                         },
                         "rules": [
                             {

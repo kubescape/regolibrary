@@ -1,286 +1,185 @@
-[
-    {
-        "alertMessage": "Subject: Group-manager can impersonate users",
-        "failedPaths": [
-            "relatedObjects[1].rules[0].resources[2]",
-            "relatedObjects[1].rules[0].verbs[1]",
-            "relatedObjects[1].rules[0].apiGroups[0]",
-            "relatedObjects[0].roleRef.subjects[0]",
-            "relatedObjects[0].roleRef.name"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 3,
-        "alertObject": {
-            "externalObjects": {
-                "apiGroup": "rbac.authorization.k8s.io",
-                "kind": "Group",
-                "name": "manager",
-                "relatedObjects": [
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "ClusterRoleBinding",
-                        "metadata": {
-                            "name": "read-secrets-global",
-                            "namespace": "default"
-                        },
-                        "roleRef": {
-                            "apiGroup": "rbac.authorization.k8s.io",
-                            "kind": "ClusterRole",
-                            "name": "test"
-                        },
-                        "subjects": [
-                            {
-                                "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "Group",
-                                "name": "manager"
-                            },
-                            {
-                                "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "Group",
-                                "name": "dev"
-                            }
-                        ]
-                    },
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "ClusterRole",
-                        "metadata": {
-                            "name": "test",
-                            "namespace": "default"
-                        },
-                        "rules": [
-                            {
-                                "apiGroups": [
-                                    "*"
-                                ],
-                                "resources": [
-                                    "pods/log",
-                                    "events",
-                                    "users"
-                                ],
-                                "verbs": [
-                                    "watch",
-                                    "*"
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-    },
-    {
-        "alertMessage": "Subject: Group-manager can impersonate users",
-        "failedPaths": [
-            "relatedObjects[1].rules[0].resources[2]",
-            "relatedObjects[1].rules[0].verbs[1]",
-            "relatedObjects[1].rules[0].apiGroups[0]",
-            "relatedObjects[0].roleRef.subjects[1]",
-            "relatedObjects[0].roleRef.name"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 3,
-        "alertObject": {
-            "externalObjects": {
-                "apiGroup": "rbac.authorization.k8s.io",
-                "kind": "Group",
-                "name": "manager",
-                "relatedObjects": [
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "ClusterRoleBinding",
-                        "metadata": {
-                            "name": "read-secrets-global",
-                            "namespace": "default"
-                        },
-                        "roleRef": {
-                            "apiGroup": "rbac.authorization.k8s.io",
-                            "kind": "ClusterRole",
-                            "name": "test"
-                        },
-                        "subjects": [
-                            {
-                                "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "Group",
-                                "name": "manager"
-                            },
-                            {
-                                "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "Group",
-                                "name": "dev"
-                            }
-                        ]
-                    },
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "ClusterRole",
-                        "metadata": {
-                            "name": "test",
-                            "namespace": "default"
-                        },
-                        "rules": [
-                            {
-                                "apiGroups": [
-                                    "*"
-                                ],
-                                "resources": [
-                                    "pods/log",
-                                    "events",
-                                    "users"
-                                ],
-                                "verbs": [
-                                    "watch",
-                                    "*"
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-    },
-    {
-        "alertMessage": "Subject: Group-dev can impersonate users",
-        "failedPaths": [
-            "relatedObjects[1].rules[0].resources[2]",
-            "relatedObjects[1].rules[0].verbs[1]",
-            "relatedObjects[1].rules[0].apiGroups[0]",
-            "relatedObjects[0].roleRef.subjects[0]",
-            "relatedObjects[0].roleRef.name"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 3,
-        "alertObject": {
-            "externalObjects": {
-                "apiGroup": "rbac.authorization.k8s.io",
-                "kind": "Group",
-                "name": "dev",
-                "relatedObjects": [
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "ClusterRoleBinding",
-                        "metadata": {
-                            "name": "read-secrets-global",
-                            "namespace": "default"
-                        },
-                        "roleRef": {
-                            "apiGroup": "rbac.authorization.k8s.io",
-                            "kind": "ClusterRole",
-                            "name": "test"
-                        },
-                        "subjects": [
-                            {
-                                "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "Group",
-                                "name": "manager"
-                            },
-                            {
-                                "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "Group",
-                                "name": "dev"
-                            }
-                        ]
-                    },
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "ClusterRole",
-                        "metadata": {
-                            "name": "test",
-                            "namespace": "default"
-                        },
-                        "rules": [
-                            {
-                                "apiGroups": [
-                                    "*"
-                                ],
-                                "resources": [
-                                    "pods/log",
-                                    "events",
-                                    "users"
-                                ],
-                                "verbs": [
-                                    "watch",
-                                    "*"
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-    },
-    {
-        "alertMessage": "Subject: Group-dev can impersonate users",
-        "failedPaths": [
-            "relatedObjects[1].rules[0].resources[2]",
-            "relatedObjects[1].rules[0].verbs[1]",
-            "relatedObjects[1].rules[0].apiGroups[0]",
-            "relatedObjects[0].roleRef.subjects[1]",
-            "relatedObjects[0].roleRef.name"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 3,
-        "alertObject": {
-            "externalObjects": {
-                "apiGroup": "rbac.authorization.k8s.io",
-                "kind": "Group",
-                "name": "dev",
-                "relatedObjects": [
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "ClusterRoleBinding",
-                        "metadata": {
-                            "name": "read-secrets-global",
-                            "namespace": "default"
-                        },
-                        "roleRef": {
-                            "apiGroup": "rbac.authorization.k8s.io",
-                            "kind": "ClusterRole",
-                            "name": "test"
-                        },
-                        "subjects": [
-                            {
-                                "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "Group",
-                                "name": "manager"
-                            },
-                            {
-                                "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "Group",
-                                "name": "dev"
-                            }
-                        ]
-                    },
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "ClusterRole",
-                        "metadata": {
-                            "name": "test",
-                            "namespace": "default"
-                        },
-                        "rules": [
-                            {
-                                "apiGroups": [
-                                    "*"
-                                ],
-                                "resources": [
-                                    "pods/log",
-                                    "events",
-                                    "users"
-                                ],
-                                "verbs": [
-                                    "watch",
-                                    "*"
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
+[{
+    "alertMessage": "Subject: Group-manager can impersonate users",
+    "failedPaths": ["relatedObjects[1].rules[0].resources[2]", "relatedObjects[1].rules[0].verbs[1]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[0]", "relatedObjects[0].roleRef.name"],
+    "fixPaths": null,
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 3,
+    "alertObject": {
+        "externalObjects": {
+            "apiGroup": "rbac.authorization.k8s.io",
+            "kind": "Group",
+            "name": "manager",
+            "relatedObjects": [{
+                "apiVersion": "rbac.authorization.k8s.io/v1",
+                "kind": "ClusterRoleBinding",
+                "metadata": {
+                    "name": "read-secrets-global"
+                },
+                "roleRef": {
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "ClusterRole",
+                    "name": "test"
+                },
+                "subjects": [{
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "Group",
+                    "name": "manager"
+                }, {
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "Group",
+                    "name": "dev"
+                }]
+            }, {
+                "apiVersion": "rbac.authorization.k8s.io/v1",
+                "kind": "ClusterRole",
+                "metadata": {
+                    "name": "test"
+                },
+                "rules": [{
+                    "apiGroups": ["*"],
+                    "resources": ["pods/log", "events", "users"],
+                    "verbs": ["watch", "*"]
+                }]
+            }]
         }
     }
-]
+}, {
+    "alertMessage": "Subject: Group-manager can impersonate users",
+    "failedPaths": ["relatedObjects[1].rules[0].resources[2]", "relatedObjects[1].rules[0].verbs[1]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[1]", "relatedObjects[0].roleRef.name"],
+    "fixPaths": null,
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 3,
+    "alertObject": {
+        "externalObjects": {
+            "apiGroup": "rbac.authorization.k8s.io",
+            "kind": "Group",
+            "name": "manager",
+            "relatedObjects": [{
+                "apiVersion": "rbac.authorization.k8s.io/v1",
+                "kind": "ClusterRoleBinding",
+                "metadata": {
+                    "name": "read-secrets-global"
+                },
+                "roleRef": {
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "ClusterRole",
+                    "name": "test"
+                },
+                "subjects": [{
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "Group",
+                    "name": "manager"
+                }, {
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "Group",
+                    "name": "dev"
+                }]
+            }, {
+                "apiVersion": "rbac.authorization.k8s.io/v1",
+                "kind": "ClusterRole",
+                "metadata": {
+                    "name": "test"
+                },
+                "rules": [{
+                    "apiGroups": ["*"],
+                    "resources": ["pods/log", "events", "users"],
+                    "verbs": ["watch", "*"]
+                }]
+            }]
+        }
+    }
+}, {
+    "alertMessage": "Subject: Group-dev can impersonate users",
+    "failedPaths": ["relatedObjects[1].rules[0].resources[2]", "relatedObjects[1].rules[0].verbs[1]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[0]", "relatedObjects[0].roleRef.name"],
+    "fixPaths": null,
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 3,
+    "alertObject": {
+        "externalObjects": {
+            "apiGroup": "rbac.authorization.k8s.io",
+            "kind": "Group",
+            "name": "dev",
+            "relatedObjects": [{
+                "apiVersion": "rbac.authorization.k8s.io/v1",
+                "kind": "ClusterRoleBinding",
+                "metadata": {
+                    "name": "read-secrets-global"
+                },
+                "roleRef": {
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "ClusterRole",
+                    "name": "test"
+                },
+                "subjects": [{
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "Group",
+                    "name": "manager"
+                }, {
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "Group",
+                    "name": "dev"
+                }]
+            }, {
+                "apiVersion": "rbac.authorization.k8s.io/v1",
+                "kind": "ClusterRole",
+                "metadata": {
+                    "name": "test"
+                },
+                "rules": [{
+                    "apiGroups": ["*"],
+                    "resources": ["pods/log", "events", "users"],
+                    "verbs": ["watch", "*"]
+                }]
+            }]
+        }
+    }
+}, {
+    "alertMessage": "Subject: Group-dev can impersonate users",
+    "failedPaths": ["relatedObjects[1].rules[0].resources[2]", "relatedObjects[1].rules[0].verbs[1]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[1]", "relatedObjects[0].roleRef.name"],
+    "fixPaths": null,
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 3,
+    "alertObject": {
+        "externalObjects": {
+            "apiGroup": "rbac.authorization.k8s.io",
+            "kind": "Group",
+            "name": "dev",
+            "relatedObjects": [{
+                "apiVersion": "rbac.authorization.k8s.io/v1",
+                "kind": "ClusterRoleBinding",
+                "metadata": {
+                    "name": "read-secrets-global"
+                },
+                "roleRef": {
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "ClusterRole",
+                    "name": "test"
+                },
+                "subjects": [{
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "Group",
+                    "name": "manager"
+                }, {
+                    "apiGroup": "rbac.authorization.k8s.io",
+                    "kind": "Group",
+                    "name": "dev"
+                }]
+            }, {
+                "apiVersion": "rbac.authorization.k8s.io/v1",
+                "kind": "ClusterRole",
+                "metadata": {
+                    "name": "test"
+                },
+                "rules": [{
+                    "apiGroups": ["*"],
+                    "resources": ["pods/log", "events", "users"],
+                    "verbs": ["watch", "*"]
+                }]
+            }]
+        }
+    }
+}]

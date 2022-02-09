@@ -10,6 +10,7 @@ deny [msga] {
 		"alertScore": 6,
 		"packagename": "armo_builtins",
 		"failedPaths": [""],
+		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [admissionwebhook]
 		}

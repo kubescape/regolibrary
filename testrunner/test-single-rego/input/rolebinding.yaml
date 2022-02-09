@@ -8,6 +8,6 @@ subjects:
   name: jane 
   apiGroup: rbac.authorization.k8s.io
 roleRef:
-  kind: ClusterRole 
-  name: test
+  kind: Role 
+  name: pod-reader 
   apiGroup: rbac.authorization.k8s.io

@@ -50,9 +50,9 @@ func GetInputRawResources(dir string, policyRule *reporthandling.PolicyRule) ([]
 			return nil, fmt.Errorf("resource is nil")
 		}
 		metadataResource := objectsenvelopes.NewObject(resp)
-		if metadataResource.GetNamespace() == "" {
-			metadataResource.SetNamespace("default")
-		}
+		// if metadataResource.GetNamespace() == "" {
+		// 	metadataResource.SetNamespace("default")
+		// }
 		IMetadataResources = append(IMetadataResources, metadataResource)
 	}
 	IMetadataResources, _ = reporthandling.RegoResourcesAggregator(policyRule, IMetadataResources)
