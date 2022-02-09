@@ -1,22 +1,23 @@
-[
-    {
-        "alertMessage": "there are no cpu and memory limits defined for container : hello",
-        "failedPaths": [
-            "spec.jobTemplate.spec.template.spec.containers[0].resources"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "batch/v1beta1",
-                    "kind": "CronJob",
-                    "metadata": {
-                        "name": "hello"
-                    }
-                }
-            ]
-        }
+[{
+    "alertMessage": "there are no cpu and memory limits defined for container : hello",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.jobTemplate.spec.template.spec.containers[0].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+    }, {
+        "path": "spec.jobTemplate.spec.template.spec.containers[0].resources.limits.memory",
+        "value": "YOUR_VALUE"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "batch/v1beta1",
+            "kind": "CronJob",
+            "metadata": {
+                "name": "hello"
+            }
+        }]
     }
-]
+}]

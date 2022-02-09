@@ -1,7 +1,7 @@
 [{
     "alertMessage": "Subject: Group-manager can impersonate users",
     "failedPaths": ["relatedObjects[1].rules[0].resources[2]", "relatedObjects[1].rules[0].verbs[1]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[0]", "relatedObjects[0].roleRef.name"],
-    "fixPaths": null,
+    "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 3,
@@ -47,7 +47,7 @@
 }, {
     "alertMessage": "Subject: Group-manager can impersonate users",
     "failedPaths": ["relatedObjects[1].rules[0].resources[2]", "relatedObjects[1].rules[0].verbs[1]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[1]", "relatedObjects[0].roleRef.name"],
-    "fixPaths": null,
+    "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 3,
@@ -93,7 +93,7 @@
 }, {
     "alertMessage": "Subject: Group-dev can impersonate users",
     "failedPaths": ["relatedObjects[1].rules[0].resources[2]", "relatedObjects[1].rules[0].verbs[1]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[0]", "relatedObjects[0].roleRef.name"],
-    "fixPaths": null,
+    "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 3,
@@ -139,7 +139,7 @@
 }, {
     "alertMessage": "Subject: Group-dev can impersonate users",
     "failedPaths": ["relatedObjects[1].rules[0].resources[2]", "relatedObjects[1].rules[0].verbs[1]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[1]", "relatedObjects[0].roleRef.name"],
-    "fixPaths": null,
+    "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 3,

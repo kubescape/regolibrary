@@ -1,7 +1,7 @@
 [{
     "alertMessage": "Subject: User-jane is bound to dashboard role/clusterrole",
     "failedPaths": ["relatedObjects[0].subjects[0]", "relatedObjects[0].roleRef.name"],
-    "fixPaths": null,
+    "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 9,

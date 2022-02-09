@@ -15,4 +15,7 @@ spec:
         cpu: "500m"
   - name: log-aggregator
     image: images.my-company.example/log-aggregator:v6
+    resources:
+      limits:
+        memory: "128Mi"
 

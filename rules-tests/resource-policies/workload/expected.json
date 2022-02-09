@@ -1,48 +1,51 @@
-[
-    {
-        "alertMessage": "there are no cpu and memory limits defined for container : app",
-        "failedPaths": [
-            "spec.template.spec.containers[0].resources"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "apps/v1",
-                    "kind": "Deployment",
-                    "metadata": {
-                        "labels": {
-                            "purpose": "demonstrate-command"
-                        },
-                        "name": "test"
-                    }
-                }
-            ]
-        }
-    },
-    {
-        "alertMessage": "there are no cpu and memory limits defined for container : log-aggregator",
-        "failedPaths": [
-            "spec.template.spec.containers[1].resources"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "apps/v1",
-                    "kind": "Deployment",
-                    "metadata": {
-                        "labels": {
-                            "purpose": "demonstrate-command"
-                        },
-                        "name": "test"
-                    }
-                }
-            ]
-        }
+[{
+    "alertMessage": "there are no cpu and memory limits defined for container : app",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.template.spec.containers[0].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+    }, {
+        "path": "spec.template.spec.containers[0].resources.limits.memory",
+        "value": "YOUR_VALUE"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "labels": {
+                    "purpose": "demonstrate-command"
+                },
+                "name": "test"
+            }
+        }]
     }
-]
+}, {
+    "alertMessage": "there are no cpu and memory limits defined for container : log-aggregator",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.template.spec.containers[1].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+    }, {
+        "path": "spec.template.spec.containers[1].resources.limits.memory",
+        "value": "YOUR_VALUE"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "labels": {
+                    "purpose": "demonstrate-command"
+                },
+                "name": "test"
+            }
+        }]
+    }
+}]

@@ -20,6 +20,7 @@ deny[msga] {
 		"alertMessage": sprintf("Subject: %v-%v is bound to dashboard role/clusterrole", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 9,
 		"failedPaths": finalpath,
+		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [],

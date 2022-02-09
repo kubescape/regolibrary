@@ -13,6 +13,7 @@ deny[msga] {
 		"alertMessage": sprintf("the following pods: %s are associated with dashboard service account", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"fixPaths": [],
 		"failedPaths": ["spec.serviceaccountname"],
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -36,6 +37,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"failedPaths": ["spec.template.spec.serviceaccountname"],
 		"alertScore": 7,
+		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -56,6 +58,7 @@ deny[msga] {
 		"alertMessage": sprintf("the following cronjob: %s is associated with dashboard service account", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"fixPaths": [],
 		"failedPaths": ["spec.jobTemplate.spec.template.spec.serviceaccountname"],
 		"alertObject": {
 			"k8sApiObjects": [wl]

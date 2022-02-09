@@ -1,7 +1,7 @@
 [{
     "alertMessage": "Subject: User-jane can create/update rolebinding/clusterrolebinding",
     "failedPaths": ["relatedObjects[1].rules[0].resources[0]", "relatedObjects[1].rules[0].verbs[0]", "relatedObjects[1].rules[0].verbs[2]", "relatedObjects[1].rules[0].verbs[3]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[0]", "relatedObjects[0].roleRef.name"],
-    "fixPaths": null,
+    "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 3,
@@ -45,7 +45,7 @@
 }, {
     "alertMessage": "Subject: User-jane can escalate rolebinding/clusterrolebinding",
     "failedPaths": ["relatedObjects[1].rules[0].resources[0]", "relatedObjects[1].rules[0].verbs[0]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[0]", "relatedObjects[0].roleRef.name"],
-    "fixPaths": null,
+    "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 3,

@@ -1,9 +1,31 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+apiVersion: apps/v1
+kind: Deployment
 metadata:
+  name: test
   namespace: default
-  name: pod-reader
-rules:
-- apiGroups: [ "extensions", "*"]  
-  resources: ["nodes", "pods", "*"]
-  verbs: ["impersonate", "create", "list", "*"]
+  labels:
+    purpose: demonstrate-command
+spec:
+  selector:
+    matchLabels:
+      purpose: demonstrate-command
+  template:
+    metadata:
+      labels:
+        purpose: demonstrate-command
+    spec :
+      containers :
+        -
+          name : app
+          image : images.my-company.example/app:v4
+        -
+          name : log-aggregator
+          image : images.my-company.example/log-aggregator:v6
+          resources :
+            requests :
+              memory : "64Mi"
+              cpu : "250m"
+            limits :
+              memory : "128Mi"
+              cpu : "500m"
+    
