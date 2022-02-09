@@ -23,6 +23,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("The following %v: %v have high privileges, such as cluster-admin", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"fixPaths": [],
 		"failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
@@ -57,6 +58,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("The following %v: %v have high privileges, such as cluster-admin", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"fixPaths": [],
 		"failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
@@ -91,6 +93,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("The following %v: %v have high privileges, such as cluster-admin", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"fixPaths": [],
 		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {

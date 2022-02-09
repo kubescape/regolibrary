@@ -15,6 +15,7 @@ untrustedImageRepo[msga] {
 		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [image, container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 2,
+		"fixPaths": [],
 		"failedPaths": [path],
          "alertObject": {
 			"k8sApiObjects": [pod]
@@ -35,6 +36,7 @@ untrustedImageRepo[msga] {
 		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [image, container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 2,
+		"fixPaths": [],
 		"failedPaths": [path],
          "alertObject": {
 			"k8sApiObjects": [wl]
@@ -54,6 +56,7 @@ untrustedImageRepo[msga] {
 		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [image, container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 2,
+		"fixPaths": [],
 		"failedPaths": [path],
         "alertObject": {
 			"k8sApiObjects": [wl]

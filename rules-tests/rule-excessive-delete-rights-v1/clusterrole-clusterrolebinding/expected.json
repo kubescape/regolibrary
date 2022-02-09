@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "Subject: Group-manager can delete important resources",
+        "fixPaths": [],
         "failedPaths": [
             "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].resources[1]",
@@ -73,6 +74,7 @@
     },
     {
         "alertMessage": "Subject: Group-manager can delete important resources",
+        "fixPaths": [],
         "failedPaths": [
             "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].resources[1]",
@@ -145,6 +147,7 @@
     },
     {
         "alertMessage": "Subject: Group-dev can delete important resources",
+        "fixPaths": [],
         "failedPaths": [
             "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].resources[1]",
@@ -217,6 +220,7 @@
     },
     {
         "alertMessage": "Subject: Group-dev can delete important resources",
+        "fixPaths": [],
         "failedPaths": [
             "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].resources[1]",

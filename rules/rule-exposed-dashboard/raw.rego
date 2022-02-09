@@ -20,6 +20,7 @@
 		msga := {
 			"alertMessage": sprintf("dashboard exists and is exposed %s", [container.image]),
 			"alertScore": 9,
+			"fixPaths": [],
 			"failedPaths": [path],
 			"packagename": "armo_builtins",
 			"alertObject": {
