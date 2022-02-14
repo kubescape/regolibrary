@@ -32,10 +32,10 @@
     {
       "path": "settings.postureControlInputs.imageRepositoryAllowList",
       "name": "Allowed image repositories",
-      "description": "Kubescape checks that all containers are using an image from an allowed repository from the following list."
+      "description": "Kubescape checks that all the containers are using images from the allowed repositories provided in the following list."
     }
   ],
-  "description": "fails if image is not from allowlisted registry (microsoft, google, azure) and also has no imagePullSecrets",
+  "description": "Fails if image is not from allowed repository",
   "remediation": "",
   "ruleQuery": ""
 }
