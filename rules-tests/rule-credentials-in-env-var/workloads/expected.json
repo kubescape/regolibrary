@@ -4,6 +4,7 @@
         "failedPaths": [
             "spec.template.spec.containers[1].env[0].name"
         ],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 9,

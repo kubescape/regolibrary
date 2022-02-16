@@ -12,6 +12,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 2,
 		"failedPaths": paths,
+		"fixPaths":[],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -30,6 +31,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 2,
 		"failedPaths": paths,
+		"fixPaths":[],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -47,6 +49,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 2,
 		"failedPaths": paths,
+		"fixPaths":[],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}

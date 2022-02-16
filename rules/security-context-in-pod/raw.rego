@@ -5,13 +5,14 @@ deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
     container := pod.spec.containers[i]
-	begginingOfPath := sprintf("spec.containers[%v]", [format_int(i, 10)])
-    path := isNotSecurityContext(pod, container, begginingOfPath)
+    isNotSecurityContext(pod, container)
+	fixPaths := [{"path": sprintf("spec.containers[%v].securityContext", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
     msga := {
 		"alertMessage": sprintf("Container: %v in pod: %v does not define a securityContext.", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
-		"failedPaths": [path],
+		"failedPaths": [],
+		"fixPaths": fixPaths,
 		"alertScore": 7,
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -26,13 +27,14 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
     container := wl.spec.template.spec.containers[i]
-	begginingOfPath := sprintf("spec.template.spec.containers[%v]", [format_int(i, 10)])
-    path := isNotSecurityContext(wl.spec.template, container, begginingOfPath)
+	isNotSecurityContext(wl.spec.template, container)
+	fixPaths := [{"path": sprintf("spec.template.spec.containers[%v].securityContext", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v does not define a securityContext.", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"failedPaths": [path],
+		"failedPaths": [],
+		"fixPaths": fixPaths,
 		"alertScore": 7,
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -45,13 +47,14 @@ deny[msga] {
   	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	begginingOfPath := sprintf("spec.jobTemplate.spec.template.spec.containers[%v]", [format_int(i, 10)])
-    path := isNotSecurityContext(wl.spec.jobTemplate.spec.template, container, begginingOfPath)
+	isNotSecurityContext(wl.spec.jobTemplate.spec.template, container)
+	fixPaths := [{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].securityContext", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
     msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v does not define a securityContext.", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"failedPaths": [path],
+		"failedPaths": [],
+		"fixPaths": fixPaths,
 		"alertScore": 7,
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -60,29 +63,25 @@ deny[msga] {
 }
 
 
-isNotSecurityContext(pod, container, begginingOfPath) = path  {
-   not pod.spec.securityContext == 0
-   not container.securityContext
-   path := begginingOfPath
+isNotSecurityContext(pod, container) {
+	not pod.spec.securityContext 
+	not container.securityContext
 }
 
-isNotSecurityContext(pod, container, begginingOfPath) = path {
-   count(pod.spec.securityContext) == 0
-   not container.securityContext
-   path := begginingOfPath
+isNotSecurityContext(pod, container) {
+	count(pod.spec.securityContext) == 0
+	not container.securityContext
 }
 
 
-isNotSecurityContext(pod, container, begginingOfPath) = path {
-   not pod.spec.securityContext 
+isNotSecurityContext(pod, container) {
+	not pod.spec.securityContext 
 	container.securityContext
-   count(container.securityContext) == 0
-	path := sprintf("%v.securityContext", [begginingOfPath])
+	count(container.securityContext) == 0
 }
 
-isNotSecurityContext(pod, container, begginingOfPath) = path{
+isNotSecurityContext(pod, container) {
    	count(pod.spec.securityContext) == 0
    	container.securityContext
   	count(container.securityContext) == 0
-	path := sprintf("%v.securityContext", [begginingOfPath])
 }

@@ -18,6 +18,7 @@ deny[msga] {
 			"alertMessage": "anonymous requests is enabled",
 			"alertScore": 2,
 			"failedPaths": [],
+			"fixPaths":[],
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"externalObjects": externalObj

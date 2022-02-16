@@ -1,22 +1,20 @@
-[
-    {
-        "alertMessage": "CronJob: hello had pods  running in the 'default' namespace",
-        "failedPaths": [
-            "metadata.namespace"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 3,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "batch/v1beta1",
-                    "kind": "CronJob",
-                    "metadata": {
-                        "name": "hello"
-                    }
-                }
-            ]
-        }
+[{
+    "alertMessage": "CronJob: hello has pods running in the 'default' namespace",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "metadata.namespace",
+        "value": "YOUR_VALUE"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 3,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "batch/v1beta1",
+            "kind": "CronJob",
+            "metadata": {
+                "name": "hello"
+            }
+        }]
     }
-]
+}]

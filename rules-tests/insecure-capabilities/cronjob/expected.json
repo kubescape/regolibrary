@@ -4,6 +4,7 @@
         "failedPaths": [
             "spec.jobTemplate.spec.template.spec.containers[0].securityContext.capabilities.add[0]"
         ],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,

@@ -12,6 +12,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -29,6 +30,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -46,6 +48,7 @@ deny[msga] {
 	"alertMessage": sprintf("%v: %v has a pod with hostPID enabled", [wl.kind, wl.metadata.name]),
 		"alertScore": 9,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -64,6 +67,7 @@ deny[msga] {
 	"alertMessage": sprintf("%v: %v has a pod with hostIPC enabled", [wl.kind, wl.metadata.name]),
 		"alertScore": 9,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -81,6 +85,7 @@ deny[msga] {
 	"alertMessage": sprintf("CronJob: %v has a pod with hostPID enabled", [wl.metadata.name]),
 		"alertScore": 9,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -99,6 +104,7 @@ deny[msga] {
 	"alertMessage": sprintf("CronJob: %v has a pod with hostIPC enabled", [wl.metadata.name]),
 		"alertScore": 9,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl]

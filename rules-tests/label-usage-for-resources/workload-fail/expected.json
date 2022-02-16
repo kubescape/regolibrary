@@ -1,0 +1,23 @@
+[{
+    "alertMessage": "Deployment: kubernetes-dashboard a certain set of labels is not defined:",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.template.metadata.labels",
+        "value": "YOUR_VALUE"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 2,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "labels": {
+                    "app": "audit-pod"
+                },
+                "name": "kubernetes-dashboard"
+            }
+        }]
+    }
+}]

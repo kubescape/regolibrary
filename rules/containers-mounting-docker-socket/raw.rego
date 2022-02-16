@@ -12,6 +12,7 @@ deny[msga] {
 		"alertMessage": sprintf("volume: %v in pod: %v has mounting to Docker internals.", [volume.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"failedPaths": [path],
+		"fixPaths":[],
 		"alertScore": 5,
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -33,6 +34,7 @@ deny[msga] {
 		"alertMessage": sprintf("volume: %v in %v: %v has mounting to Docker internals.", [ volume.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"failedPaths": [path],
+		"fixPaths":[],
 		"alertScore": 5,
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -52,6 +54,7 @@ deny[msga] {
 		"alertMessage": sprintf("volume: %v in %v: %v has mounting to Docker internals.", [ volume.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"failedPaths": [path],
+		"fixPaths":[],
 		"alertScore": 5,
 		"alertObject": {
 			"k8sApiObjects": [wl]

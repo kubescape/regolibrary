@@ -37,6 +37,7 @@ deny[msga] {
           "alertMessage": sprintf("Subject: %v-%v can create/update rolebinding/clusterrolebinding", [subjectVector.kind, subjectVector.name]),
           "alertScore": 3,
           "failedPaths": finalpath,
+          "fixPaths": [],
           "packagename": "armo_builtins",
           "alertObject": {
                "k8sApiObjects": [],
@@ -82,6 +83,7 @@ deny [msga] {
           "alertMessage": sprintf("Subject: %v-%v can bind roles/clusterroles", [subjectVector.kind, subjectVector.name]),
           "alertScore": 3,
           "failedPaths":finalpath,
+          "fixPaths": [],
           "packagename": "armo_builtins",
           "alertObject": {
                "k8sApiObjects": [],
@@ -126,6 +128,7 @@ deny[msga] {
           "alertMessage": sprintf("Subject: %v-%v can escalate rolebinding/clusterrolebinding", [subjectVector.kind, subjectVector.name]),
           "alertScore": 3,
           "failedPaths": finalpath,
+          "fixPaths": [],
           "packagename": "armo_builtins",
           "alertObject": {
                "k8sApiObjects": [],

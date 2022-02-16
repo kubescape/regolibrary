@@ -2,6 +2,7 @@
     {
         "alertMessage": "service account: jane has the following permissions in the cluster: test",
         "failedPaths": [],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,

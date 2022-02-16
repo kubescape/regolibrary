@@ -5,7 +5,8 @@ import data.cautils as cautils
 deny[msga] {
 	apiserverpod := input[_]
     cmd := apiserverpod.spec.containers[0].command
-    not cautils.list_contains(cmd, "--encryption-provider-config=")
+    encCommand :=  [ command |command := cmd[_] ; contains(command, "--encryption-provider-config=")]
+    count(encCommand) < 1
 	path := "spec.containers[0].command"	
 	
 	msga := {
@@ -13,6 +14,7 @@ deny[msga] {
 		"alertScore": 9,
 		"packagename": "armo_builtins",
 		"failedPaths": [path],
+		"fixPaths":[],
 		"alertObject": {
 			"k8sApiObjects": [apiserverpod],
 		

@@ -32,6 +32,7 @@ deny[msga] {
     msga := {
 		"alertMessage": sprintf("Subject: %v-%v can delete important resources", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
+		"fixPaths": [],
 		"failedPaths": finalpath,
 		"packagename": "armo_builtins",
 		"alertObject": {

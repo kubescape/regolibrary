@@ -1,25 +1,23 @@
-[
-    {
-        "alertMessage": "Container: goproxy in Deployment: my-deployment   does not have livenessProbe",
-        "failedPaths": [
-            "spec.template.spec.containers[0]"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 4,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "apps/v1",
-                    "kind": "Deployment",
-                    "metadata": {
-                        "labels": {
-                            "app": "goproxy"
-                        },
-                        "name": "my-deployment"
-                    }
-                }
-            ]
-        }
+[{
+    "alertMessage": "Container: goproxy in Deployment: my-deployment   does not have livenessProbe",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.template.spec.containers[0].livenessProbe",
+        "value": "YOUR_VALUE"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 4,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "labels": {
+                    "app": "goproxy"
+                },
+                "name": "my-deployment"
+            }
+        }]
     }
-]
+}]

@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "image 'quay.io/hi:latest' in container 'hello' comes from untrusted registry",
+		"fixPaths": [],
         "failedPaths": [
             "spec.jobTemplate.spec.template.spec.containers[0].image"
         ],

@@ -4,6 +4,7 @@
         "failedPaths": [
             "spec.jobTemplate.spec.template.spec.containers[0].ports[1].hostPort"
         ],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 4,

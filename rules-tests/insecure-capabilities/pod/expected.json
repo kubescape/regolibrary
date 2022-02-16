@@ -5,6 +5,7 @@
             "spec.containers[1].securityContext.capabilities.add[0]",
             "spec.containers[1].securityContext.capabilities.add[1]"
         ],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,

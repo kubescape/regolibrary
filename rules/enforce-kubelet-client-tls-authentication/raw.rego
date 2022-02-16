@@ -19,6 +19,7 @@ deny[msga] {
 			"alertMessage": "kubelet client TLS authentication is not enabled",
 			"alertScore": 2,
 			"failedPaths": [],
+			"fixPaths":[],
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [kubeletConfig, kubeletCli]

@@ -1,25 +1,23 @@
-[
-    {
-        "alertMessage": "Workload: Deployment: test has only one replica",
-        "failedPaths": [
-            "spec"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "apps/v1",
-                    "kind": "Deployment",
-                    "metadata": {
-                        "labels": {
-                            "purpose": "demonstrate-command"
-                        },
-                        "name": "test"
-                    }
-                }
-            ]
-        }
+[{
+    "alertMessage": "Workload: Deployment: test has only one replica",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.replicas",
+        "value": "YOUR_VALUE"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "labels": {
+                    "purpose": "demonstrate-command"
+                },
+                "name": "test"
+            }
+        }]
     }
-]
+}]

@@ -9,13 +9,13 @@ untrustedImageRepo[msga] {
 	image := container.image
 	not imageInAllowedList(image)
 	path := sprintf("spec.containers[%v].image", [format_int(i, 10)])
-    not pod.spec["imagePullSecrets"]
 
 	msga := {
 		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [image, container.name]),
 		"alertScore": 2,
         "packagename": "armo_builtins",
 		"failedPaths": [path],
+		"fixPaths":[],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -30,13 +30,13 @@ untrustedImageRepo[msga] {
 	image := container.image
     not imageInAllowedList(image)
 
-    not wl.spec.template.spec["imagePullSecrets"]
 	path := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
 	msga := {
 		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [image, container.name]),
 		"alertScore": 2,
         "packagename": "armo_builtins",
 		"failedPaths": [path],
+		"fixPaths":[],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -50,13 +50,13 @@ untrustedImageRepo[msga] {
 	image := container.image
     not imageInAllowedList(image)
 
-    not wl.spec.jobTemplate.spec.template.spec["imagePullSecrets"]
 	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)])
 	msga := {
 		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [image, container.name]),
 		"alertScore": 2,
         "packagename": "armo_builtins",
 		"failedPaths": [path],
+		"fixPaths":[],
 			"alertObject": {
 			"k8sApiObjects": [wl]
 		}

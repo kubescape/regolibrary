@@ -1,48 +1,42 @@
-[
-    {
-        "alertMessage": "container :mysql in Deployment: my-deployment has  mutable filesystem",
-        "failedPaths": [
-            "spec.template.spec.containers[0].securityContext.readOnlyRootFilesystem"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "apps/v1",
-                    "kind": "Deployment",
-                    "metadata": {
-                        "labels": {
-                            "app": "goproxy"
-                        },
-                        "name": "my-deployment"
-                    }
-                }
-            ]
-        }
-    },
-    {
-        "alertMessage": "container :php in Deployment: my-deployment has  mutable filesystem",
-        "failedPaths": [
-            "spec.template.spec.containers[1]"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "apps/v1",
-                    "kind": "Deployment",
-                    "metadata": {
-                        "labels": {
-                            "app": "goproxy"
-                        },
-                        "name": "my-deployment"
-                    }
-                }
-            ]
-        }
+[{
+    "alertMessage": "container :mysql in Deployment: my-deployment has  mutable filesystem",
+    "failedPaths": ["spec.template.spec.containers[0].securityContext.readOnlyRootFilesystem"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "labels": {
+                    "app": "goproxy"
+                },
+                "name": "my-deployment"
+            }
+        }]
     }
-]
+}, {
+    "alertMessage": "container :php in Deployment: my-deployment has  mutable filesystem",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.template.spec.containers[1].securityContext.readOnlyRootFilesystem",
+        "value": "true"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "labels": {
+                    "app": "goproxy"
+                },
+                "name": "my-deployment"
+            }
+        }]
+    }
+}]

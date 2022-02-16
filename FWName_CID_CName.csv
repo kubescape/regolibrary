@@ -66,7 +66,6 @@ ArmoBest,C-0065,No impersonation
 ArmoBest,C-0061,Pods in default namespace
 ArmoBest,C-0062,Sudo in container entrypoint
 ArmoBest,C-0063,Portforwarding privileges
-ArmoBest,C-0064,Image pull policy on latest image tag
 ArmoBest,C-0060,Namespace without service accounts
 ArmoBest,C-0054,Cluster internal networking
 ArmoBest,C-0067,Audit logs enabled
@@ -76,7 +75,8 @@ ArmoBest,C-0069,Disable anonymous access to Kubelet service
 ArmoBest,C-0070,Enforce Kubelet client TLS authentication
 ArmoBest,C-0001,Forbidden Container Registries
 ArmoBest,C-0079,CVE-2022-0185-linux-kernel-container-escape
-ArmoBest,C-0081,CVE-2022-24348-argocddirtraversal
+ArmoBest,C-0049,Network mapping
+ArmoBest,C-0078,Images from allowed registry
 NSA,C-0005,Control plane hardening
 NSA,C-0038,Host PID/IPC privileges
 NSA,C-0017,Immutable container filesystem

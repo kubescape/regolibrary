@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "container :hello in CronJob: hello  runs with id less than 1000",
+        "fixPaths": [],
         "failedPaths": [
             "spec.jobTemplate.spec.template.spec.containers[0].securityContext.runAsUser"
         ],

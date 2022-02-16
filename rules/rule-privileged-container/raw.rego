@@ -15,6 +15,7 @@ deny[msga] {
 		"alertMessage": sprintf("the following pods are defined as privileged: %v", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 3,
+		"fixPaths": [],
 		"failedPaths": path,
          "alertObject": {
 			"k8sApiObjects": [pod]
@@ -36,6 +37,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v is defined as privileged:", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 3,
+		"fixPaths": [],
 		"failedPaths": path,
          "alertObject": {
 			"k8sApiObjects": [wl]
@@ -55,6 +57,7 @@ deny[msga] {
 		"alertMessage": sprintf("the following cronjobs are defined as privileged: %v", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 3,
+		"fixPaths": [],
 		"failedPaths": path,
          "alertObject": {
 			"k8sApiObjects": [wl]

@@ -4,6 +4,7 @@
         "failedPaths": [
             ""
         ],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 6,
@@ -24,6 +25,7 @@
         "failedPaths": [
             ""
         ],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 6,

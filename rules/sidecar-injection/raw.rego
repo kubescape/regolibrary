@@ -12,6 +12,7 @@ deny[msga] {
 		"alertMessage": sprintf("The pod: %v has a sidecar: %v", [pod.metadata.name, container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 3,
+		"fixPaths": [],
 		"failedPaths": [path],
          "alertObject": {
 			"k8sApiObjects": [pod]
@@ -32,6 +33,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has a sidecar: %v", [wl.kind, wl.metadata.name, container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 3,
+		"fixPaths": [],
 		"failedPaths": [path],
          "alertObject": {
 			"k8sApiObjects": [wl]
@@ -51,6 +53,7 @@ deny[msga] {
 		"alertMessage": sprintf("Cronjob: %v has a sidecar: %v", [wl.metadata.name, container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 3,
+		"fixPaths": [],
 		"failedPaths": [path],
          "alertObject": {
 			"k8sApiObjects": [wl]

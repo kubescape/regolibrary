@@ -1,6 +1,7 @@
 [
     {
     "alertMessage": "this ReplicaSet has a similar name to kube-proxy",
+    "fixPaths": [],
     "failedPaths": [
         "metadata.name"
     ],

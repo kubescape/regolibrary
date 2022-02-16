@@ -11,6 +11,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in pod: %v  have sudo in entrypoint", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"fixPaths": [],
 		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -29,6 +30,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in %v: %v  have sudo in entrypoint", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"fixPaths": [],
 		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -46,6 +48,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in cronjob: %v  have sudo in entrypoint", [container.name, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"fixPaths": [],
 		"failedPaths": result,
 		"alertObject": {
 			"k8sApiObjects": [wl]

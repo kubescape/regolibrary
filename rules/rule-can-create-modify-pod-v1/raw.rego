@@ -37,6 +37,7 @@ deny [msga] {
         "alertMessage": sprintf("Subject: %v-%v can create/modify workloads", [subjectVector.kind, subjectVector.name]),
         "alertScore": 3,
         "failedPaths": finalpath,
+        "fixPaths": [],
         "packagename": "armo_builtins",
         "alertObject": {
             "k8sApiObjects": [],

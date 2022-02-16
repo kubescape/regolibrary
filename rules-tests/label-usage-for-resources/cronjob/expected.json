@@ -1,26 +1,23 @@
-[
-    {
-        "alertMessage": "the following cronjobs a certain set of labels is not defined: hello",
-        "failedPaths": [
-            "metadata.labels",
-            ""
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 2,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "batch/v1",
-                    "kind": "CronJob",
-                    "metadata": {
-                        "labels": {
-                            "app1": "app1"
-                        },
-                        "name": "hello"
-                    }
-                }
-            ]
-        }
+[{
+    "alertMessage": "the following cronjobs a certain set of labels is not defined: hello",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "metadata.labels",
+        "value": "YOUR_VALUE"
+    }, {
+        "path": "spec.jobTemplate.spec.template.metadata.labels",
+        "value": "YOUR_VALUE"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 2,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "batch/v1",
+            "kind": "CronJob",
+            "metadata": {
+                "name": "hello"
+            }
+        }]
     }
-]
+}]

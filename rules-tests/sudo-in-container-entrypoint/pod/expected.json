@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "container: command-demo-container in pod: command-demo  have sudo in entrypoint",
+        "fixPaths": [],
         "failedPaths": [
             "spec.containers[0].command[0]"
         ],

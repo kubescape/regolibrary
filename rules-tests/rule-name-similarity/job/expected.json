@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "this Job has a similar name to coredns",
+		"fixPaths": [],
         "failedPaths": [
             "metadata.name"
         ],

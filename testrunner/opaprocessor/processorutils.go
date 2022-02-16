@@ -8,6 +8,7 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/armosec/armoapi-go/armotypes"
 	"github.com/armosec/k8s-interface/workloadinterface"
 	"github.com/armosec/opa-utils/objectsenvelopes"
 	"github.com/armosec/opa-utils/reporthandling"
@@ -49,9 +50,9 @@ func GetInputRawResources(dir string, policyRule *reporthandling.PolicyRule) ([]
 			return nil, fmt.Errorf("resource is nil")
 		}
 		metadataResource := objectsenvelopes.NewObject(resp)
-		if metadataResource.GetNamespace() == "" {
-			metadataResource.SetNamespace("default")
-		}
+		// if metadataResource.GetNamespace() == "" {
+		// 	metadataResource.SetNamespace("default")
+		// }
 		IMetadataResources = append(IMetadataResources, metadataResource)
 	}
 	IMetadataResources, _ = reporthandling.RegoResourcesAggregator(policyRule, IMetadataResources)
@@ -102,7 +103,21 @@ func AssertResponses(responses []reporthandling.RuleResponse, expectedResponses 
 		if err != nil {
 			return fmt.Errorf("%v for response %v", err.Error(), i)
 		}
+		if len(expectedResponses[i].FixPaths) != len(responses[i].FixPaths) {
+			return fmt.Errorf("length of 'FixPaths' is different for response %v. expected: %v, got :%v", i, expectedResponses[i].FixPaths, responses[i].FixPaths)
+		}
+		err = CompareFixPaths(expectedResponses[i].FixPaths, responses[i].FixPaths)
+		if err != nil {
+			return fmt.Errorf("%v for response %v", err.Error(), i)
+		}
+	}
+	return nil
+}
 
+func CompareFixPaths(expected []armotypes.FixPath, actual []armotypes.FixPath) error {
+	eq := reflect.DeepEqual(expected, actual)
+	if !eq {
+		return fmt.Errorf("field 'FixPaths' is different. expected: %v, got :%v", expected, actual)
 	}
 	return nil
 }

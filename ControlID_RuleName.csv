@@ -14,7 +14,6 @@ C-0021,exposed-sensitive-interfaces-v1
 C-0063,rule-can-portforward
 C-0063,rule-can-portforward-v1
 C-0061,pods-in-default-namespace
-C-0011,internal-networking
 C-0026,rule-deny-cronjobs
 C-0001,rule-identify-blocklisted-image-registries
 C-0031,rule-can-delete-k8s-events
@@ -41,11 +40,11 @@ C-0067,k8s-audit-logs-enabled-cloud
 C-0067,k8s-audit-logs-enabled-native
 C-0037,rule-can-update-configmap
 C-0037,rule-can-update-configmap-v1
+C-0078,container-image-repository
 C-0048,alert-any-hostpath
 C-0005,insecure-port-flag
 C-0070,enforce-kubelet-client-tls-authentication
 C-0057,rule-privilege-escalation
-C-0064,image-pull-policy-on-latest-image-tag
 C-0044,container-hostPort
 C-0015,rule-can-list-get-secrets
 C-0015,rule-can-list-get-secrets-v1
@@ -53,8 +52,6 @@ C-0047,rule-exposed-dashboard
 C-0047,rule-exposed-dashboard-v1
 C-0059,nginx-ingress-snippet-annotation-vulnerability
 C-0062,sudo-in-container-entrypoint
-C-0078,container-image-repository
-C-0078,image-pull-secrets
 C-0049,internal-networking
 C-0006,alert-rw-hostpath
 C-0002,exec-into-container

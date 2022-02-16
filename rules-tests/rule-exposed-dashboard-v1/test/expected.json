@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "dashboard exists and is exposed kubernetesui/dashboard:v1.4.0",
+        "fixPaths": [],
         "failedPaths": [
             "spec.template.spec.containers[0]"
         ],
@@ -17,8 +18,7 @@
                         "apiVersion": "v1",
                         "kind": "Service",
                         "metadata": {
-                            "name": "my-service",
-                            "namespace": "default"
+                            "name": "my-service"
                         },
                         "spec": {
                             "clusterIP": "10.96.171.239",

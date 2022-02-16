@@ -20,10 +20,9 @@ spec:
             readOnlyRootFilesystem: false
           volumeMounts :
             - mountPath : /test-pd
-              readOnly: true
+              readOnly: false
               name : test-volume
             - mountPath : /test-pd2
-              readOnly: false
               name : test-volume
         - name : test-container2
           image : k8s.gcr.io/test-webserver

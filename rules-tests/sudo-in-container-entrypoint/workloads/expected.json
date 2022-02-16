@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "container: test-container2 in Deployment: test2  have sudo in entrypoint",
+        "fixPaths": [],
         "failedPaths": [
             "spec.template.spec.containers[1].command[0]"
         ],

@@ -2,6 +2,7 @@
     {
         "alertMessage": "pod security policy configuration is not enabled",
         "failedPaths": [],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 3,

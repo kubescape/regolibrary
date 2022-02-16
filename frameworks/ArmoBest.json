@@ -29,7 +29,6 @@
       "Pods in default namespace",
       "Sudo in container entrypoint",
       "Portforwarding privileges",
-      "Image pull policy on latest image tag",
       "Namespace without service accounts",
       "Cluster internal networking",
       "Audit logs enabled",
@@ -39,6 +38,7 @@
       "Enforce Kubelet client TLS authentication",
       "Forbidden Container Registries",
       "CVE-2022-0185-linux-kernel-container-escape",
-      "CVE-2022-24348-argocddirtraversal"
+      "Network mapping",
+      "Images from allowed registry"
     ]
   }

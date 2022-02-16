@@ -1,5 +1,6 @@
 package armo_builtins
 
+# TODO: Decide fixPath
 
 # Fails if pod does not define linux security hardening 
 deny[msga] {
@@ -16,6 +17,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -38,6 +40,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -60,6 +63,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [path],
+		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}

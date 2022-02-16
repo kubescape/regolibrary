@@ -1,42 +1,33 @@
-[
-    {
+[{
     "alertMessage": "this configmap has sensitive information: game-demo",
-    "failedPaths": [
-        "data[aws_access_key_id]"
-    ],
+    "failedPaths": ["data[aws_access_key_id]"],
+    "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 9,
     "alertObject": {
-        "k8sApiObjects": [
-            {
-                "apiVersion": "v1",
-                "kind": "ConfigMap",
-                "metadata": {
-                    "name": "game-demo"
-                }
+        "k8sApiObjects": [{
+            "apiVersion": "v1",
+            "kind": "ConfigMap",
+            "metadata": {
+                "name": "game-demo"
             }
-        ]
+        }]
     }
-},
-{
+}, {
     "alertMessage": "this configmap has sensitive information: game-demo",
-    "failedPaths": [
-        "data[pwd]"
-    ],
+    "failedPaths": ["data[pwd]"],
+    "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 9,
     "alertObject": {
-        "k8sApiObjects": [
-            {
-                "apiVersion": "v1",
-                "kind": "ConfigMap",
-                "metadata": {
-                    "name": "game-demo"
-                }
+        "k8sApiObjects": [{
+            "apiVersion": "v1",
+            "kind": "ConfigMap",
+            "metadata": {
+                "name": "game-demo"
             }
-        ]
+        }]
     }
-}
-]
+}]

@@ -8,12 +8,15 @@ spec:
   containers:
   - name: envar-demo-container
     image: gcr.io/google-samples/node-hello:1.0
-    securityContext: {}
+    securityContext:
+      runAsNonRoot: false
     env:
     - name: pwd
       valueFrom:
          secretKeyRef:
            key: bla
            name: blue
+      securityContext:
+        runAsNonRoot: false
     - name: DEMO_FAREWELL
       value: "Such a sweet sorrow"

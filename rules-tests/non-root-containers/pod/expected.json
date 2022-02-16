@@ -1,0 +1,23 @@
+[{
+    "alertMessage": "container: web in pod: static-web  may run as root",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.securityContext.runAsNonRoot",
+        "value": "true"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "labels": {
+                    "role": "myrole"
+                },
+                "name": "static-web"
+            }
+        }]
+    }
+}]

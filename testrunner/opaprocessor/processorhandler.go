@@ -106,9 +106,9 @@ func RunRegoFromYamls(ymls []string, policyRule *reporthandling.PolicyRule) (str
 			return "", fmt.Errorf("resource is nil")
 		}
 		metadataResource := objectsenvelopes.NewObject(resp)
-		if metadataResource.GetNamespace() == "" {
-			metadataResource.SetNamespace("default")
-		}
+		// if metadataResource.GetNamespace() == "" {
+		// 	metadataResource.SetNamespace("default")
+		// }
 		IMetadataResources = append(IMetadataResources, metadataResource)
 	}
 	IMetadataResources, _ = reporthandling.RegoResourcesAggregator(policyRule, IMetadataResources)
@@ -164,7 +164,7 @@ func (opap *OPAProcessor) regoEval(inputObj []map[string]interface{}, compiledRe
 	}
 	postureControlInput := customerConfig.Settings.PostureControlInputs
 	opap.regoDependenciesData.PostureControlInputs = postureControlInput
-	store, err := opap.regoDependenciesData.TOStorage() // get store
+	store, err := resources.TOStorage(postureControlInput)
 	if err != nil {
 		return nil, err
 	}
