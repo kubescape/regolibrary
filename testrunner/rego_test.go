@@ -53,7 +53,7 @@ func TestSingleRule(t *testing.T) {
 // To print the output
 // Change the testDir variable to the directory of the rego you want to test
 func TestSingleRego(t *testing.T) {
-	testDir := "rule-access-dashboard-wl-v1"
+	testDir := "psp-enabled-native"
 	dir := fmt.Sprintf("%v/input", testSingleRegoDirectory)
 	mocks, err := os.Open(dir)
 	if err != nil {

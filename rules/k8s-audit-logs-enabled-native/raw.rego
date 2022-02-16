@@ -5,8 +5,10 @@ import data.cautils as cautils
 deny[msga] {
 	apiserverpod := input[_]
     cmd := apiserverpod.spec.containers[0].command
-    not cautils.list_contains(cmd, "--audit-policy-file=")
-	path := "spec.containers[0].command"
+	auditPolicy :=  [ command |command := cmd[_] ; contains(command, "--audit-policy-file=")]
+    count(auditPolicy) < 1
+	path := "spec.containers[0].command"	
+
 	
 	msga := {
 		"alertMessage": "audit logs is not enabled",
