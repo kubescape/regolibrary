@@ -12,7 +12,7 @@
         "rule-exposed-dashboard", "rule-exposed-dashboard-v1"
     ],
     "id": "C-0047",
-    "long_description": "The Kubernetes dashboard is a web-based user interface that enables monitoring and managment of the Kubernetes cluster. By default, the dashboard exposes an internal endpoint (ClusterIP service). If the dashboard is exposed externally, it can allow unauthenticated remote management of the cluster.",
+    "long_description": "The Kubernetes dashboard is a web-based user interface that enables monitoring and management of the Kubernetes cluster. By default, the dashboard exposes an internal endpoint (ClusterIP service). If the dashboard is exposed externally, it can allow unauthenticated remote management of the cluster.",
     "test": "Checking if Kubernetes dashboard exists deployment and exposed externally as a service (nodeport/loadbalancer), check if the version of the container image is older than v2.0.1 we raise an alert.",
     "controlID": "C-0047",
     "baseScore": 6.0

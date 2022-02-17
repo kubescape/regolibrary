@@ -177,7 +177,7 @@ def create_md_for_control(control):
     md_text += '## Description of the the issue\n'
     description = control['long_description'] if 'long_description' in control else control['description']
     if len(control_config_input):
-        description += 'Note, this control is configurable. See bellow the details.'
+        description += 'Note, this control is configurable. See below the details.'
     md_text += description + '\n'
     md_text += '## Related resources\n'
 
