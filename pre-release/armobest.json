@@ -2042,6 +2042,48 @@
                     "rule": "package armo_builtins\nimport data\n# import data.kubernetes.api.client as client\n\nuntrustedImageRepo[msga] {\n\tpod := input[_]\n\tpod.kind == \"Pod\"\n\tcontainer := pod.spec.containers[i]\n\timage := container.image\n\tnot imageInAllowedList(image)\n\tpath := sprintf(\"spec.containers[%v].image\", [format_int(i, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"image '%v' in container '%s' comes from untrusted registry\", [image, container.name]),\n\t\t\"alertScore\": 2,\n        \"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\":[],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n\t}\n}\n\nuntrustedImageRepo[msga] {\n\twl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n\tcontainer := wl.spec.template.spec.containers[i]\n\timage := container.image\n    not imageInAllowedList(image)\n\n\tpath := sprintf(\"spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"image '%v' in container '%s' comes from untrusted registry\", [image, container.name]),\n\t\t\"alertScore\": 2,\n        \"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\":[],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\nuntrustedImageRepo[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer := wl.spec.jobTemplate.spec.template.spec.containers[i]\n\timage := container.image\n    not imageInAllowedList(image)\n\n\tpath := sprintf(\"spec.jobTemplate.spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"image '%v' in container '%s' comes from untrusted registry\", [image, container.name]),\n\t\t\"alertScore\": 2,\n        \"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\":[],\n\t\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\nimageInAllowedList(image){\n\t# see default-config-inputs.json for list values\n\tallowedlist := data.postureControlInputs.imageRepositoryAllowList\n\tregistry := allowedlist[_]\n\tregex.match(registry, image)\n}"
                 }
             ]
+        },
+        {
+            "name": "CVE-2022-24348-argocddirtraversal",
+            "attributes": {
+                "armoBuiltin": true
+            },
+            "description": "CVE-2022-24348 is a major software supply chain 0-day vulnerability in the popular open source CD platform Argo CD which can lead to privilege escalation and information disclosure.",
+            "remediation": "Update your ArgoCD deployment to fixed versions (v2.1.9,v2.2.4 or v2.3.0)",
+            "id": "C-0081",
+            "long_description": "CVE-2022-24348 is a major software supply chain 0-day vulnerability in the popular open source CD platform Argo CD. Exploiting it enables attackers to obtain sensitive information like credentials, secrets, API keys from other applications on the platform. This in turn can lead to privilege escalation, lateral movements and information disclosure.",
+            "test": "Checking Linux kernel version of the Node objects, if it is above 5.1 or bellow 5.16.2 it fires an alert",
+            "controlID": "C-0081",
+            "baseScore": 5.0,
+            "example": "",
+            "rules": [
+                {
+                    "name": "CVE-2022-24348",
+                    "attributes": {
+                        "armoBuiltin": true
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                "*"
+                            ],
+                            "apiVersions": [
+                                "*"
+                            ],
+                            "resources": [
+                                "Deployment"
+                            ]
+                        }
+                    ],
+                    "ruleDependencies": [],
+                    "description": "a",
+                    "remediation": "a",
+                    "ruleQuery": "armo_builtins",
+                    "rule": "package armo_builtins\n\ndeny[msga] {\n\tdeployment := input[_]\n\tdeployment.kind == \"Deployment\"\n\timage := deployment.spec.template.spec.containers[i].image\n\tcontains(image, \"argocd:v\")\n\tisVulnerableImage(image)\n\tpath := sprintf(\"spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n    msga := {\n\t\t\t\"alertMessage\": \"You may be vulnerable to CVE-2022-24348\",\n\t\t\t\"failedPaths\": [path],\n\t\t\t\"fixPaths\":[],\n\t\t\t\"alertObject\": { \n                \"k8SApiObjects\": [deployment]\n            },\n\t\t}\n}\n\nisVulnerableImage(image) {\n\tversion := split(image, \":v\")[1]\n\tversionTriplet := split(version, \".\")\n\tcount(versionTriplet) == 3\n\tmajorVersion := to_number(versionTriplet[0])\n\tminorVersion := to_number(versionTriplet[1])\n\tsubVersion := to_number(versionTriplet[2])  \n\tisVulnerableVersion(majorVersion,minorVersion,subVersion)\n}\n\nisVulnerableVersion(majorVersion, minorVersion, subVersion) {\n\tmajorVersion == 1\n} \n\nisVulnerableVersion(majorVersion, minorVersion, subVersion) {\n\tmajorVersion == 2\n\tminorVersion == 0\n}\n\nisVulnerableVersion(majorVersion, minorVersion, subVersion) {\n\tmajorVersion == 2\n\tminorVersion == 1\n\tsubVersion < 9\n}\n\nisVulnerableVersion(majorVersion, minorVersion, subVersion) {\n\tmajorVersion == 2\n\tminorVersion == 2\n\tsubVersion < 4\n}\t\n\n",
+                    "resourceEnumerator": "package armo_builtins\n\ndeny[msga] {\n\tdeployment := input[_]\n\tdeployment.kind == \"Deployment\"\n\timage := deployment.spec.template.spec.containers[i].image\n\tcontains(image, \"argocd:v\")\n\tpath := sprintf(\"spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n    msga := {\n\t\t\t\"alertMessage\": \"You may be vulnerable to CVE-2022-24348\",\n\t\t\t\"failedPaths\": [path],\n\t\t\t\"alertObject\": { \n                \"k8SApiObjects\": [deployment]\n            },\n\t\t}\n}\n"
+                }
+            ]
         }
     ]
 }

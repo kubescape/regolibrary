@@ -77,6 +77,7 @@ ArmoBest,C-0001,Forbidden Container Registries
 ArmoBest,C-0079,CVE-2022-0185-linux-kernel-container-escape
 ArmoBest,C-0049,Network mapping
 ArmoBest,C-0078,Images from allowed registry
+ArmoBest,C-0081,CVE-2022-24348-argocddirtraversal
 NSA,C-0005,Control plane hardening
 NSA,C-0038,Host PID/IPC privileges
 NSA,C-0017,Immutable container filesystem
