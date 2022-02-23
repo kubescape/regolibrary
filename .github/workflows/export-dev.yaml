@@ -37,6 +37,7 @@ jobs:
         branch: dev
         github_token: ${{ secrets.GITHUB_TOKEN }} 
 
+
   cretate_release:
       needs:
         update_csv
