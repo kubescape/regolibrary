@@ -38,7 +38,7 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }} 
 
 
-  cretate_release:
+  create_release:
       needs:
         update_csv
       name: Create release
@@ -63,7 +63,7 @@ jobs:
       env:
           RELEASE: v1.0.${{ github.run_number }} 
       name: Create cross-platform release build, tag and upload binaries
-      needs: update_csv
+      needs: create_release
       runs-on: ubuntu-latest
       strategy:
         matrix:
@@ -86,13 +86,13 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
-            upload_url: ${{ needs.cretate_release.outputs.upload_url }}
+            upload_url: ${{ needs.create_release.outputs.upload_url }}
             asset_path: release/${{ matrix.json_file }}.json
             asset_name: ${{ matrix.json_file }}
             asset_content_type: application/octet-stream
   csv:
       name: Upload csv binaries
-      needs: update_csv
+      needs: create_release
       runs-on: ubuntu-latest
       strategy:
         matrix:
@@ -115,7 +115,7 @@ jobs:
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
-            upload_url: ${{ needs.cretate_release.outputs.upload_url }}
+            upload_url: ${{ needs.create_release.outputs.upload_url }}
             asset_path: release/${{ matrix.csv-files }}.csv
             asset_name: ${{ matrix.csv-files }}
             asset_content_type: application/octet-stream
