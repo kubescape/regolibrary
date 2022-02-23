@@ -63,7 +63,7 @@ jobs:
       env:
           RELEASE: v1.0.${{ github.run_number }} 
       name: Create cross-platform release build, tag and upload binaries
-      needs: once
+      needs: update_csv
       runs-on: ubuntu-latest
       strategy:
         matrix:
