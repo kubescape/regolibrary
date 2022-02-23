@@ -9,7 +9,7 @@ on:
     types: [ closed ]
 
 jobs:
-  once:
+  update_csv:
     name: Auto update csv files
     runs-on: ubuntu-latest
 
@@ -36,4 +36,87 @@ jobs:
       with:
         branch: dev
         github_token: ${{ secrets.GITHUB_TOKEN }} 
+
+  cretate_release:
+      needs:
+        update_csv
+      name: Create release
+      runs-on: ubuntu-latest
+      outputs:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+      steps:
+        - uses: actions/checkout@v2
+          name: checkout repo content
+
+        - name: Create a release
+          id: create_release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            tag_name: v1.0.${{ github.run_number }}
+            release_name: Release v1.0.${{ github.run_number }}
+            draft: false
+            prerelease: true
+  build:
+      env:
+          RELEASE: v1.0.${{ github.run_number }} 
+      name: Create cross-platform release build, tag and upload binaries
+      needs: once
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          json_file: [ nsa , mitre, armobest, frameworks, controls, rules, default_config_inputs ]
+      steps:
+        - uses: actions/checkout@v2
+          name: checkout repo content
+
+        - name: setup python
+          uses: actions/setup-python@v2
+          with:
+            python-version: 3.8 #install the python needed
+        - name: execute py script # run the run.py to get the latest data
+          run: |
+            python ./scripts/export.py
+
+        - name: Upload Release Asset
+          id: upload-release-asset
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ needs.once.outputs.upload_url }}
+            asset_path: release/${{ matrix.json_file }}.json
+            asset_name: ${{ matrix.json_file }}
+            asset_content_type: application/octet-stream
+  csv:
+      name: Upload csv binaries
+      needs: update_csv
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          csv-files: [ControlID_RuleName, FWName_CID_CName]
+      steps:
+        - uses: actions/checkout@v2
+          name: checkout repo content
+
+        - name: setup python
+          uses: actions/setup-python@v2
+          with:
+            python-version: 3.8 #install the python needed
+        - name: execute py script # run the run.py to get the latest data
+          run: |
+            python ./scripts/export.py
+            
+        - name: Upload Release Asset
+          id: upload-release-asset
+          uses: actions/upload-release-asset@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            upload_url: ${{ needs.once.outputs.upload_url }}
+            asset_path: release/${{ matrix.csv-files }}.csv
+            asset_name: ${{ matrix.csv-files }}
+            asset_content_type: application/octet-stream
+
 
