@@ -28,6 +28,9 @@ jobs:
     - name: Run a update-csv-files script
       run: python ./scripts/update-csv-files.py
 
+    - name: Run export-dev script
+      run: python ./scripts/export-dev.py
+
     - name: stage changed files
       run: git add .
 
