@@ -323,9 +323,7 @@
                     "ReplicaSet",
                     "DaemonSet",
                     "StatefulSet",
-                    "Job",
-                    "Pod",
-                    "CronJob"
+                    "Pod"
                 ]
             }
         ],
@@ -3298,9 +3296,7 @@
                     "ReplicaSet",
                     "DaemonSet",
                     "StatefulSet",
-                    "Job",
-                    "Pod",
-                    "CronJob"
+                    "Pod"
                 ]
             }
         ],
