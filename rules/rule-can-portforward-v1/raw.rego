@@ -11,7 +11,7 @@ deny[msga] {
 	rule:= role.rules[p]
 	subject := rolebinding.subjects[k]
 
-	verbs := ["create", "get", "*"]
+	verbs := ["create", "update", "patch", "*"]
   	verbsPath := [sprintf("relatedObjects[%v].rules[%v].verbs[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | verb =  rule.verbs[l];cautils.list_contains(verbs, verb)]
 	count(verbsPath) > 0
 
@@ -29,9 +29,7 @@ deny[msga] {
 	finalpath := array.concat(path3, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
 
 	msga := {
-		"alertMessage": sprintf("Subject: %v-%v can do port forwarding", [subjectVector.kind, subjectVector.name]),
-		"alertScore": 3,
-		"failedPaths": finalpath,
+		"alertMessage": sgetnalpath,
 		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {
