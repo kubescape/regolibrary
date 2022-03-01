@@ -29,7 +29,9 @@ deny[msga] {
 	finalpath := array.concat(path3, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
 
 	msga := {
-		"alertMessage": sgetnalpath,
+		"alertMessage": sprintf("Subject: %v-%v can do port forwarding", [subjectVector.kind, subjectVector.name]),
+		"alertScore": 3,
+		"failedPaths": finalpath,
 		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {
