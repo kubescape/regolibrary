@@ -1,0 +1,38 @@
+{
+  "name": "exposed-rce-pods",
+  "attributes": {
+    "m$K8sThreatMatrix": "exposed-rce-pods",
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Service",
+        "Pod"
+      ]
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "image.vulnscan.com"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+         "ImageVulnerabilities"
+      ]
+    }
+  ],
+  "description": "fails if known pods have exposed services and known vulnerabilities with remote code execution",
+  "remediation": "The image of the listed pods might have a fix in a newer version. Alternatively, the pod service might not need to be external facing",
+  "ruleQuery": "armo_builtins"
+}
