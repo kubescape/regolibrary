@@ -2084,6 +2084,192 @@
                     "resourceEnumerator": "package armo_builtins\n\ndeny[msga] {\n\tdeployment := input[_]\n\tdeployment.kind == \"Deployment\"\n\timage := deployment.spec.template.spec.containers[i].image\n\tcontains(image, \"argocd:v\")\n\tpath := sprintf(\"spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n    msga := {\n\t\t\t\"alertMessage\": \"You may be vulnerable to CVE-2022-24348\",\n\t\t\t\"failedPaths\": [path],\n\t\t\t\"alertObject\": { \n                \"k8SApiObjects\": [deployment]\n            },\n\t\t}\n}\n"
                 }
             ]
+        },
+        {
+            "name": "Exposed Workload with Critical Vulnerabilities",
+            "attributes": {
+                "armoBuiltin": true
+            },
+            "description": "Images with known critical vulnerabilities raising risk of a workload. They especially pose risk when these workloads are exposed to external traffic.",
+            "remediation": "Either update your workload images to fix vulnerabilities (if fix available) or consider whether this workload needs to be exposed.",
+            "id": "C-0083",
+            "long_description": "",
+            "test": "This control is enumerating external facing workloads, whose have LoadBalancer or NodePort services and check image vulnerability information to see if the image has critical vulnerability.",
+            "controlID": "C-0083",
+            "baseScore": 8.0,
+            "example": "@controls/examples/c83.yaml",
+            "rules": [
+                {
+                    "name": "exposed-critical-pods",
+                    "attributes": {
+                        "m$K8sThreatMatrix": "exposed-critical-pods",
+                        "armoBuiltin": true
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                "*"
+                            ],
+                            "apiVersions": [
+                                "*"
+                            ],
+                            "resources": [
+                                "Service",
+                                "Pod"
+                            ]
+                        }
+                    ],
+                    "dynamicMatch": [
+                        {
+                            "apiGroups": [
+                                "image.vulnscan.com"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "ImageVulnerabilities"
+                            ]
+                        }
+                    ],
+                    "description": "Fails if pods have exposed services as well as critical vulnerabilities",
+                    "remediation": "The image of the listed pods might have a fix in a newer version. Alternatively, the pod service might not need to be external facing",
+                    "ruleQuery": "armo_builtins",
+                    "rule": "package armo_builtins\n\nimport data.kubernetes.api.client as client\nimport data\n\ndeny[msga] {\n    services := [ x | x = input[_]; x.kind == \"Service\" ]\n    pods     := [ x | x = input[_]; x.kind == \"Pod\" ]\n    vulns    := [ x | x = input[_]; x.kind == \"ImageVulnerabilities\"]\n\n    pod     := pods[i]\n    service := services[_]\n    vuln    := vulns[_]\n\n    # service is external-facing\n    filter_external_access(service)\n\n    # pod has the current service\n    service_to_pod(service, pod) > 0\n\n\t# get container image name\n\tcontainer := pod.spec.containers[i]\n\n\t# image has vulnerabilities\n\tcontainer.image == vuln.metadata.name\n\n    # At least one critical vulnerabilities\n    filter_critical_vulnerabilities(vuln)\n\n    relatedObjects := [pod, vuln]\n\n\tpath := sprintf(\"status.containerStatuses[%v].imageID\", [format_int(i, 10)])\n\n\tmetadata = {\n\t\t\"name\": pod.metadata.name,\n\t\t\"namespace\": pod.metadata.namespace\n\t}\n\n\texternal_objects = { \n\t\t\"apiVersion\": \"result.vulnscan.com/v1\",\n\t\t\"kind\": pod.kind,\n\t\t\"metadata\": metadata,\n\t\t\"relatedObjects\": relatedObjects\n    }\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"pod '%v' exposed with critical vulnerabilities\", [pod.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n            \"externalObjects\": external_objects\n\t\t}\n\t}\n}\n\nfilter_critical_vulnerabilities(vuln) {\n\tcount(vuln.data) > 0\n\tdata := vuln.data[_]\n\tdata.severity == \"Critical\"\n}\n\nfilter_external_access(service) {\n\tservice.spec.type != \"ClusterIP\"\n}\n\nservice_to_pod(service, pod) = res {\n    service_selectors := [ x | x = service.spec.selector[_] ]\n\n    res := count([ x | x = pod.metadata.labels[_]; x == service_selectors[_] ])\n}"
+                }
+            ]
+        },
+        {
+            "name": "Exposed Workload with RCE Vulnerabilities",
+            "attributes": {
+                "armoBuiltin": true
+            },
+            "description": "Images with known remote code execution (RCE) vulnerabilities raising risk of a workload. They especially pose risk when these workloads are exposed to external traffic.",
+            "remediation": "Either update your workload images to fix vulnerabilities (if fix available) or consider whether this workload needs to be exposed.",
+            "id": "C-0084",
+            "long_description": "",
+            "test": "This control is enumerating external facing workloads, whose have LoadBalancer or NodePort services and check image vulnerability information to see if the image has RCE vulnerability. If it has RCE vulnerability it alerts.",
+            "controlID": "C-0084",
+            "baseScore": 8.0,
+            "example": "@controls/examples/c84.yaml",
+            "rules": [
+                {
+                    "name": "exposed-rce-pods",
+                    "attributes": {
+                        "m$K8sThreatMatrix": "exposed-rce-pods",
+                        "armoBuiltin": true
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                "*"
+                            ],
+                            "apiVersions": [
+                                "*"
+                            ],
+                            "resources": [
+                                "Service",
+                                "Pod"
+                            ]
+                        }
+                    ],
+                    "dynamicMatch": [
+                        {
+                            "apiGroups": [
+                                "image.vulnscan.com"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "ImageVulnerabilities"
+                            ]
+                        }
+                    ],
+                    "description": "fails if known pods have exposed services and known vulnerabilities with remote code execution",
+                    "remediation": "The image of the listed pods might have a fix in a newer version. Alternatively, the pod service might not need to be external facing",
+                    "ruleQuery": "armo_builtins",
+                    "rule": "package armo_builtins\n\nimport data.kubernetes.api.client as client\nimport data\n\ndeny[msga] {\n  services := [ x | x = input[_]; x.kind == \"Service\" ]\n  pods     := [ x | x = input[_]; x.kind == \"Pod\" ]\n  vulns    := [ x | x = input[_]; x.kind == \"ImageVulnerabilities\"]\n\n  pod     := pods[i]\n  service := services[_]\n  vuln    := vulns[_]\n\n  # service is external-facing\n  filter_external_access(service)\n\n  # pod has the current service\n  service_to_pod(service, pod) > 0\n\n  # get container image name\n  container := pod.spec.containers[i]\n\n  # image has vulnerabilities\n  container.image == vuln.metadata.name\n\n  # At least one rce vulnerability\n  filter_rce_vulnerabilities(vuln)\n\n  relatedObjects := [pod, vuln]\n\n  path := sprintf(\"status.containerStatuses[%v].imageID\", [format_int(i, 10)])\n\n  metadata = {\n    \"name\": pod.metadata.name,\n    \"namespace\": pod.metadata.namespace\n  }\n\n  external_objects = { \n    \"apiVersion\": \"result.vulnscan.com/v1\",\n    \"kind\": pod.kind,\n    \"metadata\": metadata,\n    \"relatedObjects\": relatedObjects\n  }\n\n  msga := {\n    \"alertMessage\": sprintf(\"pod '%v' exposed with rce vulnerability\", [pod.metadata.name]),\n    \"packagename\": \"armo_builtins\",\n    \"alertScore\": 8,\n    \"failedPaths\": [path],\n    \"fixPaths\": [],\n    \"alertObject\": {\n      \"externalObjects\": external_objects\n    }\n  }\n}\n\nfilter_rce_vulnerabilities(vuln) {\n  count(vuln.data) > 0\n  data := vuln.data[_]\n  data.categories.isRce == true\n}\n\nfilter_external_access(service) {\n  service.spec.type != \"ClusterIP\"\n}\n\nservice_to_pod(service, pod) = res {\n  service_selectors := [ x | x = service.spec.selector[_] ]\n\n  res := count([ x | x = pod.metadata.labels[_]; x == service_selectors[_] ])\n}"
+                }
+            ]
+        },
+        {
+            "name": "Excessive amount of vulnerabilities",
+            "attributes": {
+                "armoBuiltin": true
+            },
+            "description": "Images with multiple known vulnerabilities raising risk of a workload. They especially pose risk when they have an excessive number of vulnerabilities.",
+            "remediation": "Update your workload images to fix vulnerabilities (if fix available).",
+            "id": "C-0085",
+            "long_description": "",
+            "test": "This control is enumerating workloads and checks for excessive number of vulnerabilities in their container images. The threshold of \u201cexcessive number\u201d can be configured.",
+            "controlID": "C-0085",
+            "baseScore": 8.0,
+            "example": "@controls/examples/c85.yaml",
+            "rules": [
+                {
+                    "name": "excessive_amount_of_vulnerabilities_pods",
+                    "attributes": {
+                        "microsoftK8sThreatMatrix": "Initial access::Exposed critical vulnerable pods",
+                        "armoBuiltin": true,
+                        "useFromKubescapeVersion": "v1.0.133"
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                "*"
+                            ],
+                            "apiVersions": [
+                                "*"
+                            ],
+                            "resources": [
+                                "Pod"
+                            ]
+                        }
+                    ],
+                    "dynamicMatch": [
+                        {
+                            "apiGroups": [
+                                "image.vulnscan.com"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "ImageVulnerabilities"
+                            ]
+                        }
+                    ],
+                    "configInputs": [
+                        "settings.postureControlInputs.max_critical_vulnerabilities",
+                        "settings.postureControlInputs.max_high_vulnerabilities"
+                    ],
+                    "controlConfigInputs": [
+                        {
+                            "path": "settings.postureControlInputs.max_critical_vulnerabilities",
+                            "name": "Max critical vulnerabilities",
+                            "description": "Maximum amount of allowed critical risk vulnerabilities"
+                        },
+                        {
+                            "path": "settings.postureControlInputs.max_high_vulnerabilities",
+                            "name": "Max high vulnerabilities",
+                            "description": "Maximum amount of allowed high risk vulnerabilities"
+                        }
+                    ],
+                    "ruleDependencies": [
+                        {
+                            "packageName": "kubernetes.api.client"
+                        }
+                    ],
+                    "description": "determines which users have permissions to exec into pods",
+                    "remediation": "",
+                    "ruleQuery": "armo_builtins",
+                    "rule": "package armo_builtins\n\nimport data.kubernetes.api.client as client\nimport data\n\ndeny[msga] {\n  pods     := [ x | x = input[_]; x.kind == \"Pod\" ]\n  vulns    := [ x | x = input[_]; x.kind == \"ImageVulnerabilities\"]\n\n  pod     := pods[i]\n  vuln    := vulns[_]\n\n  # get container image name\n  container := pod.spec.containers[i]\n\n  # image has vulnerabilities\n  container.image == vuln.metadata.name\n\n  # Has ^ amount of vulnerabilities\n  check_num_vulnerabilities(vuln)\n\n  relatedObjects := [pod, vuln]\n\n  path := sprintf(\"status.containerStatuses[%v].imageID\", [format_int(i, 10)])\n\n  metadata = {\n  \t\"name\": pod.metadata.name,\n  \t\"namespace\": pod.metadata.namespace\n  }\n\n  external_objects = {\n  \t\"apiVersion\": \"result.vulnscan.com/v1\",\n  \t\"kind\": pod.kind,\n  \t\"metadata\": metadata,\n  \t\"relatedObjects\": relatedObjects\n  }\n\n  msga := {\n  \t\"alertMessage\": sprintf(\"pod '%v' exposed with critical vulnerabilities\", [pod.metadata.name]),\n  \t\"packagename\": \"armo_builtins\",\n  \t\"alertScore\": 7,\n  \t\"failedPaths\": [path],\n  \t\"fixPaths\": [],\n  \t\"alertObject\": {\n      \"externalObjects\": external_objects\n  \t}\n  }\n}\n\ncheck_num_vulnerabilities(vuln) {\n  count(vuln.data) > 0\n  match := [ x | x = vuln.data[_]; x.severity == \"Critical\" ]\n  count(match) > data.postureControlInputs.max_critical_vulnerabilities\n}\n\ncheck_num_vulnerabilities(vuln) {\n  count(vuln.data) > 0\n  match := [ x | x = vuln.data[_]; x.severity == \"High\" ]\n  count(match) > data.postureControlInputs.max_high_vulnerabilities\n}"
+                }
+            ]
         }
     ]
 }

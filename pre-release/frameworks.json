@@ -106,7 +106,10 @@
             "CVE-2022-0185-linux-kernel-container-escape",
             "Network mapping",
             "Images from allowed registry",
-            "CVE-2022-24348-argocddirtraversal"
+            "CVE-2022-24348-argocddirtraversal",
+            "Exposed Workload with Critical Vulnerabilities",
+            "Exposed Workload with RCE Vulnerabilities",
+            "Excessive amount of vulnerabilities"
         ],
         "version": null,
         "controls": []
