@@ -8,9 +8,7 @@ deny[msga] {
     pods     := [ x | x = input[_]; x.kind == "Pod" ]
     vulns    := [ x | x = input[_]; x.kind == "ImageVulnerabilities"]
 
-    pod     := pods[i]
-    service := services[_]
-    vuln    := vulns[_]
+  pod     := pods[_]
 
     # service is external-facing
     filter_external_access(service)

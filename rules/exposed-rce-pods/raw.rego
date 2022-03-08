@@ -8,7 +8,7 @@ deny[msga] {
   pods     := [ x | x = input[_]; x.kind == "Pod" ]
   vulns    := [ x | x = input[_]; x.kind == "ImageVulnerabilities"]
 
-  pod     := pods[i]
+  pod     := pods[_]
   service := services[_]
   vuln    := vulns[_]
 
