@@ -1,15 +1,21 @@
-apiVersion: v1
-kind: Pod
+apiVersion: batch/v1
+kind: CronJob
 metadata:
-  name: nginx
+  name: hello
 spec:
-  containers:
-  - name: nginx
-    image: nginx:1.14.2
-    securityContext:
-      seccompProfile:
-        type: RuntimeDefault
-      runAsUser: 0
-      allowPrivilegeEscalation: false
-    ports:
-    - containerPort: 80
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            securityContext:
+              privileged: true
+            image: busybox
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
