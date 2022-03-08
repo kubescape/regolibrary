@@ -53,7 +53,7 @@ func TestSingleRule(t *testing.T) {
 // To print the output
 // Change the testDir variable to the directory of the rego you want to test
 func TestSingleRego(t *testing.T) {
-	testDir := "validate-kubelet-tls-configuration"
+	testDir := "CVE-2022-0492"
 	dir := fmt.Sprintf("%v/input", testSingleRegoDirectory)
 	mocks, err := os.Open(dir)
 	if err != nil {
