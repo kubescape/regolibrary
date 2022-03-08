@@ -14,10 +14,8 @@ C-0021,exposed-sensitive-interfaces-v1
 C-0063,rule-can-portforward
 C-0063,rule-can-portforward-v1
 C-0061,pods-in-default-namespace
-C-0083,exposed-critical-pods
 C-0026,rule-deny-cronjobs
 C-0001,rule-identify-blocklisted-image-registries
-C-0084,exposed-rce-pods
 C-0031,rule-can-delete-k8s-events
 C-0031,rule-can-delete-k8s-events-v1
 C-0053,access-container-service-account
@@ -55,7 +53,6 @@ C-0047,rule-exposed-dashboard
 C-0047,rule-exposed-dashboard-v1
 C-0059,nginx-ingress-snippet-annotation-vulnerability
 C-0062,sudo-in-container-entrypoint
-C-0085,excessive_amount_of_vulnerabilities_pods
 C-0049,internal-networking
 C-0006,alert-rw-hostpath
 C-0002,exec-into-container
