@@ -107,9 +107,7 @@
             "Network mapping",
             "Images from allowed registry",
             "CVE-2022-24348-argocddirtraversal",
-            "Exposed Workload with Critical Vulnerabilities",
-            "Exposed Workload with RCE Vulnerabilities",
-            "Excessive amount of vulnerabilities"
+            "CVE-2022-0492-cgroups-container-escape"
         ],
         "version": null,
         "controls": []
