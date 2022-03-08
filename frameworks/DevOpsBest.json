@@ -11,12 +11,8 @@
         "Image pull policy on latest tag",
         "Label usage for resources",
         "K8s common labels usage",
-
-
         "Pods in default namespace",
         "Container hostPort",
-
-
         "Resources CPU limit and request",
         "Resources memory limit and request",
         "Configured liveness probe",
