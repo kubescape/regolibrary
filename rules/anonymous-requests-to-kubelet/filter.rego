@@ -10,7 +10,7 @@ deny[msga] {
 		kubeletCli.kind == "KubeletCommandLine"
 		kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-		externalObj := getObj(kubeletConfig, kubeletCli)
+		externalObj := getObjBoth(kubeletConfig, kubeletCli)
 
 
 		msga := {
@@ -24,18 +24,58 @@ deny[msga] {
 		}
 	}
 
-getObj(kubeletConfig, kubeletCli) = obj {
-	kubeletCli.data["anonymous-auth"] == false
-    obj := kubeletCli
+
+	
+deny[msga] {
+
+		externalObj := getObjSingle(input)
+
+
+		msga := {
+			"alertMessage": "anonymous requests is enabled",
+			"alertScore": 2,
+			"failedPaths": [],
+			"packagename": "armo_builtins",
+			"alertObject": {
+				"externalObjects": externalObj
+			}
+		}
+	}
+
+
+# Both cli and config present. Return only relevant (priority to cli)
+getObjBoth(kubeletConfig, kubeletCli) = obj {
+	kubeletCliData := kubeletCli.data
+	contains(kubeletCliData["fullCommand"], "anonymous-auth=")
+    obj = kubeletCli
 }
 
-getObj(kubeletConfig, kubeletCli) = obj {
-	kubeletCli.data["anonymous-auth"] == true
-    obj := kubeletCli
+
+getObjBoth(kubeletConfig, kubeletCli) = obj {
+	kubeletCliData := kubeletCli.data
+	not contains(kubeletCliData["fullCommand"], "anonymous-auth=")
+    obj = kubeletConfig
 }
 
-getObj(kubeletConfig, kubeletCli) = obj {
-	not kubeletCli.data["anonymous-auth"] == true
-    not kubeletCli.data["anonymous-auth"] == false
-    obj := kubeletConfig
+# Only cli or only config
+getObjSingle(resources) = obj {
+	kubeletCli := resources[_]            
+	kubeletCli.kind == "KubeletCommandLine"
+	kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+
+	kubeletConfig := [config | config = resources[_]; config.kind == "KubeletConfiguration"]
+	count(kubeletConfig) == 0
+
+	obj = kubeletCli
+}
+
+getObjSingle(resources) = obj {
+	kubeletConfig := resources[_]
+	kubeletConfig.kind == "KubeletConfiguration"
+	kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+
+	kubeletCli := [cli | cli = resources[_]; cli.kind == "KubeletCommandLine"]
+	count(kubeletCli) == 0
+
+	obj = kubeletConfig
 }

@@ -1,0 +1,38 @@
+{
+  "name": "exposed-critical-pods",
+  "attributes": {
+    "m$K8sThreatMatrix": "exposed-critical-pods",
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Service",
+        "Pod"
+      ]
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "image.vulnscan.com"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+         "ImageVulnerabilities"
+      ]
+    }
+  ],
+  "description": "Fails if pods have exposed services as well as critical vulnerabilities",
+  "remediation": "The image of the listed pods might have a fix in a newer version. Alternatively, the pod service might not need to be external facing",
+  "ruleQuery": "armo_builtins"
+}

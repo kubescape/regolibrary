@@ -1,0 +1,17 @@
+{
+    "name": "Exposed Workload with RCE Vulnerabilities",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "Images with known remote code execution (RCE) vulnerabilities raising risk of a workload. They especially pose risk when these workloads are exposed to external traffic.",
+    "remediation": "Either update your workload images to fix vulnerabilities (if fix available) or consider whether this workload needs to be exposed.",
+    "rulesNames": [
+        "exposed-rce-pods"
+    ],
+    "id": "C-0084",
+    "long_description": "",
+    "test": "This control is enumerating external facing workloads, whose have LoadBalancer or NodePort services and check image vulnerability information to see if the image has RCE vulnerability. If it has RCE vulnerability it alerts.",
+    "controlID": "C-0084",
+    "baseScore": 8.0, 
+    "example": "@controls/examples/c84.yaml"
+}

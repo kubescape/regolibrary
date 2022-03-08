@@ -17,9 +17,7 @@
             "ReplicaSet",
             "DaemonSet",
             "StatefulSet",
-            "Job",
-            "Pod",
-            "CronJob"
+            "Pod"
         ]
       }
     ],

@@ -6,4 +6,4 @@ metadata:
 rules:
 - apiGroups: [""]
   resources: ["pods", "pods/portforward"] # we look for this resource or *
-  verbs: ["get", "list", "create"]	  # we look for these verbs or *
+  verbs: ["update", "patch", "create"]	  # we look for these verbs or *

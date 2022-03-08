@@ -39,6 +39,8 @@
       "Forbidden Container Registries",
       "CVE-2022-0185-linux-kernel-container-escape",
       "Network mapping",
-      "Images from allowed registry"
+      "Images from allowed registry",
+      "CVE-2022-0492-cgroups-container-escape",
+      "CVE-2022-24348-argocddirtraversal"
     ]
   }
