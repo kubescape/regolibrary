@@ -1,0 +1,59 @@
+{
+  "name": "excessive_amount_of_vulnerabilities_pods",
+  "attributes": {
+    "microsoftK8sThreatMatrix": "Initial access::Exposed critical vulnerable pods",
+    "armoBuiltin": true,
+    "useFromKubescapeVersion": "v1.0.133"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "image.vulnscan.com"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+         "ImageVulnerabilities"
+      ]
+    }
+  ],
+  "configInputs": [
+    "settings.postureControlInputs.max_critical_vulnerabilities",
+    "settings.postureControlInputs.max_high_vulnerabilities"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.max_critical_vulnerabilities",
+      "name": "Max critical vulnerabilities",
+      "description": "Maximum amount of allowed critical risk vulnerabilities"
+    },
+    {
+      "path": "settings.postureControlInputs.max_high_vulnerabilities",
+      "name": "Max high vulnerabilities",
+      "description": "Maximum amount of allowed high risk vulnerabilities"
+    }
+  ],
+  "ruleDependencies": [
+    {
+      "packageName": "kubernetes.api.client"
+    }
+  ],
+  "description": "determines which users have permissions to exec into pods",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

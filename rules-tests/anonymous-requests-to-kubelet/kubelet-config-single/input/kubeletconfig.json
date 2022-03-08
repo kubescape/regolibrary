@@ -1,0 +1,55 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "data": {
+        "apiVersion": "kubelet.config.k8s.io/v1beta1",
+        "authentication": {
+            "anonymous": {
+                "enabled": true
+            },
+            "webhook": {
+                "cacheTTL": "0s",
+                "enabled": true
+            },
+            "x509": {
+                "clientCAFile": "/var/lib/minikube/certs/ca.crt"
+            }
+        },
+        "authorization": {
+            "mode": "Webhook",
+            "webhook": {
+                "cacheAuthorizedTTL": "0s",
+                "cacheUnauthorizedTTL": "0s"
+            }
+        },
+        "cgroupDriver": "cgroupfs",
+        "clusterDNS": [
+            "10.96.0.10"
+        ],
+        "clusterDomain": "cluster.local",
+        "cpuManagerReconcilePeriod": "0s",
+        "evictionPressureTransitionPeriod": "0s",
+        "failSwapOn": false,
+        "fileCheckFrequency": "0s",
+        "healthzBindAddress": "127.0.0.1",
+        "healthzPort": 10248,
+        "httpCheckFrequency": "0s",
+        "imageGCHighThresholdPercent": 100,
+        "imageMinimumGCAge": "0s",
+        "kind": "KubeletConfiguration",
+        "logging": {},
+        "nodeStatusReportFrequency": "0s",
+        "nodeStatusUpdateFrequency": "0s",
+        "rotateCertificates": true,
+        "runtimeRequestTimeout": "0s",
+        "shutdownGracePeriod": "0s",
+        "shutdownGracePeriodCriticalPods": "0s",
+        "staticPodPath": "/etc/kubernetes/manifests",
+        "streamingConnectionIdleTimeout": "0s",
+        "syncFrequency": "0s",
+        "volumeStatsAggPeriod": "0s"
+    },
+    "kind": "KubeletConfiguration",
+    "metadata": {
+        "name": "minikube"
+    }
+}
