@@ -1,9 +1,24 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
-  namespace: default
-  name: pod-reader
-rules:
-- apiGroups: [ "extensions", "*"]  
-  resources: ["nodes", "pods", "*"]
-  verbs: ["impersonate", "create", "list", "*"]
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: kubernetes-dashboard
+          restartPolicy: OnFailure
+          containers:
+          - name: hello
+            image: busybox:latest
+            env :
+              -
+                name : pwd
+                value : ""
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
