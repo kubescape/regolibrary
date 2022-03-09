@@ -6,7 +6,7 @@
             "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].verbs[1]",
             "relatedObjects[1].rules[0].apiGroups[0]",
-            "relatedObjects[0].roleRef.subjects[0]",
+            "relatedObjects[0].subjects[0]",
             "relatedObjects[0].roleRef.name"
         ],
         "ruleStatus": "",
@@ -76,7 +76,7 @@
             "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].verbs[1]",
             "relatedObjects[1].rules[0].apiGroups[0]",
-            "relatedObjects[0].roleRef.subjects[1]",
+            "relatedObjects[0].subjects[1]",
             "relatedObjects[0].roleRef.name"
         ],
         "ruleStatus": "",
@@ -146,7 +146,7 @@
             "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].verbs[1]",
             "relatedObjects[1].rules[0].apiGroups[0]",
-            "relatedObjects[0].roleRef.subjects[0]",
+            "relatedObjects[0].subjects[0]",
             "relatedObjects[0].roleRef.name"
         ],
         "ruleStatus": "",
@@ -216,7 +216,7 @@
             "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].verbs[1]",
             "relatedObjects[1].rules[0].apiGroups[0]",
-            "relatedObjects[0].roleRef.subjects[1]",
+            "relatedObjects[0].subjects[1]",
             "relatedObjects[0].roleRef.name"
         ],
         "ruleStatus": "",
