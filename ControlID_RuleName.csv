@@ -59,7 +59,6 @@ C-0002,exec-into-container
 C-0002,exec-into-container-v1
 C-0036,list-all-validating-webhooks
 C-0009,resource-policies
-C-0080,has-critical-vulnerability
 C-0019,rule-can-bash-cmd-inside-container
 C-0038,host-pid-ipc-privileges
 C-0076,label-usage-for-resources

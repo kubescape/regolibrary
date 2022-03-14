@@ -1,6 +1,6 @@
  [{
      "alertMessage": "Subject: Group-manager can modify 'coredns' configmap",
-     "failedPaths": ["relatedObjects[1].rules[0].resources[1]", "relatedObjects[1].rules[0].verbs[0]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[0]", "relatedObjects[0].roleRef.name"],
+     "failedPaths": ["relatedObjects[1].rules[0].resources[1]", "relatedObjects[1].rules[0].verbs[0]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].subjects[0]", "relatedObjects[0].roleRef.name"],
      "fixPaths": [],
      "ruleStatus": "",
      "packagename": "armo_builtins",
@@ -46,7 +46,7 @@
      }
  }, {
      "alertMessage": "Subject: Group-manager can modify 'coredns' configmap",
-     "failedPaths": ["relatedObjects[1].rules[0].resources[1]", "relatedObjects[1].rules[0].verbs[0]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[1]", "relatedObjects[0].roleRef.name"],
+     "failedPaths": ["relatedObjects[1].rules[0].resources[1]", "relatedObjects[1].rules[0].verbs[0]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].subjects[1]", "relatedObjects[0].roleRef.name"],
      "fixPaths": [],
      "ruleStatus": "",
      "packagename": "armo_builtins",
@@ -92,7 +92,7 @@
      }
  }, {
      "alertMessage": "Subject: Group-dev can modify 'coredns' configmap",
-     "failedPaths": ["relatedObjects[1].rules[0].resources[1]", "relatedObjects[1].rules[0].verbs[0]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[0]", "relatedObjects[0].roleRef.name"],
+     "failedPaths": ["relatedObjects[1].rules[0].resources[1]", "relatedObjects[1].rules[0].verbs[0]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].subjects[0]", "relatedObjects[0].roleRef.name"],
      "fixPaths": [],
      "ruleStatus": "",
      "packagename": "armo_builtins",
@@ -138,7 +138,7 @@
      }
  }, {
      "alertMessage": "Subject: Group-dev can modify 'coredns' configmap",
-     "failedPaths": ["relatedObjects[1].rules[0].resources[1]", "relatedObjects[1].rules[0].verbs[0]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].roleRef.subjects[1]", "relatedObjects[0].roleRef.name"],
+     "failedPaths": ["relatedObjects[1].rules[0].resources[1]", "relatedObjects[1].rules[0].verbs[0]", "relatedObjects[1].rules[0].apiGroups[0]", "relatedObjects[0].subjects[1]", "relatedObjects[0].roleRef.name"],
      "fixPaths": [],
      "ruleStatus": "",
      "packagename": "armo_builtins",

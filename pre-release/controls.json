@@ -345,7 +345,7 @@
         ],
         "id": "C-0086",
         "long_description": "Linux Kernel vulnerability CVE-2022-0492 may allow malicious code running inside container to escape container isolation and gain root privileges on the entire node. In order to exploit this vulnerability, malicious code should run as root in the container or have CAP_DAC_OVERRIDE capability. If SELinux or AppArmor is deployed, this CVE becomes not exploitable. Also, the exploit is possible when container runtime uses cgroup version 1 implementation (which we assume is on by default, since it is not visible from the Kubernetes level). When fixed Kernel version numbers will become available, this control will be modified to verify them and avoid false positive detections. Note, it is enough to have a single node in the cluster with vulnerable Kernel in order to damage the system. This control identifies all the resources that don't deploy niether AppArmor nor SELinux, run as root or allow privige escalation or have corresponding dangerous capabilities.",
-        "test": "",
+        "test": "This control checks whether the container is running with high privileges (root or CAP_DAC_OVERRIDE capability) and doesn't have SELinux or AppArmor enabled. In case where the container is running with CAP_DAC_OVERRIDE capability, we also check for Seccomp, as it's enough to prevent the exploitation in this case.",
         "controlID": "C-0086",
         "baseScore": 4.0,
         "example": "",
@@ -873,28 +873,6 @@
         "controlID": "C-0009",
         "baseScore": 2.0,
         "example": "@controls/examples/c009.yaml",
-        "rules": []
-    },
-    {
-        "name": "Image With Critical Vulnerabilities",
-        "attributes": {
-            "armoBuiltin": true,
-            "microsoftMitreColumns": [
-                "Persistence",
-                "Lateral Movement"
-            ]
-        },
-        "description": "Image has at least one critical vulnerability",
-        "remediation": "Check the vulnerabilities",
-        "rulesNames": [
-            "has-critical-vulnerability"
-        ],
-        "id": "C-0080",
-        "long_description": "bla bla",
-        "test": "bla",
-        "controlID": "C-0080",
-        "baseScore": 8.0,
-        "example": "@controls/examples/c80.yaml",
         "rules": []
     },
     {

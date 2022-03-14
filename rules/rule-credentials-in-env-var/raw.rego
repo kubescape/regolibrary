@@ -11,6 +11,7 @@
 		key_name := sensitive_key_names[_]
 		container := pod.spec.containers[i]
 		env := container.env[j]
+		env.value != ""
 		contains(lower(env.name), key_name)
 		isNotReference(env)
 		path := sprintf("spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
@@ -37,6 +38,7 @@
 		key_name := sensitive_key_names[_]
 		container := wl.spec.template.spec.containers[i]
 		env := container.env[j]
+		env.value != ""
 		contains(lower(env.name), key_name)
 		isNotReference(env)
 		path := sprintf("spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])	
@@ -61,6 +63,7 @@
 		key_name := sensitive_key_names[_]
 		container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 		env := container.env[j]
+		env.value != ""
 		contains(lower(env.name), key_name)
 		isNotReference(env)
 		path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
