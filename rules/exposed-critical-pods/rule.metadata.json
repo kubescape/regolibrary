@@ -22,6 +22,7 @@
   "dynamicMatch": [
     {
       "apiGroups": [
+        "armo.vuln.images",
         "image.vulnscan.com"
       ],
       "apiVersions": [
