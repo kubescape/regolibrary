@@ -161,6 +161,8 @@ def get_frameworks_for_control(control):
 def create_md_for_control(control):
     related_resources = set()
     control_config_input = {}
+    host_sensor = False
+    cloud_control = False
     for rule_obj in control['rules']:
         if 'match' in rule_obj:
             for match_obj in rule_obj['match']:
@@ -169,11 +171,23 @@ def create_md_for_control(control):
         if 'controlConfigInputs' in rule_obj:
             for control_config in rule_obj['controlConfigInputs']:
                 control_config_input[control_config['path']] = control_config
+        if 'attributes' in rule_obj:
+            if 'hostSensorRule' in rule_obj['attributes']:
+                host_sensor = True
+        if 'relevantCloudProviders' in rule_obj:
+            cloud_control = len(rule_obj['relevantCloudProviders']) > 0
 
     md_text = ''
     md_text += '# %s\n' % control['name']
+    if host_sensor:
+        md_text += '*Note: to enable this control run Kubescape with host sensor (see [here](https://hub.armo.cloud/docs/host-sensor))*\n'
+    if cloud_control:
+        md_text += '*Note: this control relevant for cloud managed Kubernetes cluster*\n'
     md_text += '## Framework\n'
     md_text += ', '.join(get_frameworks_for_control(control)) + '\n'
+    md_text += '## Severity\n'
+    severity_map = {'1':'Low','2':'Low','3':'Low','4':'Low','5':'Medium','6':'Medium','7':'High','8':'High','9':'Critical','10':'Critical'}
+    md_text += '%s\n' % severity_map[int(control['baseScore'])]
     md_text += '## Description of the the issue\n'
     description = control['long_description'] if 'long_description' in control else control['description']
     if len(control_config_input):
@@ -292,6 +306,14 @@ def main():
             control_obj = json.load(open(os.path.join('controls',control_json_file_name)))
 
             base_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+            if 'controlID' in control_obj:
+                controlID = control_obj['controlID']
+                example_file_name = controlID.replace('C-00','c0') + '.yaml'
+                example_file_name = os.path.join('controls','examples',example_file_name)
+                if os.path.isfile(example_file_name):
+                    with open(example_file_name) as f:
+                        control_obj['example'] = f.read()
+                   
             if 'example' in control_obj and len(control_obj['example']) > 0 and control_obj['example'][0] == '@':
                 example_file_name = os.path.join(base_dir,control_obj['example'][1:])
                 if os.path.isfile(example_file_name):
