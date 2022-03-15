@@ -1,0 +1,45 @@
+package armo_builtins
+
+deny[msga] {
+  pods    := [ x | x = input[_]; x.kind == "Pod" ]
+  vulns   := [ x | x = input[_]; x.kind == "ImageVulnerabilities"]
+
+  pod     := pods[_]
+  vuln    := vulns[_]
+
+  # vuln data is relevant 
+  count(vuln.data) > 0 
+  
+  # get container image name
+  container := pod.spec.containers[i]
+
+  # image has vulnerabilities
+  container.image == vuln.metadata.name
+
+  relatedObjects := [pod, vuln]
+
+  path := sprintf("status.containerStatuses[%v].imageID", [format_int(i, 10)])
+
+  metadata = {
+  	"name": pod.metadata.name,
+  	"namespace": pod.metadata.namespace
+  }
+
+  external_objects = {
+  	"apiVersion": "result.vulnscan.com/v1",
+  	"kind": pod.kind,
+  	"metadata": metadata,
+  	"relatedObjects": relatedObjects
+  }
+
+  msga := {
+  	"alertMessage": sprintf("pod '%v' exposed with critical vulnerabilities", [pod.metadata.name]),
+  	"packagename": "armo_builtins",
+  	"alertScore": 7,
+  	"failedPaths": [path],
+  	"fixPaths": [],
+  	"alertObject": {
+      "externalObjects": external_objects
+  	}
+  }
+}
