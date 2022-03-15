@@ -193,6 +193,24 @@
         "rules": []
     },
     {
+        "name": "Exposed Workload with Critical Vulnerabilities",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "description": "Images with known critical vulnerabilities raising risk of a workload. They especially pose risk when these workloads are exposed to external traffic.",
+        "remediation": "Either update your workload images to fix vulnerabilities (if fix available) or consider whether this workload needs to be exposed.",
+        "rulesNames": [
+            "exposed-critical-pods"
+        ],
+        "id": "C-0083",
+        "long_description": "",
+        "test": "This control is enumerating external facing workloads, whose have LoadBalancer or NodePort services and check image vulnerability information to see if the image has critical vulnerability.",
+        "controlID": "C-0083",
+        "baseScore": 8.0,
+        "example": "@controls/examples/c83.yaml",
+        "rules": []
+    },
+    {
         "name": "Kubernetes CronJob",
         "attributes": {
             "armoBuiltin": true,
@@ -231,6 +249,24 @@
         "controlID": "C-0001",
         "baseScore": 6.0,
         "example": "@controls/examples/c001.yaml",
+        "rules": []
+    },
+    {
+        "name": "Exposed Workload with RCE Vulnerabilities",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "description": "Images with known remote code execution (RCE) vulnerabilities raising risk of a workload. They especially pose risk when these workloads are exposed to external traffic.",
+        "remediation": "Either update your workload images to fix vulnerabilities (if fix available) or consider whether this workload needs to be exposed.",
+        "rulesNames": [
+            "exposed-rce-pods"
+        ],
+        "id": "C-0084",
+        "long_description": "",
+        "test": "This control is enumerating external facing workloads, whose have LoadBalancer or NodePort services and check image vulnerability information to see if the image has RCE vulnerability. If it has RCE vulnerability it alerts.",
+        "controlID": "C-0084",
+        "baseScore": 8.0,
+        "example": "@controls/examples/c84.yaml",
         "rules": []
     },
     {
@@ -775,6 +811,24 @@
         "controlID": "C-0062",
         "baseScore": 7.0,
         "example": "@controls/examples/c062.yaml",
+        "rules": []
+    },
+    {
+        "name": "Excessive amount of vulnerabilities",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "description": "Images with multiple known vulnerabilities raising risk of a workload. They especially pose risk when they have an excessive number of vulnerabilities.",
+        "remediation": "Update your workload images to fix vulnerabilities (if fix available).",
+        "rulesNames": [
+            "excessive_amount_of_vulnerabilities_pods"
+        ],
+        "id": "C-0085",
+        "long_description": "",
+        "test": "This control is enumerating workloads and checks for excessive number of vulnerabilities in their container images. The threshold of \u201cexcessive number\u201d can be configured.",
+        "controlID": "C-0085",
+        "baseScore": 8.0,
+        "example": "@controls/examples/c85.yaml",
         "rules": []
     },
     {
