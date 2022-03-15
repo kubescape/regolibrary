@@ -10,6 +10,9 @@ deny[msga] {
 
   pod     := pods[_]
 
+  # vuln data is relevant 
+  count(vuln.data) > 0 
+
     # service is external-facing
     filter_external_access(service)
 
@@ -54,9 +57,8 @@ deny[msga] {
 }
 
 filter_critical_vulnerabilities(vuln) {
-	count(vuln.data) > 0
-	data := vuln.data[_]
-	data.severity == "Critical"
+  data := vuln.data[_]
+  data.severity == "Critical"
 }
 
 filter_external_access(service) {

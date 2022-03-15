@@ -12,6 +12,9 @@ deny[msga] {
   service := services[_]
   vuln    := vulns[_]
 
+  # vuln data is relevant 
+  count(vuln.data) > 0 
+
   # service is external-facing
   filter_external_access(service)
 
@@ -56,7 +59,6 @@ deny[msga] {
 }
 
 filter_rce_vulnerabilities(vuln) {
-  count(vuln.data) > 0
   data := vuln.data[_]
   data.categories.isRce == true
 }
