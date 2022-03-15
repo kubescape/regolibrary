@@ -1,59 +1,59 @@
 package armo_builtins
 
-import data.kubernetes.api.client as client
-import data
-
 deny[msga] {
-    services := [ x | x = input[_]; x.kind == "Service" ]
-    pods     := [ x | x = input[_]; x.kind == "Pod" ]
-    vulns    := [ x | x = input[_]; x.kind == "ImageVulnerabilities"]
+  services := [ x | x = input[_]; x.kind == "Service" ]
+  pods     := [ x | x = input[_]; x.kind == "Pod" ]
+  vulns    := [ x | x = input[_]; x.kind == "ImageVulnerabilities"]
 
   pod     := pods[_]
+  service := services[_]
+  vuln    := vulns[_]
 
   # vuln data is relevant 
   count(vuln.data) > 0 
 
-    # service is external-facing
-    filter_external_access(service)
+  # service is external-facing
+  filter_external_access(service)
 
-    # pod has the current service
-    service_to_pod(service, pod) > 0
+  # pod has the current service
+  service_to_pod(service, pod) > 0
 
-	# get container image name
-	container := pod.spec.containers[i]
+  # get container image name
+  container := pod.spec.containers[i]
 
-	# image has vulnerabilities
-	container.image == vuln.metadata.name
+  # image has vulnerabilities
+  
+  container.image == vuln.metadata.name
 
-    # At least one critical vulnerabilities
-    filter_critical_vulnerabilities(vuln)
+  # At least one critical vulnerabilities
+  filter_critical_vulnerabilities(vuln)
 
-    relatedObjects := [pod, vuln]
+  relatedObjects := [pod, vuln]
 
-	path := sprintf("status.containerStatuses[%v].imageID", [format_int(i, 10)])
+  path := sprintf("status.containerStatuses[%v].imageID", [format_int(i, 10)])
 
-	metadata = {
-		"name": pod.metadata.name,
-		"namespace": pod.metadata.namespace
-	}
+  metadata = {
+    "name": pod.metadata.name,
+    "namespace": pod.metadata.namespace
+  }
 
-	external_objects = { 
-		"apiVersion": "result.vulnscan.com/v1",
-		"kind": pod.kind,
-		"metadata": metadata,
-		"relatedObjects": relatedObjects
+  external_objects = { 
+    "apiVersion": "result.vulnscan.com/v1",
+    "kind": pod.kind,
+    "metadata": metadata,
+    "relatedObjects": relatedObjects
+  }
+
+  msga := {
+    "alertMessage": sprintf("pod '%v' exposed with critical vulnerabilities", [pod.metadata.name]),
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "failedPaths": [path],
+    "fixPaths": [],
+    "alertObject": {
+        "externalObjects": external_objects
     }
-
-	msga := {
-		"alertMessage": sprintf("pod '%v' exposed with critical vulnerabilities", [pod.metadata.name]),
-		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"failedPaths": [path],
-		"fixPaths": [],
-		"alertObject": {
-            "externalObjects": external_objects
-		}
-	}
+  }
 }
 
 filter_critical_vulnerabilities(vuln) {
@@ -62,7 +62,7 @@ filter_critical_vulnerabilities(vuln) {
 }
 
 filter_external_access(service) {
-	service.spec.type != "ClusterIP"
+  service.spec.type != "ClusterIP"
 }
 
 service_to_pod(service, pod) = res {

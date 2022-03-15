@@ -1,11 +1,9 @@
 package armo_builtins
-
-import data.kubernetes.api.client as client
 import data
 
 deny[msga] {
-  pods     := [ x | x = input[_]; x.kind == "Pod" ]
-  vulns    := [ x | x = input[_]; x.kind == "ImageVulnerabilities"]
+  pods    := [ x | x = input[_]; x.kind == "Pod" ]
+  vulns   := [ x | x = input[_]; x.kind == "ImageVulnerabilities"]
 
   pod     := pods[_]
   vuln    := vulns[_]

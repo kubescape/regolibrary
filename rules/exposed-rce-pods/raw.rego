@@ -1,8 +1,5 @@
 package armo_builtins
 
-import data.kubernetes.api.client as client
-import data
-
 deny[msga] {
   services := [ x | x = input[_]; x.kind == "Service" ]
   pods     := [ x | x = input[_]; x.kind == "Pod" ]
