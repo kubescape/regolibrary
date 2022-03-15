@@ -66,7 +66,10 @@ filter_external_access(service) {
 }
 
 service_to_pod(service, pod) = res {
-    service_selectors := [ x | x = service.spec.selector[_] ]
+  # Make sure we're looking on the same namespace
+  service.metadata.namespace == pod.metadata.namespace
 
-    res := count([ x | x = pod.metadata.labels[_]; x == service_selectors[_] ])
+  service_selectors := [ x | x = service.spec.selector[_] ]
+
+  res := count([ x | x = pod.metadata.labels[_]; x == service_selectors[_] ])
 }

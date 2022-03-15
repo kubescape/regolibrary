@@ -3,7 +3,7 @@ package armo_builtins
 deny[msga] {
   services := [ x | x = input[_]; x.kind == "Service" ]
   pods     := [ x | x = input[_]; x.kind == "Pod" ]
-  vulns    := [ x | x = input[_]; x.kind == "ImageVulnerabilities"]
+  vulns    := [ x | x = input[_]; x.kind == "ImageVulnerabilities" ]
 
   pod     := pods[_]
   service := services[_]
@@ -65,6 +65,9 @@ filter_external_access(service) {
 }
 
 service_to_pod(service, pod) = res {
+  # Make sure we're looking on the same namespace
+  service.metadata.namespace == pod.metadata.namespace
+
   service_selectors := [ x | x = service.spec.selector[_] ]
 
   res := count([ x | x = pod.metadata.labels[_]; x == service_selectors[_] ])
