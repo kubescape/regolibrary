@@ -2,7 +2,8 @@
   "name": "exposed-rce-pods",
   "attributes": {
     "m$K8sThreatMatrix": "exposed-rce-pods",
-    "armoBuiltin": true
+    "armoBuiltin": true,
+    "useUntilKubescapeVersion": "v2.0.150"
   },
   "ruleLanguage": "Rego",
   "match": [
