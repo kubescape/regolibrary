@@ -42,7 +42,7 @@ func TestAllRules(t *testing.T) {
 
 // Change the dir variable to the name of the rule you want to test (in the rules-tests dir)
 func TestSingleRule(t *testing.T) {
-	dir := "read-only-port-enabled"
+	dir := "resources-cpu-limit-and-request"
 	dir = fmt.Sprintf("%v/%v", relativeRuleTestsPath, dir)
 	err := opaprocessor.RunAllTestsForRule(dir)
 	if err != nil {
@@ -53,7 +53,7 @@ func TestSingleRule(t *testing.T) {
 // To print the output
 // Change the testDir variable to the directory of the rego you want to test
 func TestSingleRego(t *testing.T) {
-	testDir := "rule-credentials-in-env-var"
+	testDir := "resources-memory-limit-and-request"
 	dir := fmt.Sprintf("%v/input", testSingleRegoDirectory)
 	mocks, err := os.Open(dir)
 	if err != nil {
