@@ -25,6 +25,12 @@
     ],
     "ruleDependencies": [
     ],
+    "configInputs": [
+      "settings.postureControlInputs.cpu_request_max",
+      "settings.postureControlInputs.cpu_request_min",
+      "settings.postureControlInputs.cpu_limit_min",
+      "settings.postureControlInputs.cpu_limit_max"
+    ],
     "description": "CPU limits and requests are not set.",
     "remediation": "Ensure CPU limits and requests are set.",
     "ruleQuery": "armo_builtins"
