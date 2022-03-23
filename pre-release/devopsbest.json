@@ -374,6 +374,12 @@
                         }
                     ],
                     "ruleDependencies": [],
+                    "configInputs": [
+                        "settings.postureControlInputs.cpu_request_max",
+                        "settings.postureControlInputs.cpu_request_min",
+                        "settings.postureControlInputs.cpu_limit_min",
+                        "settings.postureControlInputs.cpu_limit_max"
+                    ],
                     "description": "CPU limits and requests are not set.",
                     "remediation": "Ensure CPU limits and requests are set.",
                     "ruleQuery": "armo_builtins",
@@ -419,6 +425,12 @@
                         }
                     ],
                     "ruleDependencies": [],
+                    "configInputs": [
+                        "settings.postureControlInputs.memory_request_max",
+                        "settings.postureControlInputs.memory_request_min",
+                        "settings.postureControlInputs.memory_limit_max",
+                        "settings.postureControlInputs.memory_limit_min"
+                    ],
                     "description": "memory limits and requests are not set.",
                     "remediation": "Ensure memory limits and requests are set.",
                     "ruleQuery": "armo_builtins",
