@@ -3,14 +3,14 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "Images with known critical vulnerabilities raising risk of a workload. They especially pose risk when these workloads are exposed to external traffic.",
-    "remediation": "Either update your workload images to fix vulnerabilities (if fix available) or consider whether this workload needs to be exposed.",
+    "description": "Container images with known critical vulnerabilities pose elevated risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if either LoadBalancer or NodePort service is assigned to them.",
+    "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the POD to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
     "rulesNames": [
         "exposed-critical-pods"
     ],
     "id": "C-0083",
-    "long_description": "",
-    "test": "This control is enumerating external facing workloads, whose have LoadBalancer or NodePort services and check image vulnerability information to see if the image has critical vulnerability.",
+    "long_description": "Container images with known critical vulnerabilities pose elevated risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if either LoadBalancer or NodePort service assigned to them.",
+    "test": "This control enumerates external facing workloads, that have LoadBalancer or NodePort services and checks image vulnerability information to see if the image has critical vulnerabilities.",
     "controlID": "C-0083",
     "baseScore": 8.0, 
     "example": "@controls/examples/c83.yaml"

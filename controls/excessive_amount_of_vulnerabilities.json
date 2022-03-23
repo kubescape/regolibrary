@@ -3,14 +3,14 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "Images with multiple known vulnerabilities raising risk of a workload. They especially pose risk when they have an excessive number of vulnerabilities.",
-    "remediation": "Update your workload images to fix vulnerabilities (if fix available).",
+    "description": "Container images with multiple Critical and High sevirity vulnerabilities increase the risk of potential exploit. This control lists all such images according to the threashold provided by the customer.",
+    "remediation": "Update your workload images as soon as possible when fixes become available.",
     "rulesNames": [
         "excessive_amount_of_vulnerabilities_pods"
     ],
     "id": "C-0085",
-    "long_description": "",
-    "test": "This control is enumerating workloads and checks for excessive number of vulnerabilities in their container images. The threshold of “excessive number” can be configured.",
+    "long_description": "Container images with multiple Critical and High sevirity vulnerabilities increase the risk of potential exploit. This control lists all such images according to the threashold provided by the customer.",
+    "test": "This control enumerates workloads and checks if they have excessive amount of vulnerabilities in their container images. The threshold of “excessive number” is configurable.",
     "controlID": "C-0085",
     "baseScore": 8.0, 
     "example": "@controls/examples/c85.yaml"
