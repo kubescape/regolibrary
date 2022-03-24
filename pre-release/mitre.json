@@ -719,7 +719,7 @@
             "description": "Kubernetes dashboard versions before v2.0.1 do not support user authentication. If exposed externally, it will allow unauthenticated remote management of the cluster. This control checks presence of the kubernetes-dashboard deployment and its version number.",
             "remediation": "Update dashboard version to v2.0.1 and above.",
             "id": "C-0047",
-            "long_description": "The Kubernetes dashboard is a web-based user interface that enables monitoring and managment of the Kubernetes cluster. By default, the dashboard exposes an internal endpoint (ClusterIP service). If the dashboard is exposed externally, it can allow unauthenticated remote management of the cluster.",
+            "long_description": "The Kubernetes dashboard is a web-based user interface that enables monitoring and management of the Kubernetes cluster. By default, the dashboard exposes an internal endpoint (ClusterIP service). If the dashboard is exposed externally, it can allow unauthenticated remote management of the cluster.",
             "test": "Checking if Kubernetes dashboard exists deployment and exposed externally as a service (nodeport/loadbalancer), check if the version of the container image is older than v2.0.1 we raise an alert.",
             "controlID": "C-0047",
             "baseScore": 6.0,
@@ -1396,7 +1396,7 @@
                 {
                     "name": "alert-rw-hostpath",
                     "attributes": {
-                        "m$K8sThreatMatrix": "Persistance::Writable hostPath mount, Lateral Movement::Writable volume mounts on the host",
+                        "m$K8sThreatMatrix": "Persistence::Writable hostPath mount, Lateral Movement::Writable volume mounts on the host",
                         "armoBuiltin": true
                     },
                     "ruleLanguage": "Rego",
@@ -1872,10 +1872,10 @@
                 "armoBuiltin": true
             },
             "description": "Audit logging is an important security feature in Kubernetes, it enables the operator to track requests to the cluster. It is important to use it so the operator has a record of events happened in Kubernetes",
-            "remediation": "Turn on audit logging for your cluster. Look at the vendor guidlines for more details",
+            "remediation": "Turn on audit logging for your cluster. Look at the vendor guidelines for more details",
             "id": "C-0067",
             "long_description": "Audit logging is an important security feature in Kubernetes, it enables the operator to track requests to the cluster. It is important to use it so the operator has a record of events happened in Kubernetes",
-            "test": "Reading the cluster descritpion from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if audit logging is enabled",
+            "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if audit logging is enabled",
             "controlID": "C-0067",
             "baseScore": 3,
             "rules": [
@@ -1954,7 +1954,7 @@
             "remediation": "Turn on the etcd encryption in your cluster, for more see the vendor documentation.",
             "id": "C-0066",
             "long_description": "etcd is a consistent and highly-available key value store used as Kubernetes' backing store for all cluster data. All object data in Kubernetes, like secrets, are stored there. This is the reason why it is important to protect the contents of etcd and use its data encryption feature.",
-            "test": "Reading the cluster descritpion from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if etcd encryption is enabled",
+            "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if etcd encryption is enabled",
             "controlID": "C-0066",
             "baseScore": 3,
             "rules": [
@@ -2033,7 +2033,7 @@
             "remediation": "Turn Pod Security Policies on in your cluster, if you use other admission controllers to control the behavior that PSP controls, exclude this control from your scans",
             "id": "C-0068",
             "long_description": "Pod Security Policies enable fine-grained authorization of pod creation and updates and it extends authorization  beyond RBAC. It is an important to use PSP to control the creation of sensitive PODs in your cluster.",
-            "test": "Reading the cluster descritpion from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if PSP is enabled",
+            "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if PSP is enabled",
             "controlID": "C-0068",
             "baseScore": 3,
             "rules": [
