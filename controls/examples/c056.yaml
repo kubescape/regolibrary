@@ -1,4 +1,4 @@
-    livenessProbe: # we are looking for this section in the resource defenition
+    livenessProbe: # we are looking for this section in the resource definition
       exec:
         command:
         - cat

@@ -83,7 +83,7 @@ getPath(podSpec, begginingOfPath) = path {
 isUnsafePod(pod){
     not pod.spec.securityContext.seccompProfile
     not pod.spec.securityContext.seLinuxOptions
-	annotations := [pod.metadata.annotations[i] | annotaion = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
+	annotations := [pod.metadata.annotations[i] | annotation = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
 	not count(annotations) > 0
 }
 
@@ -96,14 +96,14 @@ isUnsafeContainer(container){
 isUnsafeWorkload(wl) {
     not wl.spec.template.spec.securityContext.seccompProfile
     not wl.spec.template.spec.securityContext.seLinuxOptions
-	annotations := [wl.spec.template.metadata.annotations[i] | annotaion = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
+	annotations := [wl.spec.template.metadata.annotations[i] | annotation = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
 	not count(annotations) > 0
 }
 
 isUnsafeCronJob(cronjob) {
     not cronjob.spec.jobTemplate.spec.template.spec.securityContext.seccompProfile
     not cronjob.spec.jobTemplate.spec.template.spec.securityContext.seLinuxOptions
-	annotations := [cronjob.spec.jobTemplate.spec.template.metadata.annotations[i] | annotaion = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
+	annotations := [cronjob.spec.jobTemplate.spec.template.metadata.annotations[i] | annotation = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
 	not count(annotations) > 0
 }
 

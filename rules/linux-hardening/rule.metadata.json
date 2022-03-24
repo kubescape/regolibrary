@@ -25,7 +25,7 @@
     ],
     "ruleDependencies": [
     ],
-    "description": "fails if container does not defien any linux security hardening",
+    "description": "fails if container does not define any linux security hardening",
     "remediation": "Make sure you define  at least one linux security hardening property out of Seccomp, SELinux or Capabilities.",
     "ruleQuery": "armo_builtins"
 }

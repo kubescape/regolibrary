@@ -1,7 +1,7 @@
 package armo_builtins
 import data
 
-# Fails if pod doas not have container with CPU-limit or request
+# Fails if pod does not have container with CPU-limit or request
 deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
@@ -23,7 +23,7 @@ deny[msga] {
 	}
 }
 
-# Fails if workload doas not have container with CPU-limit or request
+# Fails if workload does not have container with CPU-limit or request
 deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
@@ -46,7 +46,7 @@ deny[msga] {
 	}
 }
 
-# Fails if cronjob doas not have container with CPU-limit or request
+# Fails if cronjob does not have container with CPU-limit or request
 deny[msga] {
   	wl := input[_]
 	wl.kind == "CronJob"

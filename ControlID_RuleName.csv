@@ -9,15 +9,14 @@ C-0066,secret-etcd-encryption-cloud
 C-0066,etcd-encryption-native
 C-0017,immutable-container-filesystem
 C-0045,alert-rw-hostpath
+C-0083,exposed-critical-pods
 C-0021,exposed-sensitive-interfaces
 C-0021,exposed-sensitive-interfaces-v1
 C-0063,rule-can-portforward
 C-0063,rule-can-portforward-v1
 C-0061,pods-in-default-namespace
-C-0083,exposed-critical-pods
 C-0026,rule-deny-cronjobs
 C-0001,rule-identify-blocklisted-image-registries
-C-0084,exposed-rce-pods
 C-0031,rule-can-delete-k8s-events
 C-0031,rule-can-delete-k8s-events-v1
 C-0053,access-container-service-account
@@ -30,7 +29,9 @@ C-0086,CVE-2022-0492
 C-0012,rule-credentials-in-env-var
 C-0012,rule-credentials-configmap
 C-0039,list-all-mutating-webhooks
+C-0084,exposed-rce-pods
 C-0054,internal-networking
+C-0085,excessive_amount_of_vulnerabilities_pods
 C-0034,automount-service-account
 C-0050,resources-cpu-limit-and-request
 C-0004,resources-memory-limit-and-request
@@ -55,7 +56,6 @@ C-0047,rule-exposed-dashboard
 C-0047,rule-exposed-dashboard-v1
 C-0059,nginx-ingress-snippet-annotation-vulnerability
 C-0062,sudo-in-container-entrypoint
-C-0085,excessive_amount_of_vulnerabilities_pods
 C-0049,internal-networking
 C-0006,alert-rw-hostpath
 C-0002,exec-into-container
