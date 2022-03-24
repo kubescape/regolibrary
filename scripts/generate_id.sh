@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-# Generates new ID for controls. Run it when adding a new control and set the ouput as the 'id' field
+# Generates new ID for controls. Run it when adding a new control and set the output as the 'id' field
 
 
 # Get current highest id from all controls
