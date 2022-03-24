@@ -1,5 +1,5 @@
 {
-    "name": "Workloads with Critical vulnerabilities exposed to external traffic ",
+    "name": "Workloads with Critical vulnerabilities exposed to external traffic",
     "attributes": {
         "armoBuiltin": true
     },
