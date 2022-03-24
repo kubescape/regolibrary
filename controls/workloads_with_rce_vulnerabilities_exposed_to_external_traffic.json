@@ -1,5 +1,5 @@
 {
-    "name": "Exposed Workload with RCE Vulnerabilities",
+    "name": "Workloads with RCE vulnerabilities exposed to external traffic",
     "attributes": {
         "armoBuiltin": true
     },
