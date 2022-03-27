@@ -3,7 +3,7 @@
   "attributes": {
     "m$K8sThreatMatrix": "exposed-rce-pods",
     "armoBuiltin": true,
-    "useUntilKubescapeVersion": "v2.0.150"
+    "useFromKubescapeVersion": "v2.0.150"
   },
   "ruleLanguage": "Rego",
   "match": [
