@@ -9,6 +9,7 @@ C-0066,secret-etcd-encryption-cloud
 C-0066,etcd-encryption-native
 C-0017,immutable-container-filesystem
 C-0045,alert-rw-hostpath
+C-0083,exposed-critical-pods
 C-0021,exposed-sensitive-interfaces
 C-0021,exposed-sensitive-interfaces-v1
 C-0063,rule-can-portforward
@@ -28,7 +29,9 @@ C-0086,CVE-2022-0492
 C-0012,rule-credentials-in-env-var
 C-0012,rule-credentials-configmap
 C-0039,list-all-mutating-webhooks
+C-0084,exposed-rce-pods
 C-0054,internal-networking
+C-0085,excessive_amount_of_vulnerabilities_pods
 C-0034,automount-service-account
 C-0050,resources-cpu-limit-and-request
 C-0004,resources-memory-limit-and-request
@@ -59,7 +62,6 @@ C-0002,exec-into-container
 C-0002,exec-into-container-v1
 C-0036,list-all-validating-webhooks
 C-0009,resource-policies
-C-0080,has-critical-vulnerability
 C-0019,rule-can-bash-cmd-inside-container
 C-0038,host-pid-ipc-privileges
 C-0076,label-usage-for-resources

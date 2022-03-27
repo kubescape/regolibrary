@@ -11,6 +11,7 @@ deny[msga] {
     sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
     key_name := sensitive_key_names[_]
     map_secret := configmap.data[map_key]
+    map_secret != ""
     contains(lower(map_key), lower(key_name))
     path := sprintf("data[%v]", [map_key])
 	msga := {
@@ -34,6 +35,7 @@ deny[msga] {
 	configmap := input[_]
     configmap.kind == "ConfigMap"
     map_secret := configmap.data[map_key]
+    map_secret != ""
     regex.match(value , map_secret)
     path := sprintf("data[%v]", [map_key])
 	msga := {
@@ -57,6 +59,7 @@ deny[msga] {
 	configmap := input[_]
     configmap.kind == "ConfigMap"
     map_secret := configmap.data[map_key]
+    map_secret != ""
     decoded_secret := base64.decode(map_secret)
     regex.match(value , decoded_secret)
     path := sprintf("data[%v]", [map_key])

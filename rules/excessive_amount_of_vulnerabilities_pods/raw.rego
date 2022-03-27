@@ -1,15 +1,16 @@
 package armo_builtins
-
-import data.kubernetes.api.client as client
 import data
 
 deny[msga] {
-  pods     := [ x | x = input[_]; x.kind == "Pod" ]
-  vulns    := [ x | x = input[_]; x.kind == "ImageVulnerabilities"]
+  pods    := [ x | x = input[_]; x.kind == "Pod" ]
+  vulns   := [ x | x = input[_]; x.kind == "ImageVulnerabilities"]
 
-  pod     := pods[i]
+  pod     := pods[_]
   vuln    := vulns[_]
 
+  # vuln data is relevant 
+  count(vuln.data) > 0 
+  
   # get container image name
   container := pod.spec.containers[i]
 
@@ -48,13 +49,15 @@ deny[msga] {
 }
 
 check_num_vulnerabilities(vuln) {
-  count(vuln.data) > 0
-  match := [ x | x = vuln.data[_]; x.severity == "Critical" ]
-  count(match) > data.postureControlInputs.max_critical_vulnerabilities
+  exists := count([ x | x = vuln.data[_]; x.severity == "Critical" ])
+
+  str_max := data.postureControlInputs.max_critical_vulnerabilities[_]
+  exists > to_number(str_max)
 }
 
 check_num_vulnerabilities(vuln) {
-  count(vuln.data) > 0
-  match := [ x | x = vuln.data[_]; x.severity == "High" ]
-  count(match) > data.postureControlInputs.max_high_vulnerabilities
+  exists := count([ x | x = vuln.data[_]; x.severity == "High" ])
+  
+  str_max := data.postureControlInputs.max_high_vulnerabilities[_]
+  exists > to_number(str_max)
 }

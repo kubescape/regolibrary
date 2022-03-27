@@ -2,7 +2,8 @@
   "name": "exposed-rce-pods",
   "attributes": {
     "m$K8sThreatMatrix": "exposed-rce-pods",
-    "armoBuiltin": true
+    "armoBuiltin": true,
+    "useFromKubescapeVersion": "v2.0.150"
   },
   "ruleLanguage": "Rego",
   "match": [
@@ -22,6 +23,7 @@
   "dynamicMatch": [
     {
       "apiGroups": [
+        "armo.vuln.images",
         "image.vulnscan.com"
       ],
       "apiVersions": [

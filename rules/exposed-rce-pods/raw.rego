@@ -1,16 +1,16 @@
 package armo_builtins
 
-import data.kubernetes.api.client as client
-import data
-
 deny[msga] {
   services := [ x | x = input[_]; x.kind == "Service" ]
   pods     := [ x | x = input[_]; x.kind == "Pod" ]
-  vulns    := [ x | x = input[_]; x.kind == "ImageVulnerabilities"]
+  vulns    := [ x | x = input[_]; x.kind == "ImageVulnerabilities" ]
 
-  pod     := pods[i]
+  pod     := pods[_]
   service := services[_]
   vuln    := vulns[_]
+
+  # vuln data is relevant 
+  count(vuln.data) > 0 
 
   # service is external-facing
   filter_external_access(service)
@@ -56,7 +56,6 @@ deny[msga] {
 }
 
 filter_rce_vulnerabilities(vuln) {
-  count(vuln.data) > 0
   data := vuln.data[_]
   data.categories.isRce == true
 }
@@ -66,6 +65,9 @@ filter_external_access(service) {
 }
 
 service_to_pod(service, pod) = res {
+  # Make sure we're looking on the same namespace
+  service.metadata.namespace == pod.metadata.namespace
+
   service_selectors := [ x | x = service.spec.selector[_] ]
 
   res := count([ x | x = pod.metadata.labels[_]; x == service_selectors[_] ])

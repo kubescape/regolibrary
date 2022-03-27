@@ -25,6 +25,12 @@
   ],
   "ruleDependencies": [
   ],
+  "configInputs": [
+    "settings.postureControlInputs.memory_request_max",
+    "settings.postureControlInputs.memory_request_min",
+    "settings.postureControlInputs.memory_limit_max",
+    "settings.postureControlInputs.memory_limit_min"
+  ],
   "description": "memory limits and requests are not set.",
   "remediation": "Ensure memory limits and requests are set.",
   "ruleQuery": "armo_builtins"

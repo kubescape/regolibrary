@@ -5,6 +5,8 @@ import (
 	"os"
 	"testing"
 	"testrunner/opaprocessor"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var (
@@ -15,45 +17,34 @@ var (
 // Run all tests inside rules-tests
 func TestAllRules(t *testing.T) {
 	file, err := os.Open(relativeRuleTestsPath)
-	if err != nil {
-		t.Errorf("err: %v", err.Error())
-	}
+	assert.NoError(t, err)
+
 	defer file.Close()
 	// List all files
 	ruleTestDirectories, err := file.Readdirnames(0)
-	if err != nil {
-		t.Errorf("err: %v", err.Error())
-	}
+	assert.NoError(t, err)
+
 	for _, dir := range ruleTestDirectories {
 		dir = fmt.Sprintf("%v/%v", relativeRuleTestsPath, dir)
 		isDir, err := opaprocessor.IsDirectory(dir)
-		if err != nil {
-			t.Errorf("err: %v", err.Error())
-		}
+		assert.NoError(t, err)
 		if !isDir {
 			continue
 		}
-		err = opaprocessor.RunAllTestsForRule(dir)
-		if err != nil {
-			t.Errorf("err: %v in rule: %v", err.Error(), dir)
-		}
+		assert.NoError(t, opaprocessor.RunAllTestsForRule(dir))
 	}
 }
 
 // Change the dir variable to the name of the rule you want to test (in the rules-tests dir)
 func TestSingleRule(t *testing.T) {
-	dir := "read-only-port-enabled"
-	dir = fmt.Sprintf("%v/%v", relativeRuleTestsPath, dir)
-	err := opaprocessor.RunAllTestsForRule(dir)
-	if err != nil {
-		t.Errorf("err: %v in rule: %v", err.Error(), dir)
-	}
+	dir := fmt.Sprintf("%v/%v", relativeRuleTestsPath, "resources-cpu-limit-and-request")
+	assert.NoError(t, opaprocessor.RunAllTestsForRule(dir), fmt.Sprintf("rule: %s", dir))
 }
 
 // To print the output
 // Change the testDir variable to the directory of the rego you want to test
 func TestSingleRego(t *testing.T) {
-	testDir := "CVE-2022-0492"
+	testDir := "resources-memory-limit-and-request"
 	dir := fmt.Sprintf("%v/input", testSingleRegoDirectory)
 	mocks, err := os.Open(dir)
 	if err != nil {
@@ -85,9 +76,8 @@ func TestSingleRego(t *testing.T) {
 	if err != nil {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)
 	}
-	result, err := opaprocessor.RunRegoFromYamls(yamlsInput, policyRule)
-	if err != nil {
+
+	if _, err := opaprocessor.RunRegoFromYamls(yamlsInput, policyRule); err != nil {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)
 	}
-	t.Errorf(result)
 }

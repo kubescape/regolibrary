@@ -11,7 +11,7 @@
         "postureControlInputs": {
             "imageRepositoryAllowList": [
                 "ecr.*amazonaws.com",
-                ".*.gcr.io", 
+                ".*.gcr.io",
                 ".*azurecr.io"
             ],
             "insecureCapabilities": [
@@ -51,6 +51,8 @@
                 "kubeflow",
                 "kubernetes-dashboard"
             ],
+            "max_critical_vulnerabilities": ["5"],
+            "max_high_vulnerabilities": ["10"],
             "sensitiveKeyNames": [
                 "aws_access_key_id",
                 "aws_secret_access_key",
@@ -84,6 +86,14 @@
                 "kubernetes-dashboard"
             ],
             "untrustedRegistries": [],
+            "memory_request_max": [],
+            "memory_request_min": [],            
+            "memory_limit_max": [],
+            "memory_limit_min": [],
+            "cpu_request_max:": [],
+            "cpu_request_min:": [],
+            "cpu_limit_min:": [],
+            "cpu_limit_max:": [],
             "wlKnownNames": [
                 "coredns",
                 "kube-proxy",

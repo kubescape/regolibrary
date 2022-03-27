@@ -27,7 +27,7 @@ deny [msga] {
 
 	path := array.concat(resourcesPath, verbsPath)
 	path2 := array.concat(path, apiGroupsPath)
-	path3 := array.concat(path2, [sprintf("relatedObjects[%v].roleRef.subjects[%v]", [format_int(j, 10), format_int(k, 10)])])
+	path3 := array.concat(path2, [sprintf("relatedObjects[%v].subjects[%v]", [format_int(j, 10), format_int(k, 10)])])
 	finalpath := array.concat(path3, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
 
     	msga := {
@@ -70,7 +70,7 @@ deny [msga] {
 
 	path := array.concat(resourcesPath, verbsPath)
 	path2 := array.concat(path, apiGroupsPath)
-	path3 := array.concat(path2, [sprintf("relatedObjects[%v].roleRef.subjects[%v]", [format_int(j, 10), format_int(k, 10)])])
+	path3 := array.concat(path2, [sprintf("relatedObjects[%v].subjects[%v]", [format_int(j, 10), format_int(k, 10)])])
 	finalpath := array.concat(path3, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
     	msga := {
 		"alertMessage": sprintf("Subject: %v-%v can modify 'coredns' configmap", [subjectVector.kind, subjectVector.name]),

@@ -16,7 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: checkout repo content
-       
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with: 
+          go-version: 1.17
+
+      - name: Test Regoes
+        working-directory: testrunner
+        run:  go test -v rego_test.go -run TestAllRules
+        
       - name: Create a release
         id: create_release
         uses: actions/create-release@v1
@@ -87,3 +96,4 @@ jobs:
           asset_path: release/${{ matrix.csv-files }}.csv
           asset_name: ${{ matrix.csv-files }}
           asset_content_type: application/octet-stream
+          
