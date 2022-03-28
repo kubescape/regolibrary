@@ -82,7 +82,7 @@ func GetMockContentFromFile(filename string) (string, error) {
 
 func AssertResponses(responses []reporthandling.RuleResponse, expectedResponses []reporthandling.RuleResponse) error {
 	if len(expectedResponses) != len(responses) {
-		return fmt.Errorf("length of responses is different")
+		return fmt.Errorf("length of responses is different (%d instead of %d)", len(responses), len(expectedResponses))
 	}
 	for i := 0; i < len(expectedResponses); i++ {
 		if !assertResponses(responses, &expectedResponses[i]) {
@@ -274,7 +274,8 @@ func RunAllTestsForRule(dir string) error {
 		err := RunSingleTest(dir, policyRule)
 		if err != nil {
 			err := RunSingleTest(dir, policyRule)
-			return fmt.Errorf("%v in test: %v", err.Error(), GetCurrentTest(dir))
+
+			return fmt.Errorf("%v in test: %v with policy %v", err.Error(), GetCurrentTest(dir), policyRule.Name)
 		}
 	}
 	return nil
