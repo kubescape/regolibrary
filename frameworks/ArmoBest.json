@@ -42,6 +42,7 @@
       "Images from allowed registry",
       "CVE-2022-0492-cgroups-container-escape",
       "CVE-2022-24348-argocddirtraversal",
+      "CVE-2022-23648-containerd-fs-escape",
       "Workloads with excessive amount of vulnerabilities",
       "Workloads with Critical vulnerabilities exposed to external traffic",
       "Workloads with RCE vulnerabilities exposed to external traffic"
