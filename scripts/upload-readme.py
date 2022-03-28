@@ -186,9 +186,7 @@ def create_md_for_control(control):
     md_text += '## Framework\n'
     md_text += ', '.join(get_frameworks_for_control(control)) + '\n'
     md_text += '## Severity\n'
-    severity_map = {1.0:'Low',2.0:'Low',3.0:'Low',4.0:'Low',5.0:'Medium',6.0:'Medium',7.0:'High',8.0:'High',9.0:'Critical',10.0:'Critical'}
-    base_score=control['baseScore']
-    print('base score:  ', base_score)
+    severity_map = {1:'Low',2:'Low',3:'Low',4:'Low',5:'Medium',6:'Medium',7:'High',8:'High',9:'Critical',10:'Critical'}
     md_text += '%s\n' % severity_map[int(control['baseScore'])]
     md_text += '## Description of the the issue\n'
     description = control['long_description'] if 'long_description' in control else control['description']
