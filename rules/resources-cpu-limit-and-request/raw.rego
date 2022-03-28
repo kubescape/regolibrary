@@ -208,19 +208,25 @@ is_min_request_exceeded_cpu(cpu_req) {
 compare_max(max, given) {
 	endswith(max, "Mi")
 	endswith(given, "Mi")
-	given > max
+	split_max :=  split(max, "Mi")[0]
+	split_given :=  split(given, "Mi")[0]
+	split_given > split_max
 }
 
 compare_max(max, given) {
 	endswith(max, "M")
 	endswith(given, "M")
-	given > max
+	split_max :=  split(max, "M")[0]
+	split_given :=  split(given, "M")[0]
+	split_given > split_max
 }
 
 compare_max(max, given) {
 	endswith(max, "m")
 	endswith(given, "m")
-	given > max
+	split_max :=  split(max, "m")[0]
+	split_given :=  split(given, "m")[0]
+	split_given > split_max
 }
 
 compare_max(max, given) {
@@ -236,19 +242,25 @@ compare_max(max, given) {
 compare_min(min, given) {
 	endswith(min, "Mi")
 	endswith(given, "Mi")
-	given < min
+	split_min :=  split(min, "Mi")[0]
+	split_given :=  split(given, "Mi")[0]
+	split_given < split_min
 }
 
 compare_min(min, given) {
 	endswith(min, "M")
 	endswith(given, "M")
-	given < min
+	split_min :=  split(min, "M")[0]
+	split_given :=  split(given, "M")[0]
+	split_given < split_min
 }
 
 compare_min(min, given) {
 	endswith(min, "m")
 	endswith(given, "m")
-	given < min
+	split_min :=  split(min, "m")[0]
+	split_given :=  split(given, "m")[0]
+	split_given < split_min
 }
 
 compare_min(min, given) {

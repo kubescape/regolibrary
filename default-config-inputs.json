@@ -1,14 +1,4 @@
 {
-    "name": "default",
-    "attributes": {
-        "armoBuiltin": true
-    },
-    "scope": {
-        "designatorType": "attributes",
-        "attributes": {}
-    },
-    "settings": {
-        "postureControlInputs": {
             "imageRepositoryAllowList": [
                 "ecr.*amazonaws.com",
                 ".*.gcr.io",
@@ -86,14 +76,13 @@
                 "kubernetes-dashboard"
             ],
             "untrustedRegistries": [],
-            "memory_request_max": [],
             "memory_request_min": [],            
-            "memory_limit_max": [],
+            "memory_limit_max": ["2Mi"],
             "memory_limit_min": [],
-            "cpu_request_max:": [],
-            "cpu_request_min:": [],
-            "cpu_limit_min:": [],
-            "cpu_limit_max:": [],
+            "cpu_request_max": ["2m"],
+            "cpu_request_min": [],
+            "cpu_limit_min": ["2m"],
+            "cpu_limit_max": [],
             "wlKnownNames": [
                 "coredns",
                 "kube-proxy",
@@ -116,5 +105,3 @@
             "recommendedLabels": ["app", "tier", "phase", "version", "owner", "env"],
             "k8sRecommendedLabels": ["app.kubernetes.io/name", "app.kubernetes.io/instance", "app.kubernetes.io/version", "app.kubernetes.io/component", "app.kubernetes.io/part-of", "app.kubernetes.io/managed-by", "app.kubernetes.io/created-by"]
         }
-    }
-}

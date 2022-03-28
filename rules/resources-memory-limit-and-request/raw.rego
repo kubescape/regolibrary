@@ -168,7 +168,7 @@ is_req_exceeded_memory(memory_req) {
 # helpers
 
 is_max_limit_exceeded_memory(memory_limit) {
-	memory_limit_max := data.postureControlInputs.memory_limit_max[_]
+	memory_limit_max :=data.postureControlInputs.memory_limit_max[_]
 	compare_max(memory_limit_max, memory_limit)
 }
 
@@ -194,19 +194,25 @@ is_min_request_exceeded_memory(memory_req) {
 compare_max(max, given) {
 	endswith(max, "Mi")
 	endswith(given, "Mi")
-	given > max
+	split_max :=  split(max, "Mi")[0]
+	split_given :=  split(given, "Mi")[0]
+	split_given > split_max
 }
 
 compare_max(max, given) {
 	endswith(max, "M")
 	endswith(given, "M")
-	given > max
+	split_max :=  split(max, "M")[0]
+	split_given :=  split(given, "M")[0]
+	split_given > split_max
 }
 
 compare_max(max, given) {
 	endswith(max, "m")
 	endswith(given, "m")
-	given > max
+	split_max :=  split(max, "m")[0]
+	split_given :=  split(given, "m")[0]
+	split_given > split_max
 }
 
 compare_max(max, given) {
@@ -215,24 +221,32 @@ compare_max(max, given) {
 	given > max
 }
 
+
+
 ################
 # Compare according to unit - min
 compare_min(min, given) {
 	endswith(min, "Mi")
 	endswith(given, "Mi")
-	given < min
+	split_min :=  split(min, "Mi")[0]
+	split_given :=  split(given, "Mi")[0]
+	split_given < split_min
 }
 
 compare_min(min, given) {
 	endswith(min, "M")
 	endswith(given, "M")
-	given < min
+	split_min :=  split(min, "M")[0]
+	split_given :=  split(given, "M")[0]
+	split_given < split_min
 }
 
 compare_min(min, given) {
 	endswith(min, "m")
 	endswith(given, "m")
-	given < min
+	split_min :=  split(min, "m")[0]
+	split_given :=  split(given, "m")[0]
+	split_given < split_min
 }
 
 compare_min(min, given) {
@@ -240,6 +254,7 @@ compare_min(min, given) {
 	not is_special_measure(given)
 	given < min
 }
+
 
 # Check that is same unit
 is_special_measure(unit) {
