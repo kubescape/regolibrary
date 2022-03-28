@@ -1,7 +1,7 @@
 package armo_builtins
 
 
-# Fails if pod doas not have container with readinessProbe
+# Fails if pod does not have container with readinessProbe
 deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
@@ -20,7 +20,7 @@ deny[msga] {
 	}
 }
 
-# Fails if workload doas not have container with readinessProbe
+# Fails if workload does not have container with readinessProbe
 deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
@@ -40,7 +40,7 @@ deny[msga] {
 	}
 }
 
-# Fails if cronjob doas not have container with readinessProbe
+# Fails if cronjob does not have container with readinessProbe
 deny[msga] {
   	wl := input[_]
 	wl.kind == "CronJob"

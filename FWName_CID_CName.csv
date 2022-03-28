@@ -79,9 +79,9 @@ ArmoBest,C-0049,Network mapping
 ArmoBest,C-0078,Images from allowed registry
 ArmoBest,C-0086,CVE-2022-0492-cgroups-container-escape
 ArmoBest,C-0081,CVE-2022-24348-argocddirtraversal
-ArmoBest,C-0085,Excessive amount of vulnerabilities
-ArmoBest,C-0083,Exposed Workload with Critical Vulnerabilities
-ArmoBest,C-0084,Exposed Workload with RCE Vulnerabilities
+ArmoBest,C-0085,Workloads with excessive amount of vulnerabilities
+ArmoBest,C-0083,Workloads with Critical vulnerabilities exposed to external traffic
+ArmoBest,C-0084,Workloads with RCE vulnerabilities exposed to external traffic
 NSA,C-0005,Control plane hardening
 NSA,C-0038,Host PID/IPC privileges
 NSA,C-0017,Immutable container filesystem
