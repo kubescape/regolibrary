@@ -25,12 +25,18 @@
   ],
   "ruleDependencies": [],
   "configInputs": [
-    "settings.postureControlInputs.insecureCapabilities"
+    "settings.postureControlInputs.insecureCapabilities",
+    "settings.postureControlInputs.insecureCapabilitiesAllowList"
   ],
   "controlConfigInputs": [
     {
       "path": "settings.postureControlInputs.insecureCapabilities",
       "name": "Insecure capabilities",
+      "description": "You can see the list of capabilities in https://man7.org/linux/man-pages/man7/capabilities.7.html. Kubescape looks for the following capabilities in containers which might lead to attackers getting high privileges in your system."
+    },
+    {
+      "path": "settings.postureControlInputs.insecureCapabilitiesAllowList",
+      "name": "Insecure capabilities that should be allowed",
       "description": "You can see the list of capabilities in https://man7.org/linux/man-pages/man7/capabilities.7.html. Kubescape looks for the following capabilities in containers which might lead to attackers getting high privileges in your system."
     }
   ],

@@ -27,7 +27,9 @@
   "ruleDependencies": [],
   "configInputs": [
     "settings.postureControlInputs.publicRegistries",
-    "settings.postureControlInputs.untrustedRegistries"
+    "settings.postureControlInputs.untrustedRegistries",
+    "settings.postureControlInputs.publicRegistriesAllowlist",
+    "settings.postureControlInputs.untrustedRegistriesAllowlist"
   ],
   "controlConfigInputs": [
     {
@@ -37,11 +39,21 @@
     },
     {
       "path": "settings.postureControlInputs.untrustedRegistries",
-      "name": "Registries block list",
+      "name": "Untrusted registries",
       "description": "Kubescape checks none of the following registries are in use."
+    },
+    {
+      "path": "settings.postureControlInputs.publicRegistriesAllowlist",
+      "name": "Public registries allowlist",
+      "description": "Allowlist for public registries."
+    },
+    {
+      "path": "settings.postureControlInputs.untrustedRegistriesAllowlist",
+      "name": "Untrusted registries allowlist",
+      "description": "Allowlist for untrusted registries."
     }
   ],
-  "description": "Identifying if pod container images are from unallowed registries",
+  "description": "Identifying if pod container images are from forbidden registries",
   "remediation": "Use images from safe registry",
   "ruleQuery": ""
 }

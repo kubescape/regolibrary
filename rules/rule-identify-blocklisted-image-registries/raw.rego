@@ -64,18 +64,40 @@ untrustedImageRepo[msga] {
     }
 }
 
+# see default-config-inputs.json for list values
+
+#### Untrusted
 untrusted_or_public_registries(image){
-	# see default-config-inputs.json for list values
-	untrusted_registries := data.postureControlInputs.untrustedRegistries
-	repo_prefix := untrusted_registries[_]
+	repo_prefix := data.postureControlInputs.untrustedRegistries[_]
 	startswith(image, repo_prefix)
+	# check that is not on allowlist
+	data.postureControlInputs.untrustedRegistriesAllowlist
+	repo_allowlist_prefix_list := [repo_allowlist_prefix |  repo_allowlist_prefix= data.postureControlInputs.untrustedRegistriesAllowlist[_]; startswith(image, repo_allowlist_prefix)]
+	count(repo_allowlist_prefix_list) == 0
 }
 
 untrusted_or_public_registries(image){
-	# see default-config-inputs.json for list values
-	public_registries := data.postureControlInputs.publicRegistries
-	repo_prefix := public_registries[_]
+	repo_prefix := data.postureControlInputs.untrustedRegistries[_]
 	startswith(image, repo_prefix)
+	not data.postureControlInputs.untrustedRegistriesAllowlist
+}
+
+
+
+#### Public
+untrusted_or_public_registries(image){
+	repo_prefix := data.postureControlInputs.publicRegistries[_]
+	startswith(image, repo_prefix)
+	# check that is not on allowlist
+	data.postureControlInputs.publicRegistriesAllowlist
+	repo_allowlist_prefix_list := [repo_allowlist_prefix |  repo_allowlist_prefix= data.postureControlInputs.publicRegistriesAllowlist[_]; startswith(image, repo_allowlist_prefix)]
+	count(repo_allowlist_prefix_list) == 0
+}
+
+untrusted_or_public_registries(image){
+	repo_prefix := data.postureControlInputs.publicRegistries[_]
+	startswith(image, repo_prefix)
+	not data.postureControlInputs.publicRegistriesAllowlist
 }
 
 untrusted_or_public_registries(image){

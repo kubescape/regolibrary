@@ -10,7 +10,7 @@ deny [msga] {
     container := pod.spec.containers[i]
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
-    isBashContainer(scan)
+    is_bash_container(scan)
 	path := sprintf("spec.containers[%v].image", [format_int(i, 10)])
     
     msga := {
@@ -38,7 +38,7 @@ deny [msga] {
 	path := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
-    isBashContainer(scan)
+    is_bash_container(scan)
 
     
     msga := {
@@ -64,7 +64,7 @@ deny [msga] {
 	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)])
     res := armo.get_image_scan_summary({"type":"imageTag","value":container.image,"size":1})
 	scan := res[_]
-    isBashContainer(scan)
+    is_bash_container(scan)
 
     msga := {
 		"alertMessage": sprintf("the following container: %v has bash/cmd inside it.", [container.name]),
@@ -81,10 +81,22 @@ deny [msga] {
 	}
 }
 
+# see default-config-inputs.json for list values
 
-isBashContainer(scan) {
-	# see default-config-inputs.json for list values
-	shells :=  data.postureControlInputs.listOfDangerousArtifcats
+is_bash_container(scan) {
+	shells :=  data.postureControlInputs.listOfDangerousArtifacts
 	shell := shells[_]
-	cautils.list_contains(scan.listOfDangerousArtifcats, shell)
+	cautils.list_contains(scan.listOfDangerousArtifacts, shell)
+	# Check that shell is not on allows list
+	data.postureControlInputs.listOfDangerousArtifactsAllowList
+	listOfDangerousArtifactsAllowList := data.postureControlInputs.listOfDangerousArtifactsAllowList
+	not cautils.list_contains(listOfDangerousArtifactsAllowList, shell)
 }
+
+is_bash_container(scan) {
+	shells :=  data.postureControlInputs.listOfDangerousArtifacts
+	shell := shells[_]
+	cautils.list_contains(scan.listOfDangerousArtifacts, shell)
+	not data.postureControlInputs.listOfDangerousArtifactsAllowList
+}
+
