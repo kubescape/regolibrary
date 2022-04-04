@@ -21,30 +21,18 @@
   "ruleDependencies": [],
   "configInputs": [
     "settings.postureControlInputs.sensitiveValues",
-    "settings.postureControlInputs.sensitiveKeyNames",
-    "settings.postureControlInputs.sensitiveKeyNamesAllowlist",
-    "settings.postureControlInputs.sensitiveValuesAllowlist"
+    "settings.postureControlInputs.sensitiveKeyNames"
   ],
   "controlConfigInputs": [
     {
       "path": "settings.postureControlInputs.sensitiveValues",
-      "name": "Sensitive values",
+      "name": "Values",
       "description": "Secrets are stored as a key/value pair. The names of the keys/values may change from one company to the other. Below you can find some examples of popular value phrases that Kubescape is searching for"
     },
     {
       "path": "settings.postureControlInputs.sensitiveKeyNames",
-      "name": "Sensitive keys",
+      "name": "Keys",
       "description": "Secrets are stored as a key/value pair. The names of the keys/values may change from one company to the other. Here you can find some examples of popular key phrases that Kubescape is searching for"
-    },
-    {
-      "path": "settings.postureControlInputs.sensitiveKeyNamesAllowlist",
-      "name": "Sensitive values allowlist",
-      "description": "Allowlist for sensitive values"
-    },
-    {
-      "path": "settings.postureControlInputs.sensitiveValuesAllowlist",
-      "name": "Sensitive keys allowlist",
-      "description": "Allowlist for sensitive keys"
     }
   ],
   "description": "fails if ConfigMaps have sensitive information in configuration",

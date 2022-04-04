@@ -7,13 +7,13 @@ import data
 deny[msga] {
 	configmap := input[_]
     configmap.kind == "ConfigMap"
-   
+    # see default-config-inputs.json for list values
+    sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
+    key_name := sensitive_key_names[_]
     map_secret := configmap.data[map_key]
     map_secret != ""
-    is_sensitive_key_name(map_key)
-
+    contains(lower(map_key), lower(key_name))
     path := sprintf("data[%v]", [map_key])
-
 	msga := {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
 		"alertScore": 9,
@@ -29,13 +29,14 @@ deny[msga] {
 # fails if config map has values with suspicious content - not base 64
 deny[msga] {
     # see default-config-inputs.json for list values
+    sensitive_values := data.postureControlInputs.sensitiveValues
+    value := sensitive_values[_]
+
 	configmap := input[_]
     configmap.kind == "ConfigMap"
-
     map_secret := configmap.data[map_key]
     map_secret != ""
-    is_sensitive_key_value(map_secret)
-
+    regex.match(value , map_secret)
     path := sprintf("data[%v]", [map_key])
 	msga := {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
@@ -51,14 +52,16 @@ deny[msga] {
 
 # fails if config map has values with suspicious content - base 64
 deny[msga] {
+    # see default-config-inputs.json for list values
+    sensitive_values := data.postureControlInputs.sensitiveValues
+    value := sensitive_values[_]
+
 	configmap := input[_]
     configmap.kind == "ConfigMap"
-
     map_secret := configmap.data[map_key]
     map_secret != ""
     decoded_secret := base64.decode(map_secret)
-    is_sensitive_key_value(decoded_secret)
-    
+    regex.match(value , decoded_secret)
     path := sprintf("data[%v]", [map_key])
 
 	msga := {
@@ -71,43 +74,4 @@ deny[msga] {
 			"k8sApiObjects": [configmap]
 		}
      }
-}
-
-
-# see default-config-inputs.json for list values
-
-## For key names
-is_sensitive_key_name(map_key)
-{
-    sensitive_key_name := data.postureControlInputs.sensitiveKeyNames[_]
-    contains(lower(map_key), lower(sensitive_key_name))
-    # check that sensitive key name is not on allowlist
-    data.postureControlInputs.sensitiveKeyNamesAllowlist
-	sensitive_key_names_allowed_list := [sensitive_key_names_allowed |  sensitive_key_names_allowed= data.postureControlInputs.sensitiveKeyNamesAllowlist[_]; contains(lower(map_key), lower(sensitive_key_names_allowed))]
-	count(sensitive_key_names_allowed_list) == 0
-}
-
-is_sensitive_key_name(map_key)
-{
-    sensitive_key_name := data.postureControlInputs.sensitiveKeyNames[_]
-    contains(lower(map_key), lower(sensitive_key_name))
-    not data.postureControlInputs.sensitiveKeyNamesAllowlist
-}
-
-
-## For key values
-is_sensitive_key_value(map_secret)
-{
-    sensitive_value := data.postureControlInputs.sensitiveValues[_]
-    regex.match(sensitive_value , map_secret)
-    data.postureControlInputs.sensitiveValuesAllowlist
-	sensitive_values_allowed_list := [sensitive_value_allowed |  sensitive_value_allowed = data.postureControlInputs.sensitiveValuesAllowlist[_];  regex.match(sensitive_value_allowed , map_secret)]
-	count(sensitive_values_allowed_list) == 0
-}
-
-is_sensitive_key_value(map_secret)
-{
-    sensitive_value := data.postureControlInputs.sensitiveValues[_]
-    regex.match(sensitive_value , map_secret)
-    not data.postureControlInputs.sensitiveValuesAllowlist
 }

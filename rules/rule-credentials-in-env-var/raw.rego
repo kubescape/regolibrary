@@ -1,17 +1,19 @@
 	package armo_builtins
+	# import data.cautils as cautils
+	# import data.kubernetes.api.client as client
 	import data
 
 	deny[msga] {
 		pod := input[_]
 		pod.kind == "Pod"
-
+		# see default-config-inputs.json for list values
+		sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
+		key_name := sensitive_key_names[_]
 		container := pod.spec.containers[i]
 		env := container.env[j]
 		env.value != ""
-
-		is_sensitive_key_name(env.name)
-		is_not_reference(env)
-
+		contains(lower(env.name), key_name)
+		isNotReference(env)
 		path := sprintf("spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
 
 		msga := {
@@ -31,13 +33,14 @@
 		spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 		spec_template_spec_patterns[wl.kind]
 
+		# see default-config-inputs.json for list values
+		sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
+		key_name := sensitive_key_names[_]
 		container := wl.spec.template.spec.containers[i]
 		env := container.env[j]
 		env.value != ""
-
-		is_sensitive_key_name(env.name)
-		is_not_reference(env)
-
+		contains(lower(env.name), key_name)
+		isNotReference(env)
 		path := sprintf("spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])	
 
 		msga := {
@@ -55,13 +58,14 @@
 	deny[msga] {
 		wl := input[_]
 		wl.kind == "CronJob"
+		# see default-config-inputs.json for list values
+		sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
+		key_name := sensitive_key_names[_]
 		container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 		env := container.env[j]
 		env.value != ""
-
-		is_sensitive_key_name(env.name)
-		is_not_reference(env)
-
+		contains(lower(env.name), key_name)
+		isNotReference(env)
 		path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
 
 		msga := {
@@ -78,26 +82,9 @@
 
 
 
-is_not_reference(env)
-{
-	not env.valueFrom.secretKeyRef
-	not env.valueFrom.configMapKeyRef
-}
+	isNotReference(env)
+	{
+		not env.valueFrom.secretKeyRef
+		not env.valueFrom.configMapKeyRef
+	}
 
-# see default-config-inputs.json for list values
-is_sensitive_key_name(env_name)
-{
-	sensitive_key_name := data.postureControlInputs.sensitiveKeyNames[_]
-	contains(lower(env_name), sensitive_key_name)
-	# check that sensitive key name is not on allowlist
-	data.postureControlInputs.sensitiveKeyNamesAllowlist
-	sensitive_key_names_allowed_list := [sensitive_key_names_allowed |  sensitive_key_names_allowed= data.postureControlInputs.sensitiveKeyNamesAllowlist[_]; contains(lower(env_name), sensitive_key_names_allowed)]
-	count(sensitive_key_names_allowed_list) == 0
-}
-
-is_sensitive_key_name(env_name)
-{
-	sensitive_key_name := data.postureControlInputs.sensitiveKeyNames[_]
-	contains(lower(env_name), sensitive_key_name)
-	not data.postureControlInputs.sensitiveKeyNamesAllowlist
-}

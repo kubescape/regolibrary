@@ -32,14 +32,9 @@
   ],
   "controlConfigInputs": [
     {
-      "path": "settings.postureControlInputs.listOfDangerousArtifacts",
+      "path": "settings.postureControlInputs.listOfDangerousArtifcats",
       "name": "Shell executable in container",
       "description": "Kubescape checks if container images have the any of the these shell executables."
-    },
-    {
-      "path": "settings.postureControlInputs.listOfDangerousArtifactsAllowList",
-      "name": "Shell executable in container allowlist",
-      "description": "Allowlist for shell executables."
     }
   ],
   "description": "determines which containers have bash/cmd inside it",

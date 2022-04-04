@@ -26,19 +26,13 @@
   ],
   "ruleDependencies": [],
   "configInputs": [
-    "settings.postureControlInputs.sensitiveKeyNames",
-    "settings.postureControlInputs.sensitiveKeyNamesAllowlist"
+    "settings.postureControlInputs.sensitiveKeyNames"
   ],
   "controlConfigInputs": [
     {
       "path": "settings.postureControlInputs.sensitiveKeyNames",
       "name": "Keys",
       "description": "Secrets are stored as a key/value pair. The names of the keys/values may change from one company to the other. Here you can find some examples of popular key phrases that Kubescape is searching for"
-    },
-    {
-      "path": "settings.postureControlInputs.sensitiveKeyNamesAllowlist",
-      "name": "Keys allowlist",
-      "description": "Allowlist for keys"
     }
   ],
   "description": "fails if Pods have sensitive information in configuration",
