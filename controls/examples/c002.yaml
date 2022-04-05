@@ -4,6 +4,6 @@ metadata:
   namespace: default
   name: pod-exec
 rules:
-- apiGroups: [""]
+- apiGroups: ["*"]
   resources: ["pods/exec"] # we look for this resource or *
   verbs: ["create"]	   # we look for this verb or * 	
