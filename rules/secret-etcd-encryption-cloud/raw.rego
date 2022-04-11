@@ -16,8 +16,9 @@ deny[msga] {
 		"alertMessage": "etcd/secret encryption is not enabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
+		"failedPaths": [],
 		"fixPaths": [],
-		"failedPaths":[] ,
+		"fixCommand": "eksctl utils enable-secrets-encryption --cluster=<cluster> --key-arn=arn:aws:kms:<cluster_region>:<account>:key/<key> --region=<region>",
 		"alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": clusterConfig
@@ -42,8 +43,9 @@ deny[msga] {
 		"alertMessage": "etcd/secret encryption is not enabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
+		"failedPaths": [".data.database_encryption.state"],
 		"fixPaths": [],
-		"failedPaths": [],
+		"fixCommand": "gcloud container clusters update <cluster_name> --region=<compute_region> --database-encryption-key=<key_project_id>/locations/<location>/keyRings/<ring_name>/cryptoKeys/<key_name> --project=<cluster_project_id>",
 		"alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": clusterConfig

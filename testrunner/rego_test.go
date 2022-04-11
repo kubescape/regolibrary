@@ -44,7 +44,7 @@ func TestSingleRule(t *testing.T) {
 // To print the output
 // Change the testDir variable to the directory of the rego you want to test
 func TestSingleRego(t *testing.T) {
-	testDir := "resources-cpu-limit-and-request"
+	testDir := "k8s-audit-logs-enabled-cloud"
 	dir := fmt.Sprintf("%v/input", testSingleRegoDirectory)
 	mocks, err := os.Open(dir)
 	if err != nil {
@@ -76,8 +76,9 @@ func TestSingleRego(t *testing.T) {
 	if err != nil {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)
 	}
-
-	if _, err := opaprocessor.RunRegoFromYamls(yamlsInput, policyRule); err != nil {
+	result, err := opaprocessor.RunRegoFromYamls(yamlsInput, policyRule)
+	if err != nil {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)
 	}
+	t.Errorf(result)
 }

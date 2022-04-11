@@ -18,6 +18,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"fixPaths": [],
+		"fixCommand":"",
 		"alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": clusterConfig
@@ -44,6 +45,7 @@ deny[msga] {
 		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
+		"fixCommand":"aws eks update-cluster-config --region <region_code> --name <cluster_name> --logging '{'clusterLogging':[{'types':['<api/audit/authenticator>'],'enabled':true}]}'",
 		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],

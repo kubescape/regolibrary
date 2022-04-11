@@ -17,11 +17,10 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"fixPaths": [],
+		"fixCommand": "gcloud beta container clusters update <cluster_name> --enable-pod-security-policy",
 		"alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": clusterConfig
 		}
 	}
 }
-
-# TODO - EKS. By default has a policy which allows everything
