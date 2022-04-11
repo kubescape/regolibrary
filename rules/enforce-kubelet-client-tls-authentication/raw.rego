@@ -12,15 +12,17 @@ deny[msga] {
 		kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 		kubeletCliData := kubeletCli.data
 
-
-		isClientTlsDisabledBoth(kubeletConfig, kubeletCliData)
+		result := isClientTlsDisabledBoth(kubeletConfig, kubeletCliData)
+		externalObj := result.obj
+		failedPaths := result.failedPaths
+		fixPaths := result.fixPaths
 
 
 		msga := {
 			"alertMessage": "kubelet client TLS authentication is not enabled",
 			"alertScore": 2,
-			"failedPaths": [],
-			"fixPaths":[],
+			"failedPaths": failedPaths,
+			"fixPaths": fixPaths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [kubeletConfig, kubeletCli]
@@ -31,13 +33,16 @@ deny[msga] {
 
 # Only of them present
 deny[msga] {
-		externalObj := isClientTlsDisabledSingle(input)
+		result := isClientTlsDisabledSingle(input)
+		externalObj := result.obj
+		failedPaths := result.failedPaths
+		fixPaths := result.fixPaths
 
 		msga := {
 			"alertMessage": "kubelet client TLS authentication is not enabled",
 			"alertScore": 2,
-			"failedPaths": [],
-			"fixPaths":[],
+			"failedPaths": failedPaths,
+			"fixPaths": fixPaths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [externalObj]
@@ -46,13 +51,14 @@ deny[msga] {
 	}
 
 # CLI overrides config
-isClientTlsDisabledBoth(kubeletConfig, kubeletCliData) {
+isClientTlsDisabledBoth(kubeletConfig, kubeletCliData) = {"obj": obj, "failedPaths": [], "fixPaths": ["data.authentication.x509.clientCAFile"]}  {
 	not contains(kubeletCliData["fullCommand"], "client-ca-file")
     not kubeletConfig.data.authentication.x509.clientCAFile
+	obj = kubeletConfig
 }
 
 # Only cli
-isClientTlsDisabledSingle(resources) = obj {
+isClientTlsDisabledSingle(resources) = {"obj": obj, "failedPaths": [], "fixPaths": []}  {
 	kubeletCli := resources[_]            
 	kubeletCli.kind == "KubeletCommandLine"
 	kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
@@ -65,7 +71,7 @@ isClientTlsDisabledSingle(resources) = obj {
 }
 
 # Only config
-isClientTlsDisabledSingle(resources) = obj {
+isClientTlsDisabledSingle(resources) = {"obj": obj, "failedPaths": [], "fixPaths": ["data.authentication.x509.clientCAFile"]}  {
 	kubeletConfig := resources[_]            
 	kubeletConfig.kind == "KubeletConfiguration"
 	kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"

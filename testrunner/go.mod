@@ -6,7 +6,7 @@ require (
 	github.com/armosec/armoapi-go v0.0.58
 	github.com/armosec/k8s-interface v0.0.66
 	github.com/armosec/kubescape v1.0.138
-	github.com/armosec/opa-utils v0.0.131
+	github.com/armosec/opa-utils v0.0.132
 	github.com/golang/glog v1.0.0
 	github.com/open-policy-agent/opa v0.38.0
 	github.com/stretchr/testify v1.7.0
