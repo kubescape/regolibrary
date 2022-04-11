@@ -51,7 +51,7 @@ deny[msga] {
 	}
 
 # CLI overrides config
-isClientTlsDisabledBoth(kubeletConfig, kubeletCliData) = {"obj": obj, "failedPaths": [], "fixPaths": ["data.authentication.x509.clientCAFile"]}  {
+isClientTlsDisabledBoth(kubeletConfig, kubeletCliData) = {"obj": obj, "failedPaths": [], "fixPaths": [{"path": "data.authentication.x509.clientCAFile",  "value": "YOUR_VALUE"}]}  {
 	not contains(kubeletCliData["fullCommand"], "client-ca-file")
     not kubeletConfig.data.authentication.x509.clientCAFile
 	obj = kubeletConfig
@@ -71,7 +71,7 @@ isClientTlsDisabledSingle(resources) = {"obj": obj, "failedPaths": [], "fixPaths
 }
 
 # Only config
-isClientTlsDisabledSingle(resources) = {"obj": obj, "failedPaths": [], "fixPaths": ["data.authentication.x509.clientCAFile"]}  {
+isClientTlsDisabledSingle(resources) = {"obj": obj, "failedPaths": [], "fixPaths": [{"path": "data.authentication.x509.clientCAFile",  "value": "YOUR_VALUE"}]}  {
 	kubeletConfig := resources[_]            
 	kubeletConfig.kind == "KubeletConfiguration"
 	kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"

@@ -268,12 +268,8 @@ func RunAllTestsForRule(dir string) error {
 	// Iterate over each test
 	for _, testFile := range testsForRule {
 		dir := fmt.Sprintf("%v/%v", dir, testFile)
-		if GetCurrentTest(dir) == "clusterrole-clusterrolebinding" {
-			fmt.Printf("A")
-		}
 		err := RunSingleTest(dir, policyRule)
 		if err != nil {
-			err := RunSingleTest(dir, policyRule)
 
 			return fmt.Errorf("%v in test: %v with policy %v", err.Error(), GetCurrentTest(dir), policyRule.Name)
 		}

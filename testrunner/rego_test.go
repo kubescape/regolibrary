@@ -37,7 +37,7 @@ func TestAllRules(t *testing.T) {
 
 // Change the dir variable to the name of the rule you want to test (in the rules-tests dir)
 func TestSingleRule(t *testing.T) {
-	dir := fmt.Sprintf("%v/%v", relativeRuleTestsPath, "resources-cpu-limit-and-request")
+	dir := fmt.Sprintf("%v/%v", relativeRuleTestsPath, "enforce-kubelet-client-tls-authentication")
 	assert.NoError(t, opaprocessor.RunAllTestsForRule(dir), fmt.Sprintf("rule: %s", dir))
 }
 
