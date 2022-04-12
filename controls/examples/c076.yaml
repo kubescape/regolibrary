@@ -3,7 +3,7 @@ kind: ReplicaSet
 metadata:
   name: replicaset-without-label-usage
   labels:
-    myLabel: m1234
+    app: m1234
 spec:
   # modify replicas according to your case
   replicas: 3

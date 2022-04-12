@@ -8,5 +8,4 @@ spec:
     image: gcr.io/google-samples/node-hello:1.0
     securityContext:
       capabilities:
-        add: ["NET_ADMIN", "SYS_TIME"] # we look at these capabilities against the 
-					configured list in the control settings (settings-> control -> c46)
+        add: ["NET_ADMIN", "SYS_TIME"] # we look at these capabilities against the configured list in the control settings (settings-> control -> c46)
