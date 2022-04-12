@@ -44,7 +44,7 @@ func TestSingleRule(t *testing.T) {
 // To print the output
 // Change the testDir variable to the directory of the rego you want to test
 func TestSingleRego(t *testing.T) {
-	testDir := "rule-credentials-in-env-var"
+	testDir := "has-critical-vulnerability"
 	dir := fmt.Sprintf("%v/input", testSingleRegoDirectory)
 	mocks, err := os.Open(dir)
 	if err != nil {
