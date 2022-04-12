@@ -1,7 +1,6 @@
 package armo_builtins
 
 
-# Check if PSP is enabled for GKE
 deny[msga] {
 	clusterConfig := input[_]
 	clusterConfig.apiVersion == "management.azure.com/v1"
@@ -9,12 +8,13 @@ deny[msga] {
     clusterConfig.metadata.provider == "aks"	
     config := clusterConfig.data
     config.properties.enableRBAC == false
-	
+
 	msga := {
 		"alertMessage": "rbac is not enabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
-		"failedPaths": [],
+		"failedPaths": ["data.properties.enableRBAC"],
+		"fixCommand": "",
 		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],

@@ -1,0 +1,16 @@
+{
+    "name": "RBAC enabled",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "description": "",
+    "remediation": "",
+    "rulesNames": [
+        "rbac-enabled-cloud"
+    ],
+    "id": "C-0088",
+    "long_description": "",
+    "test": "Reading the cluster description from the AKS managed cloud API if RBAC is enabled",
+    "controlID": "C-0088",
+    "baseScore": 3
+}
