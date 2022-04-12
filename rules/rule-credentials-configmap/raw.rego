@@ -12,8 +12,13 @@ deny[msga] {
     key_name := sensitive_key_names[_]
     map_secret := configmap.data[map_key]
     map_secret != ""
+    
     contains(lower(map_key), lower(key_name))
+    # check that value wasn't allowed by user
+    not is_allowed_value(map_secret)
+    
     path := sprintf("data[%v]", [map_key])
+
 	msga := {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
 		"alertScore": 9,
@@ -36,8 +41,13 @@ deny[msga] {
     configmap.kind == "ConfigMap"
     map_secret := configmap.data[map_key]
     map_secret != ""
+
     regex.match(value , map_secret)
+    # check that value wasn't allowed by user
+    not is_allowed_value(map_secret)
+
     path := sprintf("data[%v]", [map_key])
+
 	msga := {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
 		"alertScore": 9,
@@ -60,8 +70,14 @@ deny[msga] {
     configmap.kind == "ConfigMap"
     map_secret := configmap.data[map_key]
     map_secret != ""
+
     decoded_secret := base64.decode(map_secret)
+    
+    # check that value wasn't allowed by user
+    not is_allowed_value(map_secret)
+
     regex.match(value , decoded_secret)
+
     path := sprintf("data[%v]", [map_key])
 
 	msga := {
@@ -74,4 +90,10 @@ deny[msga] {
 			"k8sApiObjects": [configmap]
 		}
      }
+}
+
+
+is_allowed_value(value) {
+    allow_val := data.postureControlInputs.sensitiveValuesAllowed[_]
+    value == allow_val
 }

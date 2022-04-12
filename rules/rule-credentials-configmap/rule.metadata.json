@@ -21,7 +21,8 @@
   "ruleDependencies": [],
   "configInputs": [
     "settings.postureControlInputs.sensitiveValues",
-    "settings.postureControlInputs.sensitiveKeyNames"
+    "settings.postureControlInputs.sensitiveKeyNames",
+    "settings.postureControlInputs.sensitiveValuesAllowed"
   ],
   "controlConfigInputs": [
     {
@@ -33,6 +34,11 @@
       "path": "settings.postureControlInputs.sensitiveKeyNames",
       "name": "Keys",
       "description": "Secrets are stored as a key/value pair. The names of the keys/values may change from one company to the other. Here you can find some examples of popular key phrases that Kubescape is searching for"
+    },
+    {
+      "path":  "settings.postureControlInputs.sensitiveValuesAllowed",
+      "name": "AllowedValues",
+      "description": "Allowed values"
     }
   ],
   "description": "fails if ConfigMaps have sensitive information in configuration",
