@@ -61,6 +61,7 @@ C-0036,list-all-validating-webhooks
 C-0073,naked-pods
 C-0076,label-usage-for-resources
 C-0070,enforce-kubelet-client-tls-authentication
+C-0088,rbac-enabled-cloud
 C-0012,rule-credentials-in-env-var
 C-0012,rule-credentials-configmap
 C-0004,resources-memory-limit-and-request
