@@ -1,0 +1,26 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "LinuxKernelVariables",
+    "data": [
+
+        {
+
+            "key": "unprivileged_userns_clone",
+
+            "value": 0,
+
+            "source": "/proc/sys/kernel/unprivileged_userns_clone"
+
+        },
+        {
+
+            "key": "user.max_user_namespaces",
+
+            "value": 0,
+
+            "source": "/etc/sysctl.d/userns.conf"
+
+        }
+
+    ]
+}

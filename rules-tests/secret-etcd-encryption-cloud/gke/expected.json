@@ -2,7 +2,7 @@
     {
         "alertMessage": "etcd/secret encryption is not enabled",
         "fixPaths": [],
-        "failedPaths": [],
+        "failedPaths": ["data.database_encryption.state"],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 3,

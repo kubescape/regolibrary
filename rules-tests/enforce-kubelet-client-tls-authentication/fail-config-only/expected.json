@@ -1,7 +1,10 @@
 [{
     "alertMessage": "kubelet client TLS authentication is not enabled",
     "failedPaths": [],
-    "fixPaths": [],
+    "fixPaths": [{
+        "path": "data.authentication.x509.clientCAFile",
+        "value": "YOUR_VALUE"
+    }],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 2,
