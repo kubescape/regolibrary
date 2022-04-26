@@ -37,14 +37,14 @@ func TestAllRules(t *testing.T) {
 
 // Change the dir variable to the name of the rule you want to test (in the rules-tests dir)
 func TestSingleRule(t *testing.T) {
-	dir := fmt.Sprintf("%v/%v", relativeRuleTestsPath, "anonymous-requests-to-kubelet")
+	dir := fmt.Sprintf("%v/%v", relativeRuleTestsPath, "CVE-2022-0185")
 	assert.NoError(t, opaprocessor.RunAllTestsForRule(dir), fmt.Sprintf("rule: %s", dir))
 }
 
 // To print the output
 // Change the testDir variable to the directory of the rego you want to test
 func TestSingleRego(t *testing.T) {
-	testDir := "enforce-kubelet-client-tls-authentication"
+	testDir := "CVE-2022-0185"
 	dir := fmt.Sprintf("%v/input", testSingleRegoDirectory)
 	mocks, err := os.Open(dir)
 	if err != nil {
