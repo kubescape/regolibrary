@@ -7,8 +7,8 @@ deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	begginingOfPath := "spec."
-    result := isRootContainer(container, begginingOfPath, i)
+	beggining_of_path := "spec."
+    result := is_root_container(container, beggining_of_path, i)
 	msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  runs with id less than 1000", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -26,8 +26,8 @@ deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	begginingOfPath := ""
-    result := isRootPod(pod, container, begginingOfPath)
+	beggining_of_path := ""
+    result := is_root_pod(pod, container, beggining_of_path)
 	msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  runs with id less than 1000", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -48,8 +48,8 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
     container := wl.spec.template.spec.containers[i]
-	begginingOfPath := "spec.template.spec."
-    result := isRootContainer(container, begginingOfPath, i)
+	beggining_of_path := "spec.template.spec."
+    result := is_root_container(container, beggining_of_path, i)
     msga := {
 		"alertMessage": sprintf("container :%v in %v: %v runs with id less than 1000", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -68,8 +68,8 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
     container := wl.spec.template.spec.containers[i]
-	begginingOfPath := "spec.template."
-    result := isRootPod(wl.spec.template, container, begginingOfPath)
+	beggining_of_path := "spec.template."
+    result := is_root_pod(wl.spec.template, container, beggining_of_path)
     msga := {
 		"alertMessage": sprintf("container :%v in %v: %v runs with id less than 1000", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -88,8 +88,8 @@ deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	begginingOfPath := "spec.jobTemplate.spec.template.spec."
-	result := isRootContainer(container, begginingOfPath, i)
+	beggining_of_path := "spec.jobTemplate.spec.template.spec."
+	result := is_root_container(container, beggining_of_path, i)
     msga := {
 		"alertMessage": sprintf("container :%v in %v: %v  runs with id less than 1000", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -109,8 +109,8 @@ deny[msga] {
   	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	begginingOfPath := "spec.jobTemplate.spec.template."
-    result := isRootPod(wl.spec.jobTemplate.spec.template, container, begginingOfPath)
+	beggining_of_path := "spec.jobTemplate.spec.template."
+    result := is_root_pod(wl.spec.jobTemplate.spec.template, container, beggining_of_path)
     msga := {
 		"alertMessage": sprintf("container :%v in %v: %v runs with id less than 1000", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -124,49 +124,49 @@ deny[msga] {
 }
 
 
-isRootPod(pod, container, begginingOfPath) = path {
+is_root_pod(pod, container, beggining_of_path) = path {
 	not container.securityContext.runAsGroup
     not container.securityContext.runAsUser
     pod.spec.securityContext.runAsUser < 1000
 	not pod.spec.securityContext.runAsGroup
-	path = sprintf("%vspec.securityContext.runAsUser", [begginingOfPath])
+	path = sprintf("%vspec.securityContext.runAsUser", [beggining_of_path])
 }
 
-isRootPod(pod, container, begginingOfPath) = path {
+is_root_pod(pod, container, beggining_of_path) = path {
 	not container.securityContext.runAsUser
     not container.securityContext.runAsGroup
     pod.spec.securityContext.runAsGroup < 1000
 	not pod.spec.securityContext.runAsUser
-	path = sprintf("%vspec.securityContext.runAsGroup", [begginingOfPath])
+	path = sprintf("%vspec.securityContext.runAsGroup", [beggining_of_path])
 }
 
-isRootPod(pod, container, begginingOfPath) = path {
+is_root_pod(pod, container, beggining_of_path) = path {
     pod.spec.securityContext.runAsGroup > 1000
 	 pod.spec.securityContext.runAsUser < 1000
-	path = sprintf("%vspec.securityContext.runAsUser", [begginingOfPath])
+	path = sprintf("%vspec.securityContext.runAsUser", [beggining_of_path])
 }
 
-isRootPod(pod, container, begginingOfPath) = path {
+is_root_pod(pod, container, beggining_of_path) = path {
     pod.spec.securityContext.runAsGroup < 1000
 	pod.spec.securityContext.runAsUser > 1000
-	path = sprintf("%vspec.securityContext.runAsGroup", [begginingOfPath])
+	path = sprintf("%vspec.securityContext.runAsGroup", [beggining_of_path])
 }
 
-isRootPod(pod, container, begginingOfPath) = path {
+is_root_pod(pod, container, beggining_of_path) = path {
     pod.spec.securityContext.runAsGroup < 1000
 	 pod.spec.securityContext.runAsUser < 1000
-	path = sprintf("%vspec.securityContext", [begginingOfPath])
+	path = sprintf("%vspec.securityContext", [beggining_of_path])
 }
 
 
-isRootContainer(container, begginingOfPath, i) = path {
+is_root_container(container, beggining_of_path, i) = path {
     container.securityContext.runAsUser < 1000
 	not container.securityContext.runAsGroup
-	path = sprintf("%vcontainers[%v].securityContext.runAsUser", [begginingOfPath, format_int(i, 10)])
+	path = sprintf("%vcontainers[%v].securityContext.runAsUser", [beggining_of_path, format_int(i, 10)])
 }
 
-isRootContainer(container, begginingOfPath, i) = path {
+is_root_container(container, beggining_of_path, i) = path {
     container.securityContext.runAsGroup < 1000
 	not container.securityContext.runAsUser
-	path = sprintf("%vcontainers[%v].securityContext.runAsGroup", [begginingOfPath, format_int(i, 10)])
+	path = sprintf("%vcontainers[%v].securityContext.runAsGroup", [beggining_of_path, format_int(i, 10)])
 }

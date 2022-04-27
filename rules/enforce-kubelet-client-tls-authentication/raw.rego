@@ -3,29 +3,29 @@ import data.kubernetes.api.client as client
 
 # Both config and cli present
 deny[msga] {
-		kubeletConfig := input[_]
-		kubeletConfig.kind == "KubeletConfiguration"
-		kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+		kubelet_config := input[_]
+		kubelet_config.kind == "KubeletConfiguration"
+		kubelet_config.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-		kubeletCli := input[_]            
-		kubeletCli.kind == "KubeletCommandLine"
-		kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
-		kubeletCliData := kubeletCli.data
+		kubelet_cli := input[_]            
+		kubelet_cli.kind == "KubeletCommandLine"
+		kubelet_cli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+		kubelet_cli_data := kubelet_cli.data
 
-		result := isClientTlsDisabledBoth(kubeletConfig, kubeletCliData)
-		externalObj := result.obj
-		failedPaths := result.failedPaths
+		result := is_client_tls_disabled_both(kubelet_config, kubelet_cli_data)
+		external_obj := result.obj
+		failed_paths := result.failedPaths
 		fixPaths := result.fixPaths
 
 
 		msga := {
 			"alertMessage": "kubelet client TLS authentication is not enabled",
 			"alertScore": 2,
-			"failedPaths": failedPaths,
+			"failedPaths": failed_paths,
 			"fixPaths": fixPaths,
 			"packagename": "armo_builtins",
 			"alertObject": {
-				"k8sApiObjects": [kubeletConfig, kubeletCli]
+				"k8sApiObjects": [kubelet_config, kubelet_cli]
 			},
 		}
 	}
@@ -33,63 +33,63 @@ deny[msga] {
 
 # Only of them present
 deny[msga] {
-		result := isClientTlsDisabledSingle(input)
-		externalObj := result.obj
-		failedPaths := result.failedPaths
+		result := is_client_tls_disabled_single(input)
+		external_obj := result.obj
+		failed_paths := result.failedPaths
 		fixPaths := result.fixPaths
 
 		msga := {
 			"alertMessage": "kubelet client TLS authentication is not enabled",
 			"alertScore": 2,
-			"failedPaths": failedPaths,
+			"failedPaths": failed_paths,
 			"fixPaths": fixPaths,
 			"packagename": "armo_builtins",
 			"alertObject": {
-				"k8sApiObjects": [externalObj]
+				"k8sApiObjects": [external_obj]
 			},
 		}
 	}
 
 # CLI overrides config
-isClientTlsDisabledBoth(kubeletConfig, kubeletCliData) = {"obj": obj, "failedPaths": [], "fixPaths": [{"path": "data.authentication.x509.clientCAFile",  "value": "YOUR_VALUE"}]}  {
-	not contains(kubeletCliData["fullCommand"], "client-ca-file")
-    not kubeletConfig.data.authentication.x509.clientCAFile
-	obj = kubeletConfig
+is_client_tls_disabled_both(kubelet_config, kubelet_cli_data) = {"obj": obj,"failedPaths": [], "fixPaths": [{"path": "data.authentication.x509.clientCAFile",  "value": "YOUR_VALUE"}]}  {
+	not contains(kubelet_cli_data["fullCommand"], "client-ca-file")
+    not kubelet_config.data.authentication.x509.clientCAFile
+	obj = kubelet_config
 }
 
 # Only cli
-isClientTlsDisabledSingle(resources) = {"obj": obj, "failedPaths": [], "fixPaths": []}  {
-	kubeletCli := resources[_]            
-	kubeletCli.kind == "KubeletCommandLine"
-	kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+is_client_tls_disabled_single(resources) = {"obj": obj,"failedPaths": [], "fixPaths": []}  {
+	kubelet_cli := resources[_]            
+	kubelet_cli.kind == "KubeletCommandLine"
+	kubelet_cli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-	kubeletConfig := [config | config = resources[_]; config.kind == "KubeletConfiguration"]
-	count(kubeletConfig) == 0
+	kubelet_config := [config | config = resources[_]; config.kind == "KubeletConfiguration"]
+	count(kubelet_config) == 0
 
-	obj = isClientTlsDisabledCli(kubeletCli)
+	obj = isClientTlsDisabledCli(kubelet_cli)
 	
 }
 
 # Only config
-isClientTlsDisabledSingle(resources) = {"obj": obj, "failedPaths": [], "fixPaths": [{"path": "data.authentication.x509.clientCAFile",  "value": "YOUR_VALUE"}]}  {
-	kubeletConfig := resources[_]            
-	kubeletConfig.kind == "KubeletConfiguration"
-	kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+is_client_tls_disabled_single(resources) = {"obj": obj,"failedPaths": [], "fixPaths": [{"path": "data.authentication.x509.clientCAFile",  "value": "YOUR_VALUE"}]}  {
+	kubelet_config := resources[_]            
+	kubelet_config.kind == "KubeletConfiguration"
+	kubelet_config.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-	kubeletCmd := [cmd | cmd = resources[_]; cmd.kind == "KubeletCommandLine"]
-	count(kubeletCmd) == 0
+	kubelet_cmd := [cmd | cmd = resources[_]; cmd.kind == "KubeletCommandLine"]
+	count(kubelet_cmd) == 0
 
-	obj = isClientTlsDisabledConfig(kubeletConfig)
+	obj = is_Client_tls_disabled_config(kubelet_config)
 }
 
 
-isClientTlsDisabledConfig(kubeletConfig) = obj {
-	not kubeletConfig.data.authentication.x509.clientCAFile
-	obj = kubeletConfig
+is_Client_tls_disabled_config(kubelet_config) = obj {
+	not kubelet_config.data.authentication.x509.clientCAFile
+	obj = kubelet_config
 }
 
-isClientTlsDisabledCli(kubeletCli) = obj {
-	kubeletCliData = kubeletCli.data
-	not contains(kubeletCliData["fullCommand"], "client-ca-file")
-	obj = kubeletCli
+isClientTlsDisabledCli(kubelet_cli) = obj {
+	kubelet_cli_data = kubelet_cli.data
+	not contains(kubelet_cli_data["fullCommand"], "client-ca-file")
+	obj = kubelet_cli
 }

@@ -30,7 +30,7 @@ deny [msga] {
     	msga := {
 	     "alertMessage": sprintf("The following %v: %v can modify 'coredns' configmap", [subject.kind, subject.name]),
 		"alertScore": 6,
-          "failedPaths": [path],
+         "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -70,7 +70,7 @@ deny[msga] {
     	msga := {
 	     "alertMessage": sprintf("The following %v: %v can modify 'coredns' configmap", [subject.kind, subject.name]),
 		"alertScore": 6,
-          "failedPaths": [path],
+         "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -111,7 +111,7 @@ deny[msga] {
     	msga := {
 	     "alertMessage": sprintf("The following %v: %v can modify 'coredns'  configmap", [subject.kind, subject.name]),
 		"alertScore": 6,
-          "failedPaths": [path],
+         "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
@@ -133,7 +133,7 @@ deny[msga] {
 
   canModifyConfigMapResource(rule) {
        not rule.resourceNames
-       isApiGroup(rule)
+       is_api_group(rule)
        cautils.list_contains(rule.resources,"*")
   }
 
@@ -156,12 +156,12 @@ deny[msga] {
    }
 
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "*"
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == ""
 }

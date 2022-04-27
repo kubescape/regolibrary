@@ -3,11 +3,11 @@ package armo_builtins
 
 # Check if PSP is enabled for GKE
 deny[msga] {
-	clusterConfig := input[_]
-	clusterConfig.apiVersion == "container.googleapis.com/v1"
-	clusterConfig.kind == "ClusterDescribe"
-    clusterConfig.metadata.provider == "gke"	
-	config := clusterConfig.data
+	cluster_config := input[_]
+	cluster_config.apiVersion == "container.googleapis.com/v1"
+	cluster_config.kind == "ClusterDescribe"
+    cluster_config.metadata.provider == "gke"	
+	config := cluster_config.data
     not config.pod_security_policy_config.enabled == true
 
 	
@@ -20,7 +20,7 @@ deny[msga] {
 		"fixCommand": "gcloud beta container clusters update <cluster_name> --enable-pod-security-policy",
 		"alertObject": {
 			"k8sApiObjects": [],
-            "externalObjects": clusterConfig
+            "externalObjects": cluster_config
 		}
 	}
 }

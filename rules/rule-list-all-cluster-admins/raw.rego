@@ -112,17 +112,17 @@ canCreate(rule, i) {
 }
 
 canCreateResources(rule, i){
-	isApiGroup(rule)
+	is_api_group(rule)
 	resource := rule.resources[j]
 	resource == "*"
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == ""
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "*"
 }

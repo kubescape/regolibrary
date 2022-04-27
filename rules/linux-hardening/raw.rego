@@ -5,9 +5,9 @@ package armo_builtins
 deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
-    isUnsafePod(pod)
+    is_unsafe_pod(pod)
     container := pod.spec.containers[i]
-    isUnsafeContainer(container)
+    is_unsafe_container(container)
 
 	fixPaths := [
 	{"path": sprintf("spec.containers[%v].seccompProfile", [format_int(i, 10)]), "value": "YOUR_VALUE"},
@@ -32,9 +32,9 @@ deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-    isUnsafeWorkload(wl)
+    is_unsafe_workload(wl)
     container := wl.spec.template.spec.containers[i]
-    isUnsafeContainer(container)
+    is_unsafe_container(container)
 
 	fixPaths := [
 	{"path": sprintf("spec.template.spec.containers[%v].seccompProfile", [format_int(i, 10)]), "value": "YOUR_VALUE"},
@@ -60,9 +60,9 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-    isUnsafeCronJob(wl)
+    is_unsafe_cronjob(wl)
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-    isUnsafeContainer(container)
+    is_unsafe_container(container)
 
 	fixPaths := [
 	{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].seccompProfile", [format_int(i, 10)]), "value": "YOUR_VALUE"},
@@ -82,27 +82,27 @@ deny[msga] {
 	}
 }
 
-isUnsafePod(pod){
+is_unsafe_pod(pod){
     not pod.spec.securityContext.seccompProfile
     not pod.spec.securityContext.seLinuxOptions
 	annotations := [pod.metadata.annotations[i] | annotation = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
 	not count(annotations) > 0
 }
 
-isUnsafeContainer(container){
+is_unsafe_container(container){
     not container.securityContext.seccompProfile
     not container.securityContext.seLinuxOptions
     not container.securityContext.capabilities.drop
 }
 
-isUnsafeWorkload(wl) {
+is_unsafe_workload(wl) {
     not wl.spec.template.spec.securityContext.seccompProfile
     not wl.spec.template.spec.securityContext.seLinuxOptions
 	annotations := [wl.spec.template.metadata.annotations[i] | annotation = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
 	not count(annotations) > 0
 }
 
-isUnsafeCronJob(cronjob) {
+is_unsafe_cronjob(cronjob) {
     not cronjob.spec.jobTemplate.spec.template.spec.securityContext.seccompProfile
     not cronjob.spec.jobTemplate.spec.template.spec.securityContext.seLinuxOptions
 	annotations := [cronjob.spec.jobTemplate.spec.template.metadata.annotations[i] | annotation = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]

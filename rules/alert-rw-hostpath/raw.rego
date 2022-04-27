@@ -9,12 +9,12 @@ deny[msga] {
     volume := volumes[_]
     volume.hostPath
 	container := pod.spec.containers[i]
-	volumeMount := container.volumeMounts[k]
-	volumeMount.name == volume.name
-	begginingOfPath := "spec."
-	result := isRWMount(volumeMount, begginingOfPath,  i, k)
-	failedPath := getFailedPath(result)
-    fixedPath := getFixedPath(result)
+	volume_mount := container.volumeMounts[k]
+	volume_mount.name == volume.name
+	beggining_of_path := "spec."
+	result := is_rw_mount(volume_mount, beggining_of_path,  i, k)
+	failed_path := get_failed_path(result)
+    fixed_path := get_fixed_path(result)
 
     podname := pod.metadata.name
 
@@ -22,8 +22,8 @@ deny[msga] {
 		"alertMessage": sprintf("pod: %v has: %v as hostPath volume", [podname, volume.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"fixPaths": fixedPath,
-		"failedPaths": failedPath,
+		"fixPaths": fixed_path,
+		"failedPaths": failed_path,
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -39,19 +39,19 @@ deny[msga] {
     volume := volumes[_]
     volume.hostPath
 	container := wl.spec.template.spec.containers[i]
-	volumeMount := container.volumeMounts[k]
-	volumeMount.name == volume.name
-	begginingOfPath := "spec.template.spec."
-	result := isRWMount(volumeMount, begginingOfPath,  i, k)
-	failedPath := getFailedPath(result)
-    fixedPath := getFixedPath(result)
+	volume_mount := container.volumeMounts[k]
+	volume_mount.name == volume.name
+	beggining_of_path := "spec.template.spec."
+	result := is_rw_mount(volume_mount, beggining_of_path,  i, k)
+	failed_path := get_failed_path(result)
+    fixed_path := get_fixed_path(result)
 
 	msga := {
 		"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"fixPaths": fixedPath,
-		"failedPaths": failedPath,
+		"fixPaths": fixed_path,
+		"failedPaths": failed_path,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -68,45 +68,45 @@ deny[msga] {
     volume.hostPath
 
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	volumeMount := container.volumeMounts[k]
-	volumeMount.name == volume.name
-	begginingOfPath := "spec.jobTemplate.spec.template.spec."
-	result := isRWMount(volumeMount, begginingOfPath,  i, k) 
-	failedPath := getFailedPath(result)
-    fixedPath := getFixedPath(result)
+	volume_mount := container.volumeMounts[k]
+	volume_mount.name == volume.name
+	beggining_of_path := "spec.jobTemplate.spec.template.spec."
+	result := is_rw_mount(volume_mount, beggining_of_path,  i, k) 
+	failed_path := get_failed_path(result)
+    fixed_path := get_fixed_path(result)
 
 
 	msga := {
 	"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
 	"packagename": "armo_builtins",
 	"alertScore": 7,
-	"fixPaths": fixedPath,
-	"failedPaths": failedPath,
+	"fixPaths": fixed_path,
+	"failedPaths": failed_path,
 	"alertObject": {
 			"k8sApiObjects": [wl]
 		}
 	}
 }
 
-getFailedPath(paths) = [paths[0]] {
+get_failed_path(paths) = [paths[0]] {
 	paths[0] != ""
 } else = []
 
 
-getFixedPath(paths) = [paths[1]] {
+get_fixed_path(paths) = [paths[1]] {
 	paths[1] != ""
 } else = []
 
 
-isRWMount(mount, begginingOfPath,  i, k) =  [failedPath, fixPath] {
+is_rw_mount(mount, beggining_of_path,  i, k) =  [failed_path, fix_path] {
 	not mount.readOnly == true
  	not mount.readOnly == false
-	failedPath = ""
-    fixPath = {"path": sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [begginingOfPath, format_int(i, 10), format_int(k, 10)]), "value":"true"}
+	failed_path = ""
+    fix_path = {"path": sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [beggining_of_path, format_int(i, 10), format_int(k, 10)]), "value":"true"}
 }
 
-isRWMount(mount, begginingOfPath,  i, k) =  [failedPath, fixPath] {
+is_rw_mount(mount, beggining_of_path,  i, k) =  [failed_path, fix_path] {
   	mount.readOnly == false
-  	failedPath = sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [begginingOfPath, format_int(i, 10), format_int(k, 10)])
-    fixPath = ""
+  	failed_path = sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [beggining_of_path, format_int(i, 10), format_int(k, 10)])
+    fix_path = ""
 } 

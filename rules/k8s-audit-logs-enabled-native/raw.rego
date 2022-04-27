@@ -5,8 +5,8 @@ import data.cautils as cautils
 deny[msga] {
 	apiserverpod := input[_]
     cmd := apiserverpod.spec.containers[0].command
-	auditPolicy :=  [ command |command := cmd[_] ; contains(command, "--audit-policy-file=")]
-    count(auditPolicy) < 1
+	audit_policy :=  [ command |command := cmd[_] ; contains(command, "--audit-policy-file=")]
+    count(audit_policy) < 1
 	path := "spec.containers[0].command"	
 
 	

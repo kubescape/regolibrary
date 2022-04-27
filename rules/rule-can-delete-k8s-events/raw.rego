@@ -22,7 +22,7 @@ deny [msga] {
     msga := {
 	    "alertMessage": sprintf("The following %v: %v can delete events", [subject.kind, subject.name]),
 		"alertScore": 6,
-        "failedPaths": [path],
+       "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -56,7 +56,7 @@ deny[msga] {
     msga := {
 	    "alertMessage": sprintf("The following %v: %v can delete events", [subject.kind, subject.name]),
 		"alertScore": 6,
-        "failedPaths": [path],
+       "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -90,7 +90,7 @@ deny[msga] {
     msga := {
 	    "alertMessage": sprintf("The following %v: %v can delete events", [subject.kind, subject.name]),
 		"alertScore": 6,
-        "failedPaths": [path],
+       "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
@@ -106,16 +106,16 @@ canDeleteEventsResource(rule) {
  cautils.list_contains(rule.resources,"events")
 }
 canDeleteEventsResource(rule) {
- isApiGroup(rule)
+ is_api_group(rule)
  cautils.list_contains(rule.resources,"*")
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "*"
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == ""
 }

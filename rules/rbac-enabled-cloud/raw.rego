@@ -2,11 +2,11 @@ package armo_builtins
 
 
 deny[msga] {
-	clusterConfig := input[_]
-	clusterConfig.apiVersion == "management.azure.com/v1"
-	clusterConfig.kind == "ClusterDescribe"
-    clusterConfig.metadata.provider == "aks"	
-    config := clusterConfig.data
+	cluster_config := input[_]
+	cluster_config.apiVersion == "management.azure.com/v1"
+	cluster_config.kind == "ClusterDescribe"
+    cluster_config.metadata.provider == "aks"	
+    config := cluster_config.data
     config.properties.enableRBAC == false
 
 	msga := {
@@ -18,7 +18,7 @@ deny[msga] {
 		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],
-            "externalObjects": clusterConfig
+            "externalObjects": cluster_config
 		}
 	}
 }
