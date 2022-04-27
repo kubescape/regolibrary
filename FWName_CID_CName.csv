@@ -1,47 +1,4 @@
 frameworkName,ControlID,ControlName
-DevOpsBest,C-0073,Naked PODs
-DevOpsBest,C-0074,Containers mounting Docker socket
-DevOpsBest,C-0075,Image pull policy on latest tag
-DevOpsBest,C-0076,Label usage for resources
-DevOpsBest,C-0077,K8s common labels usage
-DevOpsBest,C-0061,Pods in default namespace
-DevOpsBest,C-0044,Container hostPort
-DevOpsBest,C-0050,Resources CPU limit and request
-DevOpsBest,C-0004,Resources memory limit and request
-DevOpsBest,C-0056,Configured liveness probe
-DevOpsBest,C-0018,Configured readiness probe
-MITRE,C-0053,Access container service account
-MITRE,C-0014,Access Kubernetes dashboard
-MITRE,C-0033,Access tiller endpoint
-MITRE,C-0025,Application exploit (RCE)
-MITRE,C-0012,Applications credentials in configuration files
-MITRE,C-0019,Bash/cmd inside container
-MITRE,C-0035,Cluster-admin binding
-MITRE,C-0054,Cluster internal networking
-MITRE,C-0002,Exec into container
-MITRE,C-0047,Exposed dashboard
-MITRE,C-0021,Exposed sensitive interfaces
-MITRE,C-0048,HostPath mount
-MITRE,C-0052,Instance Metadata API
-MITRE,C-0026,Kubernetes CronJob
-MITRE,C-0015,List Kubernetes secrets
-MITRE,C-0020,Mount service principal
-MITRE,C-0057,Privileged container
-MITRE,C-0042,SSH server running inside container
-MITRE,C-0024,Vulnerable application
-MITRE,C-0045,Writable hostPath mount
-MITRE,C-0039,Malicious admission controller (mutating)
-MITRE,C-0036,Malicious admission controller (validating)
-MITRE,C-0031,Delete Kubernetes events
-MITRE,C-0037,CoreDNS poisoning
-MITRE,C-0007,Data Destruction
-MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-MITRE,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-MITRE,C-0067,Audit logs enabled
-MITRE,C-0066,Secret/ETCD encryption enabled
-MITRE,C-0068,PSP enabled
-MITRE,C-0069,Disable anonymous access to Kubelet service
-MITRE,C-0070,Enforce Kubelet client TLS authentication
 ArmoBest,C-0005,Control plane hardening
 ArmoBest,C-0038,Host PID/IPC privileges
 ArmoBest,C-0017,Immutable container filesystem
@@ -83,6 +40,69 @@ ArmoBest,C-0087,CVE-2022-23648-containerd-fs-escape
 ArmoBest,C-0085,Workloads with excessive amount of vulnerabilities
 ArmoBest,C-0083,Workloads with Critical vulnerabilities exposed to external traffic
 ArmoBest,C-0084,Workloads with RCE vulnerabilities exposed to external traffic
+YAML scanning,C-0001,Forbidden Container Registries
+YAML scanning,C-0002,Exec into container
+YAML scanning,C-0004,Resources memory limit and request
+YAML scanning,C-0006,Allowed hostPath
+YAML scanning,C-0007,Data Destruction
+YAML scanning,C-0009,Resource policies
+YAML scanning,C-0012,Applications credentials in configuration files
+YAML scanning,C-0013,Non-root containers
+YAML scanning,C-0014,Access Kubernetes dashboard
+YAML scanning,C-0015,List Kubernetes secrets
+YAML scanning,C-0016,Allow privilege escalation
+YAML scanning,C-0017,Immutable container filesystem
+YAML scanning,C-0018,Configured readiness probe
+YAML scanning,C-0020,Mount service principal
+YAML scanning,C-0021,Exposed sensitive interfaces
+YAML scanning,C-0026,Kubernetes CronJob
+YAML scanning,C-0030,Ingress and Egress blocked
+YAML scanning,C-0031,Delete Kubernetes events
+YAML scanning,C-0033,Access tiller endpoint
+YAML scanning,C-0034,Automatic mapping of service account
+YAML scanning,C-0035,Cluster-admin binding
+YAML scanning,C-0036,Malicious admission controller (validating)
+YAML scanning,C-0037,CoreDNS poisoning
+YAML scanning,C-0038,Host PID/IPC privileges
+YAML scanning,C-0039,Malicious admission controller (mutating)
+YAML scanning,C-0041,HostNetwork access
+YAML scanning,C-0042,SSH server running inside container
+YAML scanning,C-0044,Container hostPort
+YAML scanning,C-0045,Writable hostPath mount
+YAML scanning,C-0046,Insecure capabilities
+YAML scanning,C-0047,Exposed dashboard
+YAML scanning,C-0048,HostPath mount
+YAML scanning,C-0050,Resources CPU limit and request
+YAML scanning,C-0052,Instance Metadata API
+YAML scanning,C-0053,Access container service account
+YAML scanning,C-0054,Cluster internal networking
+YAML scanning,C-0055,Linux hardening
+YAML scanning,C-0056,Configured liveness probe
+YAML scanning,C-0057,Privileged container
+YAML scanning,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+YAML scanning,C-0062,Sudo in container entrypoint
+YAML scanning,C-0063,Portforwarding privileges
+YAML scanning,C-0065,No impersonation
+YAML scanning,C-0073,Naked PODs
+YAML scanning,C-0074,Containers mounting Docker socket
+YAML scanning,C-0075,Image pull policy on latest tag
+YAML scanning,C-0076,Label usage for resources
+YAML scanning,C-0077,K8s common labels usage
+YAML scanning,C-0078,Images from allowed registry
+YAML scanning,C-0081,CVE-2022-24348-argocddirtraversal
+YAML scanning,C-0085,Workloads with excessive amount of vulnerabilities
+YAML scanning,C-0086,CVE-2022-0492-cgroups-container-escape
+DevOpsBest,C-0073,Naked PODs
+DevOpsBest,C-0074,Containers mounting Docker socket
+DevOpsBest,C-0075,Image pull policy on latest tag
+DevOpsBest,C-0076,Label usage for resources
+DevOpsBest,C-0077,K8s common labels usage
+DevOpsBest,C-0061,Pods in default namespace
+DevOpsBest,C-0044,Container hostPort
+DevOpsBest,C-0050,Resources CPU limit and request
+DevOpsBest,C-0004,Resources memory limit and request
+DevOpsBest,C-0056,Configured liveness probe
+DevOpsBest,C-0018,Configured readiness probe
 NSA,C-0005,Control plane hardening
 NSA,C-0038,Host PID/IPC privileges
 NSA,C-0017,Immutable container filesystem
@@ -109,3 +129,35 @@ NSA,C-0066,Secret/ETCD encryption enabled
 NSA,C-0068,PSP enabled
 NSA,C-0069,Disable anonymous access to Kubelet service
 NSA,C-0070,Enforce Kubelet client TLS authentication
+MITRE,C-0053,Access container service account
+MITRE,C-0014,Access Kubernetes dashboard
+MITRE,C-0033,Access tiller endpoint
+MITRE,C-0025,Application exploit (RCE)
+MITRE,C-0012,Applications credentials in configuration files
+MITRE,C-0019,Bash/cmd inside container
+MITRE,C-0035,Cluster-admin binding
+MITRE,C-0054,Cluster internal networking
+MITRE,C-0002,Exec into container
+MITRE,C-0047,Exposed dashboard
+MITRE,C-0021,Exposed sensitive interfaces
+MITRE,C-0048,HostPath mount
+MITRE,C-0052,Instance Metadata API
+MITRE,C-0026,Kubernetes CronJob
+MITRE,C-0015,List Kubernetes secrets
+MITRE,C-0020,Mount service principal
+MITRE,C-0057,Privileged container
+MITRE,C-0042,SSH server running inside container
+MITRE,C-0024,Vulnerable application
+MITRE,C-0045,Writable hostPath mount
+MITRE,C-0039,Malicious admission controller (mutating)
+MITRE,C-0036,Malicious admission controller (validating)
+MITRE,C-0031,Delete Kubernetes events
+MITRE,C-0037,CoreDNS poisoning
+MITRE,C-0007,Data Destruction
+MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+MITRE,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+MITRE,C-0067,Audit logs enabled
+MITRE,C-0066,Secret/ETCD encryption enabled
+MITRE,C-0068,PSP enabled
+MITRE,C-0069,Disable anonymous access to Kubelet service
+MITRE,C-0070,Enforce Kubelet client TLS authentication

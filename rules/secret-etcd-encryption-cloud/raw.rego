@@ -3,24 +3,25 @@ package armo_builtins
 
 # Check if encryption in etcd in enabled for EKS
 deny[msga] {
-	clusterConfig := input[_]
-	clusterConfig.apiVersion == "eks.amazonaws.com/v1"
-	clusterConfig.kind == "ClusterDescribe"
-    clusterConfig.metadata.provider == "eks"	
-	config = clusterConfig.data
+	cluster_config := input[_]
+	cluster_config.apiVersion == "eks.amazonaws.com/v1"
+	cluster_config.kind == "ClusterDescribe"
+    cluster_config.metadata.provider == "eks"	
+	config = cluster_config.data
 
-	isNotEncryptedEKS(config)
+	is_not_encrypted_EKS(config)
     
 	
 	msga := {
 		"alertMessage": "etcd/secret encryption is not enabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
+		"failedPaths": [],
 		"fixPaths": [],
-		"failedPaths":[] ,
+		"fixCommand": "eksctl utils enable-secrets-encryption --cluster=<cluster> --key-arn=arn:aws:kms:<cluster_region>:<account>:key/<key> --region=<region>",
 		"alertObject": {
 			"k8sApiObjects": [],
-            "externalObjects": clusterConfig
+            "externalObjects": cluster_config
 		}
 	}
 }
@@ -29,50 +30,51 @@ deny[msga] {
 
 # Check if encryption in etcd in enabled for GKE
 deny[msga] {
-	clusterConfig := input[_]
-	clusterConfig.apiVersion == "container.googleapis.com/v1"
-	clusterConfig.kind == "ClusterDescribe"
-    clusterConfig.metadata.provider == "gke"	
-	config := clusterConfig.data
+	cluster_config := input[_]
+	cluster_config.apiVersion == "container.googleapis.com/v1"
+	cluster_config.kind == "ClusterDescribe"
+    cluster_config.metadata.provider == "gke"	
+	config := cluster_config.data
 
-	not isEncryptedGKE(config)
+	not is_encrypted_GKE(config)
     
 	
 	msga := {
 		"alertMessage": "etcd/secret encryption is not enabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
+		"failedPaths": ["data.database_encryption.state"],
 		"fixPaths": [],
-		"failedPaths": [],
+		"fixCommand": "gcloud container clusters update <cluster_name> --region=<compute_region> --database-encryption-key=<key_project_id>/locations/<location>/keyRings/<ring_name>/cryptoKeys/<key_name> --project=<cluster_project_id>",
 		"alertObject": {
 			"k8sApiObjects": [],
-            "externalObjects": clusterConfig
+            "externalObjects": cluster_config
 		}
 	}
 }
 
-isEncryptedGKE(config) {
+is_encrypted_GKE(config) {
 	 config.database_encryption.state == "1"
 }
-isEncryptedGKE(config) {
+is_encrypted_GKE(config) {
 	 config.database_encryption.state == "ENCRYPTED"
 }
 
-isNotEncryptedEKS(clusterConfig) {
-	encryptionConfig := clusterConfig.Cluster.EncryptionConfig[_]
-    goodResources := [resource  | resource =   clusterConfig.Cluster.EncryptionConfig.Resources[_]; resource == "secrets"]
+is_not_encrypted_EKS(cluster_config) {
+	encryptionConfig := cluster_config.Cluster.EncryptionConfig[_]
+    goodResources := [resource  | resource =   cluster_config.Cluster.EncryptionConfig.Resources[_]; resource == "secrets"]
 	count(goodResources) == 0
 }
 
-isNotEncryptedEKS(clusterConfig) {
-	clusterConfig.Cluster.EncryptionConfig == null
+is_not_encrypted_EKS(cluster_config) {
+	cluster_config.Cluster.EncryptionConfig == null
 }
 
-isNotEncryptedEKS(clusterConfig) {
-	count(clusterConfig.Cluster.EncryptionConfig) == 0
+is_not_encrypted_EKS(cluster_config) {
+	count(cluster_config.Cluster.EncryptionConfig) == 0
 }
 
-isNotEncryptedEKS(clusterConfig) {
-	encryptionConfig := clusterConfig.Cluster.EncryptionConfig[_]
+is_not_encrypted_EKS(cluster_config) {
+	encryptionConfig := cluster_config.Cluster.EncryptionConfig[_]
     count(encryptionConfig.Resources) == 0
 }

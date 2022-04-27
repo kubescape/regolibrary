@@ -35,7 +35,6 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: ca-redis-aggregared
         app-display-label: ca-redis-aggregared

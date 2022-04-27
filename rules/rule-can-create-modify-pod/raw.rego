@@ -13,8 +13,8 @@ deny [msga] {
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-    canCreateModifyToPodResource(rule)
-    canCreateModifyToPodVerb(rule)
+    can_create_modify_to_pod_resource(rule)
+    can_create_modify_to_pod_verb(rule)
 
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
@@ -25,7 +25,7 @@ deny [msga] {
     	msga := {
 	"alertMessage": sprintf("The following %v: %v can create/modify workloads", [subject.kind, subject.name]),
 		"alertScore": 9,
-        "failedPaths": [path],
+       "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -45,8 +45,8 @@ deny [msga]{
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-    canCreateModifyToPodResource(rule)
-    canCreateModifyToPodVerb(rule)
+    can_create_modify_to_pod_resource(rule)
+    can_create_modify_to_pod_verb(rule)
 
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
@@ -56,7 +56,7 @@ deny [msga]{
     	msga := {
 	"alertMessage": sprintf("The following %v: %v can create/modify workloads", [subject.kind, subject.name]),
 		"alertScore": 9,
-        "failedPaths": [path],
+       "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -76,8 +76,8 @@ deny [msga]{
      clusterrolebinding := clusterrolebindings[_]
 
     rule:= role.rules[_]
-    canCreateModifyToPodResource(rule)
-    canCreateModifyToPodVerb(rule)
+    can_create_modify_to_pod_resource(rule)
+    can_create_modify_to_pod_verb(rule)
 
     clusterrolebinding.roleRef.kind == "ClusterRole"
     clusterrolebinding.roleRef.name == role.metadata.name
@@ -88,7 +88,7 @@ deny [msga]{
     	msga := {
 		"alertMessage": sprintf("The following %v: %v can create/modify workloads", [subject.kind, subject.name]),
 		"alertScore": 9,
-        "failedPaths": [path],
+       "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
@@ -102,57 +102,57 @@ deny [msga]{
 
 
 
-canCreateModifyToPodResource(rule){
+can_create_modify_to_pod_resource(rule){
     cautils.list_contains(rule.resources,"pods")
 }
 
-canCreateModifyToPodResource(rule){
+can_create_modify_to_pod_resource(rule){
     cautils.list_contains(rule.resources,"deployments")
 }
 
-canCreateModifyToPodResource(rule){
+can_create_modify_to_pod_resource(rule){
     cautils.list_contains(rule.resources,"daemonsets")
 }
 
-canCreateModifyToPodResource(rule){
+can_create_modify_to_pod_resource(rule){
     cautils.list_contains(rule.resources,"replicasets")
 }
-canCreateModifyToPodResource(rule){
+can_create_modify_to_pod_resource(rule){
     cautils.list_contains(rule.resources,"statefulsets")
 }
-canCreateModifyToPodResource(rule){
+can_create_modify_to_pod_resource(rule){
     cautils.list_contains(rule.resources,"jobs")
 }
-canCreateModifyToPodResource(rule){
+can_create_modify_to_pod_resource(rule){
     cautils.list_contains(rule.resources,"cronjobs")
 }
-canCreateModifyToPodResource(rule){
-    isApiGroup(rule)
+can_create_modify_to_pod_resource(rule){
+    is_api_group(rule)
     cautils.list_contains(rule.resources,"*")
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "*"
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == ""
 }
 
-canCreateModifyToPodVerb(rule) {
+can_create_modify_to_pod_verb(rule) {
     cautils.list_contains(rule.verbs, "create")
 }
 
-canCreateModifyToPodVerb(rule) {
+can_create_modify_to_pod_verb(rule) {
     cautils.list_contains(rule.verbs, "patch")
 }
 
-canCreateModifyToPodVerb(rule) {
+can_create_modify_to_pod_verb(rule) {
     cautils.list_contains(rule.verbs, "update")
 }
 
-canCreateModifyToPodVerb(rule) {
+can_create_modify_to_pod_verb(rule) {
     cautils.list_contains(rule.verbs, "*")
 }

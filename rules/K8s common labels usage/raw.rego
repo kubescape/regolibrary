@@ -7,7 +7,7 @@ deny[msga] {
 
 	pod := input[_]
 	pod.kind == "Pod"
-	fixPath := noK8sLabelOrNoK8sLabelUsage(pod, "")
+	fixPath := no_K8s_label_or_no_K8s_label_usage(pod, "")
 
     msga := {
 		"alertMessage": sprintf("in the following pod the kubernetes common labels are not defined: %v", [pod.metadata.name]),
@@ -27,8 +27,8 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
 	podSpec := wl.spec.template
-	begginingOfPodPath := "spec.template."
-	fixPath := noK8sLabelUsage(wl, podSpec, begginingOfPodPath)
+	beggining_of_pod_path := "spec.template."
+	fixPath := no_K8s_label_usage(wl, podSpec, beggining_of_pod_path)
 
     msga := {
 		"alertMessage": sprintf("%v: %v the kubernetes common labels are is not defined:", [wl.kind, wl.metadata.name]),
@@ -47,8 +47,8 @@ deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	podSpec := wl.spec.jobTemplate.spec.template
-	begginingOfPodPath := "spec.jobTemplate.spec.template."
-	fixPath := noK8sLabelUsage(wl, podSpec, begginingOfPodPath)
+	beggining_of_pod_path := "spec.jobTemplate.spec.template."
+	fixPath := no_K8s_label_usage(wl, podSpec, beggining_of_pod_path)
 
 
     msga := {
@@ -66,42 +66,42 @@ deny[msga] {
 
 
 # There is no label-usage in WL and also for his Pod
-noK8sLabelUsage(wl, podSpec, begginingOfPodPath) = path{
-	path1 := noK8sLabelOrNoK8sLabelUsage(wl, "")
-	path2 := noK8sLabelOrNoK8sLabelUsage(podSpec, begginingOfPodPath)
+no_K8s_label_usage(wl, podSpec, beggining_of_pod_path) = path{
+	path1 := no_K8s_label_or_no_K8s_label_usage(wl, "")
+	path2 := no_K8s_label_or_no_K8s_label_usage(podSpec, beggining_of_pod_path)
 	path = array.concat(path1, path2)
 }
 
 # There is label-usage for WL but not for his Pod
-noK8sLabelUsage(wl, podSpec, begginingOfPodPath) = path{
-	not noK8sLabelOrNoK8sLabelUsage(wl, "")
-	path := noK8sLabelOrNoK8sLabelUsage(podSpec, begginingOfPodPath)
+no_K8s_label_usage(wl, podSpec, beggining_of_pod_path) = path{
+	not no_K8s_label_or_no_K8s_label_usage(wl, "")
+	path := no_K8s_label_or_no_K8s_label_usage(podSpec, beggining_of_pod_path)
 }
 
 # There is no label-usage for WL but there is for his Pod
-noK8sLabelUsage(wl, podSpec, begginingOfPodPath) = path{
-	not noK8sLabelOrNoK8sLabelUsage(podSpec, begginingOfPodPath)
-	path := noK8sLabelOrNoK8sLabelUsage(wl, "")
+no_K8s_label_usage(wl, podSpec, beggining_of_pod_path) = path{
+	not no_K8s_label_or_no_K8s_label_usage(podSpec, beggining_of_pod_path)
+	path := no_K8s_label_or_no_K8s_label_usage(wl, "")
 }
 
-noK8sLabelOrNoK8sLabelUsage(wl, begginingOfPath) = path{
+no_K8s_label_or_no_K8s_label_usage(wl, beggining_of_path) = path{
 	not wl.metadata.labels
-	path = [{"path": sprintf("%vmetadata.labels", [begginingOfPath]), "value": "YOUR_VALUE"}]
+	path = [{"path": sprintf("%vmetadata.labels", [beggining_of_path]), "value": "YOUR_VALUE"}]
 }
 
-noK8sLabelOrNoK8sLabelUsage(wl, begginingOfPath) = path{
+no_K8s_label_or_no_K8s_label_usage(wl, beggining_of_path) = path{
 	metadata := wl.metadata
 	not metadata.labels
-	path = [{"path": sprintf("%vmetadata.labels", [begginingOfPath]), "value": "YOUR_VALUE"}]
+	path = [{"path": sprintf("%vmetadata.labels", [beggining_of_path]), "value": "YOUR_VALUE"}]
 }
 
-noK8sLabelOrNoK8sLabelUsage(wl, begginingOfPath) = path{
+no_K8s_label_or_no_K8s_label_usage(wl, beggining_of_path) = path{
 	labels := wl.metadata.labels
-	not allKubernetesLabels(labels)
-	path = [{"path": sprintf("%vmetadata.labels", [begginingOfPath]), "value": "YOUR_VALUE"}]
+	not all_kubernetes_labels(labels)
+	path = [{"path": sprintf("%vmetadata.labels", [beggining_of_path]), "value": "YOUR_VALUE"}]
 }
 
-allKubernetesLabels(labels){
+all_kubernetes_labels(labels){
 	recommended_labels := data.postureControlInputs.k8sRecommendedLabels
 	recommended_label := recommended_labels[_]
 	labels[recommended_label]

@@ -4,7 +4,7 @@ metadata:
   namespace: default
   name: pod-exec
 rules:
-- apiGroups: [""]
+- apiGroups: ["*"]
   resources: ["secrets","pods","services","depolyments","replicasets","deamonsets","stateflsets","jobs,"cronjobs"]  # we look for one of these resources or *
   verbs: ["delete","deletecollection"]	    # we look for one of these verbs or * 	
 

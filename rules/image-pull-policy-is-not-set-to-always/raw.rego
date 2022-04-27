@@ -5,7 +5,7 @@ deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
 	container := pod.spec.containers[i]
-    isBadContainer(container)
+    is_bad_container(container)
 	paths = [sprintf("spec.containers[%v].image", [format_int(i, 10)]), sprintf("spec.containers[%v].imagePullPolicy", [format_int(i, 10)])]
 	msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  has 'latest' tag on image but imagePullPolicy is not set to 'Always'", [container.name, pod.metadata.name]),
@@ -25,7 +25,7 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 	paths = [sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)]), sprintf("spec.template.spec.containers[%v].imagePullPolicy", [format_int(i, 10)])]
-    isBadContainer(container)
+    is_bad_container(container)
 	msga := {
 		"alertMessage": sprintf("container: %v in %v: %v  has 'latest' tag on image but imagePullPolicy is not set to 'Always'", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -43,7 +43,7 @@ deny[msga] {
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 	paths = [sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)]), sprintf("spec.jobTemplate.spec.template.spec.containers[%v].imagePullPolicy", [format_int(i, 10)])]
-    isBadContainer(container)
+    is_bad_container(container)
 	msga := {
 		"alertMessage": sprintf("container: %v in cronjob: %v  has 'latest' tag on image but imagePullPolicy is not set to 'Always'", [container.name, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -57,37 +57,37 @@ deny[msga] {
 }
 
 # image tag is latest
-isBadContainer(container){
+is_bad_container(container){
     reg := ":[\\w][\\w.-]{0,127}(\/)?"
     version := regex.find_all_string_submatch_n(reg, container.image, -1)
     v := version[_]
     img := v[_]
     img == ":latest"
-    notImagePullPolicy(container)
+    not_image_pull_policy(container)
 }
 
 # No image tag or digest (== latest)
-isBadContainer(container){
-    not isTagImage(container.image)
-    notImagePullPolicy(container)
+is_bad_container(container){
+    not is_tag_image(container.image)
+    not_image_pull_policy(container)
 }
 
 # image tag is only letters (== latest)
-isBadContainer(container){
-    isTagImageOnlyLetters(container.image)
-    notImagePullPolicy(container)
+is_bad_container(container){
+    is_tag_image_only_letters(container.image)
+    not_image_pull_policy(container)
 }
 
-notImagePullPolicy(container) {
+not_image_pull_policy(container) {
      container.imagePullPolicy == "Never"
 }
 
 
-notImagePullPolicy(container) {
+not_image_pull_policy(container) {
      container.imagePullPolicy == "IfNotPresent"
 }
 
-isTagImage(image) {
+is_tag_image(image) {
     reg := ":[\\w][\\w.-]{0,127}(\/)?"
     version := regex.find_all_string_submatch_n(reg, image, -1)
     v := version[_]
@@ -96,7 +96,7 @@ isTagImage(image) {
 }
 
 # The image has a tag, and contains only letters
-isTagImageOnlyLetters(image) {
+is_tag_image_only_letters(image) {
     reg := ":[\\w][\\w.-]{0,127}(\/)?"
     version := regex.find_all_string_submatch_n(reg, image, -1)
     v := version[_]

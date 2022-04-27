@@ -1,10 +1,56 @@
 [
     {
         "alertMessage": "Workload: my-deployment does not define any linux security hardening",
-        "failedPaths": [
-            "spec.template.spec"
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[0].seccompProfile",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.template.spec.containers[0].seLinuxOptions",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.template.spec.containers[0].capabilities.drop",
+                "value": "YOUR_VALUE"
+            }
         ],
-        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "goproxy"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Workload: my-deployment does not define any linux security hardening",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[1].seccompProfile",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.template.spec.containers[1].seLinuxOptions",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.template.spec.containers[1].capabilities.drop",
+                "value": "YOUR_VALUE"
+            }
+        ],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,

@@ -3,29 +3,29 @@ package armo_builtins
 
 # Returns the rbac permission of each service account
 deny[msga] {
-    serviceAccounts := [serviceaccount |  serviceaccount= input[_]; serviceaccount.kind == "ServiceAccount"]
-    serviceaccount := serviceAccounts[_]
-    serviceAccountName := serviceaccount.metadata.name
+    service_accounts := [service_account |  service_account= input[_]; service_account.kind == "ServiceAccount"]
+    service_account := service_accounts[_]
+    service_account_name := service_account.metadata.name
 
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
 	rolebinding := rolebindings[_]
     rolesubject := rolebinding.subjects[_]
-    rolesubject.name == serviceAccountName
-    rolesubject.namespace == serviceaccount.metadata.namespace
+    rolesubject.name == service_account_name
+    rolesubject.namespace == service_account.metadata.namespace
 
     roles := [role |  role = input[_]; role.kind == "Role"]
     role := roles[_]
     role.metadata.name == rolebinding.roleRef.name
 
-    savector = {"name": serviceaccount.metadata.name,
-				"namespace": serviceaccount.metadata.namespace,
-				"kind": serviceaccount.kind,
+    savector = {"name": service_account.metadata.name,
+				"namespace": service_account.metadata.namespace,
+				"kind": service_account.kind,
 				"relatedObjects": [role, rolebinding]}
 
 	msga := {
-		"alertMessage": sprintf("service account: %v has the following permissions in the cluster: %v", [serviceAccountName, rolebinding.roleRef.name]),
+		"alertMessage": sprintf("service account: %v has the following permissions in the cluster: %v", [service_account_name, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
-        "failedPaths": [""],
+       "failedPaths": [""],
 		"alertScore": 7,
         "alertObject": {
 			"k8sApiObjects": [],
@@ -36,30 +36,30 @@ deny[msga] {
 
 # Returns the rbac permission of each service account
 deny[msga] {
-    serviceAccounts := [serviceaccount |  serviceaccount= input[_]; serviceaccount.kind == "ServiceAccount"]
-    serviceaccount := serviceAccounts[_]
-    serviceAccountName := serviceaccount.metadata.name
+    service_accounts := [service_account |  service_account= input[_]; service_account.kind == "ServiceAccount"]
+    service_account := service_accounts[_]
+    service_account_name := service_account.metadata.name
 
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
 	rolebinding := rolebindings[_]
     rolesubject := rolebinding.subjects[_]
-    rolesubject.name == serviceAccountName
-    rolesubject.namespace == serviceaccount.metadata.namespace
+    rolesubject.name == service_account_name
+    rolesubject.namespace == service_account.metadata.namespace
 
     roles := [role |  role = input[_]; role.kind == "ClusterRole"]
     role := roles[_]
     role.metadata.name == rolebinding.roleRef.name
 
-    savector = {"name": serviceaccount.metadata.name,
-				"namespace": serviceaccount.metadata.namespace,
-				"kind": serviceaccount.kind,
+    savector = {"name": service_account.metadata.name,
+				"namespace": service_account.metadata.namespace,
+				"kind": service_account.kind,
 				"relatedObjects": [role, rolebinding]}
 
 	msga := {
-		"alertMessage": sprintf("service account: %v has the following permissions in the cluster: %v", [serviceAccountName, rolebinding.roleRef.name]),
+		"alertMessage": sprintf("service account: %v has the following permissions in the cluster: %v", [service_account_name, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-        "failedPaths": [""],
+       "failedPaths": [""],
 		"alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": savector
@@ -69,30 +69,30 @@ deny[msga] {
 
 # Returns the rbac permission of each service account
 deny[msga] {
-    serviceAccounts := [serviceaccount |  serviceaccount= input[_]; serviceaccount.kind == "ServiceAccount"]
-    serviceaccount := serviceAccounts[_]
-    serviceAccountName := serviceaccount.metadata.name
+    service_accounts := [service_account |  service_account= input[_]; service_account.kind == "ServiceAccount"]
+    service_account := service_accounts[_]
+    service_account_name := service_account.metadata.name
 
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "ClusterRoleBinding"]
 	rolebinding := rolebindings[_]
     rolesubject := rolebinding.subjects[_]
-    rolesubject.name == serviceAccountName
-    rolesubject.namespace == serviceaccount.metadata.namespace
+    rolesubject.name == service_account_name
+    rolesubject.namespace == service_account.metadata.namespace
 
     roles := [role |  role = input[_]; role.kind == "ClusterRole"]
     role := roles[_]
     role.metadata.name == rolebinding.roleRef.name
 
-    savector = {"name": serviceaccount.metadata.name,
-				"namespace": serviceaccount.metadata.namespace,
-				"kind": serviceaccount.kind,
+    savector = {"name": service_account.metadata.name,
+				"namespace": service_account.metadata.namespace,
+				"kind": service_account.kind,
 				"relatedObjects": [role, rolebinding]}
 
 	msga := {
-		"alertMessage": sprintf("service account: %v has the following permissions in the cluster: %v", [serviceAccountName, rolebinding.roleRef.name]),
+		"alertMessage": sprintf("service account: %v has the following permissions in the cluster: %v", [service_account_name, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-        "failedPaths": [""],
+       "failedPaths": [""],
         "alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": savector

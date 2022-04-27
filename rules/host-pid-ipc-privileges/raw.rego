@@ -5,7 +5,7 @@ package armo_builtins
 deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
-	isHostPID(pod.spec)
+	is_host_pid(pod.spec)
 	path := "spec.hostPID"
 	msga := {
 		"alertMessage": sprintf("Pod: %v has hostPID enabled", [pod.metadata.name]),
@@ -23,7 +23,7 @@ deny[msga] {
 deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
-	isHostIPC(pod.spec)
+	is_host_ipc(pod.spec)
 	path := "spec.hostIPC"
 	msga := {
 		"alertMessage": sprintf("Pod: %v has hostIPC enabled", [pod.metadata.name]),
@@ -42,7 +42,7 @@ deny[msga] {
 deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-	isHostPID(wl.spec.template.spec)
+	is_host_pid(wl.spec.template.spec)
 	path := "spec.template.spec.hostPID"
     msga := {
 	"alertMessage": sprintf("%v: %v has a pod with hostPID enabled", [wl.kind, wl.metadata.name]),
@@ -61,7 +61,7 @@ deny[msga] {
 deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-	isHostIPC(wl.spec.template.spec)
+	is_host_ipc(wl.spec.template.spec)
 	path := "spec.template.spec.hostIPC"
     msga := {
 	"alertMessage": sprintf("%v: %v has a pod with hostIPC enabled", [wl.kind, wl.metadata.name]),
@@ -79,7 +79,7 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-	isHostPID(wl.spec.jobTemplate.spec.template.spec)
+	is_host_pid(wl.spec.jobTemplate.spec.template.spec)
 	path := "spec.jobTemplate.spec.template.spec.hostPID"
     msga := {
 	"alertMessage": sprintf("CronJob: %v has a pod with hostPID enabled", [wl.metadata.name]),
@@ -98,7 +98,7 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-	isHostIPC(wl.spec.jobTemplate.spec.template.spec)
+	is_host_ipc(wl.spec.jobTemplate.spec.template.spec)
 	path := "spec.jobTemplate.spec.template.spec.hostIPC"
     msga := {
 	"alertMessage": sprintf("CronJob: %v has a pod with hostIPC enabled", [wl.metadata.name]),
@@ -115,10 +115,10 @@ deny[msga] {
 # Check that hostPID and hostIPC are set to false. Default is false. Only in pod spec
 
 
-isHostPID(podspec){
+is_host_pid(podspec){
     podspec.hostPID == true
 }
 
-isHostIPC(podspec){
+is_host_ipc(podspec){
      podspec.hostIPC == true
 }

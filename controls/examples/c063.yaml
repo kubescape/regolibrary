@@ -4,6 +4,6 @@ metadata:
   namespace: my-namespace
   name: allow-port-forward
 rules:
-- apiGroups: [""]
+- apiGroups: ["*"]
   resources: ["pods", "pods/portforward"] # we look for this resource or *
   verbs: ["update", "patch", "create"]	  # we look for these verbs or *

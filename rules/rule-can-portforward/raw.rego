@@ -114,16 +114,16 @@ canForwardToPodResource(rule) {
 	cautils.list_contains(rule.resources,"pods/*")
 }
 canForwardToPodResource(rule) {
-	isApiGroup(rule)
+	is_api_group(rule)
 	cautils.list_contains(rule.resources,"*")
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == ""
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "*"
 }

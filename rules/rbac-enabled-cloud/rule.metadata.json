@@ -1,0 +1,36 @@
+{
+    "name": "rbac-enabled-cloud",
+    "attributes": {
+    "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+        ],
+        "apiVersions": [
+        ],
+        "resources": [
+        ]
+      }
+    ],
+    "dynamicMatch": [
+      {
+        "apiGroups": [
+          "management.azure.com"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "ClusterDescribe"
+        ]
+      }
+    ],
+    "relevantCloudProviders": ["AKS"],
+    "ruleDependencies": [
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}

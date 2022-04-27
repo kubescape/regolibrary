@@ -24,7 +24,7 @@ deny[msga] {
 	    "alertMessage": sprintf("The following %v: %v can read secrets", [subject.kind, subject.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
-        "failedPaths": [path],
+       "failedPaths": [path],
         "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
@@ -58,7 +58,7 @@ deny[msga] {
 	    "alertMessage": sprintf("The following %v: %v can read secrets", [subject.kind, subject.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
-        "failedPaths": [path],
+       "failedPaths": [path],
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
 			"externalObjects": {
@@ -90,7 +90,7 @@ deny[msga] {
 	    "alertMessage": sprintf("The following %v: %v can read secrets", [subject.kind, subject.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
-        "failedPaths": [path],
+       "failedPaths": [path],
         "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
 			"externalObjects": {
@@ -126,15 +126,15 @@ canViewSecretsResource(rule) {
 }
 
 canViewSecretsResource(rule) {
-    isApiGroup(rule)
+    is_api_group(rule)
     cautils.list_contains(rule.resources,"*")
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "*"
 }
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == ""
 }

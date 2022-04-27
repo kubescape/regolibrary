@@ -6,16 +6,16 @@ deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	begginingOfPath := "spec."
-    result := isMutableFilesystem(container, begginingOfPath, i)
-	failedPath := getFailedPath(result)
-    fixedPath := getFixedPath(result)
+	beggining_of_path := "spec."
+    result := is_mutable_filesystem(container, beggining_of_path, i)
+	failed_path := get_failed_path(result)
+    fixed_path := get_fixed_path(result)
 	msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  has  mutable filesystem", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": failedPath,
-		"fixPaths": fixedPath,
+		"failedPaths": failed_path,
+		"fixPaths": fixed_path,
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -28,16 +28,16 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
     container := wl.spec.template.spec.containers[i]
-	begginingOfPath := "spec.template.spec."
-    result := isMutableFilesystem(container, begginingOfPath, i)
-	failedPath := getFailedPath(result)
-    fixedPath := getFixedPath(result)
+	beggining_of_path := "spec.template.spec."
+    result := is_mutable_filesystem(container, beggining_of_path, i)
+	failed_path := get_failed_path(result)
+    fixed_path := get_fixed_path(result)
 	msga := {
 		"alertMessage": sprintf("container :%v in %v: %v has  mutable filesystem", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": failedPath,
-		"fixPaths": fixedPath,
+		"failedPaths": failed_path,
+		"fixPaths": fixed_path,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -50,17 +50,17 @@ deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	begginingOfPath := "spec.jobTemplate.spec.template.spec."
-	result := isMutableFilesystem(container, begginingOfPath, i)
-	failedPath := getFailedPath(result)
-    fixedPath := getFixedPath(result)
+	beggining_of_path := "spec.jobTemplate.spec.template.spec."
+	result := is_mutable_filesystem(container, beggining_of_path, i)
+	failed_path := get_failed_path(result)
+    fixed_path := get_fixed_path(result)
 
 	msga := {
 		"alertMessage": sprintf("container :%v in %v: %v has mutable filesystem", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": failedPath,
-		"fixPaths": fixedPath,
+		"failedPaths": failed_path,
+		"fixPaths": fixed_path,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -68,25 +68,25 @@ deny[msga] {
 }
 
 # Default of readOnlyRootFilesystem is false. This field is only in container spec and not pod spec
-isMutableFilesystem(container, begginingOfPath, i) = [failedPath, fixPath]  {
+is_mutable_filesystem(container, beggining_of_path, i) = [failed_path, fixPath]  {
 	container.securityContext.readOnlyRootFilesystem == false
-	failedPath = sprintf("%vcontainers[%v].securityContext.readOnlyRootFilesystem", [begginingOfPath, format_int(i, 10)])
+	failed_path = sprintf("%vcontainers[%v].securityContext.readOnlyRootFilesystem", [beggining_of_path, format_int(i, 10)])
 	fixPath = ""
  }
 
- isMutableFilesystem(container, begginingOfPath, i)  = [failedPath, fixPath] {
+ is_mutable_filesystem(container, beggining_of_path, i)  = [failed_path, fixPath] {
 	not container.securityContext.readOnlyRootFilesystem == false
     not container.securityContext.readOnlyRootFilesystem == true
-	fixPath = {"path": sprintf("%vcontainers[%v].securityContext.readOnlyRootFilesystem", [begginingOfPath, format_int(i, 10)]), "value": "true"}
-	failedPath = ""
+	fixPath = {"path": sprintf("%vcontainers[%v].securityContext.readOnlyRootFilesystem", [beggining_of_path, format_int(i, 10)]), "value": "true"}
+	failed_path = ""
  }
 
 
- getFailedPath(paths) = [paths[0]] {
+ get_failed_path(paths) = [paths[0]] {
 	paths[0] != ""
 } else = []
 
 
-getFixedPath(paths) = [paths[1]] {
+get_fixed_path(paths) = [paths[1]] {
 	paths[1] != ""
 } else = []

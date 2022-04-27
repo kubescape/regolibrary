@@ -4,6 +4,6 @@ metadata:
   namespace: default
   name: pod-exec
 rules:
-- apiGroups: [""]
+- apiGroups: ["*"]
   resources: ["events"]  		   # we look for this resource or *
   verbs: ["delete","deletecollection"]	   # we look for this verb or * 	
