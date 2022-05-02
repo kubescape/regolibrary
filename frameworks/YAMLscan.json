@@ -1,5 +1,5 @@
 {
-    "name": "YAML scanning",
+    "name": "YAML-scanning",
     "description": "Controls relevant to yamls",
     "attributes": {
         "armoBuiltin": true
