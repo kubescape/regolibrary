@@ -31,6 +31,28 @@
       "settings.postureControlInputs.cpu_limit_min",
       "settings.postureControlInputs.cpu_limit_max"
     ],
+    "controlConfigInputs": [
+      {
+        "path": "settings.postureControlInputs.cpu_request_max",
+        "name": "cpu_request_max",
+        "description": "Ensure CPU max requests are set"
+      },
+      {
+        "path": "settings.postureControlInputs.cpu_request_min",
+        "name": "cpu_request_min",
+        "description": "Ensure CPU min requests are set"
+      },
+      {
+        "path": "settings.postureControlInputs.cpu_limit_max",
+        "name": "cpu_limit_max",
+        "description": "Ensure CPU max limits are set"
+      },
+      {
+        "path": "settings.postureControlInputs.cpu_limit_min",
+        "name": "cpu_limit_min",
+        "description": "Ensure CPU min limits are set"
+      }
+    ],
     "description": "CPU limits and requests are not set.",
     "remediation": "Ensure CPU limits and requests are set.",
     "ruleQuery": "armo_builtins"
