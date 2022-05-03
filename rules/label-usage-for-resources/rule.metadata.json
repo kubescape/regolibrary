@@ -24,6 +24,9 @@
       }
     ],
     "ruleDependencies": [],
+    "configInputs": [
+      "settings.postureControlInputs.recommendedLabels"
+    ],
     "controlConfigInputs": [
       {
         "path": "settings.postureControlInputs.recommendedLabels",

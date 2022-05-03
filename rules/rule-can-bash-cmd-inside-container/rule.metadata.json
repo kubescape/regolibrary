@@ -30,6 +30,9 @@
       "packageName": "cautils"
     }
   ],
+  "configInputs": [
+    "settings.postureControlInputs.listOfDangerousArtifcats"
+  ],
   "controlConfigInputs": [
     {
       "path": "settings.postureControlInputs.listOfDangerousArtifcats",

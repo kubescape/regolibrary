@@ -16,8 +16,7 @@ deny[msga] {
 	service.kind == "Service"
 	service.metadata.namespace == podns
 	service.spec.selector == filtered_labels
-    
-	hasSSHPorts(service)
+
 
 	wlvector = {"name": pod.metadata.name,
 				"namespace": pod.metadata.namespace,
@@ -46,7 +45,6 @@ deny[msga] {
 	service.metadata.namespace == wl.metadata.namespace
 	service.spec.selector == labels
 
-	hasSSHPorts(service)
 
 	wlvector = {"name": wl.metadata.name,
 				"namespace": wl.metadata.namespace,
@@ -75,7 +73,6 @@ deny[msga] {
 	service.metadata.namespace == wl.metadata.namespace
 	service.spec.selector == labels
 
-	hasSSHPorts(service)
 
 	wlvector = {"name": wl.metadata.name,
 				"namespace": wl.metadata.namespace,
@@ -92,26 +89,4 @@ deny[msga] {
 			"externalObjects": wlvector
 		}
      }
-}
-
-hasSSHPorts(service) {
-	port := service.spec.ports[_]
-	port.port == 22
-}
-
-
-hasSSHPorts(service) {
-	port := service.spec.ports[_]
-	port.port == 2222
-}
-
-hasSSHPorts(service) {
-	port := service.spec.ports[_]
-	port.targetPort == 22
-}
-
-
-hasSSHPorts(service) {
-	port := service.spec.ports[_]
-	port.targetPort == 2222
 }
