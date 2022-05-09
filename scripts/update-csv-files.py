@@ -6,6 +6,7 @@ from pathlib import Path
 """
 Update csv files
 """
+_DOUBLE_UNDERSCORE = '__'
 currDir = os.path.abspath(os.getcwd())
 
 loaded_rule_names = []
@@ -17,7 +18,7 @@ def load_rules():
     p1 = os.path.join(currDir, 'rules') 
     rules_path = Path(p1).glob('**/*.json')
     for path in rules_path:
-        if path.parent.name.startswith('__'):
+        if path.parent.name.startswith(_DOUBLE_UNDERSCORE):
             continue
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
@@ -29,7 +30,7 @@ def load_controls():
     p2 = os.path.join(currDir, 'controls') 
     controls_path = Path(p2).glob('**/*.json')
     for path in controls_path:
-        if path.name.startswith('__'):
+        if path.name.startswith(_DOUBLE_UNDERSCORE):
             continue
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
@@ -44,7 +45,7 @@ def load_frameworks():
     p3 = os.path.join(currDir, 'frameworks') 
     frameworks_path = Path(p3).glob('**/*.json')
     for path in frameworks_path:
-        if path.name.startswith('__'):
+        if path.name.startswith(_DOUBLE_UNDERSCORE):
             continue
         path_in_str = str(path)
         with open(path_in_str, "r") as f:

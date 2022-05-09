@@ -8,6 +8,7 @@ import copy
 """
 Export rules controls and frameworks to files in json format
 """
+_DOUBLE_UNDERSCORE = '__'
 currDir = os.path.abspath(os.getcwd())
 
 control_rule_rows = []
@@ -22,7 +23,7 @@ def load_rules():
     rules_list = []
 
     for path in rules_path:
-        if path.parent.name.startswith('__'):
+        if path.parent.name.startswith(_DOUBLE_UNDERSCORE):
             continue
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
@@ -50,7 +51,7 @@ def load_controls(loaded_rules: dict):
     controls_list = []
 
     for path in controls_path:
-        if path.name.startswith('__'):
+        if path.name.startswith(_DOUBLE_UNDERSCORE):
             continue
         path_in_str = str(path)
 
@@ -81,7 +82,7 @@ def load_frameworks(loaded_controls: dict):
     frameworks_list = []
 
     for path in frameworks_path:
-        if path.name.startswith('__'):
+        if path.name.startswith(_DOUBLE_UNDERSCORE):
             continue
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
