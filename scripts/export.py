@@ -13,6 +13,9 @@ currDir = os.path.abspath(os.getcwd())
 control_rule_rows = []
 framework_control_rows = []
 
+def ignore_file(file_name: str):
+    return file_name.startswith('__')
+
 def load_rules():
     p1 = os.path.join(currDir, 'rules') 
     regofile = 'raw.rego'
@@ -22,7 +25,7 @@ def load_rules():
     rules_list = []
 
     for path in rules_path:
-        if path.parent.name.startswith('__'):
+        if ignore_file(path.parent.name):
             continue
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
@@ -50,7 +53,7 @@ def load_controls(loaded_rules: dict):
     controls_list = []
 
     for path in controls_path:
-        if path.name.startswith('__'):
+        if ignore_file(path.name):
             continue
         path_in_str = str(path)
 
@@ -81,7 +84,7 @@ def load_frameworks(loaded_controls: dict):
     frameworks_list = []
 
     for path in frameworks_path:
-        if path.name.startswith('__'):
+        if ignore_file(path.name):
             continue
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
