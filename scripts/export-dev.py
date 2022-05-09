@@ -22,6 +22,8 @@ def load_rules():
     rules_list = []
 
     for path in rules_path:
+        if path.parent.name.startswith('__'):
+            continue
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
             new_rule = json.load(f)
@@ -48,6 +50,8 @@ def load_controls(loaded_rules: dict):
     controls_list = []
 
     for path in controls_path:
+        if path.name.startswith('__'):
+            continue
         path_in_str = str(path)
 
         with open(path_in_str, "r") as f:
@@ -77,6 +81,8 @@ def load_frameworks(loaded_controls: dict):
     frameworks_list = []
 
     for path in frameworks_path:
+        if path.name.startswith('__'):
+            continue
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
             new_framework = json.load(f)
