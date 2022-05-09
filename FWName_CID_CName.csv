@@ -98,6 +98,17 @@ NSA,C-0066,Secret/ETCD encryption enabled
 NSA,C-0068,PSP enabled
 NSA,C-0069,Disable anonymous access to Kubelet service
 NSA,C-0070,Enforce Kubelet client TLS authentication
+DevOpsBest,C-0073,Naked PODs
+DevOpsBest,C-0074,Containers mounting Docker socket
+DevOpsBest,C-0075,Image pull policy on latest tag
+DevOpsBest,C-0076,Label usage for resources
+DevOpsBest,C-0077,K8s common labels usage
+DevOpsBest,C-0061,Pods in default namespace
+DevOpsBest,C-0044,Container hostPort
+DevOpsBest,C-0050,Resources CPU limit and request
+DevOpsBest,C-0004,Resources memory limit and request
+DevOpsBest,C-0056,Configured liveness probe
+DevOpsBest,C-0018,Configured readiness probe
 YAML-scanning,C-0001,Forbidden Container Registries
 YAML-scanning,C-0002,Exec into container
 YAML-scanning,C-0004,Resources memory limit and request
@@ -150,14 +161,72 @@ YAML-scanning,C-0078,Images from allowed registry
 YAML-scanning,C-0081,CVE-2022-24348-argocddirtraversal
 YAML-scanning,C-0085,Workloads with excessive amount of vulnerabilities
 YAML-scanning,C-0086,CVE-2022-0492-cgroups-container-escape
-DevOpsBest,C-0073,Naked PODs
-DevOpsBest,C-0074,Containers mounting Docker socket
-DevOpsBest,C-0075,Image pull policy on latest tag
-DevOpsBest,C-0076,Label usage for resources
-DevOpsBest,C-0077,K8s common labels usage
-DevOpsBest,C-0061,Pods in default namespace
-DevOpsBest,C-0044,Container hostPort
-DevOpsBest,C-0050,Resources CPU limit and request
-DevOpsBest,C-0004,Resources memory limit and request
-DevOpsBest,C-0056,Configured liveness probe
-DevOpsBest,C-0018,Configured readiness probe
+AllControls,C-0070,Enforce Kubelet client TLS authentication
+AllControls,C-0066,Secret/ETCD encryption enabled
+AllControls,C-0047,Exposed dashboard
+AllControls,C-0012,Applications credentials in configuration files
+AllControls,C-0002,Exec into container
+AllControls,C-0081,CVE-2022-24348-argocddirtraversal
+AllControls,C-0041,HostNetwork access
+AllControls,C-0056,Configured liveness probe
+AllControls,C-0018,Configured readiness probe
+AllControls,C-0045,Writable hostPath mount
+AllControls,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+AllControls,C-0036,Malicious admission controller (validating)
+AllControls,C-0057,Privileged container
+AllControls,C-0007,Data Destruction
+AllControls,C-0009,Resource policies
+AllControls,C-0014,Access Kubernetes dashboard
+AllControls,C-0025,Application exploit (RCE)
+AllControls,C-0013,Non-root containers
+AllControls,C-0087,CVE-2022-23648-containerd-fs-escape
+AllControls,C-0050,Resources CPU limit and request
+AllControls,C-0049,Network mapping
+AllControls,C-0020,Mount service principal
+AllControls,C-0031,Delete Kubernetes events
+AllControls,C-0065,No impersonation
+AllControls,C-0046,Insecure capabilities
+AllControls,C-0063,Portforwarding privileges
+AllControls,C-0075,Image pull policy on latest tag
+AllControls,C-0016,Allow privilege escalation
+AllControls,C-0037,CoreDNS poisoning
+AllControls,C-0078,Images from allowed registry
+AllControls,C-0054,Cluster internal networking
+AllControls,C-0085,Workloads with excessive amount of vulnerabilities
+AllControls,C-0052,Instance Metadata API
+AllControls,C-0079,CVE-2022-0185-linux-kernel-container-escape
+AllControls,C-0021,Exposed sensitive interfaces
+AllControls,C-0084,Workloads with RCE vulnerabilities exposed to external traffic
+AllControls,C-0062,Sudo in container entrypoint
+AllControls,C-0035,Cluster-admin binding
+AllControls,C-0055,Linux hardening
+AllControls,C-0060,Namespace without service accounts
+AllControls,C-0015,List Kubernetes secrets
+AllControls,C-0053,Access container service account
+AllControls,C-0083,Workloads with Critical vulnerabilities exposed to external traffic
+AllControls,C-0019,Bash/cmd inside container
+AllControls,C-0034,Automatic mapping of service account
+AllControls,C-0069,Disable anonymous access to Kubelet service
+AllControls,C-0074,Containers mounting Docker socket
+AllControls,C-0048,HostPath mount
+AllControls,C-0017,Immutable container filesystem
+AllControls,C-0030,Ingress and Egress blocked
+AllControls,C-0067,Audit logs enabled
+AllControls,C-0001,Forbidden Container Registries
+AllControls,C-0042,SSH server running inside container
+AllControls,C-0073,Naked PODs
+AllControls,C-0039,Malicious admission controller (mutating)
+AllControls,C-0068,PSP enabled
+AllControls,C-0038,Host PID/IPC privileges
+AllControls,C-0044,Container hostPort
+AllControls,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+AllControls,C-0005,Control plane hardening
+AllControls,C-0061,Pods in default namespace
+AllControls,C-0024,Vulnerable application
+AllControls,C-0026,Kubernetes CronJob
+AllControls,C-0004,Resources memory limit and request
+AllControls,C-0033,Access tiller endpoint
+AllControls,C-0086,CVE-2022-0492-cgroups-container-escape
+AllControls,C-0077,K8s common labels usage
+AllControls,C-0076,Label usage for resources
+AllControls,C-0006,Allowed hostPath
