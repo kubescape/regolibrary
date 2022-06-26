@@ -2,7 +2,8 @@
   "name": "kubelet-kubeconfig-file-strict-ownership",
   "attributes": {
     "armoBuiltin": true,
-    "hostSensorRule": "true"
+    "hostSensorRule": "true",
+    "useFromKubescapeVersion": "v2.0.159"
   },
   "ruleLanguage": "Rego",
   "match": [

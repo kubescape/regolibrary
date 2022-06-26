@@ -1,8 +1,9 @@
 {
-  "name": "kubelet-client-ca-file-strict-permission",
+  "name": "kubelet-client-ca-file-strict-permissions",
   "attributes": {
     "armoBuiltin": true,
-    "hostSensorRule": "true"
+    "hostSensorRule": "true",
+    "useFromKubescapeVersion": "v2.0.159"
   },
   "ruleLanguage": "Rego",
   "match": [

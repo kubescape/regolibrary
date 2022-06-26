@@ -1,0 +1,16 @@
+{
+    "name": "Ensure that the kubelet `--config` configuration file has permissions set to `644` or more restrictive",
+    "id": "CIS-v1.6.1-4.1.9",
+    "controlID": "CIS-v1.6.1-4.1.9",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "kubelet-config-file-strict-permissions"
+    ],
+    "description": "Ensure that if the kubelet refers to a configuration file with the `--config` argument, that file has permissions of `644` or more restrictive.",
+    "long_description": "The kubelet reads various parameters, including security settings, from a config file specified by the `--config` argument. If this file is specified you should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",
+    "remediation": "Run the below command (based on the file location on your system) on the each worker node. For example,\n```\nchmod 644 /var/lib/kubelet/config.yaml\n```\n",
+    "test": "This control check that the permissions of the kubelet configuration file is set to `644` or more restrictive.",
+    "baseScore": 10.0
+}
