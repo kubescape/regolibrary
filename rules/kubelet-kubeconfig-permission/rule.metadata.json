@@ -1,0 +1,36 @@
+{
+  "name": "kubelet-kubeconfig-file-strict-permission",
+  "attributes": {
+    "armoBuiltin": true,
+    "hostSensorRule": "true"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+    {
+      "packageName": "cautils"
+    }
+  ],
+  "description": "Ensure that the kubelet kubeconfig file has permissions of 644 or more restrictive",
+  "remediation": "Set the permission of the kubelet kubeconfig file to 644 or more restrictive",
+  "ruleQuery": ""
+}
