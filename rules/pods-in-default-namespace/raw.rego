@@ -6,15 +6,15 @@ deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet", "Job", "CronJob", "Pod"}
 	spec_template_spec_patterns[wl.kind]
-	result := isDefaultNamespace(wl.metadata)
-	failedPath := getFailedPath(result)
-    fixedPath := getFixedPath(result)
+	result := is_default_namespace(wl.metadata)
+	failed_path := get_failed_path(result)
+    fixed_path := get_fixed_path(result)
 	msga := {
 		"alertMessage": sprintf("%v: %v has pods running in the 'default' namespace", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 3,
-		"failedPaths": failedPath,
-		"fixPaths": fixedPath,
+		"failedPaths": failed_path,
+		"fixPaths": fixed_path,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -23,25 +23,25 @@ deny[msga] {
 
 
 
-isDefaultNamespace(metadata) = [failedPath, fixPath] {
+is_default_namespace(metadata) = [failed_path, fixPath] {
 	metadata.namespace == "default"
-	failedPath = "metadata.namespace"
+	failed_path = "metadata.namespace"
 	fixPath = "" 
 }
 
 
-isDefaultNamespace(metadata) = [failedPath, fixPath] {
+is_default_namespace(metadata) = [failed_path, fixPath] {
 	not metadata.namespace 
 	fixPath = {"path": "metadata.namespace", "value": "YOUR_VALUE"} 
-	failedPath = "" 
+	failed_path = "" 
 }
 
-getFailedPath(paths) = [paths[0]] {
+get_failed_path(paths) = [paths[0]] {
 	paths[0] != ""
 } else = []
 
 
-getFixedPath(paths) = [paths[1]] {
+get_fixed_path(paths) = [paths[1]] {
 	paths[1] != ""
 } else = []
 

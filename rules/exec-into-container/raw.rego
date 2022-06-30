@@ -13,8 +13,8 @@ deny[msga] {
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-	canExecToPodResource(rule)
-	canExecToPodVerb(rule)
+	can_exec_to_pod_resource(rule)
+	can_exec_to_pod_verb(rule)
 
 	rolebinding.roleRef.kind == "Role"
 	rolebinding.roleRef.name == role.metadata.name
@@ -48,8 +48,8 @@ deny[msga] {
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-	canExecToPodResource(rule)
-	canExecToPodVerb(rule)
+	can_exec_to_pod_resource(rule)
+	can_exec_to_pod_verb(rule)
 
 	rolebinding.roleRef.kind == "ClusterRole"
 	rolebinding.roleRef.name == role.metadata.name
@@ -82,8 +82,8 @@ deny[msga] {
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-	canExecToPodResource(rule)
-	canExecToPodVerb(rule)
+	can_exec_to_pod_resource(rule)
+	can_exec_to_pod_verb(rule)
 
 	rolebinding.roleRef.kind == "ClusterRole"
 	rolebinding.roleRef.name == role.metadata.name
@@ -105,31 +105,31 @@ deny[msga] {
 	}
 }
 
-canExecToPodVerb(rule) {
+can_exec_to_pod_verb(rule) {
 	cautils.list_contains(rule.verbs, "create")
 }
-canExecToPodVerb(rule)  {
+can_exec_to_pod_verb(rule)  {
 	cautils.list_contains(rule.verbs, "*")
 }
 
-canExecToPodResource(rule)  {
+can_exec_to_pod_resource(rule)  {
 	cautils.list_contains(rule.resources, "pods/exec")
 	
 }
-canExecToPodResource(rule)  {
+can_exec_to_pod_resource(rule)  {
 	cautils.list_contains(rule.resources, "pods/*")
 }
-canExecToPodResource(rule) {
-	isApiGroup(rule)
+can_exec_to_pod_resource(rule) {
+	is_api_group(rule)
 	cautils.list_contains(rule.resources, "*")
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == ""
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "*"
 }

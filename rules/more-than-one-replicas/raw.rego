@@ -7,16 +7,16 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","StatefulSet"}
 	spec_template_spec_patterns[wl.kind]
     spec := wl.spec
-    result := replicasOneOrLess(spec)
-	failedPath := getFailedPath(result)
-    fixedPath := getFixedPath(result)
+    result := replicas_one_or_less(spec)
+	failed_path := get_failed_path(result)
+    fixed_path := get_fixed_path(result)
 
 	msga := {
 		"alertMessage": sprintf("Workload: %v: %v has only one replica", [ wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": failedPath,
-		"fixPaths": fixedPath,
+		"failedPaths": failed_path,
+		"fixPaths": fixed_path,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -24,24 +24,24 @@ deny[msga] {
 }
 
 
-replicasOneOrLess(spec) =  [failedPath, fixPath] {
+replicas_one_or_less(spec) =  [failed_path, fixPath] {
 	not spec.replicas
-	failedPath = ""
+	failed_path = ""
 	fixPath = {"path": "spec.replicas", "value": "YOUR_VALUE"}
 }
 
-replicasOneOrLess(spec) =  [failedPath, fixPath] {
+replicas_one_or_less(spec) =  [failed_path, fixPath] {
 	spec.replicas == 1
-	failedPath = "spec.replicas"
+	failed_path = "spec.replicas"
 	fixPath = ""
 }
 
- getFailedPath(paths) = [paths[0]] {
+ get_failed_path(paths) = [paths[0]] {
 	paths[0] != ""
 } else = []
 
 
-getFixedPath(paths) = [paths[1]] {
+get_fixed_path(paths) = [paths[1]] {
 	paths[1] != ""
 } else = []
 

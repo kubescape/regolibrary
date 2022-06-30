@@ -11,9 +11,14 @@
 		key_name := sensitive_key_names[_]
 		container := pod.spec.containers[i]
 		env := container.env[j]
-		env.value != ""
+
 		contains(lower(env.name), key_name)
-		isNotReference(env)
+		env.value != ""
+		# check that value wasn't allowed by user
+		not is_allowed_value(env.value) 
+
+		is_not_reference(env)
+
 		path := sprintf("spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
 
 		msga := {
@@ -38,9 +43,14 @@
 		key_name := sensitive_key_names[_]
 		container := wl.spec.template.spec.containers[i]
 		env := container.env[j]
-		env.value != ""
+
 		contains(lower(env.name), key_name)
-		isNotReference(env)
+		env.value != ""
+		# check that value wasn't allowed by user
+		not is_allowed_value(env.value) 
+
+		is_not_reference(env)
+
 		path := sprintf("spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])	
 
 		msga := {
@@ -63,9 +73,15 @@
 		key_name := sensitive_key_names[_]
 		container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 		env := container.env[j]
-		env.value != ""
+
 		contains(lower(env.name), key_name)
-		isNotReference(env)
+
+		env.value != ""
+		# check that value wasn't allowed by user
+		not is_allowed_value(env.value) 
+		
+		is_not_reference(env)
+		
 		path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
 
 		msga := {
@@ -82,9 +98,13 @@
 
 
 
-	isNotReference(env)
-	{
-		not env.valueFrom.secretKeyRef
-		not env.valueFrom.configMapKeyRef
-	}
+is_not_reference(env)
+{
+	not env.valueFrom.secretKeyRef
+	not env.valueFrom.configMapKeyRef
+}
 
+is_allowed_value(value) {
+    allow_val := data.postureControlInputs.sensitiveValuesAllowed[_]
+    value == allow_val
+}

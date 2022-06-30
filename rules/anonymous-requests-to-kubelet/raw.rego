@@ -2,93 +2,98 @@ package armo_builtins
 import data.kubernetes.api.client as client
 
 deny[msga] {
-		kubeletConfig := input[_]
-		kubeletConfig.kind == "KubeletConfiguration"
-		kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+		kubelet_config := input[_]
+		kubelet_config.kind == "KubeletConfiguration"
+		kubelet_config.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-		kubeletCli := input[_]            
-		kubeletCli.kind == "KubeletCommandLine"
-		kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+		kubelet_cli := input[_]            
+		kubelet_cli.kind == "KubeletCommandLine"
+		kubelet_cli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 		
-		externalObj := isAnonymouRequestsDisabledBoth(kubeletConfig, kubeletCli)
-
+		result := is_anonymou_requests_disabled_both(kubelet_config, kubelet_cli)
+		external_obj := result.obj
+		failed_paths := result.failedPaths
+		fix_paths := result.fixPaths
 
 		msga := {
 			"alertMessage": "anonymous requests is enabled",
 			"alertScore": 2,
-			"failedPaths": [],
-			"fixPaths":[],
+			"failedPaths": failed_paths,
+			"fixPaths": fix_paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
-				"externalObjects": externalObj
+				"externalObjects": external_obj
 			}
 		}
 	}
 
 
 deny[msga] {
-		externalObj := isAnonymouRequestsDisabledSingle(input)
+		result := is_anonymou_requests_disabled_single(input)
+		external_obj := result.obj
+		failed_paths := result.failedPaths
+		fix_paths := result.fixPaths
 
 		msga := {
 			"alertMessage": "anonymous requests is enabled",
 			"alertScore": 2,
-			"failedPaths": [],
-			"fixPaths":[],
+			"failedPaths": failed_paths,
+			"fixPaths": fix_paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
-				"externalObjects": externalObj
+				"externalObjects": external_obj
 			}
 		}
 	}
 
 # CLI overrides config
-isAnonymouRequestsDisabledBoth(kubeletConfig, kubeletCli) = obj {
-	kubeletCliData := kubeletCli.data
-	contains(kubeletCliData["fullCommand"], "anonymous-auth=true")
-    obj = kubeletCli
+is_anonymou_requests_disabled_both(kubelet_config, kubelet_cli) = {"obj": obj,"failedPaths": [], "fixPaths": []} {
+	kubelet_cli_data := kubelet_cli.data
+	contains(kubelet_cli_data["fullCommand"], "anonymous-auth=true")
+	obj = kubelet_cli
 }
 
-isAnonymouRequestsDisabledBoth(kubeletConfig, kubeletCli) = obj {
-	kubeletConfig.data.authentication.anonymous.enabled == true
-	kubeletCliData := kubeletCli.data
-	not contains(kubeletCliData["fullCommand"], "anonymous-auth=false")
-    not contains(kubeletCliData["fullCommand"], "anonymous-auth=true")
-    obj = kubeletConfig
+is_anonymou_requests_disabled_both(kubelet_config, kubelet_cli) = {"obj": obj,"failedPaths": ["data.authentication.anonymous.enabled"], "fixPaths": []} {
+	kubelet_config.data.authentication.anonymous.enabled == true
+	kubelet_cli_data := kubelet_cli.data
+	not contains(kubelet_cli_data["fullCommand"], "anonymous-auth=false")
+    not contains(kubelet_cli_data["fullCommand"], "anonymous-auth=true")
+	obj = kubelet_config
 }
 
 # only kubelet config
-isAnonymouRequestsDisabledSingle(resources) = obj {
-	kubeletConfig := resources[_]
-	kubeletConfig.kind == "KubeletConfiguration"
-	kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+is_anonymou_requests_disabled_single(resources) =  {"obj": obj,"failedPaths": ["data.authentication.anonymous.enabled"], "fixPaths": []} {
+	kubelet_config := resources[_]
+	kubelet_config.kind == "KubeletConfiguration"
+	kubelet_config.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-	kubeletCli := [cli | cli = resources[_]; cli.kind == "KubeletCommandLine"]
-	count(kubeletCli) == 0
+	kubelet_cli := [cli | cli = resources[_]; cli.kind == "KubeletCommandLine"]
+	count(kubelet_cli) == 0
 
-	obj = isAnonymouRequestsDisabledKubeletConfig(kubeletConfig) 
+	obj = isAnonymouRequestsDisabledKubeletConfig(kubelet_config) 
 }
 
 # only kubelet cli
-isAnonymouRequestsDisabledSingle(resources) = obj {
-	kubeletCli := resources[_]            
-	kubeletCli.kind == "KubeletCommandLine"
-	kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+is_anonymou_requests_disabled_single(resources) = {"obj": obj,"failedPaths": [], "fixPaths": []} {
+	kubelet_cli := resources[_]            
+	kubelet_cli.kind == "KubeletCommandLine"
+	kubelet_cli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-	kubeletConfig := [config | config = resources[_]; config.kind == "KubeletConfiguration"]
-	count(kubeletConfig) == 0
+	kubelet_config := [config | config = resources[_]; config.kind == "KubeletConfiguration"]
+	count(kubelet_config) == 0
 
-	obj = isAnonymouRequestsDisabledKubeletCli(kubeletCli)
+	obj = isAnonymouRequestsDisabledKubeletCli(kubelet_cli)
 }
 
 
-isAnonymouRequestsDisabledKubeletConfig(kubeletConfig) = obj {
-	kubeletConfig.data.authentication.anonymous.enabled == true
-	obj = kubeletConfig
+isAnonymouRequestsDisabledKubeletConfig(kubelet_config) = obj {
+	kubelet_config.data.authentication.anonymous.enabled == true
+	obj = kubelet_config
 }
 
 
-isAnonymouRequestsDisabledKubeletCli(kubeletCli) = obj {
-	kubeletCliData := kubeletCli.data
-	contains(kubeletCliData["fullCommand"], "anonymous-auth=true")
-    obj = kubeletCli
+isAnonymouRequestsDisabledKubeletCli(kubelet_cli) = obj {
+	kubelet_cli_data := kubelet_cli.data
+	contains(kubelet_cli_data["fullCommand"], "anonymous-auth=true")
+    obj = kubelet_cli
 }

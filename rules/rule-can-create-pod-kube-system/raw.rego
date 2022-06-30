@@ -12,9 +12,9 @@ deny[msga] {
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-    canCreateToPodNamespace(role)
-    canCreateToPodResource(rule)
-    canCreateToPodVerb(rule)
+    can_create_to_pod_namespace(role)
+    can_create_to_pod_resource(rule)
+    can_create_to_pod_verb(rule)
 
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
@@ -24,7 +24,7 @@ deny[msga] {
     msga := {
 	    "alertMessage": sprintf("The following %v: %v can create pods in kube-system", [subject.kind, subject.name]),
 		"alertScore": 3,
-        "failedPaths": [path],
+       "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -47,9 +47,9 @@ deny [msga]{
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-    canCreateToPodNamespace(rolebinding)
-    canCreateToPodResource(rule)
-    canCreateToPodVerb(rule)
+    can_create_to_pod_namespace(rolebinding)
+    can_create_to_pod_resource(rule)
+    can_create_to_pod_verb(rule)
 
 
 
@@ -61,7 +61,7 @@ deny [msga]{
     msga := {
     	"alertMessage": sprintf("The following %v: %v can create pods in kube-system", [subject.kind, subject.name]),
 		"alertScore": 3,
-        "failedPaths": [path],
+       "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -84,8 +84,8 @@ deny [msga]{
      clusterrolebinding := clusterrolebindings[_]
 
     rule:= role.rules[_]
-    canCreateToPodResource(rule)
-    canCreateToPodVerb(rule)
+    can_create_to_pod_resource(rule)
+    can_create_to_pod_verb(rule)
 
     clusterrolebinding.roleRef.kind == "ClusterRole"
     clusterrolebinding.roleRef.name == role.metadata.name
@@ -96,7 +96,7 @@ deny [msga]{
     msga := {
 	    "alertMessage": sprintf("The following %v: %v can create pods in kube-system", [subject.kind, subject.name]),
 		"alertScore": 3,
-        "failedPaths": [path],
+       "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
@@ -108,34 +108,34 @@ deny [msga]{
 }
 
 
-canCreateToPodResource(rule){
+can_create_to_pod_resource(rule){
     cautils.list_contains(rule.resources,"pods")
 }
 
-canCreateToPodResource(rule){
-    isApiGroup(rule)
+can_create_to_pod_resource(rule){
+    is_api_group(rule)
     cautils.list_contains(rule.resources,"*")
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "*"
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == ""
 }
 
-canCreateToPodVerb(rule) {
+can_create_to_pod_verb(rule) {
     cautils.list_contains(rule.verbs, "create")
 }
 
 
-canCreateToPodVerb(rule) {
+can_create_to_pod_verb(rule) {
     cautils.list_contains(rule.verbs, "*")
 }
 
-canCreateToPodNamespace(role) {
+can_create_to_pod_namespace(role) {
         role.metadata.namespace == "kube-system"
 }

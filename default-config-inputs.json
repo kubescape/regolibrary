@@ -53,6 +53,7 @@
             ],
             "max_critical_vulnerabilities": ["5"],
             "max_high_vulnerabilities": ["10"],
+            "sensitiveValuesAllowed": [],
             "sensitiveKeyNames": [
                 "aws_access_key_id",
                 "aws_secret_access_key",
@@ -88,13 +89,13 @@
                 "kubernetes-dashboard"
             ],
             "untrustedRegistries": [],
-            "memory_request_max": [],            
-            "memory_request_min": [],            
-            "memory_limit_max": ["2Mi"],
+            "memory_request_max": [],
+            "memory_request_min": [],
+            "memory_limit_max": [],
             "memory_limit_min": [],
-            "cpu_request_max": ["500m"],
+            "cpu_request_max": [],
             "cpu_request_min": [],
-            "cpu_limit_max": ["500m"],
+            "cpu_limit_max": [],
             "cpu_limit_min": [],
             "wlKnownNames": [
                 "coredns",

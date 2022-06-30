@@ -2,16 +2,16 @@ package armo_builtins
 import data.kubernetes.api.client as client
 
 deny[msga] {
-		kubeletConfig := input[_]
-		kubeletConfig.kind == "KubeletConfiguration"
-		kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+		kubelet_config := input[_]
+		kubelet_config.kind == "KubeletConfiguration"
+		kubelet_config.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-		kubeletCli := input[_]            
-		kubeletCli.kind == "KubeletCommandLine"
-		kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
-		kubeletCliData := kubeletCli.data
+		kubelet_cli := input[_]            
+		kubelet_cli.kind == "KubeletCommandLine"
+		kubelet_cli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+		kubelet_cli_data := kubelet_cli.data
 
-		isTlsDisabledBoth(kubeletConfig, kubeletCliData)
+		is_tls_disabled_both(kubelet_config, kubelet_cli_data)
 
 
 		msga := {
@@ -21,14 +21,14 @@ deny[msga] {
 			"failedPaths": [],
 			"packagename": "armo_builtins",
 			"alertObject": {
-                "k8sApiObjects": [kubeletConfig, kubeletCli]
+                "k8sApiObjects": [kubelet_config, kubelet_cli]
 			},
 		}
 	}
 
 
 deny[msga] {
-		externalObj := isTlsDisabledSingle(input)
+		external_obj := is_tls_disabled_single(input)
 
 
 		msga := {
@@ -38,7 +38,7 @@ deny[msga] {
 			"failedPaths": [],
 			"packagename": "armo_builtins",
 			"alertObject": {
-                "k8sApiObjects": [externalObj]
+                "k8sApiObjects": [external_obj]
 			},
 		}
 	}
@@ -46,46 +46,46 @@ deny[msga] {
 
 
 # CLI overrides config
-isTlsDisabledBoth(kubeletConfig, kubeletCli) {
-    isNotTlsCli(kubeletCli)
-    isNotTlsConfig(kubeletConfig)
+is_tls_disabled_both(kubelet_config, kubelet_cli) {
+    is_not_tls_cli(kubelet_cli)
+    is_not_tls_config(kubelet_config)
 }
 
-isTlsDisabledSingle(resources) = obj {
-	kubeletCli := resources[_]            
-	kubeletCli.kind == "KubeletCommandLine"
-	kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+is_tls_disabled_single(resources) = obj {
+	kubelet_cli := resources[_]            
+	kubelet_cli.kind == "KubeletCommandLine"
+	kubelet_cli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-	kubeletConfig := [config | config = resources[_]; config.kind == "KubeletConfiguration"]
-	count(kubeletConfig) == 0
+	kubelet_config := [config | config = resources[_]; config.kind == "KubeletConfiguration"]
+	count(kubelet_config) == 0
 
-	isNotTlsCli(kubeletCli)
+	is_not_tls_cli(kubelet_cli)
 
-	obj = kubeletCli
-}
-
-
-isTlsDisabledSingle(resources) = obj {
-	kubeletConfig := resources[_]
-	kubeletConfig.kind == "KubeletConfiguration"
-	kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"
-
-	kubeletCli := [cli | cli = resources[_]; cli.kind == "KubeletCommandLine"]
-	count(kubeletCli) == 0
-
-	isNotTlsConfig(kubeletConfig)
-
-	obj = kubeletConfig
+	obj = kubelet_cli
 }
 
 
-isNotTlsCli(kubeletCli) {
-	kubeletCliData := kubeletCli.data
-	not contains(kubeletCliData["fullCommand"], "tls-cert-file")
-	not contains(kubeletCliData["fullCommand"], "tls-private-key-file")
+is_tls_disabled_single(resources) = obj {
+	kubelet_config := resources[_]
+	kubelet_config.kind == "KubeletConfiguration"
+	kubelet_config.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+
+	kubelet_cli := [cli | cli = resources[_]; cli.kind == "KubeletCommandLine"]
+	count(kubelet_cli) == 0
+
+	is_not_tls_config(kubelet_config)
+
+	obj = kubelet_config
 }
 
-isNotTlsConfig(kubeletConfig){
-    not kubeletConfig.data.tlsCertFile
-    not kubeletConfig.data.tlsPrivateKeyFile
+
+is_not_tls_cli(kubelet_cli) {
+	kubelet_cli_data := kubelet_cli.data
+	not contains(kubelet_cli_data["fullCommand"], "tls-cert-file")
+	not contains(kubelet_cli_data["fullCommand"], "tls-private-key-file")
+}
+
+is_not_tls_config(kubelet_config){
+    not kubelet_config.data.tlsCertFile
+    not kubelet_config.data.tlsPrivateKeyFile
 }

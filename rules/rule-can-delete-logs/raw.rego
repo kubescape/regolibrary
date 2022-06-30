@@ -22,7 +22,7 @@ deny [msga] {
     msga := {
       "alertMessage": sprintf("The following %v: %v can delete logs", [subject.kind, subject.name]),
       "alertScore": 6,
-      "failedPaths": [path],
+     "failedPaths": [path],
       "packagename": "armo_builtins",
       "alertObject": {
         "k8sApiObjects": [role,rolebinding],
@@ -56,7 +56,7 @@ deny[msga] {
     msga := {
       "alertMessage": sprintf("The following %v: %v can delete logs", [subject.kind, subject.name]),
       "alertScore": 6,
-      "failedPaths": [path],
+     "failedPaths": [path],
       "packagename": "armo_builtins",
       "alertObject": {
         "k8sApiObjects": [role,rolebinding],
@@ -88,7 +88,7 @@ deny[msga] {
     msga := {
       "alertMessage": sprintf("The following %v: %v can delete logs", [subject.kind, subject.name]),
       "alertScore": 6,
-      "failedPaths": [path],
+     "failedPaths": [path],
       "packagename": "armo_builtins",
       "alertObject": {
         "k8sApiObjects": [role,clusterrolebinding],
@@ -104,7 +104,7 @@ deny[msga] {
 
 canDeleteLogs(rule) {
  cautils.list_contains(rule.resources,"*")
- isApiGroup(rule)
+ is_api_group(rule)
  cautils.list_contains(rule.verbs,"*")
 }
 
@@ -119,7 +119,7 @@ canDeleteLogs(rule) {
 
 canDeleteLogs(rule) {
  cautils.list_contains(rule.resources,"*")
- isApiGroup(rule)
+ is_api_group(rule)
  cautils.list_contains(rule.verbs,"delete")
 }
 
@@ -134,14 +134,14 @@ canDeleteLogs(rule) {
 
 canDeleteLogs(rule) {
  cautils.list_contains(rule.resources,"*")
- isApiGroup(rule)
+ is_api_group(rule)
  cautils.list_contains(rule.verbs,"deletecollection")
 }
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "*"
 }
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == ""
 }

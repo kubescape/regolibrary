@@ -1,7 +1,7 @@
 [
     {
         "alertMessage": "anonymous requests is enabled",
-        "failedPaths": [],
+        "failedPaths": ["data.authentication.anonymous.enabled"],
         "fixPaths":[],
         "ruleStatus": "",
         "packagename": "armo_builtins",

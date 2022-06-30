@@ -14,8 +14,8 @@ deny[msga] {
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-    canCreateUpdateToRoleResource(rule)
-    canCreateUpdateToRoleVerb(rule)
+    can_create_update_to_role_resource(rule)
+    can_create_update_to_role_verb(rule)
   
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
@@ -25,7 +25,7 @@ deny[msga] {
     	msga := {
 		"alertMessage": sprintf("The following %v: %v, can create/update rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
-          "failedPaths": [path],
+         "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role, rolebinding],
@@ -45,8 +45,8 @@ deny [msga]{
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-    canCreateUpdateToRoleResource(rule)
-    canCreateUpdateToRoleVerb(rule)
+    can_create_update_to_role_resource(rule)
+    can_create_update_to_role_verb(rule)
 
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
@@ -56,7 +56,7 @@ deny [msga]{
   	msga := {
 		"alertMessage": sprintf("The following %v: %v, can create/update rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
-          "failedPaths": [path],
+         "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -76,8 +76,8 @@ deny [msga]{
      clusterrolebinding := clusterrolebindings[_]
 
     rule:= role.rules[_]
-    canCreateUpdateToRoleResource(rule)
-    canCreateUpdateToRoleVerb(rule)
+    can_create_update_to_role_resource(rule)
+    can_create_update_to_role_verb(rule)
 
     clusterrolebinding.roleRef.kind == "ClusterRole"
     clusterrolebinding.roleRef.name == role.metadata.name
@@ -87,7 +87,7 @@ deny [msga]{
   	msga := {
 		"alertMessage": sprintf("The following %v: %v, can create/update rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
-          "failedPaths": [path],
+         "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
@@ -111,8 +111,8 @@ deny [msga] {
 
     rule:= role.rules[_]
 
-    canBindToRoleResource(rule)
-    canBindToRoleVerb(rule)
+    can_bind_to_role_resource(rule)
+    can_bind_to_role_verb(rule)
 
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
@@ -122,7 +122,7 @@ deny [msga] {
     	msga := {
 		"alertMessage": sprintf("The following %v: %v, can bind roles/clusterroles", [subject.kind, subject.name]),
 		"alertScore": 3,
-          "failedPaths": [path],
+         "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -144,8 +144,8 @@ deny [msga]{
 
     rule:= role.rules[_]
     
-    canBindToRoleResource(rule)
-    canBindToRoleVerb(rule)
+    can_bind_to_role_resource(rule)
+    can_bind_to_role_verb(rule)
 
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
@@ -155,7 +155,7 @@ deny [msga]{
   msga := {
 		"alertMessage": sprintf("The following %v: %v, can bind roles/clusterroles", [subject.kind, subject.name]),
 		"alertScore": 3,
-          "failedPaths": [path],
+         "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -176,8 +176,8 @@ deny [msga]{
      clusterrolebinding := clusterrolebindings[_]
 
     rule:= role.rules[_]
-     canBindToRoleResource(rule)
-    canBindToRoleVerb(rule)
+can_bind_to_role_resource(rule)
+    can_bind_to_role_verb(rule)
 
     clusterrolebinding.roleRef.kind == "ClusterRole"
     clusterrolebinding.roleRef.name == role.metadata.name
@@ -187,7 +187,7 @@ deny [msga]{
    msga := {
 		"alertMessage": sprintf("The following %v: %v, can bind roles/clusterroles", [subject.kind, subject.name]),
 		"alertScore": 3,
-          "failedPaths": [path],
+         "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
@@ -212,8 +212,8 @@ deny[msga] {
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-    canEscalateToRoleResource(rule)
-    canEscalateToRoleVerb(rule)
+    can_escalate_to_role_resource(rule)
+    can_escalate_to_role_verb(rule)
   
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
@@ -223,7 +223,7 @@ deny[msga] {
     	msga := {
 		"alertMessage": sprintf("The following %v: %v, can escalate rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
-          "failedPaths": [path],
+         "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -243,8 +243,8 @@ deny [msga]{
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-    canEscalateToRoleResource(rule)
-    canEscalateToRoleVerb(rule)
+    can_escalate_to_role_resource(rule)
+    can_escalate_to_role_verb(rule)
 
     rolebinding.roleRef.kind == "ClusterRole"
     rolebinding.roleRef.name == role.metadata.name
@@ -254,7 +254,7 @@ deny [msga]{
   	msga := {
 		"alertMessage": sprintf("The following %v: %v, can escalate rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
-          "failedPaths": [path],
+         "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -274,8 +274,8 @@ deny [msga]{
      clusterrolebinding := clusterrolebindings[_]
 
     rule:= role.rules[_]
-    canEscalateToRoleResource(rule)
-    canEscalateToRoleVerb(rule)
+    can_escalate_to_role_resource(rule)
+    can_escalate_to_role_verb(rule)
 
     clusterrolebinding.roleRef.kind == "ClusterRole"
     clusterrolebinding.roleRef.name == role.metadata.name
@@ -285,7 +285,7 @@ deny [msga]{
   	msga := {
 		"alertMessage": sprintf("The following %v: %v, can escalate rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,
-          "failedPaths": [path],
+         "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
@@ -299,90 +299,90 @@ deny [msga]{
 
 # ============== escalate =====================
 
-canEscalateToRoleResource(rule){
+can_escalate_to_role_resource(rule){
      cautils.list_contains(rule.resources,"clusterroles")
 }
 
-canEscalateToRoleResource(rule){
+can_escalate_to_role_resource(rule){
      cautils.list_contains(rule.resources,"roles")
 }
 
-canEscalateToRoleResource(rule){
-     isApiGroup(rule)
+can_escalate_to_role_resource(rule){
+     is_api_group(rule)
      cautils.list_contains(rule.resources,"*")
 }
 
-canEscalateToRoleVerb(rule) {
+can_escalate_to_role_verb(rule) {
        cautils.list_contains(rule.verbs, "escalate")
 }
 
-canEscalateToRoleVerb(rule) {
+can_escalate_to_role_verb(rule) {
        cautils.list_contains(rule.verbs, "*")
 }
 
 
 # ============== bind =====================
 
-canBindToRoleResource(rule){
+can_bind_to_role_resource(rule){
      cautils.list_contains(rule.resources,"clusterroles")
 }
 
-canBindToRoleResource(rule){
+can_bind_to_role_resource(rule){
      cautils.list_contains(rule.resources,"roles")
 }
 
-canBindToRoleResource(rule){
-     isApiGroup(rule)
+can_bind_to_role_resource(rule){
+     is_api_group(rule)
      cautils.list_contains(rule.resources,"*")
 }
 
 
-canBindToRoleVerb(rule) {
+can_bind_to_role_verb(rule) {
        cautils.list_contains(rule.verbs, "bind")
 }
 
-canBindToRoleVerb(rule) {
+can_bind_to_role_verb(rule) {
        cautils.list_contains(rule.verbs, "*")
 }
 
 # ============== create/update =====================
 
-canCreateUpdateToRoleResource(rule) {
+can_create_update_to_role_resource(rule) {
       cautils.list_contains(rule.resources,"rolebindings")
 }
 
-canCreateUpdateToRoleResource(rule) {
+can_create_update_to_role_resource(rule) {
       cautils.list_contains(rule.resources,"clusterrolebindings")
 }
 
-canCreateUpdateToRoleResource(rule) {
-     isApiGroup(rule)
+can_create_update_to_role_resource(rule) {
+     is_api_group(rule)
      cautils.list_contains(rule.resources,"*")
 }
 
 
-canCreateUpdateToRoleVerb(rule) {
+can_create_update_to_role_verb(rule) {
      cautils.list_contains(rule.verbs, "create")
 }
 
-canCreateUpdateToRoleVerb(rule) {
+can_create_update_to_role_verb(rule) {
      cautils.list_contains(rule.verbs, "update")
 }
 
-canCreateUpdateToRoleVerb(rule) {
+can_create_update_to_role_verb(rule) {
      cautils.list_contains(rule.verbs, "patch")
 }
 
-canCreateUpdateToRoleVerb(rule) {
+can_create_update_to_role_verb(rule) {
      cautils.list_contains(rule.verbs, "*")
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "*"
 }
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "rbac.authorization.k8s.io"
 }

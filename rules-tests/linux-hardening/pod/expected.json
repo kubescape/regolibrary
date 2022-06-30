@@ -1,26 +1,29 @@
-[
-    {
-        "alertMessage": "Pod: audit-pod does not define any linux security hardening",
-        "failedPaths": [
-            "spec"
-        ],
-        "fixPaths": [],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "v1",
-                    "kind": "Pod",
-                    "metadata": {
-                        "labels": {
-                            "app": "audit-pod"
-                        },
-                        "name": "audit-pod"
-                    }
-                }
-            ]
-        }
+[{
+    "alertMessage": "Pod: audit-pod does not define any linux security hardening",
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.containers[0].seccompProfile",
+        "value": "YOUR_VALUE"
+    }, {
+        "path": "spec.containers[0].seLinuxOptions",
+        "value": "YOUR_VALUE"
+    }, {
+        "path": "spec.containers[0].capabilities.drop",
+        "value": "YOUR_VALUE"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "labels": {
+                    "app": "audit-pod"
+                },
+                "name": "audit-pod"
+            }
+        }]
     }
-]
+}]

@@ -5,8 +5,8 @@ import data.cautils as cautils
 deny[msga] {
 	apiserverpod := input[_]
     cmd := apiserverpod.spec.containers[0].command
-    encCommand :=  [ command |command := cmd[_] ; contains(command, "--encryption-provider-config=")]
-    count(encCommand) < 1
+    enc_command :=  [ command |command := cmd[_] ; contains(command, "--encryption-provider-config=")]
+    count(enc_command) < 1
 	path := "spec.containers[0].command"	
 	
 	msga := {

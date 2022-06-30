@@ -5,7 +5,7 @@ deny[msga] {
     pods := [ pod | pod = input[_] ; pod.kind == "Pod"]
     pod := pods[_]
 
-	isHostNetwork(pod.spec)
+	is_host_network(pod.spec)
 	path := "spec.hostNetwork"
     msga := {
 	"alertMessage": sprintf("Pod: %v is connected to the host network", [pod.metadata.name]),
@@ -23,7 +23,7 @@ deny[msga] {
 deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-	isHostNetwork(wl.spec.template.spec)
+	is_host_network(wl.spec.template.spec)
 	path := "spec.template.spec.hostNetwork"
     msga := {
 	"alertMessage": sprintf("%v: %v has a pod connected to the host network", [wl.kind, wl.metadata.name]),
@@ -41,7 +41,7 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
-	isHostNetwork(wl.spec.jobTemplate.spec.template.spec)
+	is_host_network(wl.spec.jobTemplate.spec.template.spec)
 	path := "spec.jobTemplate.spec.template.spec.hostNetwork"
     msga := {
 	"alertMessage": sprintf("CronJob: %v has a pod connected to the host network", [wl.metadata.name]),
@@ -55,6 +55,6 @@ deny[msga] {
 	}
 }
 
-isHostNetwork(podspec) {
+is_host_network(podspec) {
     podspec.hostNetwork == true
 }

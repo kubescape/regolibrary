@@ -24,7 +24,7 @@ deny[msga] {
 	    "alertMessage": sprintf("The following %v: %v can delete important resources", [subject.kind, subject.name]),
 		"alertScore": 9,
 		"fixPaths": [],
-        "failedPaths": [path],
+       "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -58,7 +58,7 @@ deny[msga] {
 	    "alertMessage": sprintf("The following %v: %v can delete important resources", [subject.kind, subject.name]),
 		"alertScore": 9,
 		"fixPaths": [],
-        "failedPaths": [path],
+       "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -92,7 +92,7 @@ deny[msga] {
 	    "alertMessage": sprintf("The following %v: %v can delete important resources", [subject.kind, subject.name]),
 		"alertScore": 9,
 		"fixPaths": [],
-        "failedPaths": [path],
+       "failedPaths": [path],
 		"packagename": "armo_builtins",
          "alertObject": {
 			"k8sApiObjects": [role,clusterrolebinding],
@@ -144,24 +144,24 @@ canDeleteResource(rule) {
 	cautils.list_contains(rule.resources, "cronjobs")
 }
 canDeleteResource(rule)  {
-    isApiGroup(rule)
+    is_api_group(rule)
 	cautils.list_contains(rule.resources, "*")
 }
 
 
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == ""
 }
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "*"
 }
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "apps"
 }
-isApiGroup(rule) {
+is_api_group(rule) {
 	apiGroup := rule.apiGroups[_]
 	apiGroup == "batch"
 }

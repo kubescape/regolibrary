@@ -82,13 +82,13 @@ deny[msga] {
 	resource := is_min_max_exceeded_cpu(container)
 	resource != ""
 
-	failedPaths := sprintf("spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), resource])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v exceeds CPU-limit or request", [ container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [failedPaths],
+		"failedPaths": [failed_paths],
 		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -107,13 +107,13 @@ deny[msga] {
 	resource := is_min_max_exceeded_cpu(container)
 	resource != ""
 
-	failedPaths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [failedPaths],
+		"failedPaths": [failed_paths],
 		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -131,13 +131,13 @@ deny[msga] {
    	resource := is_min_max_exceeded_cpu(container)
 	resource != ""
 
-	failedPaths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
 	
     msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [failedPaths],
+		"failedPaths": [failed_paths],
 		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [wl]

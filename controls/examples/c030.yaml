@@ -6,7 +6,7 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app=adservice		#we match it to the workload labels
+        app: adservice		#we match it to the workload labels
   policyTypes:
   - Ingress
   - Egress
@@ -25,7 +25,7 @@ spec:
     ports:
     - protocol: TCP
       port: 6379
- egress:				# OR this 
+  egress:			
   - to:
     - ipBlock:
         cidr: 10.0.0.0/24

@@ -2,15 +2,15 @@ package armo_builtins
 import data.kubernetes.api.client as client
 
 deny[msga] {
-		kubeletConfig := input[_]
-		kubeletConfig.kind == "KubeletConfiguration"
-		kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+		kubelet_config := input[_]
+		kubelet_config.kind == "KubeletConfiguration"
+		kubelet_config.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-		kubeletCli := input[_]            
-		kubeletCli.kind == "KubeletCommandLine"
-		kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+		kubelet_cli := input[_]            
+		kubelet_cli.kind == "KubeletCommandLine"
+		kubelet_cli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-		externalObj := getObjBoth(kubeletConfig, kubeletCli)
+		external_obj := getObjBoth(kubelet_config, kubelet_cli)
 
 
 		msga := {
@@ -19,7 +19,7 @@ deny[msga] {
 			"failedPaths": [],
 			"packagename": "armo_builtins",
 			"alertObject": {
-				"externalObjects": externalObj
+				"externalObjects": external_obj
 			}
 		}
 	}
@@ -28,7 +28,7 @@ deny[msga] {
 	
 deny[msga] {
 
-		externalObj := getObjSingle(input)
+		external_obj := getObjSingle(input)
 
 
 		msga := {
@@ -37,45 +37,45 @@ deny[msga] {
 			"failedPaths": [],
 			"packagename": "armo_builtins",
 			"alertObject": {
-				"externalObjects": externalObj
+				"externalObjects": external_obj
 			}
 		}
 	}
 
 
 # Both cli and config present. Return only relevant (priority to cli)
-getObjBoth(kubeletConfig, kubeletCli) = obj {
-	kubeletCliData := kubeletCli.data
-	contains(kubeletCliData["fullCommand"], "anonymous-auth=")
-    obj = kubeletCli
+getObjBoth(kubelet_config, kubelet_cli) = obj {
+	kubelet_cli_data := kubelet_cli.data
+	contains(kubelet_cli_data["fullCommand"], "anonymous-auth=")
+    obj = kubelet_cli
 }
 
 
-getObjBoth(kubeletConfig, kubeletCli) = obj {
-	kubeletCliData := kubeletCli.data
-	not contains(kubeletCliData["fullCommand"], "anonymous-auth=")
-    obj = kubeletConfig
+getObjBoth(kubelet_config, kubelet_cli) = obj {
+	kubelet_cli_data := kubelet_cli.data
+	not contains(kubelet_cli_data["fullCommand"], "anonymous-auth=")
+    obj = kubelet_config
 }
 
 # Only cli or only config
 getObjSingle(resources) = obj {
-	kubeletCli := resources[_]            
-	kubeletCli.kind == "KubeletCommandLine"
-	kubeletCli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+	kubelet_cli := resources[_]            
+	kubelet_cli.kind == "KubeletCommandLine"
+	kubelet_cli.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-	kubeletConfig := [config | config = resources[_]; config.kind == "KubeletConfiguration"]
-	count(kubeletConfig) == 0
+	kubelet_config := [config | config = resources[_]; config.kind == "KubeletConfiguration"]
+	count(kubelet_config) == 0
 
-	obj = kubeletCli
+	obj = kubelet_cli
 }
 
 getObjSingle(resources) = obj {
-	kubeletConfig := resources[_]
-	kubeletConfig.kind == "KubeletConfiguration"
-	kubeletConfig.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+	kubelet_config := resources[_]
+	kubelet_config.kind == "KubeletConfiguration"
+	kubelet_config.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 
-	kubeletCli := [cli | cli = resources[_]; cli.kind == "KubeletCommandLine"]
-	count(kubeletCli) == 0
+	kubelet_cli := [cli | cli = resources[_]; cli.kind == "KubeletCommandLine"]
+	count(kubelet_cli) == 0
 
-	obj = kubeletConfig
+	obj = kubelet_config
 }

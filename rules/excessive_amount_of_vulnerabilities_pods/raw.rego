@@ -20,7 +20,7 @@ deny[msga] {
   # Has ^ amount of vulnerabilities
   check_num_vulnerabilities(vuln)
 
-  relatedObjects := [pod, vuln]
+  related_objects := [pod, vuln]
 
   path := sprintf("status.containerStatuses[%v].imageID", [format_int(i, 10)])
 
@@ -33,7 +33,7 @@ deny[msga] {
   	"apiVersion": "result.vulnscan.com/v1",
   	"kind": pod.kind,
   	"metadata": metadata,
-  	"relatedObjects": relatedObjects
+  	"relatedObjects": related_objects
   }
 
   msga := {

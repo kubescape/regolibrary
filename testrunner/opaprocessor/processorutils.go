@@ -85,8 +85,8 @@ func AssertResponses(responses []reporthandling.RuleResponse, expectedResponses 
 		return fmt.Errorf("length of responses is different (%d instead of %d)", len(responses), len(expectedResponses))
 	}
 	for i := 0; i < len(expectedResponses); i++ {
-		if !assertResponses(responses, &expectedResponses[i]) {
-			return fmt.Errorf("responses not matching")
+		if _, err := assertResponses(responses, &expectedResponses[i]); err != nil {
+			return err
 		}
 	}
 	return nil
@@ -128,17 +128,46 @@ func hash(s *reporthandling.RuleResponse) []byte {
 	return b.Bytes()
 }
 
-func comapreRuleResponse(s1, s2 *reporthandling.RuleResponse) bool {
-	return bytes.Compare(hash(s1), hash(s2)) == 0
-}
-func assertResponses(responses []reporthandling.RuleResponse, expectedResponse *reporthandling.RuleResponse) bool {
+func comapreRuleResponse(actual, expected *reporthandling.RuleResponse) (bool, error) {
+	if actual.RuleStatus != expected.RuleStatus {
+		return false, fmt.Errorf("the field 'RuleStatus' is different for rule %v. expected: %v, got :%v", actual.Rulename, expected.RuleStatus, actual.RuleStatus)
+	}
+	if len(actual.AlertObject.ExternalObjects) != len(expected.AlertObject.ExternalObjects) {
+		return false, fmt.Errorf("length of 'ExternalObjects' is different for response %v. expected: %v, got :%v", actual.Rulename, expected.AlertObject.ExternalObjects, actual.AlertObject.ExternalObjects)
+	}
+	if len(actual.AlertObject.K8SApiObjects) != len(expected.AlertObject.K8SApiObjects) {
+		return false, fmt.Errorf("length of 'K8SApiObjects' is different for response %v. expected: %v, got :%v", actual.Rulename, expected.AlertObject.K8SApiObjects, actual.AlertObject.K8SApiObjects)
+	}
+	err := CompareAlertObject(actual.AlertObject, expected.AlertObject)
+	if err != nil {
+		return false, fmt.Errorf("%v for response %v", err.Error(), actual.Rulename)
+	}
+	if len(actual.FailedPaths) != len(expected.FailedPaths) {
+		return false, fmt.Errorf("length of 'FailedPaths' is different for response %v. expected: %v, got :%v", actual.Rulename, expected.FailedPaths, actual.FailedPaths)
+	}
+	err = CompareFailedPaths(actual.FailedPaths, expected.FailedPaths)
+	if err != nil {
+		return false, fmt.Errorf("%v for response %v", err.Error(), actual.Rulename)
+	}
+	if len(actual.FixPaths) != len(expected.FixPaths) {
+		return false, fmt.Errorf("length of 'FixPaths' is different for response %v. expected: %v, got :%v", actual.Rulename, expected.FixPaths, actual.FixPaths)
+	}
+	err = CompareFixPaths(actual.FixPaths, expected.FixPaths)
+	if err != nil {
+		return false, fmt.Errorf("%v for response %v", err.Error(), actual.Rulename)
+	}
+	return true, nil
 
+}
+func assertResponses(responses []reporthandling.RuleResponse, expectedResponse *reporthandling.RuleResponse) (bool, error) {
+	var err error
+	err = nil
 	for i := 0; i < len(responses); i++ {
-		if comapreRuleResponse(&responses[i], expectedResponse) {
-			return true
+		if _, err = comapreRuleResponse(&responses[i], expectedResponse); err == nil {
+			return true, nil
 		}
 	}
-	return false
+	return false, err
 }
 
 func CompareFixPaths(expected []armotypes.FixPath, actual []armotypes.FixPath) error {
@@ -268,12 +297,8 @@ func RunAllTestsForRule(dir string) error {
 	// Iterate over each test
 	for _, testFile := range testsForRule {
 		dir := fmt.Sprintf("%v/%v", dir, testFile)
-		if GetCurrentTest(dir) == "clusterrole-clusterrolebinding" {
-			fmt.Printf("A")
-		}
 		err := RunSingleTest(dir, policyRule)
 		if err != nil {
-			err := RunSingleTest(dir, policyRule)
 
 			return fmt.Errorf("%v in test: %v with policy %v", err.Error(), GetCurrentTest(dir), policyRule.Name)
 		}
