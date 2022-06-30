@@ -3,14 +3,15 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "",
-    "remediation": "",
+    "description": "RBAC is the most advanced and well accepted mode of authorizing users of the Kubernetes API",
+    "remediation": "Enable RBAC either in the API server configuration or with the Kubernetes provider API",
     "rulesNames": [
-        "rbac-enabled-cloud"
+        "rbac-enabled-cloud",
+        "rbac-enabled-native"
     ],
     "id": "C-0088",
-    "long_description": "",
-    "test": "Reading the cluster description from the AKS managed cloud API if RBAC is enabled",
+    "long_description": "RBAC is the most advanced and well accepted mode of authorizing users of the Kubernetes API",
+    "test": "Testing API server or managed Kubernetes vendor API to determine if RBAC is enabled",
     "controlID": "C-0088",
-    "baseScore": 3
+    "baseScore": 8.0
 }

@@ -75,7 +75,9 @@
                 "PRIVATE KEY",
                 "eyJhbGciO",
                 "JWT",
-                "Bearer"
+                "Bearer",
+                "_key_",
+                "_secret_"
             ],
             "servicesNames": [
                 "nifi-service",
