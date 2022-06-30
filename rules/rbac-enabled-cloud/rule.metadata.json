@@ -17,7 +17,9 @@
     "dynamicMatch": [
       {
         "apiGroups": [
-          "management.azure.com"
+          "management.azure.com",
+          "container.googleapis.com",
+          "eks.amazonaws.com"
         ],
         "apiVersions": [
           "v1"
@@ -27,7 +29,7 @@
         ]
       }
     ],
-    "relevantCloudProviders": ["AKS"],
+    "relevantCloudProviders": ["AKS", "EKS", "GKE"],
     "ruleDependencies": [
     ],
     "description": "",
