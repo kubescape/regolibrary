@@ -3,7 +3,8 @@
   "attributes": {
     "microsoftK8sThreatMatrix": "Initial access::Exposed critical vulnerable pods",
     "armoBuiltin": true,
-    "useFromKubescapeVersion": "v1.0.133"
+    "useFromKubescapeVersion": "v1.0.133",
+    "imageScanRelated": true
   },
   "ruleLanguage": "Rego",
   "match": [

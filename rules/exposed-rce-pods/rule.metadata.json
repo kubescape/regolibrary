@@ -3,7 +3,9 @@
   "attributes": {
     "m$K8sThreatMatrix": "exposed-rce-pods",
     "armoBuiltin": true,
-    "useFromKubescapeVersion": "v2.0.150"
+    "useFromKubescapeVersion": "v2.0.150",
+    "imageScanRelated": true
+
   },
   "ruleLanguage": "Rego",
   "match": [

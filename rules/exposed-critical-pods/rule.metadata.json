@@ -2,7 +2,8 @@
   "name": "exposed-critical-pods",
   "attributes": {
     "m$K8sThreatMatrix": "exposed-critical-pods",
-    "armoBuiltin": true
+    "armoBuiltin": true,
+    "imageScanRelated": true
   },
   "ruleLanguage": "Rego",
   "match": [
