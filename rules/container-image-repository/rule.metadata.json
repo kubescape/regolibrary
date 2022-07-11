@@ -8,21 +8,41 @@
   "match": [
     {
       "apiGroups": [
-        "*"
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    },
+    {
+      "apiGroups": [
+        "apps"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet"
+      ]
+    },
+    {
+      "apiGroups": [
+        "batch"
       ],
       "apiVersions": [
         "*"
       ],
       "resources": [
-        "Pods",
-        "Deployment",
-        "ReplicaSet",
-        "DaemonSet",
-        "StatefulSet",
-        "Job",
-        "CronJob"
+          "Job",
+          "CronJob"
       ]
-    }
+    } 
   ],
   "ruleDependencies": [],
   "configInputs": [
