@@ -15,32 +15,6 @@
         "resources": [
             "Pod"
         ]
-      },
-      {
-        "apiGroups": [
-          "apps"
-        ],
-        "apiVersions": [
-          "v1"
-        ],
-        "resources": [
-            "Deployment",
-            "ReplicaSet",
-            "DaemonSet",
-            "StatefulSet"
-        ]
-      },
-      {
-        "apiGroups": [
-          "batch"
-        ],
-        "apiVersions": [
-          "*"
-        ],
-        "resources": [
-            "Job",
-            "CronJob"
-        ]
       }
     ],
     "ruleDependencies": [
