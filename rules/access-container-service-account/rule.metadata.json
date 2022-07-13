@@ -9,20 +9,50 @@
   "match": [
     {
       "apiGroups": [
-        "*"
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod",
+        "ServiceAccount"
+      ]
+    },
+    {
+      "apiGroups": [
+        "apps"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet"
+      ]
+    },
+    {
+      "apiGroups": [
+        "batch"
       ],
       "apiVersions": [
         "*"
       ],
       "resources": [
-        "Deployment",
-        "ReplicaSet",
-        "DaemonSet",
-        "StatefulSet",
-        "Job",
-        "Pod",
-        "CronJob",
-        "ServiceAccounts",
+          "Job",
+          "CronJob"
+      ]
+    },
+    {
+      "apiGroups": [
+        "rbac.authorization.k8s.io"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
         "RoleBinding",
         "ClusterRoleBinding",
         "Role",

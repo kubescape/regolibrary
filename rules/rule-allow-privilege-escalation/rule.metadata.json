@@ -7,20 +7,50 @@
     "match": [
       {
         "apiGroups": [
-          "*"
+          ""
         ],
         "apiVersions": [
-          "*"
+          "v1"
+        ],
+        "resources": [
+          "Pod"
+        ]
+      },
+      {
+        "apiGroups": [
+          "apps"
+        ],
+        "apiVersions": [
+          "v1"
         ],
         "resources": [
             "Deployment",
             "ReplicaSet",
             "DaemonSet",
-            "StatefulSet",
+            "StatefulSet"
+        ]
+      },
+      {
+        "apiGroups": [
+          "batch"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
             "Job",
-            "Pod",
-            "CronJob",
-            "PodSecurityPolicy"
+            "CronJob"
+        ]
+      },
+      {
+        "apiGroups": [
+          "policy"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+          "PodSecurityPolicy"
         ]
       }
     ],
