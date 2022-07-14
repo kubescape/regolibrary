@@ -300,7 +300,7 @@ func RunAllTestsForRule(dir string) error {
 		err := RunSingleTest(dir, policyRule)
 		if err != nil {
 
-			return fmt.Errorf("%v in test: %v with policy %v", err.Error(), GetCurrentTest(dir), policyRule.Name)
+			return fmt.Errorf("%v in test: %v with policy %v, full path: %s", err.Error(), GetCurrentTest(dir), policyRule.Name, dir)
 		}
 	}
 	return nil
