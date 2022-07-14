@@ -8,14 +8,24 @@
   "match": [
     {
       "apiGroups": [
-        "*"
+        ""
       ],
       "apiVersions": [
-        "*"
+        "v1"
       ],
       "resources": [
-        "networkpolicies",
-        "namespaces"
+        "Namespace"
+      ]
+    },
+    {
+      "apiGroups": [
+        "networking.k8s.io"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "NetworkPolicy"
       ]
     }
   ],

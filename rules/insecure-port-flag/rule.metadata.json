@@ -1,25 +1,25 @@
 {
-    "name": "insecure-port-flag",
-    "attributes": {
-      "armoBuiltin": true
-    },
-    "ruleLanguage": "Rego",
-    "match": [
-      {
-        "apiGroups": [
-          "*"
-        ],
-        "apiVersions": [
-          "*"
-        ],
-        "resources": [
-            "Pod"
-        ]
-      }
-    ],
-    "ruleDependencies": [
-    ],
-    "description": "fails if the api server has insecure-port enabled",
-    "remediation": "Make sure that the insecure-port flag of the api server is set to 0",
-    "ruleQuery": "armo_builtins"
+  "name": "insecure-port-flag",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+          "Pod"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+  ],
+  "description": "fails if the api server has insecure-port enabled",
+  "remediation": "Make sure that the insecure-port flag of the api server is set to 0",
+  "ruleQuery": "armo_builtins"
 }

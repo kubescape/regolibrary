@@ -8,10 +8,10 @@
   "match": [
     {
       "apiGroups": [
-        "*"
+        ""
       ],
       "apiVersions": [
-        "*"
+        "v1"
       ],
       "resources": [
         "Service",
