@@ -1,7 +1,5 @@
 package armo_builtins
 
-
-
 deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet", "Job", "CronJob", "Pod"}
@@ -21,25 +19,15 @@ deny[msga] {
 	}
 }
 
-
-
 is_default_namespace(metadata) = [failed_path, fixPath] {
 	metadata.namespace == "default"
 	failed_path = "metadata.namespace"
 	fixPath = "" 
 }
 
-
-is_default_namespace(metadata) = [failed_path, fixPath] {
-	not metadata.namespace 
-	fixPath = {"path": "metadata.namespace", "value": "YOUR_VALUE"} 
-	failed_path = "" 
-}
-
 get_failed_path(paths) = [paths[0]] {
 	paths[0] != ""
 } else = []
-
 
 get_fixed_path(paths) = [paths[1]] {
 	paths[1] != ""

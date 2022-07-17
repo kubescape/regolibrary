@@ -7,20 +7,40 @@
     "match": [
       {
         "apiGroups": [
-          "*"
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "Pod",
+            "ServiceAccount"
+        ]
+      },
+      {
+        "apiGroups": [
+          "apps"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet"
+        ]
+      },
+      {
+        "apiGroups": [
+          "batch"
         ],
         "apiVersions": [
           "*"
         ],
         "resources": [
-          "Serviceaccount",
-          "Deployment",
-          "ReplicaSet",
-          "DaemonSet",
-          "StatefulSet",
-          "Job",
-          "Pod",
-          "CronJob"
+            "Job",
+            "CronJob"
         ]
       }
     ],
