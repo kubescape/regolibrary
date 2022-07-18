@@ -40,7 +40,7 @@ def load_rules():
                         new_rule["resourceEnumerator"] = filter_rego
                 except:
                     pass
-        rules_list.append(new_rule) 
+        rules_list.append(new_rule)
         loaded_rules[new_rule['name']] = new_rule
 
     return loaded_rules, rules_list
@@ -118,7 +118,7 @@ def validate_controls():
         with open(path_in_str, "r") as f:
             new_control = json.load(f)
         
-        set_of_ids.add(int(new_control["id"][2:]))
+        set_of_ids.add(new_control["id"])
 
     sum_of_controls = len(controls_path)
     if sum_of_controls != len(set_of_ids):
