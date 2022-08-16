@@ -1,4 +1,12 @@
 frameworkName,ControlID,ControlName
+CIS,CIS-v1.6.1-4.1.7,Ensure that the certificate authorities file permissions are set to `644` or more restrictive
+CIS,CIS-v1.6.1-4.1.10,Ensure that the kubelet `--config` configuration file ownership is set to `root:root`
+CIS,CIS-v1.6.1-4.1.6,Ensure that the `--kubeconfig` `kubelet.conf` file ownership is set to `root:root`
+CIS,CIS-v1.6.1-4.1.9,Ensure that the kubelet `--config` configuration file has permissions set to `644` or more restrictive
+CIS,CIS-v1.6.1-4.1.8,Ensure that the client certificate authorities file ownership is set to `root:root`
+CIS,CIS-v1.6.1-4.1.5,Ensure that the `--kubeconfig` `kubelet.conf` file permissions are set to `644` or more restrictive
+CIS,CIS-v1.6.1-4.1.3,If proxy kubeconfig file exists ensure permissions are set to `644` or more restrictive
+CIS,CIS-v1.6.1-4.1.4,If proxy kubeconfig file exists ensure ownership is set to `root:root`
 NSA,C-0005,Control plane hardening
 NSA,C-0038,Host PID/IPC privileges
 NSA,C-0017,Immutable container filesystem

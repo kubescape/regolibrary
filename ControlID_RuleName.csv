@@ -8,13 +8,16 @@ C-0068,psp-enabled-native
 C-0026,rule-deny-cronjobs
 C-0078,container-image-repository
 C-0084,exposed-rce-pods
+CIS-v1.6.1-4.1.6,kubelet-kubeconfig-file-strict-ownership
 C-0048,alert-any-hostpath
 C-0020,alert-any-hostpath
 C-0005,insecure-port-flag
 C-0001,rule-identify-blocklisted-image-registries
 C-0076,label-usage-for-resources
+CIS-v1.6.1-4.1.4,kubelet-kubeconfig-file-strict-ownership
 C-0081,CVE-2022-24348
 C-0033,access-tiller-endpoint
+CIS-v1.6.1-4.1.10,kubelet-config-file-strict-ownership
 C-0062,sudo-in-container-entrypoint
 C-0055,linux-hardening
 C-0046,insecure-capabilities
@@ -32,6 +35,7 @@ C-0061,pods-in-default-namespace
 C-0077,K8s common labels usage
 C-0075,image-pull-policy-is-not-set-to-always
 C-0039,list-all-mutating-webhooks
+CIS-v1.6.1-4.1.7,kubelet-client-ca-file-strict-permissions
 C-0060,namespace-without-service-account
 C-0053,access-container-service-account
 C-0053,access-container-service-account-v1
@@ -56,10 +60,12 @@ C-0030,ingress-and-egress-blocked
 C-0042,rule-can-ssh-to-pod
 C-0042,rule-can-ssh-to-pod-v1
 C-0044,container-hostPort
+CIS-v1.6.1-4.1.9,kubelet-config-file-strict-permissions
 C-0059,nginx-ingress-snippet-annotation-vulnerability
 C-0036,list-all-validating-webhooks
 C-0031,rule-can-delete-k8s-events
 C-0031,rule-can-delete-k8s-events-v1
+CIS-v1.6.1-4.1.3,kube-proxy-kubeconfig-file-strict-permissions
 C-0007,rule-excessive-delete-rights
 C-0007,rule-excessive-delete-rights-v1
 C-0067,k8s-audit-logs-enabled-cloud
@@ -73,6 +79,7 @@ C-0045,alert-rw-hostpath
 C-0019,rule-can-bash-cmd-inside-container
 C-0063,rule-can-portforward
 C-0063,rule-can-portforward-v1
+CIS-v1.6.1-4.1.8,kubelet-client-ca-file-strict-ownership
 C-0025,deny-RCE-vuln-image-pods
 C-0087,CVE-2022-23648
 C-0015,rule-can-list-get-secrets
@@ -87,5 +94,6 @@ C-0035,rule-list-all-cluster-admins-v1
 C-0018,configured-readiness-probe
 C-0070,enforce-kubelet-client-tls-authentication
 C-0056,configured-liveness-probe
+CIS-v1.6.1-4.1.5,kubelet-kubeconfig-file-strict-permissions
 C-0050,resources-cpu-limit-and-request
 C-0041,host-network-access
