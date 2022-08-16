@@ -1,0 +1,37 @@
+{
+  "name": "kubelet-kubeconfig-file-strict-ownership",
+  "attributes": {
+    "armoBuiltin": true,
+    "hostSensorRule": "true",
+    "useFromKubescapeVersion": "v2.0.159"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeProxyInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+    {
+      "packageName": "cautils"
+    }
+  ],
+  "description": "Ensure that the kubeproxy kubeconfig file is owned by root:root",
+  "remediation": "Set the owners of the kubeproxy kubeconfig file to root:root",
+  "ruleQuery": ""
+}

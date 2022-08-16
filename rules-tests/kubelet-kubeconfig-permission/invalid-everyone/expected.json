@@ -1,0 +1,21 @@
+[
+    {
+        "alertMessage": "kubelet kubeconfig file permissions are too permissive",
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                    "kind": "KubeletInfo",
+                    "metadata": {
+                        "name": "minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,37 @@
+{
+  "name": "kubelet-client-ca-file-strict-permissions",
+  "attributes": {
+    "armoBuiltin": true,
+    "hostSensorRule": "true",
+    "useFromKubescapeVersion": "v2.0.159"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+    {
+      "packageName": "cautils"
+    }
+  ],
+  "description": "Ensure that the kubelet client ca file has permissions of 644 or more restrictive",
+  "remediation": "Set the permission of the kubelet client ca file to 644 or more restrictive",
+  "ruleQuery": ""
+}

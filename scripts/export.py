@@ -13,6 +13,8 @@ currDir = os.path.abspath(os.getcwd())
 control_rule_rows = []
 framework_control_rows = []
 
+SUBSECTION_TREE_SAPARATOR = '.'
+
 def ignore_file(file_name: str):
     return file_name.startswith('__')
 
@@ -40,7 +42,7 @@ def load_rules():
                         new_rule["resourceEnumerator"] = filter_rego
                 except:
                     pass
-        rules_list.append(new_rule) 
+        rules_list.append(new_rule)
         loaded_rules[new_rule['name']] = new_rule
 
     return loaded_rules, rules_list
@@ -77,6 +79,17 @@ def load_controls(loaded_rules: dict):
     return loaded_controls, controls_list
 
 
+def addSubsectionsIds(parents: list, sections: dict):
+    '''
+    Recorsively iterate over framework subsection and adds the tree info as `id` attribute to the section
+    '''
+    for section_id, section in sections.items():
+        section_full_id = parents.copy()
+        section_full_id.append(section_id)
+        section['id'] = SUBSECTION_TREE_SAPARATOR.join(section_full_id)
+        addSubsectionsIds(section_full_id, section.get('subSections', {}))
+
+
 def load_frameworks(loaded_controls: dict):
     p3 = os.path.join(currDir, 'frameworks') 
     frameworks_path = Path(p3).glob('**/*.json')
@@ -101,6 +114,8 @@ def load_frameworks(loaded_controls: dict):
                 framework_control_rows.append(new_row)
             else:
                 raise Exception("Error in controlsNames of framework {}, control {} does not exist".format(new_framework["name"], control_name))
+        
+        addSubsectionsIds([], new_framework.get('subSections', {}))
 
         del new_framework["controlsNames"]
         loaded_frameworks[new_framework['name']] = new_framework
@@ -118,7 +133,7 @@ def validate_controls():
         with open(path_in_str, "r") as f:
             new_control = json.load(f)
         
-        set_of_ids.add(int(new_control["id"][2:]))
+        set_of_ids.add(new_control["id"])
 
     sum_of_controls = len(controls_path)
     if sum_of_controls != len(set_of_ids):
@@ -145,8 +160,7 @@ def create_cvs_file(header, rows, filename, output_path):
         writer.writerow(header)
         writer.writerows(rows)
 
-
-if __name__ == '__main__':
+def main(output_path="release"):
     rules, rules_list = load_rules()
     controls, controls_list = load_controls(loaded_rules=rules)
     validate_controls()
@@ -156,18 +170,21 @@ if __name__ == '__main__':
     # create full framework json files
     # TODO - delete when kubescape works with csv files
     for k, v in frameworks.items():
-        export_json(data=v, f_name=k, output_path="release")
+        export_json(data=v, f_name=k, output_path=output_path)
 
     # create object jsons - frameworks, controls, rules
-    export_json(frameworks_list, 'frameworks', "release")
-    export_json(controls_list, 'controls', "release")
-    export_json(rules_list, 'rules', "release")
-    export_json(default_config_inputs, 'default_config_inputs', "release")
+    export_json(frameworks_list, 'frameworks', output_path)
+    export_json(controls_list, 'controls', output_path)
+    export_json(rules_list, 'rules', output_path)
+    export_json(default_config_inputs, 'default_config_inputs', output_path)
 
     # file 1 - 'ControlID', 'RuleName'
     header1 = ['ControlID', 'RuleName']
-    create_cvs_file(header1, control_rule_rows, 'ControlID_RuleName', "release")
+    create_cvs_file(header1, control_rule_rows, 'ControlID_RuleName', output_path)
 
     # file 2 - frameworkName, ControlID, ControlName
     header2 = ['frameworkName', 'ControlID', 'ControlName']
-    create_cvs_file(header2, framework_control_rows, 'FWName_CID_CName', "release")
+    create_cvs_file(header2, framework_control_rows, 'FWName_CID_CName', output_path)
+
+if __name__ == '__main__':
+    main()

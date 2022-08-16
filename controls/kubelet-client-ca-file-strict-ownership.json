@@ -1,0 +1,16 @@
+{
+    "name": "Ensure that the client certificate authorities file ownership is set to `root:root`",
+    "id": "CIS-v1.6.1-4.1.8",
+    "controlID": "CIS-v1.6.1-4.1.8",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "kubelet-client-ca-file-strict-ownership"
+    ],
+    "description": "Ensure that the certificate authorities file ownership is set to `root:root`.",
+    "long_description": "The certificate authorities file controls the authorities used to validate API requests. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`.",
+    "remediation": "Run the following command to modify the ownership of the `--client-ca-file`.\n```\nchown root:root <filename>\n```\n",
+    "test": "This control check that the ownership of the kubelet client ca file is set to `root:root`.",
+    "baseScore": 10.0
+}

@@ -1,0 +1,37 @@
+{
+  "name": "kube-proxy-kubeconfig-file-strict-permissions",
+  "attributes": {
+    "armoBuiltin": true,
+    "hostSensorRule": "true",
+    "useFromKubescapeVersion": "v2.0.159"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeProxyInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+    {
+      "packageName": "cautils"
+    }
+  ],
+  "description": "Ensure that the kubeproxy kubeconfig file has permissions of 644 or more restrictive",
+  "remediation": "Set the permission of the kubeproxy kubeconfig file to 644 or more restrictive",
+  "ruleQuery": ""
+}
