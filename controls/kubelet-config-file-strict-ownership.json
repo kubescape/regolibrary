@@ -1,0 +1,16 @@
+{
+    "name": "Ensure that the kubelet `--config` configuration file ownership is set to `root:root`",
+    "id": "CIS-v1.6.1-4.1.10",
+    "controlID": "CIS-v1.6.1-4.1.10",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "kubelet-config-file-strict-ownership"
+    ],
+    "description": "Ensure that if the kubelet refers to a configuration file with the `--config` argument, that file is owned by `root:root`.",
+    "long_description": "The kubelet reads various parameters, including security settings, from a config file specified by the `--config` argument. If this file is specified you should restrict its file permissions to maintain the integrity of the file. The file should be owned by `root:root`.",
+    "remediation": "Run the following command (based on the file location on your system)\n```\nchown root:root /etc/kubernetes/kubelet.conf\n```\n",
+    "test": "This control check that the ownership of the kubelet configuration file is set to `root:root`.",
+    "baseScore": 10.0
+}
