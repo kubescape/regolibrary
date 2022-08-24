@@ -134,7 +134,7 @@ get_run_as_group_value(container, pod, beggining_of_path) = runAsGroup {
 } else = runAsGroup {
 	failed_path := sprintf("%v.securityContext.runAsGroup", [beggining_of_path])
     runAsGroup := {"value" : pod.spec.securityContext.runAsGroup,  "failed_path" : failed_path, "fixPath":[], "defined" : true}
-} else = {"value" : 0, "failed_path": "", "fixPath": [{"path": "spec.securityContext.runAsNonRoot", "value":"true"}], "defined" : false}{
+} else = {"value" : 0, "failed_path": "", "fixPath": [{"path": "spec.template.spec.containers[i].securityContext.runAsNonRoot", "value":"true"}], "defined" : false}{
 	is_allow_privilege_escalation_field(container, pod)
 } else = {"value" : 0, "failed_path": "", 
 	"fixPath": [{"path": sprintf("%v.securityContext.runAsNonRoot", [beggining_of_path]), "value":"true"},{"path": sprintf("%v.securityContext.allowPrivilegeEscalation", [beggining_of_path]), "value":"false"}],
