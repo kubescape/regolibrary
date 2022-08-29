@@ -11,9 +11,10 @@ import (
 	"strings"
 
 	"github.com/armosec/armoapi-go/armotypes"
-	"github.com/armosec/k8s-interface/workloadinterface"
-	"github.com/armosec/opa-utils/objectsenvelopes"
-	"github.com/armosec/opa-utils/reporthandling"
+	"github.com/kubescape/k8s-interface/workloadinterface"
+
+	"github.com/kubescape/opa-utils/objectsenvelopes"
+	"github.com/kubescape/opa-utils/reporthandling"
 	"gopkg.in/yaml.v2"
 )
 
