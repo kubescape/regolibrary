@@ -1,0 +1,106 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "ConfigMap",
+            "metadata": {
+                "annotations": {
+                    "control-plane.alpha.kubernetes.io/leader": "{\"holderIdentity\":\"nginx-ingress-controller-65c8bc5f9d-td9fx\",\"leaseDurationSeconds\":30,\"acquireTime\":\"2022-05-09T06:59:38Z\",\"renewTime\":\"2022-07-14T08:36:12Z\",\"leaderTransitions\":16}"
+                },
+                "creationTimestamp": "2020-05-20T17:47:49Z",
+                "name": "ingress-controller-leader-nginx",
+                "namespace": "ingress-nginx",
+                "resourceVersion": "410601377",
+                "uid": "68e0c1f8-c1e4-4988-a6fe-b4f281654f36"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "data": {
+                "ca.crt": "-----BEGIN CERTIFICATE-----\nMIICyDCCAbCgAwIBAgIBADANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwprdWJl\ncm5ldGVzMB4XDTIwMDUyMDE3MjUxMFoXDTMwMDUxODE3MjUxMFowFTETMBEGA1UE\nAxMKa3ViZXJuZXRlczCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMlK\n+w/IPpRxrQUjf8bHtzhawjOw6Ua3hLvuzA1fxvDIEKijHIJquiodTpfo2+tKUc65\nHsjg+F5IUCX/qsx0vYVs/CrxdEVEAU8/lN2HBDz43I9wM9THuEcU4R0F0A2RcUG6\nh/D1LaV8e31wPdV06x1QMF4FEavMt5XDvvMusb72bEZuNA4FT8ZQvR4vuyyGX/7E\nimku5KFjDbHAXw+7Yf3fqciN6iaQUjAVSMAFZ/Q4D3xCnhOkA9GvizXzmcM0Q4v1\nyVOf468n5l1saqH0qKeIRWQR2qA6A9jBCuWeyuYfJmPrfj6E89ebtlq03njyJ8kk\nh2C7vVeHViNgso5Xls0CAwEAAaMjMCEwDgYDVR0PAQH/BAQDAgKkMA8GA1UdEwEB\n/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHdmWmIwc+7Lx72Nyqo5Cw/QXKRR\njDuiK3VKI4pLKRJ7n8I90uRH3AmaEcPc5AUtkJZYOCw51qMt9VV4/KM7gQTOBwNR\nPXlhMOQEd2KUcbq33QwmJ4TSQhk48NYU+Ko5TaKbvUst+24CEcb9AEv2vChRGcrC\nWljKQf3iXWLi+PGHFNHRDKGp6S0CGb7jKOqo5pNyIb/hwTs9UFVWJHxKizrK1zAt\nrxDN5lQs+JyLH7YvbpQl/EDsPxKZ9hz/bOeGyvWe8d+4X5NQFGVXqopauEsfLtAW\nnn/P0s48CZVH8PYeecLBdJ6OKgIw+9kv2GNzIXfddYv45hr1LL44zSPelhU=\n-----END CERTIFICATE-----\n"
+            },
+            "kind": "ConfigMap",
+            "metadata": {
+                "creationTimestamp": "2022-05-08T12:22:05Z",
+                "name": "kube-root-ca.crt",
+                "namespace": "ingress-nginx",
+                "resourceVersion": "357942311",
+                "uid": "a0faaf3b-7ec2-4627-b03a-06c269a9a4f0"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "data": {
+                "body-size": "1024m",
+                "client-body-buffer-size": "5m",
+                "client-body-timeout": "3000",
+                "client-max-body-size": "100m",
+                "error-log-level": "info",
+                "proxy-body-size": "1024m",
+                "proxy-buffer-size": "128k",
+                "proxy-connect-timeout": "740",
+                "proxy-read-timeout": "600",
+                "proxy-send-timeout": "600",
+                "proxy-stream-timeout": "600",
+                "upstream-keepalive-timeout": "600",
+                "use-forwarded-headers": "true"
+            },
+            "kind": "ConfigMap",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"data\":{\"body-size\":\"1024m\",\"client-body-timeout\":\"3000\",\"client-max-body-size\":\"50m\",\"error-log-level\":\"info\",\"proxy-body-size\":\"1024m\",\"proxy-buffer-size\":\"128k\",\"proxy-connect-timeout\":\"740\",\"proxy-read-timeout\":\"600\",\"proxy-send-timeout\":\"600\",\"proxy-stream-timeout\":\"600\",\"upstream-keepalive-timeout\":\"600\",\"use-forwarded-headers\":\"true\"},\"kind\":\"ConfigMap\",\"metadata\":{\"annotations\":{},\"labels\":{\"app.kubernetes.io/name\":\"ingress-nginx\",\"app.kubernetes.io/part-of\":\"ingress-nginx\"},\"name\":\"nginx-configuration\",\"namespace\":\"ingress-nginx\"}}\n"
+                },
+                "creationTimestamp": "2020-05-20T17:47:34Z",
+                "labels": {
+                    "app.kubernetes.io/name": "ingress-nginx",
+                    "app.kubernetes.io/part-of": "ingress-nginx"
+                },
+                "name": "nginx-configuration",
+                "namespace": "ingress-nginx",
+                "resourceVersion": "268144560",
+                "uid": "ae833a3c-8a79-4d0d-9123-5c915d33ce47"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "ConfigMap",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"ConfigMap\",\"metadata\":{\"annotations\":{},\"labels\":{\"app.kubernetes.io/name\":\"ingress-nginx\",\"app.kubernetes.io/part-of\":\"ingress-nginx\"},\"name\":\"tcp-services\",\"namespace\":\"ingress-nginx\"}}\n"
+                },
+                "creationTimestamp": "2020-05-20T17:47:34Z",
+                "labels": {
+                    "app.kubernetes.io/name": "ingress-nginx",
+                    "app.kubernetes.io/part-of": "ingress-nginx"
+                },
+                "name": "tcp-services",
+                "namespace": "ingress-nginx",
+                "resourceVersion": "3112",
+                "uid": "44ad736c-ffba-4064-ba47-7ed1449b998c"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "ConfigMap",
+            "metadata": {
+                "annotations": {
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"ConfigMap\",\"metadata\":{\"annotations\":{},\"labels\":{\"app.kubernetes.io/name\":\"ingress-nginx\",\"app.kubernetes.io/part-of\":\"ingress-nginx\"},\"name\":\"udp-services\",\"namespace\":\"ingress-nginx\"}}\n"
+                },
+                "creationTimestamp": "2020-05-20T17:47:34Z",
+                "labels": {
+                    "app.kubernetes.io/name": "ingress-nginx",
+                    "app.kubernetes.io/part-of": "ingress-nginx"
+                },
+                "name": "udp-services",
+                "namespace": "ingress-nginx",
+                "resourceVersion": "3113",
+                "uid": "4e0ea42d-873f-45c4-a70c-e95a2db69aa8"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

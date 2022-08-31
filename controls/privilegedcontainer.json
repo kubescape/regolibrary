@@ -4,7 +4,15 @@
         "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Privilege escalation"
-        ]
+        ],
+        "control-type-tags": [
+            "security"
+        ],
+        "attack-tracks": {
+            "container": [
+                "Privilege escalation"
+            ]
+        }
     },
     "description": "Potential attackers may gain access to privileged containers and inherit access to the host resources. Therefore, it is not recommended to deploy privileged containers unless it is absolutely necessary. This control identifies all the privileged Pods.",
     "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: privileged\nspec:\n  containers:\n    - name: pause\n      image: k8s.gcr.io/pause\n      securityContext:\n          privileged: true # This field triggers failure!\n",

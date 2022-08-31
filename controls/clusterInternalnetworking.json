@@ -4,7 +4,17 @@
         "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Lateral movement"
-        ]
+        ],
+        "control-type-tags": [
+            "security",
+            "compliance"
+        ],
+        "attack-tracks": {
+            "container": [
+                "Discovery",
+                "Lateral movement"
+            ]
+        }
     },
     "description": "If no network policy is defined, attackers who gain access to a container may use it to move laterally in the cluster. This control lists namespaces in which no network policy is defined.",
     "remediation": "Define Kubernetes network policies or use alternative products to protect cluster network.",
