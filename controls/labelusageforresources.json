@@ -1,7 +1,10 @@
 {
     "name": "Label usage for resources",
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "control-type-tags": [
+            "devops"
+        ]
     },
     "description": "It is recommended to set labels that identify semantic attributes of your application or deployment. For example, { app: myapp, tier: frontend, phase: test, deployment: v3 }. These labels can used to assign policies to logical groups of the deployments as well as for presentation and tracking purposes. This control helps you find deployments without any of the expected labels.",
     "remediation": "Define labels that are most suitable to your needs of use the exceptions to prevent further notifications.",

@@ -1,7 +1,17 @@
 {
     "name": "RBAC enabled",
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "control-type-tags": [
+            "security",
+            "compliance"
+        ],
+        "attack-tracks": {
+            "kubeapi": [
+                "Initial access",
+                "Privilege escalation"
+            ]
+        }
     },
     "description": "RBAC is the most advanced and well accepted mode of authorizing users of the Kubernetes API",
     "remediation": "Enable RBAC either in the API server configuration or with the Kubernetes provider API",
@@ -13,5 +23,5 @@
     "long_description": "RBAC is the most advanced and well accepted mode of authorizing users of the Kubernetes API",
     "test": "Testing API server or managed Kubernetes vendor API to determine if RBAC is enabled",
     "controlID": "C-0088",
-    "baseScore": 8.0
+    "baseScore": 7.0
 }

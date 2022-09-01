@@ -4,7 +4,17 @@
         "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Collection"
-        ]
+        ],
+        "control-type-tags": [
+            "security",
+            "compliance"
+        ],
+        "attack-tracks": {
+            "container": [
+                "Initial access",
+                "Execution"
+            ]
+        }
     },
     "description": "This control is intended to ensure that all the used container images are taken from the authorized repositories. It allows user to list all the approved repositories and will fail all the images taken from any repository outside of this list.",
     "remediation": "You should enable all trusted repositories in the parameters of this control.",
