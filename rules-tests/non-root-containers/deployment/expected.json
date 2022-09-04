@@ -1,6 +1,6 @@
 [{
     "alertMessage": "container :nginx in Deployment: nginx-deployment may run as root",
-    "failedPaths": ["spec.template.spec.container[0].securityContext.runAsUser"],
+    "failedPaths": ["spec.template.spec.containers[0].securityContext.runAsUser"],
     "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
