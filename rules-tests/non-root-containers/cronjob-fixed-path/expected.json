@@ -22,8 +22,14 @@
     }
 }, {
     "alertMessage": "container :hello2 in CronJob: hello  may run as root",
-    "failedPaths": ["spec.jobTemplate.spec.template.spec.containers[1].securityContext.runAsNonRoot"],
-    "fixPaths": [],
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.runAsNonRoot",
+        "value": "true"
+    }, {
+        "path": "spec.jobTemplate.spec.template.spec.securityContext.allowPrivilegeEscalation",
+        "value": "false"
+    }],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 7,
