@@ -1,34 +1,10 @@
 [
     {
-        "alertMessage": "image 'mysql' in container 'mysql' comes from untrusted registry",
-        "fixPaths": [],
-        "failedPaths": [
-            "spec.template.spec.containers[0].image"
-        ],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 2,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "apps/v1",
-                    "kind": "Deployment",
-                    "metadata": {
-                        "labels": {
-                            "app": "goproxy"
-                        },
-                        "name": "my-deployment"
-                    }
-                }
-            ]
-        }
-    },
-    {
         "alertMessage": "image 'registry.hub.docker.com/php:7.0-apache' in container 'php' comes from untrusted registry",
-        "fixPaths": [],
         "failedPaths": [
             "spec.template.spec.containers[1].image"
         ],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 2,
