@@ -2,9 +2,11 @@ package opaprocessor
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"sort"
 	"strings"
 	"testing"
@@ -60,6 +62,25 @@ func GetInputRawResources(dir string, policyRule *reporthandling.PolicyRule) ([]
 	IMetadataResources, _ = reporthandling.RegoResourcesAggregator(policyRule, IMetadataResources)
 	inputRawResources := workloadinterface.ListMetaToMap(IMetadataResources)
 	return inputRawResources, nil
+}
+
+// GetData reads test data for the rego data channel
+func GetData(dir string, policyRule *reporthandling.PolicyRule) (map[string][]string, error) {
+	ret := map[string][]string{}
+	dataPath := path.Join(dir, "data.json")
+	data, err := os.ReadFile(dataPath)
+	if err != nil {
+		if errors.Is(err, os.ErrNotExist) {
+			return ret, nil
+		}
+		return ret, fmt.Errorf("failed to get rule %w", err)
+	}
+
+	tmp := struct {
+		PostureControlInputs map[string][]string `json:"postureControlInputs"`
+	}{}
+	err = json.Unmarshal(data, &tmp)
+	return tmp.PostureControlInputs, err
 }
 
 func GetMockContentFromFile(filename string) (string, error) {
@@ -210,12 +231,17 @@ func GetCurrentTest(dir string) string {
 
 func RunSingleTest(t *testing.T, dir string, policyRule *reporthandling.PolicyRule) error {
 
+	data, err := GetData(dir, policyRule)
+	if err != nil {
+		return err
+	}
+
 	inputRawResources, err := GetInputRawResources(dir, policyRule)
 	if err != nil {
 		return err
 	}
 
-	responses, err := RunSingleRego(policyRule, inputRawResources)
+	responses, err := RunSingleRego(policyRule, inputRawResources, data)
 	if err != nil {
 		return err
 	}
