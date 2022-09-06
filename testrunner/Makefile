@@ -23,7 +23,7 @@ ifneq ($(POSIXSHELL),)
 
 CMDSEP := ;
 PSEP := /
-CPF := cp -f
+CPF := sudo cp -f
 
 else
 
