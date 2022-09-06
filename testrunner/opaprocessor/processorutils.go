@@ -1,20 +1,19 @@
 package opaprocessor
 
 import (
-	"bytes"
-	"encoding/gob"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
-	"reflect"
+	"sort"
 	"strings"
+	"testing"
 
-	"github.com/armosec/armoapi-go/armotypes"
 	"github.com/kubescape/k8s-interface/workloadinterface"
-
 	"github.com/kubescape/opa-utils/objectsenvelopes"
 	"github.com/kubescape/opa-utils/reporthandling"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v2"
 )
 
@@ -81,135 +80,29 @@ func GetMockContentFromFile(filename string) (string, error) {
 	return string(mockContentJson), err
 }
 
-func AssertResponses(responses []reporthandling.RuleResponse, expectedResponses []reporthandling.RuleResponse) error {
-	if len(expectedResponses) != len(responses) {
-		return fmt.Errorf("length of responses is different (%d instead of %d)", len(responses), len(expectedResponses))
-	}
-	for i := 0; i < len(expectedResponses); i++ {
-		if _, err := assertResponses(responses, &expectedResponses[i]); err != nil {
-			return err
-		}
-	}
-	return nil
-	// for i := 0; i < len(responses); i++ {
-	// 	if expectedResponses[i].RuleStatus != responses[i].RuleStatus {
-	// 		return fmt.Errorf("the field 'RuleStatus' is different for response %v. expected: %v, got :%v", i, expectedResponses[i].RuleStatus, responses[i].RuleStatus)
-	// 	}
-	// 	if len(expectedResponses[i].AlertObject.ExternalObjects) != len(responses[i].AlertObject.ExternalObjects) {
-	// 		return fmt.Errorf("length of 'ExternalObjects' is different for response %v. expected: %v, got :%v", i, expectedResponses[i].AlertObject.ExternalObjects, responses[i].AlertObject.ExternalObjects)
-	// 	}
-	// 	if len(expectedResponses[i].AlertObject.K8SApiObjects) != len(responses[i].AlertObject.K8SApiObjects) {
-	// 		return fmt.Errorf("length of 'K8SApiObjects' is different for response %v. expected: %v, got :%v", i, expectedResponses[i].AlertObject.K8SApiObjects, responses[i].AlertObject.K8SApiObjects)
-	// 	}
-	// 	err := CompareAlertObject(expectedResponses[i].AlertObject, responses[i].AlertObject)
-	// 	if err != nil {
-	// 		return fmt.Errorf("%v for response %v", err.Error(), i)
-	// 	}
-	// 	if len(expectedResponses[i].FailedPaths) != len(responses[i].FailedPaths) {
-	// 		return fmt.Errorf("length of 'FailedPaths' is different for response %v. expected: %v, got :%v", i, expectedResponses[i].FailedPaths, responses[i].FailedPaths)
-	// 	}
-	// 	err = CompareFailedPaths(expectedResponses[i].FailedPaths, responses[i].FailedPaths)
-	// 	if err != nil {
-	// 		return fmt.Errorf("%v for response %v", err.Error(), i)
-	// 	}
-	// 	if len(expectedResponses[i].FixPaths) != len(responses[i].FixPaths) {
-	// 		return fmt.Errorf("length of 'FixPaths' is different for response %v. expected: %v, got :%v", i, expectedResponses[i].FixPaths, responses[i].FixPaths)
-	// 	}
-	// 	err = CompareFixPaths(expectedResponses[i].FixPaths, responses[i].FixPaths)
-	// 	if err != nil {
-	// 		return fmt.Errorf("%v for response %v", err.Error(), i)
-	// 	}
-	// }
-	// return nil
+func marshallIgnoreErrors(v interface{}) string {
+	ret, _ := json.Marshal(v)
+	return string(ret)
 }
 
-func hash(s *reporthandling.RuleResponse) []byte {
-	var b bytes.Buffer
-	gob.NewEncoder(&b).Encode(*s)
-	return b.Bytes()
-}
+func AssertResponses(t *testing.T, responses []reporthandling.RuleResponse, expectedResponses []reporthandling.RuleResponse) error {
+	sortFunc := func(i, j int, src []reporthandling.RuleResponse) bool {
+		return strings.Compare(marshallIgnoreErrors(src[i]), marshallIgnoreErrors(src[j])) == 1
+	}
 
-func comapreRuleResponse(actual, expected *reporthandling.RuleResponse) (bool, error) {
-	if actual.RuleStatus != expected.RuleStatus {
-		return false, fmt.Errorf("the field 'RuleStatus' is different for rule %v. expected: %v, got :%v", actual.Rulename, expected.RuleStatus, actual.RuleStatus)
-	}
-	if len(actual.AlertObject.ExternalObjects) != len(expected.AlertObject.ExternalObjects) {
-		return false, fmt.Errorf("length of 'ExternalObjects' is different for response %v. expected: %v, got :%v", actual.Rulename, expected.AlertObject.ExternalObjects, actual.AlertObject.ExternalObjects)
-	}
-	if len(actual.AlertObject.K8SApiObjects) != len(expected.AlertObject.K8SApiObjects) {
-		return false, fmt.Errorf("length of 'K8SApiObjects' is different for response %v. expected: %v, got :%v", actual.Rulename, expected.AlertObject.K8SApiObjects, actual.AlertObject.K8SApiObjects)
-	}
-	err := CompareAlertObject(actual.AlertObject, expected.AlertObject)
+	sort.Slice(responses, func(i, j int) bool { return sortFunc(i, j, responses) })
+	sort.Slice(expectedResponses, func(i, j int) bool { return sortFunc(i, j, expectedResponses) })
+
+	actual, err := json.MarshalIndent(responses, "", "   ")
 	if err != nil {
-		return false, fmt.Errorf("%v for response %v", err.Error(), actual.Rulename)
+		return err
 	}
-	if len(actual.FailedPaths) != len(expected.FailedPaths) {
-		return false, fmt.Errorf("length of 'FailedPaths' is different for response %v. expected: %v, got :%v", actual.Rulename, expected.FailedPaths, actual.FailedPaths)
-	}
-	err = CompareFailedPaths(actual.FailedPaths, expected.FailedPaths)
+	expected, err := json.MarshalIndent(expectedResponses, "", "   ")
 	if err != nil {
-		return false, fmt.Errorf("%v for response %v", err.Error(), actual.Rulename)
+		return err
 	}
-	if len(actual.FixPaths) != len(expected.FixPaths) {
-		return false, fmt.Errorf("length of 'FixPaths' is different for response %v. expected: %v, got :%v", actual.Rulename, expected.FixPaths, actual.FixPaths)
-	}
-	err = CompareFixPaths(actual.FixPaths, expected.FixPaths)
-	if err != nil {
-		return false, fmt.Errorf("%v for response %v", err.Error(), actual.Rulename)
-	}
-	return true, nil
 
-}
-func assertResponses(responses []reporthandling.RuleResponse, expectedResponse *reporthandling.RuleResponse) (bool, error) {
-	var err error
-	err = nil
-	for i := 0; i < len(responses); i++ {
-		if _, err = comapreRuleResponse(&responses[i], expectedResponse); err == nil {
-			return true, nil
-		}
-	}
-	return false, err
-}
-
-func CompareFixPaths(expected []armotypes.FixPath, actual []armotypes.FixPath) error {
-	eq := reflect.DeepEqual(expected, actual)
-	if !eq {
-		return fmt.Errorf("field 'FixPaths' is different. expected: %v, got :%v", expected, actual)
-	}
-	return nil
-}
-
-func CompareFailedPaths(expected []string, actual []string) error {
-	eq := reflect.DeepEqual(expected, actual)
-	if !eq {
-		return fmt.Errorf("field 'FailedPaths' is different. expected: %v, got :%v", expected, actual)
-	}
-	return nil
-}
-
-func CompareAlertObject(expected reporthandling.AlertObject, actual reporthandling.AlertObject) error {
-
-	expectedinJson, err := json.Marshal(expected)
-	if err != nil {
-		return fmt.Errorf("expected response is not valid json")
-	}
-	actualinJson, err := json.Marshal(actual)
-	if err != nil {
-		return fmt.Errorf(" response is not valid json")
-	}
-	var eq bool
-	if len(expected.ExternalObjects) > 0 {
-		eq = reflect.DeepEqual(expected.ExternalObjects, actual.ExternalObjects)
-		if !eq {
-			return fmt.Errorf("field 'ExternalObjects' is different. expected: %v, got :%v", string(expectedinJson), string(actualinJson))
-		}
-	}
-	if len(expected.K8SApiObjects) > 0 {
-		eq = reflect.DeepEqual(expected.K8SApiObjects, actual.K8SApiObjects)
-		if !eq {
-			return fmt.Errorf("field 'K8SApiObjects' is different .expected: %v, got :%v", string(expectedinJson), string(actualinJson))
-		}
-	}
+	require.JSONEq(t, string(expected), string(actual))
 	return nil
 }
 
@@ -268,7 +161,7 @@ func GetInputResources(dir string) ([]map[string]interface{}, error) {
 	return resources, nil
 }
 
-func RunAllTestsForRule(dir string) error {
+func RunAllTestsForRule(t *testing.T, dir string) error {
 	ruleNameSplited := strings.Split(dir, "/")
 	ruleName := ruleNameSplited[len(ruleNameSplited)-1]
 	regoDir := fmt.Sprintf("%v/%v", RelativeRulesPath, ruleName)
@@ -297,12 +190,12 @@ func RunAllTestsForRule(dir string) error {
 
 	// Iterate over each test
 	for _, testFile := range testsForRule {
-		dir := fmt.Sprintf("%v/%v", dir, testFile)
-		err := RunSingleTest(dir, policyRule)
-		if err != nil {
-
-			return fmt.Errorf("%v in test: %v with policy %v, full path: %s", err.Error(), GetCurrentTest(dir), policyRule.Name, dir)
-		}
+		t.Run(
+			fmt.Sprintf("%s/%s", ruleName, testFile), func(t *testing.T) {
+				dir := fmt.Sprintf("%v/%v", dir, testFile)
+				assert.NoError(t, RunSingleTest(t, dir, policyRule))
+			},
+		)
 	}
 	return nil
 }
@@ -315,7 +208,8 @@ func GetCurrentTest(dir string) string {
 	return ""
 }
 
-func RunSingleTest(dir string, policyRule *reporthandling.PolicyRule) error {
+func RunSingleTest(t *testing.T, dir string, policyRule *reporthandling.PolicyRule) error {
+
 	inputRawResources, err := GetInputRawResources(dir, policyRule)
 	if err != nil {
 		return err
@@ -330,9 +224,7 @@ func RunSingleTest(dir string, policyRule *reporthandling.PolicyRule) error {
 	if err != nil {
 		return err
 	}
-	err = AssertResponses(responses, expectedResponses)
-	if err != nil {
-		return err
-	}
-	return nil
+
+	err = AssertResponses(t, responses, expectedResponses)
+	return err
 }
