@@ -1,6 +1,6 @@
 # ARMO rego library
 
-ARMO rego library for detecting miss-configurations in Kubernetes manifests
+[Kubescape](https://github.com/kubescape/kubescape) rego library for detecting miss-configurations in Kubernetes manifests
 
 ### [NSA Framework](https://www.nsa.gov/Press-Room/News-Highlights/Article/Article/2716980/nsa-cisa-release-kubernetes-hardening-guidance/)
 
@@ -17,3 +17,7 @@ ARMO rego library for detecting miss-configurations in Kubernetes manifests
 ||||||||[access tiller endpoint](/controls/accesstillerendpoint.json)|||||
 ||||||||[CoreDNS poisoning](/controls/coreDNSpoisoning.json)|||||
 ||||||||ARP and IP spoofing|||||
+
+
+## Testing
+See [testing](testrunner/README.md)

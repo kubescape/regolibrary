@@ -51,16 +51,16 @@
     }
   ],
   "configInputs": [
-    "settings.postureControlInputs.listOfDangerousArtifcats"
+    "settings.postureControlInputs.listOfDangerousArtifacts"
   ],
   "controlConfigInputs": [
     {
-      "path": "settings.postureControlInputs.listOfDangerousArtifcats",
+      "path": "settings.postureControlInputs.listOfDangerousArtifacts",
       "name": "Shell executable in container",
       "description": "Kubescape checks if container images have the any of the these shell executables."
     }
   ],
-  "description": "determines which containers have bash/cmd inside it",
+  "description": "determines which containers have dangerous artifacts (based on the list of dangerous artifacts)",
   "remediation": "",
   "ruleQuery": "armo_builtins"
 }
