@@ -1,0 +1,38 @@
+{
+    "name": "node",
+    "version": "1.0",
+    "definition": {
+        "name": "Initial access",
+        "subSteps": [
+            {
+                "name": "Execution",
+                "subSteps": [
+                    {
+                        "name": "Persistence"
+                    },
+                    {
+                        "name": "Credential access"
+                    },
+                    {
+                        "name": "Defense evasion"
+                    },
+                    {
+                        "name": "Discovery"
+                    },
+                    {
+                        "name": "Lateral movement"
+                    },
+                    {
+                        "name": "Impact - data theft"
+                    },
+                    {
+                        "name": "Impact - data destruction"
+                    },
+                    {
+                        "name": "Impact - service injection"
+                    }
+                ]
+            }
+        ]
+    }
+}

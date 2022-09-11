@@ -1,0 +1,48 @@
+{
+    "name": "container",
+    "version": "1.0",
+    "definition": {
+        "name": "Initial access",
+        "subSteps": [
+            {
+                "name": "Execution",
+                "subSteps": [
+                    {
+                        "name": "Privilege escalation"
+                    },
+                    {
+                        "name": "Credential access",
+                        "subSteps": [
+                            {
+                                "name": "Impact - service access"
+                            },
+                            {
+                                "name": "Impact - K8s API access",
+                                "subSteps": [
+                                    {
+                                        "name": "Defense evasion - KubeAPI"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Discovery"
+                    },
+                    {
+                        "name": "Lateral movement"
+                    },
+                    {
+                        "name": "Impact - Data access in container"
+                    },
+                    {
+                        "name": "Persistence"
+                    }
+                ]
+            },
+            {
+                "name": "Impact - service destruction"
+            }
+        ]
+    }
+}
