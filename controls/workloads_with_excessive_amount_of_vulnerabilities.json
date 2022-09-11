@@ -1,7 +1,17 @@
 {
     "name": "Workloads with excessive amount of vulnerabilities",
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "control-type-tags": [
+            "security",
+            "compliance"
+        ],
+        "attack-tracks": {
+            "container": [
+                "Initial access",
+                "Execution"
+            ]
+        }
     },
     "description": "Container images with multiple Critical and High sevirity vulnerabilities increase the risk of potential exploit. This control lists all such images according to the threashold provided by the customer.",
     "remediation": "Update your workload images as soon as possible when fixes become available.",
@@ -10,8 +20,8 @@
     ],
     "id": "C-0085",
     "long_description": "Container images with multiple Critical and High sevirity vulnerabilities increase the risk of potential exploit. This control lists all such images according to the threashold provided by the customer.",
-    "test": "This control enumerates workloads and checks if they have excessive amount of vulnerabilities in their container images. The threshold of “excessive number” is configurable.",
+    "test": "This control enumerates workloads and checks if they have excessive amount of vulnerabilities in their container images. The threshold of \u201cexcessive number\u201d is configurable.",
     "controlID": "C-0085",
-    "baseScore": 8.0, 
+    "baseScore": 6.0,
     "example": "@controls/examples/c85.yaml"
 }

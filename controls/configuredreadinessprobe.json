@@ -1,7 +1,10 @@
 {
     "name": "Configured readiness probe",
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "control-type-tags": [
+            "devops"
+        ]
     },
     "description": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the PODs where the readiness probe is not configured.",
     "remediation": "Ensure Readiness probes are configured wherever possible.",
@@ -10,7 +13,7 @@
     ],
     "id": "C-0018",
     "long_description": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the PODs where the readiness probe is not configured.",
-    "controlID": "C-0018", 
+    "controlID": "C-0018",
     "example": "@controls/examples/c018.yaml",
     "baseScore": 3
 }

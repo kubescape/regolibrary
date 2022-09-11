@@ -1,7 +1,18 @@
 {
     "name": "Allowed hostPath",
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "control-type-tags": [
+            "security",
+            "compliance",
+            "devops",
+            "security-impact"
+        ],
+        "attack-tracks": {
+            "container": [
+                "Impact - Data access in container"
+            ]
+        }
     },
     "description": "Mounting host directory to the container can be abused to get access to sensitive data and gain persistence on the host machine.",
     "remediation": "Refrain from using host path mount.",
@@ -12,6 +23,6 @@
     "long_description": "hostPath mount can be used by attackers to get access to the underlying host and thus break from the container to the host. (See \u201c3: Writable hostPath mount\u201d for details).",
     "test": "Check in POD spec if there are hostPath mounts. ",
     "controlID": "C-0006",
-    "baseScore": 6.0, 
+    "baseScore": 6.0,
     "example": "@controls/examples/c006.yaml"
 }

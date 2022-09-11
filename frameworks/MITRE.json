@@ -10,7 +10,6 @@
     "Access tiller endpoint",
     "Application exploit (RCE)",
     "Applications credentials in configuration files",
-    "Bash/cmd inside container",
     "Cluster-admin binding",
     "Cluster internal networking",
     "Exec into container",

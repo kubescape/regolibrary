@@ -1,7 +1,10 @@
 {
     "name": "Containers mounting Docker socket",
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "control-type-tags": [
+            "devops"
+        ]
     },
     "description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies PODs that attempt to mount Docker socket for accessing Docker runtime.",
     "remediation": "Remove docker socket mount request or define an exception.",

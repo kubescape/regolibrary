@@ -4,12 +4,16 @@
         "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Initial Access"
+        ],
+        "control-type-tags": [
+            "compliance"
         ]
     },
     "description": "Kubernetes dashboard versions before v2.0.1 do not support user authentication. If exposed externally, it will allow unauthenticated remote management of the cluster. This control checks presence of the kubernetes-dashboard deployment and its version number.",
     "remediation": "Update dashboard version to v2.0.1 and above.",
     "rulesNames": [
-        "rule-exposed-dashboard", "rule-exposed-dashboard-v1"
+        "rule-exposed-dashboard",
+        "rule-exposed-dashboard-v1"
     ],
     "id": "C-0047",
     "long_description": "The Kubernetes dashboard is a web-based user interface that enables monitoring and management of the Kubernetes cluster. By default, the dashboard exposes an internal endpoint (ClusterIP service). If the dashboard is exposed externally, it can allow unauthenticated remote management of the cluster.",

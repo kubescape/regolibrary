@@ -2,17 +2,27 @@
     "name": "No impersonation",
     "attributes": {
         "armoBuiltin": true,
-        "rbacQuery": "Impersonation"
+        "rbacQuery": "Impersonation",
+        "control-type-tags": [
+            "security",
+            "compliance"
+        ],
+        "attack-tracks": {
+            "kubeapi": [
+                "Privilege escalation"
+            ]
+        }
     },
     "description": "Impersonation is an explicit RBAC permission to use other roles rather than the one assigned to a user, group or service account. This is sometimes needed for testing purposes. However, it is highly recommended not to use this capability in the production environments for daily operations. This control identifies all subjects whose roles include impersonate verb.",
     "remediation": "Either remove the impersonate verb from the role where it was found or make sure that this role is not bound to users, groups or service accounts used for ongoing cluster operations. If necessary, bind this role to a subject only for specific needs for limited time period.",
     "long_description": "Impersonation is an explicit RBAC permission to use other roles rather than the one assigned to a user, group or service account. This is sometimes needed for testing purposes. However, it is highly recommended not to use this capability in the production environments for daily operations. This control identifies all subjects whose roles include impersonate verb.",
     "test": "Check for RBACs giving 'impersonate' verb to users/groups/uids/serviceaccounts",
     "rulesNames": [
-        "rule-can-impersonate-users-groups", "rule-can-impersonate-users-groups-v1"
+        "rule-can-impersonate-users-groups",
+        "rule-can-impersonate-users-groups-v1"
     ],
     "id": "C-0065",
     "controlID": "C-0065",
-    "baseScore": 5.0, 
+    "baseScore": 6.0,
     "example": "@controls/examples/c065.yaml"
 }

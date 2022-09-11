@@ -1,7 +1,16 @@
 {
     "name": "Control plane hardening",
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "control-type-tags": [
+            "security",
+            "compliance"
+        ],
+        "attack-tracks": {
+            "kubeapi": [
+                "Initial access"
+            ]
+        }
     },
     "description": "Kubernetes control plane API is running with non-secure port enabled which allows attackers to gain unprotected access to the cluster.",
     "remediation": "Set the insecure-port flag of the API server to zero.",
@@ -12,5 +21,5 @@
     "long_description": "The control plane is the core of Kubernetes and gives users the ability to view containers, schedule new Pods, read Secrets, and execute commands in the cluster. Therefore, it should be protected. It is recommended to avoid control plane exposure to the Internet or to an untrusted network. The API server runs on ports 6443 and 8080. We recommend to block them in the firewall. Note also that port 8080, when accessed through the local machine, does not require TLS encryption, and the requests bypass authentication and authorization modules.",
     "test": "Check if the insecure-port flag is set (in case of cloud vendor hosted Kubernetes service this verification will not be effective).",
     "controlID": "C-0005",
-    "baseScore": 8.0
+    "baseScore": 9.0
 }
