@@ -4,7 +4,7 @@ import data.cautils as cautils
 import future.keywords.in
 
 # Fail for every file in data.postureControlInputs.fileObjPath
-# if the owners of the file are not `root:root`.
+# if the permissions of the file are more permissive that 600.
 # Expect (supposed to be fixed per control, not user configurable): 
 # 	(required) data.postureControlInputs.fileObjPath - list of paths strings. The item delimiter is `.`.
 # 	(optional) data.postureControlInputs.kindFilter 
@@ -26,26 +26,28 @@ deny[msg] {
 	file = files[file_index]
 	file_path_glob(file.path)
 
-	# Actual ownership test    
-	cautils.is_not_strict_conf_ownership(file.ownership)
+	# Actual permissions test    
+	allowed_perms := 448 # 0o700 == 448
+	not cautils.unix_permissions_allow(allowed_perms, file.permissions)
 
 	# Filter out irrelevant data from the alert object
 	file_filtered := filter_file(obj, objPath, file_index)
 	obj_filtered := json.filter(obj, ["apiVersion", "kind", "metadata"])
 	output := object.union(file_filtered, obj_filtered)
 
+	alert := sprintf("the permissions of %s are too permissive. maximum allowed: %o. actual: %o", [file.path, allowed_perms, file.permissions])
 	msg := {
-		"alertMessage": sprintf("%s is not owned by `root:root`", [file.path]),
+		"alertMessage": alert,
 		"alertScore": 2,
 		"failedPaths": [],
 		"fixPaths": [],
-		"fixCommand": sprintf("chown root:root %s", [file.path]),
+		"fixCommand": sprintf("chmod %o %s", [allowed_perms, file.path]),
 		"packagename": "armo_builtins",
 		"alertObject": {"externalObjects": output},
 	}
 }
 
-# Always return a list
+# Return always a list
 get_files(obj) = files {
 	is_array(obj)
 	files = obj

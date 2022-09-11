@@ -1,8 +1,7 @@
 {
     "postureControlInputs": {
         "fileObjPath": [
-            "data",
-            "configFile"
+            "data/configFile"
         ]
     }
 }
