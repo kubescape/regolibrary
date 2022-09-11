@@ -28,14 +28,14 @@ CIS,CIS-1.1.19,Ensure that the Kubernetes PKI directory and file ownership is se
 CIS,CIS-1.1.2,Ensure that the API server pod specification file ownership is set to root:root
 CIS,CIS-1.1.20,Ensure that the Kubernetes PKI certificate file permissions are set to 600 or more restrictive
 CIS,CIS-1.1.21,Ensure that the Kubernetes PKI key file permissions are set to 600
-CIS,CIS-v1.6.1-4.1.7,Ensure that the certificate authorities file permissions are set to `644` or more restrictive
-CIS,CIS-v1.6.1-4.1.10,Ensure that the kubelet `--config` configuration file ownership is set to `root:root`
-CIS,CIS-v1.6.1-4.1.6,Ensure that the `--kubeconfig` `kubelet.conf` file ownership is set to `root:root`
-CIS,CIS-v1.6.1-4.1.9,Ensure that the kubelet `--config` configuration file has permissions set to `644` or more restrictive
-CIS,CIS-v1.6.1-4.1.8,Ensure that the client certificate authorities file ownership is set to `root:root`
-CIS,CIS-v1.6.1-4.1.5,Ensure that the `--kubeconfig` `kubelet.conf` file permissions are set to `644` or more restrictive
-CIS,CIS-v1.6.1-4.1.3,If proxy kubeconfig file exists ensure permissions are set to `644` or more restrictive
-CIS,CIS-v1.6.1-4.1.4,If proxy kubeconfig file exists ensure ownership is set to `root:root`
+CIS,CIS-4.1.3,If proxy kubeconfig file exists ensure permissions are set to 600 or more restrictive
+CIS,CIS-4.1.4,If proxy kubeconfig file exists ensure ownership is set to root:root
+CIS,CIS-4.1.5,Ensure that the --kubeconfig kubelet.conf file permissions are set to 600 or more restrictive
+CIS,CIS-4.1.6,Ensure that the --kubeconfig kubelet.conf file ownership is set to root:root
+CIS,CIS-4.1.7,Ensure that the certificate authorities file permissions are set to 600 or more restrictive
+CIS,CIS-4.1.8,Ensure that the client certificate authorities file ownership is set to root:root
+CIS,CIS-4.1.9,If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive
+CIS,CIS-4.1.10,If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root
 AllControls,C-0070,Enforce Kubelet client TLS authentication
 AllControls,C-0066,Secret/ETCD encryption enabled
 AllControls,C-0047,Exposed dashboard
