@@ -1,0 +1,16 @@
+[
+    {
+        "alertMessage": "kubelet read-only port is not disabled",
+        "alertObject": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "data": {
+                "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --read-only-port=1  --config=/var/lib/kubelet/config.yaml"
+            },
+            "kind": "KubeletInfo"
+        },
+        "alertScore": 4,
+        "failedPaths": [],
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

@@ -1,0 +1,32 @@
+{
+  "name": "kubelet-hostname-override",
+  "attributes": {
+    "armoBuiltin": true,
+    "hostSensorRule": "true"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Ensure that the --hostname-override argument is not set.",
+  "remediation": "Unset the --hostname-override argument.",
+  "ruleQuery": ""
+}

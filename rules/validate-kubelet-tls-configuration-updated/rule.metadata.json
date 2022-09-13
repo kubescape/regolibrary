@@ -1,0 +1,36 @@
+{
+    "name": "validate-kubelet-tls-configuration-updated",
+    "attributes": {
+      "armoBuiltin": true,
+      "hostSensorRule": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+          "apiGroups": [
+          ],
+          "apiVersions": [
+          ],
+          "resources": [
+          ]
+        }
+      ],
+      "dynamicMatch": [
+      {
+        "apiGroups": [
+          "hostdata.kubescape.cloud"
+        ],
+        "apiVersions": [
+          "v1beta0"
+        ],
+        "resources": [
+          "KubeletConfiguration",
+          "KubeletCommandLine"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate.",
+    "remediation": "Start the kubelet with the --tls-cert-file and --tls-private-key-file flags, providing the X509 certificate and its matching private key or if using config file set tlsCertFile and tlsPrivateKeyFile properties to the locations of the corresponding files.",
+    "ruleQuery": ""
+  }

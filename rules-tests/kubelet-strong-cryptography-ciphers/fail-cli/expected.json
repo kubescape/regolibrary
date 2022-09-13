@@ -1,0 +1,18 @@
+[
+    {
+        "alertMessage": "Kubelet is not configured to only use strong cryptographic ciphers",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet  --tls-cipher-suites=I_AM_NOT_STRONG"
+                },
+                "kind": "KubeletInfo"
+            }
+        },
+        "alertScore": 5,
+        "failedPaths": [],
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

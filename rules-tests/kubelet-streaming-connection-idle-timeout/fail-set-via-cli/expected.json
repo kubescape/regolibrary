@@ -1,0 +1,16 @@
+[
+    {
+        "alertMessage": "Timeouts on streaming connections are enabled",
+        "alertObject": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "data": {
+                "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --streaming-connection-idle-timeout=0 --config=/var/lib/kubelet/config.yaml"
+            },
+            "kind": "KubeletInfo"
+        },
+        "alertScore": 3,
+        "failedPaths": [],
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

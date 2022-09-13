@@ -1,0 +1,32 @@
+{
+  "name": "kubelet-protect-kernel-defaults",
+  "attributes": {
+    "armoBuiltin": true,
+    "hostSensorRule": "true"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Determines if the --protect-kernel-defaults argument is set to true.",
+  "remediation": "Set --protect-kernel-defaults to true or if using a config file set the protectKernelDefaults as true",
+  "ruleQuery": ""
+}

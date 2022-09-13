@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "Anonymous requests are enabled",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "configFile": {
+                        "content": "apiVersion: kubelet.config.k8s.io/v1beta1\nstreamingConnectionIdleTimeout: 0\neventRecordQPS: 0\nprotectKernelDefaults: false\nauthentication:\n  webhook:\n    cacheTTL: 0s\n    enabled: true\n  x509:\n    clientCAFile: /var/lib/minikube/certs/ca.crt\nauthorization:\n  mode: AlwaysAllow\n  webhook:\n    cacheAuthorizedTTL: 0s\n    cacheUnauthorizedTTL: 0s"
+                    }
+                },
+                "kind": "KubeletInfo"
+            }
+        },
+        "alertScore": 10,
+        "failedPaths": [
+            "authorization.mode"
+        ],
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

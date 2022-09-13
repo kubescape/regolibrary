@@ -1,0 +1,32 @@
+{
+  "name": "kubelet-event-qps",
+  "attributes": {
+    "armoBuiltin": true,
+    "hostSensorRule": "true"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Ensure that the --event-qps argument is set to 0 or a level which ensures appropriate event capture.",
+  "remediation": "Set --event-qps argument to appropiate level or if using a config file set the eventRecordQPS property to the value other than 0",
+  "ruleQuery": ""
+}
