@@ -1,7 +1,10 @@
 {
     "name": "Image pull policy on latest tag",
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "controlTypeTags": [
+            "devops"
+        ]
     },
     "description": "While usage of the latest tag is not generally recommended, in some cases this is necessary. If it is, the ImagePullPolicy must be set to Always, otherwise Kubernetes may run an older image with the same name that happens to be present in the node cache. Note that using Always will not cause additional image downloads because Kubernetes will check the image hash of the local local against the registry and only pull the image if this hash has changed, which is exactly what users want when use the latest tag. This control will identify all PODs with latest tag that have ImagePullSecret not set to Always.",
     "remediation": "Set ImagePullPolicy to Always in all PODs found by this control.",

@@ -13,7 +13,7 @@
       "Allowed hostPath",
       "Automatic mapping of service account",
       "HostNetwork access",
-      "Resource policies",
+      "Resource limits",
       "Exposed dashboard",
       "Allow privilege escalation",
       "Applications credentials in configuration files",

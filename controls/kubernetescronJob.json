@@ -4,6 +4,9 @@
         "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Persistence"
+        ],
+        "controlTypeTags": [
+            "compliance"
         ]
     },
     "description": "Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a POD in the cluster. This control lists all the CronJobs that exist in the cluster for the user to approve.",
@@ -15,5 +18,5 @@
     "long_description": "Kubernetes Job is a controller that creates one or more pods and ensures that a specified number of them successfully terminate. Kubernetes Job can be used to run containers that perform finite tasks for batch jobs. Kubernetes CronJob is used to schedule Jobs. Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a container in the cluster.",
     "test": "We list all CronJobs that exist in cluster for the user to approve.",
     "controlID": "C-0026",
-    "baseScore": 3.0
+    "baseScore": 1.0
 }
