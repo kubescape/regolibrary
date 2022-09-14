@@ -2,7 +2,7 @@
     "name": "Label usage for resources",
     "attributes": {
         "armoBuiltin": true,
-        "control-type-tags": [
+        "controlTypeTags": [
             "devops"
         ]
     },

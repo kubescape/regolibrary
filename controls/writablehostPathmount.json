@@ -6,18 +6,21 @@
             "Persistence",
             "Lateral Movement"
         ],
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance",
             "devops",
             "security-impact"
         ],
-        "attack-tracks": {
-            "container": [
-                "Persistence",
-                "Impact - Data access in container"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Persistence",
+                    "Impact - Data access in container"
+                ]
+            }
+        ]
     },
     "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host and gain persistence.",
     "remediation": "Refrain from using the hostPath mount or use the exception mechanism to remove unnecessary notifications.",

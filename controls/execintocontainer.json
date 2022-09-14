@@ -6,7 +6,7 @@
             "Execution"
         ],
         "rbacQuery": "Show who can access into pods",
-        "control-type-tags": [
+        "controlTypeTags": [
             "compliance"
         ]
     },

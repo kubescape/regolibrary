@@ -2,15 +2,18 @@
     "name": "Enforce Kubelet client TLS authentication",
     "attributes": {
         "armoBuiltin": true,
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "node": [
-                "Initial access"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "node",
+                "categories": [
+                    "Initial access"
+                ]
+            }
+        ]
     },
     "description": "Kubelets are the node level orchestrator in Kubernetes control plane. They are publishing service port 10250 where they accept commands from API server. Operator must make sure that only API server is allowed to submit commands to Kubelet. This is done through client certificate verification, must configure Kubelet with client CA file to use for this purpose.",
     "remediation": "Start the kubelet with the --client-ca-file flag, providing a CA bundle to verify client certificates with.",

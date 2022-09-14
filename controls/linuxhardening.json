@@ -2,15 +2,18 @@
     "name": "Linux hardening",
     "attributes": {
         "armoBuiltin": true,
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "container": [
-                "Privilege escalation"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Privilege escalation"
+                ]
+            }
+        ]
     },
     "description": "Containers may be given more privileges than they actually need. This can increase the potential impact of a container compromise.",
     "remediation": "You can use AppArmor, Seccomp, SELinux and Linux Capabilities mechanisms to restrict containers abilities to utilize unwanted privileges.",

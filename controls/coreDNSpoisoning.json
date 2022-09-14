@@ -5,15 +5,18 @@
         "microsoftMitreColumns": [
             "Lateral Movement"
         ],
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "kubeapi": [
-                "Impact - service injection"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "kubeapi",
+                "categories": [
+                    "Impact - service injection"
+                ]
+            }
+        ]
     },
     "description": "If attackers have permissions to modify the coredns ConfigMap they can change the behavior of the cluster\u2019s DNS, poison it, and override the network identity of other services. This control identifies all subjects allowed to update the 'coredns' configmap.",
     "remediation": "You should follow the least privilege principle. Monitor and approve all the subjects allowed to modify the 'coredns' configmap. It is also recommended to remove this permission from the users/service accounts used in the daily operations.",

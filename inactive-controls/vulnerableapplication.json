@@ -5,16 +5,19 @@
         "microsoftMitreColumns": [
             "Initial Access"
         ],
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "container": [
-                "Execution",
-                "Initial access"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Execution",
+                    "Initial access"
+                ]
+            }
+        ]
     },
     "description": "Running a vulnerable application in a cluster can enable an attacker initial access to the cluster. This control determines if pods/deployments have vulnerable images using ARMO vulnerability scan (must run vulnerability scan before running posture scan). ",
     "remediation": "Upgrade your containers to not vulnerble versions or use ARMO runtime protection (sign/verify the workload in the runtime).",

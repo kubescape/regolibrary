@@ -5,7 +5,7 @@
         "microsoftMitreColumns": [
             "Initial Access"
         ],
-        "control-type-tags": [
+        "controlTypeTags": [
             "compliance"
         ]
     },

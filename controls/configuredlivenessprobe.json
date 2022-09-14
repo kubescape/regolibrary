@@ -2,7 +2,7 @@
     "name": "Configured liveness probe",
     "attributes": {
         "armoBuiltin": true,
-        "control-type-tags": [
+        "controlTypeTags": [
             "devops"
         ]
     },

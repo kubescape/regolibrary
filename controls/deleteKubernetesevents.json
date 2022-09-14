@@ -6,15 +6,18 @@
             "Defense evasion"
         ],
         "rbacQuery": "Show who can delete k8s events",
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "kubeapi": [
-                "Defense evasion"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "kubeapi",
+                "categories": [
+                    "Defense evasion"
+                ]
+            }
+        ]
     },
     "description": "Attackers may delete Kubernetes events to avoid detection of their activity in the cluster. This control identifies all the subjects that can delete Kubernetes events.",
     "remediation": "You should follow the least privilege principle. Minimize the number of subjects who can delete Kubernetes events. Avoid using these subjects in the daily operations.",

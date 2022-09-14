@@ -5,15 +5,18 @@
         "microsoftMitreColumns": [
             "Execution"
         ],
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "container": [
-                "Execution"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Execution"
+                ]
+            }
+        ]
     },
     "description": "Attackers who can run new processes inside a container might use cmd/bash script inside a container to execute malicious code. This control determines which containers have bash/cmd inside it.",
     "remediation": "Consider removing cmd/bash from your containers.",

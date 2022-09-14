@@ -7,7 +7,7 @@
             "Lateral Movement"
         ],
         "rbacQuery": "Access k8s Dashboard",
-        "control-type-tags": [
+        "controlTypeTags": [
             "compliance"
         ]
     },

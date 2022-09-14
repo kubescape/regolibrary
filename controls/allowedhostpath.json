@@ -2,17 +2,20 @@
     "name": "Allowed hostPath",
     "attributes": {
         "armoBuiltin": true,
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance",
             "devops",
             "security-impact"
         ],
-        "attack-tracks": {
-            "container": [
-                "Impact - Data access in container"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Impact - Data access in container"
+                ]
+            }
+        ]
     },
     "description": "Mounting host directory to the container can be abused to get access to sensitive data and gain persistence on the host machine.",
     "remediation": "Refrain from using host path mount.",

@@ -119,8 +119,8 @@ def load_attack_tracks():
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
             new_attack_track = json.load(f)
-        new_attack_track["version"] = os.getenv("RELEASE")
-        loaded_attack_tracks[new_attack_track['name']] = new_attack_track
+        new_attack_track["spec"]["version"] = os.getenv("RELEASE")
+        loaded_attack_tracks[new_attack_track['metadata']['name']] = new_attack_track
 
     return list(loaded_attack_tracks.values())
 

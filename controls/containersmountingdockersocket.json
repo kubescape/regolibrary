@@ -2,7 +2,7 @@
     "name": "Containers mounting Docker socket",
     "attributes": {
         "armoBuiltin": true,
-        "control-type-tags": [
+        "controlTypeTags": [
             "devops"
         ]
     },

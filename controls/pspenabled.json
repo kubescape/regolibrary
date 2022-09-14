@@ -2,15 +2,18 @@
     "name": "PSP enabled",
     "attributes": {
         "armoBuiltin": true,
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "kubeapi": [
-                "Impact - service injection"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "kubeapi",
+                "categories": [
+                    "Impact - service injection"
+                ]
+            }
+        ]
     },
     "description": "PSP enable fine-grained authorization of pod creation and it is important to enable it",
     "remediation": "Turn Pod Security Policies on in your cluster, if you use other admission controllers to control the behavior that PSP controls, exclude this control from your scans",

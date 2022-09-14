@@ -2,15 +2,18 @@
     "name": "Read-only port enabled",
     "attributes": {
         "armoBuiltin": true,
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "node": [
-                "Initial access"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "node",
+                "categories": [
+                    "Initial access"
+                ]
+            }
+        ]
     },
     "description": "",
     "remediation": "Start the kubelet with the --read-only-port flag set to 0.",

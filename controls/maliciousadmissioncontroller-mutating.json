@@ -5,15 +5,18 @@
         "microsoftMitreColumns": [
             "Persistence"
         ],
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "kubeapi": [
-                "Impact - service injection"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "kubeapi",
+                "categories": [
+                    "Impact - service injection"
+                ]
+            }
+        ]
     },
     "description": "Attackers may use mutating webhooks to intercept and modify all the resources in the cluster. This control lists all mutating webhook configurations that must be verified.",
     "remediation": "Ensure all the webhooks are necessary. Use exception mechanism to prevent repititive notifications.",

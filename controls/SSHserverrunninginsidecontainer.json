@@ -5,7 +5,7 @@
         "microsoftMitreColumns": [
             "Execution"
         ],
-        "control-type-tags": [
+        "controlTypeTags": [
             "compliance"
         ]
     },

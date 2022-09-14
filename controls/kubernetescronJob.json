@@ -5,7 +5,7 @@
         "microsoftMitreColumns": [
             "Persistence"
         ],
-        "control-type-tags": [
+        "controlTypeTags": [
             "compliance"
         ]
     },

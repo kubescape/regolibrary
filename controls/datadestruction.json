@@ -6,7 +6,7 @@
             "Impact"
         ],
         "rbacQuery": "Data destruction",
-        "control-type-tags": [
+        "controlTypeTags": [
             "compliance"
         ]
     },

@@ -5,7 +5,7 @@
         "microsoftMitreColumns": [
             "Credential Access"
         ],
-        "control-type-tags": [
+        "controlTypeTags": [
             "compliance"
         ]
     },

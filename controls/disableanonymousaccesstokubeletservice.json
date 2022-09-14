@@ -2,15 +2,18 @@
     "name": "Disable anonymous access to Kubelet service",
     "attributes": {
         "armoBuiltin": true,
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "kubeapi": [
-                "Initial access"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "kubeapi",
+                "categories": [
+                    "Initial access"
+                ]
+            }
+        ]
     },
     "description": "By default, requests to the kubelet's HTTPS endpoint that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of system:anonymous and a group of system:unauthenticated.",
     "remediation": "Start the kubelet with the --anonymous-auth=false flag.",

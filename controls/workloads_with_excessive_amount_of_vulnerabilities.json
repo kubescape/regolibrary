@@ -2,16 +2,19 @@
     "name": "Workloads with excessive amount of vulnerabilities",
     "attributes": {
         "armoBuiltin": true,
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "container": [
-                "Initial access",
-                "Execution"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Initial access",
+                    "Execution"
+                ]
+            }
+        ]
     },
     "description": "Container images with multiple Critical and High sevirity vulnerabilities increase the risk of potential exploit. This control lists all such images according to the threashold provided by the customer.",
     "remediation": "Update your workload images as soon as possible when fixes become available.",

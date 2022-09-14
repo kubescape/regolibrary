@@ -2,15 +2,18 @@
     "name": "Insecure capabilities",
     "attributes": {
         "armoBuiltin": true,
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "container": [
-                "Privilege escalation"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Privilege escalation"
+                ]
+            }
+        ]
     },
     "description": "Giving insecure or excsessive capabilities to a container can increase the impact of the container compromise. This control identifies all the PODs with dangerous capabilities (see documentation pages for details).",
     "remediation": "Remove all insecure capabilities which aren\u2019t necessary for the container.",

@@ -5,17 +5,20 @@
         "microsoftMitreColumns": [
             "Discovery"
         ],
-        "control-type-tags": [
+        "controlTypeTags": [
             "security",
             "compliance"
         ],
-        "attack-tracks": {
-            "container": [
-                "Credential access",
-                "Discovery",
-                "Impact - service access"
-            ]
-        }
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Credential access",
+                    "Discovery",
+                    "Impact - service access"
+                ]
+            }
+        ]
     },
     "description": "Attackers who gain access to a container, may query the metadata API service for getting information about the underlying node. This control checks if there is access from the nodes to cloud providers instance metadata services.",
     "remediation": "Disable metadata services for pods in cloud provider settings.",

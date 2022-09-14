@@ -2,7 +2,7 @@
     "name": "Resources CPU limit and request",
     "attributes": {
         "armoBuiltin": true,
-        "control-type-tags": [
+        "controlTypeTags": [
             "compliance",
             "devops"
         ]

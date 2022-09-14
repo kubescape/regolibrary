@@ -15,7 +15,7 @@ track_to_categories = {
 control_type = ['security','compliance','devops','security-impact']
 
 def user_wants_to_edit_control_type(control):
-    if 'control-type-tags' in control['attributes']:
+    if 'controlTypeTags' in control['attributes']:
         print('control type tags:',','.join(control['attributes']))
         while True:
             a = input('Want to edit?')
@@ -88,17 +88,17 @@ for file_name in list(od.keys())[start_from:]:
         if new_score:
             control['baseScore'] = float(new_score)
     
-    if not 'control-type-tags' in control['attributes'] or user_wants_to_edit_control_type(control):
+    if not 'controlTypeTags' in control['attributes'] or user_wants_to_edit_control_type(control):
         print('Defining control type tags')
         print_options(control_type)
         choices = get_user_input_choice('Which to add?',valid_answers=['%d'%i for i in range(len(control_type))],accept_multiple_answers=True)
         if choices:
-            control['attributes']['control-type-tags'] = [control_type[int(i)] for i in choices]
-    print(control['attributes']['control-type-tags'])
+            control['attributes']['controlTypeTags'] = [control_type[int(i)] for i in choices]
+    print(control['attributes']['controlTypeTags'])
     
         
 
-    if 'security' in control['attributes']['control-type-tags'] or 'security-impact' in control['attributes']['control-type-tags']:
+    if 'security' in control['attributes']['controlTypeTags'] or 'security-impact' in control['attributes']['controlTypeTags']:
         while True:
             a = input('Edit attack tracks? (y/n)')
             if not a in ['y','n']:
@@ -110,17 +110,21 @@ for file_name in list(od.keys())[start_from:]:
                     a = input('Which track to add? (%s or q to stop)'%(','.join(attack_tracks)))
                     if a in [str(i) for i in range(len(attack_tracks))]:
                         track = attack_tracks[int(a)]
-                        if not 'attack-tracks' in control['attributes']:
-                            control['attributes']['attack-tracks'] = {}
-                        if track in control['attributes']['attack-tracks']:
-                            print('already there: ',','.join(control['attributes']['attack-tracks']))
+                        if not 'attackTracks' in control['attributes']:
+                            control['attributes']['attackTracks'] = []
+                    
+                        attack_track = next((x for x in control['attributes']['attackTracks'] if x['attackTrack'] == track), None)
+
+                        if attack_track:
+                            print('already there: ',','.join(attack_track['categories']))
                         else:
-                            control['attributes']['attack-tracks'][track] = []
+                            attack_track = {'attackTrack':track,'categories':[]}
+                            control['attributes']['attackTracks'].append(attack_track)
                         while True:
                             print('Categories:\n%s\n'%('\n'.join(['%d. %s'%(ndx, category) for ndx, category in enumerate(track_to_categories[track])])))
                             answer = input('Which to include?')
                             try:
-                                control['attributes']['attack-tracks'][track] = [track_to_categories[track][int(c)] for c in answer.split()]
+                                attack_track['categories'] = [track_to_categories[track][int(c)] for c in answer.split()]
                                 break
                             except Exception as e:
                                 print(e)
