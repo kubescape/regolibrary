@@ -10,7 +10,6 @@ C-0020,alert-any-hostpath
 C-0081,CVE-2022-24348
 C-0004,resources-memory-limit-and-request
 C-0048,alert-any-hostpath
-C-0019,rule-can-bash-cmd-inside-container
 C-0088,rbac-enabled-cloud
 C-0088,rbac-enabled-native
 C-0046,insecure-capabilities
@@ -24,6 +23,7 @@ C-0067,k8s-audit-logs-enabled-cloud
 C-0067,k8s-audit-logs-enabled-native
 C-0035,rule-list-all-cluster-admins
 C-0035,rule-list-all-cluster-admins-v1
+C-0009,resource-policies
 C-0082,read-only-port-enabled
 C-0054,internal-networking
 C-0076,label-usage-for-resources
@@ -41,7 +41,6 @@ C-0050,resources-cpu-limit-and-request
 C-0006,alert-rw-hostpath
 C-0059,nginx-ingress-snippet-annotation-vulnerability
 C-0026,rule-deny-cronjobs
-C-0025,deny-RCE-vuln-image-pods
 C-0078,container-image-repository
 C-0075,image-pull-policy-is-not-set-to-always
 C-0044,container-hostPort
@@ -60,7 +59,6 @@ C-0061,pods-in-default-namespace
 C-0070,enforce-kubelet-client-tls-authentication
 C-0073,naked-pods
 C-0055,linux-hardening
-C-0024,deny-vuln-image-pods
 C-0045,alert-rw-hostpath
 C-0084,exposed-rce-pods
 C-0068,psp-enabled-cloud
@@ -68,7 +66,6 @@ C-0068,psp-enabled-native
 C-0037,rule-can-update-configmap
 C-0037,rule-can-update-configmap-v1
 C-0060,namespace-without-service-account
-C-0009,resource-policies
 C-0063,rule-can-portforward
 C-0063,rule-can-portforward-v1
 C-0079,CVE-2022-0185
@@ -77,7 +74,6 @@ C-0053,access-container-service-account
 C-0053,access-container-service-account-v1
 C-0065,rule-can-impersonate-users-groups
 C-0065,rule-can-impersonate-users-groups-v1
-C-0033,access-tiller-endpoint
 C-0007,rule-excessive-delete-rights
 C-0007,rule-excessive-delete-rights-v1
 C-0047,rule-exposed-dashboard
