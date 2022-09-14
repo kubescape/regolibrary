@@ -1,7 +1,19 @@
 {
     "name": "Allow privilege escalation",
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "controlTypeTags": [
+            "security",
+            "compliance"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Privilege escalation"
+                ]
+            }
+        ]
     },
     "description": "Attackers may gain access to a container and uplift its privilege to enable excessive capabilities.",
     "remediation": "If your application does not need it, make sure the allowPrivilegeEscalation field of the securityContext is set to false.",
@@ -11,6 +23,6 @@
     "id": "C-0016",
     "test": " Check that the allowPrivilegeEscalation field in securityContext of container is set to false.   ",
     "controlID": "C-0016",
-    "baseScore": 6.0, 
+    "baseScore": 6.0,
     "example": "@controls/examples/allowprivilegeescalation.yaml"
 }

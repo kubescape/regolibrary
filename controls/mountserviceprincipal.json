@@ -4,6 +4,9 @@
         "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Credential Access"
+        ],
+        "controlTypeTags": [
+            "compliance"
         ]
     },
     "description": "When a cluster is deployed in the cloud, in some cases attackers can leverage their access to a container in the cluster to gain cloud credentials. This control determines if any workload contains a hostPath volume.",

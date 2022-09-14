@@ -4,6 +4,19 @@
         "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Credential access"
+        ],
+        "controlTypeTags": [
+            "security",
+            "compliance"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "kubeapi",
+                "categories": [
+                    "Impact - data destruction",
+                    "Impact - service injection"
+                ]
+            }
         ]
     },
     "description": "Attackers can use validating webhooks to intercept and discover all the resources in the cluster. This control lists all the validating webhook configurations that must be verified.",
@@ -13,5 +26,5 @@
     ],
     "id": "C-0036",
     "controlID": "C-0036",
-    "baseScore": 7.0
+    "baseScore": 3.0
 }

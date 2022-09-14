@@ -1,7 +1,20 @@
 {
     "name": "Immutable container filesystem",
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "controlTypeTags": [
+            "security",
+            "compliance"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Execution",
+                    "Persistence"
+                ]
+            }
+        ]
     },
     "description": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks.",
     "remediation": "Set the filesystem of the container to read-only when possible (POD securityContext, readOnlyRootFilesystem: true). If containers application needs to write into the filesystem, it is recommended to mount secondary filesystems for specific directories where application require write access.",
@@ -12,6 +25,6 @@
     "long_description": "By default, containers are permitted mostly unrestricted execution within their own context. An attacker who has access to a container, can create files and download scripts as he wishes, and modify the underlying application running on the container. ",
     "test": "Check whether the readOnlyRootFilesystem field in the SecurityContext is set to true. ",
     "controlID": "C-0017",
-    "baseScore": 3.0, 
+    "baseScore": 3.0,
     "example": "@controls/examples/c017.yaml"
 }
