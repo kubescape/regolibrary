@@ -76,6 +76,7 @@ C-0065,rule-can-impersonate-users-groups
 C-0065,rule-can-impersonate-users-groups-v1
 C-0007,rule-excessive-delete-rights
 C-0007,rule-excessive-delete-rights-v1
+C-0089,CVE-2022-3172
 C-0047,rule-exposed-dashboard
 C-0047,rule-exposed-dashboard-v1
 C-0074,containers-mounting-docker-socket
@@ -85,4 +86,3 @@ C-0021,exposed-sensitive-interfaces
 C-0021,exposed-sensitive-interfaces-v1
 C-0077,K8s common labels usage
 C-0087,CVE-2022-23648
-C-0089,CVE-2022-3172
