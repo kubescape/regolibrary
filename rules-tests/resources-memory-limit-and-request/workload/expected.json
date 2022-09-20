@@ -2,10 +2,10 @@
     "alertMessage": "Container: app in Deployment: test   does not have memory-limit or request",
     "failedPaths": [],
     "fixPaths": [{
-        "path": "spec.containers[0].resources.limits.memory",
+        "path": "spec.template.spec.containers[0].resources.limits.memory",
         "value": "YOUR_VALUE"
     }, {
-        "path": "spec.containers[0].resources.requests.memory",
+        "path": "spec.template.spec.containers[0].resources.requests.memory",
         "value": "YOUR_VALUE"
     }],
     "ruleStatus": "",
