@@ -5,7 +5,7 @@
         "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.runAsNonRoot",
         "value": "true"
     }, {
-        "path": "spec.jobTemplate.spec.template.spec.securityContext.allowPrivilegeEscalation",
+        "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation",
         "value": "false"
     }],
     "ruleStatus": "",

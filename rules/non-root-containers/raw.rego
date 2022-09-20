@@ -114,7 +114,7 @@ get_run_as_non_root_value(container, pod, beggining_of_path) = runAsNonRoot {
     runAsNonRoot := {"value" : pod.spec.securityContext.runAsNonRoot,  "failed_path" : failed_path, "fixPath": [], "defined" : true}
 } else = {"value" : false,  "failed_path" : "", "fixPath": [{"path": sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [beggining_of_path]), "value":"true"}], "defined" : false} {
 	is_allow_privilege_escalation_field(container, pod)
-} else = {"value" : false,  "failed_path" : "", "fixPath": [{"path":  sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [beggining_of_path]) , "value":"true"}, {"path":sprintf("%v.securityContext.allowPrivilegeEscalation", [beggining_of_path]), "value":"false"}], "defined" : false}
+} else = {"value" : false,  "failed_path" : "", "fixPath": [{"path":  sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [beggining_of_path]) , "value":"true"}, {"path":sprintf("%v.containers[container_ndx].securityContext.allowPrivilegeEscalation", [beggining_of_path]), "value":"false"}], "defined" : false}
 
 get_run_as_user_value(container, pod, beggining_of_path) = runAsUser {
 	failed_path := sprintf("%v.containers[container_ndx].securityContext.runAsUser", [beggining_of_path]) 
