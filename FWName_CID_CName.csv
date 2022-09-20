@@ -1,46 +1,4 @@
 frameworkName,ControlID,ControlName
-ArmoBest,C-0005,Control plane hardening
-ArmoBest,C-0038,Host PID/IPC privileges
-ArmoBest,C-0017,Immutable container filesystem
-ArmoBest,C-0013,Non-root containers
-ArmoBest,C-0057,Privileged container
-ArmoBest,C-0006,Allowed hostPath
-ArmoBest,C-0034,Automatic mapping of service account
-ArmoBest,C-0041,HostNetwork access
-ArmoBest,C-0009,Resource limits
-ArmoBest,C-0047,Exposed dashboard
-ArmoBest,C-0016,Allow privilege escalation
-ArmoBest,C-0012,Applications credentials in configuration files
-ArmoBest,C-0035,Cluster-admin binding
-ArmoBest,C-0002,Exec into container
-ArmoBest,C-0046,Insecure capabilities
-ArmoBest,C-0055,Linux hardening
-ArmoBest,C-0030,Ingress and Egress blocked
-ArmoBest,C-0044,Container hostPort
-ArmoBest,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-ArmoBest,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-ArmoBest,C-0065,No impersonation
-ArmoBest,C-0061,Pods in default namespace
-ArmoBest,C-0062,Sudo in container entrypoint
-ArmoBest,C-0063,Portforwarding privileges
-ArmoBest,C-0060,Namespace without service accounts
-ArmoBest,C-0054,Cluster internal networking
-ArmoBest,C-0067,Audit logs enabled
-ArmoBest,C-0066,Secret/ETCD encryption enabled
-ArmoBest,C-0068,PSP enabled
-ArmoBest,C-0069,Disable anonymous access to Kubelet service
-ArmoBest,C-0070,Enforce Kubelet client TLS authentication
-ArmoBest,C-0001,Forbidden Container Registries
-ArmoBest,C-0079,CVE-2022-0185-linux-kernel-container-escape
-ArmoBest,C-0049,Network mapping
-ArmoBest,C-0078,Images from allowed registry
-ArmoBest,C-0086,CVE-2022-0492-cgroups-container-escape
-ArmoBest,C-0081,CVE-2022-24348-argocddirtraversal
-ArmoBest,C-0087,CVE-2022-23648-containerd-fs-escape
-ArmoBest,C-0085,Workloads with excessive amount of vulnerabilities
-ArmoBest,C-0083,Workloads with Critical vulnerabilities exposed to external traffic
-ArmoBest,C-0084,Workloads with RCE vulnerabilities exposed to external traffic
-ArmoBest,C-0089,CVE-2022-3172-aggregated-API-server-redirect
 DevOpsBest,C-0073,Naked PODs
 DevOpsBest,C-0074,Containers mounting Docker socket
 DevOpsBest,C-0075,Image pull policy on latest tag
@@ -52,60 +10,6 @@ DevOpsBest,C-0050,Resources CPU limit and request
 DevOpsBest,C-0004,Resources memory limit and request
 DevOpsBest,C-0056,Configured liveness probe
 DevOpsBest,C-0018,Configured readiness probe
-MITRE,C-0053,Access container service account
-MITRE,C-0014,Access Kubernetes dashboard
-MITRE,C-0012,Applications credentials in configuration files
-MITRE,C-0035,Cluster-admin binding
-MITRE,C-0054,Cluster internal networking
-MITRE,C-0002,Exec into container
-MITRE,C-0047,Exposed dashboard
-MITRE,C-0021,Exposed sensitive interfaces
-MITRE,C-0048,HostPath mount
-MITRE,C-0052,Instance Metadata API
-MITRE,C-0026,Kubernetes CronJob
-MITRE,C-0015,List Kubernetes secrets
-MITRE,C-0020,Mount service principal
-MITRE,C-0057,Privileged container
-MITRE,C-0042,SSH server running inside container
-MITRE,C-0045,Writable hostPath mount
-MITRE,C-0039,Malicious admission controller (mutating)
-MITRE,C-0036,Malicious admission controller (validating)
-MITRE,C-0031,Delete Kubernetes events
-MITRE,C-0037,CoreDNS poisoning
-MITRE,C-0007,Data Destruction
-MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-MITRE,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-MITRE,C-0067,Audit logs enabled
-MITRE,C-0066,Secret/ETCD encryption enabled
-MITRE,C-0068,PSP enabled
-MITRE,C-0069,Disable anonymous access to Kubelet service
-MITRE,C-0070,Enforce Kubelet client TLS authentication
-NSA,C-0005,Control plane hardening
-NSA,C-0038,Host PID/IPC privileges
-NSA,C-0017,Immutable container filesystem
-NSA,C-0013,Non-root containers
-NSA,C-0057,Privileged container
-NSA,C-0006,Allowed hostPath
-NSA,C-0034,Automatic mapping of service account
-NSA,C-0041,HostNetwork access
-NSA,C-0009,Resource limits
-NSA,C-0047,Exposed dashboard
-NSA,C-0016,Allow privilege escalation
-NSA,C-0012,Applications credentials in configuration files
-NSA,C-0035,Cluster-admin binding
-NSA,C-0002,Exec into container
-NSA,C-0046,Insecure capabilities
-NSA,C-0055,Linux hardening
-NSA,C-0030,Ingress and Egress blocked
-NSA,C-0044,Container hostPort
-NSA,C-0054,Cluster internal networking
-NSA,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-NSA,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-NSA,C-0067,Audit logs enabled
-NSA,C-0066,Secret/ETCD encryption enabled
-NSA,C-0068,PSP enabled
-NSA,C-0069,Disable anonymous access to Kubelet service
-NSA,C-0070,Enforce Kubelet client TLS authentication
 CIS,CIS-1.1.1,Ensure that the API server pod specification file permissions are set to 600 or more restrictive
 CIS,CIS-1.1.3,Ensure that the controller manager pod specification file permissions are set to 600 or more restrictive
 CIS,CIS-1.1.4,Ensure that the controller manager pod specification file ownership is set to root:root
@@ -198,3 +102,99 @@ AllControls,C-0077,K8s common labels usage
 AllControls,C-0076,Label usage for resources
 AllControls,C-0006,Allowed hostPath
 AllControls,C-0088,RBAC enabled
+ArmoBest,C-0005,Control plane hardening
+ArmoBest,C-0038,Host PID/IPC privileges
+ArmoBest,C-0017,Immutable container filesystem
+ArmoBest,C-0013,Non-root containers
+ArmoBest,C-0057,Privileged container
+ArmoBest,C-0006,Allowed hostPath
+ArmoBest,C-0034,Automatic mapping of service account
+ArmoBest,C-0041,HostNetwork access
+ArmoBest,C-0009,Resource limits
+ArmoBest,C-0047,Exposed dashboard
+ArmoBest,C-0016,Allow privilege escalation
+ArmoBest,C-0012,Applications credentials in configuration files
+ArmoBest,C-0035,Cluster-admin binding
+ArmoBest,C-0002,Exec into container
+ArmoBest,C-0046,Insecure capabilities
+ArmoBest,C-0055,Linux hardening
+ArmoBest,C-0030,Ingress and Egress blocked
+ArmoBest,C-0044,Container hostPort
+ArmoBest,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+ArmoBest,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+ArmoBest,C-0065,No impersonation
+ArmoBest,C-0061,Pods in default namespace
+ArmoBest,C-0062,Sudo in container entrypoint
+ArmoBest,C-0063,Portforwarding privileges
+ArmoBest,C-0060,Namespace without service accounts
+ArmoBest,C-0054,Cluster internal networking
+ArmoBest,C-0067,Audit logs enabled
+ArmoBest,C-0066,Secret/ETCD encryption enabled
+ArmoBest,C-0068,PSP enabled
+ArmoBest,C-0069,Disable anonymous access to Kubelet service
+ArmoBest,C-0070,Enforce Kubelet client TLS authentication
+ArmoBest,C-0001,Forbidden Container Registries
+ArmoBest,C-0079,CVE-2022-0185-linux-kernel-container-escape
+ArmoBest,C-0049,Network mapping
+ArmoBest,C-0078,Images from allowed registry
+ArmoBest,C-0086,CVE-2022-0492-cgroups-container-escape
+ArmoBest,C-0081,CVE-2022-24348-argocddirtraversal
+ArmoBest,C-0087,CVE-2022-23648-containerd-fs-escape
+ArmoBest,C-0085,Workloads with excessive amount of vulnerabilities
+ArmoBest,C-0083,Workloads with Critical vulnerabilities exposed to external traffic
+ArmoBest,C-0084,Workloads with RCE vulnerabilities exposed to external traffic
+ArmoBest,C-0089,CVE-2022-3172-aggregated-API-server-redirect
+NSA,C-0005,Control plane hardening
+NSA,C-0038,Host PID/IPC privileges
+NSA,C-0017,Immutable container filesystem
+NSA,C-0013,Non-root containers
+NSA,C-0057,Privileged container
+NSA,C-0006,Allowed hostPath
+NSA,C-0034,Automatic mapping of service account
+NSA,C-0041,HostNetwork access
+NSA,C-0009,Resource limits
+NSA,C-0047,Exposed dashboard
+NSA,C-0016,Allow privilege escalation
+NSA,C-0012,Applications credentials in configuration files
+NSA,C-0035,Cluster-admin binding
+NSA,C-0002,Exec into container
+NSA,C-0046,Insecure capabilities
+NSA,C-0055,Linux hardening
+NSA,C-0030,Ingress and Egress blocked
+NSA,C-0044,Container hostPort
+NSA,C-0054,Cluster internal networking
+NSA,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+NSA,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+NSA,C-0067,Audit logs enabled
+NSA,C-0066,Secret/ETCD encryption enabled
+NSA,C-0068,PSP enabled
+NSA,C-0069,Disable anonymous access to Kubelet service
+NSA,C-0070,Enforce Kubelet client TLS authentication
+MITRE,C-0053,Access container service account
+MITRE,C-0014,Access Kubernetes dashboard
+MITRE,C-0012,Applications credentials in configuration files
+MITRE,C-0035,Cluster-admin binding
+MITRE,C-0054,Cluster internal networking
+MITRE,C-0002,Exec into container
+MITRE,C-0047,Exposed dashboard
+MITRE,C-0021,Exposed sensitive interfaces
+MITRE,C-0048,HostPath mount
+MITRE,C-0052,Instance Metadata API
+MITRE,C-0026,Kubernetes CronJob
+MITRE,C-0015,List Kubernetes secrets
+MITRE,C-0020,Mount service principal
+MITRE,C-0057,Privileged container
+MITRE,C-0042,SSH server running inside container
+MITRE,C-0045,Writable hostPath mount
+MITRE,C-0039,Malicious admission controller (mutating)
+MITRE,C-0036,Malicious admission controller (validating)
+MITRE,C-0031,Delete Kubernetes events
+MITRE,C-0037,CoreDNS poisoning
+MITRE,C-0007,Data Destruction
+MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+MITRE,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+MITRE,C-0067,Audit logs enabled
+MITRE,C-0066,Secret/ETCD encryption enabled
+MITRE,C-0068,PSP enabled
+MITRE,C-0069,Disable anonymous access to Kubelet service
+MITRE,C-0070,Enforce Kubelet client TLS authentication
