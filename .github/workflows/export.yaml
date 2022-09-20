@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        json_file: [ nsa , mitre, armobest, frameworks, controls, rules, default_config_inputs ]
+        json_file: [ nsa , mitre, armobest, frameworks, controls, rules, default_config_inputs, attack_tracks ]
     steps:
       - uses: actions/checkout@v2
         name: checkout repo content

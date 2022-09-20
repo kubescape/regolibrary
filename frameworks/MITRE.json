@@ -7,10 +7,7 @@
   "controlsNames": [
     "Access container service account",
     "Access Kubernetes dashboard",
-    "Access tiller endpoint",
-    "Application exploit (RCE)",
     "Applications credentials in configuration files",
-    "Bash/cmd inside container",
     "Cluster-admin binding",
     "Cluster internal networking",
     "Exec into container",
@@ -23,7 +20,6 @@
     "Mount service principal",
     "Privileged container",
     "SSH server running inside container",
-    "Vulnerable application",
     "Writable hostPath mount",
     "Malicious admission controller (mutating)",
     "Malicious admission controller (validating)",

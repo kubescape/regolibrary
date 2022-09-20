@@ -1,7 +1,19 @@
 {
     "name": "Resources memory limit and request",
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "controlTypeTags": [
+            "compliance",
+            "devops"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Impact - service destruction"
+                ]
+            }
+        ]
     },
     "description": "This control identifies all Pods for which the memory limit is not set.",
     "remediation": "Set the memory limit or use exception mechanism to avoid unnecessary notifications.",
@@ -9,7 +21,7 @@
         "resources-memory-limit-and-request"
     ],
     "id": "C-0004",
-    "controlID": "C-0004", 
+    "controlID": "C-0004",
     "example": "@controls/examples/c004.yaml",
-    "baseScore": 7
+    "baseScore": 8.0
 }

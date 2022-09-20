@@ -1,0 +1,44 @@
+{
+    "apiVersion": "regolibrary.kubescape/v1alpha1",
+    "kind": "AttackTrack",
+    "metadata": {
+        "name": "node"
+    },
+    "spec": {
+        "version": "1.0",
+        "data": {
+            "name": "Initial access",
+            "subSteps": [
+                {
+                    "name": "Execution",
+                    "subSteps": [
+                        {
+                            "name": "Persistence"
+                        },
+                        {
+                            "name": "Credential access"
+                        },
+                        {
+                            "name": "Defense evasion"
+                        },
+                        {
+                            "name": "Discovery"
+                        },
+                        {
+                            "name": "Lateral movement"
+                        },
+                        {
+                            "name": "Impact - data theft"
+                        },
+                        {
+                            "name": "Impact - data destruction"
+                        },
+                        {
+                            "name": "Impact - service injection"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
