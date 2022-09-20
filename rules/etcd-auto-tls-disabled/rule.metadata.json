@@ -1,0 +1,27 @@
+{
+    "name": "etcd-auto-tls-disabled",
+    "attributes": {
+    "armoBuiltin": true,
+    "resourcesAggregator": "apiserver-pod",
+    "useFromKubescapeVersion": "v1.0.133"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "Pod"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}
