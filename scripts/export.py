@@ -150,6 +150,14 @@ def load_default_config_inputs():
     return config_inputs
 
 
+def load_exceptions():
+    filename = "exceptions"
+    p5 = os.path.join(currDir, filename + ".json")
+    with open(p5, "r") as f:
+        exceptions = json.load(f)
+    return exceptions
+
+
 def export_json(data: dict, f_name:str, output_path: str):
     os.makedirs(output_path, exist_ok=True)
     with open(os.path.join(output_path, f"{f_name.lower()}.json"), "w") as f:
@@ -174,6 +182,7 @@ if __name__ == '__main__':
     frameworks, frameworks_list = load_frameworks(loaded_controls=controls)
     default_config_inputs = load_default_config_inputs()
     attack_tracks_list = load_attack_tracks()
+    exceptions = load_exceptions()
 
     # create full framework json files
     # TODO - delete when kubescape works with csv files
@@ -186,6 +195,7 @@ if __name__ == '__main__':
     export_json(rules_list, 'rules', output_dir_name)
     export_json(default_config_inputs, 'default_config_inputs', output_dir_name)
     export_json(attack_tracks_list, 'attack_tracks', output_dir_name)
+    export_json(exceptions, 'exceptions', output_dir_name)
 
     # file 1 - 'ControlID', 'RuleName'
     header1 = ['ControlID', 'RuleName']
