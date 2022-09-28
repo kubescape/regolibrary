@@ -1,9 +1,7 @@
 {
     "name": "ensure-that-the-bind-address-argument-is-set-to-127.0.0.1",
     "attributes": {
-        "armoBuiltin": true,
-        "hostSensorRule": "true",
-        "useFromKubescapeVersion": "v2.0.159"
+        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [
