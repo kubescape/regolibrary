@@ -13,7 +13,7 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "ensure-that-the-terminated-pod-gc-threshold-argument-is-set-as-appropriate"
+        "ensure-that-the-controller-manager-terminated-pod-gc-threshold-argument-is-set-as-appropriate"
     ],
     "baseScore": 4
 }

@@ -13,7 +13,7 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "ensure-that-the-root-ca-file-argument-is-set-as-appropriate"
+        "ensure-that-the-controller-manager-root-ca-file-argument-is-set-as-appropriate"
     ],
     "baseScore": 7
 }
