@@ -13,7 +13,7 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "ensure-that-the-profiling-argument-is-set-to-false"
+        "ensure-that-the-scheduler-profiling-argument-is-set-to-false"
     ],
     "baseScore": 3
 }

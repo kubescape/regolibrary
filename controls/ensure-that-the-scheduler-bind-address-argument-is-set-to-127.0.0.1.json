@@ -13,7 +13,7 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "ensure-that-the-bind-address-argument-is-set-to-127.0.0.1"
+        "ensure-that-the-scheduler-bind-address-argument-is-set-to-127.0.0.1"
     ],
     "baseScore": 5
 }
