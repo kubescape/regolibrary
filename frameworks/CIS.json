@@ -13,9 +13,25 @@
     "Ensure that the client certificate authorities file ownership is set to `root:root`",
     "Ensure that the `--kubeconfig` `kubelet.conf` file permissions are set to `644` or more restrictive",
     "If proxy kubeconfig file exists ensure permissions are set to `644` or more restrictive",
-    "If proxy kubeconfig file exists ensure ownership is set to `root:root`"
+    "If proxy kubeconfig file exists ensure ownership is set to `root:root`",
+    "Ensure that the --profiling argument is set to false",
+    "Ensure that the --bind-address argument is set to 127.0.0.1"
   ],
   "subSections": {
+    "1": {
+      "id": "1",
+      "name": "Control Plane Components",
+      "subSections": {
+        "4": {
+          "id": "1.4",
+          "name": "Scheduler",
+          "controlsIDs": [
+            "CIS-1.4.1",
+            "CIS-1.4.2"
+          ]
+        }
+      }
+    },
     "4": {
       "name": "Worker Nodes",
       "id": "4",
