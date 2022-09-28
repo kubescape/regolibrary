@@ -1,0 +1,35 @@
+{
+    "name": "ensure-that-the-terminated-pod-gc-threshold-argument-is-set-as-appropriate",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true",
+        "useFromKubescapeVersion": "v2.0.159"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [],
+            "apiVersions": [],
+            "resources": []
+        }
+    ],
+    "dynamicMatch": [
+        {
+            "apiGroups": [],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+        {
+            "packageName": "cautils"
+        }
+    ],
+    "description": "Activate garbage collector on pod termination, as appropriate.",
+    "remediation": "Edit the Controller Manager pod specification file `/etc/kubernetes/manifests/kube-controller-manager.yaml` on the Control Plane node and set the `--terminated-pod-gc-threshold` to an appropriate threshold, for example:\n\n \n```\n--terminated-pod-gc-threshold=10\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, `--terminated-pod-gc-threshold` is set to `12500`.",
+    "ruleQuery": ""
+}

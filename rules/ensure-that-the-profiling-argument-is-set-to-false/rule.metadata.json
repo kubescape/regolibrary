@@ -1,0 +1,35 @@
+{
+    "name": "ensure-that-the-profiling-argument-is-set-to-false",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true",
+        "useFromKubescapeVersion": "v2.0.159"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [],
+            "apiVersions": [],
+            "resources": []
+        }
+    ],
+    "dynamicMatch": [
+        {
+            "apiGroups": [],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+        {
+            "packageName": "cautils"
+        }
+    ],
+    "description": "Disable profiling, if not needed.",
+    "remediation": "Edit the Controller Manager pod specification file `/etc/kubernetes/manifests/kube-controller-manager.yaml` on the Control Plane node and set the below parameter.\n\n \n```\n--profiling=false\n\n```\n\n#### Impact Statement\nProfiling information would not be available.\n\n#### Default Value\nBy default, profiling is enabled.",
+    "ruleQuery": ""
+}
