@@ -1,0 +1,19 @@
+{
+    "id": "CIS-1.2.7",
+    "controlID": "CIS-1.2.7",
+    "name": "Ensure that the --authorization-mode argument includes Node",
+    "description": "Restrict kubelet nodes to reading only objects associated with them.",
+    "long_description": "The `Node` authorization mode only allows kubelets to read `Secret`, `ConfigMap`, `PersistentVolume`, and `PersistentVolumeClaim` objects associated with their nodes.",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--authorization-mode` parameter to a value that includes `Node`.\n\n \n```\n--authorization-mode=Node,RBAC\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, `Node` authorization is not enabled.",
+    "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--authorization-mode` argument exists and is set to a value to include `Node`.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126663/recommendations/1838641"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "ensure-that-the-authorization-mode-argument-includes-Node"
+    ],
+    "baseScore": 5
+}

@@ -1,0 +1,35 @@
+{
+    "name": "ensure-that-the-etcd-cafile-argument-is-set-as-appropriate",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true",
+        "useFromKubescapeVersion": "v2.0.159"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [],
+            "apiVersions": [],
+            "resources": []
+        }
+    ],
+    "dynamicMatch": [
+        {
+            "apiGroups": [],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+        {
+            "packageName": "cautils"
+        }
+    ],
+    "description": "etcd should be configured to make use of TLS encryption for client connections.",
+    "remediation": "Follow the Kubernetes documentation and set up the TLS connection between the apiserver and etcd. Then, edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the master node and set the etcd certificate authority file parameter.\n\n \n```\n--etcd-cafile=<path/to/ca-file>\n\n```\n\n#### Impact Statement\nTLS and client certificate authentication must be configured for etcd.\n\n#### Default Value\nBy default, `--etcd-cafile` is not set.",
+    "ruleQuery": ""
+}

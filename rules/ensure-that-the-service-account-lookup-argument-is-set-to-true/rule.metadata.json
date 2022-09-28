@@ -1,0 +1,35 @@
+{
+    "name": "ensure-that-the-service-account-lookup-argument-is-set-to-true",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true",
+        "useFromKubescapeVersion": "v2.0.159"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [],
+            "apiVersions": [],
+            "resources": []
+        }
+    ],
+    "dynamicMatch": [
+        {
+            "apiGroups": [],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+        {
+            "packageName": "cautils"
+        }
+    ],
+    "description": "Validate service account before validating token.",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the below parameter.\n\n \n```\n--service-account-lookup=true\n\n```\n Alternatively, you can delete the `--service-account-lookup` parameter from this file so that the default takes effect.\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, `--service-account-lookup` argument is set to `true`.",
+    "ruleQuery": ""
+}
