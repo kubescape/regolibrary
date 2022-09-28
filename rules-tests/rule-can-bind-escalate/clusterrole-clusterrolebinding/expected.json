@@ -1,6 +1,6 @@
 [
     {
-        "alertMessage": "Subject: Group-dev can read secrets",
+        "alertMessage": "Subject: Group-dev can bind roles/clusterroles",
         "failedPaths": [
             "relatedObjects[1].rules[0].resources[1]",
             "relatedObjects[1].rules[0].verbs[0]",
@@ -46,20 +46,22 @@
                         "apiVersion": "rbac.authorization.k8s.io/v1",
                         "kind": "ClusterRole",
                         "metadata": {
-                            "name": "test"
+                            "name": "test",
+                            "namespace": "default"
                         },
                         "rules": [
                             {
                                 "apiGroups": [
-                                    "*"
+                                    "rbac.authorization.k8s.io"
                                 ],
                                 "resources": [
-                                    "pods/log",
-                                    "secrets",
-                                    "users"
+                                    "pods",
+                                    "roles"
                                 ],
                                 "verbs": [
-                                    "watch"
+                                    "bind",
+                                    "watch",
+                                    "list"
                                 ]
                             }
                         ]
@@ -69,7 +71,7 @@
         }
     },
     {
-        "alertMessage": "Subject: Group-manager can read secrets",
+        "alertMessage": "Subject: Group-manager can bind roles/clusterroles",
         "failedPaths": [
             "relatedObjects[1].rules[0].resources[1]",
             "relatedObjects[1].rules[0].verbs[0]",
@@ -115,20 +117,22 @@
                         "apiVersion": "rbac.authorization.k8s.io/v1",
                         "kind": "ClusterRole",
                         "metadata": {
-                            "name": "test"
+                            "name": "test",
+                            "namespace": "default"
                         },
                         "rules": [
                             {
                                 "apiGroups": [
-                                    "*"
+                                    "rbac.authorization.k8s.io"
                                 ],
                                 "resources": [
-                                    "pods/log",
-                                    "secrets",
-                                    "users"
+                                    "pods",
+                                    "roles"
                                 ],
                                 "verbs": [
-                                    "watch"
+                                    "bind",
+                                    "watch",
+                                    "list"
                                 ]
                             }
                         ]

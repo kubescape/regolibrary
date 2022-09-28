@@ -1,0 +1,33 @@
+{
+  "name": "rule-can-bind-escalate",
+  "attributes": {
+    "armoBuiltin": true,
+    "resourcesAggregator": "subject-role-rolebinding",
+    "useFromKubescapeVersion": "v1.0.133"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+          "Role",
+          "ClusterRole",
+          "ClusterRoleBinding",
+          "RoleBinding"
+        ]
+    }
+  ],
+  "ruleDependencies": [
+    {
+      "packageName": "cautils"
+    }
+  ],
+  "description": "determines which users can or bind escalate roles/clusterroles",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

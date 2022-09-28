@@ -1,77 +1,8 @@
 [
     {
-        "alertMessage": "Subject: Group-dev can read secrets",
+        "alertMessage": "Subject: User-jane can bind roles/clusterroles",
         "failedPaths": [
-            "relatedObjects[1].rules[0].resources[1]",
-            "relatedObjects[1].rules[0].verbs[0]",
-            "relatedObjects[1].rules[0].apiGroups[0]",
-            "relatedObjects[0].subjects[1]",
-            "relatedObjects[0].roleRef.name"
-        ],
-        "fixPaths": [],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 3,
-        "alertObject": {
-            "externalObjects": {
-                "apiGroup": "rbac.authorization.k8s.io",
-                "kind": "Group",
-                "name": "dev",
-                "relatedObjects": [
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "ClusterRoleBinding",
-                        "metadata": {
-                            "name": "read-secrets-global"
-                        },
-                        "roleRef": {
-                            "apiGroup": "rbac.authorization.k8s.io",
-                            "kind": "ClusterRole",
-                            "name": "test"
-                        },
-                        "subjects": [
-                            {
-                                "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "Group",
-                                "name": "manager"
-                            },
-                            {
-                                "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "Group",
-                                "name": "dev"
-                            }
-                        ]
-                    },
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "ClusterRole",
-                        "metadata": {
-                            "name": "test"
-                        },
-                        "rules": [
-                            {
-                                "apiGroups": [
-                                    "*"
-                                ],
-                                "resources": [
-                                    "pods/log",
-                                    "secrets",
-                                    "users"
-                                ],
-                                "verbs": [
-                                    "watch"
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-    },
-    {
-        "alertMessage": "Subject: Group-manager can read secrets",
-        "failedPaths": [
-            "relatedObjects[1].rules[0].resources[1]",
+            "relatedObjects[1].rules[0].resources[0]",
             "relatedObjects[1].rules[0].verbs[0]",
             "relatedObjects[1].rules[0].apiGroups[0]",
             "relatedObjects[0].subjects[0]",
@@ -84,38 +15,35 @@
         "alertObject": {
             "externalObjects": {
                 "apiGroup": "rbac.authorization.k8s.io",
-                "kind": "Group",
-                "name": "manager",
+                "kind": "User",
+                "name": "jane",
                 "relatedObjects": [
                     {
                         "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "ClusterRoleBinding",
+                        "kind": "RoleBinding",
                         "metadata": {
-                            "name": "read-secrets-global"
+                            "name": "pod",
+                            "namespace": "default"
                         },
                         "roleRef": {
                             "apiGroup": "rbac.authorization.k8s.io",
-                            "kind": "ClusterRole",
+                            "kind": "Role",
                             "name": "test"
                         },
                         "subjects": [
                             {
                                 "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "Group",
-                                "name": "manager"
-                            },
-                            {
-                                "apiGroup": "rbac.authorization.k8s.io",
-                                "kind": "Group",
-                                "name": "dev"
+                                "kind": "User",
+                                "name": "jane"
                             }
                         ]
                     },
                     {
                         "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "ClusterRole",
+                        "kind": "Role",
                         "metadata": {
-                            "name": "test"
+                            "name": "test",
+                            "namespace": "default"
                         },
                         "rules": [
                             {
@@ -123,12 +51,81 @@
                                     "*"
                                 ],
                                 "resources": [
-                                    "pods/log",
-                                    "secrets",
-                                    "users"
+                                    "clusterroles"
                                 ],
                                 "verbs": [
-                                    "watch"
+                                    "*",
+                                    "escalate",
+                                    "create",
+                                    "update"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "alertMessage": "Subject: User-jane can escalate roles/clusterroles",
+        "failedPaths": [
+            "relatedObjects[1].rules[0].resources[0]",
+            "relatedObjects[1].rules[0].verbs[0]",
+            "relatedObjects[1].rules[0].verbs[1]",
+            "relatedObjects[1].rules[0].apiGroups[0]",
+            "relatedObjects[0].subjects[0]",
+            "relatedObjects[0].roleRef.name"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "externalObjects": {
+                "apiGroup": "rbac.authorization.k8s.io",
+                "kind": "User",
+                "name": "jane",
+                "relatedObjects": [
+                    {
+                        "apiVersion": "rbac.authorization.k8s.io/v1",
+                        "kind": "RoleBinding",
+                        "metadata": {
+                            "name": "pod",
+                            "namespace": "default"
+                        },
+                        "roleRef": {
+                            "apiGroup": "rbac.authorization.k8s.io",
+                            "kind": "Role",
+                            "name": "test"
+                        },
+                        "subjects": [
+                            {
+                                "apiGroup": "rbac.authorization.k8s.io",
+                                "kind": "User",
+                                "name": "jane"
+                            }
+                        ]
+                    },
+                    {
+                        "apiVersion": "rbac.authorization.k8s.io/v1",
+                        "kind": "Role",
+                        "metadata": {
+                            "name": "test",
+                            "namespace": "default"
+                        },
+                        "rules": [
+                            {
+                                "apiGroups": [
+                                    "*"
+                                ],
+                                "resources": [
+                                    "clusterroles"
+                                ],
+                                "verbs": [
+                                    "*",
+                                    "escalate",
+                                    "create",
+                                    "update"
                                 ]
                             }
                         ]

@@ -1,0 +1,32 @@
+{
+  "name": "cluster-admin-role",
+  "attributes": {
+    "armoBuiltin": true,
+    "resourcesAggregator": "subject-role-rolebinding",
+    "useFromKubescapeVersion": "v1.0.133"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "*"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Role",
+        "ClusterRole",
+        "ClusterRoleBinding"
+      ]
+    }
+  ],
+  "ruleDependencies": [
+    {
+      "packageName": "cautils"
+    }
+  ],
+  "description": "determines which users have cluster admin permissions",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}
