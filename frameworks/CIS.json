@@ -45,11 +45,11 @@
     },
     "5": {
       "name": "Policies",
-      "id": "4",
+      "id": "5",
       "subSections": {
         "1": {
           "name": "RBAC and Service Accounts",
-          "id": "4.1",
+          "id": "5.1",
           "controlsIDs": [
             "CIS-5.1.1",
             "CIS-5.1.2",
