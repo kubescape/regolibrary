@@ -6,14 +6,32 @@
     "armoBuiltin": true
   },
   "controlsNames": [
-    "Ensure that the certificate authorities file permissions are set to `644` or more restrictive",
-    "Ensure that the kubelet `--config` configuration file ownership is set to `root:root`",
-    "Ensure that the `--kubeconfig` `kubelet.conf` file ownership is set to `root:root`",
-    "Ensure that the kubelet `--config` configuration file has permissions set to `644` or more restrictive",
-    "Ensure that the client certificate authorities file ownership is set to `root:root`",
-    "Ensure that the `--kubeconfig` `kubelet.conf` file permissions are set to `644` or more restrictive",
-    "If proxy kubeconfig file exists ensure permissions are set to `644` or more restrictive",
-    "If proxy kubeconfig file exists ensure ownership is set to `root:root`",
+    "Ensure that the API server pod specification file permissions are set to 600 or more restrictive",
+    "Ensure that the controller manager pod specification file permissions are set to 600 or more restrictive",
+    "Ensure that the controller manager pod specification file ownership is set to root:root",
+    "Ensure that the scheduler pod specification file permissions are set to 600 or more restrictive",
+    "Ensure that the scheduler pod specification file ownership is set to root:root",
+    "Ensure that the etcd pod specification file permissions are set to 600 or more restrictive",
+    "Ensure that the etcd pod specification file ownership is set to root:root",
+    "Ensure that the etcd data directory permissions are set to 700 or more restrictive",
+    "Ensure that the admin.conf file permissions are set to 600",
+    "Ensure that the admin.conf file ownership is set to root:root",
+    "Ensure that the scheduler.conf file permissions are set to 600 or more restrictive",
+    "Ensure that the scheduler.conf file ownership is set to root:root",
+    "Ensure that the controller-manager.conf file permissions are set to 600 or more restrictive",
+    "Ensure that the controller-manager.conf file ownership is set to root:root",
+    "Ensure that the Kubernetes PKI directory and file ownership is set to root:root",
+    "Ensure that the API server pod specification file ownership is set to root:root",
+    "Ensure that the Kubernetes PKI certificate file permissions are set to 600 or more restrictive",
+    "Ensure that the Kubernetes PKI key file permissions are set to 600",
+    "If proxy kubeconfig file exists ensure permissions are set to 600 or more restrictive",
+    "If proxy kubeconfig file exists ensure ownership is set to root:root",
+    "Ensure that the --kubeconfig kubelet.conf file permissions are set to 600 or more restrictive",
+    "Ensure that the --kubeconfig kubelet.conf file ownership is set to root:root",
+    "Ensure that the certificate authorities file permissions are set to 600 or more restrictive",
+    "Ensure that the client certificate authorities file ownership is set to root:root",
+    "If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive",
+    "If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root"
     "Ensure that the cluster-admin role is only used where required",
     "Minimize access to secrets",
     "Minimize wildcard use in Roles and ClusterRoles",
@@ -23,6 +41,36 @@
     "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster"
   ],
   "subSections": {
+    "1": {
+      "id": "1",
+      "name": "Control Plane Components",
+      "subSections": {
+        "1": {
+          "id": "1.1",
+          "name": "Control Plane Node Configuration Files",
+          "controlsIDs": [
+            "CIS-1.1.1",
+            "CIS-1.1.3",
+            "CIS-1.1.4",
+            "CIS-1.1.5",
+            "CIS-1.1.6",
+            "CIS-1.1.7",
+            "CIS-1.1.8",
+            "CIS-1.1.11",
+            "CIS-1.1.13",
+            "CIS-1.1.14",
+            "CIS-1.1.15",
+            "CIS-1.1.16",
+            "CIS-1.1.17",
+            "CIS-1.1.18",
+            "CIS-1.1.19",
+            "CIS-1.1.2",
+            "CIS-1.1.20",
+            "CIS-1.1.21"
+          ]
+        }
+      }
+    },
     "4": {
       "name": "Worker Nodes",
       "id": "4",
@@ -31,14 +79,14 @@
           "name": "Worker Node Configuration Files",
           "id": "4.1",
           "controlsIDs": [
-            "CIS-v1.6.1-4.1.3",
-            "CIS-v1.6.1-4.1.4",
-            "CIS-v1.6.1-4.1.5",
-            "CIS-v1.6.1-4.1.6",
-            "CIS-v1.6.1-4.1.7",
-            "CIS-v1.6.1-4.1.8",
-            "CIS-v1.6.1-4.1.9",
-            "CIS-v1.6.1-4.1.10"
+            "CIS-4.1.3",
+            "CIS-4.1.4",
+            "CIS-4.1.5",
+            "CIS-4.1.6",
+            "CIS-4.1.7",
+            "CIS-4.1.8",
+            "CIS-4.1.9",
+            "CIS-4.1.10"
           ]
         }
       }
