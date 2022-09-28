@@ -32,6 +32,13 @@
     "Ensure that the client certificate authorities file ownership is set to root:root",
     "If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive",
     "If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root"
+    "Ensure that the cluster-admin role is only used where required",
+    "Minimize access to secrets",
+    "Minimize wildcard use in Roles and ClusterRoles",
+    "Minimize access to create pods",
+    "Ensure that default service accounts are not actively used",
+    "Ensure that Service Account Tokens are only mounted where necessary",
+    "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster"
   ],
   "subSections": {
     "1": {
@@ -80,6 +87,25 @@
             "CIS-4.1.8",
             "CIS-4.1.9",
             "CIS-4.1.10"
+          ]
+        }
+      }
+    },
+    "5": {
+      "name": "Policies",
+      "id": "5",
+      "subSections": {
+        "1": {
+          "name": "RBAC and Service Accounts",
+          "id": "5.1",
+          "controlsIDs": [
+            "CIS-5.1.1",
+            "CIS-5.1.2",
+            "CIS-5.1.3",
+            "CIS-5.1.4",
+            "CIS-5.1.5",
+            "CIS-5.1.6",
+            "CIS-5.1.8"
           ]
         }
       }
