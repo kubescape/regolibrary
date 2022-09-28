@@ -1,9 +1,7 @@
 {
     "name": "ensure-that-the-admission-control-plugin-SecurityContextDeny-is-set-if-PodSecurityPolicy-is-not-used",
     "attributes": {
-        "armoBuiltin": true,
-        "hostSensorRule": "true",
-        "useFromKubescapeVersion": "v2.0.159"
+        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

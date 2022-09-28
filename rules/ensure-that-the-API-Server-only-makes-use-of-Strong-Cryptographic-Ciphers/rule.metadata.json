@@ -1,9 +1,7 @@
 {
     "name": "ensure-that-the-API-Server-only-makes-use-of-Strong-Cryptographic-Ciphers",
     "attributes": {
-        "armoBuiltin": true,
-        "hostSensorRule": "true",
-        "useFromKubescapeVersion": "v2.0.159"
+        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

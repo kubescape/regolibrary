@@ -1,9 +1,7 @@
 {
     "name": "ensure-that-the-api-server-encryption-provider-config-argument-is-set-as-appropriate",
     "attributes": {
-        "armoBuiltin": true,
-        "hostSensorRule": "true",
-        "useFromKubescapeVersion": "v2.0.159"
+        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [
