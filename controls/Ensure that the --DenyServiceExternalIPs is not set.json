@@ -1,7 +1,7 @@
 {
     "id": "CIS-1.2.3",
     "controlID": "CIS-1.2.3",
-    "name": "Ensure that the --DenyServiceExternalIPs is not set",
+    "name": "Ensure that the API Server --DenyServiceExternalIPs is not set",
     "description": "This admission controller rejects all net-new usage of the Service field externalIPs.",
     "long_description": "This admission controller rejects all net-new usage of the Service field externalIPs. This feature is very powerful (allows network traffic interception) and not well controlled by policy. When enabled, users of the cluster may not create new Services which use externalIPs and may not add new values to externalIPs on existing Service objects. Existing uses of externalIPs are not affected, and users may remove values from externalIPs on existing Service objects.\n\n Most users do not need this feature at all, and cluster admins should consider disabling it. Clusters that do need to use this feature should consider using some custom policy to manage usage of it.",
     "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the master node and remove the `--DenyServiceExternalIPs'parameter\n\n or\n\n The Kubernetes API server flag disable-admission-plugins takes a comma-delimited list of admission control plugins to be disabled, even if they are in the list of plugins enabled by default.\n\n `kube-apiserver --disable-admission-plugins=DenyServiceExternalIPs,AlwaysDeny ...`\n\n#### Impact Statement\nWhen enabled, users of the cluster may not create new Services which use externalIPs and may not add new values to externalIPs on existing Service objects.\n\n#### Default Value\nBy default, `--token-auth-file` argument is not set.",
@@ -13,7 +13,7 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "ensure-that-the-DenyServiceExternalIPs-is-not-set"
+        "ensure-that-the-api-server-DenyServiceExternalIPs-is-not-set"
     ],
     "baseScore": 4
 }

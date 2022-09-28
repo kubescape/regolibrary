@@ -1,5 +1,5 @@
 {
-    "name": "ensure-that-the-anonymous-auth-argument-is-set-to-false",
+    "name": "ensure-that-the-api-server-anonymous-auth-argument-is-set-to-false",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true",

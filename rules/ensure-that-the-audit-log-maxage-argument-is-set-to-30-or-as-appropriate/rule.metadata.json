@@ -1,5 +1,5 @@
 {
-    "name": "ensure-that-the-audit-log-maxage-argument-is-set-to-30-or-as-appropriate",
+    "name": "ensure-that-the-api-server-audit-log-maxage-argument-is-set-to-30-or-as-appropriate",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true",

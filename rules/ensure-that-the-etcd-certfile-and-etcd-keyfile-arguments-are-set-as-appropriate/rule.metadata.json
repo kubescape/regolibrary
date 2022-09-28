@@ -1,5 +1,5 @@
 {
-    "name": "ensure-that-the-etcd-certfile-and-etcd-keyfile-arguments-are-set-as-appropriate",
+    "name": "ensure-that-the-api-server-etcd-certfile-and-etcd-keyfile-arguments-are-set-as-appropriate",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true",

@@ -1,5 +1,5 @@
 {
-    "name": "ensure-that-the-DenyServiceExternalIPs-is-not-set",
+    "name": "ensure-that-the-api-server-DenyServiceExternalIPs-is-not-set",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true",

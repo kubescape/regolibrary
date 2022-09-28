@@ -1,5 +1,5 @@
 {
-    "name": "ensure-that-the-audit-log-path-argument-is-set",
+    "name": "ensure-that-the-api-server-audit-log-path-argument-is-set",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true",

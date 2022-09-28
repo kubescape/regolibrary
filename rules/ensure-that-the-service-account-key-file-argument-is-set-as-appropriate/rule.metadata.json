@@ -1,5 +1,5 @@
 {
-    "name": "ensure-that-the-service-account-key-file-argument-is-set-as-appropriate",
+    "name": "ensure-that-the-api-server-service-account-key-file-argument-is-set-as-appropriate",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true",

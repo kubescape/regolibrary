@@ -1,7 +1,7 @@
 {
     "id": "CIS-1.2.6",
     "controlID": "CIS-1.2.6",
-    "name": "Ensure that the --authorization-mode argument is not set to AlwaysAllow",
+    "name": "Ensure that the API Server --authorization-mode argument is not set to AlwaysAllow",
     "description": "Do not always authorize all requests.",
     "long_description": "The API Server, can be configured to allow all requests. This mode should not be used on any production cluster.",
     "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--authorization-mode` parameter to values other than `AlwaysAllow`. One such example could be as below.\n\n \n```\n--authorization-mode=RBAC\n\n```\n\n#### Impact Statement\nOnly authorized requests will be served.\n\n#### Default Value\nBy default, `AlwaysAllow` is not enabled.",
@@ -13,7 +13,7 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "ensure-that-the-authorization-mode-argument-is-not-set-to-AlwaysAllow"
+        "ensure-that-the-api-server-authorization-mode-argument-is-not-set-to-AlwaysAllow"
     ],
     "baseScore": 7
 }

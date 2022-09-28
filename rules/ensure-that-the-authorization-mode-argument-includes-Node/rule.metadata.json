@@ -1,5 +1,5 @@
 {
-    "name": "ensure-that-the-authorization-mode-argument-includes-Node",
+    "name": "ensure-that-the-api-server-authorization-mode-argument-includes-Node",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true",

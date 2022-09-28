@@ -1,5 +1,5 @@
 {
-    "name": "ensure-that-the-service-account-lookup-argument-is-set-to-true",
+    "name": "ensure-that-the-api-server-service-account-lookup-argument-is-set-to-true",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true",

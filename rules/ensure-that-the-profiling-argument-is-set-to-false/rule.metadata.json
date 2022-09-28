@@ -1,5 +1,5 @@
 {
-    "name": "ensure-that-the-profiling-argument-is-set-to-false",
+    "name": "ensure-that-the-api-server-profiling-argument-is-set-to-false",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true",

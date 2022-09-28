@@ -1,5 +1,5 @@
 {
-    "name": "ensure-that-the-token-auth-file-parameter-is-not-set",
+    "name": "ensure-that-the-api-server-token-auth-file-parameter-is-not-set",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true",

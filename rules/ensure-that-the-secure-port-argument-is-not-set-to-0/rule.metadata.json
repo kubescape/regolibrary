@@ -1,5 +1,5 @@
 {
-    "name": "ensure-that-the-secure-port-argument-is-not-set-to-0",
+    "name": "ensure-that-the-api-server-secure-port-argument-is-not-set-to-0",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true",

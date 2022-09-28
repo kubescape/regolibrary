@@ -1,5 +1,5 @@
 {
-    "name": "ensure-that-the-authorization-mode-argument-is-not-set-to-AlwaysAllow",
+    "name": "ensure-that-the-api-server-authorization-mode-argument-is-not-set-to-AlwaysAllow",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true",
