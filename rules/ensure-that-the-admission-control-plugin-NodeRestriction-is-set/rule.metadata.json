@@ -22,11 +22,7 @@
             ]
         }
     ],
-    "ruleDependencies": [
-        {
-            "packageName": "cautils"
-        }
-    ],
+    "ruleDependencies": [],
     "description": "Limit the `Node` and `Pod` objects that a kubelet could modify.",
     "remediation": "Follow the Kubernetes documentation and configure `NodeRestriction` plug-in on kubelets. Then, edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the master node and set the `--enable-admission-plugins` parameter to a value that includes `NodeRestriction`.\n\n \n```\n--enable-admission-plugins=...,NodeRestriction,...\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, `NodeRestriction` is not set.",
     "ruleQuery": ""

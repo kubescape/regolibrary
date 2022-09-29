@@ -22,11 +22,7 @@
             ]
         }
     ],
-    "ruleDependencies": [
-        {
-            "packageName": "cautils"
-        }
-    ],
+    "ruleDependencies": [],
     "description": "Turn on Role Based Access Control.",
     "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--authorization-mode` parameter to a value that includes `RBAC`, for example:\n\n \n```\n--authorization-mode=Node,RBAC\n\n```\n\n#### Impact Statement\nWhen RBAC is enabled you will need to ensure that appropriate RBAC settings (including Roles, RoleBindings and ClusterRoleBindings) are configured to allow appropriate access.\n\n#### Default Value\nBy default, `RBAC` authorization is not enabled.",
     "ruleQuery": ""

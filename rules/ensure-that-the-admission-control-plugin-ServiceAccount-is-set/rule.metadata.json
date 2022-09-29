@@ -22,11 +22,7 @@
             ]
         }
     ],
-    "ruleDependencies": [
-        {
-            "packageName": "cautils"
-        }
-    ],
+    "ruleDependencies": [],
     "description": "Automate service accounts management.",
     "remediation": "Follow the documentation and create `ServiceAccount` objects as per your environment. Then, edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the master node and ensure that the `--disable-admission-plugins` parameter is set to a value that does not include `ServiceAccount`.\n\n#### Impact Statement\nNone.\n\n#### Default Value\nBy default, `ServiceAccount` is set.",
     "ruleQuery": ""
