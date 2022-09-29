@@ -38,7 +38,8 @@
     "Minimize access to create pods",
     "Ensure that default service accounts are not actively used",
     "Ensure that Service Account Tokens are only mounted where necessary",
-    "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster"
+    "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster",
+    "Prefer using secrets as files over secrets as environment variables"
   ],
   "subSections": {
     "1": {
