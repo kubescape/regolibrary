@@ -2,18 +2,25 @@ package armo_builtins
 
 # Check if --client-cert-auth is set to true
 deny[msga] {
-	etcdPod := input[_]
-    result = invalid_flag(etcdPod.spec.containers[0].command)
-    
+	obj = input[_]
+	is_etcd_pod(obj)
+	result = invalid_flag(obj.spec.containers[0].command)
+
 	msga := {
 		"alertMessage": "Etcd server is not requiring a valid client certificate",
 		"alertScore": 8,
+		"packagename": "armo_builtins",
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
-		"alertObject": {
-			"k8sApiObjects": [etcdPod],	
-		}
+		"alertObject": {"k8sApiObjects": [obj]},
 	}
+}
+
+is_etcd_pod(obj) {
+	obj.apiVersion == "v1"
+	obj.kind == "Pod"
+	count(obj.spec.containers) == 1
+	endswith(split(obj.spec.containers[0].command[0], " ")[0], "etcd")
 }
 
 # Assume flag set only once

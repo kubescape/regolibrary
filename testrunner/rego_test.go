@@ -37,7 +37,7 @@ func TestAllRules(t *testing.T) {
 
 // Change the dir variable to the name of the rule you want to test (in the rules-tests dir)
 func TestSingleRule(t *testing.T) {
-	dir := fmt.Sprintf("%v/%v", relativeRuleTestsPath, "alert-rw-hostpath")
+	dir := fmt.Sprintf("%v/%v", relativeRuleTestsPath, "etcd-peer-tls-enabled")
 	assert.NoError(t, opaprocessor.RunAllTestsForRule(t, dir), fmt.Sprintf("rule: %s", dir))
 }
 

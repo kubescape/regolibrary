@@ -1,9 +1,7 @@
 [
     {
         "alertMessage": "etcd encryption is not enabled",
-        "failedPaths": [
-            "spec.containers[0].command"
-        ],
+        "failedPaths": [],
         "fixPaths": [
             {
                 "path": "spec.containers[0].command[18]",
@@ -23,7 +21,7 @@
                             "component": "etcd",
                             "tier": "control-plane"
                         },
-                        "name": "kube-apiserver-minikube"
+                        "name": "etcd"
                     }
                 }
             ]

@@ -7,7 +7,7 @@ metadata:
   labels:
     component: etcd
     tier: control-plane
-  name: kube-apiserver-minikube
+  name: etcd
   namespace: kube-system
 spec:
   containers:
