@@ -61,6 +61,8 @@
         "Ensure that the Controller Manager --service-account-private-key-file argument is set as appropriate",
         "Ensure that the Controller Manager --use-service-account-credentials argument is set to true",
         "Ensure that the Controller Manager --bind-address argument is set to 127.0.0.1",
+        "Ensure that the Scheduler --profiling argument is set to false",
+        "Ensure that the Scheduler --bind-address argument is set to 127.0.0.1",
         "If proxy kubeconfig file exists ensure permissions are set to 600 or more restrictive",
         "If proxy kubeconfig file exists ensure ownership is set to root:root",
         "Ensure that the --kubeconfig kubelet.conf file permissions are set to 600 or more restrictive",
@@ -153,6 +155,14 @@
                         "CIS-1.3.4",
                         "CIS-1.3.3",
                         "CIS-1.3.7"
+                    ]
+                },
+                "4": {
+                    "id": "1.4",
+                    "name": "Scheduler",
+                    "controlsIDs": [
+                        "CIS-1.4.1",
+                        "CIS-1.4.2"
                     ]
                 }
             }
