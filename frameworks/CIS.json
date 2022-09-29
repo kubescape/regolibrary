@@ -31,7 +31,7 @@
     "Ensure that the certificate authorities file permissions are set to 600 or more restrictive",
     "Ensure that the client certificate authorities file ownership is set to root:root",
     "If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive",
-    "If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root"
+    "If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root",
     "Ensure that the cluster-admin role is only used where required",
     "Minimize access to secrets",
     "Minimize wildcard use in Roles and ClusterRoles",
@@ -106,6 +106,13 @@
             "CIS-5.1.5",
             "CIS-5.1.6",
             "CIS-5.1.8"
+          ]
+        },
+        "4": {
+          "name": "",
+          "id": "5.4",
+          "controlsIDs": [
+            "CIS-5.4.1"
           ]
         }
       }
