@@ -110,7 +110,7 @@
           ]
         },
         "4": {
-          "name": "",
+          "name": "Secrets Management",
           "id": "5.4",
           "controlsIDs": [
             "CIS-5.4.1"
