@@ -2,11 +2,11 @@ package armo_builtins
 
 deny[msg] {
 	obj = input[_]
-	filter_input(obj)
+	is_scheduler(obj)
 	msg := {"alertObject": {"k8sApiObjects": [obj]}}
 }
 
-filter_input(obj) {
+is_scheduler(obj) {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"

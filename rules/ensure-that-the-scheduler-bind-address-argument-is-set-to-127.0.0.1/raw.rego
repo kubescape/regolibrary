@@ -4,7 +4,7 @@ import future.keywords.in
 
 deny[msg] {
 	obj = input[_]
-	filter_input(obj)
+	is_scheduler(obj)
 	result = invalid_flag(obj.spec.containers[0].command)
 
 	msg := {
@@ -17,7 +17,7 @@ deny[msg] {
 	}
 }
 
-filter_input(obj) {
+is_scheduler(obj) {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
