@@ -22,11 +22,7 @@
             ]
         }
     ],
-    "ruleDependencies": [
-        {
-            "packageName": "cautils"
-        }
-    ],
+    "ruleDependencies": [],
     "description": "Activate garbage collector on pod termination, as appropriate.",
     "remediation": "Edit the Controller Manager pod specification file `/etc/kubernetes/manifests/kube-controller-manager.yaml` on the Control Plane node and set the `--terminated-pod-gc-threshold` to an appropriate threshold, for example:\n\n \n```\n--terminated-pod-gc-threshold=10\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, `--terminated-pod-gc-threshold` is set to `12500`.",
     "ruleQuery": ""
