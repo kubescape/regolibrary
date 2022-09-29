@@ -1,0 +1,19 @@
+{
+    "id": "CIS-1.2.14",
+    "controlID": "CIS-1.2.14",
+    "name": "Ensure that the admission control plugin NamespaceLifecycle is set",
+    "description": "Reject creating objects in a namespace that is undergoing termination.",
+    "long_description": "Setting admission control policy to `NamespaceLifecycle` ensures that objects cannot be created in non-existent namespaces, and that namespaces undergoing termination are not used for creating the new objects. This is recommended to enforce the integrity of the namespace termination process and also for the availability of the newer objects.",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--disable-admission-plugins` parameter to ensure it does not include `NamespaceLifecycle`.\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, `NamespaceLifecycle` is set.",
+    "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--disable-admission-plugins` argument is set to a value that does not include `NamespaceLifecycle`.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126663/recommendations/1838653"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "ensure-that-the-admission-control-plugin-NamespaceLifecycle-is-set"
+    ],
+    "baseScore": 3
+}
