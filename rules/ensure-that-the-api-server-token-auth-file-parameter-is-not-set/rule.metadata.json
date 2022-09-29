@@ -1,0 +1,29 @@
+{
+    "name": "ensure-that-the-api-server-token-auth-file-parameter-is-not-set",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [],
+            "apiVersions": [],
+            "resources": []
+        }
+    ],
+    "dynamicMatch": [
+        {
+            "apiGroups": [],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "Do not use token based authentication.",
+    "remediation": "Follow the documentation and configure alternate mechanisms for authentication. Then, edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the master node and remove the `--token-auth-file=<filename>` parameter.\n\n#### Impact Statement\nYou will have to configure and use alternate authentication mechanisms such as certificates. Static token based authentication could not be used.\n\n#### Default Value\nBy default, `--token-auth-file` argument is not set.",
+    "ruleQuery": ""
+}
