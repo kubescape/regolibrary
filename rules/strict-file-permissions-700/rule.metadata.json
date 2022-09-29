@@ -1,0 +1,39 @@
+{
+    "name": "strict-file-permissions-700",
+    "attributes": {
+      "armoBuiltin": true,
+      "hostSensorRule": "true",
+      "useFromKubescapeVersion": "v2.0.159"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [],
+        "apiVersions": [],
+        "resources": []
+      }
+    ],
+    "dynamicMatch": [
+      {
+        "apiGroups": [
+          "hostdata.kubescape.cloud"
+        ],
+        "apiVersions": [
+          "v1beta0"
+        ],
+        "resources": [
+          "KubeletInfo",
+          "KubeProxyInfo",
+          "ControlPlaneInfo"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+      {
+        "packageName": "cautils"
+      }
+    ],
+    "description": "Ensure that file has permissions of 700 or more restrictive",
+    "remediation": "Set the permission of the failed file file to 700 or more restrictive",
+    "ruleQuery": ""
+  }
