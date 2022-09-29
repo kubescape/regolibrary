@@ -11,6 +11,7 @@ deny[msga] {
 	rule:= role.rules[p]
 
 	subject := rolebinding.subjects[k]
+	is_same_subjects(subjectVector, subject)
 
 	verbs := ["impersonate", "*"]
   	verb_path := [sprintf("relatedObjects[%v].rules[%v].verbs[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | verb =  rule.verbs[l];cautils.list_contains(verbs, verb)]
@@ -41,4 +42,18 @@ deny[msga] {
 			"externalObjects": subjectVector
 		}
   	}
+}
+
+# for service accounts
+is_same_subjects(subjectVector, subject){
+	subjectVector.kind == subject.kind
+	subjectVector.name == subject.name
+	subjectVector.namespace == subject.namespace
+}
+
+# for users/ groups
+is_same_subjects(subjectVector, subject){
+	subjectVector.kind == subject.kind
+	subjectVector.name == subject.name
+	subjectVector.apiGroup == subject.apiGroup
 }
