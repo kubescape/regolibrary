@@ -77,7 +77,8 @@
         "Minimize access to create pods",
         "Ensure that default service accounts are not actively used",
         "Ensure that Service Account Tokens are only mounted where necessary",
-        "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster"
+        "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster",
+        "Prefer using secrets as files over secrets as environment variables"
     ],
     "subSections": {
         "1": {
@@ -202,6 +203,13 @@
                         "CIS-5.1.5",
                         "CIS-5.1.6",
                         "CIS-5.1.8"
+                    ]
+                  },
+                  "4": {
+                    "name": "Secrets Management",
+                    "id": "5.4",
+                    "controlsIDs": [
+                      "CIS-5.4.1"
                     ]
                 }
             }
