@@ -1,0 +1,35 @@
+{
+    "name": "ensure-that-the-api-server-service-account-key-file-argument-is-set-as-appropriate",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true",
+        "useFromKubescapeVersion": "v2.0.159"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [],
+            "apiVersions": [],
+            "resources": []
+        }
+    ],
+    "dynamicMatch": [
+        {
+            "apiGroups": [],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+        {
+            "packageName": "cautils"
+        }
+    ],
+    "description": "Explicitly set a service account public key file for service accounts on the apiserver.",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--service-account-key-file` parameter to the public key file for service accounts:\n\n \n```\n--service-account-key-file=<filename>\n\n```\n\n#### Impact Statement\nThe corresponding private key must be provided to the controller manager. You would need to securely maintain the key file and rotate the keys based on your organization's key rotation policy.\n\n#### Default Value\nBy default, `--service-account-key-file` argument is not set.",
+    "ruleQuery": ""
+}
