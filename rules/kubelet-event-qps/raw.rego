@@ -13,7 +13,8 @@ deny[msga] {
     command := kubelet_info.data.cmdLine
     
     not contains(command, "--event-qps")
-      	    
+    contains(command, "--config")    
+
     decodedConfigContent := base64.decode(kubelet_info.data.configFile.content)
 	yamlConfig := yaml.unmarshal(decodedConfigContent)
 	yamlConfig.eventRecordQPS == 0

@@ -6,9 +6,7 @@ deny[msga] {
 	kubelet_info.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	command := kubelet_info.data.cmdLine
 
-	contains(command, "--anonymous-auth")
-	not contains(command, "--anonymous-auth=false")
-
+    contains(command, "--anonymous-auth=true")
 	external_obj := json.filter(kubelet_info, ["apiVersion", "data/cmdLine", "kind"])
 
 	msga := {

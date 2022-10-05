@@ -17,8 +17,8 @@ deny[msga] {
 	external_obj := json.filter(kubelet_info, ["apiVersion", "data/cmdLine", "kind"])
 
     msga := {
-        "alertMessage": "Used cipher is not strong",
-        "alertScore": 2,
+        "alertMessage": "Kubelet is not configured to only use strong cryptographic ciphers",
+        "alertScore": 5,
         "failedPaths": [],
         "fixPaths": [],
         "packagename": "armo_builtins",
