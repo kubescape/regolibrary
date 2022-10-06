@@ -5,6 +5,9 @@
         "actions": [
             "alertOnly"
         ],
+        "attributes": {
+            "systemException": true
+        },
         "resources": [
             {
                 "designatorType": "Attributes",
