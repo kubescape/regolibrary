@@ -4,12 +4,16 @@
         "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Initial access"
+        ],
+        "controlTypeTags": [
+            "compliance"
         ]
     },
     "description": "Exposing a sensitive interface to the internet poses a security risk. It might enable attackers to run malicious code or deploy containers in the cluster. This control checks if known components (e.g. Kubeflow, Argo Workflows, etc.) are deployed and exposed services externally.",
     "remediation": "Consider blocking external interfaces or protect them with appropriate security tools.",
     "rulesNames": [
-        "exposed-sensitive-interfaces", "exposed-sensitive-interfaces-v1"
+        "exposed-sensitive-interfaces",
+        "exposed-sensitive-interfaces-v1"
     ],
     "id": "C-0021",
     "long_description": "Exposing a sensitive interface to the internet poses a security risk. Some popular frameworks were not intended to be exposed to the internet, and therefore don\u2019t require authentication by default. Thus, exposing them to the internet allows unauthenticated access to a sensitive interface which might enable running code or deploying containers in the cluster by a malicious actor. Examples of such interfaces that were seen exploited include Apache NiFi, Kubeflow, Argo Workflows, Weave Scope, and the Kubernetes dashboard.",

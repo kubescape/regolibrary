@@ -13,7 +13,7 @@
       "Allowed hostPath",
       "Automatic mapping of service account",
       "HostNetwork access",
-      "Resource policies",
+      "Resource limits",
       "Exposed dashboard",
       "Allow privilege escalation",
       "Applications credentials in configuration files",
@@ -45,6 +45,7 @@
       "CVE-2022-23648-containerd-fs-escape",
       "Workloads with excessive amount of vulnerabilities",
       "Workloads with Critical vulnerabilities exposed to external traffic",
-      "Workloads with RCE vulnerabilities exposed to external traffic"
+      "Workloads with RCE vulnerabilities exposed to external traffic",
+      "CVE-2022-3172-aggregated-API-server-redirect"
     ]
   }

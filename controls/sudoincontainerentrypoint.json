@@ -1,7 +1,18 @@
 {
     "name": "Sudo in container entrypoint",
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "controlTypeTags": [
+            "security"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Privilege escalation"
+                ]
+            }
+        ]
     },
     "description": "Adding sudo to a container entry point command may escalate process privileges and allow access to forbidden resources. This control checks all the entry point commands in all containers in the POD to find those that have sudo command.",
     "remediation": "Remove sudo from the command line and use Kubernetes native root and capabilities controls to provide necessary privileges where they are required.",
@@ -12,6 +23,6 @@
     "long_description": "Adding sudo to a container entry point command may escalate process privileges and allow access to forbidden resources. This control checks all the entry point commands in all containers in the POD to find those that have sudo command.",
     "test": "Check that there is no 'sudo' in the container entrypoint",
     "controlID": "C-0062",
-	"baseScore": 7.0, 
+    "baseScore": 5.0,
     "example": "@controls/examples/c062.yaml"
 }
