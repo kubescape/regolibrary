@@ -103,8 +103,6 @@ ArmoBest,C-0079,CVE-2022-0185-linux-kernel-container-escape
 ArmoBest,C-0081,CVE-2022-24348-argocddirtraversal
 ArmoBest,C-0083,Workloads with Critical vulnerabilities exposed to external traffic
 ArmoBest,C-0084,Workloads with RCE vulnerabilities exposed to external traffic
-<<<<<<< HEAD
-=======
 ArmoBest,C-0085,Workloads with excessive amount of vulnerabilities
 ArmoBest,C-0086,CVE-2022-0492-cgroups-container-escape
 ArmoBest,C-0087,CVE-2022-23648-containerd-fs-escape
@@ -174,4 +172,3 @@ NSA,C-0067,Audit logs enabled
 NSA,C-0068,PSP enabled
 NSA,C-0069,Disable anonymous access to Kubelet service
 NSA,C-0070,Enforce Kubelet client TLS authentication
->>>>>>> armosec/dev
