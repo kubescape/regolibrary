@@ -200,6 +200,12 @@ def create_md_for_control(control):
     md_text += '## What does this control test\n'
     test = control['test'] if 'test' in control else control['description']
     md_text += test + '\n'
+
+    if 'manual_test' in control:
+        md_text += '## How to check it manually\n'
+        manual_test = control['manual_test'] 
+        md_text += manual_test + '\n'
+
     md_text += '## Remediation\n'
     md_text += control['remediation'] + '\n'
 
