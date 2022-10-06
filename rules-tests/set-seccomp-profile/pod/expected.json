@@ -1,0 +1,29 @@
+[
+    {
+        "alertMessage": "Pod: audit-pod does not define seccompProfile as RuntimeDefault",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].securityContext.seccompProfile.type",
+                "value": "RuntimeDefault"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "audit-pod"
+                        },
+                        "name": "audit-pod"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,29 @@
+[
+    {
+        "alertMessage": "Workload: my-deployment does not define seccompProfile as RuntimeDefault",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[1].securityContext.seccompProfile.type",
+                "value": "RuntimeDefault"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "goproxy"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]
