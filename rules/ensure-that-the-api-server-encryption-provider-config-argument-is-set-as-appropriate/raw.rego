@@ -2,17 +2,52 @@ package armo_builtins
 
 import future.keywords.in
 
+# Encryption config is not set at all 
 deny[msg] {
 	obj = input[_]
 	is_api_server(obj)
-	result = invalid_flag(obj.spec.containers[0].command)
+
+	cmd := obj.spec.containers[0].command
+	not contains(concat(" ", cmd), "--encryption-provider-config")
+
 	msg := {
-		"alertMessage": "etcd is not configured to encrypt data at rest",
+		"alertMessage": "Encryption provider config file not set",
 		"alertScore": 2,
-		"failedPaths": result.failed_paths,
-		"fixPaths": result.fix_paths,
+		"failedPaths": [],
+		"fixPaths": [{
+			"path": sprintf("spec.containers[0].command[%d]", [count(cmd)]),
+			"value": "--encryption-provider-config=<path/to/encryption-config.yaml>",
+		}],
 		"packagename": "armo_builtins",
 		"alertObject": {"k8sApiObjects": [obj]},
+	}
+}
+
+# Encryption config is set but not covering secrets
+deny[msg] {
+	obj = input[_]
+	is_control_plane_info(obj)
+	config_file := obj.data.APIServerInfo.encryptionProviderConfigFile
+	config_file_content = decode_config_file(base64.decode(config_file.content))
+
+	# Check if the config conver secrets
+	count({true | "secrets" in config_file_content.resources[_].resources}) == 0
+	
+	# Add name to the failed object so that
+	# it fit the format of the alert object
+	failed_obj := json.patch(config_file_content, [{
+		"op": "add",
+		"path": "name",
+		"value": "encryption-provider-config",
+	}])
+
+	msg := {
+		"alertMessage": "Encryption provider config is not covering secrets",
+		"alertScore": 2,
+		"failedPaths": [],
+		"fixPaths": [],
+		"packagename": "armo_builtins",
+		"alertObject": {"externalObjects": failed_obj},
 	}
 }
 
@@ -25,14 +60,11 @@ is_api_server(obj) {
 	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
 }
 
-invalid_flag(cmd) = result {
-	full_cmd = concat(" ", cmd)
-	not contains(full_cmd, "--encryption-provider-config")
-	result := {
-		"failed_paths": [],
-		"fix_paths": [{
-			"path": sprintf("spec.containers[0].command[%d]", [count(cmd)]),
-			"value": "--encryption-provider-config=</path/to/EncryptionConfig/File.yaml>",
-		}],
-	}
+is_control_plane_info(obj) {
+	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
+	obj.kind == "ControlPlaneInfo"
 }
+
+decode_config_file(content) := data {
+	data := yaml.unmarshal(content)
+} else := json.unmarshal(content)
