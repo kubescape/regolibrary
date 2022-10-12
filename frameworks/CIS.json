@@ -1,8 +1,8 @@
 {
     "name": "CIS",
-    "description": "Testing CIS for Kubernetes as suggested by CIS in https://workbench.cisecurity.org/benchmarks/6083",
+    "description": "Testing CIS for Kubernetes as suggested by CIS in https://workbench.cisecurity.org/benchmarks/8973",
     "attributes": {
-        "version": "v1.6.1",
+        "version": "v1.0.1",
         "armoBuiltin": true
     },
     "controlsNames": [
