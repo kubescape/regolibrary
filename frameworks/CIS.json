@@ -41,6 +41,7 @@
         "Ensure that the API Server only makes use of Strong Cryptographic Ciphers",
         "Ensure that the API Server --kubelet-certificate-authority argument is set as appropriate",
         "Ensure that the API Server --encryption-provider-config argument is set as appropriate",
+        "Ensure that encryption providers are appropriately configured",
         "Ensure that the API Server --audit-log-maxsize argument is set to 100 or as appropriate",
         "Ensure that the admission control plugin NamespaceLifecycle is set",
         "Ensure that the admission control plugin SecurityContextDeny is set if PodSecurityPolicy is not used",
@@ -144,6 +145,7 @@
                         "CIS-1.2.27",
                         "CIS-1.2.28",
                         "CIS-1.2.29",
+                        "CIS-1.2.30",
                         "CIS-1.2.31"
                     ]
                 },

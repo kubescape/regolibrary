@@ -1,0 +1,33 @@
+[
+    {
+        "alertMessage": "Encryption provider config is not using one of the allowed providers (aescbc, secretbox, kms)",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "apiserver.config.k8s.io/v1",
+                "kind": "EncryptionConfiguration",
+                "name": "encryption-provider-config",
+                "resources": [
+                    {
+                        "providers": [
+                            {
+                                "identity": {}
+                            }
+                        ],
+                        "resources": [
+                            "secrets"
+                        ]
+                    }
+                ]
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "resources[0].providers[1]",
+                "value": "{\"aescbc\" | \"secretbox\" | \"kms\" : <provider config>}"
+            }
+        ],
+        "packagename": "armo_builtins"
+    }
+]
