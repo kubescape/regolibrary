@@ -13,6 +13,6 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["set-seccomp-profile"],
+    "rulesNames": ["set-seccomp-profile-RuntimeDefault"],
     "baseScore": 4
 }
