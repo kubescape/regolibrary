@@ -1,5 +1,5 @@
 {
-    "name": "set-seccomp-profile",
+    "name": "set-seccomp-profile-RuntimeDefault",
     "attributes": {
       "armoBuiltin": true
     },
@@ -45,7 +45,7 @@
     ],
     "ruleDependencies": [
     ],
-    "description": "fails if container does not define seccompProfile",
-    "remediation": "Make sure you define seccompProfile at workload or container lever.",
+    "description": "fails if container does not define seccompProfile as RuntimeDefault",
+    "remediation": "Make sure you define seccompProfile as RuntimeDefault at workload or container lever.",
     "ruleQuery": "armo_builtins"
 }

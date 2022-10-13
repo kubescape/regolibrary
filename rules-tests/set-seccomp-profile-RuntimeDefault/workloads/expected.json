@@ -1,13 +1,10 @@
 [
     {
-        "alertMessage": "Workload: my-deployment does not define seccompProfile",
-        "failedPaths": [],
-        "fixPaths": [
-            {
-                "path": "spec.template.spec.containers[1].securityContext.seccompProfile",
-                "value": "YOUR_VALUE"
-            }
+        "alertMessage": "Workload: my-deployment does not define seccompProfile as RuntimeDefault",
+        "failedPaths": [
+            "spec.template.spec.containers[1].securityContext.seccompProfile.type"
         ],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,
