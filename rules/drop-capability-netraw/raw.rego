@@ -47,7 +47,7 @@ deny[msga] {
 }
 
 
-# Fails if pod does not drop the capability NET_RAW
+# Fails if CronJob does not drop the capability NET_RAW
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
