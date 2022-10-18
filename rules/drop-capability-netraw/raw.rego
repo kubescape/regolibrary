@@ -9,7 +9,7 @@ deny[msga] {
     container := pod.spec.containers[i]
     container_doesnt_drop_NET_RAW(container)
 
-	fixPaths := [{"path": sprintf("spec.containers[%v].securityContext.capabilities.drop", [format_int(i, 10)]), "value": "NET_RAW"}]
+	fixPaths := [{"path": sprintf("spec.containers[%d].securityContext.capabilities.drop", [i]), "value": "NET_RAW"}]
 
 	msga := {
 		"alertMessage": sprintf("Pod: %v does not drop the capability NET_RAW", [pod.metadata.name]),
