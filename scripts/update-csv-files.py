@@ -62,6 +62,7 @@ def create_cvs_file(header, rows, filename):
     with open(f"{filename}.csv", 'w', encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow(header)
+        rows = sorted(rows, key=lambda x: ''.join(x))
         writer.writerows(rows)
 
 
