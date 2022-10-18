@@ -1,6 +1,6 @@
 [
     {
-        "alertMessage": "Pod: envar-demo has pods running in the 'default' namespace",
+        "alertMessage": "PodDisruptionBudget: zk-pdb is in the 'default' namespace",
         "failedPaths": [],
         "fixPaths": [
             {
@@ -14,13 +14,10 @@
         "alertObject": {
             "k8sApiObjects": [
                 {
-                    "apiVersion": "v1",
-                    "kind": "Pod",
+                    "apiVersion": "policy/v1",
+                    "kind": "PodDisruptionBudget",
                     "metadata": {
-                        "labels": {
-                            "purpose": "demonstrate-envars"
-                        },
-                        "name": "envar-demo"
+                        "name": "zk-pdb"
                     }
                 }
             ]

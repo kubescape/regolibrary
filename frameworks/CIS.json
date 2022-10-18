@@ -81,7 +81,11 @@
         "Ensure that default service accounts are not actively used",
         "Ensure that Service Account Tokens are only mounted where necessary",
         "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster",
-        "Prefer using secrets as files over secrets as environment variables"
+        "Prefer using secrets as files over secrets as environment variables",
+        "Create administrative boundaries between resources using namespaces",
+        "Ensure that the seccomp profile is set to docker/default in your pod definitions",
+        "Apply Security Context to Your Pods and Containers",
+        "The default namespace should not be used"
     ],
     "subSections": {
         "1": {
@@ -210,12 +214,22 @@
                         "CIS-5.1.6",
                         "CIS-5.1.8"
                     ]
-                  },
-                  "4": {
+                },
+                "4": {
                     "name": "Secrets Management",
                     "id": "5.4",
                     "controlsIDs": [
-                      "CIS-5.4.1"
+                        "CIS-5.4.1"
+                    ]
+                },
+                "7": {
+                    "name": "General Policies",
+                    "id": "5.7",
+                    "controlsIDs": [
+                        "CIS-5.7.1",
+                        "CIS-5.7.2",
+                        "CIS-5.7.3",
+                        "CIS-5.7.4"
                     ]
                 }
             }

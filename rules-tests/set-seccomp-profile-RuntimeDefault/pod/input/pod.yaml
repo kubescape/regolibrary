@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: audit-pod
+  labels:
+    app: audit-pod
+spec:
+  containers:
+  - name: test-container1
+    image: hashicorp/http-echo:0.2.3
+    securityContext:
+      allowPrivilegeEscalation: false
+  - name: test-container2
+    image: hashicorp/http-echo:0.2.3
+    securityContext:
+      seccompProfile:
+        type: Localhost
+  - name: test-container3
+    image: hashicorp/http-echo:0.2.3
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
+  securityContext:
+    seccompProfile:
+      type: Localhost
+

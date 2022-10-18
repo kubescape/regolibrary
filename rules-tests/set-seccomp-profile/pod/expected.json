@@ -1,16 +1,16 @@
 [
     {
-        "alertMessage": "Pod: envar-demo has pods running in the 'default' namespace",
+        "alertMessage": "Pod: audit-pod does not define seccompProfile",
         "failedPaths": [],
         "fixPaths": [
             {
-                "path": "metadata.namespace",
-                "value": "YOUR_NAMESPACE"
+                "path": "spec.containers[0].securityContext.seccompProfile",
+                "value": "YOUR_VALUE"
             }
         ],
         "ruleStatus": "",
         "packagename": "armo_builtins",
-        "alertScore": 3,
+        "alertScore": 7,
         "alertObject": {
             "k8sApiObjects": [
                 {
@@ -18,9 +18,9 @@
                     "kind": "Pod",
                     "metadata": {
                         "labels": {
-                            "purpose": "demonstrate-envars"
+                            "app": "audit-pod"
                         },
-                        "name": "envar-demo"
+                        "name": "audit-pod"
                     }
                 }
             ]
