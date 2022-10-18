@@ -12,7 +12,7 @@ deny[msga] {
 	fixPaths := [{"path": sprintf("spec.containers[%d].securityContext.capabilities.drop", [i]), "value": "NET_RAW"}]
 
 	msga := {
-		"alertMessage": sprintf("Pod: %v does not drop the capability NET_RAW", [pod.metadata.name]),
+		"alertMessage": sprintf("Pod: %s does not drop the capability NET_RAW", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [],
