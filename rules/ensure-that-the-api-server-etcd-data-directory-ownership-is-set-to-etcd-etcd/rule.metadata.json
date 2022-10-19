@@ -1,0 +1,36 @@
+{
+    "name": "ensure-that-the-api-server-etcd-data-directory-ownership-is-set-to-etcd-etcd",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [],
+            "apiVersions": [],
+            "resources": []
+        }
+    ],
+    "dynamicMatch": [
+        {
+            "apiGroups": [
+                "hostdata.kubescape.cloud"
+            ],
+            "apiVersions": [
+                "v1beta0"
+            ],
+            "resources": [
+                "ControlPlaneInfo"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+        {
+            "packageName": "cautils"
+        }
+    ],
+    "description": "Ensure that the etcd data directory ownership is set to `etcd:etcd`.",
+    "remediation": "On the etcd server node, get the etcd data directory, passed as an argument `--data-dir`, from the below command:\n\n \n```\nps -ef | grep etcd\n\n```\n Run the below command (based on the etcd data directory found above). For example,\n\n \n```\nchown etcd:etcd /var/lib/etcd\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, etcd data directory ownership is set to `etcd:etcd`.",
+    "ruleQuery": ""
+}

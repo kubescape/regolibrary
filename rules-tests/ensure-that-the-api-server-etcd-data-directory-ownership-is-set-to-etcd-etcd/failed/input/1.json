@@ -1,0 +1,97 @@
+{
+  "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+  "kind": "ControlPlaneInfo",
+  "metadata": {
+    "name": "minikube"
+  },
+  "data": {
+    "specsFile": {
+      "ownership": {
+        "uid": 0,
+        "gid": 0,
+        "username": "root",
+        "groupname": "root"
+      },
+      "path": "/etc/kubernetes/manifests/kube-apiserver.yaml",
+      "permissions": 384
+    },
+    "cmdLine": "kube-apiserver --advertise-address=192.168.49.2 --allow-privileged=true --authorization-mode=Node,RBAC --client-ca-file=/var/lib/minikube/certs/ca.crt --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota --enable-bootstrap-token-auth=true --etcd-cafile=/var/lib/minikube/certs/etcd/ca.crt --etcd-certfile=/var/lib/minikube/certs/apiserver-etcd-client.crt --etcd-keyfile=/var/lib/minikube/certs/apiserver-etcd-client.key --etcd-servers=https://127.0.0.1:2379 --kubelet-client-certificate=/var/lib/minikube/certs/apiserver-kubelet-client.crt --kubelet-client-key=/var/lib/minikube/certs/apiserver-kubelet-client.key --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --proxy-client-cert-file=/var/lib/minikube/certs/front-proxy-client.crt --proxy-client-key-file=/var/lib/minikube/certs/front-proxy-client.key --requestheader-allowed-names=front-proxy-client --requestheader-client-ca-file=/var/lib/minikube/certs/front-proxy-ca.crt --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --secure-port=8443 --service-account-issuer=https://kubernetes.default.svc.cluster.local --service-account-key-file=/var/lib/minikube/certs/sa.pub --service-account-signing-key-file=/var/lib/minikube/certs/sa.key --service-cluster-ip-range=10.96.0.0/12 --tls-cert-file=/var/lib/minikube/certs/apiserver.crt --tls-private-key-file=/var/lib/minikube/certs/apiserver.key "
+  },
+  "controllerManagerInfo": {
+    "specsFile": {
+      "ownership": {
+        "uid": 0,
+        "gid": 0,
+        "username": "root",
+        "groupname": "root"
+      },
+      "path": "/etc/kubernetes/manifests/kube-controller-manager.yaml",
+      "permissions": 384
+    },
+    "configFile": {
+      "ownership": {
+        "uid": 0,
+        "gid": 0,
+        "username": "root",
+        "groupname": "root"
+      },
+      "path": "/etc/kubernetes/controller-manager.conf",
+      "permissions": 384
+    },
+    "cmdLine": "kube-controller-manager --allocate-node-cidrs=true --authentication-kubeconfig=/etc/kubernetes/controller-manager.conf --authorization-kubeconfig=/etc/kubernetes/controller-manager.conf --bind-address=127.0.0.1 --client-ca-file=/var/lib/minikube/certs/ca.crt --cluster-cidr=10.244.0.0/16 --cluster-name=mk --cluster-signing-cert-file=/var/lib/minikube/certs/ca.crt --cluster-signing-key-file=/var/lib/minikube/certs/ca.key --controllers=*,bootstrapsigner,tokencleaner --kubeconfig=/etc/kubernetes/controller-manager.conf --leader-elect=false --requestheader-client-ca-file=/var/lib/minikube/certs/front-proxy-ca.crt --root-ca-file=/var/lib/minikube/certs/ca.crt --service-account-private-key-file=/var/lib/minikube/certs/sa.key --service-cluster-ip-range=10.96.0.0/12 --use-service-account-credentials=true "
+  },
+  "schedulerInfo": {
+    "specsFile": {
+      "ownership": {
+        "uid": 0,
+        "gid": 0,
+        "username": "root",
+        "groupname": "root"
+      },
+      "path": "/etc/kubernetes/manifests/kube-scheduler.yaml",
+      "permissions": 384
+    },
+    "configFile": {
+      "ownership": {
+        "uid": 0,
+        "gid": 0,
+        "username": "root",
+        "groupname": "root"
+      },
+      "path": "/etc/kubernetes/scheduler.conf",
+      "permissions": 384
+    },
+    "cmdLine": "kube-scheduler --authentication-kubeconfig=/etc/kubernetes/scheduler.conf --authorization-kubeconfig=/etc/kubernetes/scheduler.conf --bind-address=127.0.0.1 --kubeconfig=/etc/kubernetes/scheduler.conf --leader-elect=false "
+  },
+  "etcdConfigFile": {
+    "ownership": {
+      "uid": 0,
+      "gid": 0,
+      "username": "root",
+      "groupname": "root"
+    },
+    "path": "/etc/kubernetes/manifests/etcd.yaml",
+    "permissions": 384
+  },
+  "etcdDataDir": {
+    "ownership": {
+      "uid": 0,
+      "gid": 0,
+      "username": "root",
+      "groupname": "root"
+    },
+    "path": "/var/lib/minikube/etcd",
+    "permissions": 448
+  },
+  "adminConfigFile": {
+    "ownership": {
+      "uid": 0,
+      "gid": 0,
+      "username": "root",
+      "groupname": "root"
+    },
+    "path": "/etc/kubernetes/admin.conf",
+    "permissions": 384
+  },
+  "CNIConfigFiles": []
+}
