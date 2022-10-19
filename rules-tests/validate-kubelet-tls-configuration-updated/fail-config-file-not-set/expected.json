@@ -1,6 +1,6 @@
 [
     {
-        "alertMessage": "tlsCertFile and tlsPrivateKeyFile are not set",
+        "alertMessage": "tlsCertFile, tlsPrivateKeyFile must be set",
         "alertObject": {
             "externalObjects": {
                 "apiVersion": "hostdata.kubescape.cloud/v1beta0",
