@@ -1,6 +1,5 @@
 package armo_builtins
 
-import data.cautils as cautils
 import future.keywords.in
 
 
@@ -11,7 +10,7 @@ deny[msg] {
 	obj.kind == "ControlPlaneInfo"
 
 	# Test
-	file := obj.etcdDataDir
+	file := obj.data.etcdDataDir
 	not valid_ownership(file.ownership)
 
 	# Add name to match the externalObject structure
