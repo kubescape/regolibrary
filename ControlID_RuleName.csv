@@ -86,7 +86,9 @@ C-0087,CVE-2022-23648
 C-0088,rbac-enabled-cloud
 C-0088,rbac-enabled-native
 C-0089,CVE-2022-3172
+CIS-1.1.10,strict-file-owners-root
 CIS-1.1.11,strict-file-permissions-700
+CIS-1.1.12,ensure-that-the-api-server-etcd-data-directory-ownership-is-set-to-etcd-etcd
 CIS-1.1.13,strict-file-permissions-600
 CIS-1.1.14,strict-file-owners-root
 CIS-1.1.15,strict-file-permissions-600
@@ -104,6 +106,7 @@ CIS-1.1.5,strict-file-permissions-600
 CIS-1.1.6,strict-file-owners-root
 CIS-1.1.7,strict-file-permissions-600
 CIS-1.1.8,strict-file-owners-root
+CIS-1.1.9,strict-file-permissions-600
 CIS-1.2.10,ensure-that-the-admission-control-plugin-AlwaysAdmit-is-not-set
 CIS-1.2.11,ensure-that-the-admission-control-plugin-AlwaysPullImages-is-set
 CIS-1.2.12,ensure-that-the-admission-control-plugin-SecurityContextDeny-is-set-if-PodSecurityPolicy-is-not-used
@@ -144,6 +147,12 @@ CIS-1.3.6,ensure-that-the-controller-manager-RotateKubeletServerCertificate-argu
 CIS-1.3.7,ensure-that-the-controller-manager-bind-address-argument-is-set-to-127.0.0.1
 CIS-1.4.1,ensure-that-the-scheduler-profiling-argument-is-set-to-false
 CIS-1.4.2,ensure-that-the-scheduler-bind-address-argument-is-set-to-127.0.0.1
+CIS-2.1,etcd-tls-enabled
+CIS-2.2,etcd-client-auth-cert
+CIS-2.3,etcd-auto-tls-disabled
+CIS-2.4,etcd-peer-tls-enabled
+CIS-2.5,etcd-peer-client-auth-cert
+CIS-2.6,etcd-peer-auto-tls-disabled
 CIS-4.1.10,strict-file-owners-root
 CIS-4.1.1,strict-file-permissions-600
 CIS-4.1.2,strict-file-owners-root
@@ -165,3 +174,13 @@ CIS-5.1.8,rule-can-bind-escalate
 CIS-5.1.8,rule-can-impersonate-users-groups-v1
 CIS-5.3.2,internal-networking
 CIS-5.4.1,rule-secrets-in-env-var
+CIS-5.7.1,list-all-namespaces
+CIS-5.7.2,set-seccomp-profile-RuntimeDefault
+CIS-5.7.3,drop-capability-netraw
+CIS-5.7.3,immutable-container-filesystem
+CIS-5.7.3,non-root-containers
+CIS-5.7.3,rule-privilege-escalation
+CIS-5.7.3,set-seLinuxOptions
+CIS-5.7.3,set-seccomp-profile
+CIS-5.7.4,pods-in-default-namespace
+CIS-5.7.4,resources-notpods-in-default-namespace

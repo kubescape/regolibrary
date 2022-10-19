@@ -107,7 +107,9 @@ ArmoBest,C-0085,Workloads with excessive amount of vulnerabilities
 ArmoBest,C-0086,CVE-2022-0492-cgroups-container-escape
 ArmoBest,C-0087,CVE-2022-23648-containerd-fs-escape
 ArmoBest,C-0089,CVE-2022-3172-aggregated-API-server-redirect
+CIS,CIS-1.1.10,Ensure that the Container Network Interface file ownership is set to root:root
 CIS,CIS-1.1.11,Ensure that the etcd data directory permissions are set to 700 or more restrictive
+CIS,CIS-1.1.12,Ensure that the etcd data directory ownership is set to etcd:etcd
 CIS,CIS-1.1.13,Ensure that the admin.conf file permissions are set to 600
 CIS,CIS-1.1.14,Ensure that the admin.conf file ownership is set to root:root
 CIS,CIS-1.1.15,Ensure that the scheduler.conf file permissions are set to 600 or more restrictive
@@ -125,6 +127,7 @@ CIS,CIS-1.1.5,Ensure that the scheduler pod specification file permissions are s
 CIS,CIS-1.1.6,Ensure that the scheduler pod specification file ownership is set to root:root
 CIS,CIS-1.1.7,Ensure that the etcd pod specification file permissions are set to 600 or more restrictive
 CIS,CIS-1.1.8,Ensure that the etcd pod specification file ownership is set to root:root
+CIS,CIS-1.1.9,Ensure that the Container Network Interface file permissions are set to 600 or more restrictive
 CIS,CIS-1.2.10,Ensure that the admission control plugin AlwaysAdmit is not set
 CIS,CIS-1.2.11,Ensure that the admission control plugin AlwaysPullImages is set
 CIS,CIS-1.2.12,Ensure that the admission control plugin SecurityContextDeny is set if PodSecurityPolicy is not used
@@ -165,6 +168,12 @@ CIS,CIS-1.3.6,Ensure that the Controller Manager RotateKubeletServerCertificate 
 CIS,CIS-1.3.7,Ensure that the Controller Manager --bind-address argument is set to 127.0.0.1
 CIS,CIS-1.4.1,Ensure that the Scheduler --profiling argument is set to false
 CIS,CIS-1.4.2,Ensure that the Scheduler --bind-address argument is set to 127.0.0.1
+CIS,CIS-2.1,Ensure that the --cert-file and --key-file arguments are set as appropriate
+CIS,CIS-2.2,Ensure that the --client-cert-auth argument is set to true
+CIS,CIS-2.3,Ensure that the --auto-tls argument is not set to true
+CIS,CIS-2.4,Ensure that the --peer-cert-file and --peer-key-file arguments are set as appropriate
+CIS,CIS-2.5,Ensure that the --peer-client-cert-auth argument is set to true
+CIS,CIS-2.6,Ensure that the --peer-auto-tls argument is not set to true
 CIS,CIS-4.1.10,If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root
 CIS,CIS-4.1.1,Ensure that the kubelet service file permissions are set to 600 or more restrictive
 CIS,CIS-4.1.2,Ensure that the kubelet service file ownership is set to root:root
@@ -179,9 +188,16 @@ CIS,CIS-5.1.1,Ensure that the cluster-admin role is only used where required
 CIS,CIS-5.1.2,Minimize access to secrets
 CIS,CIS-5.1.3,Minimize wildcard use in Roles and ClusterRoles
 CIS,CIS-5.1.4,Minimize access to create pods
+CIS,CIS-5.1.5,Ensure that default service accounts are not actively used
 CIS,CIS-5.1.6,Ensure that Service Account Tokens are only mounted where necessary
 CIS,CIS-5.1.8,"Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster"
+CIS,CIS-5.3.2,Ensure that all Namespaces have Network Policies defined
 CIS,CIS-5.4.1,Prefer using secrets as files over secrets as environment variables
+CIS,CIS-5.4.1,Prefer using secrets as files over secrets as environment variables
+CIS,CIS-5.7.1,Create administrative boundaries between resources using namespaces
+CIS,CIS-5.7.2,Ensure that the seccomp profile is set to docker/default in your pod definitions
+CIS,CIS-5.7.3,Apply Security Context to Your Pods and Containers
+CIS,CIS-5.7.4,The default namespace should not be used
 DevOpsBest,C-0004,Resources memory limit and request
 DevOpsBest,C-0018,Configured readiness probe
 DevOpsBest,C-0044,Container hostPort
