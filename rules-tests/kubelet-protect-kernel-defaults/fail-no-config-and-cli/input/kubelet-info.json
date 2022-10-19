@@ -1,0 +1,7 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "KubeletInfo",
+    "data": {
+        "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --streaming-connection-idle-timeout=0"
+    }
+}

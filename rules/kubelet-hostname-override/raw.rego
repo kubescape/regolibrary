@@ -2,7 +2,8 @@ package armo_builtins
 
 import future.keywords.in
 
-# --hostname-override argument is not present
+#CIS 4.2.8 https://workbench.cisecurity.org/sections/1126668/recommendations/1838654
+
 deny[msga] {
 	kubelet_info := input[_]
 	kubelet_info.kind == "KubeletInfo"

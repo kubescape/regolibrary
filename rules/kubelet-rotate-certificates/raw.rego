@@ -2,17 +2,18 @@ package armo_builtins
 
 import future.keywords.in
 
-# --rotate-certificates argument is present
+#CIS 4.2.11 https://workbench.cisecurity.org/sections/1126668/recommendations/1838658
+
 deny[msga] {
-	kubelet_info := input[_]
-	kubelet_info.kind == "KubeletInfo"
-	kubelet_info.apiVersion == "hostdata.kubescape.cloud/v1beta0"
-	command := kubelet_info.data.cmdLine
+	obj := input[_]
+	is_kubelet_info(obj)
+
+	command := obj.data.cmdLine
 
 	contains(command, "--rotate-certificates")
 	not contains(command, "--rotate-certificates=true")
 
-	external_obj := json.filter(kubelet_info, ["apiVersion", "data/cmdLine", "kind"])
+	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind"])
 
 	msga := {
 		"alertMessage": "Kubelet client certificates rotation is disabled",
@@ -24,17 +25,16 @@ deny[msga] {
 	}
 }
 
-# --rotate-certificates argument is not present, check in config file
 deny[msga] {
-	kubelet_info := input[_]
-	kubelet_info.kind == "KubeletInfo"
-	kubelet_info.apiVersion == "hostdata.kubescape.cloud/v1beta0"
-	command := kubelet_info.data.cmdLine
+	obj := input[_]
+	is_kubelet_info(obj)
+
+	command := obj.data.cmdLine
 
 	not contains(command, "--rotate-certificates")
 	contains(command, "--config")
 
-	decodedConfigContent := base64.decode(kubelet_info.data.configFile.content)
+	decodedConfigContent := base64.decode(obj.data.configFile.content)
 	yamlConfig := yaml.unmarshal(decodedConfigContent)
 	yamlConfig.rotateCertificates == false
 
@@ -45,9 +45,40 @@ deny[msga] {
 		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {"externalObjects": {
-			"apiVersion": kubelet_info.apiVersion,
-			"kind": kubelet_info.kind,
+			"apiVersion": obj.apiVersion,
+			"kind": obj.kind,
 			"data": {"configFile": {"content": decodedConfigContent}},
 		}},
 	}
+}
+
+## Host sensor failed to get config file content
+deny[msga] {
+	obj := input[_]
+	is_kubelet_info(obj)
+
+	command := obj.data.cmdLine
+
+	not contains(command, "--rotate-certificates")
+	contains(command, "--config")
+
+	not obj.data.configFile.content
+
+	msga := {
+		"alertMessage": "Failed to analyze config file",
+		"alertScore": 6,
+		"failedPaths": [],
+		"fixPaths": [],
+		"packagename": "armo_builtins",
+		"alertObject": {"externalObjects": {
+			"apiVersion": obj.apiVersion,
+			"kind": obj.kind,
+			"data": obj.data,
+		}},
+	}
+}
+
+is_kubelet_info(obj) {
+	obj.kind == "KubeletInfo"
+	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 }
