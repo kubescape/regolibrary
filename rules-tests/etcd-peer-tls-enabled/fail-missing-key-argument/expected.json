@@ -1,0 +1,32 @@
+[
+    {
+        "alertMessage": "Etcd encryption for peer connection is not enabled.",
+        "failedPaths": [
+            "spec.containers[0].command"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[17]",
+                "value": "--peer-key-file=<path/to/tls-key-file.key>"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "etcd",
+                            "tier": "control-plane"
+                          },
+                          "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

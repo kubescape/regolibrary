@@ -1,0 +1,30 @@
+[
+    {
+        "alertMessage": "etcd encryption is not enabled",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[17]",
+                "value": "--cert-file=<path/to/tls-certificate-file.crt>"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 8,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "etcd",
+                            "tier": "control-plane"
+                        },
+                        "name": "etcd"
+                    }
+                }
+            ]
+        }
+    }
+]

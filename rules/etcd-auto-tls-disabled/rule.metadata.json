@@ -1,0 +1,24 @@
+{
+  "name": "etcd-auto-tls-disabled",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Do not use self-signed certificates for TLS.",
+  "remediation": "Edit the etcd pod specification file `/etc/kubernetes/manifests/etcd.yaml` on the master node and either remove the `--auto-tls` parameter or set it to `false`.\n\n \n```\n--auto-tls=false\n\n```\n\n#### Impact Statement\nClients will not be able to use self-signed certificates for TLS.\n\n#### Default Value\nBy default, `--auto-tls` is set to `false`.",
+  "ruleQuery": "armo_builtins"
+}

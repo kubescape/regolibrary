@@ -1,27 +1,26 @@
 {
-    "name": "etcd-encryption-native",
-    "attributes": {
+  "name": "etcd-encryption-native",
+  "attributes": {
     "armoBuiltin": true,
     "resourcesAggregator": "apiserver-pod",
     "useFromKubescapeVersion": "v1.0.133"
-    },
-    "ruleLanguage": "Rego",
-    "match": [
-      {
-        "apiGroups": [
-          ""
-        ],
-        "apiVersions": [
-          "v1"
-        ],
-        "resources": [
-          "Pod"
-        ]
-      }
-    ],
-    "ruleDependencies": [
-    ],
-    "description": "",
-    "remediation": "",
-    "ruleQuery": "armo_builtins"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
 }
