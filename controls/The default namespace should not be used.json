@@ -1,0 +1,18 @@
+{
+    "name": "The default namespace should not be used",
+    "id": "CIS-5.7.4",
+    "controlID": "CIS-5.7.4",
+    "description": "Kubernetes provides a default namespace, where objects are placed if no namespace is specified for them. Placing objects in this namespace makes application of RBAC and other controls more difficult.",
+    "long_description": "Resources in a Kubernetes cluster should be segregated by namespace, to allow for security controls to be applied at that level and to make it easier to manage resources.",
+    "remediation": "Ensure that namespaces are created to allow for appropriate segregation of Kubernetes resources and that all new resources are created in a specific namespace.\n\n#### Impact Statement\nNone\n\n#### Default Value\nUnless a namespace is specific on object creation, the `default` namespace will be used",
+    "manual_test": "Run this command to list objects in default namespace\n\n \n```\nkubectl get $(kubectl api-resources --verbs=list --namespaced=true -o name | paste -sd, -) --ignore-not-found -n default\n\n```\n The only entries there should be system managed resources such as the `kubernetes` service",
+    "test": "Lists all resources in default namespace for user to review and approve.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126667/recommendations/1838637"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": ["pods-in-default-namespace", "resources-notpods-in-default-namespace"],
+    "baseScore": 4
+}

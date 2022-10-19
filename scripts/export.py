@@ -13,6 +13,8 @@ currDir = os.path.abspath(os.getcwd())
 control_rule_rows = []
 framework_control_rows = []
 
+SUBSECTION_TREE_SAPARATOR = '.'
+
 def ignore_file(file_name: str):
     return file_name.startswith('__')
 
@@ -40,7 +42,7 @@ def load_rules():
                         new_rule["resourceEnumerator"] = filter_rego
                 except:
                     pass
-        rules_list.append(new_rule) 
+        rules_list.append(new_rule)
         loaded_rules[new_rule['name']] = new_rule
 
     return loaded_rules, rules_list
@@ -77,6 +79,17 @@ def load_controls(loaded_rules: dict):
     return loaded_controls, controls_list
 
 
+def addSubsectionsIds(parents: list, sections: dict):
+    '''
+    Recorsively iterate over framework subsection and adds the tree info as `id` attribute to the section
+    '''
+    for section_id, section in sections.items():
+        section_full_id = parents.copy()
+        section_full_id.append(section_id)
+        section['id'] = SUBSECTION_TREE_SAPARATOR.join(section_full_id)
+        addSubsectionsIds(section_full_id, section.get('subSections', {}))
+
+
 def load_frameworks(loaded_controls: dict):
     p3 = os.path.join(currDir, 'frameworks') 
     frameworks_path = Path(p3).glob('**/*.json')
@@ -101,6 +114,8 @@ def load_frameworks(loaded_controls: dict):
                 framework_control_rows.append(new_row)
             else:
                 raise Exception("Error in controlsNames of framework {}, control {} does not exist".format(new_framework["name"], control_name))
+        
+        addSubsectionsIds([], new_framework.get('subSections', {}))
 
         del new_framework["controlsNames"]
         loaded_frameworks[new_framework['name']] = new_framework
@@ -136,7 +151,7 @@ def validate_controls():
         with open(path_in_str, "r") as f:
             new_control = json.load(f)
         
-        set_of_ids.add(int(new_control["id"][2:]))
+        set_of_ids.add(new_control["id"])
 
     sum_of_controls = len(controls_path)
     if sum_of_controls != len(set_of_ids):
@@ -148,13 +163,6 @@ def load_default_config_inputs():
     with open(p5, "r") as f:
         config_inputs = json.load(f)
     return config_inputs
-
-
-def validate_exceptions(exceptions):
-    for exception in exceptions:
-        attributes = exception.get("attributes", {})
-        if not attributes.get("systemException", False):
-            raise Exception("Error in exception, expected 'systemException' attribute: {}".format(exception))
 
 
 def load_exceptions():
@@ -173,7 +181,6 @@ def load_exceptions():
             raise Exception("Exceptions file {} is not a list".format(path_in_str))
         loaded_exceptions.extend(exceptions)
 
-    validate_exceptions(loaded_exceptions)
     return loaded_exceptions
 
 

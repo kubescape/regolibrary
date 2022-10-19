@@ -29,8 +29,8 @@ deny[msga] {
 	container := wl.spec.template.spec.containers[i]
 	not request_or_limit_memory(container)
 	fixPaths := [
-		{"path": sprintf("spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
-		{"path": sprintf("spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
+		{"path": sprintf("spec.template.spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
+		{"path": sprintf("spec.template.spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
 	]
 
 	msga := {
@@ -50,8 +50,8 @@ deny[msga] {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 	not request_or_limit_memory(container)
 	fixPaths := [
-		{"path": sprintf("spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
-		{"path": sprintf("spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
+		{"path": sprintf("spec.jobTemplate.template.spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
+		{"path": sprintf("spec.jobTemplate.template.spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
 	]
 
 	msga := {

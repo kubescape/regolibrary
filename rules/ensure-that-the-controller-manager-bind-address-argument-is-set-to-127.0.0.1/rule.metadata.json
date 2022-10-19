@@ -1,0 +1,29 @@
+{
+    "name": "ensure-that-the-controller-manager-bind-address-argument-is-set-to-127.0.0.1",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [],
+            "apiVersions": [],
+            "resources": []
+        }
+    ],
+    "dynamicMatch": [
+        {
+            "apiGroups": [],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "Do not bind the Controller Manager service to non-loopback insecure addresses.",
+    "remediation": "Edit the Controller Manager pod specification file `/etc/kubernetes/manifests/kube-controller-manager.yaml` on the Control Plane node and ensure the correct value for the `--bind-address` parameter\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, the `--bind-address` parameter is set to 0.0.0.0",
+    "ruleQuery": ""
+}

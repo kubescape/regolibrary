@@ -1,0 +1,27 @@
+{
+    "id": "CIS-1.1.13",
+    "controlID": "CIS-1.1.13",
+    "name": "Ensure that the admin.conf file permissions are set to 600",
+    "description": "Ensure that the `admin.conf` file has permissions of `600`.",
+    "long_description": "The `admin.conf` is the administrator kubeconfig file defining various settings for the administration of the cluster. This file contains private key and respective certificate allowed to fully manage the cluster. You should restrict its file permissions to maintain the integrity and confidentiality of the file. The file should be readable and writable by only the administrators on the system.",
+    "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchmod 600 /etc/kubernetes/admin.conf\n\n```\n\n#### Impact Statement\nNone.\n\n#### Default Value\nBy default, admin.conf has permissions of `600`.",
+    "manual_test": "Run the following command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nstat -c %a /etc/kubernetes/admin.conf\n\n```\n Verify that the permissions are `600` or more restrictive.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126653/recommendations/1838580"
+    ],
+    "fixedInput": {
+        "fileObjPath": [
+            "data/adminConfigFile"
+        ],
+        "kindFilter": [
+            "ControlPlaneInfo"
+        ]
+    },
+    "rulesNames": [
+        "strict-file-permissions-600"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "baseScore": 7
+}

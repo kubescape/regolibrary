@@ -3,37 +3,38 @@ kind: Deployment
 metadata:
   name: my-deployment
   labels:
-    purpose: demonstrate-command
+    app : goproxy
 spec:
   selector:
     matchLabels:
-      purpose: demonstrate-command
+      app : goproxy
   template:
-    metadata:
-      labels:
-        purpose: demonstrate-command
-    spec:
+    metadata :
+      name : goproxy
+      labels :
+        app : goproxy
+    spec :
+      hostNetwork: true
       containers :
-        - name : test-container
-          image : k8s.gcr.io/test-webserver
+        -
+          name : mysql
+          image : mysql
           securityContext:
-            readOnlyRootFilesystem: false
+            allowPrivilegeEscalation: true
+          env :
+            -
+              name : MYSQL_ROOT_PASSWORD
+              value : "rootpasswd"
+        -
+          name : php
+          image : registry.hub.docker.com/php:7.0-apache
           volumeMounts :
-            - mountPath : /test-pd
-              readOnly: false
-              name : test-volume
-            - mountPath : /test-pd2
-              name : test-volume
-        - name : test-container2
-          image : k8s.gcr.io/test-webserver
-          securityContext:
-              privileged : true
-        - name : test-container3
-          image : k8s.gcr.io/test-webserver
+            -
+              mountPath : /var/www/html
+              name : site-data
+              subPath : html
       volumes :
-        - name : test-volume
-          hostPath :
-            path : /var
-        - name : test-volume2
-          hostPath :
-            path : /var
+        -
+          name : site-data
+          persistentVolumeClaim :
+            claimName : my-lamp-site-data

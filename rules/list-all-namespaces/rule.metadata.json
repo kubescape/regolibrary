@@ -1,0 +1,24 @@
+{
+  "name": "list-all-namespaces",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Namespace"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "lists all namespaces for users to review",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

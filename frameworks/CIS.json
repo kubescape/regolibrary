@@ -1,0 +1,271 @@
+{
+    "name": "CIS",
+    "description": "Testing CIS for Kubernetes as suggested by CIS in https://workbench.cisecurity.org/benchmarks/8973",
+    "attributes": {
+        "version": "v1.0.1",
+        "armoBuiltin": true
+    },
+    "controlsNames": [
+        "Ensure that the API server pod specification file permissions are set to 600 or more restrictive",
+        "Ensure that the controller manager pod specification file permissions are set to 600 or more restrictive",
+        "Ensure that the controller manager pod specification file ownership is set to root:root",
+        "Ensure that the scheduler pod specification file permissions are set to 600 or more restrictive",
+        "Ensure that the scheduler pod specification file ownership is set to root:root",
+        "Ensure that the etcd pod specification file permissions are set to 600 or more restrictive",
+        "Ensure that the etcd pod specification file ownership is set to root:root",
+        "Ensure that the etcd data directory permissions are set to 700 or more restrictive",
+        "Ensure that the Container Network Interface file permissions are set to 600 or more restrictive",
+        "Ensure that the Container Network Interface file ownership is set to root:root",
+        "Ensure that the admin.conf file permissions are set to 600",
+        "Ensure that the etcd data directory ownership is set to etcd:etcd",
+        "Ensure that the admin.conf file ownership is set to root:root",
+        "Ensure that the scheduler.conf file permissions are set to 600 or more restrictive",
+        "Ensure that the scheduler.conf file ownership is set to root:root",
+        "Ensure that the controller-manager.conf file permissions are set to 600 or more restrictive",
+        "Ensure that the controller-manager.conf file ownership is set to root:root",
+        "Ensure that the Kubernetes PKI directory and file ownership is set to root:root",
+        "Ensure that the API server pod specification file ownership is set to root:root",
+        "Ensure that the Kubernetes PKI certificate file permissions are set to 600 or more restrictive",
+        "Ensure that the Kubernetes PKI key file permissions are set to 600",
+        "Ensure that the API Server --service-account-key-file argument is set as appropriate",
+        "Ensure that the API Server --request-timeout argument is set as appropriate",
+        "Ensure that the API Server --DenyServiceExternalIPs is not set",
+        "Ensure that the API Server --authorization-mode argument is not set to AlwaysAllow",
+        "Ensure that the API Server --kubelet-client-certificate and --kubelet-client-key arguments are set as appropriate",
+        "Ensure that the API Server --etcd-certfile and --etcd-keyfile arguments are set as appropriate",
+        "Ensure that the API Server --authorization-mode argument includes RBAC",
+        "Ensure that the API Server --audit-log-maxage argument is set to 30 or as appropriate",
+        "Ensure that the admission control plugin AlwaysAdmit is not set",
+        "Ensure that the API Server --service-account-lookup argument is set to true",
+        "Ensure that the API Server --authorization-mode argument includes Node",
+        "Ensure that the API Server --tls-cert-file and --tls-private-key-file arguments are set as appropriate",
+        "Ensure that the API Server --profiling argument is set to false",
+        "Ensure that the API Server --audit-log-maxbackup argument is set to 10 or as appropriate",
+        "Ensure that the API Server only makes use of Strong Cryptographic Ciphers",
+        "Ensure that the API Server --kubelet-certificate-authority argument is set as appropriate",
+        "Ensure that the API Server --encryption-provider-config argument is set as appropriate",
+        "Ensure that encryption providers are appropriately configured",
+        "Ensure that the API Server --audit-log-maxsize argument is set to 100 or as appropriate",
+        "Ensure that the admission control plugin NamespaceLifecycle is set",
+        "Ensure that the admission control plugin SecurityContextDeny is set if PodSecurityPolicy is not used",
+        "Ensure that the API Server --token-auth-file parameter is not set",
+        "Ensure that the API Server --secure-port argument is not set to 0",
+        "Ensure that the admission control plugin AlwaysPullImages is set",
+        "Ensure that the API Server --client-ca-file argument is set as appropriate",
+        "Ensure that the admission control plugin NodeRestriction is set",
+        "Ensure that the API Server --audit-log-path argument is set",
+        "Ensure that the admission control plugin EventRateLimit is set",
+        "Ensure that the API Server --etcd-cafile argument is set as appropriate",
+        "Ensure that the API Server --anonymous-auth argument is set to false",
+        "Ensure that the admission control plugin ServiceAccount is set",
+        "Ensure that the Controller Manager --terminated-pod-gc-threshold argument is set as appropriate",
+        "Ensure that the Controller Manager --profiling argument is set to false",
+        "Ensure that the Controller Manager RotateKubeletServerCertificate argument is set to true",
+        "Ensure that the Controller Manager --root-ca-file argument is set as appropriate",
+        "Ensure that the Controller Manager --service-account-private-key-file argument is set as appropriate",
+        "Ensure that the Controller Manager --use-service-account-credentials argument is set to true",
+        "Ensure that the Controller Manager --bind-address argument is set to 127.0.0.1",
+        "Ensure that the Scheduler --profiling argument is set to false",
+        "Ensure that the Scheduler --bind-address argument is set to 127.0.0.1",
+        "Ensure that the kubelet service file permissions are set to 600 or more restrictive",
+        "Ensure that the kubelet service file ownership is set to root:root",
+        "If proxy kubeconfig file exists ensure permissions are set to 600 or more restrictive",
+        "If proxy kubeconfig file exists ensure ownership is set to root:root",
+        "Ensure that the --kubeconfig kubelet.conf file permissions are set to 600 or more restrictive",
+        "Ensure that the --kubeconfig kubelet.conf file ownership is set to root:root",
+        "Ensure that the certificate authorities file permissions are set to 600 or more restrictive",
+        "Ensure that the client certificate authorities file ownership is set to root:root",
+        "If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive",
+        "If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root",
+        "Ensure that the cluster-admin role is only used where required",
+        "Minimize access to secrets",
+        "Minimize wildcard use in Roles and ClusterRoles",
+        "Minimize access to create pods",
+        "Ensure that default service accounts are not actively used",
+        "Ensure that Service Account Tokens are only mounted where necessary",
+        "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster",
+        "Ensure that all Namespaces have Network Policies defined",
+        "Prefer using secrets as files over secrets as environment variables",
+        "Create administrative boundaries between resources using namespaces",
+        "Ensure that the seccomp profile is set to docker/default in your pod definitions",
+        "Apply Security Context to Your Pods and Containers",
+        "The default namespace should not be used",
+        "Prefer using secrets as files over secrets as environment variables",
+        "Ensure that the --cert-file and --key-file arguments are set as appropriate",
+        "Ensure that the --client-cert-auth argument is set to true",
+        "Ensure that the --auto-tls argument is not set to true",
+        "Ensure that the --peer-cert-file and --peer-key-file arguments are set as appropriate",
+        "Ensure that the --peer-client-cert-auth argument is set to true",
+        "Ensure that the --peer-auto-tls argument is not set to true"
+    ],
+    "subSections": {
+        "1": {
+            "id": "1",
+            "name": "Control Plane Components",
+            "subSections": {
+                "1": {
+                    "id": "1.1",
+                    "name": "Control Plane Node Configuration Files",
+                    "controlsIDs": [
+                        "CIS-1.1.1",
+                        "CIS-1.1.3",
+                        "CIS-1.1.4",
+                        "CIS-1.1.5",
+                        "CIS-1.1.6",
+                        "CIS-1.1.7",
+                        "CIS-1.1.8",
+                        "CIS-1.1.9",
+                        "CIS-1.1.10",
+                        "CIS-1.1.11",
+                        "CIS-1.1.12",
+                        "CIS-1.1.13",
+                        "CIS-1.1.14",
+                        "CIS-1.1.15",
+                        "CIS-1.1.16",
+                        "CIS-1.1.17",
+                        "CIS-1.1.18",
+                        "CIS-1.1.19",
+                        "CIS-1.1.2",
+                        "CIS-1.1.20",
+                        "CIS-1.1.21"
+                    ]
+                },
+                "2": {
+                    "id": "1.2",
+                    "name": "API Server",
+                    "controlsIDs": [
+                        "CIS-1.2.1",
+                        "CIS-1.2.2",
+                        "CIS-1.2.3",
+                        "CIS-1.2.4",
+                        "CIS-1.2.5",
+                        "CIS-1.2.6",
+                        "CIS-1.2.7",
+                        "CIS-1.2.8",
+                        "CIS-1.2.9",
+                        "CIS-1.2.10",
+                        "CIS-1.2.11",
+                        "CIS-1.2.12",
+                        "CIS-1.2.13",
+                        "CIS-1.2.14",
+                        "CIS-1.2.15",
+                        "CIS-1.2.16",
+                        "CIS-1.2.17",
+                        "CIS-1.2.18",
+                        "CIS-1.2.19",
+                        "CIS-1.2.20",
+                        "CIS-1.2.21",
+                        "CIS-1.2.22",
+                        "CIS-1.2.23",
+                        "CIS-1.2.24",
+                        "CIS-1.2.25",
+                        "CIS-1.2.26",
+                        "CIS-1.2.27",
+                        "CIS-1.2.28",
+                        "CIS-1.2.29",
+                        "CIS-1.2.30",
+                        "CIS-1.2.31"
+                    ]
+                },
+                "3": {
+                    "id": "1.3",
+                    "name": "Controller Manager",
+                    "controlsIDs": [
+                        "CIS-1.3.1",
+                        "CIS-1.3.2",
+                        "CIS-1.3.6",
+                        "CIS-1.3.5",
+                        "CIS-1.3.4",
+                        "CIS-1.3.3",
+                        "CIS-1.3.7"
+                    ]
+                },
+                "4": {
+                    "id": "1.4",
+                    "name": "Scheduler",
+                    "controlsIDs": [
+                        "CIS-1.4.1",
+                        "CIS-1.4.2"
+                    ]
+                }
+            }
+        },
+        "2": {
+            "name": "etcd",
+            "id": "2",
+            "controlsIDs": [
+                "CIS-2.1",
+                "CIS-2.2",
+                "CIS-2.3",
+                "CIS-2.4",
+                "CIS-2.5",
+                "CIS-2.6"
+            ]
+        },
+        "4": {
+            "name": "Worker Nodes",
+            "id": "4",
+            "subSections": {
+                "1": {
+                    "name": "Worker Node Configuration Files",
+                    "id": "4.1",
+                    "controlsIDs": [
+                        "CIS-4.1.1",
+                        "CIS-4.1.2",
+                        "CIS-4.1.3",
+                        "CIS-4.1.4",
+                        "CIS-4.1.5",
+                        "CIS-4.1.6",
+                        "CIS-4.1.7",
+                        "CIS-4.1.8",
+                        "CIS-4.1.9",
+                        "CIS-4.1.10"
+                    ]
+                }
+            }
+        },
+        "5": {
+            "name": "Policies",
+            "id": "5",
+            "subSections": {
+                "1": {
+                    "name": "RBAC and Service Accounts",
+                    "id": "5.1",
+                    "controlsIDs": [
+                        "CIS-5.1.1",
+                        "CIS-5.1.2",
+                        "CIS-5.1.3",
+                        "CIS-5.1.4",
+                        "CIS-5.1.5",
+                        "CIS-5.1.6",
+                        "CIS-5.1.8"
+                    ]
+                },
+                "3": {
+                    "name": "Network Policies and CNI",
+                    "id": "5.3",
+                    "controlsIDs": [
+                        "CIS-5.3.2"
+                    ]
+                },
+                "4": {
+                    "name": "Secrets Management",
+                    "id": "5.4",
+                    "controlsIDs": [
+                        "CIS-5.4.1"
+                    ]
+                },
+                "7": {
+                    "name": "General Policies",
+                    "id": "5.7",
+                    "controlsIDs": [
+                        "CIS-5.7.1",
+                        "CIS-5.7.2",
+                        "CIS-5.7.3",
+                        "CIS-5.7.4"
+                    ]
+                }
+            }
+        }
+    }
+}

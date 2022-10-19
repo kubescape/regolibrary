@@ -1,0 +1,28 @@
+{
+    "id": "CIS-1.1.21",
+    "controlID": "CIS-1.1.21",
+    "name": "Ensure that the Kubernetes PKI key file permissions are set to 600",
+    "description": "Ensure that Kubernetes PKI key files have permissions of `600`.",
+    "long_description": "Kubernetes makes use of a number of key files as part of the operation of its components. The permissions on these files should be set to `600` to protect their integrity and confidentiality.",
+    "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchmod -R 600 /etc/kubernetes/pki/*.key\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, the keys used by Kubernetes are set to have permissions of `600`",
+    "manual_test": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nls -laR /etc/kubernetes/pki/*.key\n\n```\n Verify that the permissions are `600`.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126653/recommendations/1838608"
+    ],
+    "fixedInput": {
+        "fileObjPath": [
+            "data/PKIFiles"
+        ],
+        "kindFilter": [
+            "ControlPlaneInfo"
+        ],
+        "pathGlob":["*.key"]
+    },
+    "rulesNames": [
+        "strict-file-permissions-600"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "baseScore": 8
+}

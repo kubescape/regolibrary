@@ -25,6 +25,12 @@ is_default_namespace(metadata) = [failed_path, fixPath] {
 	fixPath = "" 
 }
 
+is_default_namespace(metadata) = [failed_path, fixPath] {
+	not metadata.namespace
+	failed_path = ""
+	fixPath = {"path": "metadata.namespace", "value": "YOUR_NAMESPACE"} 
+}
+
 get_failed_path(paths) = [paths[0]] {
 	paths[0] != ""
 } else = []

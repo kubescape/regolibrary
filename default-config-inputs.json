@@ -29,7 +29,7 @@
                 "ALL",
                 "BPF"
             ],
-            "listOfDangerousArtifcats": [
+            "listOfDangerousArtifacts": [
                 "bin/bash",
                 "sbin/sh",
                 "bin/ksh",

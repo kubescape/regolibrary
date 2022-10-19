@@ -1,0 +1,57 @@
+[
+    {
+        "alertMessage": "Encryption provider config is not covering secrets",
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "apiserver.config.k8s.io/v1",
+                "kind": "EncryptionConfiguration",
+                "name": "encryption-provider-config",
+                "resources": [
+                    {
+                        "providers": [
+                            {
+                                "identity": {}
+                            }
+                        ],
+                        "resources": [
+                            "pods"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "alertMessage": "Encryption provider config file not set",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[26]",
+                "value": "--encryption-provider-config=\u003cpath/to/encryption-config.yaml\u003e"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]
