@@ -1,0 +1,71 @@
+[
+    {
+        "name": "exclude-kubescape-resources",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Namespace",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "gateway",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "kubescape",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "kubevuln",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "operator",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "StatefulSet",
+                    "name": "kollector",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    }
+]
