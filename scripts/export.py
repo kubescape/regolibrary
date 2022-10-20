@@ -165,6 +165,13 @@ def load_default_config_inputs():
     return config_inputs
 
 
+def validate_exceptions(exceptions):
+    for exception in exceptions:
+        attributes = exception.get("attributes", {})
+        if not attributes.get("systemException", False):
+            raise Exception("Error in exception, expected 'systemException' attribute: {}".format(exception))
+
+
 def load_exceptions():
     exceptions = os.path.join(currDir, 'exceptions')
     exceptions_path = Path(exceptions).glob('**/*.json')
@@ -181,6 +188,7 @@ def load_exceptions():
             raise Exception("Exceptions file {} is not a list".format(path_in_str))
         loaded_exceptions.extend(exceptions)
 
+    validate_exceptions(loaded_exceptions)
     return loaded_exceptions
 
 
