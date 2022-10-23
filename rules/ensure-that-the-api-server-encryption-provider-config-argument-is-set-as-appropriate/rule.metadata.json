@@ -7,21 +7,18 @@
     "ruleLanguage": "Rego",
     "match": [
         {
-            "apiGroups": [],
-            "apiVersions": [],
-            "resources": []
-        }
-    ],
-    "dynamicMatch": [
-        {
-            "apiGroups": [],
+            "apiGroups": [
+                ""
+            ],
             "apiVersions": [
                 "v1"
             ],
             "resources": [
                 "Pod"
             ]
-        },
+        }
+    ],
+    "dynamicMatch": [
         {
             "apiGroups": [
                 "hostdata.kubescape.cloud"
