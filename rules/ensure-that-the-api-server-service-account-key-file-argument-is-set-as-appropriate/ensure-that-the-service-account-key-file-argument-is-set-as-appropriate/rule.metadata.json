@@ -8,14 +8,9 @@
     "ruleLanguage": "Rego",
     "match": [
         {
-            "apiGroups": [],
-            "apiVersions": [],
-            "resources": []
-        }
-    ],
-    "dynamicMatch": [
-        {
-            "apiGroups": [],
+            "apiGroups": [
+                ""
+            ],
             "apiVersions": [
                 "v1"
             ],
@@ -24,6 +19,7 @@
             ]
         }
     ],
+    "dynamicMatch": [],
     "ruleDependencies": [
         {
             "packageName": "cautils"
