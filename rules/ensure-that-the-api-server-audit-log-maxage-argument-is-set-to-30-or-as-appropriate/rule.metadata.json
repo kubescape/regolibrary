@@ -6,14 +6,9 @@
     "ruleLanguage": "Rego",
     "match": [
         {
-            "apiGroups": [],
-            "apiVersions": [],
-            "resources": []
-        }
-    ],
-    "dynamicMatch": [
-        {
-            "apiGroups": [],
+            "apiGroups": [
+                ""
+            ],
             "apiVersions": [
                 "v1"
             ],
@@ -22,6 +17,7 @@
             ]
         }
     ],
+    "dynamicMatch": [],
     "ruleDependencies": [],
     "description": "Retain the logs for at least 30 days or as appropriate.",
     "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--audit-log-maxage` parameter to 30 or as an appropriate number of days:\n\n \n```\n--audit-log-maxage=30\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, auditing is not enabled.",

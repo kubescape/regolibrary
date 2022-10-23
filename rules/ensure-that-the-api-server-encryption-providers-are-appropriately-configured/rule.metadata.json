@@ -5,13 +5,7 @@
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",
-    "match": [
-        {
-            "apiGroups": [],
-            "apiVersions": [],
-            "resources": []
-        }
-    ],
+    "match": [],
     "dynamicMatch": [
         {
             "apiGroups": [
