@@ -6,14 +6,9 @@
     "ruleLanguage": "Rego",
     "match": [
         {
-            "apiGroups": [],
-            "apiVersions": [],
-            "resources": []
-        }
-    ],
-    "dynamicMatch": [
-        {
-            "apiGroups": [],
+            "apiGroups": [
+                ""
+            ],
             "apiVersions": [
                 "v1"
             ],
@@ -22,6 +17,7 @@
             ]
         }
     ],
+    "dynamicMatch": [],
     "ruleDependencies": [],
     "description": "Disable anonymous requests to the API server.",
     "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the below parameter.\n\n \n```\n--anonymous-auth=false\n\n```\n\n#### Impact Statement\nAnonymous requests will be rejected.\n\n#### Default Value\nBy default, anonymous access is enabled.",

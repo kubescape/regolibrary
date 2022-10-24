@@ -6,14 +6,9 @@
     "ruleLanguage": "Rego",
     "match": [
         {
-            "apiGroups": [],
-            "apiVersions": [],
-            "resources": []
-        }
-    ],
-    "dynamicMatch": [
-        {
-            "apiGroups": [],
+            "apiGroups": [
+                ""
+            ],
             "apiVersions": [
                 "v1"
             ],
@@ -22,6 +17,7 @@
             ]
         }
     ],
+    "dynamicMatch": [],
     "ruleDependencies": [],
     "description": "Explicitly set a service account private key file for service accounts on the controller manager.",
     "remediation": "Edit the Controller Manager pod specification file `/etc/kubernetes/manifests/kube-controller-manager.yaml` on the Control Plane node and set the `--service-account-private-key-file` parameter to the private key file for service accounts.\n\n \n```\n--service-account-private-key-file=<filename>\n\n```\n\n#### Impact Statement\nYou would need to securely maintain the key file and rotate the keys based on your organization's key rotation policy.\n\n#### Default Value\nBy default, `--service-account-private-key-file` it not set.",

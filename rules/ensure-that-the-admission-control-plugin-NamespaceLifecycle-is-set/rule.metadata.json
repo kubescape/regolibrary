@@ -6,14 +6,9 @@
     "ruleLanguage": "Rego",
     "match": [
         {
-            "apiGroups": [],
-            "apiVersions": [],
-            "resources": []
-        }
-    ],
-    "dynamicMatch": [
-        {
-            "apiGroups": [],
+            "apiGroups": [
+                ""
+            ],
             "apiVersions": [
                 "v1"
             ],
@@ -22,6 +17,7 @@
             ]
         }
     ],
+    "dynamicMatch": [],
     "ruleDependencies": [],
     "description": "Reject creating objects in a namespace that is undergoing termination.",
     "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--disable-admission-plugins` parameter to ensure it does not include `NamespaceLifecycle`.\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, `NamespaceLifecycle` is set.",

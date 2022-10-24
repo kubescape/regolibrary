@@ -6,14 +6,9 @@
     "ruleLanguage": "Rego",
     "match": [
         {
-            "apiGroups": [],
-            "apiVersions": [],
-            "resources": []
-        }
-    ],
-    "dynamicMatch": [
-        {
-            "apiGroups": [],
+            "apiGroups": [
+                ""
+            ],
             "apiVersions": [
                 "v1"
             ],
@@ -22,6 +17,7 @@
             ]
         }
     ],
+    "dynamicMatch": [],
     "ruleDependencies": [],
     "description": "Setup TLS connection on the API server.",
     "remediation": "Follow the Kubernetes documentation and set up the TLS connection on the apiserver. Then, edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the master node and set the client certificate authority file.\n\n \n```\n--client-ca-file=<path/to/client-ca-file>\n\n```\n\n#### Impact Statement\nTLS and client certificate authentication must be configured for your Kubernetes cluster deployment.\n\n#### Default Value\nBy default, `--client-ca-file` argument is not set.",

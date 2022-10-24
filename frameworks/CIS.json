@@ -14,7 +14,10 @@
         "Ensure that the etcd pod specification file permissions are set to 600 or more restrictive",
         "Ensure that the etcd pod specification file ownership is set to root:root",
         "Ensure that the etcd data directory permissions are set to 700 or more restrictive",
+        "Ensure that the Container Network Interface file permissions are set to 600 or more restrictive",
+        "Ensure that the Container Network Interface file ownership is set to root:root",
         "Ensure that the admin.conf file permissions are set to 600",
+        "Ensure that the etcd data directory ownership is set to etcd:etcd",
         "Ensure that the admin.conf file ownership is set to root:root",
         "Ensure that the scheduler.conf file permissions are set to 600 or more restrictive",
         "Ensure that the scheduler.conf file ownership is set to root:root",
@@ -86,7 +89,14 @@
         "Create administrative boundaries between resources using namespaces",
         "Ensure that the seccomp profile is set to docker/default in your pod definitions",
         "Apply Security Context to Your Pods and Containers",
-        "The default namespace should not be used"
+        "The default namespace should not be used",
+        "Prefer using secrets as files over secrets as environment variables",
+        "Ensure that the --cert-file and --key-file arguments are set as appropriate",
+        "Ensure that the --client-cert-auth argument is set to true",
+        "Ensure that the --auto-tls argument is not set to true",
+        "Ensure that the --peer-cert-file and --peer-key-file arguments are set as appropriate",
+        "Ensure that the --peer-client-cert-auth argument is set to true",
+        "Ensure that the --peer-auto-tls argument is not set to true"
     ],
     "subSections": {
         "1": {
@@ -104,7 +114,10 @@
                         "CIS-1.1.6",
                         "CIS-1.1.7",
                         "CIS-1.1.8",
+                        "CIS-1.1.9",
+                        "CIS-1.1.10",
                         "CIS-1.1.11",
+                        "CIS-1.1.12",
                         "CIS-1.1.13",
                         "CIS-1.1.14",
                         "CIS-1.1.15",
@@ -176,6 +189,18 @@
                     ]
                 }
             }
+        },
+        "2": {
+            "name": "etcd",
+            "id": "2",
+            "controlsIDs": [
+                "CIS-2.1",
+                "CIS-2.2",
+                "CIS-2.3",
+                "CIS-2.4",
+                "CIS-2.5",
+                "CIS-2.6"
+            ]
         },
         "4": {
             "name": "Worker Nodes",
