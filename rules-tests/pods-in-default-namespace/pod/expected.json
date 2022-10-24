@@ -1,20 +1,29 @@
-[{
-    "alertMessage": "Pod: envar-demo has pods running in the 'default' namespace",
-    "failedPaths": ["metadata.namespace"],
-    "fixPaths": [],
-    "ruleStatus": "",
-    "packagename": "armo_builtins",
-    "alertScore": 3,
-    "alertObject": {
-        "k8sApiObjects": [{
-            "apiVersion": "v1",
-            "kind": "Pod",
-            "metadata": {
-                "labels": {
-                    "purpose": "demonstrate-envars"
-                },
-                "name": "envar-demo"
+[
+    {
+        "alertMessage": "Pod: envar-demo has pods running in the 'default' namespace",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "metadata.namespace",
+                "value": "YOUR_NAMESPACE"
             }
-        }]
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-envars"
+                        },
+                        "name": "envar-demo"
+                    }
+                }
+            ]
+        }
     }
-}]
+]

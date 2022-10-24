@@ -84,7 +84,7 @@ deny [msga] {
 
 is_bash_container(scan) {
 	# see default-config-inputs.json for list values
-	shells :=  data.postureControlInputs.listOfDangerousArtifcats
+	shells :=  data.postureControlInputs.listOfDangerousArtifacts
 	shell := shells[_]
-	cautils.list_contains(scan.listOfDangerousArtifcats, shell)
+	cautils.list_contains(scan.listOfDangerousArtifacts, shell)
 }

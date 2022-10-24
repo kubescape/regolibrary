@@ -5,6 +5,9 @@
         "actions": [
             "alertOnly"
         ],
+        "attributes": {
+            "systemException": true
+        },
         "resources": [
             {
                 "designatorType": "Attributes",
@@ -72,6 +75,31 @@
         ],
         "posturePolicies": [
             {}
+        ]
+    },
+    {
+        "name": "exclude-minikube-coredns-kube-system-resources",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Pod",
+                    "namespace": "kube-system",
+                    "name": "coredns-[A-Za-z0-9]+-[A-Za-z0-9]+"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+
+            }
         ]
     }
 ]

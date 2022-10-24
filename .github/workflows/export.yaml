@@ -20,11 +20,13 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with: 
-          go-version: 1.17
+          go-version: 1.18
 
       - name: Test Regoes
         working-directory: testrunner
-        run:  go test -v rego_test.go -run TestAllRules
+        run: |
+          apt update && apt install -y cmake
+          GOPATH=$(go env GOPATH) make
         
       - name: Create a release
         id: create_release

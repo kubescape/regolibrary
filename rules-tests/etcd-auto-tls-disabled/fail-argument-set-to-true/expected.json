@@ -1,0 +1,32 @@
+[
+    {
+        "alertMessage": "Auto tls is enabled. Clients are able to use self-signed certificates for TLS.",
+        "failedPaths": [
+            "spec.containers[0].command[1]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[1]",
+                "value": "--auto-tls=false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 6,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "etcd",
+                            "tier": "control-plane"
+                          },
+                          "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

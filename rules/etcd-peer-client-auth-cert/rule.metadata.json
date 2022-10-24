@@ -1,0 +1,24 @@
+{
+  "name": "etcd-peer-client-auth-cert",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "etcd should be configured for peer authentication.",
+  "remediation": "Edit the etcd pod specification file `/etc/kubernetes/manifests/etcd.yaml` on the master node and set the below parameter.\n\n \n```\n--peer-client-cert-auth=true\n\n```\n\n#### Impact Statement\nAll peers attempting to communicate with the etcd server will require a valid client certificate for authentication.\n\n#### Default Value\n**Note:** This recommendation is applicable only for etcd clusters. If you are using only one etcd server in your environment then this recommendation is not applicable.\n\n By default, `--peer-client-cert-auth` argument is set to `false`.",
+  "ruleQuery": "armo_builtins"
+}

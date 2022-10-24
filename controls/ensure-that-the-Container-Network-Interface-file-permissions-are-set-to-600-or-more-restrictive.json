@@ -1,0 +1,27 @@
+{
+    "id": "CIS-1.1.9",
+    "controlID": "CIS-1.1.9",
+    "name": "Ensure that the Container Network Interface file permissions are set to 600 or more restrictive",
+    "description": "Ensure that the Container Network Interface files have permissions of `600` or more restrictive.",
+    "long_description": "Container Network Interface provides various networking options for overlay networking. You should consult their documentation and restrict their respective file permissions to maintain the integrity of those files. Those files should be writable by only the administrators on the system.",
+    "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchmod 600 <path/to/cni/files>\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nNA",
+    "manual_test": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nstat -c %a <path/to/cni/files>\n\n```\n Verify that the permissions are `600` or more restrictive.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126653/recommendations/1838574"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "fixedInput": {
+        "fileObjPath": [
+            "data/CNIConfigFiles"
+        ],
+        "kindFilter": [
+            "ControlPlaneInfo"
+        ]
+    },
+    "rulesNames": [
+        "strict-file-permissions-600"
+    ],
+    "baseScore": 6
+}

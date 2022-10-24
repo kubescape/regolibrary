@@ -1,0 +1,27 @@
+{
+    "id": "CIS-1.1.1",
+    "controlID": "CIS-1.1.1",
+    "name": "Ensure that the API server pod specification file permissions are set to 600 or more restrictive",
+    "description": "Ensure that the API server pod specification file has permissions of `600` or more restrictive.",
+    "long_description": "The API server pod specification file controls various parameters that set the behavior of the API server. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",
+    "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchmod 600 /etc/kubernetes/manifests/kube-apiserver.yaml\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, the `kube-apiserver.yaml` file has permissions of `640`.",
+    "manual_test": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nstat -c %a /etc/kubernetes/manifests/kube-apiserver.yaml\n\n```\n Verify that the permissions are `600` or more restrictive.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126653/recommendations/1838561"
+    ],
+    "fixedInput": {
+        "fileObjPath": [
+            "data/APIServerInfo/specsFile"
+        ],
+        "kindFilter": [
+            "ControlPlaneInfo"
+        ]
+    },
+    "rulesNames": [
+        "strict-file-permissions-600"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "baseScore": 6
+}

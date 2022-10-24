@@ -1,0 +1,40 @@
+{
+    "name": "ensure-that-the-api-server-encryption-provider-config-argument-is-set-as-appropriate",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [],
+            "apiVersions": [],
+            "resources": []
+        }
+    ],
+    "dynamicMatch": [
+        {
+            "apiGroups": [],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        },
+        {
+            "apiGroups": [
+                "hostdata.kubescape.cloud"
+            ],
+            "apiVersions": [
+                "v1beta0"
+            ],
+            "resources": [
+                "ControlPlaneInfo"
+            ]
+        }
+    ],
+    "description": "Encrypt etcd key-value store.",
+    "remediation": "Follow the Kubernetes documentation and configure a `EncryptionConfig` file. Then, edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the master node and set the `--encryption-provider-config` parameter to the path of that file:\n\n \n```\n--encryption-provider-config=</path/to/EncryptionConfig/File>\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, `--encryption-provider-config` is not set.",
+    "ruleQuery": ""
+}
