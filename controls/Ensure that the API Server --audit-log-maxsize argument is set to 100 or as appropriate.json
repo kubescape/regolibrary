@@ -4,7 +4,7 @@
     "name": "Ensure that the API Server --audit-log-maxsize argument is set to 100 or as appropriate",
     "description": "Rotate log files on reaching 100 MB or as appropriate.",
     "long_description": "Kubernetes automatically rotates the log files. Retaining old log files ensures that you would have sufficient log data available for carrying out any investigation or correlation. If you have set file size of 100 MB and the number of old log files to keep as 10, you would approximate have 1 GB of log data that you could potentially use for your analysis.",
-    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--audit-log-maxsize` parameter to an appropriate size in MB. For example, to set it as 100 MB:\n\n \n```\n--audit-log-maxsize=100\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, auditing is not enabled.",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--audit-log-maxsize` parameter to an appropriate size in MB. For example, to set it as 100 MB:\n\n \n```\n--audit-log-maxsize=100\n\n```\n\n",
     "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--audit-log-maxsize` argument is set to `100` or as appropriate.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126663/recommendations/1838666"
@@ -15,5 +15,7 @@
     "rulesNames": [
         "ensure-that-the-api-server-audit-log-maxsize-argument-is-set-to-100-or-as-appropriate"
     ],
-    "baseScore": 4
+    "baseScore": 4,
+    "impact_statement": "None\n\n",
+    "default_value": "By default, auditing is not enabled."
 }

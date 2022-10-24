@@ -4,7 +4,7 @@
     "name": "Minimize the admission of root containers",
     "description": "Do not generally permit containers to be run as the root user.",
     "long_description": "Containers may run as any Linux user. Containers which run as the root user, whilst constrained by Container Runtime security features still have a escalated likelihood of container breakout.\n\n Ideally, all containers should run as a defined non-UID 0 user.\n\n There should be at least one admission control policy defined which does not permit root containers.\n\n If you need to run root containers, this should be defined in a separate policy and you should carefully check to ensure that only limited service accounts and users are given permission to use that policy.",
-    "remediation": "Create a policy for each namespace in the cluster, ensuring that either `MustRunAsNonRoot` or `MustRunAs` with the range of UIDs not including 0, is set.\n\n#### Impact Statement\nPods with containers which run as the root user will not be permitted.\n\n#### Default Value\nBy default, there are no restrictions on the use of root containers and if a User is not specified in the image, the container will run as root.",
+    "remediation": "Create a policy for each namespace in the cluster, ensuring that either `MustRunAsNonRoot` or `MustRunAs` with the range of UIDs not including 0, is set.\n\n",
     "manual_test": "List the policies in use for each namespace in the cluster, ensure that each policy restricts the use of root containers by setting `MustRunAsNonRoot` or `MustRunAs` with the range of UIDs not including 0.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126662/recommendations/1838615"
@@ -12,6 +12,10 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["pod-security-admission-restricted-applied"],
-    "baseScore": 6
+    "rulesNames": [
+        "pod-security-admission-restricted-applied"
+    ],
+    "baseScore": 6,
+    "impact_statement": "Pods with containers which run as the root user will not be permitted.\n\n",
+    "default_value": "By default, there are no restrictions on the use of root containers and if a User is not specified in the image, the container will run as root."
 }

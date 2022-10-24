@@ -4,7 +4,7 @@
     "name": "Minimize the admission of containers with capabilities assigned",
     "description": "Do not generally permit containers with capabilities",
     "long_description": "Containers run with a default set of capabilities as assigned by the Container Runtime. Capabilities are parts of the rights generally granted on a Linux system to the root user.\n\n In many cases applications running in containers do not require any capabilities to operate, so from the perspective of the principal of least privilege use of capabilities should be minimized.",
-    "remediation": "Review the use of capabilites in applications runnning on your cluster. Where a namespace contains applicaions which do not require any Linux capabities to operate consider adding a policy which forbids the admission of containers which do not drop all capabilities.\n\n#### Impact Statement\nPods with containers require capabilities to operate will not be permitted.\n\n#### Default Value\nBy default, there are no restrictions on the creation of containers with additional capabilities",
+    "remediation": "Review the use of capabilites in applications runnning on your cluster. Where a namespace contains applicaions which do not require any Linux capabities to operate consider adding a policy which forbids the admission of containers which do not drop all capabilities.\n\n",
     "manual_test": "List the policies in use for each namespace in the cluster, ensure that at least one policy requires that capabilities are dropped by all containers.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126662/recommendations/1838622"
@@ -12,6 +12,10 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["pod-security-admission-restricted-applied"],
-    "baseScore": 5
+    "rulesNames": [
+        "pod-security-admission-restricted-applied"
+    ],
+    "baseScore": 5,
+    "impact_statement": "Pods with containers require capabilities to operate will not be permitted.\n\n",
+    "default_value": "By default, there are no restrictions on the creation of containers with additional capabilities"
 }

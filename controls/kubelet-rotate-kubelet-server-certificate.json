@@ -4,7 +4,7 @@
     "name": "Verify that the RotateKubeletServerCertificate argument is set to true",
     "description": "Enable kubelet server certificate rotation.",
     "long_description": "`RotateKubeletServerCertificate` causes the kubelet to both request a serving certificate after bootstrapping its client credentials and rotate the certificate as its existing credentials expire. This automated periodic rotation ensures that the there are no downtimes due to expired certificates and thus addressing availability in the CIA security triad.\n\n Note: This recommendation only applies if you let kubelets get their certificates from the API server. In case your kubelet certificates come from an outside authority/tool (e.g. Vault) then you need to take care of rotation yourself.",
-    "remediation": "Edit the kubelet service file `/etc/kubernetes/kubelet.conf` on each worker node and set the below parameter in `KUBELET_CERTIFICATE_ARGS` variable.\n\n \n```\n--feature-gates=RotateKubeletServerCertificate=true\n\n```\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, kubelet server certificate rotation is enabled.",
+    "remediation": "Edit the kubelet service file `/etc/kubernetes/kubelet.conf` on each worker node and set the below parameter in `KUBELET_CERTIFICATE_ARGS` variable.\n\n \n```\n--feature-gates=RotateKubeletServerCertificate=true\n\n```\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```\n\n",
     "manual_test": "Ignore this check if serverTLSBootstrap is true in the kubelet config file or if the --rotate-server-certificates parameter is set on kubelet\n\n Run the following command on each node:\n\n \n```\nps -ef | grep kubelet\n\n```\n Verify that `RotateKubeletServerCertificate` argument exists and is set to `true`.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126668/recommendations/1838661"
@@ -12,6 +12,10 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["kubelet-rotate-kubelet-server-certificate"],
-    "baseScore": 6
+    "rulesNames": [
+        "kubelet-rotate-kubelet-server-certificate"
+    ],
+    "baseScore": 6,
+    "impact_statement": "None\n\n",
+    "default_value": "By default, kubelet server certificate rotation is enabled."
 }

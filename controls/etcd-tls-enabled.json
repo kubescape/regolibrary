@@ -4,7 +4,7 @@
     "name": "Ensure that the --cert-file and --key-file arguments are set as appropriate",
     "description": "Configure TLS encryption for the etcd service.",
     "long_description": "etcd is a highly-available key value store used by Kubernetes deployments for persistent storage of all of its REST API objects. These objects are sensitive in nature and should be encrypted in transit.",
-    "remediation": "Follow the etcd service documentation and configure TLS encryption.\n\n Then, edit the etcd pod specification file `/etc/kubernetes/manifests/etcd.yaml` on the master node and set the below parameters.\n\n \n```\n--cert-file=</path/to/ca-file>\n--key-file=</path/to/key-file>\n\n```\n\n#### Impact Statement\nClient connections only over TLS would be served.\n\n#### Default Value\nBy default, TLS encryption is not set.",
+    "remediation": "Follow the etcd service documentation and configure TLS encryption.\n\n Then, edit the etcd pod specification file `/etc/kubernetes/manifests/etcd.yaml` on the master node and set the below parameters.\n\n \n```\n--cert-file=</path/to/ca-file>\n--key-file=</path/to/key-file>\n\n```\n\n",
     "manual_test": "Run the following command on the etcd server node\n\n \n```\nps -ef | grep etcd\n\n```\n Verify that the `--cert-file` and the `--key-file` arguments are set as appropriate.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126654/recommendations/1838562"
@@ -12,6 +12,10 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["etcd-tls-enabled"],
-    "baseScore": 8
+    "rulesNames": [
+        "etcd-tls-enabled"
+    ],
+    "baseScore": 8,
+    "impact_statement": "Client connections only over TLS would be served.\n\n",
+    "default_value": "By default, TLS encryption is not set."
 }

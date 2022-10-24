@@ -4,7 +4,7 @@
     "name": "Ensure that the --make-iptables-util-chains argument is set to true",
     "description": "Allow Kubelet to manage iptables.",
     "long_description": "Kubelets can automatically manage the required changes to iptables based on how you choose your networking options for the pods. It is recommended to let kubelets manage the changes to iptables. This ensures that the iptables configuration remains in sync with pods networking configuration. Manually configuring iptables with dynamic pod network configuration changes might hamper the communication between pods/containers and to the outside world. You might have iptables rules too restrictive or too open.",
-    "remediation": "If using a Kubelet config file, edit the file to set `makeIPTablesUtilChains: true`.\n\n If using command line arguments, edit the kubelet service file `/etc/kubernetes/kubelet.conf` on each worker node and remove the `--make-iptables-util-chains` argument from the `KUBELET_SYSTEM_PODS_ARGS` variable.\n\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```\n\n#### Impact Statement\nKubelet would manage the iptables on the system and keep it in sync. If you are using any other iptables management solution, then there might be some conflicts.\n\n#### Default Value\nBy default, `--make-iptables-util-chains` argument is set to `true`.",
+    "remediation": "If using a Kubelet config file, edit the file to set `makeIPTablesUtilChains: true`.\n\n If using command line arguments, edit the kubelet service file `/etc/kubernetes/kubelet.conf` on each worker node and remove the `--make-iptables-util-chains` argument from the `KUBELET_SYSTEM_PODS_ARGS` variable.\n\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```\n\n",
     "manual_test": "Run the following command on each node:\n\n \n```\nps -ef | grep kubelet\n\n```\n Verify that if the `--make-iptables-util-chains` argument exists then it is set to `true`.\n\n If the `--make-iptables-util-chains` argument does not exist, and there is a Kubelet config file specified by `--config`, verify that the file does not set `makeIPTablesUtilChains` to `false`.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126668/recommendations/1838651"
@@ -12,6 +12,10 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["kubelet-ip-tables"],
-    "baseScore": 3
+    "rulesNames": [
+        "kubelet-ip-tables"
+    ],
+    "baseScore": 3,
+    "impact_statement": "Kubelet would manage the iptables on the system and keep it in sync. If you are using any other iptables management solution, then there might be some conflicts.\n\n",
+    "default_value": "By default, `--make-iptables-util-chains` argument is set to `true`."
 }

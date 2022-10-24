@@ -4,7 +4,7 @@
     "name": "Ensure that the controller manager pod specification file ownership is set to root:root",
     "description": "Ensure that the controller manager pod specification file ownership is set to `root:root`.",
     "long_description": "The controller manager pod specification file controls various parameters that set the behavior of various components of the master node. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`.",
-    "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchown root:root /etc/kubernetes/manifests/kube-controller-manager.yaml\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, `kube-controller-manager.yaml` file ownership is set to `root:root`.",
+    "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchown root:root /etc/kubernetes/manifests/kube-controller-manager.yaml\n\n```\n\n",
     "manual_test": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nstat -c %U:%G /etc/kubernetes/manifests/kube-controller-manager.yaml\n\n```\n Verify that the ownership is set to `root:root`.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126653/recommendations/1838566"
@@ -23,5 +23,7 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "baseScore": 6
+    "baseScore": 6,
+    "impact_statement": "None\n\n",
+    "default_value": "By default, `kube-controller-manager.yaml` file ownership is set to `root:root`."
 }

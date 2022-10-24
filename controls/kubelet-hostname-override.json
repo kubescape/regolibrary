@@ -4,7 +4,7 @@
     "name": "Ensure that the --hostname-override argument is not set",
     "description": "Do not override node hostnames.",
     "long_description": "Overriding hostnames could potentially break TLS setup between the kubelet and the apiserver. Additionally, with overridden hostnames, it becomes increasingly difficult to associate logs with a particular node and process them for security analytics. Hence, you should setup your kubelet nodes with resolvable FQDNs and avoid overriding the hostnames with IPs.",
-    "remediation": "Edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubeadm.conf` on each worker node and remove the `--hostname-override` argument from the `KUBELET_SYSTEM_PODS_ARGS` variable.\n\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```\n\n#### Impact Statement\nSome cloud providers may require this flag to ensure that hostname matches names issued by the cloud provider. In these environments, this recommendation should not apply.\n\n#### Default Value\nBy default, `--hostname-override` argument is not set.",
+    "remediation": "Edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubeadm.conf` on each worker node and remove the `--hostname-override` argument from the `KUBELET_SYSTEM_PODS_ARGS` variable.\n\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```\n\n",
     "manual_test": "Run the following command on each node:\n\n \n```\nps -ef | grep kubelet\n\n```\n Verify that `--hostname-override` argument does not exist.\n\n **Note** This setting is not configurable via the Kubelet config file.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126668/recommendations/1838654"
@@ -12,6 +12,10 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["kubelet-hostname-override"],
-    "baseScore": 3
+    "rulesNames": [
+        "kubelet-hostname-override"
+    ],
+    "baseScore": 3,
+    "impact_statement": "Some cloud providers may require this flag to ensure that hostname matches names issued by the cloud provider. In these environments, this recommendation should not apply.\n\n",
+    "default_value": "By default, `--hostname-override` argument is not set."
 }
