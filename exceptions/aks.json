@@ -246,7 +246,7 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
-                    "kind": "replicaset",
+                    "kind": "ReplicaSet",
                     "namespace": "kube-system",
                     "name": "coredns-autoscaler-[A-Za-z0-9]+"
                 }
@@ -254,7 +254,7 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
-                    "kind": "replicaset",
+                    "kind": "ReplicaSet",
                     "namespace": "kube-system",
                     "name": "coredns-[A-Za-z0-9]+"
                 }
@@ -262,7 +262,7 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
-                    "kind": "replicaset",
+                    "kind": "ReplicaSet",
                     "namespace": "kube-system",
                     "name": "konnectivity-agent-[A-Za-z0-9]+"
                 }
@@ -270,7 +270,7 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
-                    "kind": "replicaset",
+                    "kind": "ReplicaSet",
                     "namespace": "kube-system",
                     "name": "metrics-server-[A-Za-z0-9]+"
                 }
@@ -278,7 +278,7 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
-                    "kind": "replicaset",
+                    "kind": "ReplicaSet",
                     "namespace": "kube-system",
                     "name": "omsagent-rs-[A-Za-z0-9]+"
                 }
