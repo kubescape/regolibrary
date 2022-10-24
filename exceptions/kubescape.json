@@ -13,12 +13,29 @@
                 "designatorType": "Attributes",
                 "attributes": {
                     "kind": "Namespace",
+                    "name": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "name": "default",
+                    "kind": "ServiceAccount",
                     "namespace": "kubescape"
                 }
             },
             {
                 "designatorType": "Attributes",
                 "attributes": {
+                    "name": "kubescape-sa",
+                    "kind": "ServiceAccount",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "name": "ks-sa",
                     "kind": "ServiceAccount",
                     "namespace": "kubescape"
                 }
@@ -60,6 +77,22 @@
                 "attributes": {
                     "kind": "StatefulSet",
                     "name": "kollector",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "CronJob",
+                    "name": "kubescape-scheduler",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "CronJob",
+                    "name": "kubevuln-scheduler",
                     "namespace": "kubescape"
                 }
             }
