@@ -1,0 +1,17 @@
+{
+    "id": "CIS-4.2.4",
+    "controlID": "CIS-4.2.4",
+    "name": "Verify that the --read-only-port argument is set to 0",
+    "description": "Disable the read-only port.",
+    "long_description": "The Kubelet process provides a read-only API in addition to the main Kubelet API. Unauthenticated access is provided to this read-only API which could possibly retrieve potentially sensitive information about the cluster.",
+    "remediation": "If using a Kubelet config file, edit the file to set `readOnlyPort` to `0`.\n\n If using command line arguments, edit the kubelet service file `/etc/kubernetes/kubelet.conf` on each worker node and set the below parameter in `KUBELET_SYSTEM_PODS_ARGS` variable.\n\n \n```\n--read-only-port=0\n\n```\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```\n\n#### Impact Statement\nRemoval of the read-only port will require that any service which made use of it will need to be re-configured to use the main Kubelet API.\n\n#### Default Value\nBy default, `--read-only-port` is set to `10255/TCP`. However, if a config file is specified by `--config` the default value for `readOnlyPort` is 0.",
+    "manual_test": "Run the following command on each node:\n\n \n```\nps -ef | grep kubelet\n\n```\n Verify that the `--read-only-port` argument exists and is set to `0`.\n\n If the `--read-only-port` argument is not present, check that there is a Kubelet config file specified by `--config`. Check that if there is a `readOnlyPort` entry in the file, it is set to `0`.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126668/recommendations/1838645"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": ["read-only-port-enabled-updated"],
+    "baseScore": 4
+}

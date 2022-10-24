@@ -1,0 +1,19 @@
+[
+    {
+        "alertMessage": "Failed to analyze config file",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "cmdLine": "  --config=/var/lib/kubelet/config.yaml",
+                    "configFile": {}
+                },
+                "kind": "KubeletInfo"
+            }
+        },
+        "alertScore": 6,
+        "failedPaths": [],
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]
