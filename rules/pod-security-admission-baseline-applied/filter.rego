@@ -43,9 +43,7 @@ deny[msga] {
 
 
 baseline_admission_policy_enabled(namespace){
-	some key, value in namespace.metadata.labels 
-    key == "pod-security.kubernetes.io/enforce"
-	value in ["baseline", "restricted"]
+	namespace.metadata.labels["pod-security.kubernetes.io/enforce"] in ["baseline", "restricted"]
 }
 
 has_external_policy_control(inp){
