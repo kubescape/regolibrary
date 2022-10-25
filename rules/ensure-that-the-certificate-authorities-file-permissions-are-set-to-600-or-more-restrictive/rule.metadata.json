@@ -1,0 +1,30 @@
+{
+    "name": "ensure-that-the-certificate-authorities-file-permissions-are-set-to-600-or-more-restrictive",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [],
+    "dynamicMatch": [
+        {
+            "apiGroups": [
+                "hostdata.kubescape.cloud"
+            ],
+            "apiVersions": [
+                "v1beta0"
+            ],
+            "resources": [
+                "KubeletInfo"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+        {
+            "packageName": "cautils"
+        }
+    ],
+    "description": "Ensure that the certificate authorities file has permissions of `600` or more restrictive.",
+    "remediation": "Run the following command to modify the file permissions of the `--client-ca-file`\n\n \n```\nchmod 600 <filename>\n\n```",
+    "ruleQuery": ""
+}

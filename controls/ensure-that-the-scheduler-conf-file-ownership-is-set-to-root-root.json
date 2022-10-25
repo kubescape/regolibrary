@@ -9,16 +9,8 @@
     "references": [
         "https://workbench.cisecurity.org/sections/1126653/recommendations/1838587"
     ],
-    "fixedInput": {
-        "fileObjPath": [
-            "data/schedulerInfo/configFile"
-        ],
-        "kindFilter": [
-            "ControlPlaneInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-owners-root"
+        "ensure-that-the-scheduler.conf-file-ownership-is-set-to-root-root"
     ],
     "attributes": {
         "armoBuiltin": true

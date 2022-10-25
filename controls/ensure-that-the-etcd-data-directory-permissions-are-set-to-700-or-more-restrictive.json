@@ -9,16 +9,8 @@
     "references": [
         "https://workbench.cisecurity.org/sections/1126653/recommendations/1838577"
     ],
-    "fixedInput": {
-        "fileObjPath": [
-            "data/etcdDataDir"
-        ],
-        "kindFilter": [
-            "ControlPlaneInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-permissions-700"
+        "ensure-that-the-etcd-data-directory-permissions-are-set-to-700-or-more-restrictive"
     ],
     "attributes": {
         "armoBuiltin": true

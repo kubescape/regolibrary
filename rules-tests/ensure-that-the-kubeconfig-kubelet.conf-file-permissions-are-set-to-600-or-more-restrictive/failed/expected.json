@@ -1,0 +1,31 @@
+[
+    {
+        "alertMessage": "the permissions of /var/lib/kubelet/config.yaml are too permissive. maximum allowed: 600. actual: 700",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "kubeConfigFile": {
+                        "ownership": {
+                            "gid": 1,
+                            "groupname": "root",
+                            "uid": 0,
+                            "username": "noroot"
+                        },
+                        "path": "/var/lib/kubelet/config.yaml",
+                        "permissions": 448
+                    }
+                },
+                "kind": "KubeletInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chmod 600 /var/lib/kubelet/config.yaml",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

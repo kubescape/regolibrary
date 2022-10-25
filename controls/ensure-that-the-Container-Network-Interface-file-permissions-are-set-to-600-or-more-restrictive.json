@@ -12,16 +12,8 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "fixedInput": {
-        "fileObjPath": [
-            "data/CNIConfigFiles"
-        ],
-        "kindFilter": [
-            "ControlPlaneInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-permissions-600"
+        "ensure-that-the-Container-Network-Interface-file-permissions-are-set-to-600-or-more-restrictive"
     ],
     "baseScore": 6,
     "impact_statement": "None",

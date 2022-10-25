@@ -9,16 +9,8 @@
     "references": [
         "https://workbench.cisecurity.org/sections/1126653/recommendations/1838570"
     ],
-    "fixedInput": {
-        "fileObjPath": [
-            "data/schedulerInfo/specsFile"
-        ],
-        "kindFilter": [
-            "ControlPlaneInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-owners-root"
+        "ensure-that-the-scheduler-pod-specification-file-ownership-is-set-to-root-root"
     ],
     "attributes": {
         "armoBuiltin": true

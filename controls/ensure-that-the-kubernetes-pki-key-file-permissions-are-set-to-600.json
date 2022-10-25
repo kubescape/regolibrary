@@ -9,19 +9,8 @@
     "references": [
         "https://workbench.cisecurity.org/sections/1126653/recommendations/1838608"
     ],
-    "fixedInput": {
-        "fileObjPath": [
-            "data/PKIFiles"
-        ],
-        "kindFilter": [
-            "ControlPlaneInfo"
-        ],
-        "pathGlob": [
-            "*.key"
-        ]
-    },
     "rulesNames": [
-        "strict-file-permissions-600"
+        "ensure-that-the-Kubernetes-PKI-key-file-permissions-are-set-to-600"
     ],
     "attributes": {
         "armoBuiltin": true

@@ -1,0 +1,31 @@
+[
+    {
+        "alertMessage": "/var/lib/minikube/certs/ca.crt is not owned by root:root (actual owners are root:noroot)",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "clientCAFile": {
+                        "ownership": {
+                            "gid": 1,
+                            "groupname": "noroot",
+                            "uid": 0,
+                            "username": "root"
+                        },
+                        "path": "/var/lib/minikube/certs/ca.crt",
+                        "permissions": 432
+                    }
+                },
+                "kind": "KubeletInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chown root:root /var/lib/minikube/certs/ca.crt",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

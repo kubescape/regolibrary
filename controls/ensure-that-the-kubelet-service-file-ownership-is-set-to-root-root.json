@@ -12,16 +12,8 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "fixedInput": {
-        "fileObjPath": [
-            "data/serviceFiles"
-        ],
-        "kindFilter": [
-            "KubeletInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-owners-root"
+        "ensure-that-the-kubelet-service-file-ownership-is-set-to-root-root"
     ],
     "baseScore": 6,
     "impact_statement": "None",

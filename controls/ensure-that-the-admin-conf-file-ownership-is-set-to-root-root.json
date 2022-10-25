@@ -9,16 +9,8 @@
     "references": [
         "https://workbench.cisecurity.org/sections/1126653/recommendations/1838584"
     ],
-    "fixedInput": {
-        "fileObjPath": [
-            "data/adminConfigFile"
-        ],
-        "kindFilter": [
-            "ControlPlaneInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-owners-root"
+        "ensure-that-the-admin.conf-file-ownership-is-set-to-root-root"
     ],
     "attributes": {
         "armoBuiltin": true

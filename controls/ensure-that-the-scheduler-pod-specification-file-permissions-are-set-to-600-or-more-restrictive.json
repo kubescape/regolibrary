@@ -9,16 +9,8 @@
     "references": [
         "https://workbench.cisecurity.org/sections/1126653/recommendations/1838568"
     ],
-    "fixedInput": {
-        "fileObjPath": [
-            "data/schedulerInfo/specsFile"
-        ],
-        "kindFilter": [
-            "ControlPlaneInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-permissions-600"
+        "ensure-that-the-scheduler-pod-specification-file-permissions-are-set-to-600-or-more-restrictive"
     ],
     "attributes": {
         "armoBuiltin": true
