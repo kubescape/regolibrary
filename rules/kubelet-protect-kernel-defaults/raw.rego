@@ -13,7 +13,7 @@ deny[msga] {
 	contains(command, "--protect-kernel-defaults")
 	not contains(command, "--protect-kernel-defaults=true")
 
-	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind"])
+	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 
 	msga := {
 		"alertMessage": "Argument --protect-kernel-defaults is not set to true.",
@@ -21,7 +21,7 @@ deny[msga] {
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
-		"alertObject": {"alertObject": external_obj},
+		"alertObject": {"externalObjects": external_obj},
 	}
 }
 
@@ -47,6 +47,7 @@ deny[msga] {
 		"alertObject": {"externalObjects": {
 			"apiVersion": obj.apiVersion,
 			"kind": obj.kind,
+			"metadata": obj.metadata,
 			"data": {"configFile": {"content": decodedConfigContent}},
 		}},
 	}
@@ -61,7 +62,7 @@ deny[msga] {
 	not contains(command, "--protect-kernel-defaults")
 	not contains(command, "--config")
 
-	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind"])
+	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 
 	msga := {
 		"alertMessage": "Argument --protect-kernel-defaults is not set to true.",
@@ -69,7 +70,7 @@ deny[msga] {
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
-		"alertObject": {"alertObject": external_obj},
+		"alertObject": {"externalObjects": external_obj},
 	}
 }
 

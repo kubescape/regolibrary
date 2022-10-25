@@ -14,7 +14,7 @@ deny[msga] {
 
 	not has_strong_cipher_set_via_cli(command)
 
-	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind"])
+	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 
 	msga := {
 		"alertMessage": "Kubelet is not configured to only use strong cryptographic ciphers",
@@ -50,6 +50,7 @@ deny[msga] {
 		"alertObject": {"externalObjects": {
 			"apiVersion": obj.apiVersion,
 			"kind": obj.kind,
+			"metadata": obj.metadata,
 			"data": {"configFile": {"content": decodedConfigContent}},
 		}},
 	}
@@ -64,7 +65,7 @@ deny[msga] {
 	not contains(command, "--tls-cipher-suites")
 	not contains(command, "--config")
 
-	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind"])
+	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 
 	msga := {
 		"alertMessage": "Kubelet is not configured to only use strong cryptographic ciphers",

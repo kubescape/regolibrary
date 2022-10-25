@@ -15,7 +15,7 @@ deny[msga] {
 
 	failed_args := extract_failed_object(res, "cliArg")
 
-	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind"])
+	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 
 	msga := {
 		"alertMessage": sprintf("%v should be set", [failed_args]),
@@ -55,6 +55,7 @@ deny[msga] {
 		"alertObject": {"externalObjects": {
 			"apiVersion": obj.apiVersion,
 			"kind": obj.kind,
+			"metadata": obj.metadata,
 			"data": {"configFile": {"content": decodedConfigContent}},
 		}},
 	}
@@ -91,6 +92,7 @@ deny[msga] {
 		"alertObject": {"externalObjects": {
 			"apiVersion": obj.apiVersion,
 			"kind": obj.kind,
+			"metadata": obj.metadata,
 			"data": {"configFile": {"content": decodedConfigContent}},
 		}},
 	}

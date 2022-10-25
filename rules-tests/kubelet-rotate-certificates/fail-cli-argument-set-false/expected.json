@@ -1,18 +1,22 @@
 [
-    {
-        "alertMessage": "Kubelet client certificates rotation is disabled",
-        "alertObject": {
-            "externalObjects": {
-                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
-                "data": {
-                    "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --rotate-certificates=false"
-                },
-                "kind": "KubeletInfo"
+   {
+      "alertMessage": "Kubelet client certificates rotation is disabled",
+      "alertObject": {
+         "externalObjects": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "data": {
+               "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --rotate-certificates=false"
+            },
+            "kind": "KubeletInfo",
+            "metadata": {
+               "name": ""
             }
-        },
-        "alertScore": 6,
-        "failedPaths": [],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+         }
+      },
+      "alertScore": 6, 
+      "failedPaths": [],
+      "fixPaths": [],
+      "ruleStatus": "",
+      "packagename": "armo_builtins"
+   }
 ]

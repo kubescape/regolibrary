@@ -13,7 +13,7 @@ deny[msga] {
 
 	not is_RotateKubeletServerCertificate_enabled_via_cli(command)
 
-	external_obj := json.filter(kubelet_info, ["apiVersion", "data/cmdLine", "kind"])
+	external_obj := json.filter(kubelet_info, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 
 	msga := {
 		"alertMessage": "RotateKubeletServerCertificate is not set to true",

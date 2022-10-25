@@ -1,22 +1,26 @@
 [
-    {
-        "alertMessage": "kubelet read-only port is not disabled",
-        "alertObject": {
-            "externalObjects": {
-                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
-                "data": {
-                    "configFile": {
-                        "content": "apiVersion: kubelet.config.k8s.io/v1beta1\nfeatureGates:\n  RotateKubeletClientCertificate: false\nreadOnlyPort: 1\nauthentication:\n  anonymous:\n    enabled: false\n  webhook:\n    cacheTTL: 0s\n    enabled: true\nauthorization:\n  mode: Webhook\n  webhook:\n    cacheAuthorizedTTL: 0s\n    cacheUnauthorizedTTL: 0s"
-                    }
-                },
-                "kind": "KubeletInfo"
+   {
+      "alertMessage": "kubelet read-only port is not disabled",
+      "alertObject": {
+         "externalObjects": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "data": {
+               "configFile": {
+                  "content": "apiVersion: kubelet.config.k8s.io/v1beta1\nfeatureGates:\n  RotateKubeletClientCertificate: false\nreadOnlyPort: 1\nauthentication:\n  anonymous:\n    enabled: false\n  webhook:\n    cacheTTL: 0s\n    enabled: true\nauthorization:\n  mode: Webhook\n  webhook:\n    cacheAuthorizedTTL: 0s\n    cacheUnauthorizedTTL: 0s"
+               }
+            },
+            "kind": "KubeletInfo",
+            "metadata": {
+               "name": ""
             }
-        },
-        "alertScore": 4,
-        "failedPaths": [
-            "readOnlyPort"
-        ],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+         }
+      },
+      "alertScore": 4,
+      "failedPaths": [
+         "readOnlyPort"
+      ],
+      "fixPaths": [],
+      "ruleStatus": "",
+      "packagename": "armo_builtins"
+   }
 ]

@@ -12,7 +12,7 @@ deny[msga] {
 
 	contains(command, "--hostname-override")
 
-	external_obj := json.filter(kubelet_info, ["apiVersion", "data/cmdLine", "kind"])
+	external_obj := json.filter(kubelet_info, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 
 	msga := {
 		"alertMessage": "Argument --hostname-override is set.",
@@ -20,6 +20,6 @@ deny[msga] {
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
-		"alertObject": {"alertObject": external_obj},
+		"alertObject": {"externalObjects": external_obj},
 	}
 }
