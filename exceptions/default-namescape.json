@@ -1,0 +1,40 @@
+[
+    {
+        "name": "exclude-default-namespace-resources",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ConfigMap",
+                    "name": "kubescape",
+                    "namespace": "default"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Namespace",
+                    "name": "default"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "default",
+                    "namespace": "default"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    }
+]

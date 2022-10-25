@@ -1,0 +1,40 @@
+[
+    {
+        "name": "exclude-kubescape-prometheus-resources",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Namespace",
+                    "name": "kubescape-prometheus"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "name": "default",
+                    "kind": "ServiceAccount",
+                    "namespace": "kubescape-prometheus"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "kubescape",
+                    "namespace": "kubescape-prometheus"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    }
+]
