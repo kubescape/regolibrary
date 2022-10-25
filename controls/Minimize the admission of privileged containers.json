@@ -4,7 +4,7 @@
     "name": "Minimize the admission of privileged containers",
     "description": "Do not generally permit containers to be run with the `securityContext.privileged` flag set to `true`.",
     "long_description": "Privileged containers have access to all Linux Kernel capabilities and devices. A container running with full privileges can do almost everything that the host can do. This flag exists to allow special use-cases, like manipulating the network stack and accessing devices.\n\n There should be at least one admission control policy defined which does not permit privileged containers.\n\n If you need to run privileged containers, this should be defined in a separate policy and you should carefully check to ensure that only limited service accounts and users are given permission to use that policy.",
-    "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of privileged containers.\n\n",
+    "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of privileged containers.",
     "manual_test": "List the policies in use for each namespace in the cluster, ensure that each policy disallows the admission of privileged containers.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126662/recommendations/1838601"
@@ -16,6 +16,6 @@
         "pod-security-admission-baseline-applied"
     ],
     "baseScore": 8,
-    "impact_statement": "Pods defined with `spec.containers[].securityContext.privileged: true`, `spec.initContainers[].securityContext.privileged: true` and `spec.ephemeralContainers[].securityContext.privileged: true` will not be permitted.\n\n",
+    "impact_statement": "Pods defined with `spec.containers[].securityContext.privileged: true`, `spec.initContainers[].securityContext.privileged: true` and `spec.ephemeralContainers[].securityContext.privileged: true` will not be permitted.",
     "default_value": "By default, there are no restrictions on the creation of privileged containers."
 }

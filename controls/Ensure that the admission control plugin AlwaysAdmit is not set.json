@@ -4,7 +4,7 @@
     "name": "Ensure that the admission control plugin AlwaysAdmit is not set",
     "description": "Do not allow all requests.",
     "long_description": "Setting admission control plugin `AlwaysAdmit` allows all requests and do not filter any requests.\n\n The `AlwaysAdmit` admission controller was deprecated in Kubernetes v1.13. Its behavior was equivalent to turning off all admission controllers.",
-    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and either remove the `--enable-admission-plugins` parameter, or set it to a value that does not include `AlwaysAdmit`.\n\n",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and either remove the `--enable-admission-plugins` parameter, or set it to a value that does not include `AlwaysAdmit`.",
     "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that if the `--enable-admission-plugins` argument is set, its value does not include `AlwaysAdmit`.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126663/recommendations/1838647"
@@ -16,6 +16,6 @@
         "ensure-that-the-admission-control-plugin-AlwaysAdmit-is-not-set"
     ],
     "baseScore": 8,
-    "impact_statement": "Only requests explicitly allowed by the admissions control plugins would be served.\n\n",
+    "impact_statement": "Only requests explicitly allowed by the admissions control plugins would be served.",
     "default_value": "`AlwaysAdmit` is not in the list of default admission plugins."
 }

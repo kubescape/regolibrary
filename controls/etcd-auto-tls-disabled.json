@@ -4,7 +4,7 @@
     "name": "Ensure that the --auto-tls argument is not set to true",
     "description": "Do not use self-signed certificates for TLS.",
     "long_description": "etcd is a highly-available key value store used by Kubernetes deployments for persistent storage of all of its REST API objects. These objects are sensitive in nature and should not be available to unauthenticated clients. You should enable the client authentication via valid certificates to secure the access to the etcd service.",
-    "remediation": "Edit the etcd pod specification file `/etc/kubernetes/manifests/etcd.yaml` on the master node and either remove the `--auto-tls` parameter or set it to `false`.\n\n \n```\n--auto-tls=false\n\n```\n\n",
+    "remediation": "Edit the etcd pod specification file `/etc/kubernetes/manifests/etcd.yaml` on the master node and either remove the `--auto-tls` parameter or set it to `false`.\n\n \n```\n--auto-tls=false\n\n```",
     "manual_test": "Run the following command on the etcd server node:\n\n \n```\nps -ef | grep etcd\n\n```\n Verify that if the `--auto-tls` argument exists, it is not set to `true`.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126654/recommendations/1838567"
@@ -16,6 +16,6 @@
         "etcd-auto-tls-disabled"
     ],
     "baseScore": 6,
-    "impact_statement": "Clients will not be able to use self-signed certificates for TLS.\n\n",
+    "impact_statement": "Clients will not be able to use self-signed certificates for TLS.",
     "default_value": "By default, `--auto-tls` is set to `false`."
 }

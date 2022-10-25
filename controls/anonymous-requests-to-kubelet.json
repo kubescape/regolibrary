@@ -4,7 +4,7 @@
     "name": "Ensure that the --anonymous-auth argument is set to false",
     "description": "Disable anonymous requests to the Kubelet server.",
     "long_description": "When enabled, requests that are not rejected by other configured authentication methods are treated as anonymous requests. These requests are then served by the Kubelet server. You should rely on authentication to authorize access and disallow anonymous requests.",
-    "remediation": "If using a Kubelet config file, edit the file to set `authentication: anonymous: enabled` to `false`.\n\n If using executable arguments, edit the kubelet service file `/etc/kubernetes/kubelet.conf` on each worker node and set the below parameter in `KUBELET_SYSTEM_PODS_ARGS` variable.\n\n \n```\n--anonymous-auth=false\n\n```\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```\n\n",
+    "remediation": "If using a Kubelet config file, edit the file to set `authentication: anonymous: enabled` to `false`.\n\n If using executable arguments, edit the kubelet service file `/etc/kubernetes/kubelet.conf` on each worker node and set the below parameter in `KUBELET_SYSTEM_PODS_ARGS` variable.\n\n \n```\n--anonymous-auth=false\n\n```\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```",
     "manual_test": "If using a Kubelet configuration file, check that there is an entry for `authentication: anonymous: enabled` set to `false`.\n\n Run the following command on each node:\n\n \n```\nps -ef | grep kubelet\n\n```\n Verify that the `--anonymous-auth` argument is set to `false`.\n\n This executable argument may be omitted, provided there is a corresponding entry set to `false` in the Kubelet config file.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126668/recommendations/1838638"
@@ -16,6 +16,6 @@
         "anonymous-requests-to-kubelet-service-updated"
     ],
     "baseScore": 7,
-    "impact_statement": "Anonymous requests will be rejected.\n\n",
+    "impact_statement": "Anonymous requests will be rejected.",
     "default_value": "By default, anonymous access is enabled."
 }
