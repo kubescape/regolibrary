@@ -1,0 +1,10 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "KubeletInfo",
+    "data": {
+        "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --streaming-connection-idle-timeout=0 --protect-kernel-defaults=false --config=/var/lib/kubelet/config.yaml",
+        "configFile": {
+            "content": "YXBpVmVyc2lvbjoga3ViZWxldC5jb25maWcuazhzLmlvL3YxYmV0YTEKZmVhdHVyZUdhdGVzOgogIFJvdGF0ZUt1YmVsZXRDbGllbnRDZXJ0aWZpY2F0ZTogZmFsc2UKcmVhZE9ubHlQb3J0OiAxCmF1dGhlbnRpY2F0aW9uOgogIGFub255bW91czoKICAgIGVuYWJsZWQ6IGZhbHNlCiAgd2ViaG9vazoKICAgIGNhY2hlVFRMOiAwcwogICAgZW5hYmxlZDogdHJ1ZQphdXRob3JpemF0aW9uOgogIG1vZGU6IFdlYmhvb2sKICB3ZWJob29rOgogICAgY2FjaGVBdXRob3JpemVkVFRMOiAwcwogICAgY2FjaGVVbmF1dGhvcml6ZWRUVEw6IDBz"
+        }
+    }
+}

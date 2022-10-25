@@ -4,24 +4,18 @@
     "name": "Ensure that the controller manager pod specification file permissions are set to 600 or more restrictive",
     "description": "Ensure that the controller manager pod specification file has permissions of `600` or more restrictive.",
     "long_description": "The controller manager pod specification file controls various parameters that set the behavior of the Controller Manager on the master node. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",
-    "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchmod 600 /etc/kubernetes/manifests/kube-controller-manager.yaml\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, the `kube-controller-manager.yaml` file has permissions of `640`.",
+    "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchmod 600 /etc/kubernetes/manifests/kube-controller-manager.yaml\n\n```",
     "manual_test": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nstat -c %a /etc/kubernetes/manifests/kube-controller-manager.yaml\n\n```\n Verify that the permissions are `600` or more restrictive.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126653/recommendations/1838564"
     ],
-    "fixedInput": {
-        "fileObjPath": [
-            "data/controllerManagerInfo/specsFile"
-        ],
-        "kindFilter": [
-            "ControlPlaneInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-permissions-600"
+        "ensure-that-the-controller-manager-pod-specification-file-permissions-are-set-to-600-or-more-restrictive"
     ],
     "attributes": {
         "armoBuiltin": true
     },
-    "baseScore": 6
+    "baseScore": 6,
+    "impact_statement": "None",
+    "default_value": "By default, the `kube-controller-manager.yaml` file has permissions of `640`."
 }

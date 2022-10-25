@@ -4,24 +4,18 @@
     "name": "Ensure that the certificate authorities file permissions are set to 600 or more restrictive",
     "description": "Ensure that the certificate authorities file has permissions of `600` or more restrictive.",
     "long_description": "The certificate authorities file controls the authorities used to validate API requests. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",
-    "remediation": "Run the following command to modify the file permissions of the `--client-ca-file`\n\n \n```\nchmod 600 <filename>\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default no `--client-ca-file` is specified.",
+    "remediation": "Run the following command to modify the file permissions of the `--client-ca-file`\n\n \n```\nchmod 600 <filename>\n\n```",
     "manual_test": "Run the following command:\n\n \n```\nps -ef | grep kubelet\n\n```\n Find the file specified by the `--client-ca-file` argument.\n\n Run the following command:\n\n \n```\nstat -c %a <filename>\n\n```\n Verify that the permissions are `644` or more restrictive.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126659/recommendations/1838618"
     ],
-    "fixedInput": {
-        "fileObjPath": [
-            "data/clientCAFile"
-        ],
-        "kindFilter": [
-            "KubeletInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-permissions-600"
+        "ensure-that-the-certificate-authorities-file-permissions-are-set-to-600-or-more-restrictive"
     ],
     "attributes": {
         "armoBuiltin": true
     },
-    "baseScore": 7
+    "baseScore": 7,
+    "impact_statement": "None",
+    "default_value": "By default no `--client-ca-file` is specified."
 }

@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "Kubelet client certificates rotation is disabled",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "configFile": {
+                        "content": "apiVersion: kubelet.config.k8s.io/v1beta1\nfeatureGates:\n  RotateKubeletClientCertificate: false\nrotateCertificates: false\nauthentication:\n  anonymous:\n    enabled: false\n  webhook:\n    cacheTTL: 0s\n    enabled: true\n  x509:\n    clientCAFile: /var/lib/minikube/certs/ca.crt\nauthorization:\n  mode: Webhook\n  webhook:\n    cacheAuthorizedTTL: 0s\n    cacheUnauthorizedTTL: 0s"
+                    }
+                },
+                "kind": "KubeletInfo"
+            }
+        },
+        "alertScore": 6,
+        "failedPaths": [
+            "rotateCertificates"
+        ],
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

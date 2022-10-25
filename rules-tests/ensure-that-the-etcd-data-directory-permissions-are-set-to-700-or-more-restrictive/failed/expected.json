@@ -1,0 +1,31 @@
+[
+    {
+        "alertMessage": "the permissions of /var/lib/minikube/etcd are too permissive. maximum allowed: 700. actual: 770",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "etcdDataDir": {
+                        "ownership": {
+                            "gid": 0,
+                            "groupname": "root",
+                            "uid": 0,
+                            "username": "root"
+                        },
+                        "path": "/var/lib/minikube/etcd",
+                        "permissions": 504
+                    }
+                },
+                "kind": "ControlPlaneInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chmod 700 /var/lib/minikube/etcd",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

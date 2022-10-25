@@ -84,6 +84,19 @@
         "Ensure that default service accounts are not actively used",
         "Ensure that Service Account Tokens are only mounted where necessary",
         "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster",
+        "Ensure that the cluster has at least one active policy control mechanism in place",
+        "Minimize the admission of privileged containers",
+        "Minimize the admission of containers wishing to share the host process ID namespace",
+        "Minimize the admission of containers wishing to share the host IPC namespace",
+        "Minimize the admission of containers wishing to share the host network namespace",
+        "Minimize the admission of containers with allowPrivilegeEscalation",
+        "Minimize the admission of root containers",
+        "Minimize the admission of containers with the NET_RAW capability",
+        "Minimize the admission of containers with added capabilities",
+        "Minimize the admission of containers with capabilities assigned",
+        "Minimize the admission of Windows HostProcess Containers",
+        "Minimize the admission of HostPath volumes",
+        "Minimize the admission of containers which use HostPorts",
         "Ensure that all Namespaces have Network Policies defined",
         "Prefer using secrets as files over secrets as environment variables",
         "Create administrative boundaries between resources using namespaces",
@@ -96,7 +109,22 @@
         "Ensure that the --auto-tls argument is not set to true",
         "Ensure that the --peer-cert-file and --peer-key-file arguments are set as appropriate",
         "Ensure that the --peer-client-cert-auth argument is set to true",
-        "Ensure that the --peer-auto-tls argument is not set to true"
+        "Ensure that the --peer-auto-tls argument is not set to true",
+        "Prefer using secrets as files over secrets as environment variables",
+        "Ensure that the --anonymous-auth argument is set to false",
+        "Ensure that the --authorization-mode argument is not set to AlwaysAllow",
+        "Ensure that the --client-ca-file argument is set as appropriate",
+        "Verify that the --read-only-port argument is set to 0",
+        "Ensure that the --streaming-connection-idle-timeout argument is not set to 0",
+        "Ensure that the --protect-kernel-defaults argument is set to true",
+        "Ensure that the --make-iptables-util-chains argument is set to true",
+        "Ensure that the --hostname-override argument is not set",
+        "Ensure that the --event-qps argument is set to 0 or a level which ensures appropriate event capture",
+        "Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate",
+        "Ensure that the --rotate-certificates argument is not set to false",
+        "Verify that the RotateKubeletServerCertificate argument is set to true",
+        "Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers",
+        "Ensure that a unique Certificate Authority is used for etcd"
     ],
     "subSections": {
         "1": {
@@ -199,7 +227,8 @@
                 "CIS-2.3",
                 "CIS-2.4",
                 "CIS-2.5",
-                "CIS-2.6"
+                "CIS-2.6",
+                "CIS-2.7"
             ]
         },
         "4": {
@@ -221,6 +250,25 @@
                         "CIS-4.1.9",
                         "CIS-4.1.10"
                     ]
+                },
+                "2": {
+                    "name": "Kubelet",
+                    "id": "4.2",
+                    "controlsIDs": [
+                        "CIS-4.2.1",
+                        "CIS-4.2.2",
+                        "CIS-4.2.3",
+                        "CIS-4.2.4",
+                        "CIS-4.2.5",
+                        "CIS-4.2.6",
+                        "CIS-4.2.7",
+                        "CIS-4.2.8",
+                        "CIS-4.2.9",
+                        "CIS-4.2.10",
+                        "CIS-4.2.11",
+                        "CIS-4.2.12",
+                        "CIS-4.2.13"
+                    ]
                 }
             }
         },
@@ -239,6 +287,25 @@
                         "CIS-5.1.5",
                         "CIS-5.1.6",
                         "CIS-5.1.8"
+                    ]
+                },
+                "2": {
+                    "name": "Pod Security Standards",
+                    "id": "5.2",
+                    "controlsIDs": [
+                        "CIS-5.2.1",
+                        "CIS-5.2.2",
+                        "CIS-5.2.3",
+                        "CIS-5.2.4",
+                        "CIS-5.2.5",
+                        "CIS-5.2.6",
+                        "CIS-5.2.7",
+                        "CIS-5.2.8",
+                        "CIS-5.2.9",
+                        "CIS-5.2.10",
+                        "CIS-5.2.11",
+                        "CIS-5.2.12",
+                        "CIS-5.2.13"
                     ]
                 },
                 "3": {

@@ -1,0 +1,30 @@
+{
+    "name": "ensure-that-the-client-certificate-authorities-file-ownership-is-set-to-root-root",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [],
+    "dynamicMatch": [
+        {
+            "apiGroups": [
+                "hostdata.kubescape.cloud"
+            ],
+            "apiVersions": [
+                "v1beta0"
+            ],
+            "resources": [
+                "KubeletInfo"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+        {
+            "packageName": "cautils"
+        }
+    ],
+    "description": "Ensure that the certificate authorities file ownership is set to `root:root`.",
+    "remediation": "Run the following command to modify the ownership of the `--client-ca-file`.\n\n \n```\nchown root:root <filename>\n\n```",
+    "ruleQuery": ""
+}

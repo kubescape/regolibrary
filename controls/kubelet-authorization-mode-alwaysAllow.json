@@ -1,0 +1,21 @@
+{
+    "id": "CIS-4.2.2",
+    "controlID": "CIS-4.2.2",
+    "name": "Ensure that the --authorization-mode argument is not set to AlwaysAllow",
+    "description": "Do not allow all requests. Enable explicit authorization.",
+    "long_description": "Kubelets, by default, allow all authenticated requests (even anonymous ones) without needing explicit authorization checks from the apiserver. You should restrict this behavior and only allow explicitly authorized requests.",
+    "remediation": "If using a Kubelet config file, edit the file to set `authorization: mode` to `Webhook`.\n\n If using executable arguments, edit the kubelet service file `/etc/kubernetes/kubelet.conf` on each worker node and set the below parameter in `KUBELET_AUTHZ_ARGS` variable.\n\n \n```\n--authorization-mode=Webhook\n\n```\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```",
+    "manual_test": "Run the following command on each node:\n\n \n```\nps -ef | grep kubelet\n\n```\n If the `--authorization-mode` argument is present check that it is not set to `AlwaysAllow`. If it is not present check that there is a Kubelet config file specified by `--config`, and that file sets `authorization: mode` to something other than `AlwaysAllow`.\n\n It is also possible to review the running configuration of a Kubelet via the `/configz` endpoint on the Kubelet API port (typically `10250/TCP`). Accessing these with appropriate credentials will provide details of the Kubelet's configuration.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126668/recommendations/1838640"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "kubelet-authorization-mode-alwaysAllow"
+    ],
+    "baseScore": 6,
+    "impact_statement": "Unauthorized requests will be denied.",
+    "default_value": "By default, `--authorization-mode` argument is set to `AlwaysAllow`."
+}
