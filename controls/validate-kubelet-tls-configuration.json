@@ -4,7 +4,7 @@
     "name": "Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate",
     "description": "Setup TLS connection on the Kubelets.",
     "long_description": "The connections from the apiserver to the kubelet are used for fetching logs for pods, attaching (through kubectl) to running pods, and using the kubelet\u2019s port-forwarding functionality. These connections terminate at the kubelet\u2019s HTTPS endpoint. By default, the apiserver does not verify the kubelet\u2019s serving certificate, which makes the connection subject to man-in-the-middle attacks, and unsafe to run over untrusted and/or public networks.",
-    "remediation": "If using a Kubelet config file, edit the file to set tlsCertFile to the location of the certificate file to use to identify this Kubelet, and tlsPrivateKeyFile to the location of the corresponding private key file.\n\n If using command line arguments, edit the kubelet service file /etc/kubernetes/kubelet.conf on each worker node and set the below parameters in KUBELET\\_CERTIFICATE\\_ARGS variable.\n\n --tls-cert-file=<path/to/tls-certificate-file> --tls-private-key-file=<path/to/tls-key-file>\nBased on your system, restart the kubelet service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```\n\n#### Impact Statement\n\n\n#### Default Value\n",
+    "remediation": "If using a Kubelet config file, edit the file to set tlsCertFile to the location of the certificate file to use to identify this Kubelet, and tlsPrivateKeyFile to the location of the corresponding private key file.\n\n If using command line arguments, edit the kubelet service file /etc/kubernetes/kubelet.conf on each worker node and set the below parameters in KUBELET\\_CERTIFICATE\\_ARGS variable.\n\n --tls-cert-file=<path/to/tls-certificate-file> --tls-private-key-file=<path/to/tls-key-file>\nBased on your system, restart the kubelet service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```",
     "manual_test": "Run the following command on each node:\n\n \n```\nps -ef | grep kubelet\n\n```\n Verify that the --tls-cert-file and --tls-private-key-file arguments exist and they are set as appropriate.\n\n If these arguments are not present, check that there is a Kubelet config specified by --config and that it contains appropriate settings for tlsCertFile and tlsPrivateKeyFile.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126668/recommendations/1838657"
@@ -12,6 +12,10 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["validate-kubelet-tls-configuration-updated"],
-    "baseScore": 7
+    "rulesNames": [
+        "validate-kubelet-tls-configuration-updated"
+    ],
+    "baseScore": 7,
+    "impact_statement": "",
+    "default_value": ""
 }

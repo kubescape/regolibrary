@@ -208,6 +208,10 @@ def create_md_for_control(control):
 
     md_text += '## Remediation\n'
     md_text += control['remediation'] + '\n'
+    if 'impact_statement' in control:
+        md_text += '### Impact Statement\n' + control['impact_statement'] + '\n'
+    if 'default_value' in control:
+        md_text += '### Default Value\n' + control['default_value'] + '\n'
 
     if len(control_config_input):
         configuration_text = '## Configuration\nThis control can be configured using the following parameters. Read CLI/UI documentation about how to change parameters.\n'
