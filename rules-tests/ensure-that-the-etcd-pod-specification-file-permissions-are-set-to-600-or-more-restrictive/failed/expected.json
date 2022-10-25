@@ -1,0 +1,31 @@
+[
+    {
+        "alertMessage": "the permissions of /etc/kubernetes/manifests/etcd.yaml are too permissive. maximum allowed: 600. actual: 770",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "etcdConfigFile": {
+                        "ownership": {
+                            "gid": 0,
+                            "groupname": "root",
+                            "uid": 0,
+                            "username": "root"
+                        },
+                        "path": "/etc/kubernetes/manifests/etcd.yaml",
+                        "permissions": 504
+                    }
+                },
+                "kind": "ControlPlaneInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chmod 600 /etc/kubernetes/manifests/etcd.yaml",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

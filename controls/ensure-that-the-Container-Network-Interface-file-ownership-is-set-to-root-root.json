@@ -12,16 +12,8 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "fixedInput": {
-        "fileObjPath": [
-            "data/CNIConfigFiles"
-        ],
-        "kindFilter": [
-            "ControlPlaneInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-owners-root"
+        "ensure-that-the-Container-Network-Interface-file-ownership-is-set-to-root-root"
     ],
     "baseScore": 6,
     "impact_statement": "None",

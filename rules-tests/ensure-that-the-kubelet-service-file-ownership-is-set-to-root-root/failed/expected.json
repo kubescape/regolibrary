@@ -1,0 +1,33 @@
+[
+    {
+        "alertMessage": "/systemd/system/kubelet.service is not owned by root:root (actual owners are root:noroot)",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "serviceFiles": [
+                        {
+                            "ownership": {
+                                "gid": 1,
+                                "groupname": "noroot",
+                                "uid": 0,
+                                "username": "root"
+                            },
+                            "path": "/systemd/system/kubelet.service",
+                            "permissions": 432
+                        }
+                    ]
+                },
+                "kind": "KubeletInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chown root:root /systemd/system/kubelet.service",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

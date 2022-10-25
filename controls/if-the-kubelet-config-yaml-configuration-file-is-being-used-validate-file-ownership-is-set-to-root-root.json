@@ -9,16 +9,8 @@
     "references": [
         "https://workbench.cisecurity.org/sections/1126659/recommendations/1838629"
     ],
-    "fixedInput": {
-        "fileObjPath": [
-            "data/configFile"
-        ],
-        "kindFilter": [
-            "KubeletInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-owners-root"
+        "if-the-kubelet-config.yaml-configuration-file-is-being-used-validate-file-ownership-is-set-to-root-root"
     ],
     "attributes": {
         "armoBuiltin": true

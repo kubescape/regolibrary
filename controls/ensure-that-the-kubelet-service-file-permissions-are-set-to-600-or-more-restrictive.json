@@ -12,16 +12,8 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "fixedInput": {
-        "fileObjPath": [
-            "data/serviceFiles"
-        ],
-        "kindFilter": [
-            "KubeletInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-permissions-600"
+        "ensure-that-the-kubelet-service-file-permissions-are-set-to-600-or-more-restrictive"
     ],
     "baseScore": 6,
     "impact_statement": "None",

@@ -9,16 +9,8 @@
     "references": [
         "https://workbench.cisecurity.org/sections/1126653/recommendations/1838571"
     ],
-    "fixedInput": {
-        "fileObjPath": [
-            "data/etcdConfigFile"
-        ],
-        "kindFilter": [
-            "ControlPlaneInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-permissions-600"
+        "ensure-that-the-etcd-pod-specification-file-permissions-are-set-to-600-or-more-restrictive"
     ],
     "attributes": {
         "armoBuiltin": true

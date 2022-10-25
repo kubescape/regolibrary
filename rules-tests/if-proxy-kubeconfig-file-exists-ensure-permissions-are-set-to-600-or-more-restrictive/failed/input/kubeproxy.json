@@ -1,0 +1,20 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "KubeProxyInfo",
+    "metadata": {
+        "name": "minikube"
+    },
+    "data": {
+        "kubeConfigFile": {
+            "ownership": {
+                "uid": 0,
+                "gid": 0,
+                "username": "root",
+                "groupname": "root"
+            },
+            "path": "/etc/kubernetes/kubelet.conf",
+            "permissions": 448
+        },
+        "cmdLine": "/usr/local/bin/kube-proxy --kubeconfig=/etc/kubernetes/kubelet.conf --config=/var/lib/kube-proxy/config.conf --hostname-override=minikube "
+    }
+}

@@ -13,7 +13,7 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "ensure-that-the-api-server-etcd-data-directory-ownership-is-set-to-etcd-etcd"
+        "ensure-that-the-etcd-data-directory-ownership-is-set-to-etcd-etcd"
     ],
     "baseScore": 7,
     "impact_statement": "None",

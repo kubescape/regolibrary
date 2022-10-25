@@ -9,16 +9,8 @@
     "references": [
         "https://workbench.cisecurity.org/sections/1126659/recommendations/1838619"
     ],
-    "fixedInput": {
-        "fileObjPath": [
-            "data/clientCAFile"
-        ],
-        "kindFilter": [
-            "KubeletInfo"
-        ]
-    },
     "rulesNames": [
-        "strict-file-owners-root"
+        "ensure-that-the-client-certificate-authorities-file-ownership-is-set-to-root-root"
     ],
     "attributes": {
         "armoBuiltin": true
