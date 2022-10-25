@@ -13,7 +13,7 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "kubelet-strong-cryptography-ciphers"
+        "kubelet-strong-cryptographics-ciphers"
     ],
     "baseScore": 5,
     "impact_statement": "Kubelet clients that cannot support modern cryptographic ciphers will not be able to make connections to the Kubelet API.",
