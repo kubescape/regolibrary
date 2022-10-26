@@ -1,18 +1,22 @@
 [
-    {
-        "alertMessage": "Anonymous requests is enabled.",
-        "alertObject": {
-            "externalObjects": {
-                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
-                "data": {
-                    "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet  --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --anonymous-auth=true --config=ss"
-                },
-                "kind": "KubeletInfo"
+   {
+      "alertMessage": "Anonymous requests is enabled.",
+      "alertObject": {
+         "externalObjects": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "data": {
+               "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet  --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --anonymous-auth=true --config=ss"
+            },
+            "kind": "KubeletInfo",
+            "metadata": {
+               "name": ""
             }
-        },
-        "alertScore": 7,
-        "failedPaths": [],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+         }
+      },
+      "alertScore": 7,
+      "failedPaths": [],
+      "fixPaths": [],
+      "ruleStatus": "",
+      "packagename": "armo_builtins"
+   }
 ]

@@ -13,7 +13,7 @@ deny[msga] {
 	contains(command, "--read-only-port")
 	not contains(command, "--read-only-port=0")
 
-	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind"])
+	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 
 	msga := {
 		"alertMessage": "kubelet read-only port is not disabled",
@@ -49,6 +49,7 @@ deny[msga] {
 		"alertObject": {"externalObjects": {
 			"apiVersion": obj.apiVersion,
 			"kind": obj.kind,
+			"metadata": obj.metadata,
 			"data": {"configFile": {"content": decodedConfigContent}},
 		}},
 	}

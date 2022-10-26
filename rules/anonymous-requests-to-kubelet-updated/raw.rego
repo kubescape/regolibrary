@@ -10,7 +10,7 @@ deny[msga] {
 	contains(command, "--anonymous-auth")
 	contains(command, "--anonymous-auth=true")
 
-	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind"])
+	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 
 	msga := {
 		"alertMessage": "Anonymous requests is enabled.",
@@ -30,7 +30,7 @@ deny[msga] {
 	not contains(command, "--anonymous-auth")
 	not contains(command, "--config")
 
-	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind"])
+	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 
 	msga := {
 		"alertMessage": "Anonymous requests is enabled.",
@@ -63,6 +63,7 @@ deny[msga] {
 		"alertObject": {"externalObjects": {
 			"apiVersion": obj.apiVersion,
 			"kind": obj.kind,
+			"metadata": obj.metadata,
 			"data": {"configFile": {"content": decodedConfigContent}},
 		}},
 	}

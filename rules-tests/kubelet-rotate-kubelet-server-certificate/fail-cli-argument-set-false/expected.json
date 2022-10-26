@@ -1,18 +1,21 @@
 [
-    {
-        "alertMessage": "RotateKubeletServerCertificate is not set to true",
-        "alertObject": {
-            "externalObjects": {
-                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
-                "data": {
-                    "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --feature-gates=GracefulNodeShutdown=true,RotateKubeletServerCertificate=false"
-                },
-                "kind": "KubeletInfo"
+   {
+      "alertMessage": "RotateKubeletServerCertificate is not set to true",
+      "alertObject": {
+         "externalObjects": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "data": {
+               "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --feature-gates=GracefulNodeShutdown=true,RotateKubeletServerCertificate=false"
+            },
+            "kind": "KubeletInfo",
+            "metadata": {
+               "name": ""
             }
-        },
-        "alertScore": 6,
-        "failedPaths": [],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+         }
+      },
+      "alertScore": 6,
+      "failedPaths": [],
+      "fixPaths": [],
+      "packagename": "armo_builtins"
+   }
 ]
