@@ -1,0 +1,31 @@
+[
+    {
+        "alertMessage": "the permissions of /etc/kubernetes/kubelet.conf are too permissive. maximum allowed: 600. actual: 700",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "kubeConfigFile": {
+                        "ownership": {
+                            "gid": 0,
+                            "groupname": "root",
+                            "uid": 0,
+                            "username": "root"
+                        },
+                        "path": "/etc/kubernetes/kubelet.conf",
+                        "permissions": 448
+                    }
+                },
+                "kind": "KubeProxyInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chmod 600 /etc/kubernetes/kubelet.conf",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

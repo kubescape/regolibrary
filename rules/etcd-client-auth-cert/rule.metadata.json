@@ -1,0 +1,24 @@
+{
+  "name": "etcd-client-auth-cert",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Enable client authentication on etcd service.",
+  "remediation": "Edit the etcd pod specification file `/etc/kubernetes/manifests/etcd.yaml` on the master node and set the below parameter.\n\n \n```\n--client-cert-auth=\"true\"\n\n```\n\n#### Impact Statement\nAll clients attempting to access the etcd server will require a valid client certificate.\n\n#### Default Value\nBy default, the etcd service can be queried by unauthenticated clients.",
+  "ruleQuery": "armo_builtins"
+}

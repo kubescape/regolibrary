@@ -1,0 +1,25 @@
+{
+    "name": "ensure-that-the-api-server-secure-port-argument-is-not-set-to-0",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "dynamicMatch": [],
+    "ruleDependencies": [],
+    "description": "Do not disable the secure port.",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and either remove the `--secure-port` parameter or set it to a different (non-zero) desired port.\n\n#### Impact Statement\nYou need to set the API Server up with the right TLS certificates.\n\n#### Default Value\nBy default, port 6443 is used as the secure port.",
+    "ruleQuery": ""
+}

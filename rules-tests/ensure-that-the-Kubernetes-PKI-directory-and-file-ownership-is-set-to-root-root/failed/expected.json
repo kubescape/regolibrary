@@ -1,0 +1,184 @@
+[
+    {
+        "alertMessage": "/etc/kubernetes/pki is not owned by root:root (actual owners are noroot:root)",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "PKIDir": {
+                        "ownership": {
+                            "gid": 0,
+                            "groupname": "root",
+                            "uid": 0,
+                            "username": "noroot"
+                        },
+                        "path": "/etc/kubernetes/pki",
+                        "permissions": 504
+                    }
+                },
+                "kind": "ControlPlaneInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chown root:root /etc/kubernetes/pki",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    },
+    {
+        "alertMessage": "/etc/kubernetes/pki is not owned by root:root (actual owners are root:noroot)",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "PKIDir": {
+                        "ownership": {
+                            "gid": 0,
+                            "groupname": "noroot",
+                            "uid": 0,
+                            "username": "root"
+                        },
+                        "path": "/etc/kubernetes/pki",
+                        "permissions": 504
+                    }
+                },
+                "kind": "ControlPlaneInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chown root:root /etc/kubernetes/pki",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    },
+    {
+        "alertMessage": "/etc/kubernetes/pki/ca.crt is not owned by root:root (actual owners are noroot:root)",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "PKIFiles": [
+                        {
+                            "ownership": {
+                                "gid": 0,
+                                "groupname": "root",
+                                "uid": 0,
+                                "username": "noroot"
+                            },
+                            "path": "/etc/kubernetes/pki/ca.crt",
+                            "permissions": 504
+                        }
+                    ]
+                },
+                "kind": "ControlPlaneInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chown root:root /etc/kubernetes/pki/ca.crt",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    },
+    {
+        "alertMessage": "/etc/kubernetes/pki/ca.crt is not owned by root:root (actual owners are root:noroot)",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "PKIFiles": [
+                        {
+                            "ownership": {
+                                "gid": 0,
+                                "groupname": "noroot",
+                                "uid": 0,
+                                "username": "root"
+                            },
+                            "path": "/etc/kubernetes/pki/ca.crt",
+                            "permissions": 504
+                        }
+                    ]
+                },
+                "kind": "ControlPlaneInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chown root:root /etc/kubernetes/pki/ca.crt",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    },
+    {
+        "alertMessage": "/etc/kubernetes/pki/foo.key is not owned by root:root (actual owners are noroot:root)",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "PKIFiles": [
+                        {
+                            "ownership": {
+                                "gid": 0,
+                                "groupname": "root",
+                                "uid": 0,
+                                "username": "noroot"
+                            },
+                            "path": "/etc/kubernetes/pki/foo.key",
+                            "permissions": 504
+                        }
+                    ]
+                },
+                "kind": "ControlPlaneInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chown root:root /etc/kubernetes/pki/foo.key",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    },
+    {
+        "alertMessage": "/etc/kubernetes/pki/foo.key is not owned by root:root (actual owners are root:noroot)",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "PKIFiles": [
+                        {
+                            "ownership": {
+                                "gid": 0,
+                                "groupname": "noroot",
+                                "uid": 0,
+                                "username": "root"
+                            },
+                            "path": "/etc/kubernetes/pki/foo.key",
+                            "permissions": 504
+                        }
+                    ]
+                },
+                "kind": "ControlPlaneInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chown root:root /etc/kubernetes/pki/foo.key",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

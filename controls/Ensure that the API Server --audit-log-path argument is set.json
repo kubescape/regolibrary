@@ -1,0 +1,21 @@
+{
+    "id": "CIS-1.2.18",
+    "controlID": "CIS-1.2.18",
+    "name": "Ensure that the API Server --audit-log-path argument is set",
+    "description": "Enable auditing on the Kubernetes API Server and set the desired audit log path.",
+    "long_description": "Auditing the Kubernetes API Server provides a security-relevant chronological set of records documenting the sequence of activities that have affected system by individual users, administrators or other components of the system. Even though currently, Kubernetes provides only basic audit capabilities, it should be enabled. You can enable it by setting an appropriate audit log path.",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--audit-log-path` parameter to a suitable path and file where you would like audit logs to be written, for example:\n\n \n```\n--audit-log-path=/var/log/apiserver/audit.log\n\n```",
+    "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--audit-log-path` argument is set as appropriate.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126663/recommendations/1838662"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "ensure-that-the-api-server-audit-log-path-argument-is-set"
+    ],
+    "baseScore": 7,
+    "impact_statement": "None",
+    "default_value": "By default, auditing is not enabled."
+}

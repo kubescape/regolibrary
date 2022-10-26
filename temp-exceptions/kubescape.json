@@ -1,0 +1,104 @@
+[
+    {
+        "name": "exclude-kubescape-resources",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Namespace",
+                    "name": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "name": "default",
+                    "kind": "ServiceAccount",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "name": "kubescape-sa",
+                    "kind": "ServiceAccount",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "name": "ks-sa",
+                    "kind": "ServiceAccount",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "gateway",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "kubescape",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "kubevuln",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "operator",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "StatefulSet",
+                    "name": "kollector",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "CronJob",
+                    "name": "kubescape-scheduler",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "CronJob",
+                    "name": "kubevuln-scheduler",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    }
+]

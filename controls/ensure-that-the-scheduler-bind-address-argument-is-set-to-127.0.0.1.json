@@ -1,0 +1,21 @@
+{
+    "id": "CIS-1.4.2",
+    "controlID": "CIS-1.4.2",
+    "name": "Ensure that the Scheduler --bind-address argument is set to 127.0.0.1",
+    "description": "Do not bind the scheduler service to non-loopback insecure addresses.",
+    "long_description": "The Scheduler API service which runs on port 10251/TCP by default is used for health and metrics information and is available without authentication or encryption. As such it should only be bound to a localhost interface, to minimize the cluster's attack surface",
+    "remediation": "Edit the Scheduler pod specification file `/etc/kubernetes/manifests/kube-scheduler.yaml` on the Control Plane node and ensure the correct value for the `--bind-address` parameter",
+    "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-scheduler\n\n```\n Verify that the `--bind-address` argument is set to 127.0.0.1",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126670/recommendations/1838685"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "ensure-that-the-scheduler-bind-address-argument-is-set-to-127.0.0.1"
+    ],
+    "baseScore": 5,
+    "impact_statement": "None",
+    "default_value": "By default, the `--bind-address` parameter is set to 0.0.0.0"
+}

@@ -1,0 +1,35 @@
+{
+    "name": "enforce-kubelet-client-tls-authentication-updated",
+    "attributes": {
+      "armoBuiltin": true,
+      "hostSensorRule": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+          "apiGroups": [
+          ],
+          "apiVersions": [
+          ],
+          "resources": [
+          ]
+        }
+      ],
+      "dynamicMatch": [
+      {
+        "apiGroups": [
+          "hostdata.kubescape.cloud"
+        ],
+        "apiVersions": [
+          "v1beta0"
+        ],
+        "resources": [
+          "KubeletInfo"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "Determines if kubelet client tls authentication is enabled.",
+    "remediation": "Start the kubelet with the --client-ca-file flag, providing a CA bundle to verify client certificates with.",
+    "ruleQuery": ""
+  }

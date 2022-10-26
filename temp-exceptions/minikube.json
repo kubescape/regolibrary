@@ -1,0 +1,506 @@
+[
+    {
+        "name": "exclude-minikube-kube-system-resources",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Pod",
+                    "namespace": "kube-system",
+                    "name": "coredns-[A-Za-z0-9]+-[A-Za-z0-9]+"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Pod",
+                    "namespace": "kube-system",
+                    "name": "etcd-.*"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Pod",
+                    "namespace": "kube-system",
+                    "name": "kube-proxy-.*"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "namespace": "kube-system",
+                    "name": "coredns"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Pod",
+                    "namespace": "kube-system",
+                    "name": "kube-apiserver-.*"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "kube-proxy"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Namespace",
+                    "name": "kube-system"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Pod",
+                    "namespace": "kube-system",
+                    "name": "storage-provisioner"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Pod",
+                    "namespace": "kube-system",
+                    "name": "kube-scheduler-.*"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Pod",
+                    "namespace": "kube-system",
+                    "name": "kube-controller-manager-.*"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    },
+    {
+        "name": "exclude-minikube-kube-public-resources",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Namespace",
+                    "name": "kube-public"
+                }
+            }, 
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-public",
+                    "name": "default"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    },
+    {
+        "name": "exclude-minikube-kube-node-lease-resources",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Namespace",
+                    "name": "kube-node-lease"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-node-lease",
+                    "name": "default"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    },
+    {
+        "name": "exclude-kube-system-service-accounts",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "default"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "certificate-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "bootstrap-signer"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "clusterrole-aggregation-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "root-ca-cert-publisher"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "pvc-protection-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "statefulset-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "ttl-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "coredns"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "service-account-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "horizontal-pod-autoscaler"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "expand-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "replicaset-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "replication-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "expand-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "resourcequota-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "endpoint-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "endpointslice-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "endpointslicemirroring-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "ephemeral-volume-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "node-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "pv-protection-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "job-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "daemon-set-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "deployment-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "generic-garbage-collector"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "persistent-volume-binder"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "storage-provisioner"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "token-cleaner"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "kube-proxy"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "namespace-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "cronjob-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "attachdetach-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "service-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "disruption-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "pod-garbage-collector"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "ttl-after-finished-controller"
+                }
+            } 
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    },
+    {
+        "name": "exclude-system-users-and-groups",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "apiVersion": "rbac.authorization.k8s.io",
+                    "name": "system:kube-scheduler",
+                    "kind": "User"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "apiVersion": "rbac.authorization.k8s.io",
+                    "name": "system:kube-controller-manager",
+                    "kind": "User"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "apiVersion": "rbac.authorization.k8s.io",
+                    "name": "system:masters",
+                    "kind": "Group"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    }
+]

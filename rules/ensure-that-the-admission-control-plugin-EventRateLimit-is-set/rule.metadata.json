@@ -1,0 +1,25 @@
+{
+    "name": "ensure-that-the-admission-control-plugin-EventRateLimit-is-set",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "dynamicMatch": [],
+    "ruleDependencies": [],
+    "description": "Limit the rate at which the API server accepts requests.",
+    "remediation": "Follow the Kubernetes documentation and set the desired limits in a configuration file.\n\n Then, edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` and set the below parameters.\n\n \n```\n--enable-admission-plugins=...,EventRateLimit,...\n--admission-control-config-file=<path/to/configuration/file>\n\n```\n\n#### Impact Statement\nYou need to carefully tune in limits as per your environment.\n\n#### Default Value\nBy default, `EventRateLimit` is not set.",
+    "ruleQuery": ""
+}

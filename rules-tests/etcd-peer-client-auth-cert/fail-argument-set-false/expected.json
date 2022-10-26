@@ -1,0 +1,32 @@
+[
+    {
+        "alertMessage": "Etcd server is not requiring a valid client certificate.",
+        "failedPaths": [
+            "spec.containers[0].command[11]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[11]",
+                "value": "--peer-client-cert-auth=true"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "etcd",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

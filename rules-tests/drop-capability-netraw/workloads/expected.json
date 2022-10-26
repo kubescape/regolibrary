@@ -1,0 +1,56 @@
+[
+    {
+        "alertMessage": "Workload: my-deployment does not drop the capability NET_RAW",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[0].securityContext.capabilities.drop",
+                "value": "NET_RAW"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "goproxy"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Workload: my-deployment does not drop the capability NET_RAW",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[1].securityContext.capabilities.drop",
+                "value": "NET_RAW"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "goproxy"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]

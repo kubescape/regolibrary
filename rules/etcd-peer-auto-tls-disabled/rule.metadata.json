@@ -1,0 +1,24 @@
+{
+  "name": "etcd-peer-auto-tls-disabled",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Do not use automatically generated self-signed certificates for TLS connections between peers.",
+  "remediation": "Edit the etcd pod specification file `/etc/kubernetes/manifests/etcd.yaml` on the master node and either remove the `--peer-auto-tls` parameter or set it to `false`.\n\n \n```\n--peer-auto-tls=false\n\n```\n\n#### Impact Statement\nAll peers attempting to communicate with the etcd server will require a valid client certificate for authentication.\n\n#### Default Value\n**Note:** This recommendation is applicable only for etcd clusters. If you are using only one etcd server in your environment then this recommendation is not applicable.\n\n By default, `--peer-auto-tls` argument is set to `false`.",
+  "ruleQuery": "armo_builtins"
+}

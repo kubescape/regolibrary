@@ -186,7 +186,7 @@ def create_md_for_control(control):
     md_text += '## Framework\n'
     md_text += ', '.join(get_frameworks_for_control(control)) + '\n'
     md_text += '## Severity\n'
-    # severity map: https://github.com/armosec/opa-utils/blob/master/reporthandling/apis/severity.go#L34
+    # severity map: https://github.com/kubescape/opa-utils/blob/master/reporthandling/apis/severity.go#L34
     severity_map = {1:'Low',2:'Low',3:'Low',4:'Medium',5:'Medium',6:'Medium',7:'High',8:'High',9:'Critical',10:'Critical'}
     md_text += '%s\n' % severity_map[int(control['baseScore'])]
     md_text += '## Description of the the issue\n'
@@ -200,8 +200,18 @@ def create_md_for_control(control):
     md_text += '## What does this control test\n'
     test = control['test'] if 'test' in control else control['description']
     md_text += test + '\n'
+
+    if 'manual_test' in control:
+        md_text += '## How to check it manually\n'
+        manual_test = control['manual_test'] 
+        md_text += manual_test + '\n'
+
     md_text += '## Remediation\n'
     md_text += control['remediation'] + '\n'
+    if 'impact_statement' in control:
+        md_text += '### Impact Statement\n' + control['impact_statement'] + '\n'
+    if 'default_value' in control:
+        md_text += '### Default Value\n' + control['default_value'] + '\n'
 
     if len(control_config_input):
         configuration_text = '## Configuration\nThis control can be configured using the following parameters. Read CLI/UI documentation about how to change parameters.\n'

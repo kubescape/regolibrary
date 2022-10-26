@@ -1,0 +1,25 @@
+{
+    "name": "ensure-that-the-api-server-audit-log-path-argument-is-set",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "dynamicMatch": [],
+    "ruleDependencies": [],
+    "description": "Enable auditing on the Kubernetes API Server and set the desired audit log path.",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--audit-log-path` parameter to a suitable path and file where you would like audit logs to be written, for example:\n\n \n```\n--audit-log-path=/var/log/apiserver/audit.log\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, auditing is not enabled.",
+    "ruleQuery": ""
+}

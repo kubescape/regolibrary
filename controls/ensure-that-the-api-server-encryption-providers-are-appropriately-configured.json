@@ -1,0 +1,21 @@
+{
+    "id": "CIS-1.2.30",
+    "controlID": "CIS-1.2.30",
+    "name": "Ensure that encryption providers are appropriately configured",
+    "description": "Where `etcd` encryption is used, appropriate providers should be configured.",
+    "long_description": "Where `etcd` encryption is used, it is important to ensure that the appropriate set of encryption providers is used. Currently, the `aescbc`, `kms` and `secretbox` are likely to be appropriate options.",
+    "remediation": "Follow the Kubernetes documentation and configure a `EncryptionConfig` file. In this file, choose `aescbc`, `kms` or `secretbox` as the encryption provider.",
+    "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Get the `EncryptionConfig` file set for `--encryption-provider-config` argument. Verify that `aescbc`, `kms` or `secretbox` is set as the encryption provider for all the desired `resources`.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126663/recommendations/1838675"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "ensure-that-the-api-server-encryption-providers-are-appropriately-configured"
+    ],
+    "baseScore": 7,
+    "impact_statement": "None",
+    "default_value": "By default, no encryption provider is set."
+}

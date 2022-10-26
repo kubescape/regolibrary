@@ -1,0 +1,9 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "KubeletInfo",
+    "data": {
+        "cmdLine": "  --config=/var/lib/kubelet/config.yaml",
+        "configFile": {
+        }
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "name": "ensure-that-the-etcd-data-directory-permissions-are-set-to-700-or-more-restrictive",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [],
+    "dynamicMatch": [
+        {
+            "apiGroups": [
+                "hostdata.kubescape.cloud"
+            ],
+            "apiVersions": [
+                "v1beta0"
+            ],
+            "resources": [
+                "ControlPlaneInfo"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+        {
+            "packageName": "cautils"
+        }
+    ],
+    "description": "Ensure that the etcd data directory has permissions of `700` or more restrictive.",
+    "remediation": "On the etcd server node, get the etcd data directory, passed as an argument `--data-dir`, from the below command:\n\n \n```\nps -ef | grep etcd\n\n```\n Run the below command (based on the etcd data directory found above). For example,\n\n \n```\nchmod 700 /var/lib/etcd\n\n```",
+    "ruleQuery": ""
+}

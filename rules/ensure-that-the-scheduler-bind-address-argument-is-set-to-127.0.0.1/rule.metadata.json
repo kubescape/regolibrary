@@ -1,0 +1,25 @@
+{
+    "name": "ensure-that-the-scheduler-bind-address-argument-is-set-to-127.0.0.1",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "dynamicMatch": [],
+    "ruleDependencies": [],
+    "description": "Do not bind the scheduler service to non-loopback insecure addresses.",
+    "remediation": "Edit the Scheduler pod specification file `/etc/kubernetes/manifests/kube-scheduler.yaml` on the Control Plane node and ensure the correct value for the `--bind-address` parameter\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, the `--bind-address` parameter is set to 0.0.0.0",
+    "ruleQuery": ""
+}

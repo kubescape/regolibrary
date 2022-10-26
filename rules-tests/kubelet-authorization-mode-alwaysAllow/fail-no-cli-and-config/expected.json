@@ -1,0 +1,22 @@
+[
+   {
+      "alertMessage": "Anonymous requests are enabled",
+      "alertObject": {
+         "externalObjects": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "data": {
+               "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet"
+            },
+            "kind": "KubeletInfo",
+            "metadata": {
+               "name": ""
+            }
+         }
+      },
+      "alertScore": 10,
+      "failedPaths": [],
+      "fixPaths": [],
+      "ruleStatus": "",
+      "packagename": "armo_builtins"
+   }
+]

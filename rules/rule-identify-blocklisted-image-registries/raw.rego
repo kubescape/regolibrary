@@ -77,8 +77,3 @@ untrusted_or_public_registries(image){
 	repo_prefix := public_registries[_]
 	startswith(image, repo_prefix)
 }
-
-untrusted_or_public_registries(image){
-	# the lack of registry name defaults to docker hub
-	not contains(image, "/")
-}

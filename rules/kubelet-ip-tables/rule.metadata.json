@@ -1,0 +1,32 @@
+{
+  "name": "kubelet-ip-tables",
+  "attributes": {
+    "armoBuiltin": true,
+    "hostSensorRule": "true"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Ensures that the --make-iptables-util-chains argument is set to true.",
+  "remediation": "Set --make-iptables-util-chains to true or if using a config file set the makeIPTablesUtilChains as true",
+  "ruleQuery": ""
+}

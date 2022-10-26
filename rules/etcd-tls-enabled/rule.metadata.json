@@ -1,0 +1,24 @@
+{
+  "name": "etcd-tls-enabled",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Configure TLS encryption for the etcd service.",
+  "remediation": "Follow the etcd service documentation and configure TLS encryption.\n\n Then, edit the etcd pod specification file `/etc/kubernetes/manifests/etcd.yaml` on the master node and set the below parameters.\n\n \n```\n--cert-file=</path/to/ca-file>\n--key-file=</path/to/key-file>\n\n```\n\n#### Impact Statement\nClient connections only over TLS would be served.\n\n#### Default Value\nBy default, TLS encryption is not set.",
+  "ruleQuery": "armo_builtins"
+}

@@ -1,0 +1,10 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "KubeletInfo",
+    "data": {
+        "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --config=/var/lib/kubelet/config.yaml",
+        "configFile": {
+            "content": "YXBpVmVyc2lvbjoga3ViZWxldC5jb25maWcuazhzLmlvL3YxYmV0YTEKZmVhdHVyZUdhdGVzOgogIFJvdGF0ZUt1YmVsZXRDbGllbnRDZXJ0aWZpY2F0ZTogZmFsc2UKdGxzQ2VydEZpbGU6IHh4L3NzCnRsc1ByaXZhdGVLZXlGaWxlOiB5eS9zcwphdXRoZW50aWNhdGlvbjoKICBhbm9ueW1vdXM6CiAgICBlbmFibGVkOiBmYWxzZQogIHdlYmhvb2s6CiAgICBjYWNoZVRUTDogMHMKICAgIGVuYWJsZWQ6IHRydWUKICB4NTA5OgogICAgY2xpZW50Q0FGaWxlOiAvdmFyL2xpYi9taW5pa3ViZS9jZXJ0cy9jYS5jcnQKYXV0aG9yaXphdGlvbjoKICBtb2RlOiBXZWJob29rCiAgd2ViaG9vazoKICAgIGNhY2hlQXV0aG9yaXplZFRUTDogMHMKICAgIGNhY2hlVW5hdXRob3JpemVkVFRMOiAwcw=="
+        }
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "name": "anonymous-requests-to-kubelet-service-updated",
+    "attributes": {
+      "armoBuiltin": true,
+      "hostSensorRule": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+        ],
+        "apiVersions": [
+        ],
+        "resources": [
+        ]
+      }
+    ],
+    "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletInfo"
+      ]
+    }
+  ],
+    "ruleDependencies": [],
+    "description": "Determines if anonymous requests to the kubelet service are allowed.",
+    "remediation": "Disable anonymous requests by setting  the anonymous-auth flag to false, or using the kubelet configuration file.",
+    "ruleQuery": ""
+  }

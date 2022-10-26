@@ -1,0 +1,22 @@
+[
+   {
+      "alertMessage": "--tls-cert-file, --tls-private-key-file should be set",
+      "alertObject": {
+         "externalObjects": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "data": {
+               "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet"
+            },
+            "kind": "KubeletInfo",
+            "metadata": {
+               "name": ""
+            }
+         }
+      },
+      "alertScore": 2, 
+      "failedPaths": [],
+      "fixPaths": [],
+      "ruleStatus": "",
+      "packagename": "armo_builtins"
+   }
+]

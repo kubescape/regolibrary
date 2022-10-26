@@ -1,0 +1,35 @@
+{
+    "name": "read-only-port-enabled-updated",
+    "attributes": {
+      "armoBuiltin": true,
+      "hostSensorRule": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+          "apiGroups": [
+          ],
+          "apiVersions": [
+          ],
+          "resources": [
+          ]
+        }
+      ],
+      "dynamicMatch": [
+      {
+        "apiGroups": [
+          "hostdata.kubescape.cloud"
+        ],
+        "apiVersions": [
+          "v1beta0"
+        ],
+        "resources": [
+          "KubeletInfo"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "Determines if kubelet has read-only port enabled.",
+    "remediation": "Start the kubelet with the --read-only-port flag set to 0.",
+    "ruleQuery": ""
+  }

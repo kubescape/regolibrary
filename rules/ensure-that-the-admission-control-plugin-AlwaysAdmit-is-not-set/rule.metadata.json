@@ -1,0 +1,23 @@
+{
+    "name": "ensure-that-the-admission-control-plugin-AlwaysAdmit-is-not-set",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [""],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "dynamicMatch": [],
+    "ruleDependencies": [],
+    "description": "Do not allow all requests.",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and either remove the `--enable-admission-plugins` parameter, or set it to a value that does not include `AlwaysAdmit`.\n\n#### Impact Statement\nOnly requests explicitly allowed by the admissions control plugins would be served.\n\n#### Default Value\n`AlwaysAdmit` is not in the list of default admission plugins.",
+    "ruleQuery": ""
+}
