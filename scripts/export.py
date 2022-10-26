@@ -13,7 +13,7 @@ currDir = os.path.abspath(os.getcwd())
 control_rule_rows = []
 framework_control_rows = []
 
-SUBSECTION_TREE_SAPARATOR = '.'
+SUBSECTION_TREE_SEPARATOR = '.'
 
 def ignore_file(file_name: str):
     return file_name.startswith('__')
@@ -81,12 +81,12 @@ def load_controls(loaded_rules: dict):
 
 def addSubsectionsIds(parents: list, sections: dict):
     '''
-    Recorsively iterate over framework subsection and adds the tree info as `id` attribute to the section
+    Recursively iterate over framework subsection and adds the tree info as `id` attribute to the section
     '''
     for section_id, section in sections.items():
         section_full_id = parents.copy()
         section_full_id.append(section_id)
-        section['id'] = SUBSECTION_TREE_SAPARATOR.join(section_full_id)
+        section['id'] = SUBSECTION_TREE_SEPARATOR.join(section_full_id)
         addSubsectionsIds(section_full_id, section.get('subSections', {}))
 
 
@@ -167,10 +167,35 @@ def load_default_config_inputs():
 
 def validate_exceptions(exceptions):
     for exception in exceptions:
+        if not "name" in exception or exception["name"] == "":
+            raise Exception("Error in exception. Invalid exception object - missing name")
+        name = exception["name"]
+
+        # validate system exception attribute found
         attributes = exception.get("attributes", {})
         if not attributes.get("systemException", False):
-            raise Exception("Error in exception, expected 'systemException' attribute: {}".format(exception))
+            raise Exception(f"Error in exception '{name}'. expected 'systemException' attribute: {exception}")
 
+        if not "resources" in exception:
+            raise Exception(f"Error in exception '{name}'. Invalid exception object - missing resources filed")
+
+        if not "posturePolicies" in exception:
+            raise Exception(f"Error in exception '{name}'. Invalid exception object - missing posturePolicies filed")
+
+
+def split_exceptions(exceptions):
+    splitted_exceptions = []
+    for exception in exceptions:
+        if "resources" in exception and len(exception["resources"]) > 1:
+            for i, resource in enumerate(exception["resources"]):
+                tmp_exception = copy.deepcopy(exception)
+                tmp_exception["resources"] = [resource]
+                tmp_exception["name"] = f"{tmp_exception['name']}-{i}"
+                splitted_exceptions.append(tmp_exception)
+        else:
+            splitted_exceptions.append(copy.deepcopy(exception))
+    return splitted_exceptions
+        
 
 def load_exceptions():
     exceptions = os.path.join(currDir, 'exceptions')
@@ -188,8 +213,12 @@ def load_exceptions():
             raise Exception("Exceptions file {} is not a list".format(path_in_str))
         loaded_exceptions.extend(exceptions)
 
-    validate_exceptions(loaded_exceptions)
-    return loaded_exceptions
+    # We split the exceptions this way we wont have large exceptions objects
+    splitted_exceptions = split_exceptions(loaded_exceptions)
+
+    # Validate exceptions object
+    validate_exceptions(splitted_exceptions)
+    return splitted_exceptions
 
 
 def export_json(data: dict, f_name:str, output_path: str):
@@ -223,7 +252,7 @@ if __name__ == '__main__':
     for k, v in frameworks.items():
         export_json(data=v, f_name=k, output_path=output_dir_name)
 
-    # create object jsons - frameworks, controls, rules
+    # create object json's - frameworks, controls, rules
     export_json(frameworks_list, 'frameworks', output_dir_name)
     export_json(controls_list, 'controls', output_dir_name)
     export_json(rules_list, 'rules', output_dir_name)
