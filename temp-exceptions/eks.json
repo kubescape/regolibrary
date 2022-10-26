@@ -198,7 +198,9 @@
             }
         ],
         "posturePolicies": [
-            {}
+            {
+                "controlID": "C-.*" 
+            }
         ]
     }
 ]
