@@ -27,7 +27,9 @@ deny[msga] {
 	namespace.kind == "Namespace"
 	not restricted_admission_policy_enabled(namespace)
 
-    admissionwebhook :=has_external_policy_control(input)
+    admissionwebhook := input[_]
+    admissionwebhook.kind in ["ValidatingWebhookConfiguration", "MutatingWebhookConfiguration"]
+    admissionwebhook.webhooks[i].rules[j].scope != "Cluster"
 
 	msga := {
 		"alertMessage": sprintf("Review webhook: %v ensure that it defines the required policy", [admissionwebhook.metadata.name]),
@@ -42,10 +44,12 @@ deny[msga] {
 }
 
 restricted_admission_policy_enabled(namespace){
-	namespace.metadata.labels["pod-security.kubernetes.io/enforce"] ==  "restricted"
+	some key, value in namespace.metadata.labels 
+    key == "pod-security.kubernetes.io/enforce"
+	value ==  "restricted"
 }
 
-has_external_policy_control(inp) = admissionwebhook{
+has_external_policy_control(inp){
     some admissionwebhook in inp
     admissionwebhook.kind in ["ValidatingWebhookConfiguration", "MutatingWebhookConfiguration"]
     admissionwebhook.webhooks[i].rules[j].scope != "Cluster"
