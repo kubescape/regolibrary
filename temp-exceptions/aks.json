@@ -49,8 +49,6 @@
                     "name": "omsagent-rs"
                 }
             },
-
-
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -139,8 +137,6 @@
                     "name": "omsagent-rs-[A-Za-z0-9]+-[A-Za-z0-9]+"
                 }
             },
-
-
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -157,8 +153,6 @@
                     "name": "metrics-server"
                 }
             },
-
-
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -239,10 +233,6 @@
                     "name": "omsagent-win"
                 }
             },
-
-
-
-
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -283,10 +273,6 @@
                     "name": "omsagent-rs-[A-Za-z0-9]+"
                 }
             },
-            
-            
-            
-            
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -308,10 +294,6 @@
                     "name": "kube-node-lease"
                 }
             },
-            
-
-
-
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -664,9 +646,6 @@
                     "name": "default"
                 }
             },
-
-
-
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -771,9 +750,6 @@
                     "name": "overlay-upgrade-data"
                 }
             },
-
-
-
             {
                 "designatorType": "Attributes",
                 "attributes": {
