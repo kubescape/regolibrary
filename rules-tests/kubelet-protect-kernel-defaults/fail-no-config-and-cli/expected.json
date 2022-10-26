@@ -1,0 +1,21 @@
+[
+   {
+      "alertMessage": "Argument --protect-kernel-defaults is not set to true.",
+      "alertObject": {
+         "externalObjects": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "data": {
+               "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --streaming-connection-idle-timeout=0"
+            },
+            "kind": "KubeletInfo",
+            "metadata": {
+               "name": ""
+            }
+         }
+      },
+      "alertScore": 2,
+      "failedPaths": [],
+      "fixPaths": [],
+      "packagename": "armo_builtins"
+   }
+]

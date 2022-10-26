@@ -1,0 +1,22 @@
+[
+   {
+      "alertMessage": "Argument --make-iptables-util-chains is not set to true.",
+      "alertObject": {
+         "externalObjects": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "data": {
+               "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --make-iptables-util-chains=false --config=/var/lib/kubelet/config.yaml"
+            },
+            "kind": "KubeletInfo",
+            "metadata": {
+               "name": ""
+            }
+         }
+      },
+      "alertScore": 3, 
+      "failedPaths": [],
+      "fixPaths": [],
+      "ruleStatus": "",
+      "packagename": "armo_builtins"
+   }
+]

@@ -1,0 +1,31 @@
+[
+    {
+        "alertMessage": "the permissions of /var/lib/minikube/certs/ca.crt are too permissive. maximum allowed: 600. actual: 700",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "clientCAFile": {
+                        "ownership": {
+                            "gid": 1,
+                            "groupname": "root",
+                            "uid": 0,
+                            "username": "noroot"
+                        },
+                        "path": "/var/lib/minikube/certs/ca.crt",
+                        "permissions": 448
+                    }
+                },
+                "kind": "KubeletInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chmod 600 /var/lib/minikube/certs/ca.crt",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

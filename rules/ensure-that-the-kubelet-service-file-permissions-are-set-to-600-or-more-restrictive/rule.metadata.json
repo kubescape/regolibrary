@@ -1,0 +1,30 @@
+{
+    "name": "ensure-that-the-kubelet-service-file-permissions-are-set-to-600-or-more-restrictive",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [],
+    "dynamicMatch": [
+        {
+            "apiGroups": [
+                "hostdata.kubescape.cloud"
+            ],
+            "apiVersions": [
+                "v1beta0"
+            ],
+            "resources": [
+                "KubeletInfo"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+        {
+            "packageName": "cautils"
+        }
+    ],
+    "description": "Ensure that the `kubelet` service file has permissions of `600` or more restrictive.",
+    "remediation": "Run the below command (based on the file location on your system) on the each worker node. For example,\n\n \n```\nchmod 600 /etc/systemd/system/kubelet.service.d/kubeadm.conf\n\n```",
+    "ruleQuery": ""
+}

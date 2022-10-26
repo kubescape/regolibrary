@@ -1,0 +1,33 @@
+[
+    {
+        "alertMessage": "the permissions of /systemd/system/kubelet.service are too permissive. maximum allowed: 600. actual: 700",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "serviceFiles": [
+                        {
+                            "ownership": {
+                                "gid": 1,
+                                "groupname": "root",
+                                "uid": 0,
+                                "username": "noroot"
+                            },
+                            "path": "/systemd/system/kubelet.service",
+                            "permissions": 448
+                        }
+                    ]
+                },
+                "kind": "KubeletInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chmod 600 /systemd/system/kubelet.service",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

@@ -1,0 +1,60 @@
+[
+    {
+        "alertMessage": "/etc/kubernetes/manifests/etcd.yaml is not owned by root:root (actual owners are noroot:root)",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "etcdConfigFile": {
+                        "ownership": {
+                            "gid": 0,
+                            "groupname": "root",
+                            "uid": 0,
+                            "username": "noroot"
+                        },
+                        "path": "/etc/kubernetes/manifests/etcd.yaml",
+                        "permissions": 504
+                    }
+                },
+                "kind": "ControlPlaneInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chown root:root /etc/kubernetes/manifests/etcd.yaml",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    },
+    {
+        "alertMessage": "/etc/kubernetes/manifests/etcd.yaml is not owned by root:root (actual owners are root:noroot)",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "etcdConfigFile": {
+                        "ownership": {
+                            "gid": 0,
+                            "groupname": "noroot",
+                            "uid": 0,
+                            "username": "root"
+                        },
+                        "path": "/etc/kubernetes/manifests/etcd.yaml",
+                        "permissions": 504
+                    }
+                },
+                "kind": "ControlPlaneInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "chown root:root /etc/kubernetes/manifests/etcd.yaml",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

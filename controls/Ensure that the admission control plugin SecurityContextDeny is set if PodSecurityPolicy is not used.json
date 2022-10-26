@@ -4,7 +4,7 @@
     "name": "Ensure that the admission control plugin SecurityContextDeny is set if PodSecurityPolicy is not used",
     "description": "The SecurityContextDeny admission controller can be used to deny pods which make use of some SecurityContext fields which could allow for privilege escalation in the cluster. This should be used where PodSecurityPolicy is not in place within the cluster.",
     "long_description": "SecurityContextDeny can be used to provide a layer of security for clusters which do not have PodSecurityPolicies enabled.",
-    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--enable-admission-plugins` parameter to include `SecurityContextDeny`, unless `PodSecurityPolicy` is already in place.\n\n \n```\n--enable-admission-plugins=...,SecurityContextDeny,...\n\n```\n\n#### Impact Statement\nThis admission controller should only be used where Pod Security Policies cannot be used on the cluster, as it can interact poorly with certain Pod Security Policies\n\n#### Default Value\nBy default, `SecurityContextDeny` is not set.",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--enable-admission-plugins` parameter to include `SecurityContextDeny`, unless `PodSecurityPolicy` is already in place.\n\n \n```\n--enable-admission-plugins=...,SecurityContextDeny,...\n\n```",
     "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--enable-admission-plugins` argument is set to a value that includes `SecurityContextDeny`, if `PodSecurityPolicy` is not included.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126663/recommendations/1838650"
@@ -15,5 +15,7 @@
     "rulesNames": [
         "ensure-that-the-admission-control-plugin-SecurityContextDeny-is-set-if-PodSecurityPolicy-is-not-used"
     ],
-    "baseScore": 4
+    "baseScore": 4,
+    "impact_statement": "This admission controller should only be used where Pod Security Policies cannot be used on the cluster, as it can interact poorly with certain Pod Security Policies",
+    "default_value": "By default, `SecurityContextDeny` is not set."
 }

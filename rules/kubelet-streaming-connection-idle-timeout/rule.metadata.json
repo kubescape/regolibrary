@@ -1,0 +1,32 @@
+{
+  "name": "kubelet-streaming-connection-idle-timeout",
+  "attributes": {
+    "armoBuiltin": true,
+    "hostSensorRule": "true"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Determines if a kubelet has not disabled timeouts on streaming connections",
+  "remediation": "Change value of a --streaming-connection-idle-timeout argument or if using a Kubelet config file, edit the file to set streamingConnectionIdleTimeout to a value other than 0.",
+  "ruleQuery": ""
+}

@@ -1,0 +1,32 @@
+{
+  "name": "kubelet-strong-cryptographics-ciphers",
+  "attributes": {
+    "armoBuiltin": true,
+    "hostSensorRule": "true"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Determines if the Kubelet is configured to only use strong cryptographic ciphers.",
+  "remediation": "Change --tls-cipher-suites value of TLSCipherSuites property of config file to use strong cryptographics ciphers",
+  "ruleQuery": ""
+}

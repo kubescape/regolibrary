@@ -1,0 +1,32 @@
+{
+  "name": "kubelet-rotate-kubelet-server-certificate",
+  "attributes": {
+    "armoBuiltin": true,
+    "hostSensorRule": "true"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Verify that the RotateKubeletServerCertificate argument is set to true.",
+  "remediation": "Verify that the --rotate-certificates argument is not present, or is set to true. If the --rotate-certificates argument is not present, verify that if there is a Kubelet config file specified by --config, that file does not contain rotateCertificates: false.",
+  "ruleQuery": ""
+}

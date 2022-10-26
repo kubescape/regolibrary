@@ -1,0 +1,24 @@
+{
+  "name": "etcd-unique-ca",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Use a different certificate authority for etcd from the one used for Kubernetes.",
+  "remediation": "Follow the etcd documentation and create a dedicated certificate authority setup for the etcd service.\n\n Then, edit the etcd pod specification file `/etc/kubernetes/manifests/etcd.yaml` on the master node and set the below parameter.\n\n \n```\n--trusted-ca-file=</path/to/ca-file>\n\n```\n\n#### Impact Statement\nAdditional management of the certificates and keys for the dedicated certificate authority will be required.\n\n#### Default Value\nBy default, no etcd certificate is created and used.",
+  "ruleQuery": "armo_builtins"
+}

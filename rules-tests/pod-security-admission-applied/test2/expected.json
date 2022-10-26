@@ -1,0 +1,21 @@
+[
+    {
+        "alertMessage": "Namespace: my-namespace does not enable pod security admission",
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Namespace",
+                    "metadata": {
+                        "name": "my-namespace"
+                    }
+                }
+            ]
+        }
+    }
+]

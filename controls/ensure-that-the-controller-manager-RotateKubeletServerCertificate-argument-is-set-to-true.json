@@ -4,7 +4,7 @@
     "name": "Ensure that the Controller Manager RotateKubeletServerCertificate argument is set to true",
     "description": "Enable kubelet server certificate rotation on controller-manager.",
     "long_description": "`RotateKubeletServerCertificate` causes the kubelet to both request a serving certificate after bootstrapping its client credentials and rotate the certificate as its existing credentials expire. This automated periodic rotation ensures that the there are no downtimes due to expired certificates and thus addressing availability in the CIA security triad.\n\n Note: This recommendation only applies if you let kubelets get their certificates from the API server. In case your kubelet certificates come from an outside authority/tool (e.g. Vault) then you need to take care of rotation yourself.",
-    "remediation": "Edit the Controller Manager pod specification file `/etc/kubernetes/manifests/kube-controller-manager.yaml` on the Control Plane node and set the `--feature-gates` parameter to include `RotateKubeletServerCertificate=true`.\n\n \n```\n--feature-gates=RotateKubeletServerCertificate=true\n\n```\n\n#### Impact Statement\nNone\n\n#### Default Value\nBy default, `RotateKubeletServerCertificate` is set to \"true\" this recommendation verifies that it has not been disabled.",
+    "remediation": "Edit the Controller Manager pod specification file `/etc/kubernetes/manifests/kube-controller-manager.yaml` on the Control Plane node and set the `--feature-gates` parameter to include `RotateKubeletServerCertificate=true`.\n\n \n```\n--feature-gates=RotateKubeletServerCertificate=true\n\n```",
     "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-controller-manager\n\n```\n Verify that `RotateKubeletServerCertificate` argument exists and is set to `true`.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126669/recommendations/1838682"
@@ -15,5 +15,7 @@
     "rulesNames": [
         "ensure-that-the-controller-manager-RotateKubeletServerCertificate-argument-is-set-to-true"
     ],
-    "baseScore": 6
+    "baseScore": 6,
+    "impact_statement": "None",
+    "default_value": "By default, `RotateKubeletServerCertificate` is set to \"true\" this recommendation verifies that it has not been disabled."
 }

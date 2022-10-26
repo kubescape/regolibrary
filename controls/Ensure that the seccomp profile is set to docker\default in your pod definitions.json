@@ -4,7 +4,7 @@
     "controlID": "CIS-5.7.2",
     "description": "Enable `docker/default` seccomp profile in your pod definitions.",
     "long_description": "Seccomp (secure computing mode) is used to restrict the set of system calls applications can make, allowing cluster administrators greater control over the security of workloads running in the cluster. Kubernetes disables seccomp profiles by default for historical reasons. You should enable it to ensure that the workloads have restricted actions available within the container.",
-    "remediation": "Use security context to enable the `docker/default` seccomp profile in your pod definitions. An example is as below:\n\n \n```\n  securityContext:\n    seccompProfile:\n      type: RuntimeDefault\n\n```\n\n#### Impact Statement\nIf the `docker/default` seccomp profile is too restrictive for you, you would have to create/manage your own seccomp profiles.\n\n#### Default Value\nBy default, seccomp profile is set to `unconfined` which means that no seccomp profiles are enabled.",
+    "remediation": "Use security context to enable the `docker/default` seccomp profile in your pod definitions. An example is as below:\n\n \n```\n  securityContext:\n    seccompProfile:\n      type: RuntimeDefault\n\n```",
     "manual_test": "Review the pod definitions in your cluster. It should create a line as below:\n\n \n```\n  securityContext:\n    seccompProfile:\n      type: RuntimeDefault\n\n```",
     "test": "Checks if seccomp profile is defined as type RuntimeDefault in security context of workload or container level",
     "references": [
@@ -13,6 +13,10 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["set-seccomp-profile-RuntimeDefault"],
-    "baseScore": 4
+    "rulesNames": [
+        "set-seccomp-profile-RuntimeDefault"
+    ],
+    "baseScore": 4,
+    "impact_statement": "If the `docker/default` seccomp profile is too restrictive for you, you would have to create/manage your own seccomp profiles.",
+    "default_value": "By default, seccomp profile is set to `unconfined` which means that no seccomp profiles are enabled."
 }
