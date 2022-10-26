@@ -349,7 +349,7 @@ def main():
             
             control_doc = readmeapi.get_doc(control_slug)
 
-            control_id = control_obj['id'][4:]
+            control_id = int(control_obj['id'][4:].replace('.',''))
             if re.match("C-", control_obj['id'], re.IGNORECASE):
                 control_id = int(control_obj['id'][2:])
 
