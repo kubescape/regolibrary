@@ -72,7 +72,7 @@ class ReadmeApi(object):
         if r.status_code < 200 or 299 < r.status_code:
             raise Exception('Failed to delete doc (%d)'%r.status_code)
     
-    def create_doc(self, slug: str, parent_id: str, order: int, title: str, body: str, category: str):
+    def create_doc(self, slug: str, parent_id: str, order: any, title: str, body: str, category: str):
         url = "https://dash.readme.com/api/v1/docs"
 
         payload = {
@@ -98,7 +98,7 @@ class ReadmeApi(object):
 
         return r.json()
         
-    def update_doc(self, doc_slug: str, order: int, title: str, body: str, category: str):
+    def update_doc(self, doc_slug: str, order: any, title: str, body: str, category: str):
 
         url = "https://dash.readme.com/api/v1/docs/%s" % doc_slug
 
@@ -349,11 +349,15 @@ def main():
             
             control_doc = readmeapi.get_doc(control_slug)
 
+            control_id = control_obj['id'][4:]
+            if re.match("C-", control_obj['id'], re.IGNORECASE):
+                control_id = int(control_obj['id'][2:])
+
             if control_doc and len(control_obj['id']) > 2:
-                readmeapi.update_doc(control_slug,int(control_obj['id'][2:]),title,md,control_category_obj['_id'])
+                readmeapi.update_doc(control_slug,control_id,title,md,control_category_obj['_id'])
                 print('\tupdated')
             else:
-                readmeapi.create_doc(control_slug,parent_control_doc['_id'],int(control_obj['id'][2:]),title,md,control_category_obj['_id'])
+                readmeapi.create_doc(control_slug,parent_control_doc['_id'],control_id,title,md,control_category_obj['_id'])
                 print('\tcreated')
 
         #except Exception as e:
