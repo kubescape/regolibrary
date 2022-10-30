@@ -5,7 +5,7 @@
     "description": "Ensure that the `kubelet` service file has permissions of `600` or more restrictive.",
     "long_description": "The `kubelet` service file controls various parameters that set the behavior of the `kubelet` service in the worker node. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",
     "remediation": "Run the below command (based on the file location on your system) on the each worker node. For example,\n\n \n```\nchmod 600 /etc/systemd/system/kubelet.service.d/kubeadm.conf\n\n```",
-    "manual_test": "Automated AAC auditing has been modified to allow CIS-CAT to input a variable for the <PATH>/<FILENAME> of the kubelet service config file.\n\n Please set $kubelet\\_service\\_config=<PATH> based on the file location on your system\n\n for example:\n\n \n```\nexport kubelet_service_config=/etc/systemd/system/kubelet.service.d/kubeadm.conf\n\n```\n To perform the audit manually:\nRun the below command (based on the file location on your system) on the each worker node. For example,\n\n \n```\nstat -c %a /etc/systemd/system/kubelet.service.d/10-kubeadm.conf\n\n```\n Verify that the permissions are `600` or more restrictive.",
+    "manual_test": "Run the below command (based on the file location on your system) on the each worker node. For example,\n\n \n```\nstat -c %a /etc/systemd/system/kubelet.service.d/10-kubeadm.conf\n\n```\n Verify that the permissions are `600` or more restrictive.",
     "references": [
         "https://workbench.cisecurity.org/sections/1126659/recommendations/1838585"
     ],
