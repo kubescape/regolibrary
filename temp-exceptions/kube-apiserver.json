@@ -1,0 +1,63 @@
+[
+    {
+        "name": "exclude-pod-kube-apiserver",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Pod",
+                    "namespace": "kube-system",
+                    "name": "kube-apiserver-.*"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0013"
+            },
+            {
+                "controlID": "c-0077"
+            },
+            {
+                "controlID": "c-0017"
+            },
+            {
+                "controlID": "c-0013 "
+            },
+            {
+                "controlID": "c-0020"
+            },
+            {
+                "controlID": "c-0030"
+            },
+            {
+                "controlID": "c-0034"
+            },
+            {
+                "controlID": "c-0016"
+            },
+            {
+                "controlID": "c-0004"
+            },
+            {
+                "controlID": "c-0050"
+            },
+            {
+                "controlID": "c-0009"
+            },
+            {
+                "controlID": "c-0048"
+            },
+            {
+                "controlID": "c-0041"
+            }
+        ]
+    }
+]

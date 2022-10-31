@@ -44,14 +44,6 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
-                    "kind": "Pod",
-                    "namespace": "kube-system",
-                    "name": "kube-apiserver-.*"
-                }
-            },
-            {
-                "designatorType": "Attributes",
-                "attributes": {
                     "kind": "DaemonSet",
                     "namespace": "kube-system",
                     "name": "kube-proxy"
@@ -90,7 +82,9 @@
             }
         ],
         "posturePolicies": [
-            {}
+            {
+                "controlID": "C-.*" 
+            }
         ]
     },
     {

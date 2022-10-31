@@ -1,6 +1,6 @@
 [
     {
-        "name": "exclude-aks-kube-system-resources",
+        "name": "exclude-aks-kube-system-deployments",
         "policyType": "postureExceptionPolicy",
         "actions": [
             "alertOnly"
@@ -48,7 +48,21 @@
                     "namespace": "kube-system",
                     "name": "omsagent-rs"
                 }
-            },
+            }
+        ],
+        "posturePolicies": [
+        ]
+    },
+    {
+        "name": "exclude-aks-kube-system-pods",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -136,7 +150,24 @@
                     "namespace": "kube-system",
                     "name": "omsagent-rs-[A-Za-z0-9]+-[A-Za-z0-9]+"
                 }
-            },
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "C-.*" 
+            }
+        ]
+    },
+    {
+        "name": "exclude-aks-kube-system-services",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -152,7 +183,22 @@
                     "namespace": "kube-system",
                     "name": "metrics-server"
                 }
-            },
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    },
+    {
+        "name": "exclude-aks-kube-system-daemonsets",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -232,7 +278,22 @@
                     "namespace": "kube-system",
                     "name": "omsagent-win"
                 }
-            },
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    },
+    {
+        "name": "exclude-aks-kube-system-replicasets",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -272,7 +333,22 @@
                     "namespace": "kube-system",
                     "name": "omsagent-rs-[A-Za-z0-9]+"
                 }
-            },
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    },
+    {
+        "name": "exclude-aks-kube-system-namespaces",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -293,7 +369,22 @@
                     "kind": "Namespace",
                     "name": "kube-node-lease"
                 }
-            },
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    },
+    {
+        "name": "exclude-aks-kube-system-sa",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
             {
                 "designatorType": "Attributes",
                 "attributes": {
@@ -796,20 +887,6 @@
                 "designatorType": "Attributes",
                 "attributes": {
                     "kind": "User",
-                    "name": "clusterUser"
-                }
-            },
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kind": "User",
-                    "name": "aks-support"
-                }
-            },
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kind": "User",
                     "name": "system:kube-controller-manager"
                 }
             },
@@ -819,15 +896,7 @@
                     "kind": "User",
                     "name": "system:kube-scheduler"
                 }
-            },
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kind": "APIService",
-                    "name": "v1beta1.metrics.k8s.io"
-                }
             }
-
         ],
         "posturePolicies": [
             {}
