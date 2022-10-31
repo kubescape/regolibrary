@@ -1,27 +1,24 @@
 {
-    "name": "k8s-audit-logs-enabled-native-cis",
-    "attributes": {
-    "armoBuiltin": true,
-    "resourcesAggregator": "apiserver-pod",
-    "useFromKubescapeVersion": "v1.0.133"
-    },
-    "ruleLanguage": "Rego",
-    "match": [
-      {
-        "apiGroups": [
-          ""
-        ],
-        "apiVersions": [
-          "v1"
-        ],
-        "resources": [
-            "Pod"
-        ]
-      }
-    ],
-    "ruleDependencies": [
-    ],
-    "description": "Kubernetes can audit the details of requests made to the API server. The `--audit-policy-file` flag must be set for this logging to be enabled.",
-    "remediation": "Create an audit policy file for your cluster.",
-    "ruleQuery": "armo_builtins"
+  "name": "k8s-audit-logs-enabled-native-cis",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Kubernetes can audit the details of requests made to the API server. The `--audit-policy-file` flag must be set for this logging to be enabled.",
+  "remediation": "Create an audit policy file for your cluster.",
+  "ruleQuery": "armo_builtins"
 }
