@@ -32,7 +32,6 @@
         "Portforwarding privileges",
         "Image pull policy on latest tag",
         "Allow privilege escalation",
-        "CoreDNS poisoning",
         "Images from allowed registry",
         "Cluster internal networking",
         "Workloads with excessive amount of vulnerabilities",
