@@ -40,10 +40,7 @@
                 "bin/busybox",
                 "usr/bin/busybox"
             ],
-            "publicRegistries": [
-                "quay.io",
-                "registry.hub.docker.com"
-            ],
+            "publicRegistries": [],
             "sensitiveInterfaces": [
                 "nifi",
                 "argo-server",
