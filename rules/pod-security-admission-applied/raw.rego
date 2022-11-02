@@ -7,7 +7,7 @@ deny[msga] {
 	namespace := input[_]
 	namespace.kind == "Namespace"
 	not admission_policy_enabled(namespace)
-	
+	fix_path = {"path": "metadata.labels[pod-security.kubernetes.io/enforce]", "value": "YOUR_VALUE"}
     
 
 	msga := {
@@ -15,7 +15,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [],
-		"fixPaths": [],
+		"fixPaths": [fix_path],
 		"alertObject": {
 			"k8sApiObjects": [namespace]
 		}
@@ -24,7 +24,7 @@ deny[msga] {
 
 admission_policy_enabled(namespace){
 	some label, _ in namespace.metadata.labels 
-    startswith(label, "pod-security.kubernetes.io/")
+    startswith(label, "pod-security.kubernetes.io/enforce")
 }
 
 has_external_policy_control(inp){
