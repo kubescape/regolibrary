@@ -2,7 +2,7 @@
     {
         "alertMessage": "Namespace: my-namespace does not enable baseline pod security admission",
         "failedPaths": [],
-        "fixPaths": [],
+        "fixPaths": [{"path":"metadata.labels[pod-security.kubernetes.io/enforce]", "value":"baseline"}],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,
