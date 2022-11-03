@@ -21,7 +21,6 @@ AllControls,C-0031,Delete Kubernetes events
 AllControls,C-0034,Automatic mapping of service account
 AllControls,C-0035,Cluster-admin binding
 AllControls,C-0036,Malicious admission controller (validating)
-AllControls,C-0037,CoreDNS poisoning
 AllControls,C-0038,Host PID/IPC privileges
 AllControls,C-0039,Malicious admission controller (mutating)
 AllControls,C-0041,HostNetwork access
