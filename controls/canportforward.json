@@ -4,7 +4,7 @@
         "armoBuiltin": true,
         "rbacQuery": "Port Forwarding",
         "controlTypeTags": [
-            "security",
+            "security-impact",
             "compliance"
         ],
         "attackTracks": [
