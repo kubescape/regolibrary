@@ -10,7 +10,7 @@ deny[msga] {
     endswith(subjectVector.relatedObjects[j].kind, "Binding")
 
 
-    can_create_to_pod_namespace(role)
+    can_create_to_pod_namespace(rolebinding)
     rule:= role.rules[p]
 
 	subject := rolebinding.subjects[k]
@@ -48,6 +48,13 @@ deny[msga] {
     }
 }
 
-can_create_to_pod_namespace(role) {
-    role.metadata.namespace == "kube-system"
+# 1. rolebinding in kubesystem ns + role in kubesystem ns
+# 2. rolebinding in kubesystem ns + clusterrole
+can_create_to_pod_namespace(rolebinding) {
+    rolebinding.metadata.namespace == "kube-system"
+}
+
+# 3. clusterrolebinding + clusterrole
+can_create_to_pod_namespace(rolebinding){
+    rolebinding.kind == "ClusterRoleBinding"
 }
