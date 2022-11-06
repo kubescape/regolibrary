@@ -3,6 +3,6 @@ kind: ClusterRole
 metadata:
   name: test
 rules:
-- apiGroups: ["rbac.authorization.k8s.io"]
+- apiGroups: [""]
   resources: ["pods", "rolebindings"]
   verbs: ["create", "watch", "list"]
