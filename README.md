@@ -1,4 +1,4 @@
-# Welcome to the regolibrary wiki!
+# Welcome to the regolibrary!
 
 The main components of the regolibrary:
 
