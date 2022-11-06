@@ -2,11 +2,13 @@
 
 The main components of the regolibrary:
 
-Framework - a group of controls to test against
+**Framework** - a group of controls to test against
 
-Control - a potential vulnerability to check, can include multiple rules
+**Control** - a potential vulnerability to check, can include multiple rules
 
-Rule - a single specific test
+**Rule** - a single specific test
+
+These are used by [Kubescape](https://github.com/kubescape/kubescape).
 
 ---
 
@@ -167,7 +169,13 @@ Example of rule.metadata.json:
 
 
 
+## Support
+Reach out if you have any questions:
 
+* [Open an issue](https://github.com/kubescape/regolibrary/issues/new/choose)
+* [Join us](https://discord.com/invite/WKZRaCtBxN) in the discussion on our discord server!
+
+We aren't open for contributions currently, but feel free to contact us with suggestions :)
 
 ---
 
