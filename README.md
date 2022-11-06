@@ -15,7 +15,7 @@ Rule - a single specific test
 
 ### **Add a framework** 
 
-Add a `frameworkName.json` file in frameworks directory
+Add `frameworkName.json` file in the `/frameworks` directory
 
 Example of a framework:
 ```
@@ -71,7 +71,7 @@ Example of a control:
 
 * `long_description`, `test` and other control fields are used mainly in the [documentation](https://hub.armosec.io/docs)
 
-* See [control go struct](https://github.com/kubescape/opa-utils/blob/fc41353af5c67221dead93c353b48e88f02a9fe4/reporthandling/datastructures.go#L56) for more control fields
+* See [control go struct](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructures.go#L56) for more control fields
 
 ### **Add a rule**:
 
@@ -117,7 +117,7 @@ Example of rule.metadata.json:
 * Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
 
 
-* See [rule go struct](https://github.com/kubescape/opa-utils/blob/fc41353af5c67221dead93c353b48e88f02a9fe4/reporthandling/datastructures.go#L38) for further explanations of rule fields
+* See [rule go struct](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructures.go#L37) for further explanations of rule fields
 * Optional attributes :
   * `"hostSensorRule": "true"` - indicates that rule gets information from host scanner
 
@@ -158,10 +158,11 @@ Example of rule.metadata.json:
     ```
     Use [opa rego reference](https://www.openpolicyagent.org/docs/latest/policy-reference/) for help with syntax
 
-    See struct of a [rule response](https://github.com/kubescape/opa-utils/blob/d654a601023efd8a102c5bd43a4b9115ebf692c4/reporthandling/datastructuresv1.go#L23)
+    See struct of a [rule response](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructuresv1.go#L23)
 
 
-4. Add a test for the new rule (and run it!), see how [here](/testrunner/README.md)
+4. Add a test for the new rule (and run it!). See how to add a test [here](/rules-tests/README.md) and how to run it [here](/testrunner/README.md)
+
 5. Add `filter.rego` if needed - If exists, the filter is run by Kubescape to calculate ‘all resources’ = the number of potential resources to fail. It affects the risk score. Needed in cases where rule asks for resources that are not potential to fail, eg- if a rule asks for pods and service accounts to see if they are connected but only fails the pods, we would create a filter rego that returns only pods.
 
 
