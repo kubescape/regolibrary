@@ -43,6 +43,17 @@ make libgit2
     make libgit2
     ```
 
+## Troubleshooting
+
+* if running with `git2go` is causing problems, you may need to run: 
+```
+go clean --cache
+go clean -modcache
+```
+Notice - This command deletes the cache downloaded along with unpacked code dependencies.
+
+This will affect build performance the next time.
+
 # VS code configuration samples
 
 You can use the sample files below to setup your VS code environment for debugging purposes.
