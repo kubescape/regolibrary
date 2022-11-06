@@ -1,6 +1,6 @@
 # Welcome to the regolibrary wiki!
 
-The main components of regolibrary:
+The main components of the regolibrary:
 
 Framework - a group of controls to test against
 
@@ -15,7 +15,7 @@ Rule - a single specific test
 
 ### **Add a framework** 
 
-Add a frameworkName.json file in frameworks directory
+Add a `frameworkName.json` file in frameworks directory
 
 Example of a framework:
 ```
@@ -40,12 +40,12 @@ Example of a framework:
     ]
 }
 ```
-* Attribute "armoBuiltin": true - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
+* Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
 * controlNames - List of controls to run, must be exact name. Copy-paste to be sure.
 
 ### **Add a control**
 
-Add controlName.json file in controls directory.
+Add `controlName.json` file in the `/controls` directory.
 
 Example of a control:
 ```
@@ -66,18 +66,18 @@ Example of a control:
     "baseScore": 3
 }
 ```
-* Attribute "armoBuiltin": true - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
-* rulesNames -  List of rules to run, must be exact name. Copy-paste to be sure.
+* Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
+* `rulesNames` -  List of rules to run, must be exact name. Copy-paste to be sure.
 
-* "long_description", "test" and other CIS fields are used mainly in [docs](https://hub.armosec.io/docs)
+* `long_description`, `test` and other control fields are used mainly in the [documentation](https://hub.armosec.io/docs)
 
 * See [control go struct](https://github.com/kubescape/opa-utils/blob/fc41353af5c67221dead93c353b48e88f02a9fe4/reporthandling/datastructures.go#L56) for more control fields
 
 ### **Add a rule**:
 
-1. Add to /rules a new directory with the rule name
+1. Add to `/rules` a new directory with the rule name
 
-2. Add to the rule directory file - rule.metadata.json:
+2. Add to the rule directory file - `rule.metadata.json`:
 
 Example of rule.metadata.json:
 ```
@@ -114,26 +114,26 @@ Example of rule.metadata.json:
     "ruleQuery": "armo_builtins"
 }
 ```
-* Attribute "armoBuiltin": true - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
+* Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
 
 
 * See [rule go struct](https://github.com/kubescape/opa-utils/blob/fc41353af5c67221dead93c353b48e88f02a9fe4/reporthandling/datastructures.go#L38) for further explanations of rule fields
 * Optional attributes :
-  * "hostSensorRule": "true" - indicates that rule gets information from host scanner
+  * `"hostSensorRule": "true"` - indicates that rule gets information from host scanner
 
-  * "useFromKubescapeVersion" - add if rule is only supported from a certain Kubescape version. Inclusive.
+  * `"useFromKubescapeVersion"` - add if rule is only supported from a certain Kubescape version. Inclusive.
 
-  * "useUntilKubescapeVersion" - add if newer version exists so control doesn’t run both. Inclusive. 
+  * `"useUntilKubescapeVersion"` - add if newer version exists so control doesn’t run both. Inclusive. 
 
-  * "imageScanRelated": true - indicates that rule uses information from image scanning
+  * `"imageScanRelated": true` - indicates that rule uses information from image scanning
 
-  * "controlConfigInputs" - A list the rule uses and can be configured by the user. See example above.
+  * `"controlConfigInputs"` - A list the rule uses and can be configured by the user. See example above.
 
 
-3. Add to rule directory file - raw.rego
+3. Add to the new rule directory a new file - `raw.rego`
 
     This is where the logic of the rule is. 
-    Example of raw.rego:
+    Example of `raw.rego`:
     ```
     package armo_builtins
 
@@ -161,8 +161,8 @@ Example of rule.metadata.json:
     See struct of a [rule response](https://github.com/kubescape/opa-utils/blob/d654a601023efd8a102c5bd43a4b9115ebf692c4/reporthandling/datastructuresv1.go#L23)
 
 
-4. Add a test for new rule (and run it!), see how [here](/testrunner/README.md)
-5. Add filter.rego if needed - If exists, the filter is run by kubescape to calculate ‘all resources’ = the number of potential resources to fail. Affects the risk score. Needed in cases where rule asks for resources that are not potential to fail, eg- if a rule asks for pods and service accounts to see if they are connected but only fails the pods, we would create a filter rego that returns only pods.
+4. Add a test for the new rule (and run it!), see how [here](/testrunner/README.md)
+5. Add `filter.rego` if needed - If exists, the filter is run by Kubescape to calculate ‘all resources’ = the number of potential resources to fail. It affects the risk score. Needed in cases where rule asks for resources that are not potential to fail, eg- if a rule asks for pods and service accounts to see if they are connected but only fails the pods, we would create a filter rego that returns only pods.
 
 
 
