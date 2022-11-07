@@ -7,13 +7,14 @@ deny[msga] {
 	namespace.kind == "Namespace"
 	not restricted_admission_policy_enabled(namespace)
     not has_external_policy_control(input)
+	fix_path = {"path": "metadata.labels[pod-security.kubernetes.io/enforce]", "value": "restricted"}
 
 	msga := {
 		"alertMessage": sprintf("Namespace: %v does not enable restricted pod security admission", [namespace.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [],
-		"fixPaths": [],
+		"fixPaths": [fix_path],
 		"alertObject": {
 			"k8sApiObjects": [namespace]
 		}

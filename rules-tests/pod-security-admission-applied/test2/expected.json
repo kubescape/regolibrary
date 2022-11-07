@@ -2,7 +2,7 @@
     {
         "alertMessage": "Namespace: my-namespace does not enable pod security admission",
         "failedPaths": [],
-        "fixPaths": [],
+        "fixPaths": [{"path":"metadata.labels[pod-security.kubernetes.io/enforce]", "value":"YOUR_VALUE"}],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,

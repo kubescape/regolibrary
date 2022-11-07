@@ -7,7 +7,8 @@
         ],
         "rbacQuery": "Show who can access into pods",
         "controlTypeTags": [
-            "compliance"
+            "compliance",
+            "security-impact"
         ]
     },
     "description": "Attackers with relevant permissions can run malicious commands in the context of legitimate containers in the cluster using \u201ckubectl exec\u201d command. This control determines which subjects have permissions to use this command.",
