@@ -1,0 +1,27 @@
+[
+    {
+        "alertMessage": "audit logs are not enabled",
+        "failedPaths": [
+            "spec.containers[0].command[11]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 5,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]
