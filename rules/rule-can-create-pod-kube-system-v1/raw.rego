@@ -10,10 +10,11 @@ deny[msga] {
     endswith(subjectVector.relatedObjects[j].kind, "Binding")
 
 
-    can_create_to_pod_namespace(role)
+    can_create_to_pod_namespace(rolebinding)
     rule:= role.rules[p]
 
 	subject := rolebinding.subjects[k]
+    is_same_subjects(subjectVector, subject)
 
 	verbs := ["create", "*"]
     verb_path := [sprintf("relatedObjects[%v].rules[%v].verbs[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | verb =  rule.verbs[l];cautils.list_contains(verbs, verb)]
@@ -48,6 +49,27 @@ deny[msga] {
     }
 }
 
-can_create_to_pod_namespace(role) {
-    role.metadata.namespace == "kube-system"
+# 1. rolebinding in kubesystem ns + role in kubesystem ns
+# 2. rolebinding in kubesystem ns + clusterrole
+can_create_to_pod_namespace(rolebinding) {
+    rolebinding.metadata.namespace == "kube-system"
+}
+
+# 3. clusterrolebinding + clusterrole
+can_create_to_pod_namespace(rolebinding){
+    rolebinding.kind == "ClusterRoleBinding"
+}
+
+# for service accounts
+is_same_subjects(subjectVector, subject){
+	subjectVector.kind == subject.kind
+	subjectVector.name == subject.name
+	subjectVector.namespace == subject.namespace
+}
+
+# for users/ groups
+is_same_subjects(subjectVector, subject){
+	subjectVector.kind == subject.kind
+	subjectVector.name == subject.name
+	subjectVector.apiGroup == subject.apiGroup
 }
