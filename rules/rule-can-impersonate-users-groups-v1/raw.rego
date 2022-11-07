@@ -1,5 +1,6 @@
 package armo_builtins
-import data.cautils as cautils
+
+import future.keywords.in
 
 deny[msga] {
 	subjectVector := input[_]
@@ -8,51 +9,55 @@ deny[msga] {
 	endswith(subjectVector.relatedObjects[i].kind, "Role")
 	endswith(subjectVector.relatedObjects[j].kind, "Binding")
 
-	rule:= role.rules[p]
+	rule := role.rules[p]
 
 	subject := rolebinding.subjects[k]
 	is_same_subjects(subjectVector, subject)
 
+is_same_subjects(subjectVector, subject)
+	rule_path := sprintf("relatedObjects[%d].rules[%d]", [i, p])
+
 	verbs := ["impersonate", "*"]
-  	verb_path := [sprintf("relatedObjects[%v].rules[%v].verbs[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | verb =  rule.verbs[l];cautils.list_contains(verbs, verb)]
+	verb_path := [sprintf("%s.verbs[%d]", [rule_path, l]) | verb = rule.verbs[l]; verb in verbs]
 	count(verb_path) > 0
 
 	api_groups := ["", "*"]
-	api_groups_path := [sprintf("relatedObjects[%v].rules[%v].apiGroups[%v]", [format_int(i, 10),format_int(p, 10), format_int(a, 10)])  | apiGroup =  rule.apiGroups[a];cautils.list_contains(api_groups, apiGroup)]
+	api_groups_path := [sprintf("%s.apiGroups[%d]", [rule_path, a]) | apiGroup = rule.apiGroups[a]; apiGroup in api_groups]
 	count(api_groups_path) > 0
 
-	resources := ["users", "serviceaccounts","groups","uids","*"]
-	resources_path := [sprintf("relatedObjects[%v].rules[%v].resources[%v]", [format_int(i, 10),format_int(p, 10), format_int(l, 10)])  | resource =  rule.resources[l]; cautils.list_contains(resources, resource)]
+	resources := ["users", "serviceaccounts", "groups", "uids", "*"]
+	resources_path := [sprintf("%s.resources[%d]", [rule_path, l]) | resource = rule.resources[l]; resource in resources]
 	count(resources_path) > 0
-
 
 	path := array.concat(resources_path, verb_path)
 	path2 := array.concat(path, api_groups_path)
-	path3 := array.concat(path2, [sprintf("relatedObjects[%v].subjects[%v]", [format_int(j, 10), format_int(k, 10)])])
-	finalpath := array.concat(path3, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
+	finalpath := array.concat(path2, [
+		sprintf("relatedObjects[%d].subjects[%d]", [j, k]),
+		sprintf("relatedObjects[%d].roleRef.name", [j]),
+	])
 
 	msga := {
 		"alertMessage": sprintf("Subject: %v-%v can impersonate users", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
-    	"failedPaths": finalpath,
+		"failedPaths": finalpath,
 		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [],
-			"externalObjects": subjectVector
-		}
-  	}
+			"externalObjects": subjectVector,
+		},
+	}
 }
 
 # for service accounts
-is_same_subjects(subjectVector, subject){
+is_same_subjects(subjectVector, subject) {
 	subjectVector.kind == subject.kind
 	subjectVector.name == subject.name
 	subjectVector.namespace == subject.namespace
 }
 
 # for users/ groups
-is_same_subjects(subjectVector, subject){
+is_same_subjects(subjectVector, subject) {
 	subjectVector.kind == subject.kind
 	subjectVector.name == subject.name
 	subjectVector.apiGroup == subject.apiGroup
