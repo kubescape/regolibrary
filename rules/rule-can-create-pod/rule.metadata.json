@@ -22,11 +22,7 @@
           ]
       }
     ],
-    "ruleDependencies": [
-      {
-        "packageName": "cautils"
-      }
-    ],
+    "ruleDependencies": [],
     "description": "determines which users can create pods",
     "remediation": "",
     "ruleQuery": "armo_builtins"

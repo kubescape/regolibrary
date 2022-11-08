@@ -233,6 +233,19 @@
                 "CIS-2.7"
             ]
         },
+        "3": {
+            "name": "Control Plane Configuration",
+            "id": "3",
+            "subSections": {
+                "2": {
+                    "name": "Logging",
+                    "id": "3.2.1",
+                    "controlsIDs": [
+                        "CIS-3.2.1"
+                    ]
+                }
+            }
+        },
         "4": {
             "name": "Worker Nodes",
             "id": "4",

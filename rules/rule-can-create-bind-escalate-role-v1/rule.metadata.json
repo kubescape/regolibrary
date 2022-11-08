@@ -23,11 +23,7 @@
         ]
     }
   ],
-  "ruleDependencies": [
-    {
-      "packageName": "cautils"
-    }
-  ],
+  "ruleDependencies": [],
   "description": "determines which users can create/update rolebindings/clusterrolebindings or bind roles/clusterroles",
   "remediation": "",
   "ruleQuery": "armo_builtins"

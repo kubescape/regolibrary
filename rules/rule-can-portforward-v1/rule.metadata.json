@@ -22,11 +22,7 @@
           ]
       }
     ],
-    "ruleDependencies": [
-      {
-        "packageName": "cautils"
-      }
-    ],
+    "ruleDependencies": [],
     "description": "",
     "remediation": "",
     "ruleQuery": "armo_builtins"
