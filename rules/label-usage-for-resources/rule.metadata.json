@@ -13,7 +13,7 @@
           "*"
         ],
         "resources": [
-          "Pods",
+          "Pod",
           "Deployment",
           "ReplicaSet",
           "DaemonSet",
