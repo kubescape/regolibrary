@@ -19,7 +19,7 @@ These are used by [Kubescape](https://github.com/kubescape/kubescape).
 Add `frameworkName.json` file in the `/frameworks` directory
 
 Example of a framework:
-```
+```json
 {
     "name": "DevOpsBest",
     "description": "This framework is recommended for use by devops.",
@@ -49,7 +49,7 @@ Example of a framework:
 Add `controlName.json` file in the `/controls` directory.
 
 Example of a control:
-```
+```json
 {
     "name": "Pods in default namespace",
     "attributes": {
@@ -81,7 +81,7 @@ Example of a control:
 2. Add to the rule directory file - `rule.metadata.json`:
 
 Example of rule.metadata.json:
-```
+```json
 {
     "name": "resources-cpu-limit-and-request",
     "attributes": {
@@ -135,7 +135,7 @@ Example of rule.metadata.json:
 
     This is where the logic of the rule is. 
     Example of `raw.rego`:
-    ```
+    ```rego
     package armo_builtins
 
     deny[msga] {
