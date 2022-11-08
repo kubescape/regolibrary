@@ -7,8 +7,8 @@ deny[msga] {
 	subjectVector := input[_]
 	role := subjectVector.relatedObjects[i]
 	rolebinding := subjectVector.relatedObjects[j]
-	endswith(subjectVector.relatedObjects[i].kind, "Role")
-	endswith(subjectVector.relatedObjects[j].kind, "Binding")
+	endswith(role.kind, "Role")
+	endswith(rolebinding.kind, "Binding")
 
 	rule := role.rules[p]
 
@@ -37,7 +37,7 @@ deny[msga] {
 	])
 
 	msga := {
-		"alertMessage": sprintf("Subject: %v-%v can create/delete services", [subjectVector.kind, subjectVector.name]),
+		"alertMessage": sprintf("Subject: %s-%s can create/delete services", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
 		"failedPaths": finalpath,
 		"fixPaths": [],
