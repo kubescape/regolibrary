@@ -10,7 +10,6 @@ The main components of the regolibrary:
 
 These are used by [Kubescape](https://github.com/kubescape/kubescape).
 
----
 
 
 ## **How to**

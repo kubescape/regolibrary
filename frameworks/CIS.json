@@ -124,7 +124,8 @@
         "Ensure that the --rotate-certificates argument is not set to false",
         "Verify that the RotateKubeletServerCertificate argument is set to true",
         "Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers",
-        "Ensure that a unique Certificate Authority is used for etcd"
+        "Ensure that a unique Certificate Authority is used for etcd",
+        "Ensure that a minimal audit policy is created"
     ],
     "subSections": {
         "1": {
@@ -230,6 +231,19 @@
                 "CIS-2.6",
                 "CIS-2.7"
             ]
+        },
+        "3": {
+            "name": "Control Plane Configuration",
+            "id": "3",
+            "subSections": {
+                "2": {
+                    "name": "Logging",
+                    "id": "3.2.1",
+                    "controlsIDs": [
+                        "CIS-3.2.1"
+                    ]
+                }
+            }
         },
         "4": {
             "name": "Worker Nodes",
