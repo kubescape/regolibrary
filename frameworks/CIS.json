@@ -99,6 +99,7 @@
         "Minimize the admission of containers which use HostPorts",
         "Ensure that all Namespaces have Network Policies defined",
         "Prefer using secrets as files over secrets as environment variables",
+        "Consider external secret storage",
         "Create administrative boundaries between resources using namespaces",
         "Ensure that the seccomp profile is set to docker/default in your pod definitions",
         "Apply Security Context to Your Pods and Containers",
@@ -333,7 +334,8 @@
                     "name": "Secrets Management",
                     "id": "5.4",
                     "controlsIDs": [
-                        "CIS-5.4.1"
+                        "CIS-5.4.1",
+                        "CIS-5.4.2"
                     ]
                 },
                 "7": {
