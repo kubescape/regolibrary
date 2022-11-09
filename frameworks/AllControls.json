@@ -7,7 +7,6 @@
     "controlsNames": [
         "Enforce Kubelet client TLS authentication",
         "Secret/ETCD encryption enabled",
-        "Exposed dashboard",
         "Applications credentials in configuration files",
         "Exec into container",
         "CVE-2022-24348-argocddirtraversal",

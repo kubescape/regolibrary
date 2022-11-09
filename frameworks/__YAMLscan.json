@@ -34,7 +34,6 @@
         "Container hostPort",
         "Writable hostPath mount",
         "Insecure capabilities",
-        "Exposed dashboard",
         "HostPath mount",
         "Resources CPU limit and request",
         "Instance Metadata API",
