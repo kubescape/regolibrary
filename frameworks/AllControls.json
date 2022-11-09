@@ -41,7 +41,6 @@
         "Sudo in container entrypoint",
         "Cluster-admin binding",
         "Linux hardening",
-        "Namespace without service accounts",
         "List Kubernetes secrets",
         "Access container service account",
         "Workloads with Critical vulnerabilities exposed to external traffic",

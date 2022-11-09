@@ -27,7 +27,6 @@
       "Pods in default namespace",
       "Sudo in container entrypoint",
       "Portforwarding privileges",
-      "Namespace without service accounts",
       "Cluster internal networking",
       "Audit logs enabled",
       "Secret/ETCD encryption enabled",
