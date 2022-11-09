@@ -3,10 +3,7 @@
     "attributes": {
         "armoBuiltin": true,
         "controlTypeTags": [
-            "security",
-            "compliance",
-            "devops",
-            "security-impact"
+            "security"
         ],
         "attackTracks": [
             {
