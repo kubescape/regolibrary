@@ -1,6 +1,6 @@
 [
     {
-        "alertMessage": "Encryption provider config is not using one of the allowed providers (aescbc, secretbox, kms)",
+        "alertMessage": "Encryption provider config is not using a recommended provider for KMS",
         "alertObject": {
             "externalObjects": {
                 "apiVersion": "apiserver.config.k8s.io/v1",
@@ -24,8 +24,12 @@
         "failedPaths": [],
         "fixPaths": [
             {
-                "path": "resources[0].providers[1]",
-                "value": "{\"aescbc\" | \"secretbox\" | \"kms\" : <provider config>}"
+                "path": "resources[1].resources[0]",
+                "value": "secrets"
+            },
+            {
+                "path": "resources[1].providers[0].kms",
+                "value": "YOUR_EXTERNAL_KMS"
             }
         ],
         "packagename": "armo_builtins"
