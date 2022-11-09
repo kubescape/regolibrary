@@ -16,7 +16,7 @@ deny[msg] {
 	}
 
 	fix_paths := [
-	{"path": sprintf("resources[%d].resources[%d]", [count(resources), 0]),	"value": "secrets"}
+	{"path": sprintf("resources[%d].resources[%d]", [count(resources), 0]),	"value": "secrets"},
 	{"path": sprintf("resources[%d].providers[%d].kms", [count(resources), 0]),	"value": "YOUR_EXTERNAL_KMS"},
 	]
 
