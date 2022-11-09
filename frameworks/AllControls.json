@@ -68,7 +68,6 @@
         "CVE-2022-0492-cgroups-container-escape",
         "K8s common labels usage",
         "Label usage for resources",
-        "Allowed hostPath",
         "RBAC enabled"
     ]
 }

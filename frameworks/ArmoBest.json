@@ -10,7 +10,6 @@
       "Immutable container filesystem",
       "Non-root containers",
       "Privileged container",
-      "Allowed hostPath",
       "Automatic mapping of service account",
       "HostNetwork access",
       "Resource limits",

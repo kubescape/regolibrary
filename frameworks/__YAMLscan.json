@@ -8,7 +8,6 @@
         "Forbidden Container Registries",
         "Exec into container",
         "Resources memory limit and request",
-        "Allowed hostPath",
         "Data Destruction",
         "Resource policies",
         "Applications credentials in configuration files",
