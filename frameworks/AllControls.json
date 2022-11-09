@@ -59,7 +59,7 @@
         "Host PID/IPC privileges",
         "Container hostPort",
         "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability",
-        "Control plane hardening",
+        "API server insecure port is enabled",
         "Pods in default namespace",
         "Kubernetes CronJob",
         "Resources memory limit and request",

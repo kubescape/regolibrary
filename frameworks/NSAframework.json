@@ -5,7 +5,7 @@
       "armoBuiltin": true
     },
     "controlsNames": [
-      "Control plane hardening",
+      "API server insecure port is enabled",
       "Host PID/IPC privileges",
       "Immutable container filesystem",
       "Non-root containers",
