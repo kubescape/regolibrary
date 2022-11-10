@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "''Flannel' CNI doesn't support Network Policies.",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "CNIName": "Flannel"
+                },
+                "kind": "ControlPlaneInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

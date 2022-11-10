@@ -23,11 +23,7 @@
           ]
       }
     ],
-    "ruleDependencies": [
-      {
-        "packageName": "cautils"
-      }
-    ],
+    "ruleDependencies": [],
     "description": "determines which users can delete logs inside a container",
     "remediation": "",
     "ruleQuery": "armo_builtins"

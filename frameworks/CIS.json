@@ -126,6 +126,7 @@
         "Verify that the RotateKubeletServerCertificate argument is set to true",
         "Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers",
         "Ensure that a unique Certificate Authority is used for etcd",
+        "Ensure that the CNI in use supports Network Policies",
         "Ensure that a minimal audit policy is created"
     ],
     "subSections": {
@@ -327,6 +328,7 @@
                     "name": "Network Policies and CNI",
                     "id": "5.3",
                     "controlsIDs": [
+                        "CIS-5.3.1",
                         "CIS-5.3.2"
                     ]
                 },
