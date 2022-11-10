@@ -10,7 +10,6 @@ deny[msg] {
 	config_file_content = decode_config_file(base64.decode(config_file.content))
 
 	resources := config_file_content.resources
-	resource := resources[_]
 	every resource in resources{
 		not has_recommended_provider(resource)
 	}
