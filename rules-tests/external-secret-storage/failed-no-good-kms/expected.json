@@ -1,0 +1,42 @@
+[
+    {
+        "alertMessage": "Encryption provider config is not using a recommended provider for KMS",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "apiserver.config.k8s.io/v1",
+                "kind": "EncryptionConfiguration",
+                "name": "encryption-provider-config",
+                "resources": [
+                    {
+                        "providers": [
+                            {
+                                "kms": {
+                                    "cachesize": 100,
+                                    "endpoint": "unix:///tmp/socketfile.sock",
+                                    "name": "myKmsPluginFoo",
+                                    "timeout": "3s"
+                                }
+                            }
+                        ],
+                        "resources": [
+                            "secrets"
+                        ]
+                    }
+                ]
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "resources[1].resources[0]",
+                "value": "secrets"
+            },
+            {
+                "path": "resources[1].providers[0].kms",
+                "value": "YOUR_EXTERNAL_KMS"
+            }
+        ],
+        "packagename": "armo_builtins"
+    }
+]
