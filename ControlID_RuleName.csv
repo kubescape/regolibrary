@@ -82,6 +82,7 @@ C-0087,CVE-2022-23648
 C-0088,rbac-enabled-cloud
 C-0088,rbac-enabled-native
 C-0089,CVE-2022-3172
+C-0090,CVE-2022-39328
 CIS-1.1.10,ensure-that-the-Container-Network-Interface-file-ownership-is-set-to-root-root
 CIS-1.1.11,ensure-that-the-etcd-data-directory-permissions-are-set-to-700-or-more-restrictive
 CIS-1.1.12,ensure-that-the-etcd-data-directory-ownership-is-set-to-etcd-etcd
