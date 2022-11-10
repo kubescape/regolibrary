@@ -11,6 +11,7 @@
         "Applications credentials in configuration files",
         "Exec into container",
         "CVE-2022-24348-argocddirtraversal",
+        "CVE-2022-39328-grafana-auth-bypass",
         "HostNetwork access",
         "Configured liveness probe",
         "Configured readiness probe",
