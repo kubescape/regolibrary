@@ -127,7 +127,8 @@
         "Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers",
         "Ensure that a unique Certificate Authority is used for etcd",
         "Ensure that the CNI in use supports Network Policies",
-        "Ensure that a minimal audit policy is created"
+        "Ensure that a minimal audit policy is created",
+        "Ensure that the audit policy covers key security concerns"
     ],
     "subSections": {
         "1": {
@@ -240,9 +241,10 @@
             "subSections": {
                 "2": {
                     "name": "Logging",
-                    "id": "3.2.1",
+                    "id": "3.2",
                     "controlsIDs": [
-                        "CIS-3.2.1"
+                        "CIS-3.2.1",
+                        "CIS-3.2.2"
                     ]
                 }
             }

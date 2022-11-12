@@ -1,0 +1,148 @@
+[
+    {
+        "alertMessage": "audit policy rules do not cover key security areas or audit levels are invalid",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "audit.k8s.io/v1",
+                "kind": "Policy",
+                "metadata": {
+                    "name": "Audit policy file"
+                },
+                "omitStages": [
+                    "RequestReceived"
+                ],
+                "rules": [
+                    {
+                        "level": "Metadata",
+                        "resources": [
+                            {
+                                "group": "",
+                                "resources": [
+                                    "pods",
+                                    "deployments",
+                                    "tokenreviews"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "level": "Metadata",
+                        "resources": [
+                            {
+                                "group": "",
+                                "resources": [
+                                    "secrets"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "level": "Metadata",
+                        "resources": [
+                            {
+                                "group": "",
+                                "resources": [
+                                    "pods/log",
+                                    "pods/status",
+                                    "pods/exec",
+                                    "pods/portforward",
+                                    "pods/proxy",
+                                    "services/proxy"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "level": "Metadata",
+                        "resources": [
+                            {
+                                "group": "",
+                                "resourceNames": [
+                                    "controller-leader"
+                                ],
+                                "resources": [
+                                    "configmaps"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "level": "None",
+                        "resources": [
+                            {
+                                "group": "",
+                                "resources": [
+                                    "endpoints",
+                                    "services"
+                                ]
+                            }
+                        ],
+                        "users": [
+                            "system:kube-proxy"
+                        ],
+                        "verbs": [
+                            "watch"
+                        ]
+                    },
+                    {
+                        "level": "None",
+                        "nonResourceURLs": [
+                            "/api*",
+                            "/version"
+                        ],
+                        "userGroups": [
+                            "system:authenticated"
+                        ]
+                    },
+                    {
+                        "level": "Request",
+                        "namespaces": [
+                            "kube-system"
+                        ],
+                        "resources": [
+                            {
+                                "group": "",
+                                "resources": [
+                                    "configmaps"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "level": "Metadata",
+                        "resources": [
+                            {
+                                "group": "",
+                                "resources": [
+                                    "secrets",
+                                    "configmaps"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "level": "Request",
+                        "resources": [
+                            {
+                                "group": ""
+                            },
+                            {
+                                "group": "extensions"
+                            }
+                        ]
+                    },
+                    {
+                        "level": "Metadata",
+                        "omitStages": [
+                            "RequestReceived"
+                        ]
+                    }
+                ]
+            }
+        },
+        "alertScore": 5,
+        "failedPaths": [],
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]
