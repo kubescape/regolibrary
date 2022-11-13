@@ -1,18 +1,18 @@
 [
     {
-        "alertMessage": "Workload: my-deployment does not define any linux security hardening",
+        "alertMessage": "Deployment: my-deployment does not define any linux security hardening",
         "failedPaths": [],
         "fixPaths": [
             {
-                "path": "spec.template.spec.containers[0].seccompProfile",
+                "path": "spec.template.spec.containers[1].securityContext.seccompProfile",
                 "value": "YOUR_VALUE"
             },
             {
-                "path": "spec.template.spec.containers[0].seLinuxOptions",
+                "path": "spec.template.spec.containers[1].securityContext.seLinuxOptions",
                 "value": "YOUR_VALUE"
             },
             {
-                "path": "spec.template.spec.containers[0].capabilities.drop",
+                "path": "spec.template.spec.containers[1].securityContext.capabilities.drop",
                 "value": "YOUR_VALUE"
             }
         ],
@@ -35,19 +35,19 @@
         }
     },
     {
-        "alertMessage": "Workload: my-deployment does not define any linux security hardening",
+        "alertMessage": "Deployment: my-deployment does not define any linux security hardening",
         "failedPaths": [],
         "fixPaths": [
             {
-                "path": "spec.template.spec.containers[1].seccompProfile",
+                "path": "spec.template.spec.containers[0].securityContext.seccompProfile",
                 "value": "YOUR_VALUE"
             },
             {
-                "path": "spec.template.spec.containers[1].seLinuxOptions",
+                "path": "spec.template.spec.containers[0].securityContext.seLinuxOptions",
                 "value": "YOUR_VALUE"
             },
             {
-                "path": "spec.template.spec.containers[1].capabilities.drop",
+                "path": "spec.template.spec.containers[0].securityContext.capabilities.drop",
                 "value": "YOUR_VALUE"
             }
         ],
