@@ -4,7 +4,7 @@
       "failedPaths": [],
       "fixPaths": [
          {
-            "path": "spec.jobTemplate.template.spec.containers[0].resources.limits.memory",
+            "path": "spec.jobTemplate.spec.template.spec.containers[0].resources.limits.memory",
             "value": "YOUR_VALUE"
          },
          {
