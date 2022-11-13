@@ -1,0 +1,19 @@
+{
+    "id": "CIS-3.2.1",
+    "controlID": "CIS-3.2.1",
+    "name": "Ensure that a minimal audit policy is created",
+    "description": "Kubernetes can audit the details of requests made to the API server. The `--audit-policy-file` flag must be set for this logging to be enabled.",
+    "long_description": "Logging is an important detective control for all systems, to detect potential unauthorised access.",
+    "remediation": "Create an audit policy file for your cluster.",
+    "manual_test": "Run the following command on one of the cluster master nodes:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--audit-policy-file` is set. Review the contents of the file specified and ensure that it contains a valid audit policy.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126657/recommendations/1838582"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [],
+    "baseScore": 5,
+    "impact_statement": "Audit logs will be created on the master nodes, which will consume disk space. Care should be taken to avoid generating too large volumes of log information as this could impact the available of the cluster nodes.",
+    "default_value": "Unless the `--audit-policy-file` flag is specified, no auditing will be carried out."
+}

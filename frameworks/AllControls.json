@@ -7,7 +7,6 @@
     "controlsNames": [
         "Enforce Kubelet client TLS authentication",
         "Secret/ETCD encryption enabled",
-        "Exposed dashboard",
         "Applications credentials in configuration files",
         "Exec into container",
         "CVE-2022-24348-argocddirtraversal",
@@ -43,7 +42,6 @@
         "Sudo in container entrypoint",
         "Cluster-admin binding",
         "Linux hardening",
-        "Namespace without service accounts",
         "List Kubernetes secrets",
         "Access container service account",
         "Workloads with Critical vulnerabilities exposed to external traffic",
@@ -62,14 +60,13 @@
         "Host PID/IPC privileges",
         "Container hostPort",
         "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability",
-        "Control plane hardening",
+        "API server insecure port is enabled",
         "Pods in default namespace",
         "Kubernetes CronJob",
         "Resources memory limit and request",
         "CVE-2022-0492-cgroups-container-escape",
         "K8s common labels usage",
         "Label usage for resources",
-        "Allowed hostPath",
         "RBAC enabled"
     ]
 }

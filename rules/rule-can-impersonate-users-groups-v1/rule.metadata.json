@@ -23,11 +23,7 @@
           ]
       }
     ],
-    "ruleDependencies": [
-      {
-        "packageName": "cautils"
-      }
-    ],
+    "ruleDependencies": [],
     "description": "determines which users can impersonate users/groups",
     "remediation": "",
     "ruleQuery": "armo_builtins"

@@ -23,11 +23,7 @@
         ]
       }
     ],
-    "ruleDependencies": [
-      {
-        "packageName": "cautils"
-      }
-    ],
+    "ruleDependencies": [],
     "description": "determines which users have create/delete  permissions on services",
     "remediation": "",
     "ruleQuery": "armo_builtins"

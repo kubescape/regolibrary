@@ -1,0 +1,26 @@
+{
+    "name": "ensure-that-the-cni-in-use-supports-network-policies",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [],
+    "dynamicMatch": [
+        {
+            "apiGroups": [
+                "hostdata.kubescape.cloud"
+            ],
+            "apiVersions": [
+                "v1beta0"
+            ],
+            "resources": [
+                "ControlPlaneInfo"
+            ]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "There are a variety of CNI plugins available for Kubernetes. If the CNI in use does not support Network Policies it may not be possible to effectively restrict traffic in the cluster.",
+    "remediation": "If the CNI plugin in use does not support network policies, consideration should be given to making use of a different plugin, or finding an alternate mechanism for restricting traffic in the Kubernetes cluster.",
+    "ruleQuery": ""
+}
