@@ -66,12 +66,16 @@ untrusted_image_repo[msga] {
 
 # image_in_allowed_list - rule to check if an image complies with imageRepositoryAllowList.
 image_in_allowed_list(image){
-	image1 := docker_host_wrapper(image)
-	
+
+	# extract host from image
+	image_host = extract_image_host(docker_host_wrapper(image))
+
 	# see default-config-inputs.json for list values
 	allowedlist := data.postureControlInputs.imageRepositoryAllowList
 	registry := allowedlist[_]
-	regex.match(registry, image1)
+
+	#  add "$" to registry regex matching registry regex to the image host
+	regex.match(append_dollar_to_registry_regex(registry), image_host)
 }
 
 
@@ -79,5 +83,26 @@ image_in_allowed_list(image){
 # An image that doesn't contain '/' is assumed to not having a host and therefore associated with docker hub.
 docker_host_wrapper(image) := result if {
 	not contains(image, "/")
-	result := concat("", ["docker.io", image])#, [image])
+	result := concat("/", ["docker.io", image])#, [image])
 } else := image
+
+
+# append_dollar_to_registry_regex - returns a registry with appended regex char "$" at the end.
+# rational - registry is expected to be searched only for the image host name. if the registry doesn't end with any regex definition, 
+# need to add "$" in order to make sure registry is not searched anywhere in the host.
+# if registry ends with "/" - adding "$". otherwise, adding "\/$". 
+append_dollar_to_registry_regex(registry) := result {
+	endswith(registry, "/")
+	result = concat("", [registry, "$"])
+	# result = [val | val := concat("", [registry[i], ""])]
+} else := concat("", [registry, "\/$"])
+
+
+# extract_image_host - extracting the host from the image.  
+extract_image_host(image) := result if {
+	not endswith("/", image)
+    splitted := split(image, "/")
+    result = replace(image, splitted[count(splitted)-1], "") 
+} else := image
+
+
