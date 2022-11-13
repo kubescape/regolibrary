@@ -1,5 +1,6 @@
 package armo_builtins
 import data
+import future.keywords.if
 # import data.kubernetes.api.client as client
 
 untrusted_image_repo[msga] {
@@ -63,9 +64,20 @@ untrusted_image_repo[msga] {
 	}
 }
 
+# image_in_allowed_list - rule to check if an image complies with imageRepositoryAllowList.
 image_in_allowed_list(image){
+	image1 := docker_host_wrapper(image)
+	
 	# see default-config-inputs.json for list values
 	allowedlist := data.postureControlInputs.imageRepositoryAllowList
 	registry := allowedlist[_]
-	regex.match(registry, image)
+	regex.match(registry, image1)
 }
+
+
+# docker_host_wrapper - wrap an image without a host with a docker hub host 'docker.io'. 
+# An image that doesn't contain '/' is assumed to not having a host and therefore associated with docker hub.
+docker_host_wrapper(image) := result if {
+	not contains(image, "/")
+	result := concat("", ["docker.io", image])#, [image])
+} else := image

@@ -10,9 +10,10 @@
     "settings": {
         "postureControlInputs": {
             "imageRepositoryAllowList": [
-                "ecr.*amazonaws.com",
+                "amazonaws.com",
                 ".*.gcr.io",
-                ".*azurecr.io"
+                "azurecr.io",
+                "docker.io"
             ],
             "insecureCapabilities": [
                 "SETPCAP",
