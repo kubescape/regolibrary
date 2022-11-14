@@ -75,7 +75,7 @@ image_in_allowed_list(image){
 	registry := allowedlist[_]
 
 	#  add "$" to registry regex and match to the image host
-	regex.match(append_dollar_to_registry_regex(registry), image_host)
+	regex.match(regexify(registry), image_host)
 }
 
 
