@@ -94,7 +94,7 @@ docker_host_wrapper(image) := result if {
 append_dollar_to_registry_regex(registry) := result {
 	endswith(registry, "/")
 	result = sprintf("^%s.*$", [registry])
-} else := concat("", ["^", registry, "\/$"])
+} else := sprintf("^%s\/.*$", [registry])
 
 
 # extract_image_host - extracting the host from the image.  
