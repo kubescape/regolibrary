@@ -93,7 +93,7 @@ docker_host_wrapper(image) := result if {
 # if registry ends with "/" - adding "$". otherwise, adding "\/$". 
 append_dollar_to_registry_regex(registry) := result {
 	endswith(registry, "/")
-	result = concat("", ["^", registry, "$"])
+	result = sprintf("^%s.*$", [registry])
 } else := concat("", ["^", registry, "\/$"])
 
 
