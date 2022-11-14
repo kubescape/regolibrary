@@ -274,7 +274,6 @@ def main():
 
     control_category_obj = readmeapi.get_category('controls')
     parent_control_doc = readmeapi.get_doc('controls')
-    print("Parent doc\n",parent_control_doc)
     if os.getenv('PRUNE_CONTROLS'):
         for control_doc in readmeapi.get_docs_in_category('controls'):
             if control_doc['_id'] == parent_control_doc['_id']:
