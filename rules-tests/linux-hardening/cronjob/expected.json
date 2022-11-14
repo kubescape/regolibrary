@@ -12,7 +12,7 @@
                 "value": "YOUR_VALUE"
             },
             {
-                "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.capabilities.drop",
+                "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.capabilities.drop[0]",
                 "value": "YOUR_VALUE"
             }
         ],
@@ -44,7 +44,7 @@
                 "value": "YOUR_VALUE"
             },
             {
-                "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.capabilities.drop",
+                "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.capabilities.drop[0]",
                 "value": "YOUR_VALUE"
             }
         ],

@@ -31,11 +31,13 @@ is_unsafe_obj(obj) := fix_paths {
 	fix_paths := are_unsafe_specs(obj, ["spec", "template", "spec"], ["spec", "template", "metadata", "annotations"])
 }
 
+
+# Do we need here anotation_path, or it just
 are_unsafe_specs(obj, specs_path, anotation_path) := paths {
 	# spec
-	specs := object.get(obj, specs_path, {})
-	not specs.seccompProfile == null
-	not specs.seLinuxOptions == null
+	specs := object.get(obj, specs_path, null)
+	specs != null
+	are_seccomp_and_selinux_disabled(specs)
 
 	# annotation
 	annotations := object.get(obj, anotation_path, [])
@@ -44,30 +46,35 @@ are_unsafe_specs(obj, specs_path, anotation_path) := paths {
 
 	# container
 	containers_path := array.concat(specs_path, ["containers"])
-	paths := [[
-		{
-			"path": sprintf("%s.seccompProfile", [container_fix_path]),
-			"value": "YOUR_VALUE",
-		},
-		{
-			"path": sprintf("%s.seLinuxOptions", [container_fix_path]),
-			"value": "YOUR_VALUE",
-		},
-		{
-			"path": sprintf("%s.capabilities.drop", [container_fix_path]),
-			"value": "YOUR_VALUE",
-		},
+	containers := object.get(obj, containers_path, [])
+
+	# Psuedo code explanation:
+	# for i, container in containers
+	#  		if is_unsafe_container:
+	# 			fix_paths += [(containers_path[i] + fix_fields) for j, field in fix_fields]
+	# 
+	# At the end we get [[<container1_path1>, <container1_path2>, ...], ...]
+	containers_fix_path := concat(".", containers_path)
+	fix_fields := ["seccompProfile", "seLinuxOptions", "capabilities.drop[0]"]
+	paths := [[{
+		"path": sprintf("%s[%d].securityContext.%s", [containers_fix_path, i, field]),
+		"value": "YOUR_VALUE",
+	} |
+		field := fix_fields[j]
 	] |
-		container = object.get(obj, containers_path, [])[i]
+		container = containers[i]
 		is_unsafe_container(container)
-		container_fix_path := sprintf("%s[%d].securityContext", [concat(".", containers_path), i])
 	]
 
 	count(paths) > 0
 }
 
+are_seccomp_and_selinux_disabled(obj) {
+	not obj.securityContext.seccompProfile
+	not obj.securityContext.seLinuxOptions
+}
+
 is_unsafe_container(container) {
-	not container.securityContext.seccompProfile
-	not container.securityContext.seLinuxOptions
+	are_seccomp_and_selinux_disabled(container)
 	not container.securityContext.capabilities.drop
 }
