@@ -31,8 +31,6 @@ is_unsafe_obj(obj) := fix_paths {
 	fix_paths := are_unsafe_specs(obj, ["spec", "template", "spec"], ["spec", "template", "metadata", "annotations"])
 }
 
-
-# Do we need here anotation_path, or it just
 are_unsafe_specs(obj, specs_path, anotation_path) := paths {
 	# spec
 	specs := object.get(obj, specs_path, null)
@@ -51,7 +49,7 @@ are_unsafe_specs(obj, specs_path, anotation_path) := paths {
 	# Psuedo code explanation:
 	# for i, container in containers
 	#  		if is_unsafe_container:
-	# 			fix_paths += [(containers_path[i] + fix_fields) for j, field in fix_fields]
+	# 			fix_paths += [(containers_path[i] + field) for j, field in fix_fields]
 	# 
 	# At the end we get [[<container1_path1>, <container1_path2>, ...], ...]
 	containers_fix_path := concat(".", containers_path)
