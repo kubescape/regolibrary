@@ -1,51 +1,66 @@
-[{
-    "alertMessage": "Cronjob: hello does not define any linux security hardening",
-    "failedPaths": [],
-    "fixPaths": [{
-        "path": "spec.jobTemplate.spec.template.spec.containers[0].seccompProfile",
-        "value": "YOUR_VALUE"
-    }, {
-        "path": "spec.jobTemplate.spec.template.spec.containers[0].seLinuxOptions",
-        "value": "YOUR_VALUE"
-    }, {
-        "path": "spec.jobTemplate.spec.template.spec.containers[0].capabilities.drop",
-        "value": "YOUR_VALUE"
-    }],
-    "ruleStatus": "",
-    "packagename": "armo_builtins",
-    "alertScore": 7,
-    "alertObject": {
-        "k8sApiObjects": [{
-            "apiVersion": "batch/v1beta1",
-            "kind": "CronJob",
-            "metadata": {
-                "name": "hello"
+[
+    {
+        "alertMessage": "CronJob: hello does not define any linux security hardening",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.seccompProfile",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.seLinuxOptions",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.capabilities.drop[0]",
+                "value": "YOUR_VALUE"
             }
-        }]
-    }
-}, {
-    "alertMessage": "Cronjob: hello does not define any linux security hardening",
-    "failedPaths": [],
-    "fixPaths": [{
-        "path": "spec.jobTemplate.spec.template.spec.containers[1].seccompProfile",
-        "value": "YOUR_VALUE"
-    }, {
-        "path": "spec.jobTemplate.spec.template.spec.containers[1].seLinuxOptions",
-        "value": "YOUR_VALUE"
-    }, {
-        "path": "spec.jobTemplate.spec.template.spec.containers[1].capabilities.drop",
-        "value": "YOUR_VALUE"
-    }],
-    "ruleStatus": "",
-    "packagename": "armo_builtins",
-    "alertScore": 7,
-    "alertObject": {
-        "k8sApiObjects": [{
-            "apiVersion": "batch/v1beta1",
-            "kind": "CronJob",
-            "metadata": {
-                "name": "hello"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "CronJob: hello does not define any linux security hardening",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.seccompProfile",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.seLinuxOptions",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.capabilities.drop[0]",
+                "value": "YOUR_VALUE"
             }
-        }]
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
     }
-}]
+]

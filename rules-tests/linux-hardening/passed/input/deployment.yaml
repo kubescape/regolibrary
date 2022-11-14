@@ -1,0 +1,143 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    app : goproxy
+spec:
+  selector:
+    matchLabels:
+      app : goproxy
+  template:
+    metadata :
+      name : goproxy
+      labels :
+        app : goproxy
+    spec :
+      hostNetwork: true
+      containers :
+        -
+          name : mysql
+          image : mysql
+          securityContext:
+            capabilities:
+              drop:
+                - NET_RAW
+            readOnlyRootFilesystem: false
+          env :
+            -
+              name : MYSQL_ROOT_PASSWORD
+              value : "rootpasswd"
+      volumes :
+        -
+          name : site-data
+          persistentVolumeClaim :
+            claimName : my-lamp-site-data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    app : goproxy
+spec:
+  selector:
+    matchLabels:
+      app : goproxy
+  template:
+    metadata :
+      name : goproxy
+      labels :
+        app : goproxy
+    spec :
+      hostNetwork: true
+      metadata:
+        annotations:
+          container.apparmor.security.beta.kubernetes.io/test-container: runtime/default
+      containers :
+        -
+          name : mysql
+          image : mysql
+          securityContext:
+            readOnlyRootFilesystem: false
+          env :
+            -
+              name : MYSQL_ROOT_PASSWORD
+              value : "rootpasswd"
+      volumes :
+        -
+          name : site-data
+          persistentVolumeClaim :
+            claimName : my-lamp-site-data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    app : goproxy
+spec:
+  selector:
+    matchLabels:
+      app : goproxy
+  template:
+    metadata :
+      name : goproxy
+      labels :
+        app : goproxy
+    spec :
+      hostNetwork: true
+      securityContext:
+        seLinuxOptions:
+          level: "s0:c123,c456"
+      containers :
+        -
+          name : mysql
+          image : mysql
+          securityContext:
+            readOnlyRootFilesystem: false
+          env :
+            -
+              name : MYSQL_ROOT_PASSWORD
+              value : "rootpasswd"
+      volumes :
+        -
+          name : site-data
+          persistentVolumeClaim :
+            claimName : my-lamp-site-data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    app : goproxy
+spec:
+  selector:
+    matchLabels:
+      app : goproxy
+  template:
+    metadata :
+      name : goproxy
+      labels :
+        app : goproxy
+    spec :
+      hostNetwork: true
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      containers :
+        -
+          name : mysql
+          image : mysql
+          securityContext:
+            readOnlyRootFilesystem: false
+          env :
+            -
+              name : MYSQL_ROOT_PASSWORD
+              value : "rootpasswd"
+      volumes :
+        -
+          name : site-data
+          persistentVolumeClaim :
+            claimName : my-lamp-site-data
