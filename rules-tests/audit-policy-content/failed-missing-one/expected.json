@@ -6,7 +6,7 @@
                 "apiVersion": "audit.k8s.io/v1",
                 "kind": "Policy",
                 "metadata": {
-                    "name": "Audit policy file"
+                    "name": "minikube - Audit policy file"
                 },
                 "omitStages": [
                     "RequestReceived"

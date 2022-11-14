@@ -43,7 +43,7 @@ deny[msga] {
 	failed_obj := json.patch(policyFile, [{
 		"op": "add",
 		"path": "metadata",
-		"value": {"name": "Audit policy file"},
+		"value": {"name": sprintf("%s - Audit policy file", [obj.metadata.name])},
 	}])
 
 	msga := {
@@ -118,7 +118,7 @@ test_all_rules_against_one_seeked_resource(seeked_resource, value_of_seeked_reso
 	rules_count > 0
 
 	# Check if rules concerning seeked resource have valid audit levels 
-	valid_rules := [rule | rule := rules_with_seeked_resource[_]; test_one_rule_against_seeked_resource_with_proper_audit_level(rule, seeked_resource, value_of_seeked_resource)]
+	valid_rules := [rule | rule := rules_with_seeked_resource[_]; validate_rule_audit_level(rule, value_of_seeked_resource)]
 	valid_rules_count := count(valid_rules)
 
 	valid_rules_count > 0
@@ -137,10 +137,6 @@ is_rule_concering_seeked_resource(rule, seeked_resource) if {
 #    resources:
 #    - group: ""
 #      resources: ["pods"]
-test_one_rule_against_seeked_resource_with_proper_audit_level(rule, seeked_resource, value_of_seeked_resource) if {
-	validate_rule_audit_level(rule, value_of_seeked_resource)
-}
-
 validate_rule_audit_level(rule, value_of_seeked_resource) := result if {
 	value_of_seeked_resource.mode == "equal"
 	result := rule.level == value_of_seeked_resource.auditLevel
