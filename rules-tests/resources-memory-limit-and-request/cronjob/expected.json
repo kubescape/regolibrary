@@ -8,7 +8,7 @@
             "value": "YOUR_VALUE"
          },
          {
-            "path": "spec.jobTemplate.template.spec.containers[0].resources.requests.memory",
+            "path": "spec.jobTemplate.spec.template.spec.containers[0].resources.requests.memory",
             "value": "YOUR_VALUE"
          }
       ],
