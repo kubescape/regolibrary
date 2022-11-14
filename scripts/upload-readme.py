@@ -275,12 +275,12 @@ def main():
     control_category_obj = readmeapi.get_category('controls')
     parent_control_doc = readmeapi.get_doc('controls')
     print("Parent doc\n",parent_control_doc)
-    # if os.getenv('PRUNE_CONTROLS'):
-    #     for control_doc in readmeapi.get_docs_in_category('controls'):
-    #         if control_doc['_id'] == parent_control_doc['_id']:
-    #             for child_doc in control_doc['children']:
-    #                 readmeapi.delete_doc(child_doc['slug'])
-    #                 print('Deleted %s'%child_doc['slug'])
+    if os.getenv('PRUNE_CONTROLS'):
+        for control_doc in readmeapi.get_docs_in_category('controls'):
+            if control_doc['_id'] == parent_control_doc['_id']:
+                for child_doc in control_doc['children']:
+                    readmeapi.delete_doc(child_doc['slug'])
+                    print('Deleted %s'%child_doc['slug'])
 
     # Configuration parameter processing
     config_parameters, default_config_inputs = get_configuration_parameters_info()
