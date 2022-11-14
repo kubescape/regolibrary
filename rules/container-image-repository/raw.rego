@@ -74,7 +74,7 @@ image_in_allowed_list(image){
 	allowedlist := data.postureControlInputs.imageRepositoryAllowList
 	registry := allowedlist[_]
 
-	#  add "$" to registry regex matching registry regex to the image host
+	#  add "$" to registry regex and match to the image host
 	regex.match(append_dollar_to_registry_regex(registry), image_host)
 }
 
@@ -93,9 +93,8 @@ docker_host_wrapper(image) := result if {
 # if registry ends with "/" - adding "$". otherwise, adding "\/$". 
 append_dollar_to_registry_regex(registry) := result {
 	endswith(registry, "/")
-	result = concat("", [registry, "$"])
-	# result = [val | val := concat("", [registry[i], ""])]
-} else := concat("", [registry, "\/$"])
+	result = concat("", ["^", registry, "$"])
+} else := concat("", ["^", registry, "\/$"])
 
 
 # extract_image_host - extracting the host from the image.  
