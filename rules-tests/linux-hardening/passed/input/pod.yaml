@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: audit-pod
+  labels:
+    app: audit-pod
+spec:
+  containers:
+  - name: test-container
+    image: hashicorp/http-echo:0.2.3
+    securityContext:
+      capabilities:
+        drop:
+          - NET_RAW
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: audit-pod
+  labels:
+    app: audit-pod
+spec:
+  metadata:
+    annotations:
+      container.apparmor.security.beta.kubernetes.io/test-container: runtime/default
+  containers:
+  - name: test-container
+    image: hashicorp/http-echo:0.2.3
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: audit-pod
+  labels:
+    app: audit-pod
+spec:
+  securityContext:
+    seLinuxOptions:
+      level: "s0:c123,c456"
+  containers:
+  - name: test-container
+    image: hashicorp/http-echo:0.2.3
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: audit-pod
+  labels:
+    app: audit-pod
+spec:
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+  - name: test-container
+    image: hashicorp/http-echo:0.2.3
+
+
+
+
