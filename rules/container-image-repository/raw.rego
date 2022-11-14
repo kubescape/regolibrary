@@ -91,7 +91,7 @@ docker_host_wrapper(image) := result if {
 # rational - registry is expected to be searched only for the image host name. if the registry doesn't end with any regex definition, 
 # need to add "$" in order to make sure registry is not searched anywhere in the host.
 # if registry ends with "/" - adding "$". otherwise, adding "\/$". 
-append_dollar_to_registry_regex(registry) := result {
+regexify(registry) := result {
 	endswith(registry, "/")
 	result = sprintf("^%s.*$", [registry])
 } else := sprintf("^%s\/.*$", [registry])
