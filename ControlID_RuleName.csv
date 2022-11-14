@@ -4,7 +4,6 @@ C-0002,exec-into-container
 C-0002,exec-into-container-v1
 C-0004,resources-memory-limit-and-request
 C-0005,insecure-port-flag
-C-0006,alert-rw-hostpath
 C-0007,rule-excessive-delete-rights
 C-0007,rule-excessive-delete-rights-v1
 C-0009,resource-policies
@@ -40,8 +39,6 @@ C-0042,rule-can-ssh-to-pod-v1
 C-0044,container-hostPort
 C-0045,alert-rw-hostpath
 C-0046,insecure-capabilities
-C-0047,rule-exposed-dashboard
-C-0047,rule-exposed-dashboard-v1
 C-0048,alert-any-hostpath
 C-0049,internal-networking
 C-0050,resources-cpu-limit-and-request
@@ -54,7 +51,6 @@ C-0056,configured-liveness-probe
 C-0057,rule-privilege-escalation
 C-0058,Symlink-Exchange-Can-Allow-Host-Filesystem-Access
 C-0059,nginx-ingress-snippet-annotation-vulnerability
-C-0060,namespace-without-service-account
 C-0061,pods-in-default-namespace
 C-0062,sudo-in-container-entrypoint
 C-0063,rule-can-portforward
@@ -67,7 +63,7 @@ C-0067,k8s-audit-logs-enabled-cloud
 C-0067,k8s-audit-logs-enabled-native
 C-0068,psp-enabled-cloud
 C-0068,psp-enabled-native
-C-0069,anonymous-requests-to-kubelet-service
+C-0069,anonymous-requests-to-kubelet-service-updated
 C-0070,enforce-kubelet-client-tls-authentication
 C-0073,naked-pods
 C-0074,containers-mounting-docker-socket
@@ -86,6 +82,7 @@ C-0087,CVE-2022-23648
 C-0088,rbac-enabled-cloud
 C-0088,rbac-enabled-native
 C-0089,CVE-2022-3172
+C-0090,CVE-2022-39328
 CIS-1.1.10,ensure-that-the-Container-Network-Interface-file-ownership-is-set-to-root-root
 CIS-1.1.11,ensure-that-the-etcd-data-directory-permissions-are-set-to-700-or-more-restrictive
 CIS-1.1.12,ensure-that-the-etcd-data-directory-ownership-is-set-to-etcd-etcd
@@ -199,8 +196,10 @@ CIS-5.2.6,pod-security-admission-restricted-applied
 CIS-5.2.7,pod-security-admission-restricted-applied
 CIS-5.2.8,pod-security-admission-baseline-applied
 CIS-5.2.9,pod-security-admission-restricted-applied
+CIS-5.3.1,ensure-that-the-cni-in-use-supports-network-policies
 CIS-5.3.2,internal-networking
 CIS-5.4.1,rule-secrets-in-env-var
+CIS-5.4.2,external-secret-storage
 CIS-5.7.1,list-all-namespaces
 CIS-5.7.2,set-seccomp-profile-RuntimeDefault
 CIS-5.7.3,drop-capability-netraw

@@ -2,8 +2,7 @@ frameworkName,ControlID,ControlName
 AllControls,C-0001,Forbidden Container Registries
 AllControls,C-0002,Exec into container
 AllControls,C-0004,Resources memory limit and request
-AllControls,C-0005,Control plane hardening
-AllControls,C-0006,Allowed hostPath
+AllControls,C-0005,API server insecure port is enabled
 AllControls,C-0007,Data Destruction
 AllControls,C-0009,Resource limits
 AllControls,C-0012,Applications credentials in configuration files
@@ -28,7 +27,6 @@ AllControls,C-0042,SSH server running inside container
 AllControls,C-0044,Container hostPort
 AllControls,C-0045,Writable hostPath mount
 AllControls,C-0046,Insecure capabilities
-AllControls,C-0047,Exposed dashboard
 AllControls,C-0048,HostPath mount
 AllControls,C-0049,Network mapping
 AllControls,C-0050,Resources CPU limit and request
@@ -40,7 +38,6 @@ AllControls,C-0056,Configured liveness probe
 AllControls,C-0057,Privileged container
 AllControls,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
 AllControls,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-AllControls,C-0060,Namespace without service accounts
 AllControls,C-0061,Pods in default namespace
 AllControls,C-0062,Sudo in container entrypoint
 AllControls,C-0063,Portforwarding privileges
@@ -64,10 +61,10 @@ AllControls,C-0085,Workloads with excessive amount of vulnerabilities
 AllControls,C-0086,CVE-2022-0492-cgroups-container-escape
 AllControls,C-0087,CVE-2022-23648-containerd-fs-escape
 AllControls,C-0088,RBAC enabled
+AllControls,C-0090,CVE-2022-39328-grafana-auth-bypass
 ArmoBest,C-0001,Forbidden Container Registries
 ArmoBest,C-0002,Exec into container
-ArmoBest,C-0005,Control plane hardening
-ArmoBest,C-0006,Allowed hostPath
+ArmoBest,C-0005,API server insecure port is enabled
 ArmoBest,C-0009,Resource limits
 ArmoBest,C-0012,Applications credentials in configuration files
 ArmoBest,C-0013,Non-root containers
@@ -80,14 +77,12 @@ ArmoBest,C-0038,Host PID/IPC privileges
 ArmoBest,C-0041,HostNetwork access
 ArmoBest,C-0044,Container hostPort
 ArmoBest,C-0046,Insecure capabilities
-ArmoBest,C-0047,Exposed dashboard
 ArmoBest,C-0049,Network mapping
 ArmoBest,C-0054,Cluster internal networking
 ArmoBest,C-0055,Linux hardening
 ArmoBest,C-0057,Privileged container
 ArmoBest,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
 ArmoBest,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-ArmoBest,C-0060,Namespace without service accounts
 ArmoBest,C-0061,Pods in default namespace
 ArmoBest,C-0062,Sudo in container entrypoint
 ArmoBest,C-0063,Portforwarding privileges
@@ -218,10 +213,12 @@ CIS,CIS-5.2.6,Minimize the admission of containers with allowPrivilegeEscalation
 CIS,CIS-5.2.7,Minimize the admission of root containers
 CIS,CIS-5.2.8,Minimize the admission of containers with the NET_RAW capability
 CIS,CIS-5.2.9,Minimize the admission of containers with added capabilities
+CIS,CIS-5.3.1,Ensure that the CNI in use supports Network Policies
 CIS,CIS-5.3.2,Ensure that all Namespaces have Network Policies defined
 CIS,CIS-5.4.1,Prefer using secrets as files over secrets as environment variables
 CIS,CIS-5.4.1,Prefer using secrets as files over secrets as environment variables
 CIS,CIS-5.4.1,Prefer using secrets as files over secrets as environment variables
+CIS,CIS-5.4.2,Consider external secret storage
 CIS,CIS-5.7.1,Create administrative boundaries between resources using namespaces
 CIS,CIS-5.7.2,Ensure that the seccomp profile is set to docker/default in your pod definitions
 CIS,CIS-5.7.3,Apply Security Context to Your Pods and Containers
@@ -252,7 +249,6 @@ MITRE,C-0037,CoreDNS poisoning
 MITRE,C-0039,Malicious admission controller (mutating)
 MITRE,C-0042,SSH server running inside container
 MITRE,C-0045,Writable hostPath mount
-MITRE,C-0047,Exposed dashboard
 MITRE,C-0048,HostPath mount
 MITRE,C-0052,Instance Metadata API
 MITRE,C-0053,Access container service account
@@ -266,8 +262,7 @@ MITRE,C-0068,PSP enabled
 MITRE,C-0069,Disable anonymous access to Kubelet service
 MITRE,C-0070,Enforce Kubelet client TLS authentication
 NSA,C-0002,Exec into container
-NSA,C-0005,Control plane hardening
-NSA,C-0006,Allowed hostPath
+NSA,C-0005,API server insecure port is enabled
 NSA,C-0009,Resource limits
 NSA,C-0012,Applications credentials in configuration files
 NSA,C-0013,Non-root containers
@@ -280,7 +275,6 @@ NSA,C-0038,Host PID/IPC privileges
 NSA,C-0041,HostNetwork access
 NSA,C-0044,Container hostPort
 NSA,C-0046,Insecure capabilities
-NSA,C-0047,Exposed dashboard
 NSA,C-0054,Cluster internal networking
 NSA,C-0055,Linux hardening
 NSA,C-0057,Privileged container
