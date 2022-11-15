@@ -151,6 +151,8 @@ CIS-2.4,etcd-peer-tls-enabled
 CIS-2.5,etcd-peer-client-auth-cert
 CIS-2.6,etcd-peer-auto-tls-disabled
 CIS-2.7,etcd-unique-ca
+CIS-3.2.1,k8s-audit-logs-enabled-native-cis
+CIS-3.2.2,audit-policy-content
 CIS-4.1.10,if-the-kubelet-config.yaml-configuration-file-is-being-used-validate-file-ownership-is-set-to-root-root
 CIS-4.1.1,ensure-that-the-kubelet-service-file-permissions-are-set-to-600-or-more-restrictive
 CIS-4.1.2,ensure-that-the-kubelet-service-file-ownership-is-set-to-root-root

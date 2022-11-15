@@ -12,7 +12,8 @@
             "imageRepositoryAllowList": [
                 "ecr.*amazonaws.com",
                 ".*.gcr.io",
-                ".*azurecr.io"
+                ".*azurecr.io",
+                "docker.io"
             ],
             "insecureCapabilities": [
                 "SETPCAP",

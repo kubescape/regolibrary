@@ -231,7 +231,7 @@ def create_md_for_control(control):
     return md_text
 
 def generate_slug(control):
-    return control['id'].lower()
+    return control['id'].lower().replace(".", "-")
 
 def get_configuration_parameters_info():
     default_config_inputs = None
@@ -274,7 +274,6 @@ def main():
 
     control_category_obj = readmeapi.get_category('controls')
     parent_control_doc = readmeapi.get_doc('controls')
-    #print("Parent doc\n",parent_control_doc)
     if os.getenv('PRUNE_CONTROLS'):
         for control_doc in readmeapi.get_docs_in_category('controls'):
             if control_doc['_id'] == parent_control_doc['_id']:
@@ -284,7 +283,7 @@ def main():
 
     # Configuration parameter processing
     config_parameters, default_config_inputs = get_configuration_parameters_info()
-    parent_configuration_parameters_doc = readmeapi.get_doc('configuration-parameters')
+    # parent_configuration_parameters_doc = readmeapi.get_doc('configuration-parameters')
     i = 0
     for config_parameters_path in sorted(list(config_parameters.keys())):
         print('Processing ',config_parameters_path)
@@ -310,8 +309,8 @@ def main():
         i = i + 1
     
     # Start processing
+    active_controls_slugs = []
     for control_json_file_name in filter(lambda fn: fn.endswith('.json'),os.listdir('controls')):
-        #try:
         if True:
             print('processing %s' % control_json_file_name)
             control_obj = json.load(open(os.path.join('controls',control_json_file_name)))
@@ -348,24 +347,164 @@ def main():
             control_slug = generate_slug(control_obj)
             
             control_doc = readmeapi.get_doc(control_slug)
+            
+            control_id = control_obj["id"]
 
-            control_id = int(control_obj['id'][4:].replace('.',''))
-            if re.match("C-", control_obj['id'], re.IGNORECASE):
-                control_id = int(control_obj['id'][2:])
+            try:
+                order = convert_control_id_to_doc_order(control_id)
+            except Exception as e:
+                 print(f"Error: couldn't generate order for control id {control_id} because {e}")
+                 continue
 
             if control_doc and len(control_obj['id']) > 2:
-                readmeapi.update_doc(control_slug,control_id,title,md,control_category_obj['_id'])
-                print('\tupdated')
+                readmeapi.update_doc(control_slug,order,title,md,control_category_obj['_id'])
+                print("update:", control_slug)
+                print(f'\tupdated control_slug {control_slug}')
             else:
-                readmeapi.create_doc(control_slug,parent_control_doc['_id'],control_id,title,md,control_category_obj['_id'])
-                print('\tcreated')
+                readmeapi.create_doc(control_slug,parent_control_doc['_id'],order,title,md,control_category_obj['_id'])
+                print(f'\tcreated control_slug {control_slug}')
+            
+            active_controls_slugs.append(control_slug)
 
-        #except Exception as e:
-        #    print('error processing %s: %s'%(control_json_file_name,e))
-
-    # Delete children of control doc in co
+    # delete inactive controls from docs
+    docs_slugs = get_controls_doc_slugs(readmeapi)
+    inactive_slugs = find_inactive_controls_in_docs(docs_slugs, active_controls_slugs)
+    
+    for slug in inactive_slugs:
+        try:
+            readmeapi.delete_doc(slug)
+        except Exception as e:
+            print(f"\tFailed to delete control_slug {slug} because {e}")
+            continue
+        print(f"\tDeleted control_slug {slug}")
+    
     exit(0)
 
+
+
+
+def convert_control_id_to_doc_order(control_id: str) -> int:
+    """get a control_id and returns it's expected order in docs.
+    control_id is expected to either have "c-" or "cis-" prefix, otherwise raises an error.
+
+    Parameters
+    ----------
+    control_id : str
+        A string of structure "c-xxx" or "cis-x.y.z"
+        
+    Returns
+    ---------
+    int
+    
+    """
+    control_id = control_id.lower()
+    
+    
+    if "c-" in control_id:
+        return int(control_id.replace("c-", ""))
+    
+    if "cis-" in control_id:
+        return convert_dotted_section_to_int(control_id.replace("cis-", ""))
+
+    raise Exception(f"control_id structure unknown {control_id}")
+
+
+
+def convert_dotted_section_to_int(subsection_id : str, 
+                                  subsection_digits : int = 2, 
+                                  n_subsections : int = 3) -> int:
+    """returns int representation of a dotted separated subsection string.
+
+    Parameters
+    ----------
+    subsection_id : str
+        A dotted subsection string - examples: 1.2, 2.3.12
+        
+    subsection_digits : int, optional
+        The number of digits each subsection should have (default is 2)
+        
+    n_subsections : int, optional
+        The number of expected subsections (default is 3)
+        
+    Returns
+    ---------
+    int
+    
+    Examples (with default values):
+    ---------
+    convert_dotted_section_to_int("1.1.12", 2, 3) = 01.01.12 = 10112
+    convert_dotted_section_to_int("1.1.1", 2, 3)= 01.01.01 =  10101
+    convert_dotted_section_to_int("1.2.1", 2, 3) = 01.02.01 =  10201
+    
+    convert_dotted_section_to_int("1.2", 3, 3)   = 001.002.000 =  1002000
+    
+    """
+    
+    if subsection_id == "":
+        raise Exception("subsection_id string is empty")
+    
+    subsection_ids = subsection_id.split(".")
+    
+    res = ""
+    
+    # iterate each subsection
+    for subsection in subsection_ids:
+        current_subsection_id = subsection
+        
+        # identify the the subsection range and add "0"s to prefix if needed.
+        for i in range(1, subsection_digits):
+            if int(subsection) < 10**i:
+                current_subsection_id = "0"*(subsection_digits-i) + current_subsection_id
+                break
+            
+        res = res + current_subsection_id
+    
+    # if there are missing subsections, add "0"s to the right of the int
+    if n_subsections > len(subsection_ids):
+        res = res + "0"*subsection_digits*(n_subsections - len(subsection_ids))
+        
+    return int(res)
+
+            
+def find_inactive_controls_in_docs(list_docs : list, list_active: list) -> list:
+    """returns a list of controls that doesn't exist in rego but exit in docs.
+
+    Parameters
+    ----------
+    list_docs : list
+        a list of slugs in docs
+        
+    list_active: list
+        a list of active controls from rego
+        
+        
+    Returns
+    ---------
+    list - item that exist in list_docs but doesn't exist in list_active
+
+    """
+    return list(sorted(set(list_docs)- set(list_active)))
+               
+def get_controls_doc_slugs(readmeapi: ReadmeApi) -> list:
+    """returns a list of slugs exist under the "controls" category
+
+    Parameters
+    ----------
+    readmeapi : ReadmeApi
+        ReadmeApi object
+        
+    Returns
+    ---------
+    list - active slugs under "controls" category
+
+    """
+    parent_control_doc = readmeapi.get_doc('controls')
+    docs = readmeapi.get_docs_in_category("controls")
+
+    controls_docs = [control_doc for control_doc in docs if control_doc["_id"] == parent_control_doc['_id']][0]
+    child_docs = [child_doc["slug"] for child_doc in controls_docs["children"]]
+     
+    return child_docs
 
 if __name__ == '__main__':
     main()

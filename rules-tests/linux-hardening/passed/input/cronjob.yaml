@@ -1,0 +1,168 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+          hostNetwork: true
+          containers:
+            - name: mysql
+              image: mysql
+              env:
+                - name: MYSQL_ROOT_PASSWORD
+                  value: "rootpasswd"
+              volumeMounts:
+                - mountPath: /var/lib/mysql
+                  name: site-data
+                  subPath: mysql
+            - name: php
+              image: php:7.0-apache
+              volumeMounts:
+                - mountPath: /var/www/html
+                  name: site-data
+                  subPath: html
+          volumes:
+            - name: site-data
+              persistentVolumeClaim:
+                claimName: my-lamp-site-data
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          securityContext:
+            seLinuxOptions:
+              level: "s0:c123,c456"
+          hostNetwork: true
+          containers:
+            - name: mysql
+              image: mysql
+              env:
+                - name: MYSQL_ROOT_PASSWORD
+                  value: "rootpasswd"
+              volumeMounts:
+                - mountPath: /var/lib/mysql
+                  name: site-data
+                  subPath: mysql
+            - name: php
+              image: php:7.0-apache
+              volumeMounts:
+                - mountPath: /var/www/html
+                  name: site-data
+                  subPath: html
+          volumes:
+            - name: site-data
+              persistentVolumeClaim:
+                claimName: my-lamp-site-data
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          metadata:
+            annotations:
+              container.apparmor.security.beta.kubernetes.io/mysql: runtime/default
+          hostNetwork: true
+          containers:
+            - name: mysql
+              image: mysql
+              env:
+                - name: MYSQL_ROOT_PASSWORD
+                  value: "rootpasswd"
+              volumeMounts:
+                - mountPath: /var/lib/mysql
+                  name: site-data
+                  subPath: mysql
+            - name: php
+              image: php:7.0-apache
+              volumeMounts:
+                - mountPath: /var/www/html
+                  name: site-data
+                  subPath: html
+          volumes:
+            - name: site-data
+              persistentVolumeClaim:
+                claimName: my-lamp-site-data
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          hostNetwork: true
+          containers:
+            - name: mysql
+              image: mysql
+              securityContext:
+                seccompProfile:
+                  type: RuntimeDefault
+              env:
+                - name: MYSQL_ROOT_PASSWORD
+                  value: "rootpasswd"
+              volumeMounts:
+                - mountPath: /var/lib/mysql
+                  name: site-data
+                  subPath: mysql
+          volumes:
+            - name: site-data
+              persistentVolumeClaim:
+                claimName: my-lamp-site-data
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          hostNetwork: true
+          containers:
+            - name: mysql
+              image: mysql
+              securityContext:
+                capabilities:
+                  drop:
+                    - NET_RAW
+              env:
+                - name: MYSQL_ROOT_PASSWORD
+                  value: "rootpasswd"
+              volumeMounts:
+                - mountPath: /var/lib/mysql
+                  name: site-data
+                  subPath: mysql
+          volumes:
+            - name: site-data
+              persistentVolumeClaim:
+                claimName: my-lamp-site-data
+          restartPolicy: OnFailure

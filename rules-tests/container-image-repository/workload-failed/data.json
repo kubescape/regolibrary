@@ -1,0 +1,9 @@
+{
+    "postureControlInputs": {
+        "imageRepositoryAllowList": [
+            "amazonaws.com",
+            "gcr.io",
+            "azurecr.io"
+        ]
+    }
+}
