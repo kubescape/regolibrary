@@ -184,13 +184,22 @@ def validate_exceptions(exceptions):
 
 
 def split_exceptions(exceptions):
-    splitted_exceptions = []
+    splitted_exceptions = []    
+    base_name_to_index = dict()
+
     for exception in exceptions:
         if "resources" in exception and len(exception["resources"]) > 1:
             for i, resource in enumerate(exception["resources"]):
                 tmp_exception = copy.deepcopy(exception)
                 tmp_exception["resources"] = [resource]
-                tmp_exception["name"] = f"{tmp_exception['name']}-{i}"
+                tmp_exception_base_name = tmp_exception['name']
+
+                if tmp_exception_base_name in base_name_to_index:
+                    base_name_to_index[tmp_exception_base_name] += 1 
+                else:
+                    base_name_to_index[tmp_exception_base_name] = 1
+                    
+                tmp_exception["name"] = f"{tmp_exception_base_name}-{base_name_to_index[tmp_exception_base_name]}"
                 splitted_exceptions.append(tmp_exception)
         else:
             splitted_exceptions.append(copy.deepcopy(exception))
