@@ -208,13 +208,13 @@ data.armo_builtins.frameworks.<framework_name>.deny
 When evaluating frameworks or controls, you can control the amount of metadata the results will contain by using the `data.settings`.
 
 Available settings:
-- `data.settings.verbose`: If set to `true`, the evaluation will return a list with an entry for each alert message. Each alert message include the alert message itself, the control metadata (if evaluated as part of a control), and the framework metadata (if evaluated as part of a framework).
+- `data.settings.verbose`: If set to `true`, the evaluation will return a list with an entry for each rule response. Each rule response include the rule response itself, the control metadata (if evaluated as part of a control), and the framework metadata (if evaluated as part of a framework).
 
 - `data.settings.metadata`: If set to `true`, the evaluation will return a json object with the metadata of the rule, the control (if evaluated as part of a control), or the framework (if evaluated as part of a framework). This json object will have a field named `"results"`, with all the lower level results.
 
   When `data.settings.verbose` was set to `true`, it takes precedence over `data.settings.metadata`.
 
-  Here is an example of a framework evaluation using this setting:
+  Here is an example of a framework evaluation using the `data.settings.metadata` setting:
   ```json5
   {
     "name": "ArmoBest",
@@ -229,14 +229,14 @@ Available settings:
         "results": [
           {
             "alertMessage": "API server insecure port is enabled",
-            // Other alert message fields ...
+            // Other rule response fields ...
           }
         ]
       }
     }
   }
   ```
-- No settings: If no settings were set, the evaluation will return a list with an entry for each alert message. Each alert message include only the alert message itself.
+- No settings: If no settings were set, the evaluation will return a list with an entry for each rule response. Each rule response include only the rule response itself.
 > The default settings in the released bundles is `data.settings.metadata`.
 
 ### Build
