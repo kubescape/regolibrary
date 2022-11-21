@@ -253,11 +253,21 @@ Some rules and controls are not supported in the OPA bundles, because they requi
 #### Rules
 The following rules are not supported in the OPA bundles:
 <!-- Start of OPA bundles removed rules -->
+- deny-RCE-vuln-image-pods
+- exposed-rce-pods
+- has-critical-vulnerability
+- deny-vuln-image-pods
+- rule-can-bash-cmd-inside-container
+- excessive_amount_of_vulnerabilities_pods
+- exposed-critical-pods
 <!-- End of OPA bundles removed rules -->
 
 #### Controls
 The following controls are not supported in the OPA bundles:
 <!-- Start of OPA bundles removed controls -->
+- C-0085 - Workloads with excessive amount of vulnerabilities
+- C-0084 - Workloads with RCE vulnerabilities exposed to external traffic
+- C-0083 - Workloads with Critical vulnerabilities exposed to external traffic
 <!-- End of OPA bundles removed controls -->
 
 ## Support
