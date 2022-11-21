@@ -47,7 +47,9 @@
                 "argo-server",
                 "weave-scope-app",
                 "kubeflow",
-                "kubernetes-dashboard"
+                "kubernetes-dashboard",
+                "jenkins",
+                "prometheus-deployment"
             ],
             "max_critical_vulnerabilities": ["5"],
             "max_high_vulnerabilities": ["10"],

@@ -549,8 +549,6 @@ github.com/kubescape/opa-utils v0.0.173 h1:iL9unxmraS+UFqxd4rqNwEYsrthKD9GW4DLDI
 github.com/kubescape/opa-utils v0.0.173/go.mod h1:aU4s1y+BWWxNwYw447TmHmNaKHxOWtYsFhZe5GyvOuE=
 github.com/kubescape/rbac-utils v0.0.17 h1:B78kjlTKqjYK/PXwmi4GPysHsFxIwVz1KFb4+IGT29w=
 github.com/kubescape/rbac-utils v0.0.17/go.mod h1:pBwjpcrVeuH/no+DiCZWvlhYtCDzd3U0o/hEZKi+eM8=
-github.com/libgit2/git2go/v33 v33.0.9 h1:4ch2DJed6IhJO28BEohkUoGvxLsRzUjxljoNFJ6/O78=
-github.com/libgit2/git2go/v33 v33.0.9/go.mod h1:KdpqkU+6+++4oHna/MIOgx4GCQ92IPCdpVRMRI80J+4=
 github.com/lunixbochs/vtclean v1.0.0/go.mod h1:pHhQNgMf3btfWnGBVipUOjRYhoOsdGqdm/+2c2E2WMI=
 github.com/magiconair/properties v1.8.1/go.mod h1:PppfXfuXeibc/6YijjN8zIbojt8czPbwD3XqdrwzmxQ=
 github.com/mailru/easyjson v0.0.0-20190312143242-1de009706dbe/go.mod h1:C1wdFJiN94OJF2b5HbByQZoLdCWB1Yqtg26g4irojpc=
