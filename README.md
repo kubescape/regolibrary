@@ -212,7 +212,7 @@ Available settings:
 
 - `data.settings.metadata`: If set to `true`, the evaluation will return a json object with the metadata of the rule, the control (if evaluated as part of a control), or the framework (if evaluated as part of a framework). This json object will have a field named `"results"`, with all the lower level results.
 
-When `data.settings.verbose` was set to `true`, it takes precedence over `data.settings.metadata`.
+  When `data.settings.verbose` was set to `true`, it takes precedence over `data.settings.metadata`.
 
   Here is an example of a framework evaluation using this setting:
   ```json5
