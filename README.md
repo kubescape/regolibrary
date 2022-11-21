@@ -248,7 +248,7 @@ python3 scripts/bundle.py . -o release
 ```
 
 ### Unsupported rules and controls
-Some rules and controls are not supported in the OPA bundles, because they require some extra customize builtin functions (But you can always use Kubescape to evaluate them :).
+Some rules and controls are not supported in the OPA bundles, because they require extra customized Rego builtin functions (But you can always use Kubescape to evaluate them :).
 
 #### Rules
 The following rules are not supported in the OPA bundles:
