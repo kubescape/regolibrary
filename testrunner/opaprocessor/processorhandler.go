@@ -13,7 +13,7 @@ import (
 	"github.com/kubescape/kubescape/v2/core/cautils"
 	"github.com/kubescape/opa-utils/objectsenvelopes"
 	"github.com/kubescape/opa-utils/reporthandling"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 
 	"github.com/golang/glog"
 

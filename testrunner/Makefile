@@ -48,4 +48,4 @@ libgit2:
 TAGS = "static"
 
 test:
-	go test -v -tags=$(TAGS) rego_test.go -run TestAllRules
+	go test -v -tags=$(TAGS) . -run TestAllRules
