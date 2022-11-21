@@ -20,7 +20,7 @@ deny[msga] {
 		"alertObject": {
 			"k8sApiObjects": [resources]
 		}
-	}
+	}	
 }
 
 	
