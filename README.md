@@ -1,4 +1,4 @@
-# Welcome to the regolibrary!
+# Welcome to Kubescape Regolibrary!
 
 The main components of the regolibrary:
 
@@ -12,7 +12,7 @@ These are used by [Kubescape](https://github.com/kubescape/kubescape).
 
 
 
-## **How to**
+## **Contributing**
 
 ### **Add a framework** 
 
@@ -167,6 +167,98 @@ Example of rule.metadata.json:
 5. Add `filter.rego` if needed - If exists, the filter is run by Kubescape to calculate ‘all resources’ = the number of potential resources to fail. It affects the risk score. Needed in cases where rule asks for resources that are not potential to fail, eg- if a rule asks for pods and service accounts to see if they are connected but only fails the pods, we would create a filter rego that returns only pods.
 
 
+## OPA bundles
+Kubescape regolibrary is [available](../../releases/latest) as [OPA bundle](https://www.openpolicyagent.org/docs/latest/management-bundles), for both targets, WASM and Rego. 
+
+### Using the bundles
+> Endpoints names are normalized to be used as a Rego package name. Here are some examples:
+> ```
+> host-pid -> host_pid
+> Host_Ipc -> Host_Ipc
+> foobar -> foobar
+> ```
+> To be sure, you can use the following regex to validate the endpoint name:
+> ```python
+> import re
+> def normalize_rule_name(name) -> str:
+>      return re.sub(r'[^a-zA-Z0-9_]', '_', name)
+> ```
+
+#### Rules
+Rules endpoints uses the following naming convention:
+```
+data.armo_builtins.rules.<rule_name>.raw.deny
+```
+If there is a filter rule, it's available at the following endpoint:
+```
+data.armo_builtins.rules.<rule_name>.filter.deny
+```
+#### Controls
+Controls endpoints uses the following naming convention:
+```
+data.armo_builtins.controls.<control_id>.deny
+```
+#### Frameworks
+Frameworks endpoints uses the following naming convention:
+```
+data.armo_builtins.frameworks.<framework_name>.deny
+```
+
+### Settings
+When evaluating frameworks or controls, you can control the amount of metadata the results will contain by using the `data.settings`.
+
+Available settings:
+- `data.settings.verbose`: If set to `true`, the evaluation will return a list with an entry for each alert message. Each alert message include the alert message itself, the control metadata (if evaluated as part of a control), and the framework metadata (if evaluated as part of a framework).
+
+- `data.settings.metadata`: If set to `true`, the evaluation will return a json object with the metadata of the rule, the control (if evaluated as part of a control), or the framework (if evaluated as part of a framework). This json object will have a field named `"results"`, with all the lower level results.
+
+When `data.settings.verbose` was set to `true`, it takes precedence over `data.settings.metadata`.
+
+  Here is an example of a framework evaluation using this setting:
+  ```json5
+  {
+    "name": "ArmoBest",
+    "controlsNames": [...],
+    "description": "",
+    // Other framework metadata ...
+    "results": {
+      "C-0005": {
+        "name": "API server insecure port is enabled",
+        "controlID": "C-0005",
+        // Other control metadata ...
+        "results": [
+          {
+            "alertMessage": "API server insecure port is enabled",
+            // Other alert message fields ...
+          }
+        ]
+      }
+    }
+  }
+  ```
+- No settings: If no settings were set, the evaluation will return a list with an entry for each alert message. Each alert message include only the alert message itself.
+> The default settings in the released bundles is `data.settings.metadata`.
+
+### Build
+To build the OPA bundles, use the python script `/scripts/bundle.py`.
+
+For example:
+```bash
+python3 scripts/bundle.py . -o release
+```
+
+### Unsupported rules and controls
+Some rules and controls are not supported in the OPA bundles, because they require some extra customize builtin functions (But you can always use Kubescape to evaluate them :).
+
+#### Rules
+The following rules are not supported in the OPA bundles:
+<!-- Start of OPA bundles removed rules -->
+<!-- End of OPA bundles removed rules -->
+
+#### Controls
+The following controls are not supported in the OPA bundles:
+<!-- Start of OPA bundles removed controls -->
+<!-- End of OPA bundles removed controls -->
 
 ## Support
 Reach out if you have any questions:
