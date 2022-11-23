@@ -1,6 +1,6 @@
 module testrunner
 
-go 1.17
+go 1.18
 
 require (
 	github.com/armosec/armoapi-go v0.0.115
@@ -8,9 +8,10 @@ require (
 	github.com/kubescape/k8s-interface v0.0.82
 	github.com/kubescape/kubescape/v2 v2.0.168
 	github.com/kubescape/opa-utils v0.0.173
-	github.com/open-policy-agent/opa v0.43.0
+	github.com/nsf/jsondiff v0.0.0-20210926074059-1e845ec5d249
+	github.com/open-policy-agent/opa v0.44.0
 	github.com/stretchr/testify v1.8.0
-	gopkg.in/yaml.v2 v2.4.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -37,7 +38,7 @@ require (
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
 	github.com/acomagu/bufpipe v1.0.3 // indirect
-	github.com/agnivade/levenshtein v1.0.1 // indirect
+	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/armosec/go-git-url v0.0.15 // indirect
 	github.com/armosec/utils-go v0.0.12 // indirect
 	github.com/armosec/utils-k8s-go v0.0.12 // indirect
@@ -54,6 +55,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sts v1.16.9 // indirect
 	github.com/aws/smithy-go v1.12.0 // indirect
 	github.com/briandowns/spinner v1.18.1 // indirect
+	github.com/bytecodealliance/wasmtime-go v0.36.0 // indirect
 	github.com/coreos/go-oidc v2.2.1+incompatible // indirect
 	github.com/cyphar/filepath-securejoin v0.2.3 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
@@ -114,7 +116,7 @@ require (
 	github.com/shopspring/decimal v1.2.0 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/vektah/gqlparser/v2 v2.4.6 // indirect
+	github.com/tchap/go-patricia/v2 v2.3.1 // indirect
 	github.com/whilp/git-urls v1.0.0 // indirect
 	github.com/xanzy/ssh-agent v0.3.0 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect
@@ -137,12 +139,12 @@ require (
 	google.golang.org/api v0.84.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20220708155623-50e5f4832e73 // indirect
-	google.golang.org/grpc v1.48.0 // indirect
-	google.golang.org/protobuf v1.28.0 // indirect
+	google.golang.org/grpc v1.49.0 // indirect
+	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 	helm.sh/helm/v3 v3.9.0 // indirect
 	k8s.io/api v0.24.3 // indirect
 	k8s.io/apiextensions-apiserver v0.24.2 // indirect

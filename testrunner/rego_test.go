@@ -3,6 +3,7 @@ package testing
 import (
 	"fmt"
 	"os"
+	"path"
 	"testing"
 	"testrunner/opaprocessor"
 
@@ -11,7 +12,7 @@ import (
 
 var (
 	testSingleRegoDirectory = "test-single-rego"
-	relativeRuleTestsPath   = "../rules-tests"
+	relativeRuleTestsPath   = path.Join("..", rulesTestDirName)
 )
 
 // Run all tests inside rules-tests
