@@ -46,6 +46,134 @@
                 "attributes": {
                     "kind": "DaemonSet",
                     "namespace": "kube-system",
+                    "name": "node-local-dns"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "gke-metrics-agent.*"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "pdcsi-node-windows"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "anetd"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "netd"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "fluentbit-gke-big"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "fluentbit-gke-small"
+                }
+            },            
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "fluentbit-gke-max"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "fluentbit-gke.*"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "nccl-fastsocket-installer"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "filestore-node"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "pdcsi-node"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "ip-masq-agent"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "anetd-win"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "gke-metadata-server"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "gke-metrics-agent-windows"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
                     "name": "kube-proxy"
                 }
             },
@@ -71,6 +199,38 @@
                     "kind": "Deployment",
                     "namespace": "kube-system",
                     "name": "kube-dns"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "namespace": "kube-system",
+                    "name": "egress-nat-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "namespace": "kube-system",
+                    "name": "event-exporter-gke"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "namespace": "kube-system",
+                    "name": "antrea-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "namespace": "kube-system",
+                    "name": "antrea-controller-horizontal-autoscaler"
                 }
             },
             {
@@ -517,10 +677,123 @@
                 "attributes": {
                     "kind": "ServiceAccount",
                     "namespace": "kube-system",
+                    "name": "netd"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
                     "name": "metadata-proxy"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "antrea-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "cilium"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "node-local-dns"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "gke-metrics-agent"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "egress-nat-controller"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "antrea-agent"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "event-exporter-sa"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "antrea-cpha"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "fluentbit-gke"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "pdcsi-node-sa"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "ip-masq-agent"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "filestorecsi-node-sa"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "gke-metadata-server"
                 }
             }
         ],
+
         "posturePolicies": [
             {}
         ]
@@ -541,6 +814,14 @@
                     "kind": "User",
                     "namespace": "kube-system",
                     "name": "system:vpa-recommender"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "User",
+                    "namespace": "kube-system",
+                    "name": "system:anet-operator"
                 }
             }
         ],
@@ -695,6 +976,20 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
+                    "kind": "ValidatingWebhookConfiguration",
+                    "name": "gkepolicy.config.common-webhooks.networking.gke.io"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ValidatingWebhookConfiguration",
+                    "name": "validation-webhook.snapshot.storage.k8s.io"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
                     "kind": "APIService",
                     "name": "v1beta1.metrics.k8s.io"
                 }
@@ -718,6 +1013,48 @@
                 "attributes": {
                     "kind": "MutatingWebhookConfiguration",
                     "name": "neg-annotation.config.common-webhooks.networking.gke.io"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "MutatingWebhookConfiguration",
+                    "name": "mutate-scheduler-profile.config.common-webhooks.networking.gke.io"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "MutatingWebhookConfiguration",
+                    "name": "sasecret-redacter.config.common-webhooks.networking.gke.io"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "MutatingWebhookConfiguration",
+                    "name": "workload-defaulter.config.common-webhooks.networking.gke.io"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "MutatingWebhookConfiguration",
+                    "name": "admissionwebhookcontroller.config.common-webhooks.networking.gke.io"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "MutatingWebhookConfiguration",
+                    "name": "gke-vpa-webhook-config"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "MutatingWebhookConfiguration",
+                    "name": "filestorecsi-mutation-webhook.storage.k8s.io"
                 }
             },
             {
