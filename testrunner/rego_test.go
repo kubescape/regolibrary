@@ -12,7 +12,7 @@ import (
 
 var (
 	testSingleRegoDirectory = "test-single-rego"
-	relativeRuleTestsPath   = path.Join("..", rulesTestDirName)
+	relativeRuleTestsPath   = "../rules-tests"
 )
 
 // Run all tests inside rules-tests
