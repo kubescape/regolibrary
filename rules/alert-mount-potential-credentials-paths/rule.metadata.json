@@ -1,7 +1,6 @@
 {
   "name": "alert-mount-potential-credentials-paths",
   "attributes": {
-    "m$K8sThreatMatrix": "Privilege Escalation::hostPath mount",
     "armoBuiltin": true
   },
   "ruleLanguage": "Rego",

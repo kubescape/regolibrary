@@ -3,7 +3,7 @@ import future.keywords.if
 
 
 deny[msga] {
-	provider := get_provider(input)
+	provider := get_provider(data.postureControlInputs)
 	resources := input[_]
 	volumes_data := get_volumes(resources)
     volumes := volumes_data["volumes"]
@@ -44,11 +44,17 @@ get_volumes(resources) := result {
 }
 
 
-# get_provider - get provider from ClusterDescribe. If doesn't exist, returns empty string.
-get_provider(rego_input) := result if {
-	ClusterDescribe := [ClusterDescribe | ClusterDescribe = rego_input[_]; ClusterDescribe.kind == "ClusterDescribe"]
-	result := ClusterDescribe[0].metadata.provider
-} else := ""
+# get_provider - If doesn't exist, returns empty string.
+get_provider(postureControlInputs) := result if {
+	count(postureControlInputs.CloudProvider) == 1
+	result := postureControlInputs.CloudProvider[0]
+}  else := ""
+
+# # get_provider - get provider from ClusterDescribe. If doesn't exist, returns empty string.
+# get_provider(rego_input) := result if {
+# 	ClusterDescribe := [ClusterDescribe | ClusterDescribe = rego_input[_]; ClusterDescribe.kind == "ClusterDescribe"]
+# 	result := ClusterDescribe[0].metadata.provider
+# } else := ""
 
 
 # is_unsafe_paths - looking for paths that have the potential of accessing credentials
