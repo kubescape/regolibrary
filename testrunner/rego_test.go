@@ -3,7 +3,6 @@ package testing
 import (
 	"fmt"
 	"os"
-	"path"
 	"testing"
 	"testrunner/opaprocessor"
 
