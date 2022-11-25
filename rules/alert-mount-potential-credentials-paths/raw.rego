@@ -46,8 +46,8 @@ get_volumes(resources) := result {
 
 # get_provider - If doesn't exist, returns empty string.
 get_provider(postureControlInputs) := result if {
-	count(postureControlInputs.CloudProvider) == 1
-	result := postureControlInputs.CloudProvider[0]
+	count(postureControlInputs.cloudProvider) == 1
+	result := postureControlInputs.cloudProvider[0]
 }  else := ""
 
 # # get_provider - get provider from ClusterDescribe. If doesn't exist, returns empty string.

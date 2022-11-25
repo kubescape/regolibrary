@@ -9,8 +9,6 @@
     },
     "settings": {
         "postureControlInputs": {
-            "CloudProvider": [
-            ],
             "imageRepositoryAllowList": [
             ],
             "insecureCapabilities": [
