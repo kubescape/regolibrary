@@ -5,6 +5,6 @@
         "name": "minikube_failed"
     },
     "data": {
-        "ProviderMetaDataAPIAccess": true
+        "providerMetaDataAPIAccess": true
     }
 }

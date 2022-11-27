@@ -5,7 +5,7 @@ deny[msg] {
 	obj = input[_]
 	is_cloud_provider_info(obj)
 
-	obj.data.ProviderMetaDataAPIAccess == true
+	obj.data.providerMetaDataAPIAccess == true
 
 	# filter out host-sensor data
     obj_filtered := json.filter(obj, ["apiVersion", "kind", "metadata"])
