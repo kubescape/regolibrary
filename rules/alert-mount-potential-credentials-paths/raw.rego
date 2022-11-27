@@ -50,12 +50,6 @@ get_provider(postureControlInputs) := result if {
 	result := postureControlInputs.cloudProvider[0]
 }  else := ""
 
-# # get_provider - get provider from ClusterDescribe. If doesn't exist, returns empty string.
-# get_provider(rego_input) := result if {
-# 	ClusterDescribe := [ClusterDescribe | ClusterDescribe = rego_input[_]; ClusterDescribe.kind == "ClusterDescribe"]
-# 	result := ClusterDescribe[0].metadata.provider
-# } else := ""
-
 
 # is_unsafe_paths - looking for paths that have the potential of accessing credentials
 # if provider is supported (eks/gke/aks), will check only provider's relevant paths.
