@@ -1,0 +1,19 @@
+[
+    {
+        "alertMessage": "Node 'minikube_failed' has access to Instance Metadata Services of cloud provider.",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "kind": "cloudProviderInfo",
+                "metadata": {
+                    "name": "minikube_failed"
+                }
+            }
+        },
+        "alertScore": 1,
+        "failedPaths": [],
+        "fixCommand": "",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]
