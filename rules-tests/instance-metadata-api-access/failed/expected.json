@@ -7,6 +7,9 @@
                 "kind": "cloudProviderInfo",
                 "metadata": {
                     "name": "minikube_failed"
+                },
+                "data":{
+                    "providerMetaDataAPIAccess": true
                 }
             }
         },

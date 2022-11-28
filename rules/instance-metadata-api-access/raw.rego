@@ -7,17 +7,17 @@ deny[msg] {
 
 	obj.data.providerMetaDataAPIAccess == true
 
-	# filter out host-sensor data
-    obj_filtered := json.filter(obj, ["apiVersion", "kind", "metadata"])
+	# # filter out host-sensor data
+    # obj_filtered := json.filter(obj, ["apiVersion", "kind", "metadata"])
 
 	msg := {
-		"alertMessage": sprintf("Node '%s' has access to Instance Metadata Services of cloud provider.", [obj_filtered.metadata.name]),
+		"alertMessage": sprintf("Node '%s' has access to Instance Metadata Services of cloud provider.", [obj.metadata.name]),
 		"alert": true,
 		"alertScore": 1,
 		"failedPaths": [],
 		"fixPaths": [],
 		"alertObject": {
-			"externalObjects": obj_filtered
+			"externalObjects": obj
 		},
 		"packagename": "armo_builtins"
 	}
