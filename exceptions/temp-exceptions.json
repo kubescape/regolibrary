@@ -1211,52 +1211,7 @@
         ]
     },
     {
-        "name": "exclude-kubescape-prometheus-resources-1",
-        "policyType": "postureExceptionPolicy",
-        "actions": [
-            "alertOnly"
-        ],
-        "attributes": {
-            "systemException": true
-        },
-        "resources": [
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kind": "Namespace",
-                    "name": "kubescape-prometheus"
-                }
-            }
-        ],
-        "posturePolicies": [
-            {}
-        ]
-    },
-    {
-        "name": "exclude-kubescape-prometheus-resources-2",
-        "policyType": "postureExceptionPolicy",
-        "actions": [
-            "alertOnly"
-        ],
-        "attributes": {
-            "systemException": true
-        },
-        "resources": [
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "name": "default",
-                    "kind": "ServiceAccount",
-                    "namespace": "kubescape-prometheus"
-                }
-            }
-        ],
-        "posturePolicies": [
-            {}
-        ]
-    },
-    {
-        "name": "exclude-kubescape-prometheus-resources-3",
+        "name": "exclude-kubescape-prometheus-security-context",
         "policyType": "postureExceptionPolicy",
         "actions": [
             "alertOnly"
@@ -1275,7 +1230,71 @@
             }
         ],
         "posturePolicies": [
-            {}
+            {
+                "controlID": "c-0055"
+            },
+            {
+                "controlID": "c-0017"
+            },
+            {
+                "controlID": "cis-5.7.2"
+            },
+            {
+                "controlID": "cis-5.7.3"
+            }
+        ]
+    },
+    {
+        "name": "exclude-kubescape-prometheus-deployment-allowed-registry",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "kubescape",
+                    "namespace": "kubescape-prometheus"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0001"
+            },
+            {
+                "controlID": "c-0078"
+            }
+        ]
+    },
+    {
+        "name": "exclude-kubescape-prometheus-deployment-ingress-and-egress",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "kubescape",
+                    "namespace": "kubescape-prometheus"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0030"
+            }
         ]
     },
     {
@@ -3305,121 +3324,7 @@
         ]
     },
     {
-        "name": "exclude-kubescape-resources-1",
-        "policyType": "postureExceptionPolicy",
-        "actions": [
-            "alertOnly"
-        ],
-        "attributes": {
-            "systemException": true
-        },
-        "resources": [
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kind": "Namespace",
-                    "name": "kubescape"
-                }
-            }
-        ],
-        "posturePolicies": [
-            {}
-        ]
-    },
-    {
-        "name": "exclude-kubescape-resources-2",
-        "policyType": "postureExceptionPolicy",
-        "actions": [
-            "alertOnly"
-        ],
-        "attributes": {
-            "systemException": true
-        },
-        "resources": [
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "name": "default",
-                    "kind": "ServiceAccount",
-                    "namespace": "kubescape"
-                }
-            }
-        ],
-        "posturePolicies": [
-            {}
-        ]
-    },
-    {
-        "name": "exclude-kubescape-resources-3",
-        "policyType": "postureExceptionPolicy",
-        "actions": [
-            "alertOnly"
-        ],
-        "attributes": {
-            "systemException": true
-        },
-        "resources": [
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "name": "kubescape-sa",
-                    "kind": "ServiceAccount",
-                    "namespace": "kubescape"
-                }
-            }
-        ],
-        "posturePolicies": [
-            {}
-        ]
-    },
-    {
-        "name": "exclude-kubescape-resources-4",
-        "policyType": "postureExceptionPolicy",
-        "actions": [
-            "alertOnly"
-        ],
-        "attributes": {
-            "systemException": true
-        },
-        "resources": [
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "name": "ks-sa",
-                    "kind": "ServiceAccount",
-                    "namespace": "kubescape"
-                }
-            }
-        ],
-        "posturePolicies": [
-            {}
-        ]
-    },
-    {
-        "name": "exclude-kubescape-resources-5",
-        "policyType": "postureExceptionPolicy",
-        "actions": [
-            "alertOnly"
-        ],
-        "attributes": {
-            "systemException": true
-        },
-        "resources": [
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kind": "Deployment",
-                    "name": "gateway",
-                    "namespace": "kubescape"
-                }
-            }
-        ],
-        "posturePolicies": [
-            {}
-        ]
-    },
-    {
-        "name": "exclude-kubescape-resources-6",
+        "name": "exclude-kubescape-deployment-security-context-1",
         "policyType": "postureExceptionPolicy",
         "actions": [
             "alertOnly"
@@ -3438,34 +3343,22 @@
             }
         ],
         "posturePolicies": [
-            {}
-        ]
-    },
-    {
-        "name": "exclude-kubescape-resources-7",
-        "policyType": "postureExceptionPolicy",
-        "actions": [
-            "alertOnly"
-        ],
-        "attributes": {
-            "systemException": true
-        },
-        "resources": [
             {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kind": "Deployment",
-                    "name": "kubevuln",
-                    "namespace": "kubescape"
-                }
+                "controlID": "c-0055"
+            },
+            {
+                "controlID": "c-0017"
+            },
+            {
+                "controlID": "cis-5.7.2"
+            },
+            {
+                "controlID": "cis-5.7.3"
             }
-        ],
-        "posturePolicies": [
-            {}
         ]
     },
     {
-        "name": "exclude-kubescape-resources-8",
+        "name": "exclude-kubescape-deployment-security-context-2",
         "policyType": "postureExceptionPolicy",
         "actions": [
             "alertOnly"
@@ -3484,11 +3377,90 @@
             }
         ],
         "posturePolicies": [
-            {}
+            {
+                "controlID": "c-0055"
+            },
+            {
+                "controlID": "c-0017"
+            },
+            {
+                "controlID": "cis-5.7.2"
+            },
+            {
+                "controlID": "cis-5.7.3"
+            }
         ]
     },
     {
-        "name": "exclude-kubescape-resources-9",
+        "name": "exclude-kubescape-deployment-security-context-3",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "gateway",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0055"
+            },
+            {
+                "controlID": "c-0017"
+            },
+            {
+                "controlID": "cis-5.7.2"
+            },
+            {
+                "controlID": "cis-5.7.3"
+            }
+        ]
+    },
+    {
+        "name": "exclude-kubescape-deployment-security-context-4",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "kubevuln",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0055"
+            },
+            {
+                "controlID": "c-0017"
+            },
+            {
+                "controlID": "cis-5.7.2"
+            },
+            {
+                "controlID": "cis-5.7.3"
+            }
+        ]
+    },
+    {
+        "name": "exclude-kubescape-deployment-security-context-5",
         "policyType": "postureExceptionPolicy",
         "actions": [
             "alertOnly"
@@ -3507,11 +3479,22 @@
             }
         ],
         "posturePolicies": [
-            {}
+            {
+                "controlID": "c-0055"
+            },
+            {
+                "controlID": "c-0017"
+            },
+            {
+                "controlID": "cis-5.7.2"
+            },
+            {
+                "controlID": "cis-5.7.3"
+            }
         ]
     },
     {
-        "name": "exclude-kubescape-resources-10",
+        "name": "exclude-kubescape-deployment-allowed-registry-1",
         "policyType": "postureExceptionPolicy",
         "actions": [
             "alertOnly"
@@ -3523,18 +3506,23 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
-                    "kind": "CronJob",
-                    "name": "kubescape-scheduler",
+                    "kind": "Deployment",
+                    "name": "kubescape",
                     "namespace": "kubescape"
                 }
             }
         ],
         "posturePolicies": [
-            {}
+            {
+                "controlID": "c-0001"
+            },
+            {
+                "controlID": "c-0078"
+            }
         ]
     },
     {
-        "name": "exclude-kubescape-resources-11",
+        "name": "exclude-kubescape-deployment-allowed-registry-2",
         "policyType": "postureExceptionPolicy",
         "actions": [
             "alertOnly"
@@ -3546,14 +3534,228 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
-                    "kind": "CronJob",
-                    "name": "kubevuln-scheduler",
+                    "kind": "Deployment",
+                    "name": "operator",
                     "namespace": "kubescape"
                 }
             }
         ],
         "posturePolicies": [
-            {}
+            {
+                "controlID": "c-0001"
+            },
+            {
+                "controlID": "c-0078"
+            }
+        ]
+    },
+    {
+        "name": "exclude-kubescape-deployment-allowed-registry-3",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "gateway",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0001"
+            },
+            {
+                "controlID": "c-0078"
+            }
+        ]
+    },
+    {
+        "name": "exclude-kubescape-deployment-allowed-registry-4",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "kubevuln",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0001"
+            },
+            {
+                "controlID": "c-0078"
+            }
+        ]
+    },
+    {
+        "name": "exclude-kubescape-deployment-allowed-registry-5",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "StatefulSet",
+                    "name": "kollector",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0001"
+            },
+            {
+                "controlID": "c-0078"
+            }
+        ]
+    },
+    {
+        "name": "exclude-kubescape-deployment-ingress-and-egress-1",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "kubescape",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0030"
+            }
+        ]
+    },
+    {
+        "name": "exclude-kubescape-deployment-ingress-and-egress-2",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "operator",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0030"
+            }
+        ]
+    },
+    {
+        "name": "exclude-kubescape-deployment-ingress-and-egress-3",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "gateway",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0030"
+            }
+        ]
+    },
+    {
+        "name": "exclude-kubescape-deployment-ingress-and-egress-4",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "kubevuln",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0030"
+            }
+        ]
+    },
+    {
+        "name": "exclude-kubescape-deployment-ingress-and-egress-5",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "StatefulSet",
+                    "name": "kollector",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0030"
+            }
         ]
     },
     {
@@ -3746,7 +3948,7 @@
                 "attributes": {
                     "kind": "DaemonSet",
                     "namespace": "kube-system",
-                    "name": "fluentbit-gke.*"
+                    "name": "fluentbit-gke-big"
                 }
             }
         ],
@@ -3771,7 +3973,7 @@
                 "attributes": {
                     "kind": "DaemonSet",
                     "namespace": "kube-system",
-                    "name": "nccl-fastsocket-installer"
+                    "name": "fluentbit-gke-small"
                 }
             }
         ],
@@ -3796,7 +3998,7 @@
                 "attributes": {
                     "kind": "DaemonSet",
                     "namespace": "kube-system",
-                    "name": "filestore-node"
+                    "name": "fluentbit-gke-max"
                 }
             }
         ],
@@ -3821,7 +4023,7 @@
                 "attributes": {
                     "kind": "DaemonSet",
                     "namespace": "kube-system",
-                    "name": "pdcsi-node"
+                    "name": "fluentbit-gke.*"
                 }
             }
         ],
@@ -3846,7 +4048,7 @@
                 "attributes": {
                     "kind": "DaemonSet",
                     "namespace": "kube-system",
-                    "name": "ip-masq-agent"
+                    "name": "nccl-fastsocket-installer"
                 }
             }
         ],
@@ -3871,7 +4073,7 @@
                 "attributes": {
                     "kind": "DaemonSet",
                     "namespace": "kube-system",
-                    "name": "anetd-win"
+                    "name": "filestore-node"
                 }
             }
         ],
@@ -3896,7 +4098,7 @@
                 "attributes": {
                     "kind": "DaemonSet",
                     "namespace": "kube-system",
-                    "name": "gke-metadata-server"
+                    "name": "pdcsi-node"
                 }
             }
         ],
@@ -3921,7 +4123,32 @@
                 "attributes": {
                     "kind": "DaemonSet",
                     "namespace": "kube-system",
-                    "name": "gke-metrics-agent-windows"
+                    "name": "ip-masq-agent"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "C-.*"
+            }
+        ]
+    },
+    {
+        "name": "exclude-gke-kube-system-resources-18",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "anetd-win"
                 }
             }
         ],
@@ -3946,7 +4173,7 @@
                 "attributes": {
                     "kind": "DaemonSet",
                     "namespace": "kube-system",
-                    "name": "nvidia-gpu-device-plugin"
+                    "name": "gke-metadata-server"
                 }
             }
         ],
@@ -3957,7 +4184,7 @@
         ]
     },
     {
-        "name": "exclude-gke-kube-system-resources-21",
+        "name": "exclude-gke-kube-system-resources-20",
         "policyType": "postureExceptionPolicy",
         "actions": [
             "alertOnly"
@@ -3969,9 +4196,9 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
-                    "kind": "Deployment",
+                    "kind": "DaemonSet",
                     "namespace": "kube-system",
-                    "name": "kube-dns"
+                    "name": "gke-metrics-agent-windows"
                 }
             }
         ],
@@ -3994,34 +4221,9 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
-                    "kind": "Deployment",
+                    "kind": "DaemonSet",
                     "namespace": "kube-system",
-                    "name": "egress-nat-controller"
-                }
-            }
-        ],
-        "posturePolicies": [
-            {
-                "controlID": "C-.*"
-            }
-        ]
-    },
-    {
-        "name": "exclude-gke-kube-system-resources-23",
-        "policyType": "postureExceptionPolicy",
-        "actions": [
-            "alertOnly"
-        ],
-        "attributes": {
-            "systemException": true
-        },
-        "resources": [
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kind": "Deployment",
-                    "namespace": "kube-system",
-                    "name": "event-exporter-gke"
+                    "name": "nvidia-gpu-device-plugin"
                 }
             }
         ],
@@ -4046,7 +4248,7 @@
                 "attributes": {
                     "kind": "Deployment",
                     "namespace": "kube-system",
-                    "name": "antrea-controller"
+                    "name": "kube-dns"
                 }
             }
         ],
@@ -4071,7 +4273,7 @@
                 "attributes": {
                     "kind": "Deployment",
                     "namespace": "kube-system",
-                    "name": "antrea-controller-horizontal-autoscaler"
+                    "name": "egress-nat-controller"
                 }
             }
         ],
@@ -4096,7 +4298,7 @@
                 "attributes": {
                     "kind": "Deployment",
                     "namespace": "kube-system",
-                    "name": "kube-dns-autoscaler"
+                    "name": "event-exporter-gke"
                 }
             }
         ],
@@ -4121,7 +4323,7 @@
                 "attributes": {
                     "kind": "Deployment",
                     "namespace": "kube-system",
-                    "name": "metrics-server-v[0-9.]+"
+                    "name": "antrea-controller"
                 }
             }
         ],
@@ -4146,7 +4348,7 @@
                 "attributes": {
                     "kind": "Deployment",
                     "namespace": "kube-system",
-                    "name": "konnectivity-agent-autoscaler"
+                    "name": "antrea-controller-horizontal-autoscaler"
                 }
             }
         ],
@@ -4169,9 +4371,9 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
-                    "kind": "DaemonSet",
+                    "kind": "Deployment",
                     "namespace": "kube-system",
-                    "name": "fluentd-elasticsearch"
+                    "name": "kube-dns-autoscaler"
                 }
             }
         ],
@@ -4196,7 +4398,7 @@
                 "attributes": {
                     "kind": "Deployment",
                     "namespace": "kube-system",
-                    "name": "konnectivity-agent"
+                    "name": "metrics-server-v[0-9.]+"
                 }
             }
         ],
@@ -4208,6 +4410,81 @@
     },
     {
         "name": "exclude-gke-kube-system-resources-31",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "namespace": "kube-system",
+                    "name": "konnectivity-agent-autoscaler"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "C-.*"
+            }
+        ]
+    },
+    {
+        "name": "exclude-gke-kube-system-resources-32",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "fluentd-elasticsearch"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "C-.*"
+            }
+        ]
+    },
+    {
+        "name": "exclude-gke-kube-system-resources-33",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "namespace": "kube-system",
+                    "name": "konnectivity-agent"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "C-.*"
+            }
+        ]
+    },
+    {
+        "name": "exclude-gke-kube-system-resources-34",
         "policyType": "postureExceptionPolicy",
         "actions": [
             "alertOnly"
