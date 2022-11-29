@@ -1,0 +1,10 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "cloudProviderInfo",
+    "metadata": {
+        "name": "minikube_failed"
+    },
+    "data": {
+        
+    }
+}
