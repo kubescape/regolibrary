@@ -1,7 +1,5 @@
 {
-    "postureControlInputs": {
-        "cloudProvider": [
-            "eks"
-        ]
+    "dataControlInputs": {
+        "cloudProvider":"eks"
     }
 }

@@ -3,7 +3,8 @@ import future.keywords.if
 
 
 deny[msga] {
-	provider := get_provider(data.postureControlInputs)
+	provider := data.dataControlInputs.cloudProvider
+	provider != ""
 	resources := input[_]
 	volumes_data := get_volumes(resources)
     volumes := volumes_data["volumes"]
@@ -44,20 +45,11 @@ get_volumes(resources) := result {
 }
 
 
-# get_provider - If doesn't exist, returns empty string.
-get_provider(postureControlInputs) := result if {
-	count(postureControlInputs.cloudProvider) == 1
-	result := postureControlInputs.cloudProvider[0]
-}  else := ""
-
-
-# is_unsafe_paths - looking for paths that have the potential of accessing credentials
-# if provider is supported (eks/gke/aks), will check only provider's relevant paths.
-# if provider is empty, will check all providers paths.
+# is_unsafe_paths - looking for cloud provider (eks/gke/aks) paths that have the potential of accessing credentials
 is_unsafe_paths(volume, beggining_of_path, provider, i) = result {
-	unsafe :=  get_unsafe_paths(provider)
+	unsafe :=  unsafe_paths(provider)
 	unsafe[_] == fix_path(volume.hostPath.path)
-	result= sprintf("%vvolumes[%v].hostPath.path", [beggining_of_path, format_int(i, 10)])
+	result= sprintf("%vvolumes[%d].hostPath.path", [beggining_of_path, i])
 }
 
 
@@ -96,11 +88,3 @@ unsafe_paths(x) := ["/.config/gcloud/",
 					"/.config/gcloud/application_default_credentials.json",
 					"/gcloud/application_default_credentials.json"] if {x=="gke"}
 
-# get_unsafe_paths - returns providers unsafe paths. If empty, returns all paths.
-get_unsafe_paths(provider) := result {
-	provider == ""
-	x := unsafe_paths("eks")
-    y := unsafe_paths("gke")
-    z := unsafe_paths("aks")
-	result := array.concat(array.concat(x,y), z)
-} else := unsafe_paths(provider)
