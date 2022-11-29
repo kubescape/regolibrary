@@ -1,0 +1,54 @@
+{
+  "name": "alert-mount-potential-credentials-paths",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+          "Pod"
+      ]
+    },
+    {
+      "apiGroups": [
+        "apps"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet"
+      ]
+    },
+    {
+      "apiGroups": [
+        "batch"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+          "Job",
+          "CronJob"
+      ]
+    }
+  ],
+  "dynamicMatch": [
+
+  ],
+  "relevantCloudProviders": ["EKS", "GKE", "AKS"],
+  "ruleDependencies": [],
+  "description": "determines if any workload contains a hostPath volume",
+  "remediation": "Try to refrain from using hostPath mounts",
+  "ruleQuery": ""
+}
