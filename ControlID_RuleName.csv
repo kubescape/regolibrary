@@ -18,7 +18,7 @@ C-0015,rule-can-list-get-secrets-v1
 C-0016,rule-allow-privilege-escalation
 C-0017,immutable-container-filesystem
 C-0018,configured-readiness-probe
-C-0020,alert-any-hostpath
+C-0020,alert-mount-potential-credentials-paths
 C-0021,exposed-sensitive-interfaces
 C-0021,exposed-sensitive-interfaces-v1
 C-0026,rule-deny-cronjobs
