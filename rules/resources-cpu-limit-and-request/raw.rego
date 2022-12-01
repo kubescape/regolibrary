@@ -53,7 +53,7 @@ deny[msga] {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
     not request_or_limit_cpu(container)
 
-	fixPaths := [{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources.limits.cpu", [format_int(i, 10)]), "value": "YOUR_VALUE"},
+	fixPaths := [{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources.limits.cpu", [format_int(i, 10)]), "value": "YOUR_VALUE"}, 
 				{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources.requests.cpu", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
 	
     msga := {

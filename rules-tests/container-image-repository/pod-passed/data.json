@@ -1,0 +1,9 @@
+{
+    "postureControlInputs": {
+        "imageRepositoryAllowList": [
+            "amazonaws.com",
+            "gcr.io",
+            "debian-azurecr.io"
+        ]
+    }
+}

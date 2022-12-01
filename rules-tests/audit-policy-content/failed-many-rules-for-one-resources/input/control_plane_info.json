@@ -1,0 +1,23 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "ControlPlaneInfo",
+    "metadata": {
+        "name": "minikube"
+    },
+    "data": {
+        "APIServerInfo": {
+            "auditPolicyFile": {
+                "ownership": {
+                    "uid": 0,
+                    "gid": 0,
+                    "username": "root",
+                    "groupname": "root"
+                },
+                "path": "/etc/ssl/certs/audit-policy.yaml",
+                "content": "YXBpVmVyc2lvbjogYXVkaXQuazhzLmlvL3YxICMgVGhpcyBpcyByZXF1aXJlZC4KCmtpbmQ6IFBvbGljeQoKb21pdFN0YWdlczoKCiAgLSAiUmVxdWVzdFJlY2VpdmVkIgoKcnVsZXM6CgogIC0gbGV2ZWw6IE1ldGFkYXRhCgogICAgcmVzb3VyY2VzOgoKICAgIC0gZ3JvdXA6ICIiCiAgICAgIHJlc291cmNlczogWyJwb2RzIiwgImRlcGxveW1lbnRzIiwgInRva2VucmV2aWV3cyJdCiAgICAgIAogIC0gbGV2ZWw6IE1ldGFkYXRhCgogICAgcmVzb3VyY2VzOgoKICAgIC0gZ3JvdXA6ICIiCiAgICAgIHJlc291cmNlczogWyJzZWNyZXRzIl0gICAgICAKCiAgLSBsZXZlbDogTWV0YWRhdGEKCiAgICByZXNvdXJjZXM6CgogICAgLSBncm91cDogIiIKCiAgICAgIHJlc291cmNlczogWyJwb2RzL2xvZyIsICJwb2RzL3N0YXR1cyIsICJwb2RzL2V4ZWMiLCAicG9kcy9wb3J0Zm9yd2FyZCIsICJwb2RzL3Byb3h5IiwgInNlcnZpY2VzL3Byb3h5Il0KCiAgLSBsZXZlbDogTWV0YWRhdGEKCiAgICByZXNvdXJjZXM6CgogICAgLSBncm91cDogIiIKCiAgICAgIHJlc291cmNlczogWyJjb25maWdtYXBzIl0KCiAgICAgIHJlc291cmNlTmFtZXM6IFsiY29udHJvbGxlci1sZWFkZXIiXQoKICAtIGxldmVsOiBOb25lCgogICAgdXNlcnM6IFsic3lzdGVtOmt1YmUtcHJveHkiXQoKICAgIHZlcmJzOiBbIndhdGNoIl0KCiAgICByZXNvdXJjZXM6CgogICAgLSBncm91cDogIiIgIyBjb3JlIEFQSSBncm91cAoKICAgICAgcmVzb3VyY2VzOiBbImVuZHBvaW50cyIsICJzZXJ2aWNlcyJdCgogIC0gbGV2ZWw6IE5vbmUKCiAgICB1c2VyR3JvdXBzOiBbInN5c3RlbTphdXRoZW50aWNhdGVkIl0KCiAgICBub25SZXNvdXJjZVVSTHM6CgogICAgLSAiL2FwaSoiICMgV2lsZGNhcmQgbWF0Y2hpbmcuCgogICAgLSAiL3ZlcnNpb24iCgogIC0gbGV2ZWw6IFJlcXVlc3QKCiAgICByZXNvdXJjZXM6CgogICAgLSBncm91cDogIiIgIyBjb3JlIEFQSSBncm91cAoKICAgICAgcmVzb3VyY2VzOiBbImNvbmZpZ21hcHMiXQoKICAgIG5hbWVzcGFjZXM6IFsia3ViZS1zeXN0ZW0iXQoKICAtIGxldmVsOiBNZXRhZGF0YQoKICAgIHJlc291cmNlczoKCiAgICAtIGdyb3VwOiAiIiAjIGNvcmUgQVBJIGdyb3VwCgogICAgICByZXNvdXJjZXM6IFsic2VjcmV0cyIsICJjb25maWdtYXBzIl0KICAgICAgCiAgLSBsZXZlbDogUmVxdWVzdAoKICAgIHJlc291cmNlczoKCiAgICAtIGdyb3VwOiAiIiAjIGNvcmUgQVBJIGdyb3VwCgogICAgLSBncm91cDogImV4dGVuc2lvbnMiICMgVmVyc2lvbiBvZiBncm91cCBzaG91bGQgTk9UIGJlIGluY2x1ZGVkLgoKCiAgLSBsZXZlbDogTWV0YWRhdGEKCiAgICBvbWl0U3RhZ2VzOgoKICAgICAgLSAiUmVxdWVzdFJlY2VpdmVkIgogICAgCg==",
+                "permissions": 420
+            },
+            "cmdLine": "kube-apiserver --audit-policy-file=/etc/ssl/certs/audit-policy.yaml  --advertise-address=192.168.49.2 --allow-privileged=true --authorization-mode=Node,RBAC --client-ca-file=/var/lib/minikube/certs/ca.crt --enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota --enable-bootstrap-token-auth=true --encryption-provider-config=/var/lib/minikube/certs/hack/encryptionConf.yaml --etcd-cafile=/var/lib/minikube/certs/etcd/ca.crt --etcd-certfile=/var/lib/minikube/certs/apiserver-etcd-client.crt --etcd-keyfile=/var/lib/minikube/certs/apiserver-etcd-client.key --etcd-servers=https://127.0.0.1:2379 --kubelet-client-certificate=/var/lib/minikube/certs/apiserver-kubelet-client.crt --kubelet-client-key=/var/lib/minikube/certs/apiserver-kubelet-client.key --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --proxy-client-cert-file=/var/lib/minikube/certs/front-proxy-client.crt --proxy-client-key-file=/var/lib/minikube/certs/front-proxy-client.key --requestheader-allowed-names=front-proxy-client --requestheader-client-ca-file=/var/lib/minikube/certs/front-proxy-ca.crt --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --secure-port=8443 --service-account-issuer=https://kubernetes.default.svc.cluster.local --service-account-key-file=/var/lib/minikube/certs/sa.pub --service-account-signing-key-file=/var/lib/minikube/certs/sa.key --service-cluster-ip-range=10.96.0.0/12 --tls-cert-file=/var/lib/minikube/certs/apiserver.crt --tls-private-key-file=/var/lib/minikube/certs/apiserver.key "
+        }
+    }
+}

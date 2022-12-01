@@ -4,6 +4,7 @@ import os
 import subprocess as s
 from pathlib import Path
 import copy
+from typing import List
 
 """
 Export rules controls and frameworks to files in json format
@@ -184,18 +185,45 @@ def validate_exceptions(exceptions):
 
 
 def split_exceptions(exceptions):
-    splitted_exceptions = []
+    splitted_exceptions = []    
+    base_name_to_index = dict()
+
     for exception in exceptions:
         if "resources" in exception and len(exception["resources"]) > 1:
             for i, resource in enumerate(exception["resources"]):
                 tmp_exception = copy.deepcopy(exception)
                 tmp_exception["resources"] = [resource]
-                tmp_exception["name"] = f"{tmp_exception['name']}-{i}"
+                tmp_exception_base_name = tmp_exception['name']
+
+                if tmp_exception_base_name in base_name_to_index:
+                    base_name_to_index[tmp_exception_base_name] += 1 
+                else:
+                    base_name_to_index[tmp_exception_base_name] = 1
+                
+                tmp_exception["name"] = f"{tmp_exception_base_name}-{base_name_to_index[tmp_exception_base_name]}"
                 splitted_exceptions.append(tmp_exception)
         else:
             splitted_exceptions.append(copy.deepcopy(exception))
+    
+    splitted_exceptions = remove_duplicate_exceptions(splitted_exceptions)
     return splitted_exceptions
         
+
+def remove_duplicate_exceptions(exceptions: List) -> List:
+    no_duplicates = []
+    checking_set = set() 
+
+    for exception in exceptions:
+        exception_copy = copy.deepcopy(exception)
+        exception_copy['name'] = ""
+        exception_json_str = json.dumps(exception_copy, sort_keys=True)
+        if exception_json_str in checking_set:
+            continue
+
+        checking_set.add(exception_json_str)
+        no_duplicates.append(exception)
+    return no_duplicates
+
 
 def load_exceptions():
     exceptions = os.path.join(currDir, 'exceptions')

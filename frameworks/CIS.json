@@ -99,6 +99,7 @@
         "Minimize the admission of containers which use HostPorts",
         "Ensure that all Namespaces have Network Policies defined",
         "Prefer using secrets as files over secrets as environment variables",
+        "Consider external secret storage",
         "Create administrative boundaries between resources using namespaces",
         "Ensure that the seccomp profile is set to docker/default in your pod definitions",
         "Apply Security Context to Your Pods and Containers",
@@ -126,7 +127,8 @@
         "Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers",
         "Ensure that a unique Certificate Authority is used for etcd",
         "Ensure that the CNI in use supports Network Policies",
-        "Ensure that a minimal audit policy is created"
+        "Ensure that a minimal audit policy is created",
+        "Ensure that the audit policy covers key security concerns"
     ],
     "subSections": {
         "1": {
@@ -239,9 +241,10 @@
             "subSections": {
                 "2": {
                     "name": "Logging",
-                    "id": "3.2.1",
+                    "id": "3.2",
                     "controlsIDs": [
-                        "CIS-3.2.1"
+                        "CIS-3.2.1",
+                        "CIS-3.2.2"
                     ]
                 }
             }
@@ -335,7 +338,8 @@
                     "name": "Secrets Management",
                     "id": "5.4",
                     "controlsIDs": [
-                        "CIS-5.4.1"
+                        "CIS-5.4.1",
+                        "CIS-5.4.2"
                     ]
                 },
                 "7": {

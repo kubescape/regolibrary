@@ -8,5 +8,5 @@ metadata:
 spec:
   containers:
   - name: command-demo-container
-    image: debian-azurecr.io # Matches regex
+    image: debian-azurecr.io/ # Matches regex
   restartPolicy: OnFailure

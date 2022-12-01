@@ -14,9 +14,10 @@ import (
 	"github.com/kubescape/k8s-interface/workloadinterface"
 	"github.com/kubescape/opa-utils/objectsenvelopes"
 	"github.com/kubescape/opa-utils/reporthandling"
+	"github.com/kubescape/opa-utils/resources"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 var (
@@ -65,8 +66,8 @@ func GetInputRawResources(dir string, policyRule *reporthandling.PolicyRule) ([]
 }
 
 // GetData reads test data for the rego data channel
-func GetData(dir string, policyRule *reporthandling.PolicyRule) (map[string][]string, error) {
-	ret := map[string][]string{}
+func GetData(dir string, policyRule *reporthandling.PolicyRule) (*resources.RegoDependenciesData, error) {
+	ret := &resources.RegoDependenciesData{}
 	dataPath := path.Join(dir, "data.json")
 	data, err := os.ReadFile(dataPath)
 	if err != nil {
@@ -76,11 +77,9 @@ func GetData(dir string, policyRule *reporthandling.PolicyRule) (map[string][]st
 		return ret, fmt.Errorf("failed to get rule %w", err)
 	}
 
-	tmp := struct {
-		PostureControlInputs map[string][]string `json:"postureControlInputs"`
-	}{}
-	err = json.Unmarshal(data, &tmp)
-	return tmp.PostureControlInputs, err
+	tmp := &resources.RegoDependenciesData{}
+	err = json.Unmarshal(data, tmp)
+	return tmp, err
 }
 
 func GetMockContentFromFile(filename string) (string, error) {
