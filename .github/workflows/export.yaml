@@ -3,7 +3,7 @@ name: export
 on:
   push:
     branches: [master]
-    paths-ignore: ['**.md', 'releasesDev/**']
+    paths-ignore: ['**.md', 'releaseDev/**']
   pull_request:
     branches: [master]
     types: [closed]
@@ -36,10 +36,6 @@ jobs:
         with:
           python-version: 3.10.6
 
-<<<<<<< HEAD
-=======
-     
->>>>>>> 3484140410225a150e17d1e719aa0cacb71d76ea
       # - name: Setup OPA binaries
       #   uses: open-policy-agent/setup-opa@v2
       #   with:
