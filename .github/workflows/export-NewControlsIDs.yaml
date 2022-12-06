@@ -25,7 +25,7 @@ jobs:
       run: python ./scripts/update-csv-files.py
     
     - name: Run export script
-      run: OUTPUT=releasesTest python ./scripts/export.py
+      run: OUTPUT=releasesDev python ./scripts/export.py
 
     - name: stage changed files
       run: git add .
