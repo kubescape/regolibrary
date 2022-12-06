@@ -63,20 +63,19 @@ def load_controls(loaded_rules: dict):
         with open(path_in_str, "r") as f:
             new_control = json.load(f)
         new_control["rules"] = []
-        new_control['id'] = new_control['controlID'] # TODO :'id' deprecated
         new_control_copy = copy.deepcopy(new_control)
         controls_list.append(new_control_copy)
 
         for rule_name in new_control["rulesNames"]:
             if rule_name in loaded_rules:
                 new_control["rules"].append(loaded_rules[rule_name])
-                new_row = [new_control['controlID'], rule_name] 
+                new_row = [new_control['id'], rule_name] # TODO : change 'id' to 'controlID'
                 control_rule_rows.append(new_row)
             else:
                 raise Exception("Error in ruleNames of control {}, rule {} does not exist".format(new_control["name"], rule_name))
 
         del new_control["rulesNames"]  # remove rule names list from dict
-        loaded_controls[new_control['controlID']] = new_control
+        loaded_controls[new_control['name']] = new_control
 
     return loaded_controls, controls_list
 
@@ -92,16 +91,6 @@ def addSubsectionsIds(parents: list, sections: dict):
         addSubsectionsIds(section_full_id, section.get('subSections', {}))
 
 
-def patch_control(control:dict, patch: dict) -> dict:
-
-    for key in patch:
-        if key not in control.keys():
-            raise Exception(f"control {control['controlID']} doesnt have patch key {key}")
-        control[key] = patch[key]
-    
-    return control
-
-        
 def load_frameworks(loaded_controls: dict):
     p3 = os.path.join(currDir, 'frameworks') 
     frameworks_path = Path(p3).glob('**/*.json')
@@ -116,29 +105,20 @@ def load_frameworks(loaded_controls: dict):
             new_framework = json.load(f)
         new_framework["version"] = os.getenv("RELEASE")
         new_framework["controls"] = []
-        new_framework["controlsNames"] = []
         new_framework_copy = copy.deepcopy(new_framework)
+        frameworks_list.append(new_framework_copy)
 
-        for control_framework in new_framework["activeControls"]:
-            controlID = control_framework["controlID"]
-        
-            if controlID in loaded_controls:
-                control = copy.deepcopy(patch_control(loaded_controls[controlID], control_framework["patch"]))
-                control['id'] = controlID # TODO: 'id' deprecated
-                new_framework["controls"].append(control)
-                new_framework["controlsNames"].append(control["name"])
-                new_row = [new_framework['name'], controlID, control["name"]] # TODO : change 'id' to 'controlID'
+        for control_name in new_framework["controlsNames"]:
+            if control_name in loaded_controls:
+                new_framework["controls"].append(loaded_controls[control_name])
+                new_row = [new_framework['name'], loaded_controls[control_name]['id'], control_name] # TODO : change 'id' to 'controlID'
                 framework_control_rows.append(new_row)
             else:
-                raise Exception("Error in activeControls of framework {}, control id {} does not exist".format(new_framework["name"], controlID))
+                raise Exception("Error in controlsNames of framework {}, control {} does not exist".format(new_framework["name"], control_name))
         
         addSubsectionsIds([], new_framework.get('subSections', {}))
 
-
-        new_framework_copy["controlsNames"] = copy.deepcopy(new_framework["controlsNames"])
-        frameworks_list.append(new_framework_copy)
-        del new_framework["activeControls"]
-        del new_framework_copy["activeControls"]
+        del new_framework["controlsNames"]
         loaded_frameworks[new_framework['name']] = new_framework
 
     return loaded_frameworks, frameworks_list
@@ -172,7 +152,7 @@ def validate_controls():
         with open(path_in_str, "r") as f:
             new_control = json.load(f)
         
-        set_of_ids.add(new_control["controlID"])
+        set_of_ids.add(new_control["id"])
 
     sum_of_controls = len(controls_path)
     if sum_of_controls != len(set_of_ids):
@@ -285,7 +265,7 @@ def create_cvs_file(header, rows, filename, output_path):
 
 if __name__ == '__main__':
     output_dir_name = os.getenv("OUTPUT") if os.getenv("OUTPUT") else "release"
-    
+
     loaded_rules, rules_list = load_rules()   
     rules, rules_list = load_rules()
     controls, controls_list = load_controls(loaded_rules=rules)
