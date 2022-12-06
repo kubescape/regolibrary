@@ -27,7 +27,7 @@ jobs:
     - name: Run export script
       run: |
         OUTPUT=pre-release python ./scripts/export.py
-        cp pre-release releasesDev
+        cp -R pre-release releasesDev
 
     - name: stage changed files
       run: git add .
