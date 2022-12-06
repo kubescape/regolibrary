@@ -9,15 +9,15 @@
             "compliance"
         ]
     },
-    "description": "When a cluster is deployed in the cloud, in some cases attackers can leverage their access to a container in the cluster to gain cloud credentials. This control determines if any workload contains a hostPath volume.",
+    "description": "When a cluster is deployed in the cloud, in some cases attackers can leverage their access to a container in the cluster to gain cloud credentials. This control determines if any workload contains a volume with potential access to cloud credential.",
     "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: test-pd\nspec:\n  containers:\n  - image: k8s.gcr.io/test-webserver\n    name: test-container\n    volumeMounts:\n    - mountPath: /test-pd\n      name: test-volume\n  volumes:\n  - name: test-volume\n    hostPath: # This field triggers failure!\n      path: /data\n      type: Directory\n",
-    "remediation": "Refrain from using host path mount.",
+    "remediation": "Refrain from using path mount to known cloud credentials folders or files .",
     "rulesNames": [
-        "alert-any-hostpath"
+        "alert-mount-potential-credentials-paths"
     ],
     "id": "C-0020",
     "long_description": "When the cluster is deployed in the cloud, in some cases attackers can leverage their access to a container in the cluster to gain cloud credentials. For example, in AKS each node contains service principal credential.",
-    "test": "Check which workloads have hostPath volumes to known cloud credentials files in node, like \u201c/etc/kubernetes/azure.json\u201d for Azure.",
+    "test": "Check which workloads have volumes with potential access to known cloud credentials folders or files in node, like \u201c/etc/kubernetes/azure.json\u201d for Azure.",
     "controlID": "C-0020",
     "baseScore": 4.0
 }

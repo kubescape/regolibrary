@@ -3,22 +3,23 @@
   "attributes": {
     "m$K8sThreatMatrix": "Credential Access::Instance Metadata API",
     "armoBuiltin": true,
-    "armoOpa": "true"
+    "hostSensorRule": "true"
   },
   "ruleLanguage": "Rego",
-  "match": [
+  "match": [],
+  "dynamicMatch": [
     {
-      "apiGroups": [
-        ""
-      ],
-      "apiVersions": [
-        "v1"
-      ],
-      "resources": [
-        "Node"
-      ]
+        "apiGroups": [
+            "hostdata.kubescape.cloud"
+        ],
+        "apiVersions": [
+            "v1beta0"
+        ],
+        "resources": [
+            "cloudProviderInfo"
+        ]
     }
-  ],
+],
   "ruleDependencies": [],
   "description": "Checks if there is access from the nodes to cloud prividers instance metadata services",
   "remediation": "",
