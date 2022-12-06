@@ -1,6 +1,5 @@
 {
-    "id": "CIS-4.1.1",
-    "controlID": "CIS-4.1.1",
+    "controlID": "C-0161",
     "name": "Ensure that the kubelet service file permissions are set to 600 or more restrictive",
     "description": "Ensure that the `kubelet` service file has permissions of `600` or more restrictive.",
     "long_description": "The `kubelet` service file controls various parameters that set the behavior of the `kubelet` service in the worker node. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",
@@ -17,5 +16,6 @@
     ],
     "baseScore": 6,
     "impact_statement": "None",
-    "default_value": "By default, the `kubelet` service file has permissions of `640`."
+    "default_value": "By default, the `kubelet` service file has permissions of `640`.",
+    "rules": []
 }

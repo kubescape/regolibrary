@@ -1,6 +1,5 @@
 {
-    "id": "CIS-4.1.7",
-    "controlID": "CIS-4.1.7",
+    "controlID": "C-0167",
     "name": "Ensure that the certificate authorities file permissions are set to 600 or more restrictive",
     "description": "Ensure that the certificate authorities file has permissions of `600` or more restrictive.",
     "long_description": "The certificate authorities file controls the authorities used to validate API requests. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",
@@ -17,5 +16,6 @@
     },
     "baseScore": 7,
     "impact_statement": "None",
-    "default_value": "By default no `--client-ca-file` is specified."
+    "default_value": "By default no `--client-ca-file` is specified.",
+    "rules": []
 }

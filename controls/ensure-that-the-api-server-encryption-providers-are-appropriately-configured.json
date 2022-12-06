@@ -1,6 +1,5 @@
 {
-    "id": "CIS-1.2.30",
-    "controlID": "CIS-1.2.30",
+    "controlID": "C-0141",
     "name": "Ensure that encryption providers are appropriately configured",
     "description": "Where `etcd` encryption is used, appropriate providers should be configured.",
     "long_description": "Where `etcd` encryption is used, it is important to ensure that the appropriate set of encryption providers is used. Currently, the `aescbc`, `kms` and `secretbox` are likely to be appropriate options.",
@@ -17,5 +16,6 @@
     ],
     "baseScore": 7,
     "impact_statement": "None",
-    "default_value": "By default, no encryption provider is set."
+    "default_value": "By default, no encryption provider is set.",
+    "rules": []
 }

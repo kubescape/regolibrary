@@ -1,0 +1,21 @@
+{
+    "controlID": "C-0199",
+    "name": "Minimize the admission of containers with added capabilities",
+    "description": "Do not generally permit containers with capabilities assigned beyond the default set.",
+    "long_description": "Containers run with a default set of capabilities as assigned by the Container Runtime. Capabilities outside this set can be added to containers which could expose them to risks of container breakout attacks.\n\n There should be at least one policy defined which prevents containers with capabilities beyond the default set from launching.\n\n If you need to run containers with additional capabilities, this should be defined in a separate policy and you should carefully check to ensure that only limited service accounts and users are given permission to use that policy.",
+    "remediation": "Ensure that `allowedCapabilities` is not present in policies for the cluster unless it is set to an empty array.",
+    "manual_test": "List the policies in use for each namespace in the cluster, ensure that policies are present which prevent `allowedCapabilities` to be set to anything other than an empty array.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126662/recommendations/1838621"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "pod-security-admission-restricted-applied"
+    ],
+    "baseScore": 5,
+    "impact_statement": "Pods with containers which require capabilities outwith the default set will not be permitted.",
+    "default_value": "By default, there are no restrictions on adding capabilities to containers.",
+    "rules": []
+}

@@ -23,10 +23,10 @@
     "rulesNames": [
         "rule-identify-blocklisted-image-registries"
     ],
-    "id": "C-0001",
     "long_description": "Running a compromised image in a cluster can compromise the cluster. Attackers who get access to a private registry can plant their own compromised images in the registry. The latter can then be pulled by a user. In addition, users often use untrusted images from public registries (such as Docker Hub) that may be malicious. Building images based on untrusted base images can also lead to similar results.",
     "test": "Checking image from pod spec, if the registry of the image is from the list of blocked registries we raise an alert.",
     "controlID": "C-0001",
     "baseScore": 7.0,
-    "example": "@controls/examples/c001.yaml"
+    "example": "@controls/examples/c001.yaml",
+    "rules": []
 }

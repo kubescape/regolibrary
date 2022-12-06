@@ -16,10 +16,10 @@
         "rule-excessive-delete-rights",
         "rule-excessive-delete-rights-v1"
     ],
-    "id": "C-0007",
     "long_description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources.",
     "test": "Check which subjects have delete/deletecollection RBAC permissions on workloads.",
     "controlID": "C-0007",
     "baseScore": 5.0,
-    "example": "@controls/examples/c007.yaml"
+    "example": "@controls/examples/c007.yaml",
+    "rules": []
 }

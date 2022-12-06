@@ -1,6 +1,5 @@
 {
-    "id": "CIS-2.6",
-    "controlID": "CIS-2.6",
+    "controlID": "C-0157",
     "name": "Ensure that the --peer-auto-tls argument is not set to true",
     "description": "Do not use automatically generated self-signed certificates for TLS connections between peers.",
     "long_description": "etcd is a highly-available key value store used by Kubernetes deployments for persistent storage of all of its REST API objects. These objects are sensitive in nature and should be accessible only by authenticated etcd peers in the etcd cluster. Hence, do not use self-signed certificates for authentication.",
@@ -17,5 +16,6 @@
     ],
     "baseScore": 6,
     "impact_statement": "All peers attempting to communicate with the etcd server will require a valid client certificate for authentication.",
-    "default_value": "**Note:** This recommendation is applicable only for etcd clusters. If you are using only one etcd server in your environment then this recommendation is not applicable.\n\n By default, `--peer-auto-tls` argument is set to `false`."
+    "default_value": "**Note:** This recommendation is applicable only for etcd clusters. If you are using only one etcd server in your environment then this recommendation is not applicable.\n\n By default, `--peer-auto-tls` argument is set to `false`.",
+    "rules": []
 }

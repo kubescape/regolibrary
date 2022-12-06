@@ -1,6 +1,5 @@
 {
-    "id": "CIS-1.4.2",
-    "controlID": "CIS-1.4.2",
+    "controlID": "C-0151",
     "name": "Ensure that the Scheduler --bind-address argument is set to 127.0.0.1",
     "description": "Do not bind the scheduler service to non-loopback insecure addresses.",
     "long_description": "The Scheduler API service which runs on port 10251/TCP by default is used for health and metrics information and is available without authentication or encryption. As such it should only be bound to a localhost interface, to minimize the cluster's attack surface",
@@ -17,5 +16,6 @@
     ],
     "baseScore": 5,
     "impact_statement": "None",
-    "default_value": "By default, the `--bind-address` parameter is set to 0.0.0.0"
+    "default_value": "By default, the `--bind-address` parameter is set to 0.0.0.0",
+    "rules": []
 }

@@ -1,0 +1,21 @@
+{
+    "controlID": "C-0203",
+    "name": "Minimize the admission of containers which use HostPorts",
+    "description": "Do not generally permit containers which require the use of HostPorts.",
+    "long_description": "Host ports connect containers directly to the host's network. This can bypass controls such as network policy.\n\n There should be at least one admission control policy defined which does not permit containers which require the use of HostPorts.\n\n If you need to run containers which require HostPorts, this should be defined in a separate policy and you should carefully check to ensure that only limited service accounts and users are given permission to use that policy.",
+    "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of containers which use `hostPort` sections.",
+    "manual_test": "List the policies in use for each namespace in the cluster, ensure that each policy disallows the admission of containers which have `hostPort` sections.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126662/recommendations/1838626"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "pod-security-admission-baseline-applied"
+    ],
+    "baseScore": 4,
+    "impact_statement": "Pods defined with `hostPort` settings in either the container, initContainer or ephemeralContainer sections will not be permitted unless they are run under a specific policy.",
+    "default_value": "By default, there are no restrictions on the use of HostPorts.",
+    "rules": []
+}

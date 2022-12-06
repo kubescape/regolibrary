@@ -1,6 +1,5 @@
 {
-    "id": "CIS-1.1.7",
-    "controlID": "CIS-1.1.7",
+    "controlID": "C-0097",
     "name": "Ensure that the etcd pod specification file permissions are set to 600 or more restrictive",
     "description": "Ensure that the `/etc/kubernetes/manifests/etcd.yaml` file has permissions of `600` or more restrictive.",
     "long_description": "The etcd pod specification file `/etc/kubernetes/manifests/etcd.yaml` controls various parameters that set the behavior of the `etcd` service in the master node. etcd is a highly-available key-value store which Kubernetes uses for persistent storage of all of its REST API object. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",
@@ -17,5 +16,6 @@
     },
     "baseScore": 6,
     "impact_statement": "None",
-    "default_value": "By default, `/etc/kubernetes/manifests/etcd.yaml` file has permissions of `640`."
+    "default_value": "By default, `/etc/kubernetes/manifests/etcd.yaml` file has permissions of `640`.",
+    "rules": []
 }

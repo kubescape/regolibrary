@@ -20,9 +20,9 @@
     "rulesNames": [
         "read-only-port-enabled"
     ],
-    "id": "C-0082",
     "long_description": "",
     "test": "",
     "controlID": "C-0082",
-    "baseScore": 9.0
+    "baseScore": 9.0,
+    "rules": []
 }

@@ -20,9 +20,9 @@
     "rulesNames": [
         "enforce-kubelet-client-tls-authentication"
     ],
-    "id": "C-0070",
     "long_description": "Kubelets are the node level orchestrator in Kubernetes control plane. They are publishing service port 10250 where they accept commands from API server. Operator must make sure that only API server is allowed to submit commands to Kubelet. This is done through client certificate verification, must configure Kubelet with client CA file to use for this purpose.",
     "test": "Reading the kubelet command lines and configuration file looking for client TLS configuration.",
     "controlID": "C-0070",
-    "baseScore": 9.0
+    "baseScore": 9.0,
+    "rules": []
 }

@@ -1,6 +1,5 @@
 {
-    "id": "CIS-4.2.8",
-    "controlID": "CIS-4.2.8",
+    "controlID": "C-0178",
     "name": "Ensure that the --hostname-override argument is not set",
     "description": "Do not override node hostnames.",
     "long_description": "Overriding hostnames could potentially break TLS setup between the kubelet and the apiserver. Additionally, with overridden hostnames, it becomes increasingly difficult to associate logs with a particular node and process them for security analytics. Hence, you should setup your kubelet nodes with resolvable FQDNs and avoid overriding the hostnames with IPs.",
@@ -17,5 +16,6 @@
     ],
     "baseScore": 3,
     "impact_statement": "Some cloud providers may require this flag to ensure that hostname matches names issued by the cloud provider. In these environments, this recommendation should not apply.",
-    "default_value": "By default, `--hostname-override` argument is not set."
+    "default_value": "By default, `--hostname-override` argument is not set.",
+    "rules": []
 }

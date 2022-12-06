@@ -1,6 +1,5 @@
 {
-    "id": "CIS-3.2.2",
-    "controlID": "CIS-3.2.2",
+    "controlID": "C-0160",
     "name": "Ensure that the audit policy covers key security concerns",
     "description": "Ensure that the audit policy created for the cluster covers key security concerns.",
     "long_description": "Security audit logs should cover access and modification of key resources in the cluster, to enable them to form an effective part of a security environment.",
@@ -17,5 +16,6 @@
     ],
     "baseScore": 5,
     "impact_statement": "Increasing audit logging will consume resources on the nodes or other log destination.",
-    "default_value": "By default Kubernetes clusters do not log audit information."
+    "default_value": "By default Kubernetes clusters do not log audit information.",
+    "rules": []
 }

@@ -1,0 +1,27 @@
+{
+    "name": "Apply Security Context to Your Pods and Containers",
+    "controlID": "C-0210",
+    "description": "Apply Security Context to Your Pods and Containers",
+    "long_description": "A security context defines the operating system security settings (uid, gid, capabilities, SELinux role, etc..) applied to a container. When designing your containers and pods, make sure that you configure the security context for your pods, containers, and volumes. A security context is a property defined in the deployment yaml. It controls the security parameters that will be assigned to the pod/container/volume. There are two levels of security context: pod level security context, and container level security context.",
+    "remediation": "Follow the Kubernetes documentation and apply security contexts to your pods. For a suggested list of security contexts, you may refer to the CIS Security Benchmark for Docker Containers.",
+    "test": "Check that pod and container security context fields according to recommendations in CIS Security Benchmark for Docker Containers",
+    "manual_test": "Review the pod definitions in your cluster and verify that you have security contexts defined as appropriate.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126667/recommendations/1838636"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "rule-privilege-escalation",
+        "immutable-container-filesystem",
+        "non-root-containers",
+        "drop-capability-netraw",
+        "set-seLinuxOptions",
+        "set-seccomp-profile"
+    ],
+    "baseScore": 8,
+    "impact_statement": "If you incorrectly apply security contexts, you may have trouble running the pods.",
+    "default_value": "By default, no security contexts are automatically applied to pods.",
+    "rules": []
+}
