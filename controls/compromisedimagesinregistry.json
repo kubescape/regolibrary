@@ -27,6 +27,5 @@
     "test": "Checking image from pod spec, if the registry of the image is from the list of blocked registries we raise an alert.",
     "controlID": "C-0001",
     "baseScore": 7.0,
-    "example": "@controls/examples/c001.yaml",
-    "rules": []
+    "example": "@controls/examples/c001.yaml"
 }

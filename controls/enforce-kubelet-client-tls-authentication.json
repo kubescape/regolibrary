@@ -16,6 +16,5 @@
     ],
     "baseScore": 6,
     "impact_statement": "You require TLS to be configured on apiserver as well as kubelets.",
-    "default_value": "By default, `--client-ca-file` argument is not set.",
-    "rules": []
+    "default_value": "By default, `--client-ca-file` argument is not set."
 }

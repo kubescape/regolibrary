@@ -24,6 +24,5 @@
     "test": "This control enumerates external facing workloads, that have LoadBalancer or NodePort services and checks image vulnerability information to see if the image has critical vulnerabilities.",
     "controlID": "C-0083",
     "baseScore": 8.0,
-    "example": "@controls/examples/c83.yaml",
-    "rules": []
+    "example": "@controls/examples/c83.yaml"
 }

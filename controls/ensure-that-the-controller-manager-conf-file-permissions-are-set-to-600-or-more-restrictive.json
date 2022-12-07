@@ -16,6 +16,5 @@
     },
     "baseScore": 6,
     "impact_statement": "None",
-    "default_value": "By default, `controller-manager.conf` has permissions of `640`.",
-    "rules": []
+    "default_value": "By default, `controller-manager.conf` has permissions of `640`."
 }

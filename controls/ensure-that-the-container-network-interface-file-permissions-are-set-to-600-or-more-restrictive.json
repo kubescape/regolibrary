@@ -16,6 +16,5 @@
     ],
     "baseScore": 6,
     "impact_statement": "None",
-    "default_value": "NA",
-    "rules": []
+    "default_value": "NA"
 }

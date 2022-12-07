@@ -16,6 +16,5 @@
     ],
     "baseScore": 4,
     "impact_statement": "None",
-    "default_value": "By default, auditing is not enabled.",
-    "rules": []
+    "default_value": "By default, auditing is not enabled."
 }

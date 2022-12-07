@@ -16,6 +16,5 @@
     },
     "baseScore": 7,
     "impact_statement": "None.",
-    "default_value": "By default, `admin.conf` file ownership is set to `root:root`.",
-    "rules": []
+    "default_value": "By default, `admin.conf` file ownership is set to `root:root`."
 }

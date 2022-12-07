@@ -16,6 +16,5 @@
     ],
     "baseScore": 4,
     "impact_statement": "Credentials would be required to pull the private images every time. Also, in trusted environments, this might increases load on network, registry, and decreases speed.\n\n This setting could impact offline or isolated clusters, which have images pre-loaded and do not have access to a registry to pull in-use images. This setting is not appropriate for clusters which use this configuration.",
-    "default_value": "By default, `AlwaysPullImages` is not set.",
-    "rules": []
+    "default_value": "By default, `AlwaysPullImages` is not set."
 }

@@ -22,6 +22,5 @@
     ],
     "baseScore": 8,
     "impact_statement": "If you incorrectly apply security contexts, you may have trouble running the pods.",
-    "default_value": "By default, no security contexts are automatically applied to pods.",
-    "rules": []
+    "default_value": "By default, no security contexts are automatically applied to pods."
 }

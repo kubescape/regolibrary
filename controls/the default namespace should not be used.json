@@ -18,6 +18,5 @@
     ],
     "baseScore": 4,
     "impact_statement": "None",
-    "default_value": "Unless a namespace is specific on object creation, the `default` namespace will be used",
-    "rules": []
+    "default_value": "Unless a namespace is specific on object creation, the `default` namespace will be used"
 }

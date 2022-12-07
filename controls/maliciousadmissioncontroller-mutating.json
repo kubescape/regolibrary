@@ -24,6 +24,5 @@
         "list-all-mutating-webhooks"
     ],
     "controlID": "C-0039",
-    "baseScore": 4.0,
-    "rules": []
+    "baseScore": 4.0
 }

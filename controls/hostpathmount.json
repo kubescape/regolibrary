@@ -25,6 +25,5 @@
         "alert-any-hostpath"
     ],
     "controlID": "C-0048",
-    "baseScore": 7.0,
-    "rules": []
+    "baseScore": 7.0
 }

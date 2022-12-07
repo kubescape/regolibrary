@@ -16,6 +16,5 @@
     ],
     "baseScore": 3,
     "impact_statement": "None",
-    "default_value": "By default, `NamespaceLifecycle` is set.",
-    "rules": []
+    "default_value": "By default, `NamespaceLifecycle` is set."
 }

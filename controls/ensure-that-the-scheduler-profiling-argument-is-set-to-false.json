@@ -16,6 +16,5 @@
     ],
     "baseScore": 3,
     "impact_statement": "Profiling information would not be available.",
-    "default_value": "By default, profiling is enabled.",
-    "rules": []
+    "default_value": "By default, profiling is enabled."
 }

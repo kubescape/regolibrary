@@ -16,6 +16,5 @@
     ],
     "baseScore": 8,
     "impact_statement": "TLS and client certificate authentication must be configured for etcd.",
-    "default_value": "By default, `--etcd-certfile` and `--etcd-keyfile` arguments are not set",
-    "rules": []
+    "default_value": "By default, `--etcd-certfile` and `--etcd-keyfile` arguments are not set"
 }

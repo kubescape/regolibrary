@@ -16,6 +16,5 @@
     ],
     "baseScore": 7,
     "impact_statement": "None",
-    "default_value": "By default, no encryption provider is set.",
-    "rules": []
+    "default_value": "By default, no encryption provider is set."
 }

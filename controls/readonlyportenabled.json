@@ -23,6 +23,5 @@
     "long_description": "",
     "test": "",
     "controlID": "C-0082",
-    "baseScore": 9.0,
-    "rules": []
+    "baseScore": 9.0
 }

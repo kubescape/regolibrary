@@ -16,6 +16,5 @@
     ],
     "baseScore": 6,
     "impact_statement": "All peers attempting to communicate with the etcd server will require a valid client certificate for authentication.",
-    "default_value": "**Note:** This recommendation is applicable only for etcd clusters. If you are using only one etcd server in your environment then this recommendation is not applicable.\n\n By default, `--peer-auto-tls` argument is set to `false`.",
-    "rules": []
+    "default_value": "**Note:** This recommendation is applicable only for etcd clusters. If you are using only one etcd server in your environment then this recommendation is not applicable.\n\n By default, `--peer-auto-tls` argument is set to `false`."
 }

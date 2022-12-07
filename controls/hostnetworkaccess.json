@@ -26,6 +26,5 @@
     "test": "",
     "controlID": "C-0041",
     "baseScore": 7.0,
-    "example": "@controls/examples/c041.yaml",
-    "rules": []
+    "example": "@controls/examples/c041.yaml"
 }

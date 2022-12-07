@@ -16,6 +16,5 @@
     ],
     "baseScore": 7,
     "impact_statement": "Pods defined with `securityContext.windowsOptions.hostProcess: true` will not be permitted unless they are run under a specific policy.",
-    "default_value": "By default, there are no restrictions on the creation of `hostProcess` containers.",
-    "rules": []
+    "default_value": "By default, there are no restrictions on the creation of `hostProcess` containers."
 }

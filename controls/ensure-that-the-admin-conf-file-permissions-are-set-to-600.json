@@ -16,6 +16,5 @@
     },
     "baseScore": 7,
     "impact_statement": "None.",
-    "default_value": "By default, admin.conf has permissions of `600`.",
-    "rules": []
+    "default_value": "By default, admin.conf has permissions of `600`."
 }
