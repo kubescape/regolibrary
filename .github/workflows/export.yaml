@@ -11,6 +11,7 @@ on:
     
 jobs:
   once:
+    permissions: write-all
     name: Build, Test, Create And Upload Release
     runs-on: ubuntu-latest
     outputs:
