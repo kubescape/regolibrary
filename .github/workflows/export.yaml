@@ -3,7 +3,7 @@ name: export
 on:
   push:
     branches: [master]
-    paths-ignore: ['**.md']
+    paths-ignore: ['**.md', 'releaseDev/**']
   pull_request:
     branches: [master]
     types: [closed]
@@ -11,7 +11,6 @@ on:
     
 jobs:
   once:
-    permissions: write-all
     name: Build, Test, Create And Upload Release
     runs-on: ubuntu-latest
     outputs:
