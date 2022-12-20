@@ -11,21 +11,22 @@ import (
 
 var (
 	testSingleRegoDirectory = "test-single-rego"
-	relativeRuleTestsPath   = "../rules-tests"
+	// relativeRuleTestsPath   = "../rules-tests"
+	rulesDirectory = "../rules"
 )
 
 // Run all tests inside rules-tests
 func TestAllRules(t *testing.T) {
-	file, err := os.Open(relativeRuleTestsPath)
+	file, err := os.Open(rulesDirectory)
 	assert.NoError(t, err)
 
 	defer file.Close()
 	// List all files
-	ruleTestDirectories, err := file.Readdirnames(0)
+	ruleDirectories, err := file.Readdirnames(0)
 	assert.NoError(t, err)
 
-	for _, dir := range ruleTestDirectories {
-		dir = fmt.Sprintf("%v/%v", relativeRuleTestsPath, dir)
+	for _, dir := range ruleDirectories {
+		dir = fmt.Sprintf("%v/%v", rulesDirectory, dir)
 		isDir, err := opaprocessor.IsDirectory(dir)
 		assert.NoError(t, err)
 		if !isDir {
@@ -37,7 +38,7 @@ func TestAllRules(t *testing.T) {
 
 // Change the dir variable to the name of the rule you want to test (in the rules-tests dir)
 func TestSingleRule(t *testing.T) {
-	dir := fmt.Sprintf("%v/%v", relativeRuleTestsPath, "etcd-peer-tls-enabled")
+	dir := fmt.Sprintf("%v/%v", rulesDirectory, "etcd-peer-tls-enabled")
 	assert.NoError(t, opaprocessor.RunAllTestsForRule(t, dir), fmt.Sprintf("rule: %s", dir))
 }
 
