@@ -7,7 +7,7 @@ deny[msg] {
 	is_api_server(obj)
 	result = invalid_flag(obj.spec.containers[0].command)
 	msg := {
-		"alertMessage": "TLS certificate authority",
+		"alertMessage": "anonymous requests is enabled",
 		"alertScore": 2,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
@@ -25,15 +25,27 @@ is_api_server(obj) {
 	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
 }
 
+
 # Assume flag set only once
 invalid_flag(cmd) = result {
+	contains(cmd[i], "--anonymous-auth=true")
+	fixed = replace(cmd[i], "--anonymous-auth=true", "--anonymous-auth=false")
+	path := sprintf("spec.containers[0].command[%d]", [i])
+	result = {
+		"failed_paths": [path],
+		"fix_paths": [{"path": path, "value": fixed}],
+	}
+}
+
+invalid_flag(cmd) = result {
 	full_cmd = concat(" ", cmd)
-	not contains(full_cmd, "--service-account-key-file")
-	result := {
+	not contains(full_cmd, "--anonymous-auth")
+	path := sprintf("spec.containers[0].command[%d]", [count(cmd)])
+	result = {
 		"failed_paths": [],
 		"fix_paths": [{
-			"path": sprintf("spec.containers[0].command[%d]", [count(cmd)]),
-			"value": "--service-account-key-file=<path/to/key.pub>",
+			"path": path,
+			"value": "--anonymous-auth=false",
 		}],
 	}
 }
