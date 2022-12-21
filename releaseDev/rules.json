@@ -1948,6 +1948,33 @@
         "rule": "package armo_builtins\n\nimport future.keywords.in\n\n# fails if user has create access to pods\ndeny[msga] {\n\tsubjectVector := input[_]\n\trole := subjectVector.relatedObjects[i]\n\trolebinding := subjectVector.relatedObjects[j]\n\tendswith(role.kind, \"Role\")\n\tendswith(rolebinding.kind, \"Binding\")\n\n\trule := role.rules[p]\n\n\tsubject := rolebinding.subjects[k]\n\tis_same_subjects(subjectVector, subject)\n\nis_same_subjects(subjectVector, subject)\n\trule_path := sprintf(\"relatedObjects[%d].rules[%d]\", [i, p])\n\n\tverbs := [\"create\", \"*\"]\n\tverb_path := [sprintf(\"%s.verbs[%d]\", [rule_path, l]) | verb = rule.verbs[l]; verb in verbs]\n\tcount(verb_path) > 0\n\n\tapi_groups := [\"\", \"*\"]\n\tapi_groups_path := [sprintf(\"%s.apiGroups[%d]\", [rule_path, a]) | apiGroup = rule.apiGroups[a]; apiGroup in api_groups]\n\tcount(api_groups_path) > 0\n\n\tresources := [\"pods\", \"*\"]\n\tresources_path := [sprintf(\"%s.resources[%d]\", [rule_path, l]) | resource = rule.resources[l]; resource in resources]\n\tcount(resources_path) > 0\n\n\tpath := array.concat(resources_path, verb_path)\n\tpath2 := array.concat(path, api_groups_path)\n\tfinalpath := array.concat(path2, [\n\t\tsprintf(\"relatedObjects[%d].subjects[%d]\", [j, k]),\n\t\tsprintf(\"relatedObjects[%d].roleRef.name\", [j]),\n\t])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Subject: %s-%s can create pods\", [subjectVector.kind, subjectVector.name]),\n\t\t\"alertScore\": 3,\n\t\t\"failedPaths\": finalpath,\n\t\t\"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n\t\t\t\"externalObjects\": subjectVector,\n\t\t},\n\t}\n}\n\n# for service accounts\nis_same_subjects(subjectVector, subject) {\n\tsubjectVector.kind == subject.kind\n\tsubjectVector.name == subject.name\n\tsubjectVector.namespace == subject.namespace\n}\n\n# for users/ groups\nis_same_subjects(subjectVector, subject) {\n\tsubjectVector.kind == subject.kind\n\tsubjectVector.name == subject.name\n\tsubjectVector.apiGroup == subject.apiGroup\n}\n"
     },
     {
+        "name": "ensure-that-the-api-server-anonymous-auth-argument-is-set-to-false",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    ""
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "Pod"
+                ]
+            }
+        ],
+        "dynamicMatch": [],
+        "ruleDependencies": [],
+        "description": "Disable anonymous requests to the API server.",
+        "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the below parameter.\n\n \n```\n--anonymous-auth=false\n\n```\n\n#### Impact Statement\nAnonymous requests will be rejected.\n\n#### Default Value\nBy default, anonymous access is enabled.",
+        "ruleQuery": "",
+        "rule": "package armo_builtins\n\nimport future.keywords.in\n\ndeny[msg] {\n\tobj = input[_]\n\tis_api_server(obj)\n\tresult = invalid_flag(obj.spec.containers[0].command)\n\tmsg := {\n\t\t\"alertMessage\": \"anonymous requests is enabled\",\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": result.failed_paths,\n\t\t\"fixPaths\": result.fix_paths,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"k8sApiObjects\": [obj]},\n\t}\n}\n\nis_api_server(obj) {\n\tobj.apiVersion == \"v1\"\n\tobj.kind == \"Pod\"\n\tobj.metadata.namespace == \"kube-system\"\n\tcount(obj.spec.containers) == 1\n\tcount(obj.spec.containers[0].command) > 0\n\tendswith(obj.spec.containers[0].command[0], \"kube-apiserver\")\n}\n\n\n# Assume flag set only once\ninvalid_flag(cmd) = result {\n\tcontains(cmd[i], \"--anonymous-auth=true\")\n\tfixed = replace(cmd[i], \"--anonymous-auth=true\", \"--anonymous-auth=false\")\n\tpath := sprintf(\"spec.containers[0].command[%d]\", [i])\n\tresult = {\n\t\t\"failed_paths\": [path],\n\t\t\"fix_paths\": [{\"path\": path, \"value\": fixed}],\n\t}\n}\n\ninvalid_flag(cmd) = result {\n\tfull_cmd = concat(\" \", cmd)\n\tnot contains(full_cmd, \"--anonymous-auth\")\n\tpath := sprintf(\"spec.containers[0].command[%d]\", [count(cmd)])\n\tresult = {\n\t\t\"failed_paths\": [],\n\t\t\"fix_paths\": [{\n\t\t\t\"path\": path,\n\t\t\t\"value\": \"--anonymous-auth=false\",\n\t\t}],\n\t}\n}\n",
+        "resourceEnumerator": "package armo_builtins\n\ndeny[msg] {\n\tobj = input[_]\n\tis_api_server(obj)\n\tmsg := {\"alertObject\": {\"k8sApiObjects\": [obj]}}\n}\n\nis_api_server(obj) {\n\tobj.apiVersion == \"v1\"\n\tobj.kind == \"Pod\"\n\tobj.metadata.namespace == \"kube-system\"\n\tcount(obj.spec.containers) == 1\n\tcount(obj.spec.containers[0].command) > 0\n\tendswith(obj.spec.containers[0].command[0], \"kube-apiserver\")\n}\n"
+    },
+    {
         "name": "ensure-that-the-etcd-pod-specification-file-permissions-are-set-to-600-or-more-restrictive",
         "attributes": {
             "armoBuiltin": true,
@@ -3708,33 +3735,6 @@
         "remediation": "",
         "ruleQuery": "armo_builtins",
         "rule": "package armo_builtins\n\n# alert cronjobs\n\n#handles cronjob\ndeny[msga] {\n\n\twl := input[_]\n\twl.kind == \"CronJob\"\n    msga := {\n\t\t\"alertMessage\": sprintf(\"the following cronjobs are defined: %v\", [wl.metadata.name]),\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [\"\"],\n\t\t\"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n         \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n     }\n}\n"
-    },
-    {
-        "name": "ensure-that-the-api-server-anonymous-auth-argument-is-set-to-false",
-        "attributes": {
-            "armoBuiltin": true
-        },
-        "ruleLanguage": "Rego",
-        "match": [
-            {
-                "apiGroups": [
-                    ""
-                ],
-                "apiVersions": [
-                    "v1"
-                ],
-                "resources": [
-                    "Pod"
-                ]
-            }
-        ],
-        "dynamicMatch": [],
-        "ruleDependencies": [],
-        "description": "Disable anonymous requests to the API server.",
-        "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the below parameter.\n\n \n```\n--anonymous-auth=false\n\n```\n\n#### Impact Statement\nAnonymous requests will be rejected.\n\n#### Default Value\nBy default, anonymous access is enabled.",
-        "ruleQuery": "",
-        "rule": "package armo_builtins\n\nimport future.keywords.in\n\ndeny[msg] {\n\tobj = input[_]\n\tis_api_server(obj)\n\tresult = invalid_flag(obj.spec.containers[0].command)\n\tmsg := {\n\t\t\"alertMessage\": \"anonymous requests is enabled\",\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": result.failed_paths,\n\t\t\"fixPaths\": result.fix_paths,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"k8sApiObjects\": [obj]},\n\t}\n}\n\nis_api_server(obj) {\n\tobj.apiVersion == \"v1\"\n\tobj.kind == \"Pod\"\n\tobj.metadata.namespace == \"kube-system\"\n\tcount(obj.spec.containers) == 1\n\tcount(obj.spec.containers[0].command) > 0\n\tendswith(obj.spec.containers[0].command[0], \"kube-apiserver\")\n}\n\n\n# Assume flag set only once\ninvalid_flag(cmd) = result {\n\tcontains(cmd[i], \"--anonymous-auth=true\")\n\tfixed = replace(cmd[i], \"--anonymous-auth=true\", \"--anonymous-auth=false\")\n\tpath := sprintf(\"spec.containers[0].command[%d]\", [i])\n\tresult = {\n\t\t\"failed_paths\": [path],\n\t\t\"fix_paths\": [{\"path\": path, \"value\": fixed}],\n\t}\n}\n\ninvalid_flag(cmd) = result {\n\tfull_cmd = concat(\" \", cmd)\n\tnot contains(full_cmd, \"--anonymous-auth\")\n\tpath := sprintf(\"spec.containers[0].command[%d]\", [count(cmd)])\n\tresult = {\n\t\t\"failed_paths\": [],\n\t\t\"fix_paths\": [{\n\t\t\t\"path\": path,\n\t\t\t\"value\": \"--anonymous-auth=false\",\n\t\t}],\n\t}\n}\n",
-        "resourceEnumerator": "package armo_builtins\n\ndeny[msg] {\n\tobj = input[_]\n\tis_api_server(obj)\n\tmsg := {\"alertObject\": {\"k8sApiObjects\": [obj]}}\n}\n\nis_api_server(obj) {\n\tobj.apiVersion == \"v1\"\n\tobj.kind == \"Pod\"\n\tobj.metadata.namespace == \"kube-system\"\n\tcount(obj.spec.containers) == 1\n\tcount(obj.spec.containers[0].command) > 0\n\tendswith(obj.spec.containers[0].command[0], \"kube-apiserver\")\n}\n"
     },
     {
         "name": "ensure-that-the-api-server-service-account-key-file-argument-is-set-as-appropriate",
