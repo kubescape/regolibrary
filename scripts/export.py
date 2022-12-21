@@ -19,6 +19,18 @@ SUBSECTION_TREE_SEPARATOR = '.'
 def ignore_file(file_name: str):
     return file_name.startswith('__')
 
+def ignore_file_rule(path: str):
+    # ignore expected.json files
+    if path.parent.parent.name == "test":
+        return True
+    # ignore test input files
+    elif path.parent.parent.parent.name == "test":
+        return True
+    elif path.parent.name.startswith('__'):
+        return True
+    return False
+
+
 def load_rules():
     p1 = os.path.join(currDir, 'rules') 
     regofile = 'raw.rego'
@@ -28,7 +40,7 @@ def load_rules():
     rules_list = []
 
     for path in rules_path:
-        if ignore_file(path.parent.name):
+        if ignore_file_rule(path):
             continue
         path_in_str = str(path)
         with open(path_in_str, "r") as f:
