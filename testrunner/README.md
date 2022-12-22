@@ -95,12 +95,11 @@ To run all tests:  `cd testrunner/ && go test -v rego_test.go -run TestAllRules`
 ## How to create a test
 <br />
 
-1 - Browse into `rule-tests` directory.  
-2 - Create a new folder with the same name as the rule to be tested  
-3 - Inside this folder, create a new folder for your test (arbitrary name), and browse into it    
-4 - Create a file name `expected.json` and put the expected response  
-5 - Create a folder name `input` and put the files which are the input for the test (yaml/json)  
-6 - That's it. The test will run using the rego and metadata.json from the `rules` file, using what's inside the `input` folder as input
+1 - Create a new folder `test` in your new rule directory.   
+2 - Inside this folder, create a new folder for your test (arbitrary name), and browse into it    
+3 - Create a file name `expected.json` and put the expected response  
+4 - Create a folder name `input` and put the files which are the input for the test (yaml/json)  
+5 - That's it. The test will run using the rego and metadata.json, and using what's inside the `input` folder as input
 
 You can create as many tests as you wish
 
