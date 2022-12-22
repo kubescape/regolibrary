@@ -111,6 +111,36 @@
         "rules": []
     },
     {
+        "name": "CVE-2022-47633-kyverno-signature-bypass",
+        "attributes": {
+            "armoBuiltin": true,
+            "controlTypeTags": [
+                "security"
+            ],
+            "attackTracks": [
+                {
+                    "attackTrack": "container",
+                    "categories": [
+                        "Initial access",
+                        "Execution"
+                    ]
+                }
+            ]
+        },
+        "description": "CVE-2022-47633 is a high severity vulnerability in Kyverno, it enables attackers to bypass the image signature validation of policies using a malicious image repository or MITM proxy",
+        "remediation": "Update your Grafana to 9.2.4 or above",
+        "rulesNames": [
+            "CVE-2022-47633"
+        ],
+        "id": "C-0091",
+        "long_description": "CVE-2022-47633 is a high severity vulnerability in Kyverno, it enables attackers to bypass the image signature validation of policies using a malicious image repository or MITM proxy. Image signature verification process is used to verify the integrity of the image and prevent the execution of malicious images. The verification process was pull image manifest twice, once for verification and once for the actual execution. The verification process was bypassed by using a malicious image repository or MITM proxy to return a different manifest for the verification process. This vulnerability was fixed in Kyverno 1.8.5. This issue can be mitigated by using only trusted image repositories and by using a secure connection to the image repository. See C-0001 and C-0078 for limiting the use of trusted repositories.",
+        "test": "This control test for vulnerable versions of Grafana (between 1.8.3 and 1.8.4)",
+        "controlID": "C-0091",
+        "baseScore": 8.0,
+        "example": "",
+        "rules": []
+    },
+    {
         "name": "Applications credentials in configuration files",
         "attributes": {
             "armoBuiltin": true,

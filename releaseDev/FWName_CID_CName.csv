@@ -38,12 +38,14 @@ ArmoBest,C-0085,Workloads with excessive amount of vulnerabilities
 ArmoBest,C-0083,Workloads with Critical vulnerabilities exposed to external traffic
 ArmoBest,C-0084,Workloads with RCE vulnerabilities exposed to external traffic
 ArmoBest,C-0089,CVE-2022-3172-aggregated-API-server-redirect
+ArmoBest,C-0091,CVE-2022-47633-kyverno-signature-bypass
 AllControls,C-0070,Enforce Kubelet client TLS authentication
 AllControls,C-0066,Secret/ETCD encryption enabled
 AllControls,C-0012,Applications credentials in configuration files
 AllControls,C-0002,Exec into container
 AllControls,C-0081,CVE-2022-24348-argocddirtraversal
 AllControls,C-0090,CVE-2022-39328-grafana-auth-bypass
+AllControls,C-0091,CVE-2022-47633-kyverno-signature-bypass
 AllControls,C-0041,HostNetwork access
 AllControls,C-0056,Configured liveness probe
 AllControls,C-0018,Configured readiness probe
