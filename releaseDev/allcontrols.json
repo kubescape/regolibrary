@@ -517,6 +517,60 @@
             ]
         },
         {
+            "name": "CVE-2022-47633-kyverno-signature-bypass",
+            "attributes": {
+                "armoBuiltin": true,
+                "controlTypeTags": [
+                    "security"
+                ],
+                "attackTracks": [
+                    {
+                        "attackTrack": "container",
+                        "categories": [
+                            "Initial access",
+                            "Execution"
+                        ]
+                    }
+                ]
+            },
+            "description": "CVE-2022-47633 is a high severity vulnerability in Kyverno, it enables attackers to bypass the image signature validation of policies using a malicious image repository or MITM proxy",
+            "remediation": "Update your Grafana to 9.2.4 or above",
+            "id": "C-0091",
+            "long_description": "CVE-2022-47633 is a high severity vulnerability in Kyverno, it enables attackers to bypass the image signature validation of policies using a malicious image repository or MITM proxy. Image signature verification process is used to verify the integrity of the image and prevent the execution of malicious images. The verification process was pull image manifest twice, once for verification and once for the actual execution. The verification process was bypassed by using a malicious image repository or MITM proxy to return a different manifest for the verification process. This vulnerability was fixed in Kyverno 1.8.5. This issue can be mitigated by using only trusted image repositories and by using a secure connection to the image repository. See C-0001 and C-0078 for limiting the use of trusted repositories.",
+            "test": "This control test for vulnerable versions of Grafana (between 1.8.3 and 1.8.4)",
+            "controlID": "C-0091",
+            "baseScore": 8.0,
+            "example": "",
+            "rules": [
+                {
+                    "name": "CVE-2022-47633",
+                    "attributes": {
+                        "armoBuiltin": true
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                "apps"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Deployment"
+                            ]
+                        }
+                    ],
+                    "ruleDependencies": [],
+                    "description": "a",
+                    "remediation": "a",
+                    "ruleQuery": "armo_builtins",
+                    "rule": "package armo_builtins\n\ndeny[msga] {\n\tdeployment := input[_]\n\tdeployment.kind == \"Deployment\"\n\timage := deployment.spec.template.spec.containers[i].image\n\tcontains(image, \"kyverno:\")\n\tis_vulnerable_image(image)\n\tpath := sprintf(\"spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n    msga := {\n\t\t\t\"alertMessage\": \"You may be vulnerable to CVE-2022-47633\",\n\t\t\t\"failedPaths\": [path],\n\t\t\t\"fixPaths\":[],\n\t\t\t\"alertObject\": { \n                \"k8SApiObjects\": [deployment]\n            },\n\t\t}\n}\n\nis_vulnerable_image(image) {\n\tversion := split(image, \":v\")[1]\n\tversionTriplet := split(version, \".\")\n\tcount(versionTriplet) == 3\n\tmajor_version := to_number(versionTriplet[0])\n\tminorVersion := to_number(versionTriplet[1])\n\tsubVersion := to_number(versionTriplet[2])  \n\tisVulnerableVersion(major_version,minorVersion,subVersion)\n}\n\nisVulnerableVersion(major_version, minorVersion, subVersion) {\n\tmajor_version == 1\n\tminorVersion == 8\n\t3 <= subVersion\n\tsubVersion < 5\n}\n",
+                    "resourceEnumerator": "package armo_builtins\n\ndeny[msga] {\n\tdeployment := input[_]\n\tdeployment.kind == \"Deployment\"\n\timage := deployment.spec.template.spec.containers[i].image\n\tcontains(image, \"kyverno:\")\n\tpath := sprintf(\"spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n    msga := {\n\t\t\t\"alertMessage\": \"You may be vulnerable to CVE-2022-47633\",\n\t\t\t\"failedPaths\": [path],\n\t\t\t\"alertObject\": { \n                \"k8SApiObjects\": [deployment]\n            },\n\t\t}\n}\n"
+                }
+            ]
+        },
+        {
             "name": "HostNetwork access",
             "attributes": {
                 "armoBuiltin": true,

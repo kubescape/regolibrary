@@ -4,6 +4,7 @@ CIS-5.4.1,rule-secrets-in-env-var
 CIS-1.1.6,ensure-that-the-scheduler-pod-specification-file-ownership-is-set-to-root-root
 CIS-1.2.24,ensure-that-the-api-server-service-account-key-file-argument-is-set-as-appropriate
 CIS-1.3.2,ensure-that-the-controller-manager-profiling-argument-is-set-to-false
+C-0091,CVE-2022-47633
 C-0012,rule-credentials-in-env-var
 C-0012,rule-credentials-configmap
 CIS-4.1.10,if-the-kubelet-config.yaml-configuration-file-is-being-used-validate-file-ownership-is-set-to-root-root

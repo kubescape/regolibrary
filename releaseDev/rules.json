@@ -841,6 +841,32 @@
         "resourceEnumerator": "package armo_builtins\n\ndeny[msg] {\n\tobj = input[_]\n\tis_api_server(obj)\n\tmsg := {\"alertObject\": {\"k8sApiObjects\": [obj]}}\n}\n\nis_api_server(obj) {\n\tobj.apiVersion == \"v1\"\n\tobj.kind == \"Pod\"\n\tobj.metadata.namespace == \"kube-system\"\n\tcount(obj.spec.containers) == 1\n\tcount(obj.spec.containers[0].command) > 0\n\tendswith(obj.spec.containers[0].command[0], \"kube-apiserver\")\n}\n"
     },
     {
+        "name": "CVE-2022-47633",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "apps"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "Deployment"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "a",
+        "remediation": "a",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\ndeny[msga] {\n\tdeployment := input[_]\n\tdeployment.kind == \"Deployment\"\n\timage := deployment.spec.template.spec.containers[i].image\n\tcontains(image, \"kyverno:\")\n\tis_vulnerable_image(image)\n\tpath := sprintf(\"spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n    msga := {\n\t\t\t\"alertMessage\": \"You may be vulnerable to CVE-2022-47633\",\n\t\t\t\"failedPaths\": [path],\n\t\t\t\"fixPaths\":[],\n\t\t\t\"alertObject\": { \n                \"k8SApiObjects\": [deployment]\n            },\n\t\t}\n}\n\nis_vulnerable_image(image) {\n\tversion := split(image, \":v\")[1]\n\tversionTriplet := split(version, \".\")\n\tcount(versionTriplet) == 3\n\tmajor_version := to_number(versionTriplet[0])\n\tminorVersion := to_number(versionTriplet[1])\n\tsubVersion := to_number(versionTriplet[2])  \n\tisVulnerableVersion(major_version,minorVersion,subVersion)\n}\n\nisVulnerableVersion(major_version, minorVersion, subVersion) {\n\tmajor_version == 1\n\tminorVersion == 8\n\t3 <= subVersion\n\tsubVersion < 5\n}\n",
+        "resourceEnumerator": "package armo_builtins\n\ndeny[msga] {\n\tdeployment := input[_]\n\tdeployment.kind == \"Deployment\"\n\timage := deployment.spec.template.spec.containers[i].image\n\tcontains(image, \"kyverno:\")\n\tpath := sprintf(\"spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n    msga := {\n\t\t\t\"alertMessage\": \"You may be vulnerable to CVE-2022-47633\",\n\t\t\t\"failedPaths\": [path],\n\t\t\t\"alertObject\": { \n                \"k8SApiObjects\": [deployment]\n            },\n\t\t}\n}\n"
+    },
+    {
         "name": "rbac-enabled-cloud",
         "attributes": {
             "armoBuiltin": true
