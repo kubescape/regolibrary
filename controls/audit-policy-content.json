@@ -1,6 +1,5 @@
 {
-    "id": "CIS-3.2.2",
-    "controlID": "CIS-3.2.2",
+    "controlID": "C-0161",
     "name": "Ensure that the audit policy covers key security concerns",
     "description": "Ensure that the audit policy created for the cluster covers key security concerns.",
     "long_description": "Security audit logs should cover access and modification of key resources in the cluster, to enable them to form an effective part of a security environment.",

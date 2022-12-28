@@ -1,0 +1,20 @@
+{
+    "controlID": "C-0132",
+    "name": "Ensure that the API Server --audit-log-maxbackup argument is set to 10 or as appropriate",
+    "description": "Retain 10 or an appropriate number of old log files.",
+    "long_description": "Kubernetes automatically rotates the log files. Retaining old log files ensures that you would have sufficient log data available for carrying out any investigation or correlation. For example, if you have set file size of 100 MB and the number of old log files to keep as 10, you would approximate have 1 GB of log data that you could potentially use for your analysis.",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--audit-log-maxbackup` parameter to 10 or to an appropriate value.\n\n \n```\n--audit-log-maxbackup=10\n\n```",
+    "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--audit-log-maxbackup` argument is set to `10` or as appropriate.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126663/recommendations/1838665"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "ensure-that-the-api-server-audit-log-maxbackup-argument-is-set-to-10-or-as-appropriate"
+    ],
+    "baseScore": 4,
+    "impact_statement": "None",
+    "default_value": "By default, auditing is not enabled."
+}

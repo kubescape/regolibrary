@@ -24,7 +24,6 @@
         "rule-can-impersonate-users-groups",
         "rule-can-impersonate-users-groups-v1"
     ],
-    "id": "C-0065",
     "controlID": "C-0065",
     "baseScore": 6.0,
     "example": "@controls/examples/c065.yaml"
