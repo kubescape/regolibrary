@@ -117,17 +117,23 @@ def load_frameworks(loaded_controls: dict):
             new_framework = json.load(f)
         new_framework["version"] = os.getenv("RELEASE")
         new_framework["controls"] = []
-        new_framework_copy = copy.deepcopy(new_framework)
-        frameworks_list.append(new_framework_copy)
+        new_framework["ControlsIDs"] = []
+        # new_framework_copy = copy.deepcopy(new_framework)
+        # frameworks_list.append(new_framework_copy)
 
         for control_name in new_framework["controlsNames"]:
             if control_name in loaded_controls:
-                new_framework["controls"].append(loaded_controls[control_name])
+                tmp_control = copy.deepcopy(loaded_controls[control_name])
+                tmp_control["rules"] = []
+                new_framework["controls"].append(tmp_control)
+                new_framework["ControlsIDs"].append(loaded_controls[control_name]['controlID'])
                 new_row = [new_framework['name'], loaded_controls[control_name]['id'], control_name] # TODO : change 'id' to 'controlID'
                 framework_control_rows.append(new_row)
             else:
                 raise Exception("Error in controlsNames of framework {}, control {} does not exist".format(new_framework["name"], control_name))
-        
+
+        new_framework_copy = copy.deepcopy(new_framework)
+        frameworks_list.append(new_framework_copy)     
         addSubsectionsIds([], new_framework.get('subSections', {}))
 
         del new_framework["controlsNames"]
