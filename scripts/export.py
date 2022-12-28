@@ -126,8 +126,8 @@ def load_frameworks(loaded_controls: dict):
                 tmp_control = copy.deepcopy(loaded_controls[control_name])
                 tmp_control["rules"] = []
                 new_framework["controls"].append(tmp_control)
-                new_framework["ControlsIDs"].append(loaded_controls[control_name]['controlID'])
-                new_row = [new_framework['name'], loaded_controls[control_name]['id'], control_name] # TODO : change 'id' to 'controlID'
+                new_framework["ControlsIDs"].append(tmp_control['controlID'])
+                new_row = [new_framework['name'], tmp_control['id'], control_name] # TODO : change 'id' to 'controlID'
                 framework_control_rows.append(new_row)
             else:
                 raise Exception("Error in controlsNames of framework {}, control {} does not exist".format(new_framework["name"], control_name))
