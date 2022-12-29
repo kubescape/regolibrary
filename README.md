@@ -1,6 +1,6 @@
 # Welcome to Kubescape Regolibrary!
 
-The main components of the regolibrary:
+The main components of the [regolibrary](https://www.armosec.io/blog/kubescape-open-source-kubernetes-security-platform?utm_source=github&utm_medium=repository):
 
 **Framework** - a group of controls to test against
 
@@ -42,7 +42,7 @@ Example of a framework:
 }
 ```
 * Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
-* controlNames - List of controls to run, must be exact name. Copy-paste to be sure.
+* controlNames - List of controls to run, must be exact name. Use copy-paste to be sure.
 
 ### **Add a control**
 
@@ -68,7 +68,7 @@ Example of a control:
 }
 ```
 * Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
-* `rulesNames` -  List of rules to run, must be exact name. Copy-paste to be sure.
+* `rulesNames` -  List of rules to run, must be exact name. Use copy-paste to be sure.
 
 * `long_description`, `test` and other control fields are used mainly in the [documentation](https://hub.armosec.io/docs)
 
@@ -120,13 +120,13 @@ Example of rule.metadata.json:
 
 * See [rule go struct](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructures.go#L37) for further explanations of rule fields
 * Optional attributes :
-  * `"hostSensorRule": "true"` - indicates that rule gets information from host scanner
+  * `"hostSensorRule": "true"` - indicates the rule gets information from the host scanner
 
   * `"useFromKubescapeVersion"` - add if rule is only supported from a certain Kubescape version. Inclusive.
 
-  * `"useUntilKubescapeVersion"` - add if newer version exists so control doesn’t run both. Inclusive. 
+  * `"useUntilKubescapeVersion"` - add if a newer version exists so the control doesn’t run both. Inclusive. 
 
-  * `"imageScanRelated": true` - indicates that rule uses information from image scanning
+  * `"imageScanRelated": true` - indicates that rule uses information from image scanning.
 
   * `"controlConfigInputs"` - A list the rule uses and can be configured by the user. See example above.
 
@@ -159,19 +159,19 @@ Example of rule.metadata.json:
     ```
     Use [opa rego reference](https://www.openpolicyagent.org/docs/latest/policy-reference/) for help with syntax
 
-    See struct of a [rule response](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructuresv1.go#L23)
+    See structure of a [rule response](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructuresv1.go#L23)
 
 
-4. Add a test for the new rule (and run it!). See how to add a test [here](/rules-tests/README.md) and how to run it [here](/testrunner/README.md)
+4. Add a test for the new rule (and run it!). Learn how to add a test [here](/rules-tests/README.md) and how to run it [here](/testrunner/README.md)
 
-5. Add `filter.rego` if needed - If exists, the filter is run by Kubescape to calculate ‘all resources’ = the number of potential resources to fail. It affects the risk score. Needed in cases where rule asks for resources that are not potential to fail, eg- if a rule asks for pods and service accounts to see if they are connected but only fails the pods, we would create a filter rego that returns only pods.
+5. Add `filter.rego` if needed - If it exists, the filter is run by Kubescape to calculate ‘all resources’ = the number of potential resources to fail. It affects the risk score. This is needed in cases where a rule asks for resources that wil not potentially fail. Example: if a rule asks for pods and service accounts to see if they are connected but only fails the pods, we would create a filter rego that returns only pods.
 
 
 ## OPA bundles
-Kubescape regolibrary is [available](../../releases/latest) as [OPA bundle](https://www.openpolicyagent.org/docs/latest/management-bundles), for both targets, WASM and Rego. 
+The Kubescape regolibrary is [available](../../releases/latest) as an [OPA bundle](https://www.openpolicyagent.org/docs/latest/management-bundles), for both targets, WASM and Rego. 
 
 ### Using the bundles
-> Endpoints names are normalized to be used as a Rego package name. Here are some examples:
+> Endpoint names are normalized to be used as a Rego package name. Here are some examples:
 > ```
 > host-pid -> host_pid
 > Host_Ipc -> Host_Ipc
@@ -208,7 +208,7 @@ data.armo_builtins.frameworks.<framework_name>.deny
 When evaluating frameworks or controls, you can control the amount of metadata the results will contain by using the `data.settings`.
 
 Available settings:
-- `data.settings.verbose`: If set to `true`, the evaluation will return a list with an entry for each rule response. Each rule response include the rule response itself, the control metadata (if evaluated as part of a control), and the framework metadata (if evaluated as part of a framework).
+- `data.settings.verbose`: If set to `true`, the evaluation will return a list with an entry for each rule response. Each rule response includes the rule response itself, the control metadata (if evaluated as part of a control), and the framework metadata (if evaluated as part of a framework).
 
 - `data.settings.metadata`: If set to `true`, the evaluation will return a json object with the metadata of the rule, the control (if evaluated as part of a control), or the framework (if evaluated as part of a framework). This json object will have a field named `"results"`, with all the lower level results.
 
@@ -236,8 +236,8 @@ Available settings:
     }
   }
   ```
-- No settings: If no settings were set, the evaluation will return a list with an entry for each rule response. Each rule response include only the rule response itself.
-> The default settings in the released bundles is `data.settings.metadata`.
+- No settings: If no settings were set, the evaluation will return a list with an entry for each rule response. Each rule response will include only the rule response itself.
+> The default setting in the released bundles is `data.settings.metadata`.
 
 ### Build
 To build the OPA bundles, use the python script `/scripts/bundle.py`.
@@ -248,7 +248,7 @@ python3 scripts/bundle.py . -o release
 ```
 
 ### Unsupported rules and controls
-Some rules and controls are not supported in the OPA bundles, because they require extra customized Rego builtin functions (But you can always use Kubescape to evaluate them :).
+Some rules and controls are not supported in the OPA bundles, because they require extra customized Rego built-in functions (you can always use Kubescape to evaluate them :wink:).
 
 #### Rules
 The following rules are not supported in the OPA bundles:
@@ -267,7 +267,7 @@ The following controls are not supported in the OPA bundles:
 <!-- Start of OPA bundles removed controls -->
 - C-0085 - Workloads with excessive amount of vulnerabilities
 - C-0084 - Workloads with RCE vulnerabilities exposed to external traffic
-- C-0083 - Workloads with Critical vulnerabilities exposed to external traffic
+- C-0083 - Workloads with critical vulnerabilities exposed to external traffic
 <!-- End of OPA bundles removed controls -->
 
 ## Support
