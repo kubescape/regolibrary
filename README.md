@@ -1,6 +1,6 @@
 # Welcome to Kubescape Regolibrary!
 
-The main components of the [regolibrary](https://www.armosec.io/blog/kubescape-open-source-kubernetes-security-platform?utm_source=github&utm_medium=repository):
+The main components of the [regolibrary](https://www.armosec.io/blog/kubescape-open-source-kubernetes-security-platform/?utm_source=github&utm_medium=repository):
 
 **Framework** - a group of controls to test against
 
