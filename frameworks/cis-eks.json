@@ -69,6 +69,24 @@
                     "https://raesene.github.io/blog/2021/01/16/Getting-Into-A-Bind-with-Kubernetes/"
                 ]
             }
+        },
+        {
+            "controlID": "CIS-5.7.1",
+            "patch": {
+                "name": "CIS-4.6.1 Create administrative boundaries between resources using namespaces",
+                "long_description": "Limiting the scope of user permissions can reduce the impact of mistakes or malicious activities. A Kubernetes namespace allows you to partition created resources into logically named groups. Resources created in one namespace can be hidden from other namespaces. By default, each resource created by a user in an Amazon EKS cluster runs in a default namespace, called `default`. You can create additional namespaces and attach resources and users to them. You can use Kubernetes Authorization plugins to create policies that segregate access to namespace resources between different users.",
+                "references": [
+                    "https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/"
+                ],
+                "default_value": "By default, Kubernetes starts with two initial namespaces:\n\n 1. `default` - The default namespace for objects with no other namespace\n2. `kube-system` - The namespace for objects created by the Kubernetes system\n3. `kube-public` - The namespace for public-readable ConfigMap\n4. `kube-node-lease` - The namespace for associated lease object for each node"
+            }
+        },
+        {
+            "controlID": "CIS-5.7.4",
+            "patch": {
+                "name": "CIS-4.6.3 The default namespace should not be used",
+                "references": []
+            }
         }
     ],
     "subSections": {
