@@ -71,6 +71,15 @@
             }
         },
         {
+            "controlID": "CIS-5.4.1",
+            "patch": {
+                "name": "CIS-4.4.1 Prefer using secrets as files over secrets as environment variables",
+                "references": [
+                    "https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets"
+                ]
+            }
+        },
+        {
             "controlID": "CIS-5.7.1",
             "patch": {
                 "name": "CIS-4.6.1 Create administrative boundaries between resources using namespaces",
