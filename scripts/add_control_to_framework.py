@@ -79,6 +79,11 @@ def main():
     with open(args.newControl, "r") as input_file_1:
         new_control = json.loads(input_file_1.read())
 
+     # If control is added to a CIS framework, add the controlID to the name, and the name to the patch
+    if "cis" in args.framework.lower():
+        name = new_control["controlID"] + " " + new_control["name"]
+        patch["name"] = name
+     
     # If the baseControlID is not specified, assume this is a new baseControl and use the new control ID
     if args.baseControlID is None:
         if new_control["controlID"] is None:
@@ -110,13 +115,14 @@ def main():
                             patch[key] = new_control[key]
         else:
             raise Exception("Base controlID not found")
-        
+          
     # create control object to add to the framework
     control_to_add = {
         "controlID": controlID_to_add,
-        "patch": patch
     }
-    print(controlID_to_add)
+    if patch:
+        control_to_add["patch"] = patch
+    # print(controlID_to_add)
     
     # Load the framework json and add new control to activeControls
     filename = framework_name_to_filename_mapping[args.framework]
