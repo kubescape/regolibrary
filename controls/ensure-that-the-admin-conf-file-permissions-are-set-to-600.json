@@ -1,6 +1,5 @@
 {
-    "id": "CIS-1.1.13",
-    "controlID": "CIS-1.1.13",
+    "controlID": "C-0104",
     "name": "Ensure that the admin.conf file permissions are set to 600",
     "description": "Ensure that the `admin.conf` file has permissions of `600`.",
     "long_description": "The `admin.conf` is the administrator kubeconfig file defining various settings for the administration of the cluster. This file contains private key and respective certificate allowed to fully manage the cluster. You should restrict its file permissions to maintain the integrity and confidentiality of the file. The file should be readable and writable by only the administrators on the system.",

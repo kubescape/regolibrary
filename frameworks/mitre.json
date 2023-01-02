@@ -1,0 +1,171 @@
+{
+    "name": "MITRE",
+    "description": "Testing MITRE for Kubernetes as suggested by microsoft in https://www.microsoft.com/security/blog/wp-content/uploads/2020/04/k8s-matrix.png",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "activeControls": [
+        {
+            "controlID": "C-0002",
+            "patch": {
+                "name": "Exec into container"
+            }
+        },
+        {
+            "controlID": "C-0007",
+            "patch": {
+                "name": "Data Destruction"
+            }
+        },
+        {
+            "controlID": "C-0012",
+            "patch": {
+                "name": "Applications credentials in configuration files"
+            }
+        },
+        {
+            "controlID": "C-0014",
+            "patch": {
+                "name": "Access Kubernetes dashboard"
+            }
+        },
+        {
+            "controlID": "C-0015",
+            "patch": {
+                "name": "List Kubernetes secrets"
+            }
+        },
+        {
+            "controlID": "C-0020",
+            "patch": {
+                "name": "Mount service principal"
+            }
+        },
+        {
+            "controlID": "C-0021",
+            "patch": {
+                "name": "Exposed sensitive interfaces"
+            }
+        },
+        {
+            "controlID": "C-0026",
+            "patch": {
+                "name": "Kubernetes CronJob"
+            }
+        },
+        {
+            "controlID": "C-0031",
+            "patch": {
+                "name": "Delete Kubernetes events"
+            }
+        },
+        {
+            "controlID": "C-0035",
+            "patch": {
+                "name": "Cluster-admin binding"
+            }
+        },
+        {
+            "controlID": "C-0036",
+            "patch": {
+                "name": "Malicious admission controller (validating)"
+            }
+        },
+        {
+            "controlID": "C-0037",
+            "patch": {
+                "name": "CoreDNS poisoning"
+            }
+        },
+        {
+            "controlID": "C-0039",
+            "patch": {
+                "name": "Malicious admission controller (mutating)"
+            }
+        },
+        {
+            "controlID": "C-0042",
+            "patch": {
+                "name": "SSH server running inside container"
+            }
+        },
+        {
+            "controlID": "C-0045",
+            "patch": {
+                "name": "Writable hostPath mount"
+            }
+        },
+        {
+            "controlID": "C-0048",
+            "patch": {
+                "name": "HostPath mount"
+            }
+        },
+        {
+            "controlID": "C-0052",
+            "patch": {
+                "name": "Instance Metadata API"
+            }
+        },
+        {
+            "controlID": "C-0053",
+            "patch": {
+                "name": "Access container service account"
+            }
+        },
+        {
+            "controlID": "C-0054",
+            "patch": {
+                "name": "Cluster internal networking"
+            }
+        },
+        {
+            "controlID": "C-0057",
+            "patch": {
+                "name": "Privileged container"
+            }
+        },
+        {
+            "controlID": "C-0058",
+            "patch": {
+                "name": "CVE-2021-25741 - Using symlink for arbitrary host file system access."
+            }
+        },
+        {
+            "controlID": "C-0059",
+            "patch": {
+                "name": "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability"
+            }
+        },
+        {
+            "controlID": "C-0066",
+            "patch": {
+                "name": "Secret/ETCD encryption enabled"
+            }
+        },
+        {
+            "controlID": "C-0067",
+            "patch": {
+                "name": "Audit logs enabled"
+            }
+        },
+        {
+            "controlID": "C-0068",
+            "patch": {
+                "name": "PSP enabled"
+            }
+        },
+        {
+            "controlID": "C-0069",
+            "patch": {
+                "name": "Disable anonymous access to Kubelet service"
+            }
+        },
+        {
+            "controlID": "C-0070",
+            "patch": {
+                "name": "Enforce Kubelet client TLS authentication"
+            }
+        }
+    ]
+}

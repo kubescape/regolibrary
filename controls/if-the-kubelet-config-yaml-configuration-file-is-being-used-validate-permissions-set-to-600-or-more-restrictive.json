@@ -1,6 +1,5 @@
 {
-    "id": "CIS-4.1.9",
-    "controlID": "CIS-4.1.9",
+    "controlID": "C-0170",
     "name": "If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive",
     "description": "Ensure that if the kubelet refers to a configuration file with the `--config` argument, that file has permissions of 600 or more restrictive.",
     "long_description": "The kubelet reads various parameters, including security settings, from a config file specified by the `--config` argument. If this file is specified you should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",
