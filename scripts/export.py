@@ -75,7 +75,6 @@ def load_controls(loaded_rules: dict):
         with open(path_in_str, "r") as f:
             new_control = json.load(f)
         new_control["rules"] = []
-        new_control['id'] = new_control['controlID'] # TODO :'id' deprecated
         new_control_copy = copy.deepcopy(new_control)
         controls_list.append(new_control_copy)
 
@@ -137,11 +136,10 @@ def load_frameworks(loaded_controls: dict):
             if controlID in loaded_controls:
                 tmp_control = copy.deepcopy(patch_control(loaded_controls[controlID], control_framework["patch"]))
                 tmp_control["rules"] = []
-                tmp_control['id'] = controlID # TODO: 'id' deprecated
                 new_framework["controls"].append(tmp_control)
                 new_framework["controlsNames"].append(tmp_control["name"])
                 new_framework["ControlsIDs"].append(tmp_control['controlID'])
-                new_row = [new_framework['name'], controlID, tmp_control["name"]] # TODO : change 'id' to 'controlID'
+                new_row = [new_framework['name'], controlID, tmp_control["name"]] 
                 framework_control_rows.append(new_row)
             else:
                 raise Exception("Error in activeControls of framework {}, control id {} does not exist".format(new_framework["name"], controlID))
