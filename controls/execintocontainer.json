@@ -17,6 +17,7 @@
         "exec-into-container",
         "exec-into-container-v1"
     ],
+    "id": "C-0002",
     "long_description": "Attackers who have permissions, can run malicious commands in containers in the cluster using exec command (\u201ckubectl exec\u201d). In this method, attackers can use legitimate images, such as an OS image (e.g., Ubuntu) as a backdoor container, and run their malicious code remotely by using \u201ckubectl exec\u201d.",
     "test": "Check which subjects have RBAC permissions to exec into pods\u2013 if they have the \u201cpods/exec\u201d verb.",
     "controlID": "C-0002",

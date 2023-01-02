@@ -1,5 +1,6 @@
 {
-    "controlID": "C-0094",
+    "id": "CIS-1.1.3",
+    "controlID": "CIS-1.1.3",
     "name": "Ensure that the controller manager pod specification file permissions are set to 600 or more restrictive",
     "description": "Ensure that the controller manager pod specification file has permissions of `600` or more restrictive.",
     "long_description": "The controller manager pod specification file controls various parameters that set the behavior of the Controller Manager on the master node. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",

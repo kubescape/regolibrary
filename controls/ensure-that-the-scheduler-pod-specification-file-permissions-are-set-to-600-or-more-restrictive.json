@@ -1,5 +1,6 @@
 {
-    "controlID": "C-0096",
+    "id": "CIS-1.1.5",
+    "controlID": "CIS-1.1.5",
     "name": "Ensure that the scheduler pod specification file permissions are set to 600 or more restrictive",
     "description": "Ensure that the scheduler pod specification file has permissions of `600` or more restrictive.",
     "long_description": "The scheduler pod specification file controls various parameters that set the behavior of the Scheduler service in the master node. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",

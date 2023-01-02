@@ -1,5 +1,6 @@
 {
-    "controlID": "C-0159",
+    "id": "CIS-2.7",
+    "controlID": "CIS-2.7",
     "name": "Ensure that a unique Certificate Authority is used for etcd",
     "description": "Use a different certificate authority for etcd from the one used for Kubernetes.",
     "long_description": "etcd is a highly available key-value store used by Kubernetes deployments for persistent storage of all of its REST API objects. Its access should be restricted to specifically designated clients and peers only.\n\n Authentication to etcd is based on whether the certificate presented was issued by a trusted certificate authority. There is no checking of certificate attributes such as common name or subject alternative name. As such, if any attackers were able to gain access to any certificate issued by the trusted certificate authority, they would be able to gain full access to the etcd database.",
@@ -11,9 +12,7 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": [
-        "etcd-unique-ca"
-    ],
+    "rulesNames": ["etcd-unique-ca"],
     "baseScore": 8,
     "impact_statement": "Additional management of the certificates and keys for the dedicated certificate authority will be required.",
     "default_value": "By default, no etcd certificate is created and used."

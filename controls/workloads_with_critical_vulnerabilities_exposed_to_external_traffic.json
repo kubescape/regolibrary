@@ -20,6 +20,7 @@
     "rulesNames": [
         "exposed-critical-pods"
     ],
+    "id": "C-0083",
     "long_description": "Container images with known critical vulnerabilities pose elevated risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if either LoadBalancer or NodePort service assigned to them.",
     "test": "This control enumerates external facing workloads, that have LoadBalancer or NodePort services and checks image vulnerability information to see if the image has critical vulnerabilities.",
     "controlID": "C-0083",

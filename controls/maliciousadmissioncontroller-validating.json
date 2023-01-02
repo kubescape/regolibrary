@@ -24,6 +24,7 @@
     "rulesNames": [
         "list-all-validating-webhooks"
     ],
+    "id": "C-0036",
     "controlID": "C-0036",
     "baseScore": 3.0
 }

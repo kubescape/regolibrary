@@ -22,6 +22,7 @@
     "rulesNames": [
         "host-network-access"
     ],
+    "id": "C-0041",
     "long_description": "We have it in ArmoBest",
     "test": "",
     "controlID": "C-0041",
