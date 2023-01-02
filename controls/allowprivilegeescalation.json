@@ -20,6 +20,7 @@
     "rulesNames": [
         "rule-allow-privilege-escalation"
     ],
+    "id": "C-0016",
     "test": " Check that the allowPrivilegeEscalation field in securityContext of container is set to false.   ",
     "controlID": "C-0016",
     "baseScore": 6.0,

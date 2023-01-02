@@ -1,5 +1,6 @@
 {
-    "controlID": "C-0171",
+    "id": "CIS-4.1.10",
+    "controlID": "CIS-4.1.10",
     "name": "If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root",
     "description": "Ensure that if the kubelet refers to a configuration file with the `--config` argument, that file is owned by root:root.",
     "long_description": "The kubelet reads various parameters, including security settings, from a config file specified by the `--config` argument. If this file is specified you should restrict its file permissions to maintain the integrity of the file. The file should be owned by root:root.",

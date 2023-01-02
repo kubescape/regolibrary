@@ -1,0 +1,33 @@
+{
+    "name": "NSA",
+    "description": "Implement NSA security advices for K8s ",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "controlsNames": [
+      "API server insecure port is enabled",
+      "Host PID/IPC privileges",
+      "Immutable container filesystem",
+      "Non-root containers",
+      "Privileged container",
+      "Automatic mapping of service account",
+      "HostNetwork access",
+      "Resource limits",
+      "Allow privilege escalation",
+      "Applications credentials in configuration files",
+      "Cluster-admin binding",
+      "Exec into container",
+      "Insecure capabilities",
+      "Linux hardening",
+      "Ingress and Egress blocked",
+      "Container hostPort",
+      "Cluster internal networking",
+      "CVE-2021-25741 - Using symlink for arbitrary host file system access.",
+      "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability",
+      "Audit logs enabled",
+      "Secret/ETCD encryption enabled",
+      "PSP enabled",
+      "Disable anonymous access to Kubelet service",
+      "Enforce Kubelet client TLS authentication"
+    ]
+  }

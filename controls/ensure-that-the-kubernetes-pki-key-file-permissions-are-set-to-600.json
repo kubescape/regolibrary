@@ -1,5 +1,6 @@
 {
-    "controlID": "C-0112",
+    "id": "CIS-1.1.21",
+    "controlID": "CIS-1.1.21",
     "name": "Ensure that the Kubernetes PKI key file permissions are set to 600",
     "description": "Ensure that Kubernetes PKI key files have permissions of `600`.",
     "long_description": "Kubernetes makes use of a number of key files as part of the operation of its components. The permissions on these files should be set to `600` to protect their integrity and confidentiality.",

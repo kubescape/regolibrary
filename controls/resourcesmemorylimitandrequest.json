@@ -20,6 +20,7 @@
     "rulesNames": [
         "resources-memory-limit-and-request"
     ],
+    "id": "C-0004",
     "controlID": "C-0004",
     "example": "@controls/examples/c004.yaml",
     "baseScore": 8.0

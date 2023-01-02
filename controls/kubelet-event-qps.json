@@ -1,5 +1,6 @@
 {
-    "controlID": "C-0180",
+    "id": "CIS-4.2.9",
+    "controlID": "CIS-4.2.9",
     "name": "Ensure that the --event-qps argument is set to 0 or a level which ensures appropriate event capture",
     "description": "Security relevant information should be captured. The `--event-qps` flag on the Kubelet can be used to limit the rate at which events are gathered. Setting this too low could result in relevant events not being logged, however the unlimited setting of `0` could result in a denial of service on the kubelet.",
     "long_description": "It is important to capture all events and not restrict event creation. Events are an important source of security information and analytics that ensure that your environment is consistently monitored using the event data.",

@@ -12,6 +12,7 @@
     "rulesNames": [
         "resources-cpu-limit-and-request"
     ],
+    "id": "C-0050",
     "controlID": "C-0050",
     "baseScore": 8.0
 }

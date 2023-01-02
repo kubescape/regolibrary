@@ -1,5 +1,6 @@
 {
-    "controlID": "C-0205",
+    "id": "CIS-5.3.1",
+    "controlID": "CIS-5.3.1",
     "name": "Ensure that the CNI in use supports Network Policies",
     "description": "There are a variety of CNI plugins available for Kubernetes. If the CNI in use does not support Network Policies it may not be possible to effectively restrict traffic in the cluster.",
     "long_description": "Kubernetes network policies are enforced by the CNI plugin in use. As such it is important to ensure that the CNI plugin supports both Ingress and Egress network policies.",
