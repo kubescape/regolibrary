@@ -21,7 +21,6 @@
     "rulesNames": [
         "immutable-container-filesystem"
     ],
-    "id": "C-0017",
     "long_description": "By default, containers are permitted mostly unrestricted execution within their own context. An attacker who has access to a container, can create files and download scripts as he wishes, and modify the underlying application running on the container. ",
     "test": "Check whether the readOnlyRootFilesystem field in the SecurityContext is set to true. ",
     "controlID": "C-0017",

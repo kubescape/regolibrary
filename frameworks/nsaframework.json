@@ -1,0 +1,153 @@
+{
+    "name": "NSA",
+    "description": "Implement NSA security advices for K8s ",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "activeControls": [
+        {
+            "controlID": "C-0002",
+            "patch": {
+                "name": "Exec into container"
+            }
+        },
+        {
+            "controlID": "C-0005",
+            "patch": {
+                "name": "API server insecure port is enabled"
+            }
+        },
+        {
+            "controlID": "C-0009",
+            "patch": {
+                "name": "Resource limits"
+            }
+        },
+        {
+            "controlID": "C-0012",
+            "patch": {
+                "name": "Applications credentials in configuration files"
+            }
+        },
+        {
+            "controlID": "C-0013",
+            "patch": {
+                "name": "Non-root containers"
+            }
+        },
+        {
+            "controlID": "C-0016",
+            "patch": {
+                "name": "Allow privilege escalation"
+            }
+        },
+        {
+            "controlID": "C-0017",
+            "patch": {
+                "name": "Immutable container filesystem"
+            }
+        },
+        {
+            "controlID": "C-0030",
+            "patch": {
+                "name": "Ingress and Egress blocked"
+            }
+        },
+        {
+            "controlID": "C-0034",
+            "patch": {
+                "name": "Automatic mapping of service account"
+            }
+        },
+        {
+            "controlID": "C-0035",
+            "patch": {
+                "name": "Cluster-admin binding"
+            }
+        },
+        {
+            "controlID": "C-0038",
+            "patch": {
+                "name": "Host PID/IPC privileges"
+            }
+        },
+        {
+            "controlID": "C-0041",
+            "patch": {
+                "name": "HostNetwork access"
+            }
+        },
+        {
+            "controlID": "C-0044",
+            "patch": {
+                "name": "Container hostPort"
+            }
+        },
+        {
+            "controlID": "C-0046",
+            "patch": {
+                "name": "Insecure capabilities"
+            }
+        },
+        {
+            "controlID": "C-0054",
+            "patch": {
+                "name": "Cluster internal networking"
+            }
+        },
+        {
+            "controlID": "C-0055",
+            "patch": {
+                "name": "Linux hardening"
+            }
+        },
+        {
+            "controlID": "C-0057",
+            "patch": {
+                "name": "Privileged container"
+            }
+        },
+        {
+            "controlID": "C-0058",
+            "patch": {
+                "name": "CVE-2021-25741 - Using symlink for arbitrary host file system access."
+            }
+        },
+        {
+            "controlID": "C-0059",
+            "patch": {
+                "name": "CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability"
+            }
+        },
+        {
+            "controlID": "C-0066",
+            "patch": {
+                "name": "Secret/ETCD encryption enabled"
+            }
+        },
+        {
+            "controlID": "C-0067",
+            "patch": {
+                "name": "Audit logs enabled"
+            }
+        },
+        {
+            "controlID": "C-0068",
+            "patch": {
+                "name": "PSP enabled"
+            }
+        },
+        {
+            "controlID": "C-0069",
+            "patch": {
+                "name": "Disable anonymous access to Kubelet service"
+            }
+        },
+        {
+            "controlID": "C-0070",
+            "patch": {
+                "name": "Enforce Kubelet client TLS authentication"
+            }
+        }
+    ]
+}

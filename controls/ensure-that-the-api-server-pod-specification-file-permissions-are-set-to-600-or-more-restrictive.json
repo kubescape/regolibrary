@@ -1,6 +1,5 @@
 {
-    "id": "CIS-1.1.1",
-    "controlID": "CIS-1.1.1",
+    "controlID": "C-0092",
     "name": "Ensure that the API server pod specification file permissions are set to 600 or more restrictive",
     "description": "Ensure that the API server pod specification file has permissions of `600` or more restrictive.",
     "long_description": "The API server pod specification file controls various parameters that set the behavior of the API server. You should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",
