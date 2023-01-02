@@ -127,7 +127,6 @@ def load_frameworks(loaded_controls: dict):
             new_framework = json.load(f)
         new_framework["version"] = os.getenv("RELEASE")
         new_framework["controls"] = []
-        new_framework["controlsNames"] = []
         new_framework["ControlsIDs"] = []
 
         for control_framework in new_framework["activeControls"]:
@@ -137,7 +136,6 @@ def load_frameworks(loaded_controls: dict):
                 tmp_control = copy.deepcopy(patch_control(loaded_controls[controlID], control_framework["patch"]))
                 tmp_control["rules"] = []
                 new_framework["controls"].append(tmp_control)
-                new_framework["controlsNames"].append(tmp_control["name"])
                 new_framework["ControlsIDs"].append(tmp_control['controlID'])
                 new_row = [new_framework['name'], controlID, tmp_control["name"]] 
                 framework_control_rows.append(new_row)
