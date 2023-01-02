@@ -1,4 +1,3 @@
-
 name: update-csvs
 
 on:
@@ -26,13 +25,14 @@ jobs:
       run: |
         apt update && apt install -y cmake
         GOPATH=$(go env GOPATH) make
-
     - name: Run a update-csv-files script
       run: python ./scripts/update-csv-files.py
     
     - name: Run export script
-      run: OUTPUT=pre-release python ./scripts/export.py
-
+      run: | 
+        OUTPUT=pre-release python ./scripts/export.py
+        rm -r releaseDev
+        cp -R pre-release releaseDev
     - name: stage changed files
       run: git add .
 
@@ -41,4 +41,3 @@ jobs:
       with:
         branch: dev
         github_token: ${{ secrets.GITHUB_TOKEN }} 
-

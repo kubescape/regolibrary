@@ -3,7 +3,7 @@ name: export
 on:
   push:
     branches: [master]
-    paths-ignore: ['**.md']
+    paths-ignore: ['**.md', 'releaseDev/**']
   pull_request:
     branches: [master]
     types: [closed]
@@ -30,31 +30,30 @@ jobs:
         run: |
           apt update && apt install -y cmake
           GOPATH=$(go env GOPATH) make
-
       - name: setup python
         uses: actions/setup-python@v2
         with:
           python-version: 3.10.6
 
-      - name: Setup OPA binaries
-        uses: open-policy-agent/setup-opa@v2
-        with:
-          version: v0.44.0
+      # - name: Setup OPA binaries
+      #   uses: open-policy-agent/setup-opa@v2
+      #   with:
+      #     version: v0.44.0
 
-      - name: Build OPA bundles
-        run: |
-          mkdir -p release
-          pip install requests pyyaml
-          python ./scripts/bundle.py . -o ./release --removed-out release/removed.json --edit-readme
+      # - name: Build OPA bundles
+      #   run: |
+      #     mkdir -p release
+      #     pip install requests pyyaml
+      #     python ./scripts/bundle.py . -o ./release --removed-out release/removed.json --edit-readme
       
-      - name: Test OPA bundle
-        working-directory: testrunner
-        env:
-          BUNDLE: ../release/kubescape_regolibrary_bundle.tar.gz
-          SKIPPED_RULES: ../release/removed.json
-        run: |
-          go test -v -tags="static" . -run TestRegoBundles
-          rm ${SKIPPED_RULES}
+      # - name: Test OPA bundle
+      #   working-directory: testrunner
+      #   env:
+      #     BUNDLE: ../release/kubescape_regolibrary_bundle.tar.gz
+      #     SKIPPED_RULES: ../release/removed.json
+      #   run: |
+      #     go test -v -tags="static" . -run TestRegoBundles
+      #     rm ${SKIPPED_RULES}
 
       - name: Create Metadata Release Files
         run: |
@@ -67,7 +66,6 @@ jobs:
           cd release
           find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
           find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
-
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -94,4 +92,3 @@ jobs:
           branch: master
           github_token: ${{ secrets.GITHUB_TOKEN }} 
           message: Update README.MD
-

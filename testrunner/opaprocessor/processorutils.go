@@ -181,8 +181,8 @@ func GetInputResources(dir string) ([]map[string]interface{}, error) {
 	return resources, nil
 }
 
-func RunAllTestsForRule(t *testing.T, dir string) error {
-	ruleNameSplited := strings.Split(dir, "/")
+func RunAllTestsForRule(t *testing.T, ruleDir string) error {
+	ruleNameSplited := strings.Split(ruleDir, "/")
 	ruleName := ruleNameSplited[len(ruleNameSplited)-1]
 	regoDir := fmt.Sprintf("%v/%v", RelativeRulesPath, ruleName)
 
@@ -190,7 +190,7 @@ func RunAllTestsForRule(t *testing.T, dir string) error {
 	if err != nil {
 		return err
 	}
-	policy, err := GetPolicy(dir)
+	policy, err := GetPolicy(ruleDir)
 	if err != nil {
 		return err
 	}
@@ -198,7 +198,7 @@ func RunAllTestsForRule(t *testing.T, dir string) error {
 	if err != nil {
 		return err
 	}
-	f, err := os.Open(dir)
+	f, err := os.Open(fmt.Sprintf("%v/test", ruleDir))
 	if err != nil {
 		return err
 	}
@@ -212,7 +212,7 @@ func RunAllTestsForRule(t *testing.T, dir string) error {
 	for _, testFile := range testsForRule {
 		t.Run(
 			fmt.Sprintf("%s/%s", ruleName, testFile), func(t *testing.T) {
-				dir := fmt.Sprintf("%v/%v", dir, testFile)
+				dir := fmt.Sprintf("%v/test/%v", ruleDir, testFile)
 				assert.NoError(t, RunSingleTest(t, dir, policyRule))
 			},
 		)
