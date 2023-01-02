@@ -129,25 +129,26 @@ def load_frameworks(loaded_controls: dict):
         new_framework["version"] = os.getenv("RELEASE")
         new_framework["controls"] = []
         new_framework["controlsNames"] = []
-        new_framework_copy = copy.deepcopy(new_framework)
+        new_framework["ControlsIDs"] = []
 
         for control_framework in new_framework["activeControls"]:
             controlID = control_framework["controlID"]
         
             if controlID in loaded_controls:
-                control = copy.deepcopy(patch_control(loaded_controls[controlID], control_framework["patch"]))
-                control['id'] = controlID # TODO: 'id' deprecated
-                new_framework["controls"].append(control)
-                new_framework["controlsNames"].append(control["name"])
-                new_row = [new_framework['name'], controlID, control["name"]] # TODO : change 'id' to 'controlID'
+                tmp_control = copy.deepcopy(patch_control(loaded_controls[controlID], control_framework["patch"]))
+                tmp_control["rules"] = []
+                tmp_control['id'] = controlID # TODO: 'id' deprecated
+                new_framework["controls"].append(tmp_control)
+                new_framework["controlsNames"].append(tmp_control["name"])
+                new_framework["ControlsIDs"].append(tmp_control['controlID'])
+                new_row = [new_framework['name'], controlID, tmp_control["name"]] # TODO : change 'id' to 'controlID'
                 framework_control_rows.append(new_row)
             else:
                 raise Exception("Error in activeControls of framework {}, control id {} does not exist".format(new_framework["name"], controlID))
         
         addSubsectionsIds([], new_framework.get('subSections', {}))
 
-
-        new_framework_copy["controlsNames"] = copy.deepcopy(new_framework["controlsNames"])
+        new_framework_copy = copy.deepcopy(new_framework)
         frameworks_list.append(new_framework_copy)
         del new_framework["activeControls"]
         del new_framework_copy["activeControls"]
@@ -297,7 +298,6 @@ def create_cvs_file(header, rows, filename, output_path):
 
 if __name__ == '__main__':
     output_dir_name = os.getenv("OUTPUT") if os.getenv("OUTPUT") else "release"
-    output_dir_name = "1-newDesign/releaseDev"
     
     loaded_rules, rules_list = load_rules()   
     rules, rules_list = load_rules()
