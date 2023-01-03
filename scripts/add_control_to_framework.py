@@ -86,6 +86,8 @@ def verify_control_not_in_framework(control_to_add, framework):
 def save_control_in_new_file(new_control, controlID_to_add):
     # add file to controls directory, filename format is controlID-name.json, 
     # where name is all lowercase with no whitespace or special characters
+    if "control-CIS-ID" in new_control:
+        del new_control["control-CIS-ID"]
     name = new_control["name"].lower()
     name = re.sub(r'[^\w]', '', name)
     filename = controlID_to_add + "-" + name + ".json"
@@ -109,7 +111,7 @@ def main():
     # If control is added to a CIS framework, add the controlID to the name
     # else just add the name
     if "cis" in args.framework.lower():
-        name = new_control["controlID"] + " " + new_control["name"]
+        name = new_control["control-CIS-ID"] + " " + new_control["name"]
     else:
         name = new_control["name"]
     patch["name"] = name
