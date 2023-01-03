@@ -56,12 +56,21 @@ def init_parser():
     args = parser.parse_args()
     return args
 
+def get_numberID(controlID):
+    if controlID.startswith("CIS"):
+        return 0
+    elif controlID.startswith("C"):
+        return int(controlID[2:])
+    else:
+        raise Exception("Invalid controlID: " + controlID)
+
 def generate_new_controlID():
     # Get current highest id from all controls
     highest_id = 0
-    for control in controlID_to_filename_mapping:
-        if control["controlID"] > highest_id:
-            highest_id = control["controlID"]
+    for controlID in controlID_to_filename_mapping:
+        number = get_numberID(controlID)
+        if number > highest_id:
+            highest_id = number
     new_id = highest_id + 1
     # Format the new ID as "C-NNNN"
     formatted_id = f"C-{new_id:04d}"
@@ -79,20 +88,25 @@ def main():
     with open(args.newControl, "r") as input_file_1:
         new_control = json.loads(input_file_1.read())
 
-     # If control is added to a CIS framework, add the controlID to the name, and the name to the patch
+    # Add name to patch
+    # If control is added to a CIS framework, add the controlID to the name
+    # else just add the name
     if "cis" in args.framework.lower():
         name = new_control["controlID"] + " " + new_control["name"]
-        patch["name"] = name
+    else:
+        name = new_control["name"]
+    patch["name"] = name
      
     # If the baseControlID is not specified, assume this is a new baseControl and use the new control ID
     if args.baseControlID is None:
-        if new_control["controlID"] is None:
+        # if control has a CIS ID, generate a new internal ID
+        if new_control["controlID"].startswith("CIS"):
             controlID_to_add = generate_new_controlID()
             new_control["controlID"] = controlID_to_add
             print("generated new ID for control: " + controlID_to_add)
         else:
             controlID_to_add = new_control["controlID"]
-        if controlID_to_filename_mapping[controlID_to_add] is None:
+        if controlID_to_add not in controlID_to_filename_mapping:
             # add file to controls directory, filename format is controlID-name.json, 
             # where name is all lowercase with no whitespace or special characters
             name = new_control["name"].lower()
