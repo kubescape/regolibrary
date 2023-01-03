@@ -134,7 +134,6 @@ def load_frameworks(loaded_controls: dict):
         
             if controlID in loaded_controls:
                 tmp_control = copy.deepcopy(patch_control(loaded_controls[controlID], control_framework["patch"]))
-                tmp_control["rules"] = []
                 new_framework["controls"].append(tmp_control)
                 new_framework["ControlsIDs"].append(tmp_control['controlID'])
                 new_row = [new_framework['name'], controlID, tmp_control["name"]] 
@@ -146,9 +145,17 @@ def load_frameworks(loaded_controls: dict):
 
         new_framework_copy = copy.deepcopy(new_framework)
         frameworks_list.append(new_framework_copy)
+
+        
+
         del new_framework["activeControls"]
         del new_framework_copy["activeControls"]
         loaded_frameworks[new_framework['name']] = new_framework
+    
+    # drop "rules" from frameworks list (frameworks.json)
+    for framework in frameworks_list:
+        for control in framework["controls"]:
+           control["rules"] = []
 
     return loaded_frameworks, frameworks_list
 
@@ -308,6 +315,7 @@ if __name__ == '__main__':
     # TODO - delete when kubescape works with csv files
     for k, v in frameworks.items():
         export_json(data=v, f_name=k, output_path=output_dir_name)
+
 
     # create object json's - frameworks, controls, rules
     export_json(frameworks_list, 'frameworks', output_dir_name)
