@@ -1,5 +1,5 @@
 {
-    "controlID": "CIS-4.2.2",
+    "controlID": "C-0214",
     "name": "Minimize the admission of containers wishing to share the host process ID namespace",
     "description": "Do not generally permit containers to be run with the `hostPID` flag set to true.",
     "long_description": "A container running in the host's PID namespace can inspect processes running outside the container. If the container also has access to ptrace capabilities this can be used to escalate privileges outside of the container.\n\n There should be at least one PodSecurityPolicy (PSP) defined which does not permit containers to share the host PID namespace.\n\n If you need to run containers which require hostPID, this should be defined in a separate PSP and you should carefully check RBAC controls to ensure that only limited service accounts and users are given permission to access that PSP.",
@@ -11,9 +11,10 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["psp-deny-hostpid"],
+    "rulesNames": [
+        "psp-deny-hostpid"
+    ],
     "baseScore": 0,
     "impact_statement": "Pods defined with `spec.hostPID: true` will not be permitted unless they are run under a specific PSP.",
-    "default_value": "By default, PodSecurityPolicies are not defined.",
-    "control-CIS-ID": "CIS-4.2.2"
-} 
+    "default_value": "By default, PodSecurityPolicies are not defined."
+}

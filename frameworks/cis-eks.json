@@ -102,6 +102,12 @@
             "patch": {
                 "name": "CIS-4.2.1 Minimize the admission of privileged containers"
             }
+        },
+        {
+            "controlID": "C-0214",
+            "patch": {
+                "name": "CIS-4.2.2 Minimize the admission of containers wishing to share the host process ID namespace"
+            }
         }
     ],
     "subSections": {
