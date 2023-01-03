@@ -5,7 +5,99 @@
         "version": "v1.2.0",
         "armoBuiltin": true
     },
-    "activeControls": [],
+    "activeControls": [
+        {
+            "controlID": "CIS-5.1.1",
+            "patch": {
+                "name": "CIS-4.1.1 Ensure that the cluster-admin role is only used where required",
+                "manual_test": "Obtain a list of the principals who have access to the `cluster-admin` role by reviewing the `clusterrolebinding` output for each role binding that has access to the `cluster-admin` role.\n\n kubectl get clusterrolebindings -o=custom-columns=NAME:.metadata.name,ROLE:.roleRef.name,SUBJECT:.subjects[\\*].name\n\n Review each principal listed and ensure that `cluster-admin` privilege is required for it.",
+                "references": [
+                    "https://kubernetes.io/docs/admin/authorization/rbac/#user-facing-roles"
+                ]
+            }
+        },
+        {
+            "controlID": "CIS-5.1.2",
+            "patch": {
+                "name": "CIS-4.1.2 Minimize access to secrets",
+                "references": [],
+                "default_value": "By default, the following list of principals have `get` privileges on `secret` objects\n\n \n```\nCLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACE\ncluster-admin                                         system:masters                      Group           \nsystem:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-system\nsystem:controller:expand-controller                   expand-controller                   ServiceAccount  kube-system\nsystem:controller:generic-garbage-collector           generic-garbage-collector           ServiceAccount  kube-system\nsystem:controller:namespace-controller                namespace-controller                ServiceAccount  kube-system\nsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-system\nsystem:kube-controller-manager                        system:kube-controller-manager      User \n\n```"
+            }
+        },
+        {
+            "controlID": "CIS-5.1.3",
+            "patch": {
+                "name": "CIS-4.1.3 Minimize wildcard use in Roles and ClusterRoles",
+                "references": []
+            }
+        },
+        {
+            "controlID": "CIS-5.1.4",
+            "patch": {
+                "name": "CIS-4.1.4 Minimize access to create pods",
+                "references": [],
+                "default_value": "By default, the following list of principals have `create` privileges on `pod` objects\n\n \n```\nCLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACE\ncluster-admin                                         system:masters                      Group           \nsystem:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-system\nsystem:controller:daemon-set-controller               daemon-set-controller               ServiceAccount  kube-system\nsystem:controller:job-controller                      job-controller                      ServiceAccount  kube-system\nsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-system\nsystem:controller:replicaset-controller               replicaset-controller               ServiceAccount  kube-system\nsystem:controller:replication-controller              replication-controller              ServiceAccount  kube-system\nsystem:controller:statefulset-controller              statefulset-controller              ServiceAccount  kube-system\n\n```"
+            }
+        },
+        {
+            "controlID": "CIS-5.1.5",
+            "patch": {
+                "name": "Ensure that default service accounts are not actively used.",
+                "remediation": "Create explicit service accounts wherever a Kubernetes workload requires specific access to the Kubernetes API server.\n\n Modify the configuration of each default service account to include this value\n\n \n```\nautomountServiceAccountToken: false\n\n```\n Automatic remediation for the default account:\n\n `kubectl patch serviceaccount default -p $'automountServiceAccountToken: false'`",
+                "references": [
+                    "https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/",
+                    "https://aws.github.io/aws-eks-best-practices/iam/#disable-auto-mounting-of-service-account-tokens"
+                ]
+            }
+        },
+        {
+            "controlID": "CIS-5.1.6",
+            "patch": {
+                "name": "CIS-4.1.6 Ensure that Service Account Tokens are only mounted where necessary",
+                "references": [
+                    "https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/"
+                ]
+            }
+        },
+        {
+            "controlID": "CIS-5.1.8",
+            "patch": {
+                "name": "CIS-4.1.8 Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster",
+                "references": [
+                    "https://www.impidio.com/blog/kubernetes-rbac-security-pitfalls",
+                    "https://raesene.github.io/blog/2020/12/12/Escalating_Away/",
+                    "https://raesene.github.io/blog/2021/01/16/Getting-Into-A-Bind-with-Kubernetes/"
+                ]
+            }
+        },
+        {
+            "controlID": "CIS-5.4.1",
+            "patch": {
+                "name": "CIS-4.4.1 Prefer using secrets as files over secrets as environment variables",
+                "references": [
+                    "https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets"
+                ]
+            }
+        },
+        {
+            "controlID": "CIS-5.7.1",
+            "patch": {
+                "name": "CIS-4.6.1 Create administrative boundaries between resources using namespaces",
+                "long_description": "Limiting the scope of user permissions can reduce the impact of mistakes or malicious activities. A Kubernetes namespace allows you to partition created resources into logically named groups. Resources created in one namespace can be hidden from other namespaces. By default, each resource created by a user in an Amazon EKS cluster runs in a default namespace, called `default`. You can create additional namespaces and attach resources and users to them. You can use Kubernetes Authorization plugins to create policies that segregate access to namespace resources between different users.",
+                "references": [
+                    "https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/"
+                ],
+                "default_value": "By default, Kubernetes starts with two initial namespaces:\n\n 1. `default` - The default namespace for objects with no other namespace\n2. `kube-system` - The namespace for objects created by the Kubernetes system\n3. `kube-public` - The namespace for public-readable ConfigMap\n4. `kube-node-lease` - The namespace for associated lease object for each node"
+            }
+        },
+        {
+            "controlID": "CIS-5.7.4",
+            "patch": {
+                "name": "CIS-4.6.3 The default namespace should not be used",
+                "references": []
+            }
+        }
+    ],
     "subSections": {
         "2": {
             "name": "Control Plane Configuration",
