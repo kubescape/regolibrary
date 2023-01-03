@@ -96,6 +96,12 @@
                 "name": "CIS-4.6.3 The default namespace should not be used",
                 "references": []
             }
+        },
+        {
+            "controlID": "C-0213",
+            "patch": {
+                "name": "CIS-4.2.1 Minimize the admission of privileged containers"
+            }
         }
     ],
     "subSections": {
