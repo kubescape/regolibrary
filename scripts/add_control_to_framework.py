@@ -56,16 +56,44 @@ def init_parser():
     args = parser.parse_args()
     return args
 
+def get_numberID(controlID):
+    if controlID.startswith("CIS"):
+        return 0
+    elif controlID.startswith("C"):
+        return int(controlID[2:])
+    else:
+        raise Exception("Invalid controlID: " + controlID)
+
 def generate_new_controlID():
     # Get current highest id from all controls
     highest_id = 0
-    for control in controlID_to_filename_mapping:
-        if control["controlID"] > highest_id:
-            highest_id = control["controlID"]
+    for controlID in controlID_to_filename_mapping:
+        number = get_numberID(controlID)
+        if number > highest_id:
+            highest_id = number
     new_id = highest_id + 1
     # Format the new ID as "C-NNNN"
     formatted_id = f"C-{new_id:04d}"
     return formatted_id
+
+def verify_control_not_in_framework(control_to_add, framework):
+    for control in framework["activeControls"]:
+        if control["controlID"] == control_to_add["controlID"]:
+            raise Exception("Control: " + control_to_add["controlID"] + " already exists in framework: " + framework["name"])
+        if control["patch"]["name"] == control_to_add["patch"]["name"]:
+            raise Exception("Control with name: " + control_to_add["patch"]["name"] + " already exists in framework: " + framework["name"])
+
+def save_control_in_new_file(new_control, controlID_to_add):
+    # add file to controls directory, filename format is controlID-name.json, 
+    # where name is all lowercase with no whitespace or special characters
+    if "control-CIS-ID" in new_control:
+        del new_control["control-CIS-ID"]
+    name = new_control["name"].lower()
+    name = re.sub(r'[^\w]', '', name)
+    filename = controlID_to_add + "-" + name + ".json"
+    with open(os.path.join(controls_dir, filename), "w") as output_file:
+        json.dump(new_control, output_file, indent=4)
+    print("saved new control to file: " + filename)
 
 def main():
     args = init_parser()
@@ -79,28 +107,27 @@ def main():
     with open(args.newControl, "r") as input_file_1:
         new_control = json.loads(input_file_1.read())
 
-     # If control is added to a CIS framework, add the controlID to the name, and the name to the patch
+    # Add name to patch
+    # If control is added to a CIS framework, add the controlID to the name
+    # else just add the name
     if "cis" in args.framework.lower():
-        name = new_control["controlID"] + " " + new_control["name"]
-        patch["name"] = name
-     
+        name = new_control["control-CIS-ID"] + " " + new_control["name"]
+    else:
+        name = new_control["name"]
+    patch["name"] = name
+    
+    save_new_file = False
     # If the baseControlID is not specified, assume this is a new baseControl and use the new control ID
     if args.baseControlID is None:
-        if new_control["controlID"] is None:
+        # if control has a CIS ID, generate a new internal ID
+        if new_control["controlID"].startswith("CIS"):
             controlID_to_add = generate_new_controlID()
             new_control["controlID"] = controlID_to_add
             print("generated new ID for control: " + controlID_to_add)
         else:
             controlID_to_add = new_control["controlID"]
-        if controlID_to_filename_mapping[controlID_to_add] is None:
-            # add file to controls directory, filename format is controlID-name.json, 
-            # where name is all lowercase with no whitespace or special characters
-            name = new_control["name"].lower()
-            name = re.sub(r'[^\w]', '', name)
-            filename = controlID_to_add + "-" + name + ".json"
-            with open(os.path.join(controls_dir, filename), "w") as output_file:
-                json.dump(new_control, output_file, indent=4)
-            print("saved new control to file: " + filename)
+        if controlID_to_add not in controlID_to_filename_mapping:
+            save_new_file = True
     # If the baseControlID is specified, compare the new control with it and generate a patch
     else:
         controlID_to_add = args.baseControlID
@@ -130,9 +157,10 @@ def main():
         framework = json.load(input_file_3)
         if framework["activeControls"] is None:
             framework["activeControls"] = []
-        for control in framework["activeControls"]:
-            if control["controlID"] == controlID_to_add:
-                raise Exception("Control: " + controlID_to_add + " already exists in framework: " + args.framework)
+        # verify new control is not already in the framework
+        verify_control_not_in_framework(control_to_add, framework)
+        if save_new_file:
+            save_control_in_new_file(new_control, controlID_to_add)
         framework["activeControls"].append(control_to_add)
         # Move the file pointer to the beginning of the file
         input_file_3.seek(0)

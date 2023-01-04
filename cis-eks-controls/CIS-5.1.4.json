@@ -1,0 +1,19 @@
+{
+    "controlID": "CIS-5.1.4",
+    "name": "Minimize Container Registries to only those approved",
+    "description": "Use approved container registries.",
+    "long_description": "Allowing unrestricted access to external container registries provides the opportunity for malicious or unapproved containers to be deployed into the cluster. Allowlisting only approved container registries reduces this risk.",
+    "remediation": "",
+    "manual_test": "",
+    "references": [
+        "https://aws.amazon.com/blogs/opensource/using-open-policy-agent-on-amazon-eks/"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [],
+    "baseScore": 0,
+    "impact_statement": "All container images to be deployed to the cluster must be hosted within an approved container image registry.",
+    "default_value": "",
+    "control-CIS-ID": "CIS-5.1.4"
+} 
