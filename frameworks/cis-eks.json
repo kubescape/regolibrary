@@ -132,6 +132,12 @@
             "patch": {
                 "name": "CIS-4.2.6 Minimize the admission of root containers"
             }
+        },
+        {
+            "controlID": "C-0219",
+            "patch": {
+                "name": "CIS-4.2.7 Minimize the admission of containers with added capabilities"
+            }
         }
     ],
     "subSections": {
