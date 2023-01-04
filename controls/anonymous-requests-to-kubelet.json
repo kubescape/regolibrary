@@ -1,6 +1,5 @@
 {
-    "id": "CIS-4.2.1",
-    "controlID": "CIS-4.2.1",
+    "controlID": "C-0172",
     "name": "Ensure that the --anonymous-auth argument is set to false",
     "description": "Disable anonymous requests to the Kubelet server.",
     "long_description": "When enabled, requests that are not rejected by other configured authentication methods are treated as anonymous requests. These requests are then served by the Kubelet server. You should rely on authentication to authorize access and disallow anonymous requests.",

@@ -1,0 +1,20 @@
+{
+    "controlID": "C-0194",
+    "name": "Minimize the admission of containers wishing to share the host process ID namespace",
+    "description": "Do not generally permit containers to be run with the `hostPID` flag set to true.",
+    "long_description": "A container running in the host's PID namespace can inspect processes running outside the container. If the container also has access to ptrace capabilities this can be used to escalate privileges outside of the container.\n\n There should be at least one admission control policy defined which does not permit containers to share the host PID namespace.\n\n If you need to run containers which require hostPID, this should be defined in a separate policy and you should carefully check to ensure that only limited service accounts and users are given permission to use that policy.",
+    "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of `hostPID` containers.",
+    "manual_test": "List the policies in use for each namespace in the cluster, ensure that each policy disallows the admission of `hostPID` containers",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126662/recommendations/1838602"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "pod-security-admission-baseline-applied"
+    ],
+    "baseScore": 5,
+    "impact_statement": "Pods defined with `spec.hostPID: true` will not be permitted unless they are run under a specific policy.",
+    "default_value": "By default, there are no restrictions on the creation of `hostPID` containers."
+}
