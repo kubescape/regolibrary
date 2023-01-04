@@ -108,6 +108,24 @@
             "patch": {
                 "name": "CIS-4.2.2 Minimize the admission of containers wishing to share the host process ID namespace"
             }
+        },
+        {
+            "controlID": "C-0215",
+            "patch": {
+                "name": "CIS-4.2.3 Minimize the admission of containers wishing to share the host IPC namespace"
+            }
+        },
+        {
+            "controlID": "C-0216",
+            "patch": {
+                "name": "CIS-4.2.4 Minimize the admission of containers wishing to share the host network namespace"
+            }
+        },
+        {
+            "controlID": "C-0217",
+            "patch": {
+                "name": "CIS-4.2.5 Minimize the admission of containers with allowPrivilegeEscalation"
+            }
         }
     ],
     "subSections": {
