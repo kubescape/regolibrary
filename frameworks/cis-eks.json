@@ -126,6 +126,12 @@
             "patch": {
                 "name": "CIS-4.2.5 Minimize the admission of containers with allowPrivilegeEscalation"
             }
+        },
+        {
+            "controlID": "C-0218",
+            "patch": {
+                "name": "CIS-4.2.6 Minimize the admission of root containers"
+            }
         }
     ],
     "subSections": {
