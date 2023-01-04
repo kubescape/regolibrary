@@ -138,6 +138,12 @@
             "patch": {
                 "name": "CIS-4.2.7 Minimize the admission of containers with added capabilities"
             }
+        },
+        {
+            "controlID": "C-0220",
+            "patch": {
+                "name": "CIS-4.2.8 Minimize the admission of containers with capabilities assigned"
+            }
         }
     ],
     "subSections": {
