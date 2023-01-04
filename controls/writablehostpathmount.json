@@ -1,0 +1,35 @@
+{
+    "name": "Writable hostPath mount",
+    "attributes": {
+        "armoBuiltin": true,
+        "microsoftMitreColumns": [
+            "Persistence",
+            "Lateral Movement"
+        ],
+        "controlTypeTags": [
+            "security",
+            "compliance",
+            "devops",
+            "security-impact"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "container",
+                "categories": [
+                    "Persistence",
+                    "Impact - Data access in container"
+                ]
+            }
+        ]
+    },
+    "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host and gain persistence.",
+    "remediation": "Refrain from using the hostPath mount or use the exception mechanism to remove unnecessary notifications.",
+    "rulesNames": [
+        "alert-rw-hostpath"
+    ],
+    "long_description": "hostPath volume mounts a directory or a file from the host to the container. Attackers who have permissions to create a new container in the cluster may create one with a writable hostPath volume and gain persistence on the underlying host. For example, the latter can be achieved by creating a cron job on the host.",
+    "test": "Checking in POD spec if there is a hostPath volume, if it has the section mount.readOnly == false (or doesn\u2019t exist) we raise an alert.",
+    "controlID": "C-0045",
+    "baseScore": 8.0,
+    "example": "@controls/examples/c045.yaml"
+}

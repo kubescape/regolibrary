@@ -1,0 +1,20 @@
+{
+    "controlID": "C-0195",
+    "name": "Minimize the admission of containers wishing to share the host IPC namespace",
+    "description": "Do not generally permit containers to be run with the `hostIPC` flag set to true.",
+    "long_description": "A container running in the host's IPC namespace can use IPC to interact with processes outside the container.\n\n There should be at least one admission control policy defined which does not permit containers to share the host IPC namespace.\n\n If you need to run containers which require hostIPC, this should be definited in a separate policy and you should carefully check to ensure that only limited service accounts and users are given permission to use that policy.",
+    "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of `hostIPC` containers.",
+    "manual_test": "List the policies in use for each namespace in the cluster, ensure that each policy disallows the admission of `hostIPC` containers",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126662/recommendations/1838605"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "pod-security-admission-baseline-applied"
+    ],
+    "baseScore": 5,
+    "impact_statement": "Pods defined with `spec.hostIPC: true` will not be permitted unless they are run under a specific policy.",
+    "default_value": "By default, there are no restrictions on the creation of `hostIPC` containers."
+}
