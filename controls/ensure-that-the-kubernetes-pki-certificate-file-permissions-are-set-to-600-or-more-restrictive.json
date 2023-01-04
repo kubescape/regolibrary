@@ -1,6 +1,5 @@
 {
-    "id": "CIS-1.1.20",
-    "controlID": "CIS-1.1.20",
+    "controlID": "C-0111",
     "name": "Ensure that the Kubernetes PKI certificate file permissions are set to 600 or more restrictive",
     "description": "Ensure that Kubernetes PKI certificate files have permissions of `600` or more restrictive.",
     "long_description": "Kubernetes makes use of a number of certificate files as part of the operation of its components. The permissions on these files should be set to `600` or more restrictive to protect their integrity.",
