@@ -2,7 +2,7 @@ name: export
 
 on:
   push:
-    branches: [master]
+    branches: [master,main]
     paths-ignore: ['**.md', 'releaseDev/**']
     
 jobs:
