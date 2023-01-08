@@ -1,0 +1,25 @@
+name: export release dev (releaseDev)
+
+on:
+  pull_request:
+    branches: [ dev ]
+    types: [ opened ]
+
+jobs:
+  once:
+    name: Build, Test Regos
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with: 
+        go-version: 1.18
+
+    - name: Test Regoes
+      working-directory: testrunner
+      run: |
+        apt update && apt install -y cmake
+        GOPATH=$(go env GOPATH) make
