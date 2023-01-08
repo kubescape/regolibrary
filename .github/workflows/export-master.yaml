@@ -1,4 +1,4 @@
-name: export release prod
+name: export
 
 on:
   push:
