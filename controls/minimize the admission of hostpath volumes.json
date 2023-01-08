@@ -1,0 +1,20 @@
+{
+    "controlID": "C-0203",
+    "name": "Minimize the admission of HostPath volumes",
+    "description": "Do not generally admit containers which make use of `hostPath` volumes.",
+    "long_description": "A container which mounts a `hostPath` volume as part of its specification will have access to the filesystem of the underlying cluster node. The use of `hostPath` volumes may allow containers access to privileged areas of the node filesystem.\n\n There should be at least one admission control policy defined which does not permit containers to mount `hostPath` volumes.\n\n If you need to run containers which require `hostPath` volumes, this should be defined in a separate policy and you should carefully check to ensure that only limited service accounts and users are given permission to use that policy.",
+    "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of containers which use `hostPath` volumes.",
+    "manual_test": "List the policies in use for each namespace in the cluster, ensure that each policy disallows the admission of containers with `hostPath` volumes.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/1126662/recommendations/1838625"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "pod-security-admission-baseline-applied"
+    ],
+    "baseScore": 6,
+    "impact_statement": "Pods defined which make use of `hostPath` volumes will not be permitted unless they are run under a spefific policy.",
+    "default_value": "By default, there are no restrictions on the creation of `hostPath` volumes."
+}

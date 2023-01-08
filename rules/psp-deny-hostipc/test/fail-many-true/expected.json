@@ -1,0 +1,52 @@
+[
+    {
+        "alertMessage": "PodSecurityPolicy: 'eks.privileged' has hostIPC set as true.",
+        "failedPaths": [
+            "spec.hostIPC"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 0,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "policy/v1beta1",
+                    "kind": "PodSecurityPolicy",
+                    "metadata": {
+                        "labels": {
+                            "eks.amazonaws.com/component": "pod-security-policy",
+                            "kubernetes.io/cluster-service": "true"
+                        },
+                        "name": "eks.privileged"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "PodSecurityPolicy: 'eks.privileged1' has hostIPC set as true.",
+        "failedPaths": [
+            "spec.hostIPC"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 0,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "policy/v1beta1",
+                    "kind": "PodSecurityPolicy",
+                    "metadata": {
+                        "labels": {
+                            "eks.amazonaws.com/component": "pod-security-policy",
+                            "kubernetes.io/cluster-service": "true"
+                        },
+                        "name": "eks.privileged1"
+                    }
+                }
+            ]
+        }
+    }
+]

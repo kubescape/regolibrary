@@ -1,0 +1,37 @@
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"policy/v1beta1","kind":"PodSecurityPolicy","metadata":{"annotations":{"kubernetes.io/description":"privileged allows full unrestricted access to pod features, as if the PodSecurityPolicy controller was not enabled.","seccomp.security.alpha.kubernetes.io/allowedProfileNames":"*"},"labels":{"eks.amazonaws.com/component":"pod-security-policy","kubernetes.io/cluster-service":"true"},"name":"eks.privileged"},"spec":{"allowPrivilegeEscalation":true,"allowedCapabilities":["*"],"fsGroup":{"rule":"RunAsAny"},"hostIPC":true,"hostNetwork":true,"hostPID":true,"hostPorts":[{"max":65535,"min":0}],"privileged":true,"readOnlyRootFilesystem":false,"runAsUser":{"rule":"RunAsAny"},"seLinux":{"rule":"RunAsAny"},"supplementalGroups":{"rule":"RunAsAny"},"volumes":["*"]}}
+    kubernetes.io/description: privileged allows full unrestricted access to pod features,
+      as if the PodSecurityPolicy controller was not enabled.
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+  creationTimestamp: "2023-01-02T07:01:28Z"
+  labels:
+    eks.amazonaws.com/component: pod-security-policy
+    kubernetes.io/cluster-service: "true"
+  name: eks.privileged
+  resourceVersion: "279"
+  uid: be7dd3fc-89cd-4b36-bf47-263f301063fa
+spec:
+  allowPrivilegeEscalation: true
+  allowedCapabilities:
+  - '*'
+  fsGroup:
+    rule: RunAsAny
+  hostIPC: false
+  hostNetwork: false
+  hostPID: false
+  hostPorts:
+  - max: 65535
+    min: 0
+  privileged: false
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  volumes:
+  - '*'
