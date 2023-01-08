@@ -4,7 +4,7 @@
         "failedPaths": [],
         "fixPaths": [
             {
-                "path": "spec.containers[1].securityContext.capabilities.drop",
+                "path": "spec.containers[1].securityContext.capabilities.drop[1]",
                 "value": "NET_RAW"
             }
         ],
