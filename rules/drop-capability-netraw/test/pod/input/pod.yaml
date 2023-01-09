@@ -9,15 +9,23 @@ spec:
   - name: test-container
     image: hashicorp/http-echo:0.2.3
     securityContext:
-      allowPrivilegeEscalation: false
       capabilities:
         add: ["NET_ADMIN", "SYS_TIME"]
         drop: ["NET_RAW"]
-  - name: test-container2
+  - name: test-container1
     image: hashicorp/http-echo:0.2.3
     securityContext:
-      allowPrivilegeEscalation: false
       capabilities:
         add: ["SYS_TIME"]
         drop: ["NET_ADMIN"]
-
+  - name: test-container2
+    image: hashicorp/http-echo:0.2.3
+    securityContext:
+      capabilities:
+        add: ["NET_RAW"]
+        drop: ["ALL"]
+  - name: test-container3
+    image: hashicorp/http-echo:0.2.3
+    securityContext:
+      capabilities:
+        drop: [all]

@@ -4,7 +4,7 @@
         "failedPaths": [],
         "fixPaths": [
             {
-                "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.capabilities.drop",
+                "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.capabilities.drop[0]",
                 "value": "NET_RAW"
             }
         ],
@@ -28,7 +28,7 @@
         "failedPaths": [],
         "fixPaths": [
             {
-                "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.capabilities.drop",
+                "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.capabilities.drop[0]",
                 "value": "NET_RAW"
             }
         ],
