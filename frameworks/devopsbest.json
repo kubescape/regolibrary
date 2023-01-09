@@ -1,0 +1,75 @@
+{
+    "name": "DevOpsBest",
+    "description": "",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "activeControls": [
+        {
+            "controlID": "C-0004",
+            "patch": {
+                "name": "Resources memory limit and request"
+            }
+        },
+        {
+            "controlID": "C-0018",
+            "patch": {
+                "name": "Configured readiness probe"
+            }
+        },
+        {
+            "controlID": "C-0044",
+            "patch": {
+                "name": "Container hostPort"
+            }
+        },
+        {
+            "controlID": "C-0050",
+            "patch": {
+                "name": "Resources CPU limit and request"
+            }
+        },
+        {
+            "controlID": "C-0056",
+            "patch": {
+                "name": "Configured liveness probe"
+            }
+        },
+        {
+            "controlID": "C-0061",
+            "patch": {
+                "name": "Pods in default namespace"
+            }
+        },
+        {
+            "controlID": "C-0073",
+            "patch": {
+                "name": "Naked PODs"
+            }
+        },
+        {
+            "controlID": "C-0074",
+            "patch": {
+                "name": "Containers mounting Docker socket"
+            }
+        },
+        {
+            "controlID": "C-0075",
+            "patch": {
+                "name": "Image pull policy on latest tag"
+            }
+        },
+        {
+            "controlID": "C-0076",
+            "patch": {
+                "name": "Label usage for resources"
+            }
+        },
+        {
+            "controlID": "C-0077",
+            "patch": {
+                "name": "K8s common labels usage"
+            }
+        }
+    ]
+}

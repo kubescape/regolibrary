@@ -1,15 +1,12 @@
-name: update-csvs
+name: export release dev (releaseDev)
 
 on:
   push:
     branches: [ dev ]
-  pull_request:
-    branches: [ dev ]
-    types: [ closed ]
 
 jobs:
   once:
-    name: Auto update csv files
+    name: Build, Test, Create And Generate releaseDev
     runs-on: ubuntu-latest
 
     steps:
@@ -25,8 +22,7 @@ jobs:
       run: |
         apt update && apt install -y cmake
         GOPATH=$(go env GOPATH) make
-    - name: Run a update-csv-files script
-      run: python ./scripts/update-csv-files.py
+
     
     - name: Run export script
       run: | 

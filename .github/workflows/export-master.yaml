@@ -1,0 +1,90 @@
+name: export
+
+on:
+  push:
+    branches: [master,main]
+    paths-ignore: ['**.md', 'releaseDev/**']
+    
+jobs:
+  once:
+    name: Build, Test, Create And Upload Release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - uses: actions/checkout@v2
+        name: checkout repo content
+
+      # Test using Golang OPA hot rule compilation
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.18
+
+      - name: Test Regoes
+        working-directory: testrunner
+        run: |
+          apt update && apt install -y cmake
+          GOPATH=$(go env GOPATH) make
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10.6
+
+      # - name: Setup OPA binaries
+      #   uses: open-policy-agent/setup-opa@v2
+      #   with:
+      #     version: v0.44.0
+
+      # - name: Build OPA bundles
+      #   run: |
+      #     mkdir -p release
+      #     pip install requests pyyaml
+      #     python ./scripts/bundle.py . -o ./release --removed-out release/removed.json --edit-readme
+      
+      # - name: Test OPA bundle
+      #   working-directory: testrunner
+      #   env:
+      #     BUNDLE: ../release/kubescape_regolibrary_bundle.tar.gz
+      #     SKIPPED_RULES: ../release/removed.json
+      #   run: |
+      #     go test -v -tags="static" . -run TestRegoBundles
+      #     rm ${SKIPPED_RULES}
+
+      - name: Create Metadata Release Files
+        run: |
+          python ./scripts/export.py
+      
+      # The next step kept here for only backward competability.
+      # Release files should have extensions!
+      - name: Strip Metadata Files Extensions (to be removed)
+        run: |
+          cd release
+          find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
+          find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          release_name: Release v1.0.${{ github.run_number }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Assets
+        id: upload-release-assets
+        uses: dwenegar/upload-release-assets@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_id: ${{ steps.create_release.outputs.id }}
+          assets_path: release
+      
+      - name: Update readme
+        uses: Andro999b/push@v1.3
+        with:
+          branch: master
+          github_token: ${{ secrets.GITHUB_TOKEN }} 
+          message: Update README.MD
