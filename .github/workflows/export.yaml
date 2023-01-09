@@ -2,12 +2,8 @@ name: export
 
 on:
   push:
-    branches: [master]
+    branches: [master,main]
     paths-ignore: ['**.md', 'releaseDev/**']
-  pull_request:
-    branches: [master]
-    types: [closed]
-    paths-ignore: ['**.md']
     
 jobs:
   once:
