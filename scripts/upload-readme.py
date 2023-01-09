@@ -145,18 +145,20 @@ def get_document_for_control(readmeapi : ReadmeApi, control):
     control_doc = filtered_docs[0]
     return control_doc
 
-
+def ignore_framework(framework_name: str):
+    return framework_name == 'YAML-scanning' or framework_name.startswith('developer')
 
 def get_frameworks_for_control(control):
     r = []
     for frameworks_json_file_name in filter(lambda fn: fn.endswith('.json'),os.listdir('frameworks')):
         framework = json.load(open(os.path.join('frameworks',frameworks_json_file_name)))
-        if framework['name'].startswith('developer'):
+        if ignore_framework(framework['name']):
             continue
     
-        for activeControl in framework["activeControls"]:
-            if control['controlID'].lower() == activeControl["controlID"].lower():
-                r.append(framework['name'])
+        if "activeControls" in framework:
+            for activeControl in framework["activeControls"]:
+                if control['controlID'].lower() == activeControl["controlID"].lower():
+                    r.append(framework['name'])
     return r
    
 

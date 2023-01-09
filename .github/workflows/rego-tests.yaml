@@ -1,4 +1,4 @@
-name: export release dev (releaseDev)
+name: test regos
 
 on:
   pull_request:
