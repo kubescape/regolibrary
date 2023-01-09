@@ -153,8 +153,10 @@ def get_frameworks_for_control(control):
         framework = json.load(open(os.path.join('frameworks',frameworks_json_file_name)))
         if framework['name'].startswith('developer'):
             continue
-        if control['name'] in framework['controlsNames']:
-            r.append(framework['name'])
+    
+        for activeControl in framework["activeControls"]:
+            if control['controlID'].lower() == activeControl["controlID"].lower():
+                r.append(framework['name'])
     return r
    
 
