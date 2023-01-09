@@ -2,7 +2,7 @@ name: export release dev (releaseDev)
 
 on:
   pull_request:
-    branches: [ dev ]
+    branches: [ dev, master ]
     types: [ opened ]
 
 jobs:
