@@ -1,4 +1,4 @@
-name: export release dev (releaseDev)
+name: update-csvs
 
 on:
   push:
