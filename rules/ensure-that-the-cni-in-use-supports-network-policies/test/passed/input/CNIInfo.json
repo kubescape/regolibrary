@@ -1,0 +1,10 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "CNIInfo",
+    "metadata": {
+        "name": "minikube"
+    },
+    "data": {
+        "CNIName": "Calico"
+    }
+}
