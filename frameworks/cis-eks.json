@@ -144,6 +144,12 @@
             "patch": {
                 "name": "CIS-4.2.8 Minimize the admission of containers with capabilities assigned"
             }
+        },
+        {
+            "controlID": "C-0227",
+            "patch": {
+                "name": "CIS-5.4.1 Restrict Access to the Control Plane Endpoint"
+            }
         }
     ],
     "subSections": {
