@@ -10,11 +10,11 @@
                 "ownership": {
                     "uid": 0,
                     "gid": 0,
-                    "username": "noroot",
+                    "username": "root",
                     "groupname": "root"
                 },
                 "path": "/etc/cni/net.d/10-minikube.conflist",
-                "permissions": 504
+                "permissions": 384
             }
         ]
     }

@@ -8,7 +8,7 @@ package armo_builtins
 deny[msg] {
 	# Filter out irrelevent resources
 	obj = input[_]
-    is_control_plane_info(obj)
+    is_CNIInfo(obj)
   
 	# list of CNIs not supporting support Network Policies
  	CNINotSupportsNetworkPolicies := ["Flannel"]
@@ -33,7 +33,7 @@ deny[msg] {
 	}
 }
 
-is_control_plane_info(obj) {
+is_CNIInfo(obj) {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
-	obj.kind == "ControlPlaneInfo"
+	obj.kind == "CNIInfo"
 }

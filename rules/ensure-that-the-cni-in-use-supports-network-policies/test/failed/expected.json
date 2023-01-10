@@ -7,7 +7,7 @@
                 "data": {
                     "CNIName": "Flannel"
                 },
-                "kind": "ControlPlaneInfo",
+                "kind": "CNIInfo",
                 "metadata": {
                     "name": "minikube"
                 }
