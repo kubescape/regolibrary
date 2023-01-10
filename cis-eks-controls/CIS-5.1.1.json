@@ -1,5 +1,5 @@
 {
-    "controlID": "CIS-5.1.1",
+    "controlID": "C-0221",
     "name": "Ensure Image Vulnerability Scanning using Amazon ECR image scanning or a third party provider",
     "description": "Scan images being deployed to Amazon EKS for vulnerabilities.",
     "long_description": "Vulnerabilities in software packages can be exploited by hackers or malicious users to obtain unauthorized access to local cloud resources. Amazon ECR and other third party products allow images to be scanned for known vulnerabilities.",

@@ -1,5 +1,5 @@
 {
-    "controlID": "CIS-5.4.5",
+    "controlID": "C-0231",
     "name": "Encrypt traffic to HTTPS load balancers with TLS certificates",
     "description": "Encrypt traffic to HTTPS load balancers using TLS certificates.",
     "long_description": "Encrypting traffic between users and your Kubernetes workload is fundamental to protecting data sent over the web.",
