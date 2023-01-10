@@ -1,6 +1,7 @@
 package armo_builtins
-import data.cautils as cautils
+import future.keywords.every
 
+# =============================== GKE ===============================
 # Check if audit logs is enabled for GKE
 deny[msga] {
 	cluster_config := input[_]
@@ -26,7 +27,16 @@ deny[msga] {
 	}
 }
 
+is_logging_disabled(cluster_config) {
+	not cluster_config.logging_config.component_config.enable_components
+}
+is_logging_disabled(cluster_config) {
+	cluster_config.logging_config.component_config.enable_components
+	count(cluster_config.logging_config.component_config.enable_components) == 0
+}
 
+
+# =============================== EKS ===============================
 # Check if audit logs is enabled for EKS
 deny[msga] {
 	cluster_config := input[_]
@@ -37,15 +47,16 @@ deny[msga] {
     # logSetup is an object representing the enabled or disabled Kubernetes control plane logs for your cluster.
     # types - available cluster control plane log types
     # https://docs.aws.amazon.com/eks/latest/APIReference/API_LogSetup.html
-    goodTypes := [logSetup  | logSetup =  config.Cluster.Logging.ClusterLogging[_];  isAuditLogs(logSetup)]
-    count(goodTypes) == 0
+	logging_types := {"api", "audit", "authenticator", "controllerManager", "scheduler"}
+	logSetups =  config.Cluster.Logging.ClusterLogging
+	not all_auditlogs_enabled(logSetups, logging_types)
 	
 	msga := {
 		"alertMessage": "audit logs is disabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
-		"fixCommand":"aws eks update-cluster-config --region <region_code> --name <cluster_name> --logging '{'clusterLogging':[{'types':['<api/audit/authenticator>'],'enabled':true}]}'",
+		"fixCommand": "aws eks update-cluster-config --region '${REGION_CODE}' --name '${CLUSTER_NAME}' --logging '{'clusterLogging':[{'types':['api','audit','authenticator','controllerManager','scheduler'],'enabled':true}]}'",
 		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],
@@ -54,26 +65,14 @@ deny[msga] {
 	}
 }
 
-
-is_logging_disabled(cluster_config) {
-	not cluster_config.logging_config.component_config.enable_components
-}
-is_logging_disabled(cluster_config) {
-	cluster_config.logging_config.component_config.enable_components
-	count(cluster_config.logging_config.component_config.enable_components) == 0
+all_auditlogs_enabled(logSetups, types) {
+	every type in types {
+		auditlogs_enabled(logSetups, type)
+	}
 }
 
-isAuditLogs(logSetup) {
-    logSetup.Enabled == true
-    cautils.list_contains(logSetup.Types, "api")
-}
-
-isAuditLogs(logSetup) {
-    logSetup.Enabled == true
-    cautils.list_contains(logSetup.Types, "audit")
-}
-
-isAuditLogs(logSetup) {
-    logSetup.enabled == true
-    cautils.list_contains(logSetup.Types, "authenticator")
+auditlogs_enabled(logSetups, type){
+	logSetup := logSetups[_]
+	logSetup.Enabled == true
+	logSetup.Types[_] == type
 }
