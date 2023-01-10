@@ -1278,6 +1278,24 @@
             }
         },
         {
+            "controlID": "C-0207",
+            "patch": {
+                "name": "CIS-5.4.1 Prefer using secrets as files over secrets as environment variables",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/1126665/recommendations/1838630"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0207",
+            "patch": {
+                "name": "CIS-5.4.1 Prefer using secrets as files over secrets as environment variables",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/1126665/recommendations/1838630"
+                ]
+            }
+        },
+        {
             "controlID": "C-0208",
             "patch": {
                 "name": "CIS-5.4.2 Consider external secret storage",
