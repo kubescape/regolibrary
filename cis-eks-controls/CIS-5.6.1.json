@@ -1,5 +1,5 @@
 {
-    "controlID": "CIS-5.6.1",
+    "controlID": "C-0233",
     "name": "Consider Fargate for running untrusted workloads",
     "description": "It is Best Practice to restrict or fence untrusted workloads when running in a multi-tenant environment.",
     "long_description": "",

@@ -1,13 +1,28 @@
 # Description: 
 # This script adds a new control to a framework according to the new format - i.e to the activeControls field of the framework
+# 
 
-# To use: python3 add_control_to_framework.py -c <path to new control json> -b <controlID of the base control> -fw <Name of the framework to add the control to>
-# for e.g: python3 add_control_to_framework.py -c path/to/control/CIS-4.1.1.json -b CIS-5.1.1 -fw CIS-EKS
+# To use: 
+# Run from main directory:
+# python3 scripts/add_control_to_framework.py -c <path to new control json> -b <controlID of the base control> -fw <Name of the framework to add the control to>
+# for e.g: python3 scripts/add_control_to_framework.py -c path/to/control/CIS-4.1.1.json -b CIS-5.1.1 -fw CIS-EKS
 
-# If no baseControlID is specified, it will assume the control is new and add only add the controlID to the framework
-# If the baseControl already exists, it will also add the patch with all new control fields that need to be overridden.
-# notice - currently all fields can be overridden except for controlID and id.
-# To restrict the fields that can be overridden, add them to the fields_not_to_compare list
+# If no baseControlID is specified:
+#   It will assume the control is new and generate a new controlID.
+#   The script will also create a new file for the control in the controls directory, with the filename format controlID-name.json,
+# If the baseControl already exists:
+#   it will add the patch with fields that need to be overridden by new control.
+# In both cases, the control will be added to the framework under the activeControls field in the following format:
+# { 
+#   "controlID": "C-NNNN",
+#       "patch": {
+#       "name": "control-name", (in cis frameworks: "CIS-NN.NN.NN-control-name")
+#       ** other fields that need to be overridden by the new control **
+#       }
+# }
+    
+# Notice - currently all fields can be overridden apart from those in the list 'fields_not_to_compare'.
+# To restrict other fields that can be overridden, add them to 'fields_not_to_compare'
 
 # ================================================
 import argparse
