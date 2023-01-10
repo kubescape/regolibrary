@@ -1,5 +1,5 @@
 {
-    "controlID": "CIS-5.1.4",
+    "controlID": "C-0224",
     "name": "Minimize Container Registries to only those approved",
     "description": "Use approved container registries.",
     "long_description": "Allowing unrestricted access to external container registries provides the opportunity for malicious or unapproved containers to be deployed into the cluster. Allowlisting only approved container registries reduces this risk.",

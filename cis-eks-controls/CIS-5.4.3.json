@@ -1,5 +1,5 @@
 {
-    "controlID": "CIS-5.4.3",
+    "controlID": "C-0229",
     "name": "Ensure clusters are created with Private Nodes",
     "description": "Disable public IP addresses for cluster nodes, so that they only have private IP addresses. Private Nodes are nodes with no public IP addresses.",
     "long_description": "Disabling public IP addresses on cluster nodes restricts access to only internal networks, forcing attackers to obtain local network access before attempting to compromise the underlying Kubernetes hosts.",
