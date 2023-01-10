@@ -6070,6 +6070,148 @@
             ]
         },
         {
+            "name": "CIS-5.4.1 Prefer using secrets as files over secrets as environment variables",
+            "controlID": "C-0207",
+            "description": "Kubernetes supports mounting secrets as data volumes or as environment variables. Minimize the use of environment variable secrets.",
+            "long_description": "It is reasonably common for application code to log out its environment (particularly in the event of an error). This will include any secret values passed in as environment variables, so secrets can easily be exposed to any user or entity who has access to the logs.",
+            "remediation": "If possible, rewrite application code to read secrets from mounted secret files, rather than from environment variables.",
+            "manual_test": "Run the following command to find references to objects which use environment variables defined from secrets.\n\n \n```\nkubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {\"\\n\"}{end}' -A\n\n```",
+            "test": "Check if pods have secrets in their environment variables",
+            "references": [
+                "https://workbench.cisecurity.org/sections/1126665/recommendations/1838630"
+            ],
+            "attributes": {
+                "armoBuiltin": true
+            },
+            "baseScore": 4,
+            "impact_statement": "Application code which expects to read secrets in the form of environment variables would need modification",
+            "default_value": "By default, secrets are not defined",
+            "rules": [
+                {
+                    "name": "rule-secrets-in-env-var",
+                    "attributes": {
+                        "armoBuiltin": true
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                ""
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Pod"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "apps"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Deployment",
+                                "ReplicaSet",
+                                "DaemonSet",
+                                "StatefulSet"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "batch"
+                            ],
+                            "apiVersions": [
+                                "*"
+                            ],
+                            "resources": [
+                                "Job",
+                                "CronJob"
+                            ]
+                        }
+                    ],
+                    "ruleDependencies": [],
+                    "description": "fails if Pods have secrets in environment variables",
+                    "remediation": "If possible, rewrite application code to read secrets from mounted secret files, rather than from environment variables.",
+                    "ruleQuery": "armo_builtins",
+                    "rule": "package armo_builtins\nimport data\n\ndeny[msga] {\n\tpod := input[_]\n\tpod.kind == \"Pod\"\n\n\tcontainer := pod.spec.containers[i]\n\tenv := container.env[j]\n\tenv.valueFrom.secretKeyRef\n\n\tpath := sprintf(\"spec.containers[%v].env[%v].name\", [format_int(i, 10), format_int(j, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Pod: %v has secrets in environment variables\", [pod.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n\t}\n}\n\ndeny[msga] {\n\twl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n\tcontainer := wl.spec.template.spec.containers[i]\n\tenv := container.env[j]\n\tenv.valueFrom.secretKeyRef\n\n\tpath := sprintf(\"spec.template.spec.containers[%v].env[%v].name\", [format_int(i, 10), format_int(j, 10)])\t\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"%v: %v has secrets in environment variables\", [wl.kind, wl.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\ndeny[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer := wl.spec.jobTemplate.spec.template.spec.containers[i]\n\tenv := container.env[j]\n\tenv.valueFrom.secretKeyRef\n\t\n\tpath := sprintf(\"spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name\", [format_int(i, 10), format_int(j, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Cronjob: %v has secrets in environment variables\", [wl.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n"
+                }
+            ]
+        },
+        {
+            "name": "CIS-5.4.1 Prefer using secrets as files over secrets as environment variables",
+            "controlID": "C-0207",
+            "description": "Kubernetes supports mounting secrets as data volumes or as environment variables. Minimize the use of environment variable secrets.",
+            "long_description": "It is reasonably common for application code to log out its environment (particularly in the event of an error). This will include any secret values passed in as environment variables, so secrets can easily be exposed to any user or entity who has access to the logs.",
+            "remediation": "If possible, rewrite application code to read secrets from mounted secret files, rather than from environment variables.",
+            "manual_test": "Run the following command to find references to objects which use environment variables defined from secrets.\n\n \n```\nkubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {\"\\n\"}{end}' -A\n\n```",
+            "test": "Check if pods have secrets in their environment variables",
+            "references": [
+                "https://workbench.cisecurity.org/sections/1126665/recommendations/1838630"
+            ],
+            "attributes": {
+                "armoBuiltin": true
+            },
+            "baseScore": 4,
+            "impact_statement": "Application code which expects to read secrets in the form of environment variables would need modification",
+            "default_value": "By default, secrets are not defined",
+            "rules": [
+                {
+                    "name": "rule-secrets-in-env-var",
+                    "attributes": {
+                        "armoBuiltin": true
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                ""
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Pod"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "apps"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Deployment",
+                                "ReplicaSet",
+                                "DaemonSet",
+                                "StatefulSet"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "batch"
+                            ],
+                            "apiVersions": [
+                                "*"
+                            ],
+                            "resources": [
+                                "Job",
+                                "CronJob"
+                            ]
+                        }
+                    ],
+                    "ruleDependencies": [],
+                    "description": "fails if Pods have secrets in environment variables",
+                    "remediation": "If possible, rewrite application code to read secrets from mounted secret files, rather than from environment variables.",
+                    "ruleQuery": "armo_builtins",
+                    "rule": "package armo_builtins\nimport data\n\ndeny[msga] {\n\tpod := input[_]\n\tpod.kind == \"Pod\"\n\n\tcontainer := pod.spec.containers[i]\n\tenv := container.env[j]\n\tenv.valueFrom.secretKeyRef\n\n\tpath := sprintf(\"spec.containers[%v].env[%v].name\", [format_int(i, 10), format_int(j, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Pod: %v has secrets in environment variables\", [pod.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n\t}\n}\n\ndeny[msga] {\n\twl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n\tcontainer := wl.spec.template.spec.containers[i]\n\tenv := container.env[j]\n\tenv.valueFrom.secretKeyRef\n\n\tpath := sprintf(\"spec.template.spec.containers[%v].env[%v].name\", [format_int(i, 10), format_int(j, 10)])\t\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"%v: %v has secrets in environment variables\", [wl.kind, wl.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\ndeny[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer := wl.spec.jobTemplate.spec.template.spec.containers[i]\n\tenv := container.env[j]\n\tenv.valueFrom.secretKeyRef\n\t\n\tpath := sprintf(\"spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name\", [format_int(i, 10), format_int(j, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Cronjob: %v has secrets in environment variables\", [wl.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n"
+                }
+            ]
+        },
+        {
             "name": "CIS-5.4.2 Consider external secret storage",
             "controlID": "C-0208",
             "description": "Consider the use of an external secrets storage and management system, instead of using Kubernetes Secrets directly, if you have more complex secret management needs. Ensure the solution requires authentication to access secrets, has auditing of access to and use of secrets, and encrypts secrets. Some solutions also make it easier to rotate secrets.",
@@ -6884,6 +7026,8 @@
         "C-0204",
         "C-0205",
         "C-0206",
+        "C-0207",
+        "C-0207",
         "C-0207",
         "C-0208",
         "C-0209",
