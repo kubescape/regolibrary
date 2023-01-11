@@ -1,0 +1,36 @@
+{
+  "name": "ensure-endpointprivateaccess-is-enabled",
+  "attributes": {
+  "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+      ],
+      "apiVersions": [
+      ],
+      "resources": [
+      ]
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "eks.amazonaws.com"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "ClusterDescribe"
+      ]
+    }
+  ],
+  "relevantCloudProviders": ["EKS", "GKE"],
+  "ruleDependencies": [
+  ],
+  "description": "",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

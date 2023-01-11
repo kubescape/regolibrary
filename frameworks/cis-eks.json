@@ -150,6 +150,12 @@
             "patch": {
                 "name": "CIS-5.4.1 Restrict Access to the Control Plane Endpoint"
             }
+        },
+        {
+            "controlID": "C-0228",
+            "patch": {
+                "name": "CIS-5.4.2 Ensure clusters are created with Private Endpoint Enabled and Public Access Disabled"
+            }
         }
     ],
     "subSections": {
