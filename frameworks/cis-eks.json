@@ -156,6 +156,12 @@
             "patch": {
                 "name": "CIS-5.4.2 Ensure clusters are created with Private Endpoint Enabled and Public Access Disabled"
             }
+        },
+        {
+            "controlID": "C-0229",
+            "patch": {
+                "name": "CIS-5.4.3 Ensure clusters are created with Private Nodes"
+            }
         }
     ],
     "subSections": {
