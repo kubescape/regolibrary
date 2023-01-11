@@ -151,10 +151,7 @@
                 "name": "CIS-2.1.1 Enable audit Logs",
                 "description": "Control plane logs provide visibility into operation of the EKS Control plane component systems. The API server audit logs record all accepted and rejected requests in the cluster. When enabled via EKS configuration the control plane logs for a cluster are exported to a CloudWatch Log Group for persistence.",
                 "long_description": "Audit logs enable visibility into all API server requests from authentic and anonymous sources. Stored log data can be analyzed manually or with tools to identify and understand anomalous or negative activity and lead to intelligent remediations.",
-                "remediation": "**From Console:**\n\n 1. For each EKS Cluster in each region;\n2. Go to 'Amazon EKS' > 'Clusters' > '' > 'Configuration' > 'Logging'.\n3. Click 'Manage logging'.\n4. Ensure that all options are toggled to 'Enabled'.\n\n \n```\nAPI server: Enabled\nAudit: Enabled\t\nAuthenticator: Enabled\nController manager: Enabled\nScheduler: Enabled\n\n```\n 5. Click 'Save Changes'.\n\n **From CLI:**\n\n \n```\n# For each EKS Cluster in each region;\naws eks update-cluster-config \\\n    --region '${REGION_CODE}' \\\n    --name '${CLUSTER_NAME}' \\\n    --logging '{\"clusterLogging\":[{\"types\":[\"api\",\"audit\",\"authenticator\",\"controllerManager\",\"scheduler\"],\"enabled\":true}]}'\n\n```",
-                "attributes": {
-                    "armoBuiltin": true
-                }
+                "remediation": "**From Console:**\n\n 1. For each EKS Cluster in each region;\n2. Go to 'Amazon EKS' > 'Clusters' > '' > 'Configuration' > 'Logging'.\n3. Click 'Manage logging'.\n4. Ensure that all options are toggled to 'Enabled'.\n\n \n```\nAPI server: Enabled\nAudit: Enabled\t\nAuthenticator: Enabled\nController manager: Enabled\nScheduler: Enabled\n\n```\n 5. Click 'Save Changes'.\n\n **From CLI:**\n\n \n```\n# For each EKS Cluster in each region;\naws eks update-cluster-config \\\n    --region '${REGION_CODE}' \\\n    --name '${CLUSTER_NAME}' \\\n    --logging '{\"clusterLogging\":[{\"types\":[\"api\",\"audit\",\"authenticator\",\"controllerManager\",\"scheduler\"],\"enabled\":true}]}'\n\n```"
             }
         }
     ],
