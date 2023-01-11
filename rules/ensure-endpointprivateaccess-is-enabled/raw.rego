@@ -1,7 +1,7 @@
 package armo_builtins
 
 
-# Check if EndpointPrivateAccess in enabled for EKS
+# Check if EndpointPrivateAccess in disabled for EKS
 deny[msga] {
 	cluster_config := input[_]
 	cluster_config.apiVersion == "eks.amazonaws.com/v1"

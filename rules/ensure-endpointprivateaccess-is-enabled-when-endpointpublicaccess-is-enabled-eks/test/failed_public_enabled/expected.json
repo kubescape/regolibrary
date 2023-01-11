@@ -47,7 +47,7 @@
                    "PlatformVersion": "eks.8",
                    "ResourcesVpcConfig": {
                       "ClusterSecurityGroupId": "sg-XXX",
-                      "EndpointPrivateAccess": false,
+                      "EndpointPrivateAccess": true,
                       "EndpointPublicAccess": true,
                       "PublicAccessCidrs": [
                          "XXXX/32"

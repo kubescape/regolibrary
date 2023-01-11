@@ -1,5 +1,5 @@
 {
-  "name": "ensure-endpointprivateaccess-is-enabled-whenendpointpublicaccess-is-enabled-eks",
+  "name": "ensure-endpointprivateaccess-is-enabled-when-endpointpublicaccess-is-enabled-eks",
   "attributes": {
   "armoBuiltin": true
   },
@@ -27,7 +27,7 @@
       ]
     }
   ],
-  "relevantCloudProviders": ["EKS", "GKE"],
+  "relevantCloudProviders": ["EKS"],
   "ruleDependencies": [
   ],
   "description": "",

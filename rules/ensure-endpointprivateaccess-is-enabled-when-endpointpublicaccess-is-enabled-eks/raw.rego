@@ -1,7 +1,7 @@
 package armo_builtins
 
 
-# Check if EndpointPrivateAccess in enabled for EKS
+# Check if EndpointPrivateAccess in disabled or EndpointPublicAccess is enabled for EKS
 deny[msga] {
 	cluster_config := input[_]
 	cluster_config.apiVersion == "eks.amazonaws.com/v1"
@@ -9,12 +9,11 @@ deny[msga] {
     cluster_config.metadata.provider == "eks"	
 	config = cluster_config.data
 
-	config.Cluster.ResourcesVpcConfig.EndpointPrivateAccess == false
-	config.Cluster.ResourcesVpcConfig.EndpointPublicAccess == true
-    
-	
+		
+	is_endpointaccess_misconfigured(config)
+
 	msga := {
-		"alertMessage": "endpointPrivateAccess is not enabled",
+		"alertMessage": "endpointPrivateAccess is not enabled, or EndpointPublicAccess is enabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
@@ -27,4 +26,13 @@ deny[msga] {
 	}
 }
 
+# check if EndpointPrivateAccess is disabled
+is_endpointaccess_misconfigured(config) {
+	config.Cluster.ResourcesVpcConfig.EndpointPrivateAccess == false
+}
+
+# check if EndpointPublicAccess is enabled
+is_endpointaccess_misconfigured(config) {
+	config.Cluster.ResourcesVpcConfig.EndpointPublicAccess == true
+}
 

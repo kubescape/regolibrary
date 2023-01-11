@@ -1,7 +1,7 @@
 [
     {
-       "fixCommand": "aws eks update-cluster-config --region $AWS_REGION --name $CLUSTER_NAME --resources-vpc-config endpointPrivateAccess=true,endpointPublicAccess=false",
-       "alertMessage": "endpointPublicAccess is enabled on a private node",
+       "fixCommand": "aws eks update-cluster-config --region $AWS_REGION --name $CLUSTER_NAME --resources-vpc-config endpointPrivateAccess=true,endpointPublicAccess=true,publicAccessCidrs='203.0.113.5/32'",
+       "alertMessage": "endpointPrivateAccess is not enabled",
        "fixPaths": [],
        "failedPaths": [],
        "ruleStatus": "",
@@ -48,9 +48,9 @@
                    "ResourcesVpcConfig": {
                       "ClusterSecurityGroupId": "sg-XXX",
                       "EndpointPrivateAccess": false,
-                      "EndpointPublicAccess": true,
+                      "EndpointPublicAccess": false,
                       "PublicAccessCidrs": [
-                         "0.0.0.0/0"
+                         "XXXX/32"
                       ],
                       "SecurityGroupIds": [
                          "sg-XXXX"

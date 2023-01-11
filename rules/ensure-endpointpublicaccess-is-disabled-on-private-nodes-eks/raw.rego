@@ -1,7 +1,7 @@
 package armo_builtins
 
 
-# Check if EndpointPrivateAccess in enabled for EKS
+# Check if EndpointPublicAccess in enabled on a private node for EKS. A private node is a node with no public ips access.
 deny[msga] {
 	cluster_config := input[_]
 	cluster_config.apiVersion == "eks.amazonaws.com/v1"
@@ -11,11 +11,11 @@ deny[msga] {
 
 	config.Cluster.ResourcesVpcConfig.EndpointPublicAccess == true
 
-	# check if node is private
+	# filter out private nodes
 	config.Cluster.ResourcesVpcConfig.PublicAccessCidrs[_] == "0.0.0.0/0"
 	
 	msga := {
-		"alertMessage": "endpointPrublicAccess is enabled on a private node",
+		"alertMessage": "endpointPublicAccess is enabled on a private node",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
