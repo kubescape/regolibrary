@@ -1,0 +1,84 @@
+[
+    {
+       "fixCommand": "aws eks update-cluster-config --region $AWS_REGION --name $CLUSTER_NAME --resources-vpc-config endpointPrivateAccess=true,endpointPublicAccess=true,publicAccessCidrs='203.0.113.5/32'",
+       "alertMessage": "endpointPrivateAccess is not enabled, or EndpointPublicAccess is enabled",
+       "fixPaths": [],
+       "failedPaths": [],
+       "ruleStatus": "",
+       "packagename": "armo_builtins",
+       "alertScore": 3,
+       "alertObject": {
+          "externalObjects": {
+             "apiVersion": "eks.amazonaws.com/v1",
+             "data": {
+                "Cluster": {
+                   "Arn": "arn:aws:eks:eu-west-1:015253967648:cluster/random",
+                   "CertificateAuthority": {
+                      "Data": "XXXXX="
+                   },
+                   "ClientRequestToken": null,
+                   "ConnectorConfig": null,
+                   "CreatedAt": "2020-05-16T10:38:59.134Z",
+                   "EncryptionConfig": null,
+                   "Endpoint": "https://XX.eks.amazonaws.com",
+                   "Identity": {
+                      "Oidc": {
+                         "Issuer": "https://oidc.eks.eu-west-1.amazonaws.com/id/XXXX"
+                      }
+                   },
+                   "KubernetesNetworkConfig": {
+                      "ServiceIpv4Cidr": "XXXX/16"
+                   },
+                   "Logging": {
+                      "ClusterLogging": [
+                         {
+                            "Enabled": false,
+                            "Types": [
+                               "api",
+                               "audit",
+                               "authenticator",
+                               "controllerManager",
+                               "scheduler"
+                            ]
+                         }
+                      ]
+                   },
+                   "Name": "random-eks-dev",
+                   "PlatformVersion": "eks.8",
+                   "ResourcesVpcConfig": {
+                      "ClusterSecurityGroupId": "sg-XXX",
+                      "EndpointPrivateAccess": true,
+                      "EndpointPublicAccess": true,
+                      "PublicAccessCidrs": [
+                         "XXXX/32"
+                      ],
+                      "SecurityGroupIds": [
+                         "sg-XXXX"
+                      ],
+                      "SubnetIds": [
+                         "subnet-XX",
+                         "subnet-XXX",
+                         "subnet-XXXXX"
+                      ],
+                      "VpcId": "vpc-XXXXX"
+                   },
+                   "RoleArn": "arn:aws:iam::XXX:role/XXXX",
+                   "Status": "ACTIVE",
+                   "Tags": {
+                      "Customer": "XXXX",
+                      "Name": "XXXX",
+                      "Owner": "XXXX",
+                      "Project": "XX"
+                   },
+                   "Version": "1.18"
+                }
+             },
+             "kind": "ClusterDescribe",
+             "metadata": {
+                "name": "random-eks-3",
+                "provider": "eks"
+             }
+          }
+       }
+    }
+ ]
