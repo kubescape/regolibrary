@@ -1,7 +1,7 @@
 [
     {
        "fixCommand": "aws eks update-cluster-config --region $AWS_REGION --name $CLUSTER_NAME --resources-vpc-config endpointPrivateAccess=true,endpointPublicAccess=true,publicAccessCidrs='203.0.113.5/32'",
-       "alertMessage": "endpointPrivateAccess is not enabled",
+       "alertMessage": "endpointPrivateAccess is not enabled, or EndpointPublicAccess is enabled",
        "fixPaths": [],
        "failedPaths": [],
        "ruleStatus": "",

@@ -1,5 +1,5 @@
 {
-  "name": "ensure-endpointprivateaccess-is-enabled-when-endpointpublicaccess-is-enabled-eks",
+  "name": "ensure-endpointprivateaccess-is-enabled-and-endpointpublicaccess-is-disabled-eks",
   "attributes": {
   "armoBuiltin": true
   },

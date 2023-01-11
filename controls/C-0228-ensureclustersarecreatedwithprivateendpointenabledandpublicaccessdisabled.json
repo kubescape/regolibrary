@@ -11,7 +11,7 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["ensure-endpointprivateaccess-is-enabled"],
+    "rulesNames": ["ensure-endpointprivateaccess-is-enabled-and-endpointpublicaccess-is-disabled-eks"],
     "baseScore": 0,
     "impact_statement": "Configure the EKS cluster endpoint to be private.\n\n 1. Leave the cluster endpoint public and specify which CIDR blocks can communicate with the cluster endpoint. The blocks are effectively a whitelisted set of public IP addresses that are allowed to access the cluster endpoint.\n2. Configure public access with a set of whitelisted CIDR blocks and set private endpoint access to enabled. This will allow public access from a specific range of public IPs while forcing all network traffic between the kubelets (workers) and the Kubernetes API through the cross-account ENIs that get provisioned into the cluster VPC when the control plane is provisioned.",
     "default_value": "By default, the Public Endpoint is disabled."
