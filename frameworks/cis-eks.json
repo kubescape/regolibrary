@@ -153,6 +153,24 @@
                 "long_description": "Audit logs enable visibility into all API server requests from authentic and anonymous sources. Stored log data can be analyzed manually or with tools to identify and understand anomalous or negative activity and lead to intelligent remediations.",
                 "remediation": "**From Console:**\n\n 1. For each EKS Cluster in each region;\n2. Go to 'Amazon EKS' > 'Clusters' > '' > 'Configuration' > 'Logging'.\n3. Click 'Manage logging'.\n4. Ensure that all options are toggled to 'Enabled'.\n\n \n```\nAPI server: Enabled\nAudit: Enabled\t\nAuthenticator: Enabled\nController manager: Enabled\nScheduler: Enabled\n\n```\n 5. Click 'Save Changes'.\n\n **From CLI:**\n\n \n```\n# For each EKS Cluster in each region;\naws eks update-cluster-config \\\n    --region '${REGION_CODE}' \\\n    --name '${CLUSTER_NAME}' \\\n    --logging '{\"clusterLogging\":[{\"types\":[\"api\",\"audit\",\"authenticator\",\"controllerManager\",\"scheduler\"],\"enabled\":true}]}'\n\n```"
             }
+        },
+        {
+            "controlID": "C-0227",
+            "patch": {
+                "name": "CIS-5.4.1 Restrict Access to the Control Plane Endpoint"
+            }
+        },
+        {
+            "controlID": "C-0228",
+            "patch": {
+                "name": "CIS-5.4.2 Ensure clusters are created with Private Endpoint Enabled and Public Access Disabled"
+            }
+        },
+        {
+            "controlID": "C-0229",
+            "patch": {
+                "name": "CIS-5.4.3 Ensure clusters are created with Private Nodes"
+            }
         }
     ],
     "subSections": {
