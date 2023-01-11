@@ -10,6 +10,7 @@ deny[msga] {
 	config = cluster_config.data
 
 	config.Cluster.ResourcesVpcConfig.EndpointPrivateAccess == false
+	config.Cluster.ResourcesVpcConfig.EndpointPublicAccess == true
     
 	
 	msga := {

@@ -11,7 +11,7 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["ensure-endpointprivateaccess-is-enabled-eks"],
+    "rulesNames": ["ensure-endpointprivateaccess-is-enabled-whenendpointpublicaccess-is-enabled-eks"],
     "baseScore": 0,
     "impact_statement": "When implementing Endpoint Private Access, be careful to ensure all desired networks are on the allowlist (whitelist) to prevent inadvertently blocking external access to your cluster's control plane.",
     "default_value": "By default, Endpoint Public Access is disabled."
