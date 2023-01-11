@@ -18,7 +18,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"fixPaths": [],
-		"fixCommand": "aws eks update-cluster-config --region $AWS_REGION --name $CLUSTER_NAME --resources-vpc-config endpointPrivateAccess=true, endpointPrivateAccess=true, publicAccessCidrs='203.0.113.5/32'",
+		"fixCommand": "aws eks update-cluster-config --region $AWS_REGION --name $CLUSTER_NAME --resources-vpc-config endpointPrivateAccess=true,endpointPublicAccess=true,publicAccessCidrs='203.0.113.5/32'",
 		"alertObject": {
 			"k8sApiObjects": [],
             "externalObjects": cluster_config
