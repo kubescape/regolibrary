@@ -1,6 +1,6 @@
 [
     {
-       "fixCommand": "aws eks update-cluster-config --region \u003cregion_code\u003e --name \u003ccluster_name\u003e --logging '{'clusterLogging':[{'types':['\u003capi/audit/authenticator\u003e'],'enabled':true}]}'",
+       "fixCommand": "aws eks update-cluster-config --region '${REGION_CODE}' --name '${CLUSTER_NAME}' --logging '{'clusterLogging':[{'types':['api','audit','authenticator','controllerManager','scheduler'],'enabled':true}]}'",
        "alertMessage": "audit logs is disabled",
        "failedPaths": [],
        "fixPaths": [],

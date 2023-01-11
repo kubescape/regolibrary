@@ -37,7 +37,7 @@ frameworks_dir = os.path.join(currDir, 'frameworks')
 
 controlID_to_filename_mapping = {}
 framework_name_to_filename_mapping = {}
-fields_not_to_compare = ['controlID','id', 'rulesNames', 'baseScore']
+fields_not_to_compare = ['controlID', 'id', 'name', 'rulesNames', 'baseScore', 'attributes']
 
 # ================================================
 
