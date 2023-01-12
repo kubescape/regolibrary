@@ -7,9 +7,9 @@ deny[msg] {
 	# Filter out irrelevent resources
 	obj = input[_]
 
-    is_CNIInfos(obj)
+    is_CNIInfo(obj)
 
-	is_CNISupportNetworkPolicy(obj.data.CNINames)
+	network_policy_not_supported(obj.data.CNINames)
 
 	# filter out irrelevant host-sensor data
     obj_filtered := json.filter(obj, ["apiVersion", "kind", "metadata", "data/CNINames"])
@@ -26,20 +26,20 @@ deny[msg] {
 	}
 }
 
-is_CNIInfos(obj) {
+is_CNIInfo(obj) {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "CNIInfo"
 }
 
 
 # deny if Flannel is running without calico
-is_CNISupportNetworkPolicy(CNIs) {
+network_policy_not_supported(CNIs) {
 	contains(CNIs, "Flannel")
 	not contains(CNIs, "Calico")
 }
 
 # deny if aws is running without any other CNI
-is_CNISupportNetworkPolicy(CNIs) {
+network_policy_not_supported(CNIs) {
 	contains(CNIs, "aws")
 	count(CNIs) < 2
 }
