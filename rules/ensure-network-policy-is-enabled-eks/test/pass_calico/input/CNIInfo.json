@@ -5,6 +5,6 @@
         "name": "minikube"
     },
     "data": {
-        "CNIName": "Flannel"
+        "CNINames": ["Flannel", "Calico"]
     }
 }

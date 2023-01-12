@@ -1,11 +1,11 @@
 [
     {
-        "alertMessage": "''Flannel' CNI doesn't support Network Policies.",
+        "alertMessage": "CNI doesn't support Network Policies.",
         "alertObject": {
             "externalObjects": {
                 "apiVersion": "hostdata.kubescape.cloud/v1beta0",
                 "data": {
-                    "CNIName": "Flannel"
+                    "CNINames": ["aws"]
                 },
                 "kind": "CNIInfo",
                 "metadata": {
