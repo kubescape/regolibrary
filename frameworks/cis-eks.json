@@ -198,6 +198,12 @@
                 ],
                 "impact_statement": "None."
             }
+        },
+        {
+            "controlID": "C-0230",
+            "patch": {
+                "name": "CIS-5.4.4 Ensure Network Policy is Enabled and set as appropriate"
+            }
         }
     ],
     "subSections": {
