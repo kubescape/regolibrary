@@ -1,0 +1,27 @@
+{
+    "name": "ensure-network-policy-is-enabled-eks",
+    "attributes": {
+        "armoBuiltin": true,
+        "hostSensorRule": "true"
+    },
+    "ruleLanguage": "Rego",
+    "match": [],
+    "dynamicMatch": [
+        {
+            "apiGroups": [
+                "hostdata.kubescape.cloud"
+            ],
+            "apiVersions": [
+                "v1beta0"
+            ],
+            "resources": [
+                "CNIInfo"
+            ]
+        }
+    ],
+    "relevantCloudProviders": ["EKS"],
+    "ruleDependencies": [],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": ""
+}
