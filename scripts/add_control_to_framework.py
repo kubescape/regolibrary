@@ -177,6 +177,7 @@ def main():
         if save_new_file:
             save_control_in_new_file(new_control, controlID_to_add)
         framework["activeControls"].append(control_to_add)
+        framework["activeControls"] = sorted(framework["activeControls"], key=lambda d: d['controlID']) 
         # Move the file pointer to the beginning of the file
         input_file_3.seek(0)
         json.dump(framework, input_file_3, indent=4)
