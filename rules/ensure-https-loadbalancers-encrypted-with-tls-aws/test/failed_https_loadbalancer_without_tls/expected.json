@@ -1,5 +1,5 @@
 [{
-    "alertMessage": "LoadBalancer: api has no TLS configured",
+    "alertMessage": "LoadBalancer 'api' has no TLS configured",
     "failedPaths": ["metadata.annotations['service.beta.kubernetes.io/aws-load-balancer-ssl-cert']"],
     "fixPaths": [{"path": "metadata.annotations['service.beta.kubernetes.io/aws-load-balancer-ssl-cert']", "value": "AWS_LOADBALANCER_SSL_CERT"}],
     "ruleStatus": "",

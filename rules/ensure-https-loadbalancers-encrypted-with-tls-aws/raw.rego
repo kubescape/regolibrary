@@ -23,7 +23,7 @@ deny[msga] {
 	count(ssl_cert_annotations) == 0
 
 	# prepare message data.
-	alert_message :=  sprintf("LoadBalancer: %v has no TLS configured", [wl.metadata.name])
+	alert_message :=  sprintf("LoadBalancer '%v' has no TLS configured", [wl.metadata.name])
 	failed_paths := [sprintf("metadata.annotations['%v']", [wl_required_annotation])]
 	fixed_paths := [{"path": sprintf("metadata.annotations['%v']", [wl_required_annotation]), "value": "AWS_LOADBALANCER_SSL_CERT"}]
 
