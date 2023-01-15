@@ -1,4 +1,4 @@
-kind: Deployment
+kind: Pod
 apiVersion: v1
 metadata:
   name: secrets-store-inline

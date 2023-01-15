@@ -1,9 +1,7 @@
 {
   "name": "ensure-https-loadbalancers-encrypted-with-tls-aws",
   "attributes": {
-    "microsoftK8sThreatMatrix": "Initial access::Exposed sensitive interfaces",
-    "armoBuiltin": true,
-    "useFromKubescapeVersion": "v1.0.133"
+    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

@@ -1,13 +1,13 @@
 [{
-    "alertMessage": "Deployment: depName is not using external secret storage",
-    "failedPaths": ["spec.volumes[0].csi.volumeAttributes.secretProviderClass"],
-    "fixPaths": [],
+    "alertMessage": "Pod: depName is not using external secret storage",
+    "failedPaths":[],
+    "fixPaths":[{"path":"spec.volumes[0].csi.volumeAttributes.secretProviderClass", "value":"SECRET_PROVIDER_CLASS_NAME"}],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 7,
     "alertObject": {
         "externalObjects": {
-            "kind": "Deployment",
+            "kind": "Pod",
             "apiVersion": "v1",
             "metadata": {
               "name": "depName"
