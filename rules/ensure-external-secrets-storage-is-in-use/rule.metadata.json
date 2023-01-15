@@ -1,0 +1,27 @@
+{
+  "name": "ensure-external-secrets-storage-is-in-use",
+  "attributes": {
+    "microsoftK8sThreatMatrix": "Initial access::Exposed sensitive interfaces",
+    "armoBuiltin": true,
+    "useFromKubescapeVersion": "v1.0.133"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Secret"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "relevantCloudProviders": [],
+  "description": "",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

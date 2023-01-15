@@ -1,0 +1,33 @@
+[{
+    "alertMessage": "Deployment: depName is not using external secret storage",
+    "failedPaths": ["spec.volumes[0].csi.volumeAttributes.secretProviderClass"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "externalObjects": {
+            "kind": "Deployment",
+            "apiVersion": "v1",
+            "metadata": {
+              "name": "depName"
+            },
+            "spec": {
+              "containers": [
+                {
+                  "image": "k8s.gcr.io/e2e-test-images/busybox:1.29",
+                  "name": "busybox",
+                  "imagePullPolicy": "IfNotPresent",
+                  "volumeMounts": [
+                    {
+                      "name": "depName",
+                      "mountPath": "/mnt/secrets-store",
+                      "readOnly": true
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+    }
+}]

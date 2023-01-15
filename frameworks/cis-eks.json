@@ -210,6 +210,12 @@
             "patch": {
                 "name": "CIS-5.4.5 Encrypt traffic to HTTPS load balancers with TLS certificates"
             }
+        },
+        {
+            "controlID": "C-0234",
+            "patch": {
+                "name": "CIS-4.4.2 Consider external secret storage"
+            }
         }
     ],
     "subSections": {
