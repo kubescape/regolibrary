@@ -204,6 +204,12 @@
             "patch": {
                 "name": "CIS-5.4.4 Ensure Network Policy is Enabled and set as appropriate"
             }
+        },
+        {
+            "controlID": "C-0221",
+            "patch": {
+                "name": "CIS-5.1.1 Ensure Image Vulnerability Scanning using Amazon ECR image scanning or a third party provider"
+            }
         }
     ],
     "subSections": {

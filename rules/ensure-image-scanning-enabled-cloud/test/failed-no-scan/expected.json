@@ -1,0 +1,54 @@
+[
+   {
+      "fixCommand": "aws ecr put-image-scanning-configuration --repository-name $REPO_NAME --image-scanning-configuration scanOnPush=true --region $REGION_CODE",
+      "alertMessage": "image scanning is not enabled",
+      "failedPaths": [],
+      "fixPaths": [],
+      "ruleStatus": "",
+      "packagename": "armo_builtins",
+      "alertScore": 3,
+      "alertObject": {
+         "externalObjects": {
+            "apiVersion": "eks.amazonaws.com/v1",
+            "data": {
+               "NextToken": null,
+               "Repositories": [
+                  {
+                     "CreatedAt": "2023-01-11T13:07:39Z",
+                     "EncryptionConfiguration": {
+                        "EncryptionType": "AES256",
+                        "KmsKey": null
+                     },
+                     "ImageScanningConfiguration": {
+                        "ScanOnPush": true
+                     },
+                     "ImageTagMutability": "MUTABLE",
+                     "RegistryId": "015253967648",
+                     "RepositoryArn": "arn:aws:ecr:eu-west-2:015253967648:repository/my-repo",
+                     "RepositoryName": "my-repo",
+                     "RepositoryUri": "015253967648.dkr.ecr.eu-west-2.amazonaws.com/my-repo"
+                  },
+                  {
+                     "CreatedAt": "2023-01-11T13:07:39Z",
+                     "EncryptionConfiguration": {
+                        "EncryptionType": "AES256",
+                        "KmsKey": null
+                     },
+                     "ImageTagMutability": "MUTABLE",
+                     "RegistryId": "015253967648",
+                     "RepositoryArn": "arn:aws:ecr:eu-west-2:015253967648:repository/my-repo",
+                     "RepositoryName": "my-repo-no-scanning",
+                     "RepositoryUri": "015253967648.dkr.ecr.eu-west-2.amazonaws.com/my-repo"
+                  }
+               ],
+               "ResultMetadata": {}
+            },
+            "kind": "DescribeRepositories",
+            "metadata": {
+               "name": "Yiscah-test-g2am5",
+               "provider": "eks"
+            }
+         }
+      }
+   }
+]
