@@ -13,14 +13,33 @@
         "v1"
       ],
       "resources": [
-        "Pod",
-        "CronJob",
-        "Deployment",
-        "ReplicaSet",
-        "DaemonSet",
-        "StatefulSet",
-        "Job"
-
+          "Pod"
+      ]
+    },
+    {
+      "apiGroups": [
+        "apps"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet"
+      ]
+    },
+    {
+      "apiGroups": [
+        "batch"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+          "Job",
+          "CronJob"
       ]
     }
   ],
