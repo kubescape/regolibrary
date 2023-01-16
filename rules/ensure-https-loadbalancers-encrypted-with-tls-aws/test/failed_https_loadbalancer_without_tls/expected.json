@@ -1,0 +1,32 @@
+[{
+    "alertMessage": "LoadBalancer 'api' has no TLS configured",
+    "failedPaths": [],
+    "fixPaths": [{"path": "metadata.annotations['service.beta.kubernetes.io/aws-load-balancer-ssl-cert']", "value": "AWS_LOADBALANCER_SSL_CERT"}],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "externalObjects": {
+
+                "apiVersion": "v1",
+                "kind": "Service",
+                "metadata": {
+                    "name": "api",
+                    "annotations": {
+                        "service.beta.kubernetes.io/aws-load-balancer-backend-protocol": "http"
+                    }
+                },
+                "spec": {
+                    "ports": [{
+                        "port": 443,
+                        "protocol": "TCP",
+                        "targetPort": 8080
+                    }],
+                    "selector": {
+                        "app": "myApp"
+                    },
+                    "type": "LoadBalancer"
+                }
+        }
+    }
+}]

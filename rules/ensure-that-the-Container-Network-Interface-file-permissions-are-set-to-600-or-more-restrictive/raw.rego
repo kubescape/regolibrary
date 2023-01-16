@@ -6,7 +6,7 @@ import future.keywords.in
 deny[msg] {
 	# Filter out irrelevent resources
 	obj = input[_]
-	is_control_plane_info(obj)
+	is_CNIInfo(obj)
 
 	file_obj_path := ["data", "CNIConfigFiles"]
 	files := object.get(obj, file_obj_path, false)
@@ -37,7 +37,7 @@ deny[msg] {
 	}
 }
 
-is_control_plane_info(obj) {
+is_CNIInfo(obj) {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
-	obj.kind == "ControlPlaneInfo"
+	obj.kind == "CNIInfo"
 }

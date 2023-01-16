@@ -18,7 +18,7 @@
                         }
                     ]
                 },
-                "kind": "ControlPlaneInfo",
+                "kind": "CNIInfo",
                 "metadata": {
                     "name": "minikube"
                 }

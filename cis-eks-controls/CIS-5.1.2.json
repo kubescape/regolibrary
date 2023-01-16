@@ -1,5 +1,5 @@
 {
-    "controlID": "CIS-5.1.2",
+    "controlID": "C-0222",
     "name": "Minimize user access to Amazon ECR",
     "description": "Restrict user access to Amazon ECR, limiting interaction with build images to only authorized personnel and service accounts.",
     "long_description": "Weak access control to Amazon ECR may allow malicious users to replace built images with vulnerable containers.",

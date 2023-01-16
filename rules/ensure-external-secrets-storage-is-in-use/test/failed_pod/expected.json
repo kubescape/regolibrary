@@ -1,0 +1,17 @@
+[{
+    "alertMessage": "Pod: depName is not using external secret storage",
+    "failedPaths":[],
+    "fixPaths":[{"path":"spec.volumes[0].csi.volumeAttributes.secretProviderClass", "value":"YOUR_VALUE"}],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+          "kind": "Pod",
+          "apiVersion": "v1",
+          "metadata": {
+            "name": "depName"
+          }
+        }]
+    }
+}]

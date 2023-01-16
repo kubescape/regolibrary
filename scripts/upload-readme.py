@@ -60,7 +60,7 @@ class ReadmeApi(object):
         if r.status_code == 404:
             return None
         if r.status_code < 200 or 299 < r.status_code:
-            raise Exception('Failed to docs for category')
+            raise Exception(f'Failed to docs for category, status_code: {r.status_code}, url: {url}')
 
         return r.json()
 
@@ -145,16 +145,20 @@ def get_document_for_control(readmeapi : ReadmeApi, control):
     control_doc = filtered_docs[0]
     return control_doc
 
-
+def ignore_framework(framework_name: str):
+    return framework_name == 'YAML-scanning' or framework_name.startswith('developer')
 
 def get_frameworks_for_control(control):
     r = []
     for frameworks_json_file_name in filter(lambda fn: fn.endswith('.json'),os.listdir('frameworks')):
         framework = json.load(open(os.path.join('frameworks',frameworks_json_file_name)))
-        if framework['name'].startswith('developer'):
+        if ignore_framework(framework['name']):
             continue
-        if control['name'] in framework['controlsNames']:
-            r.append(framework['name'])
+    
+        if "activeControls" in framework:
+            for activeControl in framework["activeControls"]:
+                if control['controlID'].lower() == activeControl["controlID"].lower():
+                    r.append(framework['name'])
     return r
    
 
@@ -231,7 +235,7 @@ def create_md_for_control(control):
     return md_text
 
 def generate_slug(control):
-    return control['id'].lower().replace(".", "-")
+    return control['controlID'].lower().replace(".", "-")
 
 def get_configuration_parameters_info():
     default_config_inputs = None
@@ -342,13 +346,13 @@ def main():
 
             md = create_md_for_control(control_obj)
             
-            title = '%(id)s - %(name)s' % control_obj
+            title = '%(controlID)s - %(name)s' % control_obj
 
             control_slug = generate_slug(control_obj)
             
             control_doc = readmeapi.get_doc(control_slug)
             
-            control_id = control_obj["id"]
+            control_id = control_obj["controlID"]
 
             try:
                 order = convert_control_id_to_doc_order(control_id)
@@ -356,7 +360,7 @@ def main():
                  print(f"Error: couldn't generate order for control id {control_id} because {e}")
                  continue
 
-            if control_doc and len(control_obj['id']) > 2:
+            if control_doc and len(control_obj['controlID']) > 2:
                 readmeapi.update_doc(control_slug,order,title,md,control_category_obj['_id'])
                 print("update:", control_slug)
                 print(f'\tupdated control_slug {control_slug}')
