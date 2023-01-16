@@ -19,21 +19,6 @@
                         "EncryptionType": "XXXXXX",
                         "KmsKey": null
                      },
-                     "ImageScanningConfiguration": {
-                        "ScanOnPush": false
-                     },
-                     "ImageTagMutability": "MUTABLE",
-                     "RegistryId": "XXXXXXXXXXXX",
-                     "RepositoryArn": "arn:aws:ecr:eu-west-2:XXXXXXXXXXXX:repository/my-repo",
-                     "RepositoryName": "my-repo",
-                     "RepositoryUri": "XXXXXXXXXXXX.dkr.ecr.eu-west-2.amazonaws.com/my-repo"
-                  },
-                  {
-                     "CreatedAt": "2023-01-11T13:07:39Z",
-                     "EncryptionConfiguration": {
-                        "EncryptionType": "XXXXXX",
-                        "KmsKey": null
-                     },
                      "ImageTagMutability": "MUTABLE",
                      "RegistryId": "XXXXXXXXXXXX",
                      "RepositoryArn": "arn:aws:ecr:eu-west-2:XXXXXXXXXXXX:repository/my-repo",
