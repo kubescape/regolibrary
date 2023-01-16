@@ -13,7 +13,14 @@
         "v1"
       ],
       "resources": [
-        "Pod"
+        "Pod",
+        "CronJob",
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet",
+        "Job"
+
       ]
     }
   ],
