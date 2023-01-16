@@ -1,0 +1,24 @@
+[
+    {
+        "alertMessage": "Deployment: my-deployment is not using external secret storage",
+        "failedPaths": [],
+        "fixPaths": [{"path":"spec.template.spec.volumes[0].csi.volumeAttributes.secretProviderClass", "value":"SECRET_PROVIDER_CLASS_NAME"}],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                      "name": "my-deployment",
+                      "labels": {
+                        "purpose": "demonstrate-command"
+                      }
+                    }
+                  }
+            ]
+        }
+    }
+]
