@@ -1,0 +1,20 @@
+[{
+    "alertMessage": "Default ServiceAccount automountServiceAccountToken is set to True",
+    "failedPaths": ["automountServiceAccountToken: true"],
+    "fixPaths": [{
+        "path": "automountServiceAccountToken",
+        "value": "false"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 9,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "v1",
+            "kind": "ServiceAccount",
+            "metadata": {
+                "name": "default"
+            }
+        }]
+    }
+}]

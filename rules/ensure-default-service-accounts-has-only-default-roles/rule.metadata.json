@@ -1,0 +1,30 @@
+{
+    "name": "ensure-default-service-accounts-has-only-default-roles",
+    "attributes": {
+      "m$K8sThreatMatrix": "Credential Access::Access container service account, Lateral Movement::Container service account",
+      "armoBuiltin": true,
+      "useFromKubescapeVersion": "v1.0.133"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "rbac.authorization.k8s.io"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "ClusterRoleBinding",
+          "ClusterRole"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+  
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }
+  

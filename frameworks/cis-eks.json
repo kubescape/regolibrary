@@ -182,6 +182,18 @@
             }
         },
         {
+            "controlID": "C-0221",
+            "patch": {
+                "name": "CIS-5.1.1 Ensure Image Vulnerability Scanning using Amazon ECR image scanning or a third party provider"
+            }
+        },
+        {
+            "controlID": "C-0225",
+            "patch": {
+                "name": "CIS-5.2.1 Prefer using dedicated EKS Service Accounts"
+            }
+        },
+        {
             "controlID": "C-0227",
             "patch": {
                 "name": "CIS-5.4.1 Restrict Access to the Control Plane Endpoint"
@@ -215,12 +227,6 @@
             "controlID": "C-0234",
             "patch": {
                 "name": "CIS-4.4.2 Consider external secret storage"
-            }
-        },
-        {
-            "controlID": "C-0221",
-            "patch": {
-                "name": "CIS-5.1.1 Ensure Image Vulnerability Scanning using Amazon ECR image scanning or a third party provider"
             }
         }
     ],
