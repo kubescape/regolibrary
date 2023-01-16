@@ -9,19 +9,18 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
 
     # filter service accounts
-    wl.subjects[_].kind == "ServiceAccount"
+    wl.subjects[i].kind == "ServiceAccount"
 
-    # filter out defaults
-    wl.subjects[_].name != "default"
+    # filter defaults
+    wl.subjects[i].name == "default"
 
-    # filter out default rolebinding
     not wl.metadata.labels["kubernetes.io/bootstrapping"] == "rbac-defaults"
 
 
 	msga := {
 		"alertMessage": sprintf("%s: %v has for ServiceAccount 'default' rules bound to it that are not defaults", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-       "failedPaths": [],
+        "failedPaths": [sprintf("subjects[%d]", [i])],
         "fixPaths":[],
 		"alertScore": 7,
         "alertObject": {
@@ -29,5 +28,3 @@ deny[msga] {
 		}
 	}
 }
-
-
