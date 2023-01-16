@@ -24,7 +24,7 @@ deny[msga] {
 	# prepare message data.
 	alert_message :=  sprintf("%s: %v is not using external secret storage", [resources.kind, resources.metadata.name])
 	failed_paths := []
-	fixed_paths := [{"path":sprintf("%s[0].csi.volumeAttributes.secretProviderClass",[concat(".", volumes_path)]), "value":"SECRET_PROVIDER_CLASS_NAME"}]
+	fixed_paths := [{"path":sprintf("%s[0].csi.volumeAttributes.secretProviderClass",[concat(".", volumes_path)]), "value":"YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": alert_message,
