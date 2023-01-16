@@ -2,7 +2,7 @@
     {
         "alertMessage": "CronJob: hello is not using external secret storage",
         "failedPaths": [],
-        "fixPaths": [{"path":"spec.jobTemplate.spec.template.spec.volumes[0].csi.volumeAttributes.secretProviderClass", "value":"SECRET_PROVIDER_CLASS_NAME"}],
+        "fixPaths": [{"path":"spec.jobTemplate.spec.template.spec.volumes[0].csi.volumeAttributes.secretProviderClass", "value":"YOUR_VALUE"}],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,
