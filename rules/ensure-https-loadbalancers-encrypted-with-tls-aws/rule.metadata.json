@@ -1,0 +1,25 @@
+{
+  "name": "ensure-https-loadbalancers-encrypted-with-tls-aws",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Service"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "relevantCloudProviders": ["EKS"],
+  "description": "",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}
