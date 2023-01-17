@@ -14,15 +14,7 @@
         "armoBuiltin": true
     },
     "rulesNames": ["ensure-default-service-accounts-has-only-default-roles",
-<<<<<<< HEAD
-<<<<<<< HEAD
-                "eautomount-default-service-account"],
-=======
                 "automount-default-service-account"],
->>>>>>> 088d323a575a91fafdc1937c7db67c0a61c8d732
-=======
-                "automount-default-service-account"],
->>>>>>> 4bebc4cfc6a2163cef6c0dec2b507bd22c4f812b
     "baseScore": 0,
     "impact_statement": "",
     "default_value": "",
