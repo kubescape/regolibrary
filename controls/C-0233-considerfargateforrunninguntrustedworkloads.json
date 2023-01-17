@@ -11,9 +11,10 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["alert-fargate-not-in-use"],
+    "rulesNames": [
+        "alert-fargate-not-in-use"
+    ],
     "baseScore": 0,
     "impact_statement": "",
-    "default_value": "By default, AWS Fargate is not utilized.",
-    "control-CIS-ID": "CIS-5.6.1"
-} 
+    "default_value": "By default, AWS Fargate is not utilized."
+}
