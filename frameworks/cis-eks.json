@@ -209,6 +209,12 @@
             }
         },
         {
+            "controlID": "C-0226",
+            "patch": {
+                "name": "CIS-3.3.1 Prefer using a container-optimized OS when possible"
+            }
+        },
+        {
             "controlID": "C-0227",
             "patch": {
                 "name": "CIS-5.4.1 Restrict Access to the Control Plane Endpoint"
