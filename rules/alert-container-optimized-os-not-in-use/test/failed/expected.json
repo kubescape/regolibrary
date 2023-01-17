@@ -1,6 +1,6 @@
 [{
     "alertMessage": "Prefer using Container-Optimized OS when possible",
-    "failedPaths": [],
+    "failedPaths": ["status.nodeInfo.osImage"],
     "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",

@@ -20,12 +20,14 @@ deny[msga] {
 	# prepare message data.
 	alert_message :=  "Prefer using Container-Optimized OS when possible"
 
+	failedPaths:= ["status.nodeInfo.osImage"]
+
 	msga := {
 		"alertMessage": alert_message,
 		"packagename": "armo_builtins",
 
 		"alertScore": 7,
-		"failedPaths": [],
+		"failedPaths": failedPaths,
 		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [nodes]
