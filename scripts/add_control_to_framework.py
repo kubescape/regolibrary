@@ -66,6 +66,7 @@ def init_parser():
     parser.add_argument("--newControl", "-c", required=True, help="path to the new control json")
     parser.add_argument("--baseControlID", "-b", required=False, default=None, help="controlID of the base control")
     parser.add_argument("--framework", "-fw", required=True, help="Name of the framework to add the control to")
+    parser.add_argument("--forceAddingNewEntries", "-fn", required=False, help="Force adding a new control entry that doesn't exist in base control")
 
     # Parse the command line arguments
     args = parser.parse_args()
@@ -146,6 +147,7 @@ def main():
     # If the baseControlID is specified, compare the new control with it and generate a patch
     else:
         controlID_to_add = args.baseControlID
+        forceAddingNewEntries = args.forceAddingNewEntries
         if controlID_to_filename_mapping[controlID_to_add] is not None:
             filename = controlID_to_filename_mapping[controlID_to_add]
             with open(os.path.join(controls_dir, filename), "r") as input_file_2:
@@ -153,7 +155,7 @@ def main():
                 # create patch with fields that need to be overridden in the framework for the new control
                 for key, value in new_control.items():
                     if key not in fields_not_to_compare:
-                        if value != baseControl[key]:
+                        if (key not in baseControl and forceAddingNewEntries) or value != baseControl[key]: 
                             patch[key] = new_control[key]
         else:
             raise Exception("Base controlID not found")

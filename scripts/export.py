@@ -103,11 +103,13 @@ def addSubsectionsIds(parents: list, sections: dict):
         addSubsectionsIds(section_full_id, section.get('subSections', {}))
 
 
-def patch_control(control:dict, patch: dict) -> dict:
+def patch_control(control:dict, patch: dict, force_patch = True) -> dict:
 
     for key in patch:
-        if key not in control.keys():
-            raise Exception(f"control {control['controlID']} doesnt have patch key {key}")
+        if not force_patch:
+            if key not in control.keys():
+                raise Exception(f"control {control['controlID']} doesnt have patch key {key}")
+
         control[key] = patch[key]
     
     return control
