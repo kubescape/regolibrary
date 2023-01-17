@@ -224,6 +224,12 @@
             }
         },
         {
+            "controlID": "C-0233",
+            "patch": {
+                "name": "CIS-5.6.1 Consider Fargate for running untrusted workloads"
+            }
+        },
+        {
             "controlID": "C-0234",
             "patch": {
                 "name": "CIS-4.4.2 Consider external secret storage"
