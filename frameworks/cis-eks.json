@@ -250,7 +250,7 @@
         {
             "controlID": "C-0189",
             "patch": {
-                "name": "Ensure that default service accounts are not actively used.",
+                "name": "CIS-4.1.5 Ensure that default service accounts are not actively used.",
                 "remediation": "Create explicit service accounts wherever a Kubernetes workload requires specific access to the Kubernetes API server.\n\n Modify the configuration of each default service account to include this value\n\n \n```\nautomountServiceAccountToken: false\n\n```\n Automatic remediation for the default account:\n\n `kubectl patch serviceaccount default -p $'automountServiceAccountToken: false'`",
                 "references": [
                     "https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/",
@@ -456,7 +456,7 @@
                     "name": "Logging",
                     "id": "2.1",
                     "controlsIDs": [
-                        "CIS-2.1.1"
+                        "C-0067"
                     ]
                 }
             }
@@ -469,34 +469,33 @@
                     "name": "Worker Node Configuration Files",
                     "id": "3.1",
                     "controlsIDs": [
-                        "CIS-3.1.1",
-                        "CIS-3.1.2",
-                        "CIS-3.1.3",
-                        "CIS-3.1.4"
+                        "C-0167",
+                        "C-0171",
+                        "C-0235"
                     ]
                 },
                 "2": {
                     "name": "Kubelet",
                     "id": "3.2",
                     "controlsIDs": [
-                        "CIS-3.2.1",
-                        "CIS-3.2.2",
-                        "CIS-3.2.3",
-                        "CIS-3.2.4",
-                        "CIS-3.2.5",
-                        "CIS-3.2.6",
-                        "CIS-3.2.7",
-                        "CIS-3.2.8",
-                        "CIS-3.2.9",
-                        "CIS-3.2.10",
-                        "CIS-3.2.11"
+                        "C-0172",
+                        "C-0173",
+                        "C-0174",
+                        "C-0175",
+                        "C-0176",
+                        "C-0177",
+                        "C-0178",
+                        "C-0179",
+                        "C-0180",
+                        "C-0181",
+                        "C-0183"
                     ]
                 },
                 "3": {
                     "name": "Container Optimized OS",
                     "id": "3.3",
                     "controlsIDs": [
-                        "CIS-3.3.1"
+                        "C-0226"
                     ]
                 }
             }
@@ -509,53 +508,51 @@
                     "name": "RBAC and Service Accounts",
                     "id": "4.1",
                     "controlsIDs": [
-                        "CIS-4.1.1",
-                        "CIS-4.1.2",
-                        "CIS-4.1.3",
-                        "CIS-4.1.4",
-                        "CIS-4.1.5",
-                        "CIS-4.1.6",
-                        "CIS-4.1.7",
-                        "CIS-4.1.8"
+                        "C-0185",
+                        "C-0186",
+                        "C-0187",
+                        "C-0188",
+                        "C-0189",
+                        "C-0190",
+                        "C-0191"
                     ]
                 },
                 "2": {
                     "name": "Pod Security Policies",
                     "id": "4.2",
                     "controlsIDs": [
-                        "CIS-4.2.1",
-                        "CIS-4.2.2",
-                        "CIS-4.2.3",
-                        "CIS-4.2.4",
-                        "CIS-4.2.5",
-                        "CIS-4.2.6",
-                        "CIS-4.2.7",
-                        "CIS-4.2.8"
+                        "C-0213",
+                        "C-0214",
+                        "C-0215",
+                        "C-0216",
+                        "C-0217",
+                        "C-0218",
+                        "C-0219",
+                        "C-0220"
                     ]
                 },
                 "3": {
                     "name": "CNI Plugin",
                     "id": "4.3",
                     "controlsIDs": [
-                        "CIS-4.3.1",
-                        "CIS-4.3.2"
+                        "C-0205",
+                        "C-0206"
                     ]
                 },
                 "4": {
                     "name": "Secrets Management",
                     "id": "4.4",
                     "controlsIDs": [
-                        "CIS-4.4.1",
-                        "CIS-4.4.2"
+                        "C-0207",
+                        "C-0234"
                     ]
                 },
                 "6": {
                     "name": "General Policies",
                     "id": "4.6",
                     "controlsIDs": [
-                        "CIS-4.6.1",
-                        "CIS-4.6.2",
-                        "CIS-4.6.3"
+                        "C-0209",
+                        "C-0212"
                     ]
                 }
             }
@@ -568,49 +565,44 @@
                     "name": "Image Registry and Image Scanning",
                     "id": "5.1",
                     "controlsIDs": [
-                        "CIS-5.1.1",
-                        "CIS-5.1.2",
-                        "CIS-5.1.3",
-                        "CIS-5.1.4"
+                        "C-0221"
                     ]
                 },
                 "2": {
                     "name": "Identity and Access Management (IAM)",
                     "id": "5.2",
                     "controlsIDs": [
-                        "CIS-5.2.1"
+                        "C-0225"
                     ]
                 },
                 "3": {
                     "name": "AWS EKS Key Management Service",
                     "id": "5.3",
                     "controlsIDs": [
-                        "CIS-5.3.1"
+                        "C-0066"
                     ]
                 },
                 "4": {
                     "name": "Cluster Networking",
                     "id": "5.4",
                     "controlsIDs": [
-                        "CIS-5.4.1",
-                        "CIS-5.4.2",
-                        "CIS-5.4.3",
-                        "CIS-5.4.4",
-                        "CIS-5.4.5"
+                        "C-0227",
+                        "C-0228",
+                        "C-0229",
+                        "C-0230",
+                        "C-0231"
                     ]
                 },
                 "5": {
                     "name": "Authentication and Authorization",
                     "id": "5.5",
-                    "controlsIDs": [
-                        "CIS-5.5.1"
-                    ]
+                    "controlsIDs": []
                 },
                 "6": {
                     "name": "Other Cluster Configurations",
                     "id": "5.6",
                     "controlsIDs": [
-                        "CIS-5.6.1"
+                        "C-0233"
                     ]
                 }
             }
