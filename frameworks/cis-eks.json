@@ -31,6 +31,33 @@
             }
         },
         {
+            "controlID": "C-0167",
+            "patch": {
+                "name": "CIS-3.1.2 Ensure that the kubelet kubeconfig file ownership is set to root:root",
+                "description": "If `kubelet` is running, ensure that the file ownership of its kubeconfig file is set to `root:root`.",
+                "long_description": "The kubeconfig file for `kubelet` controls various parameters for the `kubelet` service in the worker node. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`.",
+                "remediation": "Run the below command (based on the file location on your system) on each worker node.\n\n For example,\n\n \n```\nchown root:root <proxy kubeconfig file>\n\n```",
+                "manual_test": "SSH to the worker nodes\n\n To check to see if the Kubelet Service is running:\n\n \n```\nsudo systemctl status kubelet\n\n```\n The output should return `Active: active (running) since..`\n\n Run the following command on each node to find the appropriate kubeconfig file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--kubeconfig /var/lib/kubelet/kubeconfig` which is the location of the kubeconfig file.\n\n Run this command to obtain the kubeconfig file ownership:\n\n \n```\nstat -c %U:%G /var/lib/kubelet/kubeconfig\n\n```\n The output of the above command gives you the kubeconfig file's ownership. Verify that the ownership is set to `root:root`.",
+                "references": [
+                    "https://kubernetes.io/docs/admin/kube-proxy/"
+                ],
+                "default_value": "See the AWS EKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0171",
+            "patch": {
+                "name": "CIS-3.1.4 Ensure that the kubelet configuration file ownership is set to root:root",
+                "long_description": "The kubelet reads various parameters, including security settings, from a config file specified by the `--config` argument. If this file is specified you should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",
+                "remediation": "Run the following command (using the config file location identified in the Audit step)\n\n \n```\nchown root:root /etc/kubernetes/kubelet/kubelet-config.json\n\n```",
+                "manual_test": "First, SSH to the relevant worker node:\n\n To check to see if the Kubelet Service is running:\n\n \n```\nsudo systemctl status kubelet\n\n```\n The output should return `Active: active (running) since..`\n\n Run the following command on each node to find the appropriate Kubelet config file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Run the following command:\n\n \n```\nstat -c %U:%G /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n The output of the above command is the Kubelet config file's ownership. Verify that the ownership is set to `root:root`",
+                "references": [
+                    "https://kubernetes.io/docs/admin/kube-proxy/"
+                ],
+                "default_value": "See the AWS EKS documentation for the default value."
+            }
+        },
+        {
             "controlID": "C-0172",
             "patch": {
                 "name": "CIS-3.2.1 Ensure that the Anonymous Auth is Not Enabled",
@@ -411,6 +438,12 @@
             "controlID": "C-0234",
             "patch": {
                 "name": "CIS-4.4.2 Consider external secret storage"
+            }
+        },
+        {
+            "controlID": "C-0235",
+            "patch": {
+                "name": "CIS-3.1.3 Ensure that the kubelet configuration file has permissions set to 644 or more restrictive"
             }
         }
     ],
