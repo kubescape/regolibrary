@@ -11,7 +11,8 @@ deny[msga] {
 
 	command := obj.data.cmdLine
 
-	not contains(command, "--event-qps")
+	# "--event-qps" is DEPRECATED
+	# not contains(command, "--event-qps")
 	contains(command, "--config")
 
 	decodedConfigContent := base64.decode(obj.data.configFile.content)
@@ -40,7 +41,8 @@ deny[msga] {
 
 	command := obj.data.cmdLine
 
-	not contains(command, "--event-qps")
+	# "--event-qps" is DEPRECATED
+	# not contains(command, "--event-qps")
 	contains(command, "--config")
 
 	not obj.data.configFile.content
