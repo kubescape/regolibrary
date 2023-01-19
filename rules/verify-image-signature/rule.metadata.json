@@ -1,0 +1,56 @@
+{
+    "name": "verify-image-signature",
+    "attributes": {
+      "armoBuiltin": true,
+      "useFromKubescapeVersion": "v2.0.184"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+              ""
+            ],
+            "apiVersions": [
+              "v1"
+            ],
+            "resources": [
+              "Pod"
+            ]
+          },
+          {
+            "apiGroups": [
+              "apps"
+            ],
+            "apiVersions": [
+              "v1"
+            ],
+            "resources": [
+                "Deployment",
+                "ReplicaSet",
+                "DaemonSet",
+                "StatefulSet"
+            ]
+          },
+          {
+            "apiGroups": [
+              "batch"
+            ],
+            "apiVersions": [
+              "*"
+            ],
+            "resources": [
+                "Job",
+                "CronJob"
+            ]
+          }
+      ],
+      "dynamicMatch": [
+    ],
+    "ruleDependencies": [],
+    "description": "Verifies the signature of each image with given public keys",
+    "remediation": "Replace the image with an image that is signed correctly",
+    "ruleQuery": "armo_builtins",
+    "configInputs": [
+        "settings.postureControlInputs.trustedCosignPublicKeys"
+      ]
+  }
