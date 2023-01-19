@@ -23,8 +23,8 @@ deny[msga] {
 
 deny[msga] {
     wl := input[_]
-	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-	spec_template_spec_patterns[wl.kind]
+	wl_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	wl_kinds[wl.kind]
     container := wl.spec.template.spec.containers[i]
 
     not cosign.has_signature(container.image)
