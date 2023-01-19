@@ -7,8 +7,7 @@ deny[msga] {
     pod.kind == "Pod"
 	container := pod.spec.containers[i]
 
-    has_signature := cosign.has_signature(container.image)
-	has_signature == false
+    not cosign.has_signature(container.image)
 
 	msga := {
 		"alertMessage": sprintf("image: %v is not signed", [ container.image]),
@@ -28,8 +27,7 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
     container := wl.spec.template.spec.containers[i]
 
-    has_signature := cosign.has_signature(container.image)
-	has_signature == false
+    not cosign.has_signature(container.image)
 
     msga := {
 		"alertMessage": sprintf("image: %v is not signed", [ container.image]),
@@ -49,8 +47,7 @@ deny[msga] {
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 	
-    has_signature := cosign.has_signature(container.image)
-	has_signature == false
+    not cosign.has_signature(container.image)
 
     msga := {
 		"alertMessage": sprintf("image: %v is not signed", [ container.image]),
