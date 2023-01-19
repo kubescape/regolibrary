@@ -1,0 +1,19 @@
+{
+    "controlID": "C-0213",
+    "name": "Verify image signature",
+    "description": "Verifies image signature with given public keys",
+    "long_description": "",
+    "remediation": "",
+    "manual_test": "",
+    "references": [
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "verify-image-signature"
+    ],
+    "baseScore": 7,
+    "impact_statement": "",
+    "default_value": ""
+}

@@ -1,0 +1,55 @@
+{
+    "name": "verify-image-signature",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+              ""
+            ],
+            "apiVersions": [
+              "v1"
+            ],
+            "resources": [
+              "Pod"
+            ]
+          },
+          {
+            "apiGroups": [
+              "apps"
+            ],
+            "apiVersions": [
+              "v1"
+            ],
+            "resources": [
+                "Deployment",
+                "ReplicaSet",
+                "DaemonSet",
+                "StatefulSet"
+            ]
+          },
+          {
+            "apiGroups": [
+              "batch"
+            ],
+            "apiVersions": [
+              "*"
+            ],
+            "resources": [
+                "Job",
+                "CronJob"
+            ]
+          }
+      ],
+      "dynamicMatch": [
+    ],
+    "ruleDependencies": [],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins",
+    "configInputs": [
+        "settings.postureControlInputs.trustedCosignPublicKeys"
+      ]
+  }

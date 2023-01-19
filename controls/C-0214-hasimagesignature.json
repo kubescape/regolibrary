@@ -1,0 +1,19 @@
+{
+    "controlID": "C-0214",
+    "name": "Has image signature",
+    "description": "Verifies that image has signature",
+    "long_description": "",
+    "remediation": "",
+    "manual_test": "",
+    "references": [
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "has-image-signature"
+    ],
+    "baseScore": 7,
+    "impact_statement": "",
+    "default_value": ""
+}

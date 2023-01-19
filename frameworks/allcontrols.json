@@ -6,6 +6,18 @@
     },
     "activeControls": [
         {
+            "controlID": "C-0213",
+            "patch": {
+                "name": "Verify image signature"
+            }
+        },
+        {
+            "controlID": "C-0214",
+            "patch": {
+                "name": "Has image signature"
+            }
+        },
+        {
             "controlID": "C-0001",
             "patch": {
                 "name": "Forbidden Container Registries"
