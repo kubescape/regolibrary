@@ -15,7 +15,7 @@
     "rulesNames": [
         "psp-required-drop-capabilities"
     ],
-    "baseScore": 0,
+    "baseScore": 5.0,
     "impact_statement": "Pods with containers require capabilities to operate will not be permitted.",
     "default_value": "By default, PodSecurityPolicies are not defined."
 }

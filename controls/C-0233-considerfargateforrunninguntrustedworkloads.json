@@ -14,7 +14,7 @@
     "rulesNames": [
         "alert-fargate-not-in-use"
     ],
-    "baseScore": 0,
+    "baseScore": 3.0,
     "impact_statement": "",
     "default_value": "By default, AWS Fargate is not utilized."
 }

@@ -14,7 +14,7 @@
     "rulesNames": [
         "psp-deny-allowprivilegeescalation"
     ],
-    "baseScore": 0,
+    "baseScore": 6.0,
     "impact_statement": "Pods defined with `spec.allowPrivilegeEscalation: true` will not be permitted unless they are run under a specific PSP.",
     "default_value": "By default, PodSecurityPolicies are not defined."
 }
