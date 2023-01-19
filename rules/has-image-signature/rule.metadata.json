@@ -2,7 +2,7 @@
     "name": "has-image-signature",
     "attributes": {
       "armoBuiltin": true,
-      "useFromKubescapeVersion": "v2.0.183"
+      "useFromKubescapeVersion": "v2.0.184"
     },
     "ruleLanguage": "Rego",
     "match": [
