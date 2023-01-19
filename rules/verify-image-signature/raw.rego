@@ -13,7 +13,7 @@ deny[msga] {
 
 	msga := {
 		"alertMessage": sprintf("signature not verified for image: %v", [container.image]),
-		"alertScore": 2,
+		"alertScore": 7,
 		"fixPaths": [],
 		"failedPaths": [container.image],
 		"packagename": "armo_builtins",
@@ -34,7 +34,7 @@ deny[msga] {
 
     msga := {
 		"alertMessage": sprintf("signature not verified for image: %v", [container.image]),
-		"alertScore": 2,
+		"alertScore": 7,
 		"fixPaths": [],
 		"failedPaths": [container.image],
 		"packagename": "armo_builtins",
@@ -55,7 +55,7 @@ deny[msga] {
 
     msga := {
 		"alertMessage": sprintf("signature not verified for image: %v", [container.image]),
-		"alertScore": 2,
+		"alertScore": 7,
 		"fixPaths": [],
 		"failedPaths": [container.image],
 		"packagename": "armo_builtins",

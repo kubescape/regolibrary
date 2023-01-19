@@ -12,7 +12,7 @@ deny[msga] {
 
 	msga := {
 		"alertMessage": sprintf("image: %v is not signed", [ container.image]),
-		"alertScore": 2,
+		"alertScore": 7,
 		"fixPaths": [],
 		"failedPaths": [container.image],
 		"packagename": "armo_builtins",
@@ -33,7 +33,7 @@ deny[msga] {
 
     msga := {
 		"alertMessage": sprintf("image: %v is not signed", [ container.image]),
-		"alertScore": 2,
+		"alertScore": 7,
 		"fixPaths": [],
 		"failedPaths": [container.image],
 		"packagename": "armo_builtins",
@@ -54,7 +54,7 @@ deny[msga] {
 
     msga := {
 		"alertMessage": sprintf("image: %v is not signed", [ container.image]),
-		"alertScore": 2,
+		"alertScore": 7,
 		"fixPaths": [],
 		"failedPaths": [container.image],
 		"packagename": "armo_builtins",
