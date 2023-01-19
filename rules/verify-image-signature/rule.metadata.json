@@ -1,7 +1,8 @@
 {
     "name": "verify-image-signature",
     "attributes": {
-      "armoBuiltin": true
+      "armoBuiltin": true,
+      "useFromKubescapeVersion": "v2.0.183"
     },
     "ruleLanguage": "Rego",
     "match": [
@@ -46,8 +47,8 @@
       "dynamicMatch": [
     ],
     "ruleDependencies": [],
-    "description": "",
-    "remediation": "",
+    "description": "Verifies the signature of each image with given public keys",
+    "remediation": "Replace the image with an image that is signed correctly",
     "ruleQuery": "armo_builtins",
     "configInputs": [
         "settings.postureControlInputs.trustedCosignPublicKeys"
