@@ -14,7 +14,7 @@
     "rulesNames": [
         "psp-deny-root-container"
     ],
-    "baseScore": 0,
+    "baseScore": 6.0,
     "impact_statement": "Pods with containers which run as the root user will not be permitted.",
     "default_value": "By default, PodSecurityPolicies are not defined."
 }
