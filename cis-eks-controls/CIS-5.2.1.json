@@ -13,7 +13,8 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": [],
+    "rulesNames": ["ensure-default-service-accounts-has-only-default-roles",
+                "automount-default-service-account"],
     "baseScore": 0,
     "impact_statement": "",
     "default_value": "",

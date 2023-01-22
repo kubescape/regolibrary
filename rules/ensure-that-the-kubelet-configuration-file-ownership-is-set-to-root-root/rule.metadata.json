@@ -1,5 +1,5 @@
 {
-    "name": "if-the-kubelet-config.yaml-configuration-file-is-being-used-validate-file-ownership-is-set-to-root-root",
+    "name": "ensure-that-the-kubelet-configuration-file-ownership-is-set-to-root-root",
     "attributes": {
         "armoBuiltin": true,
         "hostSensorRule": "true"

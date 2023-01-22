@@ -103,11 +103,13 @@ def addSubsectionsIds(parents: list, sections: dict):
         addSubsectionsIds(section_full_id, section.get('subSections', {}))
 
 
-def patch_control(control:dict, patch: dict) -> dict:
+def patch_control(control:dict, patch: dict, force_patch = True) -> dict:
 
     for key in patch:
-        if key not in control.keys():
-            raise Exception(f"control {control['controlID']} doesnt have patch key {key}")
+        if not force_patch:
+            if key not in control.keys():
+                raise Exception(f"control {control['controlID']} doesnt have patch key {key}")
+
         control[key] = patch[key]
     
     return control
@@ -133,10 +135,11 @@ def load_frameworks(loaded_controls: dict):
             controlID = control_framework["controlID"]
         
             if controlID in loaded_controls:
-                tmp_control = copy.deepcopy(patch_control(loaded_controls[controlID], control_framework["patch"]))
+                base_control_name = loaded_controls[controlID]["name"]
+                tmp_control = copy.deepcopy(patch_control(copy.deepcopy(loaded_controls[controlID]), control_framework["patch"]))
                 new_framework["controls"].append(tmp_control)
                 new_framework["ControlsIDs"].append(tmp_control['controlID'])
-                new_row = [new_framework['name'], controlID, tmp_control["name"]] 
+                new_row = [new_framework['name'], controlID, base_control_name] 
                 framework_control_rows.append(new_row)
             else:
                 raise Exception("Error in activeControls of framework {}, control id {} does not exist".format(new_framework["name"], controlID))

@@ -11,7 +11,7 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": [],
+    "rulesNames": ["alert-fargate-not-in-use"],
     "baseScore": 0,
     "impact_statement": "",
     "default_value": "By default, AWS Fargate is not utilized.",

@@ -1,0 +1,20 @@
+{
+    "controlID": "C-0233",
+    "name": "Consider Fargate for running untrusted workloads",
+    "description": "It is Best Practice to restrict or fence untrusted workloads when running in a multi-tenant environment.",
+    "long_description": "",
+    "remediation": "**Create a Fargate profile for your cluster**\nBefore you can schedule pods running on Fargate in your cluster, you must define a Fargate profile that specifies which pods should use Fargate when they are launched. For more information, see AWS Fargate profile.\n\n **Note**\nIf you created your cluster with eksctl using the --fargate option, then a Fargate profile has already been created for your cluster with selectors for all pods in the kube-system and default namespaces. Use the following procedure to create Fargate profiles for any other namespaces you would like to use with Fargate.\n\n **via eksctl CLI**\nCreate your Fargate profile with the following eksctl command, replacing the variable text with your own values. You must specify a namespace, but the labels option is not required.\n\n \n```\neksctl create fargateprofile --cluster cluster_name --name fargate_profile_name --namespace kubernetes_namespace --labels key=value\n\n```\n **via AWS Management Console**\n\n To create a Fargate profile for a cluster with the AWS Management Console\n\n 1. Open the Amazon EKS console at <https://console.aws.amazon.com/eks/home#/clusters>.\n2. Choose the cluster to create a Fargate profile for.\n3. Under Fargate profiles, choose Add Fargate profile.\n4. On the Configure Fargate profile page, enter the following information and choose Next.\n\n * For Name, enter a unique name for your Fargate profile.\n* For Pod execution role, choose the pod execution role to use with your Fargate profile. Only IAM roles with the eks-fargate-pods.amazonaws.com service principal are shown. If you do not see any roles listed here, you must create one. For more information, see Pod execution role.\n* For Subnets, choose the subnets to use for your pods. By default, all subnets in your cluster's VPC are selected. Only private subnets are supported for pods running on Fargate; you must deselect any public subnets.\n* For Tags, you can optionally tag your Fargate profile. These tags do not propagate to other resources associated with the profile, such as its pods.\n\n 5. On the Configure pods selection page, enter the following information and choose Next.\n\n * list text hereFor Namespace, enter a namespace to match for pods, such as kube-system or default.\n* Add Kubernetes labels to the selector that pods in the specified namespace must have to match the selector. For example, you could add the label infrastructure: fargate to the selector so that only pods in the specified namespace that also have the infrastructure: fargate Kubernetes label match the selector.\n\n 6. On the Review and create page, review the information for your Fargate profile and choose Create.",
+    "manual_test": "",
+    "references": [
+        "https://docs.aws.amazon.com/eks/latest/userguide/fargate.html"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "alert-fargate-not-in-use"
+    ],
+    "baseScore": 0,
+    "impact_statement": "",
+    "default_value": "By default, AWS Fargate is not utilized."
+}

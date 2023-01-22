@@ -1,0 +1,26 @@
+{
+    "name": "alert-container-optimized-os-not-in-use",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "Node"
+        ]
+      }
+    ],
+    "relevantCloudProviders": ["EKS"],
+    "ruleDependencies": [
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}

@@ -11,7 +11,7 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": [],
+    "rulesNames": ["ensure-that-the-kubelet-configuration-file-has-permissions-set-to-644-or-more-restrictive"],
     "baseScore": 0,
     "impact_statement": "None.",
     "default_value": "See the AWS EKS documentation for the default value.",
