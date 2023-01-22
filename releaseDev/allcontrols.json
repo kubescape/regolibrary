@@ -72,8 +72,12 @@
                     "description": "Verifies the signature of each image with given public keys",
                     "remediation": "Replace the image with an image that is signed correctly",
                     "ruleQuery": "armo_builtins",
-                    "configInputs": [
-                        "settings.postureControlInputs.trustedCosignPublicKeys"
+                    "controlConfigInputs": [
+                        {
+                            "path": "settings.postureControlInputs.trustedCosignPublicKeys",
+                            "name": "Trusted Cosign public keys",
+                            "description": "Trusted Cosign public keys"
+                        }
                     ],
                     "rule": "package armo_builtins\nimport data\n\ndeny[msga] {\n\n    pod := input[_]\n    pod.kind == \"Pod\"\n\tcontainer := pod.spec.containers[i]\n\t\n    verified_keys := [trusted_key | trusted_key = data.postureControlInputs.trustedCosignPublicKeys[_]; cosign.verify(container.image, trusted_key)]\n    count(verified_keys) == 0\n\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"signature not verified for image: %v\", [container.image]),\n\t\t\"alertScore\": 7,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [container.image],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t},\n\t}\n}\n\ndeny[msga] {\n    wl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n    container := wl.spec.template.spec.containers[i]\n\n\tverified_keys := [trusted_key | trusted_key = data.postureControlInputs.trustedCosignPublicKeys[_]; cosign.verify(container.image, trusted_key)]\n    count(verified_keys) == 0\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"signature not verified for image: %v\", [container.image]),\n\t\t\"alertScore\": 7,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [container.image],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t},\n\t}\n}\n\n\ndeny[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer = wl.spec.jobTemplate.spec.template.spec.containers[i]\n\t\n    verified_keys := [trusted_key | trusted_key = data.postureControlInputs.trustedCosignPublicKeys[_]; cosign.verify(container.image, trusted_key)]\n    count(verified_keys) == 0\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"signature not verified for image: %v\", [container.image]),\n\t\t\"alertScore\": 7,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [container.image],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t},\n\t}\n}\n"
                 }
