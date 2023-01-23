@@ -2,9 +2,9 @@ name: GitRegoStore-Release-Tag
 on:
   push:
     branches: [ dev ] 
-defaults:
-  run:
-    working-directory: ./gitregostore
+# defaults:
+#   run:
+#     working-directory: ./gitregostore
 jobs:
   build:
     runs-on: ubuntu-latest
