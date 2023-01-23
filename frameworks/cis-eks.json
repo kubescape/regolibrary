@@ -445,6 +445,12 @@
             "patch": {
                 "name": "CIS-3.1.3 Ensure that the kubelet configuration file has permissions set to 644 or more restrictive"
             }
+        },
+        {
+            "controlID": "C-0238",
+            "patch": {
+                "name": "CIS-3.1.1 Ensure that the kubeconfig file permissions are set to 644 or more restrictive"
+            }
         }
     ],
     "subSections": {
