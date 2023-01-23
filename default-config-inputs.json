@@ -11,6 +11,7 @@
         "postureControlInputs": {
             "imageRepositoryAllowList": [
             ],
+            "trustedCosignPublicKeys": [],
             "insecureCapabilities": [
                 "SETPCAP",
                 "NET_ADMIN",

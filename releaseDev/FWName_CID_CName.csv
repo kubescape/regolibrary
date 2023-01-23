@@ -1,31 +1,178 @@
 frameworkName,ControlID,ControlName
-MITRE,C-0002,Exec into container
-MITRE,C-0007,Data Destruction
-MITRE,C-0012,Applications credentials in configuration files
-MITRE,C-0014,Access Kubernetes dashboard
-MITRE,C-0015,List Kubernetes secrets
-MITRE,C-0020,Mount service principal
-MITRE,C-0021,Exposed sensitive interfaces
-MITRE,C-0026,Kubernetes CronJob
-MITRE,C-0031,Delete Kubernetes events
-MITRE,C-0035,Cluster-admin binding
-MITRE,C-0036,Malicious admission controller (validating)
-MITRE,C-0037,CoreDNS poisoning
-MITRE,C-0039,Malicious admission controller (mutating)
-MITRE,C-0042,SSH server running inside container
-MITRE,C-0045,Writable hostPath mount
-MITRE,C-0048,HostPath mount
-MITRE,C-0052,Instance Metadata API
-MITRE,C-0053,Access container service account
-MITRE,C-0054,Cluster internal networking
-MITRE,C-0057,Privileged container
-MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-MITRE,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-MITRE,C-0066,Secret/ETCD encryption enabled
-MITRE,C-0067,Audit logs enabled
-MITRE,C-0068,PSP enabled
-MITRE,C-0069,Disable anonymous access to Kubelet service
-MITRE,C-0070,Enforce Kubelet client TLS authentication
+ArmoBest,C-0001,Forbidden Container Registries
+ArmoBest,C-0002,Exec into container
+ArmoBest,C-0005,API server insecure port is enabled
+ArmoBest,C-0009,Resource limits
+ArmoBest,C-0012,Applications credentials in configuration files
+ArmoBest,C-0013,Non-root containers
+ArmoBest,C-0016,Allow privilege escalation
+ArmoBest,C-0017,Immutable container filesystem
+ArmoBest,C-0030,Ingress and Egress blocked
+ArmoBest,C-0034,Automatic mapping of service account
+ArmoBest,C-0035,Cluster-admin binding
+ArmoBest,C-0038,Host PID/IPC privileges
+ArmoBest,C-0041,HostNetwork access
+ArmoBest,C-0044,Container hostPort
+ArmoBest,C-0046,Insecure capabilities
+ArmoBest,C-0049,Network mapping
+ArmoBest,C-0054,Cluster internal networking
+ArmoBest,C-0055,Linux hardening
+ArmoBest,C-0057,Privileged container
+ArmoBest,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+ArmoBest,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+ArmoBest,C-0061,Pods in default namespace
+ArmoBest,C-0062,Sudo in container entrypoint
+ArmoBest,C-0063,Portforwarding privileges
+ArmoBest,C-0065,No impersonation
+ArmoBest,C-0066,Secret/ETCD encryption enabled
+ArmoBest,C-0067,Audit logs enabled
+ArmoBest,C-0068,PSP enabled
+ArmoBest,C-0069,Disable anonymous access to Kubelet service
+ArmoBest,C-0070,Enforce Kubelet client TLS authentication
+ArmoBest,C-0078,Images from allowed registry
+ArmoBest,C-0079,CVE-2022-0185-linux-kernel-container-escape
+ArmoBest,C-0081,CVE-2022-24348-argocddirtraversal
+ArmoBest,C-0083,Workloads with Critical vulnerabilities exposed to external traffic
+ArmoBest,C-0084,Workloads with RCE vulnerabilities exposed to external traffic
+ArmoBest,C-0085,Workloads with excessive amount of vulnerabilities
+ArmoBest,C-0086,CVE-2022-0492-cgroups-container-escape
+ArmoBest,C-0087,CVE-2022-23648-containerd-fs-escape
+ArmoBest,C-0089,CVE-2022-3172-aggregated-API-server-redirect
+ArmoBest,C-0091,CVE-2022-47633-kyverno-signature-bypass
+cis-v1.23-t1.0.1,C-0092,Ensure that the API server pod specification file permissions are set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0093,Ensure that the API server pod specification file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0094,Ensure that the controller manager pod specification file permissions are set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0095,Ensure that the controller manager pod specification file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0096,Ensure that the scheduler pod specification file permissions are set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0097,Ensure that the scheduler pod specification file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0098,Ensure that the etcd pod specification file permissions are set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0099,Ensure that the etcd pod specification file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0100,Ensure that the Container Network Interface file permissions are set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0101,Ensure that the Container Network Interface file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0102,Ensure that the etcd data directory permissions are set to 700 or more restrictive
+cis-v1.23-t1.0.1,C-0103,Ensure that the etcd data directory ownership is set to etcd:etcd
+cis-v1.23-t1.0.1,C-0104,Ensure that the admin.conf file permissions are set to 600
+cis-v1.23-t1.0.1,C-0105,Ensure that the admin.conf file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0106,Ensure that the scheduler.conf file permissions are set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0107,Ensure that the scheduler.conf file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0108,Ensure that the controller-manager.conf file permissions are set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0109,Ensure that the controller-manager.conf file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0110,Ensure that the Kubernetes PKI directory and file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0111,Ensure that the Kubernetes PKI certificate file permissions are set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0112,Ensure that the Kubernetes PKI key file permissions are set to 600
+cis-v1.23-t1.0.1,C-0113,Ensure that the API Server --anonymous-auth argument is set to false
+cis-v1.23-t1.0.1,C-0114,Ensure that the API Server --token-auth-file parameter is not set
+cis-v1.23-t1.0.1,C-0115,Ensure that the API Server --DenyServiceExternalIPs is not set
+cis-v1.23-t1.0.1,C-0116,Ensure that the API Server --kubelet-client-certificate and --kubelet-client-key arguments are set as appropriate
+cis-v1.23-t1.0.1,C-0117,Ensure that the API Server --kubelet-certificate-authority argument is set as appropriate
+cis-v1.23-t1.0.1,C-0118,Ensure that the API Server --authorization-mode argument is not set to AlwaysAllow
+cis-v1.23-t1.0.1,C-0119,Ensure that the API Server --authorization-mode argument includes Node
+cis-v1.23-t1.0.1,C-0120,Ensure that the API Server --authorization-mode argument includes RBAC
+cis-v1.23-t1.0.1,C-0121,Ensure that the admission control plugin EventRateLimit is set
+cis-v1.23-t1.0.1,C-0122,Ensure that the admission control plugin AlwaysAdmit is not set
+cis-v1.23-t1.0.1,C-0123,Ensure that the admission control plugin AlwaysPullImages is set
+cis-v1.23-t1.0.1,C-0124,Ensure that the admission control plugin SecurityContextDeny is set if PodSecurityPolicy is not used
+cis-v1.23-t1.0.1,C-0125,Ensure that the admission control plugin ServiceAccount is set
+cis-v1.23-t1.0.1,C-0126,Ensure that the admission control plugin NamespaceLifecycle is set
+cis-v1.23-t1.0.1,C-0127,Ensure that the admission control plugin NodeRestriction is set
+cis-v1.23-t1.0.1,C-0128,Ensure that the API Server --secure-port argument is not set to 0
+cis-v1.23-t1.0.1,C-0129,Ensure that the API Server --profiling argument is set to false
+cis-v1.23-t1.0.1,C-0130,Ensure that the API Server --audit-log-path argument is set
+cis-v1.23-t1.0.1,C-0131,Ensure that the API Server --audit-log-maxage argument is set to 30 or as appropriate
+cis-v1.23-t1.0.1,C-0132,Ensure that the API Server --audit-log-maxbackup argument is set to 10 or as appropriate
+cis-v1.23-t1.0.1,C-0133,Ensure that the API Server --audit-log-maxsize argument is set to 100 or as appropriate
+cis-v1.23-t1.0.1,C-0134,Ensure that the API Server --request-timeout argument is set as appropriate
+cis-v1.23-t1.0.1,C-0135,Ensure that the API Server --service-account-lookup argument is set to true
+cis-v1.23-t1.0.1,C-0136,Ensure that the API Server --service-account-key-file argument is set as appropriate
+cis-v1.23-t1.0.1,C-0137,Ensure that the API Server --etcd-certfile and --etcd-keyfile arguments are set as appropriate
+cis-v1.23-t1.0.1,C-0138,Ensure that the API Server --tls-cert-file and --tls-private-key-file arguments are set as appropriate
+cis-v1.23-t1.0.1,C-0139,Ensure that the API Server --client-ca-file argument is set as appropriate
+cis-v1.23-t1.0.1,C-0140,Ensure that the API Server --etcd-cafile argument is set as appropriate
+cis-v1.23-t1.0.1,C-0141,Ensure that the API Server --encryption-provider-config argument is set as appropriate
+cis-v1.23-t1.0.1,C-0142,Ensure that encryption providers are appropriately configured
+cis-v1.23-t1.0.1,C-0143,Ensure that the API Server only makes use of Strong Cryptographic Ciphers
+cis-v1.23-t1.0.1,C-0144,Ensure that the Controller Manager --terminated-pod-gc-threshold argument is set as appropriate
+cis-v1.23-t1.0.1,C-0145,Ensure that the Controller Manager --profiling argument is set to false
+cis-v1.23-t1.0.1,C-0146,Ensure that the Controller Manager --use-service-account-credentials argument is set to true
+cis-v1.23-t1.0.1,C-0147,Ensure that the Controller Manager --service-account-private-key-file argument is set as appropriate
+cis-v1.23-t1.0.1,C-0148,Ensure that the Controller Manager --root-ca-file argument is set as appropriate
+cis-v1.23-t1.0.1,C-0149,Ensure that the Controller Manager RotateKubeletServerCertificate argument is set to true
+cis-v1.23-t1.0.1,C-0150,Ensure that the Controller Manager --bind-address argument is set to 127.0.0.1
+cis-v1.23-t1.0.1,C-0151,Ensure that the Scheduler --profiling argument is set to false
+cis-v1.23-t1.0.1,C-0152,Ensure that the Scheduler --bind-address argument is set to 127.0.0.1
+cis-v1.23-t1.0.1,C-0153,Ensure that the --cert-file and --key-file arguments are set as appropriate
+cis-v1.23-t1.0.1,C-0154,Ensure that the --client-cert-auth argument is set to true
+cis-v1.23-t1.0.1,C-0155,Ensure that the --auto-tls argument is not set to true
+cis-v1.23-t1.0.1,C-0156,Ensure that the --peer-cert-file and --peer-key-file arguments are set as appropriate
+cis-v1.23-t1.0.1,C-0157,Ensure that the --peer-client-cert-auth argument is set to true
+cis-v1.23-t1.0.1,C-0158,Ensure that the --peer-auto-tls argument is not set to true
+cis-v1.23-t1.0.1,C-0159,Ensure that a unique Certificate Authority is used for etcd
+cis-v1.23-t1.0.1,C-0160,Ensure that a minimal audit policy is created
+cis-v1.23-t1.0.1,C-0161,Ensure that the audit policy covers key security concerns
+cis-v1.23-t1.0.1,C-0162,Ensure that the kubelet service file permissions are set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0163,Ensure that the kubelet service file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0164,If proxy kubeconfig file exists ensure permissions are set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0165,If proxy kubeconfig file exists ensure ownership is set to root:root
+cis-v1.23-t1.0.1,C-0166,Ensure that the --kubeconfig kubelet.conf file permissions are set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0167,Ensure that the --kubeconfig kubelet.conf file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0168,Ensure that the certificate authorities file permissions are set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0169,Ensure that the client certificate authorities file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0170,If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive
+cis-v1.23-t1.0.1,C-0171,If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root
+cis-v1.23-t1.0.1,C-0172,Ensure that the --anonymous-auth argument is set to false
+cis-v1.23-t1.0.1,C-0173,Ensure that the --authorization-mode argument is not set to AlwaysAllow
+cis-v1.23-t1.0.1,C-0174,Ensure that the --client-ca-file argument is set as appropriate
+cis-v1.23-t1.0.1,C-0175,Verify that the --read-only-port argument is set to 0
+cis-v1.23-t1.0.1,C-0176,Ensure that the --streaming-connection-idle-timeout argument is not set to 0
+cis-v1.23-t1.0.1,C-0177,Ensure that the --protect-kernel-defaults argument is set to true
+cis-v1.23-t1.0.1,C-0178,Ensure that the --make-iptables-util-chains argument is set to true
+cis-v1.23-t1.0.1,C-0179,Ensure that the --hostname-override argument is not set
+cis-v1.23-t1.0.1,C-0180,Ensure that the --event-qps argument is set to 0 or a level which ensures appropriate event capture
+cis-v1.23-t1.0.1,C-0181,Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate
+cis-v1.23-t1.0.1,C-0182,Ensure that the --rotate-certificates argument is not set to false
+cis-v1.23-t1.0.1,C-0183,Verify that the RotateKubeletServerCertificate argument is set to true
+cis-v1.23-t1.0.1,C-0184,Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers
+cis-v1.23-t1.0.1,C-0185,Ensure that the cluster-admin role is only used where required
+cis-v1.23-t1.0.1,C-0186,Minimize access to secrets
+cis-v1.23-t1.0.1,C-0187,Minimize wildcard use in Roles and ClusterRoles
+cis-v1.23-t1.0.1,C-0188,Minimize access to create pods
+cis-v1.23-t1.0.1,C-0189,Ensure that default service accounts are not actively used
+cis-v1.23-t1.0.1,C-0190,Ensure that Service Account Tokens are only mounted where necessary
+cis-v1.23-t1.0.1,C-0191,"Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster"
+cis-v1.23-t1.0.1,C-0192,Ensure that the cluster has at least one active policy control mechanism in place
+cis-v1.23-t1.0.1,C-0193,Minimize the admission of privileged containers
+cis-v1.23-t1.0.1,C-0194,Minimize the admission of containers wishing to share the host process ID namespace
+cis-v1.23-t1.0.1,C-0195,Minimize the admission of containers wishing to share the host IPC namespace
+cis-v1.23-t1.0.1,C-0196,Minimize the admission of containers wishing to share the host network namespace
+cis-v1.23-t1.0.1,C-0197,Minimize the admission of containers with allowPrivilegeEscalation
+cis-v1.23-t1.0.1,C-0198,Minimize the admission of root containers
+cis-v1.23-t1.0.1,C-0199,Minimize the admission of containers with the NET_RAW capability
+cis-v1.23-t1.0.1,C-0200,Minimize the admission of containers with added capabilities
+cis-v1.23-t1.0.1,C-0201,Minimize the admission of containers with capabilities assigned
+cis-v1.23-t1.0.1,C-0202,Minimize the admission of Windows HostProcess Containers
+cis-v1.23-t1.0.1,C-0203,Minimize the admission of HostPath volumes
+cis-v1.23-t1.0.1,C-0204,Minimize the admission of containers which use HostPorts
+cis-v1.23-t1.0.1,C-0205,Ensure that the CNI in use supports Network Policies
+cis-v1.23-t1.0.1,C-0206,Ensure that all Namespaces have Network Policies defined
+cis-v1.23-t1.0.1,C-0207,Prefer using secrets as files over secrets as environment variables
+cis-v1.23-t1.0.1,C-0208,Consider external secret storage
+cis-v1.23-t1.0.1,C-0209,Create administrative boundaries between resources using namespaces
+cis-v1.23-t1.0.1,C-0210,Ensure that the seccomp profile is set to docker/default in your pod definitions
+cis-v1.23-t1.0.1,C-0211,Apply Security Context to Your Pods and Containers
+cis-v1.23-t1.0.1,C-0212,The default namespace should not be used
+DevOpsBest,C-0004,Resources memory limit and request
+DevOpsBest,C-0018,Configured readiness probe
+DevOpsBest,C-0044,Container hostPort
+DevOpsBest,C-0050,Resources CPU limit and request
+DevOpsBest,C-0056,Configured liveness probe
+DevOpsBest,C-0061,Pods in default namespace
+DevOpsBest,C-0073,Naked PODs
+DevOpsBest,C-0074,Containers mounting Docker socket
+DevOpsBest,C-0075,Image pull policy on latest tag
+DevOpsBest,C-0076,Label usage for resources
+DevOpsBest,C-0077,K8s common labels usage
+AllControls,C-0236,Verify image signature
+AllControls,C-0237,Check if signature exists
 AllControls,C-0001,Forbidden Container Registries
 AllControls,C-0002,Exec into container
 AllControls,C-0004,Resources memory limit and request
@@ -90,17 +237,33 @@ AllControls,C-0087,CVE-2022-23648-containerd-fs-escape
 AllControls,C-0088,RBAC enabled
 AllControls,C-0090,CVE-2022-39328-grafana-auth-bypass
 AllControls,C-0091,CVE-2022-47633-kyverno-signature-bypass
-DevOpsBest,C-0004,Resources memory limit and request
-DevOpsBest,C-0018,Configured readiness probe
-DevOpsBest,C-0044,Container hostPort
-DevOpsBest,C-0050,Resources CPU limit and request
-DevOpsBest,C-0056,Configured liveness probe
-DevOpsBest,C-0061,Pods in default namespace
-DevOpsBest,C-0073,Naked PODs
-DevOpsBest,C-0074,Containers mounting Docker socket
-DevOpsBest,C-0075,Image pull policy on latest tag
-DevOpsBest,C-0076,Label usage for resources
-DevOpsBest,C-0077,K8s common labels usage
+MITRE,C-0002,Exec into container
+MITRE,C-0007,Data Destruction
+MITRE,C-0012,Applications credentials in configuration files
+MITRE,C-0014,Access Kubernetes dashboard
+MITRE,C-0015,List Kubernetes secrets
+MITRE,C-0020,Mount service principal
+MITRE,C-0021,Exposed sensitive interfaces
+MITRE,C-0026,Kubernetes CronJob
+MITRE,C-0031,Delete Kubernetes events
+MITRE,C-0035,Cluster-admin binding
+MITRE,C-0036,Malicious admission controller (validating)
+MITRE,C-0037,CoreDNS poisoning
+MITRE,C-0039,Malicious admission controller (mutating)
+MITRE,C-0042,SSH server running inside container
+MITRE,C-0045,Writable hostPath mount
+MITRE,C-0048,HostPath mount
+MITRE,C-0052,Instance Metadata API
+MITRE,C-0053,Access container service account
+MITRE,C-0054,Cluster internal networking
+MITRE,C-0057,Privileged container
+MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
+MITRE,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
+MITRE,C-0066,Secret/ETCD encryption enabled
+MITRE,C-0067,Audit logs enabled
+MITRE,C-0068,PSP enabled
+MITRE,C-0069,Disable anonymous access to Kubelet service
+MITRE,C-0070,Enforce Kubelet client TLS authentication
 NSA,C-0002,Exec into container
 NSA,C-0005,API server insecure port is enabled
 NSA,C-0009,Resource limits
@@ -125,166 +288,3 @@ NSA,C-0067,Audit logs enabled
 NSA,C-0068,PSP enabled
 NSA,C-0069,Disable anonymous access to Kubelet service
 NSA,C-0070,Enforce Kubelet client TLS authentication
-ArmoBest,C-0001,Forbidden Container Registries
-ArmoBest,C-0002,Exec into container
-ArmoBest,C-0005,API server insecure port is enabled
-ArmoBest,C-0009,Resource limits
-ArmoBest,C-0012,Applications credentials in configuration files
-ArmoBest,C-0013,Non-root containers
-ArmoBest,C-0016,Allow privilege escalation
-ArmoBest,C-0017,Immutable container filesystem
-ArmoBest,C-0030,Ingress and Egress blocked
-ArmoBest,C-0034,Automatic mapping of service account
-ArmoBest,C-0035,Cluster-admin binding
-ArmoBest,C-0038,Host PID/IPC privileges
-ArmoBest,C-0041,HostNetwork access
-ArmoBest,C-0044,Container hostPort
-ArmoBest,C-0046,Insecure capabilities
-ArmoBest,C-0049,Network mapping
-ArmoBest,C-0054,Cluster internal networking
-ArmoBest,C-0055,Linux hardening
-ArmoBest,C-0057,Privileged container
-ArmoBest,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
-ArmoBest,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-ArmoBest,C-0061,Pods in default namespace
-ArmoBest,C-0062,Sudo in container entrypoint
-ArmoBest,C-0063,Portforwarding privileges
-ArmoBest,C-0065,No impersonation
-ArmoBest,C-0066,Secret/ETCD encryption enabled
-ArmoBest,C-0067,Audit logs enabled
-ArmoBest,C-0068,PSP enabled
-ArmoBest,C-0069,Disable anonymous access to Kubelet service
-ArmoBest,C-0070,Enforce Kubelet client TLS authentication
-ArmoBest,C-0078,Images from allowed registry
-ArmoBest,C-0079,CVE-2022-0185-linux-kernel-container-escape
-ArmoBest,C-0081,CVE-2022-24348-argocddirtraversal
-ArmoBest,C-0083,Workloads with Critical vulnerabilities exposed to external traffic
-ArmoBest,C-0084,Workloads with RCE vulnerabilities exposed to external traffic
-ArmoBest,C-0085,Workloads with excessive amount of vulnerabilities
-ArmoBest,C-0086,CVE-2022-0492-cgroups-container-escape
-ArmoBest,C-0087,CVE-2022-23648-containerd-fs-escape
-ArmoBest,C-0089,CVE-2022-3172-aggregated-API-server-redirect
-ArmoBest,C-0091,CVE-2022-47633-kyverno-signature-bypass
-cis-v1.23-t1.0.1,C-0092,CIS-1.1.1 Ensure that the API server pod specification file permissions are set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0093,CIS-1.1.2 Ensure that the API server pod specification file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0094,CIS-1.1.3 Ensure that the controller manager pod specification file permissions are set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0095,CIS-1.1.4 Ensure that the controller manager pod specification file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0096,CIS-1.1.5 Ensure that the scheduler pod specification file permissions are set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0097,CIS-1.1.6 Ensure that the scheduler pod specification file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0098,CIS-1.1.7 Ensure that the etcd pod specification file permissions are set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0099,CIS-1.1.8 Ensure that the etcd pod specification file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0100,CIS-1.1.9 Ensure that the Container Network Interface file permissions are set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0101,CIS-1.1.10 Ensure that the Container Network Interface file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0102,CIS-1.1.11 Ensure that the etcd data directory permissions are set to 700 or more restrictive
-cis-v1.23-t1.0.1,C-0103,CIS-1.1.12 Ensure that the etcd data directory ownership is set to etcd:etcd
-cis-v1.23-t1.0.1,C-0104,CIS-1.1.13 Ensure that the admin.conf file permissions are set to 600
-cis-v1.23-t1.0.1,C-0105,CIS-1.1.14 Ensure that the admin.conf file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0106,CIS-1.1.15 Ensure that the scheduler.conf file permissions are set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0107,CIS-1.1.16 Ensure that the scheduler.conf file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0108,CIS-1.1.17 Ensure that the controller-manager.conf file permissions are set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0109,CIS-1.1.18 Ensure that the controller-manager.conf file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0110,CIS-1.1.19 Ensure that the Kubernetes PKI directory and file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0111,CIS-1.1.20 Ensure that the Kubernetes PKI certificate file permissions are set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0112,CIS-1.1.21 Ensure that the Kubernetes PKI key file permissions are set to 600
-cis-v1.23-t1.0.1,C-0113,CIS-1.2.1 Ensure that the API Server --anonymous-auth argument is set to false
-cis-v1.23-t1.0.1,C-0114,CIS-1.2.2 Ensure that the API Server --token-auth-file parameter is not set
-cis-v1.23-t1.0.1,C-0115,CIS-1.2.3 Ensure that the API Server --DenyServiceExternalIPs is not set
-cis-v1.23-t1.0.1,C-0116,CIS-1.2.4 Ensure that the API Server --kubelet-client-certificate and --kubelet-client-key arguments are set as appropriate
-cis-v1.23-t1.0.1,C-0117,CIS-1.2.5 Ensure that the API Server --kubelet-certificate-authority argument is set as appropriate
-cis-v1.23-t1.0.1,C-0118,CIS-1.2.6 Ensure that the API Server --authorization-mode argument is not set to AlwaysAllow
-cis-v1.23-t1.0.1,C-0119,CIS-1.2.7 Ensure that the API Server --authorization-mode argument includes Node
-cis-v1.23-t1.0.1,C-0120,CIS-1.2.8 Ensure that the API Server --authorization-mode argument includes RBAC
-cis-v1.23-t1.0.1,C-0121,CIS-1.2.9 Ensure that the admission control plugin EventRateLimit is set
-cis-v1.23-t1.0.1,C-0122,CIS-1.2.10 Ensure that the admission control plugin AlwaysAdmit is not set
-cis-v1.23-t1.0.1,C-0123,CIS-1.2.11 Ensure that the admission control plugin AlwaysPullImages is set
-cis-v1.23-t1.0.1,C-0124,CIS-1.2.12 Ensure that the admission control plugin SecurityContextDeny is set if PodSecurityPolicy is not used
-cis-v1.23-t1.0.1,C-0125,CIS-1.2.13 Ensure that the admission control plugin ServiceAccount is set
-cis-v1.23-t1.0.1,C-0126,CIS-1.2.14 Ensure that the admission control plugin NamespaceLifecycle is set
-cis-v1.23-t1.0.1,C-0127,CIS-1.2.15 Ensure that the admission control plugin NodeRestriction is set
-cis-v1.23-t1.0.1,C-0128,CIS-1.2.16 Ensure that the API Server --secure-port argument is not set to 0
-cis-v1.23-t1.0.1,C-0129,CIS-1.2.17 Ensure that the API Server --profiling argument is set to false
-cis-v1.23-t1.0.1,C-0130,CIS-1.2.18 Ensure that the API Server --audit-log-path argument is set
-cis-v1.23-t1.0.1,C-0131,CIS-1.2.19 Ensure that the API Server --audit-log-maxage argument is set to 30 or as appropriate
-cis-v1.23-t1.0.1,C-0132,CIS-1.2.20 Ensure that the API Server --audit-log-maxbackup argument is set to 10 or as appropriate
-cis-v1.23-t1.0.1,C-0133,CIS-1.2.21 Ensure that the API Server --audit-log-maxsize argument is set to 100 or as appropriate
-cis-v1.23-t1.0.1,C-0134,CIS-1.2.22 Ensure that the API Server --request-timeout argument is set as appropriate
-cis-v1.23-t1.0.1,C-0135,CIS-1.2.23 Ensure that the API Server --service-account-lookup argument is set to true
-cis-v1.23-t1.0.1,C-0136,CIS-1.2.24 Ensure that the API Server --service-account-key-file argument is set as appropriate
-cis-v1.23-t1.0.1,C-0137,CIS-1.2.25 Ensure that the API Server --etcd-certfile and --etcd-keyfile arguments are set as appropriate
-cis-v1.23-t1.0.1,C-0138,CIS-1.2.26 Ensure that the API Server --tls-cert-file and --tls-private-key-file arguments are set as appropriate
-cis-v1.23-t1.0.1,C-0139,CIS-1.2.27 Ensure that the API Server --client-ca-file argument is set as appropriate
-cis-v1.23-t1.0.1,C-0140,CIS-1.2.28 Ensure that the API Server --etcd-cafile argument is set as appropriate
-cis-v1.23-t1.0.1,C-0141,CIS-1.2.29 Ensure that the API Server --encryption-provider-config argument is set as appropriate
-cis-v1.23-t1.0.1,C-0142,CIS-1.2.30 Ensure that encryption providers are appropriately configured
-cis-v1.23-t1.0.1,C-0143,CIS-1.2.31 Ensure that the API Server only makes use of Strong Cryptographic Ciphers
-cis-v1.23-t1.0.1,C-0144,CIS-1.3.1 Ensure that the Controller Manager --terminated-pod-gc-threshold argument is set as appropriate
-cis-v1.23-t1.0.1,C-0145,CIS-1.3.2 Ensure that the Controller Manager --profiling argument is set to false
-cis-v1.23-t1.0.1,C-0146,CIS-1.3.3 Ensure that the Controller Manager --use-service-account-credentials argument is set to true
-cis-v1.23-t1.0.1,C-0147,CIS-1.3.4 Ensure that the Controller Manager --service-account-private-key-file argument is set as appropriate
-cis-v1.23-t1.0.1,C-0148,CIS-1.3.5 Ensure that the Controller Manager --root-ca-file argument is set as appropriate
-cis-v1.23-t1.0.1,C-0149,CIS-1.3.6 Ensure that the Controller Manager RotateKubeletServerCertificate argument is set to true
-cis-v1.23-t1.0.1,C-0150,CIS-1.3.7 Ensure that the Controller Manager --bind-address argument is set to 127.0.0.1
-cis-v1.23-t1.0.1,C-0151,CIS-1.4.1 Ensure that the Scheduler --profiling argument is set to false
-cis-v1.23-t1.0.1,C-0152,CIS-1.4.2 Ensure that the Scheduler --bind-address argument is set to 127.0.0.1
-cis-v1.23-t1.0.1,C-0153,CIS-2.1 Ensure that the --cert-file and --key-file arguments are set as appropriate
-cis-v1.23-t1.0.1,C-0154,CIS-2.2 Ensure that the --client-cert-auth argument is set to true
-cis-v1.23-t1.0.1,C-0155,CIS-2.3 Ensure that the --auto-tls argument is not set to true
-cis-v1.23-t1.0.1,C-0156,CIS-2.4 Ensure that the --peer-cert-file and --peer-key-file arguments are set as appropriate
-cis-v1.23-t1.0.1,C-0157,CIS-2.5 Ensure that the --peer-client-cert-auth argument is set to true
-cis-v1.23-t1.0.1,C-0158,CIS-2.6 Ensure that the --peer-auto-tls argument is not set to true
-cis-v1.23-t1.0.1,C-0159,CIS-2.7 Ensure that a unique Certificate Authority is used for etcd
-cis-v1.23-t1.0.1,C-0160,CIS-3.2.1 Ensure that a minimal audit policy is created
-cis-v1.23-t1.0.1,C-0161,CIS-3.2.2 Ensure that the audit policy covers key security concerns
-cis-v1.23-t1.0.1,C-0162,CIS-4.1.1 Ensure that the kubelet service file permissions are set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0163,CIS-4.1.2 Ensure that the kubelet service file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0164,CIS-4.1.3 If proxy kubeconfig file exists ensure permissions are set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0165,CIS-4.1.4 If proxy kubeconfig file exists ensure ownership is set to root:root
-cis-v1.23-t1.0.1,C-0166,CIS-4.1.5 Ensure that the --kubeconfig kubelet.conf file permissions are set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0167,CIS-4.1.6 Ensure that the --kubeconfig kubelet.conf file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0168,CIS-4.1.7 Ensure that the certificate authorities file permissions are set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0169,CIS-4.1.8 Ensure that the client certificate authorities file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0170,CIS-4.1.9 If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive
-cis-v1.23-t1.0.1,C-0171,CIS-4.1.10 If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root
-cis-v1.23-t1.0.1,C-0172,CIS-4.2.1 Ensure that the --anonymous-auth argument is set to false
-cis-v1.23-t1.0.1,C-0173,CIS-4.2.2 Ensure that the --authorization-mode argument is not set to AlwaysAllow
-cis-v1.23-t1.0.1,C-0174,CIS-4.2.3 Ensure that the --client-ca-file argument is set as appropriate
-cis-v1.23-t1.0.1,C-0175,CIS-4.2.4 Verify that the --read-only-port argument is set to 0
-cis-v1.23-t1.0.1,C-0176,CIS-4.2.5 Ensure that the --streaming-connection-idle-timeout argument is not set to 0
-cis-v1.23-t1.0.1,C-0177,CIS-4.2.6 Ensure that the --protect-kernel-defaults argument is set to true
-cis-v1.23-t1.0.1,C-0178,CIS-4.2.7 Ensure that the --make-iptables-util-chains argument is set to true
-cis-v1.23-t1.0.1,C-0179,CIS-4.2.8 Ensure that the --hostname-override argument is not set
-cis-v1.23-t1.0.1,C-0180,CIS-4.2.9 Ensure that the --event-qps argument is set to 0 or a level which ensures appropriate event capture
-cis-v1.23-t1.0.1,C-0181,CIS-4.2.10 Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate
-cis-v1.23-t1.0.1,C-0182,CIS-4.2.11 Ensure that the --rotate-certificates argument is not set to false
-cis-v1.23-t1.0.1,C-0183,CIS-4.2.12 Verify that the RotateKubeletServerCertificate argument is set to true
-cis-v1.23-t1.0.1,C-0184,CIS-4.2.13 Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers
-cis-v1.23-t1.0.1,C-0185,CIS-5.1.1 Ensure that the cluster-admin role is only used where required
-cis-v1.23-t1.0.1,C-0186,CIS-5.1.2 Minimize access to secrets
-cis-v1.23-t1.0.1,C-0187,CIS-5.1.3 Minimize wildcard use in Roles and ClusterRoles
-cis-v1.23-t1.0.1,C-0188,CIS-5.1.4 Minimize access to create pods
-cis-v1.23-t1.0.1,C-0189,CIS-5.1.5 Ensure that default service accounts are not actively used
-cis-v1.23-t1.0.1,C-0190,CIS-5.1.6 Ensure that Service Account Tokens are only mounted where necessary
-cis-v1.23-t1.0.1,C-0191,"CIS-5.1.8 Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster"
-cis-v1.23-t1.0.1,C-0192,CIS-5.2.1 Ensure that the cluster has at least one active policy control mechanism in place
-cis-v1.23-t1.0.1,C-0193,CIS-5.2.2 Minimize the admission of privileged containers
-cis-v1.23-t1.0.1,C-0194,CIS-5.2.3 Minimize the admission of containers wishing to share the host process ID namespace
-cis-v1.23-t1.0.1,C-0195,CIS-5.2.4 Minimize the admission of containers wishing to share the host IPC namespace
-cis-v1.23-t1.0.1,C-0196,CIS-5.2.5 Minimize the admission of containers wishing to share the host network namespace
-cis-v1.23-t1.0.1,C-0197,CIS-5.2.6 Minimize the admission of containers with allowPrivilegeEscalation
-cis-v1.23-t1.0.1,C-0198,CIS-5.2.7 Minimize the admission of root containers
-cis-v1.23-t1.0.1,C-0199,CIS-5.2.8 Minimize the admission of containers with the NET_RAW capability
-cis-v1.23-t1.0.1,C-0200,CIS-5.2.9 Minimize the admission of containers with added capabilities
-cis-v1.23-t1.0.1,C-0201,CIS-5.2.10 Minimize the admission of containers with capabilities assigned
-cis-v1.23-t1.0.1,C-0202,CIS-5.2.11 Minimize the admission of Windows HostProcess Containers
-cis-v1.23-t1.0.1,C-0203,CIS-5.2.12 Minimize the admission of HostPath volumes
-cis-v1.23-t1.0.1,C-0204,CIS-5.2.13 Minimize the admission of containers which use HostPorts
-cis-v1.23-t1.0.1,C-0205,CIS-5.3.1 Ensure that the CNI in use supports Network Policies
-cis-v1.23-t1.0.1,C-0206,CIS-5.3.2 Ensure that all Namespaces have Network Policies defined
-cis-v1.23-t1.0.1,C-0207,CIS-5.4.1 Prefer using secrets as files over secrets as environment variables
-cis-v1.23-t1.0.1,C-0207,CIS-5.4.1 Prefer using secrets as files over secrets as environment variables
-cis-v1.23-t1.0.1,C-0207,CIS-5.4.1 Prefer using secrets as files over secrets as environment variables
-cis-v1.23-t1.0.1,C-0208,CIS-5.4.2 Consider external secret storage
-cis-v1.23-t1.0.1,C-0209,CIS-5.7.1 Create administrative boundaries between resources using namespaces
-cis-v1.23-t1.0.1,C-0210,CIS-5.7.2 Ensure that the seccomp profile is set to docker/default in your pod definitions
-cis-v1.23-t1.0.1,C-0211,CIS-5.7.3 Apply Security Context to Your Pods and Containers
-cis-v1.23-t1.0.1,C-0212,CIS-5.7.4 The default namespace should not be used
