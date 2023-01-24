@@ -1,0 +1,30 @@
+name: pr-tests
+
+on:
+  pull_request:
+    branches: [ dev, master ]
+    types: [ opened ]
+    paths-ignore:
+      # Do not run the pipeline if only Markdown files changed
+      - '**.yaml'
+      - '**.md'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.19
+    
+    - name: Test
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: go test -v ./...
+        
+    - name: Build
+      run: go build -v ./...
+
+
