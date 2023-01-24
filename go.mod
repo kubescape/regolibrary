@@ -1,4 +1,4 @@
-module gitregostore
+module github.com/kubescape/regolibrary
 
 go 1.19
 
