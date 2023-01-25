@@ -4,9 +4,9 @@ go 1.19
 
 require (
 	github.com/alecthomas/assert/v2 v2.2.1
-	github.com/armosec/armoapi-go v0.0.151
+	github.com/armosec/armoapi-go v0.0.119
 	github.com/go-gota/gota v0.12.0
-	github.com/kubescape/opa-utils v0.0.224
+	github.com/kubescape/opa-utils v0.0.223
 	go.uber.org/zap v1.24.0
 )
 
