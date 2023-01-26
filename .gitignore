@@ -17,5 +17,4 @@
 json_to_string.sh
 release
 pre-release
-releaseDev
 *.py[cod]
