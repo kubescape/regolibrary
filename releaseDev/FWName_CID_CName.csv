@@ -171,8 +171,6 @@ DevOpsBest,C-0074,Containers mounting Docker socket
 DevOpsBest,C-0075,Image pull policy on latest tag
 DevOpsBest,C-0076,Label usage for resources
 DevOpsBest,C-0077,K8s common labels usage
-AllControls,C-0236,Verify image signature
-AllControls,C-0237,Check if signature exists
 AllControls,C-0001,Forbidden Container Registries
 AllControls,C-0002,Exec into container
 AllControls,C-0004,Resources memory limit and request
