@@ -1,0 +1,36 @@
+{
+  "name": "ensure-endpointpublicaccess-is-disabled-on-private-nodes-eks",
+  "attributes": {
+  "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+      ],
+      "apiVersions": [
+      ],
+      "resources": [
+      ]
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "eks.amazonaws.com"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "ClusterDescribe"
+      ]
+    }
+  ],
+  "relevantCloudProviders": ["EKS"],
+  "ruleDependencies": [
+  ],
+  "description": "",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}
