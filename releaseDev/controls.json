@@ -4653,7 +4653,7 @@
         "rulesNames": [
             "Ensure-that-the-kubeconfig-file-permissions-are-set-to-644-or-more-restrictive"
         ],
-        "baseScore": 0,
+        "baseScore": 6,
         "impact_statement": "None.",
         "default_value": "See the AWS EKS documentation for the default value.",
         "rules": []
