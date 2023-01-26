@@ -2722,7 +2722,7 @@
                     "remediation": "",
                     "ruleQuery": "armo_builtins",
                     "rule": "package armo_builtins\nimport data.kubernetes.api.client as client\nimport data\n\n# deny LoadBalancer services that are configured for ssl connection (port: 443), but don't have TLS certificate set.\ndeny[msga] {\n\n\twl_kind := \"Service\"\n\twl_type := \"LoadBalancer\"\n\twl_required_annotation := \"service.beta.kubernetes.io/aws-load-balancer-ssl-cert\"\n\n\t# filterring LoadBalancers\n\twl := \tinput[_]\n\twl.kind == wl_kind\n\twl.spec.type == wl_type\t\n\n\t#  filterring loadbalancers with port 443.\n\twl.spec.ports[_].port == 443\n\n\t# filterring annotations without ssl cert confgiured.\n\tannotations := object.get(wl, [\"metadata\", \"annotations\"], [])\n\tssl_cert_annotations := [annotations[i] | annotation = i; startswith(i, wl_required_annotation)]\n\tcount(ssl_cert_annotations) == 0\n\n\t# prepare message data.\n\talert_message :=  sprintf(\"LoadBalancer '%v' has no TLS configured\", [wl.metadata.name])\n\tfailed_paths := []\n\tfixed_paths := [{\"path\": sprintf(\"metadata.annotations['%v']\", [wl_required_annotation]), \"value\": \"AWS_LOADBALANCER_SSL_CERT\"}]\n\n\tmsga := {\n\t\t\"alertMessage\": alert_message,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": failed_paths,\n\t\t\"fixPaths\": fixed_paths,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": wl\n\t\t}\n\t}\n}\n\n",
-                    "resourceEnumerator": "package armo_builtins\nimport data.kubernetes.api.client as client\nimport data\n\ndeny[msga] {\n\tobj := input[_]\n\tobj.kind == \"Service\"\n\tobj.spec.type == \"LoadBalancer\"\n\tmsg := {\"alertObject\": {\"k8sApiObjects\": [obj]}}\n}\n\n"
+                    "resourceEnumerator": "package armo_builtins\nimport data.kubernetes.api.client as client\nimport data\n\ndeny[msga] {\n\tobj := input[_]\n\tobj.kind == \"Service\"\n\tobj.spec.type == \"LoadBalancer\"\n\tmsga := {\"alertObject\": {\"k8sApiObjects\": [obj]}}\n}\n\n"
                 }
             ]
         },
@@ -2902,7 +2902,7 @@
             "attributes": {
                 "armoBuiltin": true
             },
-            "baseScore": 0,
+            "baseScore": 6,
             "impact_statement": "None.",
             "default_value": "See the AWS EKS documentation for the default value.",
             "rules": [

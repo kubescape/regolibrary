@@ -7970,7 +7970,7 @@
                 "attributes": {
                     "armoBuiltin": true
                 },
-                "baseScore": 0,
+                "baseScore": 6,
                 "impact_statement": "None.",
                 "default_value": "See the AWS EKS documentation for the default value.",
                 "rules": []
