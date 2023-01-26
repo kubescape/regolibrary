@@ -38,14 +38,14 @@ func TestAllRules(t *testing.T) {
 
 // Change the dir variable to the name of the rule you want to test (in the rules-tests dir)
 func TestSingleRule(t *testing.T) {
-	dir := fmt.Sprintf("%v/%v", rulesDirectory, "etcd-peer-tls-enabled")
+	dir := fmt.Sprintf("%v/%v", rulesDirectory, "ensure-that-the-kubelet-configuration-file-has-permissions-set-to-644-or-more-restrictive")
 	assert.NoError(t, opaprocessor.RunAllTestsForRule(t, dir), fmt.Sprintf("rule: %s", dir))
 }
 
 // To print the output
 // Change the testDir variable to the directory of the rego you want to test
 func TestSingleRego(t *testing.T) {
-	testDir := "alert-rw-hostpath"
+	testDir := "ensure-endpointprivateaccess-is-enabled"
 	dir := fmt.Sprintf("%v/input", testSingleRegoDirectory)
 	mocks, err := os.Open(dir)
 	if err != nil {

@@ -1,0 +1,20 @@
+{
+    "controlID": "CIS-4.3.1",
+    "name": "Ensure CNI plugin supports network policies.",
+    "description": "There are a variety of CNI plugins available for Kubernetes. If the CNI in use does not support Network Policies it may not be possible to effectively restrict traffic in the cluster.",
+    "long_description": "Kubernetes network policies are enforced by the CNI plugin in use. As such it is important to ensure that the CNI plugin supports both Ingress and Egress network policies.",
+    "remediation": "As with RBAC policies, network policies should adhere to the policy of least privileged access. Start by creating a deny all policy that restricts all inbound and outbound traffic from a namespace or create a global policy using Calico.",
+    "manual_test": "Review the documentation of CNI plugin in use by the cluster, and confirm that it supports network policies.",
+    "references": [
+        "https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/",
+        "https://aws.github.io/aws-eks-best-practices/network/"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [],
+    "baseScore": 0,
+    "impact_statement": "None.",
+    "default_value": "This will depend on the CNI plugin in use.",
+    "control-CIS-ID": "CIS-4.3.1"
+} 

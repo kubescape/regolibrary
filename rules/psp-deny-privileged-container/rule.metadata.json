@@ -1,0 +1,25 @@
+{
+    "name": "psp-deny-privileged-container",
+    "attributes": {
+    "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "policy"
+        ],
+        "apiVersions": [
+          "v1beta1"
+        ],
+        "resources": [
+            "PodSecurityPolicy"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}

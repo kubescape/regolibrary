@@ -92,6 +92,5 @@
     },
     "path": "/etc/kubernetes/admin.conf",
     "permissions": 384
-  },
-  "CNIConfigFiles": []
+  }
 }

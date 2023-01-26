@@ -1,0 +1,21 @@
+{
+    "controlID": "CIS-4.3.2",
+    "name": "Ensure that all Namespaces have Network Policies defined",
+    "description": "Use network policies to isolate traffic in your cluster network.",
+    "long_description": "Running different applications on the same Kubernetes cluster creates a risk of one compromised application attacking a neighboring application. Network segmentation is important to ensure that containers can communicate only with those they are supposed to. A network policy is a specification of how selections of pods are allowed to communicate with each other and other network endpoints.\n\n Once there is any Network Policy in a namespace selecting a particular pod, that pod will reject any connections that are not allowed by any Network Policy. Other pods in the namespace that are not selected by any Network Policy will continue to accept all traffic\"",
+    "remediation": "Follow the documentation and create `NetworkPolicy` objects as you need them.",
+    "manual_test": "Run the below command and review the `NetworkPolicy` objects created in the cluster.\n\n \n```\nkubectl get networkpolicy --all-namespaces\n\n```\n Ensure that each namespace defined in the cluster has at least one Network Policy.",
+    "references": [
+        "https://kubernetes.io/docs/concepts/services-networking/networkpolicies/",
+        "https://octetz.com/posts/k8s-network-policy-apis",
+        "https://kubernetes.io/docs/tasks/configure-pod-container/declare-network-policy/"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [],
+    "baseScore": 0,
+    "impact_statement": "Once there is any Network Policy in a namespace selecting a particular pod, that pod will reject any connections that are not allowed by any Network Policy. Other pods in the namespace that are not selected by any Network Policy will continue to accept all traffic\"",
+    "default_value": "By default, network policies are not created.",
+    "control-CIS-ID": "CIS-4.3.2"
+} 
