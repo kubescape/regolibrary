@@ -6,6 +6,6 @@ deny[msga] {
 	obj := input[_]
 	obj.kind == "Service"
 	obj.spec.type == "LoadBalancer"
-	msg := {"alertObject": {"k8sApiObjects": [obj]}}
+	msga := {"alertObject": {"k8sApiObjects": [obj]}}
 }
 
