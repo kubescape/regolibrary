@@ -2,7 +2,7 @@ package armo_builtins
 import data.kubernetes.api.client as client
 import data
 
-deny[msga] {
+deny[msg] {
 	obj := input[_]
 	obj.kind == "Service"
 	obj.spec.type == "LoadBalancer"
