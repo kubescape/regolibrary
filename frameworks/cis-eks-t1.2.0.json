@@ -387,6 +387,12 @@
             }
         },
         {
+            "controlID": "C-0223",
+            "patch": {
+                "name": "CIS-5.1.3 Minimize cluster access to read-only for Amazon ECR"
+            }
+        },
+        {
             "controlID": "C-0225",
             "patch": {
                 "name": "CIS-5.2.1 Prefer using dedicated EKS Service Accounts"
