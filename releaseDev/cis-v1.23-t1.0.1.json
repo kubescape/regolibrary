@@ -4728,7 +4728,7 @@
             "description": "The RBAC role `cluster-admin` provides wide-ranging powers over the environment and should be used only where and when needed.",
             "long_description": "Kubernetes provides a set of default roles where RBAC is used. Some of these roles such as `cluster-admin` provide wide-ranging privileges which should only be applied where absolutely necessary. Roles such as `cluster-admin` allow super-user access to perform any action on any resource. When used in a `ClusterRoleBinding`, it gives full control over every resource in the cluster and in all namespaces. When used in a `RoleBinding`, it gives full control over every resource in the rolebinding's namespace, including the namespace itself.",
             "remediation": "Identify all clusterrolebindings to the cluster-admin role. Check if they are used and if they need this role or if they could use a role with fewer privileges.\n\n Where possible, first bind users to a lower privileged role and then remove the clusterrolebinding to the cluster-admin role :\n\n \n```\nkubectl delete clusterrolebinding [name]\n\n```",
-            "manual_test": "Obtain a list of the principals who have access to the `cluster-admin` role by reviewing the `clusterrolebinding` output for each role binding that has access to the `cluster-admin` role.\n\n \n```\nkubectl get clusterrolebindings -o=custom-columns=NAME:.metadata.name,ROLE:.roleRef.name,SUBJECT:.subjects[*].name\n\n```\n Review each principal listed and ensure that `cluster-admin` privilege is required for it.",
+            "manual_test": "Obtain a list of the principals who have access to the `cluster-admin` role by reviewing the `clusterrolebinding` output for each role binding that has access to the `cluster-admin` role.\n\n kubectl get clusterrolebindings -o=custom-columns=NAME:.metadata.name,ROLE:.roleRef.name,SUBJECT:.subjects[\\*].name\n\n Review each principal listed and ensure that `cluster-admin` privilege is required for it.",
             "test": "Check which subjects have are bound to the cluster-admin role with a clusterrolebinding.",
             "references": [
                 "https://workbench.cisecurity.org/sections/1126661/recommendations/1838588"
@@ -4791,7 +4791,7 @@
             },
             "baseScore": 6,
             "impact_statement": "Care should be taken not to remove access to secrets to system components which require this for their operation",
-            "default_value": "By default in a kubeadm cluster the following list of principals have `get` privileges on `secret` objects\n\n \n```\nCLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACE\ncluster-admin                                         system:masters                      Group           \nsystem:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-system\nsystem:controller:expand-controller                   expand-controller                   ServiceAccount  kube-system\nsystem:controller:generic-garbage-collector           generic-garbage-collector           ServiceAccount  kube-system\nsystem:controller:namespace-controller                namespace-controller                ServiceAccount  kube-system\nsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-system\nsystem:kube-controller-manager                        system:kube-controller-manager      User \n\n```",
+            "default_value": "By default, the following list of principals have `get` privileges on `secret` objects\n\n \n```\nCLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACE\ncluster-admin                                         system:masters                      Group           \nsystem:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-system\nsystem:controller:expand-controller                   expand-controller                   ServiceAccount  kube-system\nsystem:controller:generic-garbage-collector           generic-garbage-collector           ServiceAccount  kube-system\nsystem:controller:namespace-controller                namespace-controller                ServiceAccount  kube-system\nsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-system\nsystem:kube-controller-manager                        system:kube-controller-manager      User \n\n```",
             "rules": [
                 {
                     "name": "rule-can-list-get-secrets-v1",
@@ -4893,7 +4893,7 @@
             },
             "baseScore": 5,
             "impact_statement": "Care should be taken not to remove access to pods to system components which require this for their operation",
-            "default_value": "By default in a kubeadm cluster the following list of principals have `create` privileges on `pod` objects\n\n \n```\nCLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACE\ncluster-admin                                         system:masters                      Group           \nsystem:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-system\nsystem:controller:daemon-set-controller               daemon-set-controller               ServiceAccount  kube-system\nsystem:controller:job-controller                      job-controller                      ServiceAccount  kube-system\nsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-system\nsystem:controller:replicaset-controller               replicaset-controller               ServiceAccount  kube-system\nsystem:controller:replication-controller              replication-controller              ServiceAccount  kube-system\nsystem:controller:statefulset-controller              statefulset-controller              ServiceAccount  kube-system\n\n```",
+            "default_value": "By default, the following list of principals have `create` privileges on `pod` objects\n\n \n```\nCLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACE\ncluster-admin                                         system:masters                      Group           \nsystem:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-system\nsystem:controller:daemon-set-controller               daemon-set-controller               ServiceAccount  kube-system\nsystem:controller:job-controller                      job-controller                      ServiceAccount  kube-system\nsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-system\nsystem:controller:replicaset-controller               replicaset-controller               ServiceAccount  kube-system\nsystem:controller:replication-controller              replication-controller              ServiceAccount  kube-system\nsystem:controller:statefulset-controller              statefulset-controller              ServiceAccount  kube-system\n\n```",
             "rules": [
                 {
                     "name": "rule-can-create-pod",
@@ -4932,7 +4932,7 @@
             "controlID": "C-0189",
             "description": "The `default` service account should not be used to ensure that rights granted to applications can be more easily audited and reviewed.",
             "long_description": "Kubernetes provides a `default` service account which is used by cluster workloads where no specific service account is assigned to the pod.\n\n Where access to the Kubernetes API from a pod is required, a specific service account should be created for that pod, and rights granted to that service account.\n\n The default service account should be configured such that it does not provide a service account token and does not have any explicit rights assignments.",
-            "remediation": "Create explicit service accounts wherever a Kubernetes workload requires specific access to the Kubernetes API server.\n\n Modify the configuration of each default service account to include this value\n\n \n```\nautomountServiceAccountToken: false\n\n```",
+            "remediation": "Create explicit service accounts wherever a Kubernetes workload requires specific access to the Kubernetes API server.\n\n Modify the configuration of each default service account to include this value\n\n \n```\nautomountServiceAccountToken: false\n\n```\n Automatic remediation for the default account:\n\n `kubectl patch serviceaccount default -p $'automountServiceAccountToken: false'`",
             "manual_test": "For each namespace in the cluster, review the rights assigned to the default service account and ensure that it has no roles or cluster roles bound to it apart from the defaults.\n\n Additionally ensure that the `automountServiceAccountToken: false` setting is in place for each default service account.",
             "test": "Checks that each namespace has at least one service account that isn't the default, and checks that the default service accounts have 'automountServiceAccountToken: false' set",
             "references": [
@@ -5899,8 +5899,8 @@
             "name": "CIS-5.3.1 Ensure that the CNI in use supports Network Policies",
             "description": "There are a variety of CNI plugins available for Kubernetes. If the CNI in use does not support Network Policies it may not be possible to effectively restrict traffic in the cluster.",
             "long_description": "Kubernetes network policies are enforced by the CNI plugin in use. As such it is important to ensure that the CNI plugin supports both Ingress and Egress network policies.",
-            "remediation": "If the CNI plugin in use does not support network policies, consideration should be given to making use of a different plugin, or finding an alternate mechanism for restricting traffic in the Kubernetes cluster.",
-            "manual_test": "Review the documentation of CNI plugin in use by the cluster, and confirm that it supports Ingress and Egress network policies.",
+            "remediation": "As with RBAC policies, network policies should adhere to the policy of least privileged access. Start by creating a deny all policy that restricts all inbound and outbound traffic from a namespace or create a global policy using Calico.",
+            "manual_test": "Review the documentation of CNI plugin in use by the cluster, and confirm that it supports network policies.",
             "references": [
                 "https://workbench.cisecurity.org/sections/1126664/recommendations/1838627"
             ],
@@ -5908,7 +5908,7 @@
                 "armoBuiltin": true
             },
             "baseScore": 4,
-            "impact_statement": "None",
+            "impact_statement": "None.",
             "default_value": "This will depend on the CNI plugin in use.",
             "rules": [
                 {
@@ -5944,9 +5944,9 @@
             "name": "CIS-5.3.2 Ensure that all Namespaces have Network Policies defined",
             "controlID": "C-0206",
             "description": "Use network policies to isolate traffic in your cluster network.",
-            "long_description": "Running different applications on the same Kubernetes cluster creates a risk of one compromised application attacking a neighboring application. Network segmentation is important to ensure that containers can communicate only with those they are supposed to. A network policy is a specification of how selections of pods are allowed to communicate with each other and other network endpoints.\n\n Network Policies are namespace scoped. When a network policy is introduced to a given namespace, all traffic not allowed by the policy is denied. However, if there are no network policies in a namespace all traffic will be allowed into and out of the pods in that namespace.",
+            "long_description": "Running different applications on the same Kubernetes cluster creates a risk of one compromised application attacking a neighboring application. Network segmentation is important to ensure that containers can communicate only with those they are supposed to. A network policy is a specification of how selections of pods are allowed to communicate with each other and other network endpoints.\n\n Once there is any Network Policy in a namespace selecting a particular pod, that pod will reject any connections that are not allowed by any Network Policy. Other pods in the namespace that are not selected by any Network Policy will continue to accept all traffic\"",
             "remediation": "Follow the documentation and create `NetworkPolicy` objects as you need them.",
-            "manual_test": "Run the below command and review the `NetworkPolicy` objects created in the cluster.\n\n \n```\nkubectl --all-namespaces get networkpolicy\n\n```\n Ensure that each namespace defined in the cluster has at least one Network Policy.",
+            "manual_test": "Run the below command and review the `NetworkPolicy` objects created in the cluster.\n\n \n```\nkubectl get networkpolicy --all-namespaces\n\n```\n Ensure that each namespace defined in the cluster has at least one Network Policy.",
             "test": "Check for each namespace if there is a network policy defined.",
             "references": [
                 "https://workbench.cisecurity.org/sections/1126664/recommendations/1838628"
@@ -5955,7 +5955,7 @@
                 "armoBuiltin": true
             },
             "baseScore": 4,
-            "impact_statement": "Once network policies are in use within a given namespace, traffic not explicitly allowed by a network policy will be denied. As such it is important to ensure that, when introducing network policies, legitimate traffic is not blocked.",
+            "impact_statement": "Once there is any Network Policy in a namespace selecting a particular pod, that pod will reject any connections that are not allowed by any Network Policy. Other pods in the namespace that are not selected by any Network Policy will continue to accept all traffic\"",
             "default_value": "By default, network policies are not created.",
             "rules": [
                 {
@@ -5995,6 +5995,148 @@
                     "ruleQuery": "armo_builtins",
                     "rule": "package armo_builtins\n\n# input: network policies\n# apiversion: networking.k8s.io/v1\n# fails if no network policies are defined in a certain namespace\n\ndeny[msga] {\n\tnamespaces := [namespace | namespace = input[_]; namespace.kind == \"Namespace\"]\n\tnamespace := namespaces[_]\n\tpolicy_names := [policy.metadata.namespace | policy = input[_]; policy.kind == \"NetworkPolicy\"]\n\tnot list_contains(policy_names, namespace.metadata.name)\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"no policy is defined for namespace %v\", [namespace.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [namespace]\n\t\t}\n\t}\n}\n\nlist_contains(list, element) {\n  some i\n  list[i] == element\n}",
                     "resourceEnumerator": "package armo_builtins\n\n# input: network policies + namespaces\n# apiversion: networking.k8s.io/v1\n# returns all namespaces\n\ndeny[msga] {\n\tnamespaces := [namespace | namespace = input[_]; namespace.kind == \"Namespace\"]\n\tnamespace := namespaces[_]\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"no policy is defined for namespace %v\", [namespace.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [\"\"],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [namespace]\n\t\t}\n\t}\n}"
+                }
+            ]
+        },
+        {
+            "name": "CIS-5.4.1 Prefer using secrets as files over secrets as environment variables",
+            "controlID": "C-0207",
+            "description": "Kubernetes supports mounting secrets as data volumes or as environment variables. Minimize the use of environment variable secrets.",
+            "long_description": "It is reasonably common for application code to log out its environment (particularly in the event of an error). This will include any secret values passed in as environment variables, so secrets can easily be exposed to any user or entity who has access to the logs.",
+            "remediation": "If possible, rewrite application code to read secrets from mounted secret files, rather than from environment variables.",
+            "manual_test": "Run the following command to find references to objects which use environment variables defined from secrets.\n\n \n```\nkubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {\"\\n\"}{end}' -A\n\n```",
+            "test": "Check if pods have secrets in their environment variables",
+            "references": [
+                "https://workbench.cisecurity.org/sections/1126665/recommendations/1838630"
+            ],
+            "attributes": {
+                "armoBuiltin": true
+            },
+            "baseScore": 4,
+            "impact_statement": "Application code which expects to read secrets in the form of environment variables would need modification",
+            "default_value": "By default, secrets are not defined",
+            "rules": [
+                {
+                    "name": "rule-secrets-in-env-var",
+                    "attributes": {
+                        "armoBuiltin": true
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                ""
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Pod"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "apps"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Deployment",
+                                "ReplicaSet",
+                                "DaemonSet",
+                                "StatefulSet"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "batch"
+                            ],
+                            "apiVersions": [
+                                "*"
+                            ],
+                            "resources": [
+                                "Job",
+                                "CronJob"
+                            ]
+                        }
+                    ],
+                    "ruleDependencies": [],
+                    "description": "fails if Pods have secrets in environment variables",
+                    "remediation": "If possible, rewrite application code to read secrets from mounted secret files, rather than from environment variables.",
+                    "ruleQuery": "armo_builtins",
+                    "rule": "package armo_builtins\nimport data\n\ndeny[msga] {\n\tpod := input[_]\n\tpod.kind == \"Pod\"\n\n\tcontainer := pod.spec.containers[i]\n\tenv := container.env[j]\n\tenv.valueFrom.secretKeyRef\n\n\tpath := sprintf(\"spec.containers[%v].env[%v].name\", [format_int(i, 10), format_int(j, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Pod: %v has secrets in environment variables\", [pod.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n\t}\n}\n\ndeny[msga] {\n\twl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n\tcontainer := wl.spec.template.spec.containers[i]\n\tenv := container.env[j]\n\tenv.valueFrom.secretKeyRef\n\n\tpath := sprintf(\"spec.template.spec.containers[%v].env[%v].name\", [format_int(i, 10), format_int(j, 10)])\t\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"%v: %v has secrets in environment variables\", [wl.kind, wl.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\ndeny[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer := wl.spec.jobTemplate.spec.template.spec.containers[i]\n\tenv := container.env[j]\n\tenv.valueFrom.secretKeyRef\n\t\n\tpath := sprintf(\"spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name\", [format_int(i, 10), format_int(j, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Cronjob: %v has secrets in environment variables\", [wl.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n"
+                }
+            ]
+        },
+        {
+            "name": "CIS-5.4.1 Prefer using secrets as files over secrets as environment variables",
+            "controlID": "C-0207",
+            "description": "Kubernetes supports mounting secrets as data volumes or as environment variables. Minimize the use of environment variable secrets.",
+            "long_description": "It is reasonably common for application code to log out its environment (particularly in the event of an error). This will include any secret values passed in as environment variables, so secrets can easily be exposed to any user or entity who has access to the logs.",
+            "remediation": "If possible, rewrite application code to read secrets from mounted secret files, rather than from environment variables.",
+            "manual_test": "Run the following command to find references to objects which use environment variables defined from secrets.\n\n \n```\nkubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {\"\\n\"}{end}' -A\n\n```",
+            "test": "Check if pods have secrets in their environment variables",
+            "references": [
+                "https://workbench.cisecurity.org/sections/1126665/recommendations/1838630"
+            ],
+            "attributes": {
+                "armoBuiltin": true
+            },
+            "baseScore": 4,
+            "impact_statement": "Application code which expects to read secrets in the form of environment variables would need modification",
+            "default_value": "By default, secrets are not defined",
+            "rules": [
+                {
+                    "name": "rule-secrets-in-env-var",
+                    "attributes": {
+                        "armoBuiltin": true
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                ""
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Pod"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "apps"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Deployment",
+                                "ReplicaSet",
+                                "DaemonSet",
+                                "StatefulSet"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "batch"
+                            ],
+                            "apiVersions": [
+                                "*"
+                            ],
+                            "resources": [
+                                "Job",
+                                "CronJob"
+                            ]
+                        }
+                    ],
+                    "ruleDependencies": [],
+                    "description": "fails if Pods have secrets in environment variables",
+                    "remediation": "If possible, rewrite application code to read secrets from mounted secret files, rather than from environment variables.",
+                    "ruleQuery": "armo_builtins",
+                    "rule": "package armo_builtins\nimport data\n\ndeny[msga] {\n\tpod := input[_]\n\tpod.kind == \"Pod\"\n\n\tcontainer := pod.spec.containers[i]\n\tenv := container.env[j]\n\tenv.valueFrom.secretKeyRef\n\n\tpath := sprintf(\"spec.containers[%v].env[%v].name\", [format_int(i, 10), format_int(j, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Pod: %v has secrets in environment variables\", [pod.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n\t}\n}\n\ndeny[msga] {\n\twl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n\tcontainer := wl.spec.template.spec.containers[i]\n\tenv := container.env[j]\n\tenv.valueFrom.secretKeyRef\n\n\tpath := sprintf(\"spec.template.spec.containers[%v].env[%v].name\", [format_int(i, 10), format_int(j, 10)])\t\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"%v: %v has secrets in environment variables\", [wl.kind, wl.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\ndeny[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer := wl.spec.jobTemplate.spec.template.spec.containers[i]\n\tenv := container.env[j]\n\tenv.valueFrom.secretKeyRef\n\t\n\tpath := sprintf(\"spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name\", [format_int(i, 10), format_int(j, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Cronjob: %v has secrets in environment variables\", [wl.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n"
                 }
             ]
         },
@@ -6119,7 +6261,7 @@
             "name": "CIS-5.7.1 Create administrative boundaries between resources using namespaces",
             "controlID": "C-0209",
             "description": "Use namespaces to isolate your Kubernetes objects.",
-            "long_description": "Limiting the scope of user permissions can reduce the impact of mistakes or malicious activities. A Kubernetes namespace allows you to partition created resources into logically named groups. Resources created in one namespace can be hidden from other namespaces. By default, each resource created by a user in Kubernetes cluster runs in a default namespace, called `default`. You can create additional namespaces and attach resources and users to them. You can use Kubernetes Authorization plugins to create policies that segregate access to namespace resources between different users.",
+            "long_description": "Limiting the scope of user permissions can reduce the impact of mistakes or malicious activities. A Kubernetes namespace allows you to partition created resources into logically named groups. Resources created in one namespace can be hidden from other namespaces. By default, each resource created by a user in an Amazon EKS cluster runs in a default namespace, called `default`. You can create additional namespaces and attach resources and users to them. You can use Kubernetes Authorization plugins to create policies that segregate access to namespace resources between different users.",
             "remediation": "Follow the documentation and create namespaces for objects in your deployment as you need them.",
             "manual_test": "Run the below command and review the namespaces created in the cluster.\n\n \n```\nkubectl get namespaces\n\n```\n Ensure that these namespaces are the ones you need and are adequately administered as per your requirements.",
             "test": "Lists all namespaces in cluster for user to review",
@@ -6131,7 +6273,7 @@
             },
             "baseScore": 5,
             "impact_statement": "You need to switch between namespaces for administration.",
-            "default_value": "By default, Kubernetes starts with two initial namespaces:\n\n 1. `default` - The default namespace for objects with no other namespace\n2. `kube-system` - The namespace for objects created by the Kubernetes system\n3. `kube-node-lease` - Namespace used for node heartbeats\n4. `kube-public` - Namespace used for public information in a cluster",
+            "default_value": "By default, Kubernetes starts with two initial namespaces:\n\n 1. `default` - The default namespace for objects with no other namespace\n2. `kube-system` - The namespace for objects created by the Kubernetes system\n3. `kube-public` - The namespace for public-readable ConfigMap\n4. `kube-node-lease` - The namespace for associated lease object for each node",
             "rules": [
                 {
                     "name": "list-all-namespaces",
@@ -6884,6 +7026,8 @@
         "C-0204",
         "C-0205",
         "C-0206",
+        "C-0207",
+        "C-0207",
         "C-0207",
         "C-0208",
         "C-0209",

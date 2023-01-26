@@ -483,7 +483,8 @@
                     "controlsIDs": [
                         "C-0167",
                         "C-0171",
-                        "C-0235"
+                        "C-0235",
+                        "C-0238"
                     ]
                 },
                 "2": {
@@ -577,7 +578,8 @@
                     "name": "Image Registry and Image Scanning",
                     "id": "5.1",
                     "controlsIDs": [
-                        "C-0221"
+                        "C-0221",
+                        "C-0223"
                     ]
                 },
                 "2": {
