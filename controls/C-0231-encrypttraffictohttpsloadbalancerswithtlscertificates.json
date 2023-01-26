@@ -12,7 +12,7 @@
         "armoBuiltin": true
     },
     "rulesNames": ["ensure-https-loadbalancers-encrypted-with-tls-aws"],
-    "baseScore": 0,
+    "baseScore": 5.0,
     "impact_statement": "",
     "default_value": ""
 }

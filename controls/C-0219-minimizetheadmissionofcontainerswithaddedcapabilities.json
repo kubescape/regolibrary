@@ -15,7 +15,7 @@
     "rulesNames": [
         "psp-deny-allowed-capabilities"
     ],
-    "baseScore": 0,
+    "baseScore": 5.0,
     "impact_statement": "Pods with containers which require capabilities outwith the default set will not be permitted.",
     "default_value": "By default, PodSecurityPolicies are not defined. If a PSP is created 'allowedCapabilities' is set by default."
 }

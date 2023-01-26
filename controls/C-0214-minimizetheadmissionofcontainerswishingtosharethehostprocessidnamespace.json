@@ -14,7 +14,7 @@
     "rulesNames": [
         "psp-deny-hostpid"
     ],
-    "baseScore": 0,
+    "baseScore": 5.0,
     "impact_statement": "Pods defined with `spec.hostPID: true` will not be permitted unless they are run under a specific PSP.",
     "default_value": "By default, PodSecurityPolicies are not defined."
 }
