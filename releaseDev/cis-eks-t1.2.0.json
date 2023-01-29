@@ -357,6 +357,103 @@
             ]
         },
         {
+            "name": "CIS-5.1.4 Minimize Container Registries to only those approved",
+            "attributes": {
+                "armoBuiltin": true,
+                "microsoftMitreColumns": [
+                    "Collection"
+                ],
+                "controlTypeTags": [
+                    "security",
+                    "compliance"
+                ],
+                "attackTracks": [
+                    {
+                        "attackTrack": "container",
+                        "categories": [
+                            "Initial access",
+                            "Execution"
+                        ]
+                    }
+                ]
+            },
+            "description": "Use approved container registries.",
+            "remediation": "You should enable all trusted repositories in the parameters of this control.",
+            "long_description": "Allowing unrestricted access to external container registries provides the opportunity for malicious or unapproved containers to be deployed into the cluster. Allowlisting only approved container registries reduces this risk.",
+            "test": "Checks if image is from allowed listed registry.",
+            "controlID": "C-0078",
+            "baseScore": 5.0,
+            "rules": [
+                {
+                    "name": "container-image-repository",
+                    "attributes": {
+                        "m$K8sThreatMatrix": "Collection::Images from private registry",
+                        "armoBuiltin": true
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                ""
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Pod"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "apps"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Deployment",
+                                "ReplicaSet",
+                                "DaemonSet",
+                                "StatefulSet"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "batch"
+                            ],
+                            "apiVersions": [
+                                "*"
+                            ],
+                            "resources": [
+                                "Job",
+                                "CronJob"
+                            ]
+                        }
+                    ],
+                    "ruleDependencies": [],
+                    "configInputs": [
+                        "settings.postureControlInputs.imageRepositoryAllowList"
+                    ],
+                    "controlConfigInputs": [
+                        {
+                            "path": "settings.postureControlInputs.imageRepositoryAllowList",
+                            "name": "Allowed image repositories",
+                            "description": "Kubescape checks that all the containers are using images from the allowed repositories provided in the following list."
+                        }
+                    ],
+                    "description": "Fails if image is not from allowed repository",
+                    "remediation": "",
+                    "ruleQuery": "",
+                    "rule": "package armo_builtins\nimport data\nimport future.keywords.if\n# import data.kubernetes.api.client as client\n\nuntrusted_image_repo[msga] {\n\tpod := input[_]\n\tpod.kind == \"Pod\"\n\tcontainer := pod.spec.containers[i]\n\timage := container.image\n\tnot image_in_allowed_list(image)\n\tpath := sprintf(\"spec.containers[%v].image\", [format_int(i, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"image '%v' in container '%s' comes from untrusted registry\", [image, container.name]),\n\t\t\"alertScore\": 2,\n        \"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\":[],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n\t}\n}\n\nuntrusted_image_repo[msga] {\n\twl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n\tcontainer := wl.spec.template.spec.containers[i]\n\timage := container.image\n    not image_in_allowed_list(image)\n\n\tpath := sprintf(\"spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"image '%v' in container '%s' comes from untrusted registry\", [image, container.name]),\n\t\t\"alertScore\": 2,\n        \"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\":[],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\nuntrusted_image_repo[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer := wl.spec.jobTemplate.spec.template.spec.containers[i]\n\timage := container.image\n    not image_in_allowed_list(image)\n\n\tpath := sprintf(\"spec.jobTemplate.spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"image '%v' in container '%s' comes from untrusted registry\", [image, container.name]),\n\t\t\"alertScore\": 2,\n        \"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\":[],\n\t\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\n# image_in_allowed_list - rule to check if an image complies with imageRepositoryAllowList.\nimage_in_allowed_list(image){\n\n\t# see default-config-inputs.json for list values\n\tallowedlist := data.postureControlInputs.imageRepositoryAllowList\n\tregistry := allowedlist[_]\n\n\tregex.match(regexify(registry), docker_host_wrapper(image))\n}\n\n\n# docker_host_wrapper - wrap an image without a host with a docker hub host 'docker.io'. \n# An image that doesn't contain '/' is assumed to not having a host and therefore associated with docker hub.\ndocker_host_wrapper(image) := result if {\n\tnot contains(image, \"/\")\n\tresult := sprintf(\"docker.io/%s\", [image])\n} else := image\n\n\n# regexify - returns a registry regex to be searched only for the image host.\nregexify(registry) := result {\n\tendswith(registry, \"/\")\n\tresult = sprintf(\"^%s.*$\", [registry])\n} else := sprintf(\"^%s\\/.*$\", [registry])\n"
+                }
+            ],
+            "references": [
+                "https://aws.amazon.com/blogs/opensource/using-open-policy-agent-on-amazon-eks/"
+            ],
+            "impact_statement": "All container images to be deployed to the cluster must be hosted within an approved container image registry.",
+            "default_value": ""
+        },
+        {
             "controlID": "C-0167",
             "name": "CIS-3.1.2 Ensure that the kubelet kubeconfig file ownership is set to root:root",
             "description": "If `kubelet` is running, ensure that the file ownership of its kubeconfig file is set to `root:root`.",
@@ -2942,6 +3039,7 @@
     "ControlsIDs": [
         "C-0066",
         "C-0067",
+        "C-0078",
         "C-0167",
         "C-0171",
         "C-0172",

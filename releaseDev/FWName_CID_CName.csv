@@ -288,6 +288,7 @@ NSA,C-0069,Disable anonymous access to Kubelet service
 NSA,C-0070,Enforce Kubelet client TLS authentication
 cis-eks-t1.2.0,C-0066,Secret/ETCD encryption enabled
 cis-eks-t1.2.0,C-0067,Audit logs enabled
+cis-eks-t1.2.0,C-0078,Images from allowed registry
 cis-eks-t1.2.0,C-0167,Ensure that the --kubeconfig kubelet.conf file ownership is set to root:root
 cis-eks-t1.2.0,C-0171,If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root
 cis-eks-t1.2.0,C-0172,Ensure that the --anonymous-auth argument is set to false
