@@ -34,13 +34,7 @@ CPF := copy /y
 endif
 
 
-
 export CGO_ENABLED=1
-
-# build and install libgit2
-libgit2:
-	git submodule update --init --recursive
-	cd git2go; make install-static
 
 # go build tags
 TAGS = "static"
