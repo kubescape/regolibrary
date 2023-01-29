@@ -1180,10 +1180,10 @@
         "dynamicMatch": [
             {
                 "apiGroups": [
-                    "hostdata.kubescape.cloud"
+                    "eks.amazonaws.com"
                 ],
                 "apiVersions": [
-                    "v1beta0"
+                    "v1"
                 ],
                 "resources": [
                     "ListEntitiesForPolicies"

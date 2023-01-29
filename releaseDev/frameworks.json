@@ -7021,7 +7021,8 @@
                         "id": "5.1",
                         "controlsIDs": [
                             "C-0221",
-                            "C-0223"
+                            "C-0223",
+                            "C-0078"
                         ]
                     },
                     "2": {
@@ -7121,6 +7122,40 @@
                 "controlID": "C-0067",
                 "baseScore": 5.0,
                 "rules": []
+            },
+            {
+                "name": "CIS-5.1.4 Minimize Container Registries to only those approved",
+                "attributes": {
+                    "armoBuiltin": true,
+                    "microsoftMitreColumns": [
+                        "Collection"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "container",
+                            "categories": [
+                                "Initial access",
+                                "Execution"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Use approved container registries.",
+                "remediation": "You should enable all trusted repositories in the parameters of this control.",
+                "long_description": "Allowing unrestricted access to external container registries provides the opportunity for malicious or unapproved containers to be deployed into the cluster. Allowlisting only approved container registries reduces this risk.",
+                "test": "Checks if image is from allowed listed registry.",
+                "controlID": "C-0078",
+                "baseScore": 5.0,
+                "rules": [],
+                "references": [
+                    "https://aws.amazon.com/blogs/opensource/using-open-policy-agent-on-amazon-eks/"
+                ],
+                "impact_statement": "All container images to be deployed to the cluster must be hosted within an approved container image registry.",
+                "default_value": ""
             },
             {
                 "controlID": "C-0167",
@@ -7979,6 +8014,7 @@
         "ControlsIDs": [
             "C-0066",
             "C-0067",
+            "C-0078",
             "C-0167",
             "C-0171",
             "C-0172",
