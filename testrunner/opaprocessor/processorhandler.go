@@ -10,7 +10,6 @@ import (
 
 	"github.com/armosec/armoapi-go/armotypes"
 	"github.com/kubescape/k8s-interface/workloadinterface"
-	"github.com/kubescape/kubescape/v2/core/cautils"
 	"github.com/kubescape/opa-utils/objectsenvelopes"
 	"github.com/kubescape/opa-utils/reporthandling"
 	"gopkg.in/yaml.v3"
@@ -23,7 +22,7 @@ import (
 )
 
 type OPAProcessor struct {
-	*cautils.OPASessionObj
+	// *cautils.OPASessionObj
 	regoDependenciesData *resources.RegoDependenciesData
 }
 
@@ -32,7 +31,7 @@ var metadataFile = "rule.metadata.json"
 
 func NewOPAProcessorMock() *OPAProcessor {
 	return &OPAProcessor{
-		&cautils.OPASessionObj{},
+		// &cautils.OPASessionObj{},
 		&resources.RegoDependenciesData{},
 	}
 }
@@ -63,15 +62,15 @@ func GetPolicy(currentDirectoryOfTest string) (string, error) {
 
 }
 
-func NewOPAProcessor(sessionObj *cautils.OPASessionObj, regoDependenciesData *resources.RegoDependenciesData) *OPAProcessor {
-	if regoDependenciesData != nil && sessionObj != nil {
-		regoDependenciesData.PostureControlInputs = sessionObj.RegoInputData.PostureControlInputs
-	}
-	return &OPAProcessor{
-		OPASessionObj:        sessionObj,
-		regoDependenciesData: regoDependenciesData,
-	}
-}
+// func NewOPAProcessor(sessionObj *cautils.OPASessionObj, regoDependenciesData *resources.RegoDependenciesData) *OPAProcessor {
+// 	if regoDependenciesData != nil && sessionObj != nil {
+// 		regoDependenciesData.PostureControlInputs = sessionObj.RegoInputData.PostureControlInputs
+// 	}
+// 	return &OPAProcessor{
+// 		// OPASessionObj:        sessionObj,
+// 		regoDependenciesData: regoDependenciesData,
+// 	}
+// }
 
 func getRuleDependencies() (map[string]string, error) {
 	modules := resources.LoadRegoModules()
