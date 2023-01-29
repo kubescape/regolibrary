@@ -22,7 +22,6 @@ import (
 )
 
 type OPAProcessor struct {
-	// *cautils.OPASessionObj
 	regoDependenciesData *resources.RegoDependenciesData
 }
 
@@ -31,7 +30,6 @@ var metadataFile = "rule.metadata.json"
 
 func NewOPAProcessorMock() *OPAProcessor {
 	return &OPAProcessor{
-		// &cautils.OPASessionObj{},
 		&resources.RegoDependenciesData{},
 	}
 }
@@ -61,16 +59,6 @@ func GetPolicy(currentDirectoryOfTest string) (string, error) {
 	return string(policy), err
 
 }
-
-// func NewOPAProcessor(sessionObj *cautils.OPASessionObj, regoDependenciesData *resources.RegoDependenciesData) *OPAProcessor {
-// 	if regoDependenciesData != nil && sessionObj != nil {
-// 		regoDependenciesData.PostureControlInputs = sessionObj.RegoInputData.PostureControlInputs
-// 	}
-// 	return &OPAProcessor{
-// 		// OPASessionObj:        sessionObj,
-// 		regoDependenciesData: regoDependenciesData,
-// 	}
-// }
 
 func getRuleDependencies() (map[string]string, error) {
 	modules := resources.LoadRegoModules()
