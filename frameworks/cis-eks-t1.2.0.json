@@ -31,6 +31,19 @@
             }
         },
         {
+            "controlID": "C-0078",
+            "patch": {
+                "name": "CIS-5.1.4 Minimize Container Registries to only those approved",
+                "description": "Use approved container registries.",
+                "long_description": "Allowing unrestricted access to external container registries provides the opportunity for malicious or unapproved containers to be deployed into the cluster. Allowlisting only approved container registries reduces this risk.",
+                "references": [
+                    "https://aws.amazon.com/blogs/opensource/using-open-policy-agent-on-amazon-eks/"
+                ],
+                "impact_statement": "All container images to be deployed to the cluster must be hosted within an approved container image registry.",
+                "default_value": ""
+            }
+        },
+        {
             "controlID": "C-0167",
             "patch": {
                 "name": "CIS-3.1.2 Ensure that the kubelet kubeconfig file ownership is set to root:root",
