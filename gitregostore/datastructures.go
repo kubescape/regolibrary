@@ -41,11 +41,11 @@ type GitRegoStore struct {
 	SystemPostureExceptionPolicies     []armotypes.PostureExceptionPolicy
 	FrequencyPullFromGitMinutes        int
 	Watch                              bool
-	StripFilesExtention                bool
+	StripFilesExtension                bool
 }
 
 func newGitRegoStore(baseUrl string, owner string, repository string, path string, tag string, branch string, frequency int) *GitRegoStore {
-	var stripFilesExtention bool
+	var stripFilesExtension bool
 
 	watch := false
 	if frequency > 0 {
@@ -58,9 +58,9 @@ func newGitRegoStore(baseUrl string, owner string, repository string, path strin
 		if strings.ToLower(branch) == "master" {
 			branch = ""
 		}
-		stripFilesExtention = true
+		stripFilesExtension = true
 	} else {
-		stripFilesExtention = false
+		stripFilesExtension = false
 	}
 
 	gs := &GitRegoStore{httpClient: &http.Client{},
@@ -74,7 +74,7 @@ func newGitRegoStore(baseUrl string, owner string, repository string, path strin
 		Watch:                       watch,
 	}
 
-	gs.StripFilesExtention = stripFilesExtention
+	gs.StripFilesExtension = stripFilesExtension
 
 	return gs
 }
