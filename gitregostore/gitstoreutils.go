@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"path/filepath"
+	"net/url"
 	"regexp"
 	"strings"
 	"sync"
@@ -55,7 +55,7 @@ type Tree struct {
 }
 
 func (gs *GitRegoStore) stripExtention(filename string) string {
-	if gs.StripFilesExtention {
+	if gs.StripFilesExtension {
 		return strings.Split(filename, ".")[0]
 	}
 	return filename
@@ -63,7 +63,9 @@ func (gs *GitRegoStore) stripExtention(filename string) string {
 
 // func setURL()
 func (gs *GitRegoStore) setURL() {
-	gs.URL = gs.BaseUrl + "/" + filepath.Join(gs.Owner, gs.Repository, gs.Branch, gs.Path, gs.Tag)
+	if p, err := url.JoinPath(gs.BaseUrl, gs.Owner, gs.Repository, gs.Branch, gs.Path, gs.Tag); err == nil {
+		gs.URL = p
+	}
 }
 
 func (gs *GitRegoStore) setObjects() error {
