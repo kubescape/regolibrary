@@ -18,7 +18,15 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.19
-    
+
+    - name: golangci-lint
+      continue-on-error: true
+      uses: golangci/golangci-lint-action@v3
+      with:
+        version: latest
+        args: --timeout 10m ./...
+        only-new-issues: true
+
     - name: Test
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
