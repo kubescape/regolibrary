@@ -1,4 +1,11 @@
+[![Version](https://img.shields.io/github/v/release/kubescape/regolibrary)](releases)
+[![release-date](https://img.shields.io/github/release-date/kubescape/regolibrary)](releases)
+[![GitHub](https://img.shields.io/github/license/kubescape/kubescape)](https://github.com/kubescape/kubescape/blob/master/LICENSE)
+
 # Welcome to Kubescape Regolibrary!
+
+Kubescape Regolibrary is part of the Kubescape open-source Kubernetes security platform. It provides good practice software on security configurations for unmanaged Kubernetes clusters where you typically manage the Kubernetes cluster control plane and nodes.
+
 
 The main components of the [regolibrary](https://www.armosec.io/blog/kubescape-open-source-kubernetes-security-platform/?utm_source=github&utm_medium=repository):
 
@@ -270,17 +277,17 @@ The following controls are not supported in the OPA bundles:
 - C-0083 - Workloads with critical vulnerabilities exposed to external traffic
 <!-- End of OPA bundles removed controls -->
 
-## Support
+## Support & Communication
 Reach out if you have any questions:
 
 * [Open an issue](https://github.com/kubescape/regolibrary/issues/new/choose)
-* [Join us](https://discord.com/invite/WKZRaCtBxN) in the discussion on our discord server!
+* [Slack Community ](https://cloud-native.slack.com/archives/C04EY3ZF9GE) For any Q&A or support you can reach us at our CNCF Slack channels
 
-We aren't open for contributions currently, but feel free to contact us with suggestions :)
+
 
 ---
 
-### Our frameworks include:
+### Frameworks support:
 #### [NSA Framework](https://www.nsa.gov/Press-Room/News-Highlights/Article/Article/2716980/nsa-cisa-release-kubernetes-hardening-guidance/)
 
 #### [MITRE ATT&CK® Framework](https://www.microsoft.com/security/blog/wp-content/uploads/2021/03/Matrix-1536x926.png)
