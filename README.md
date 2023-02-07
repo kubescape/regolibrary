@@ -7,7 +7,7 @@
 This repository contains a library of security controls that codify Kubernetes best practices derived from the most prevalent security frameworks in the industry. [Kubescape](https://github.com/kubescape/kubescape) uses these controls to scan again running clusters or manifest files under development. They’re written in Rego, the purpose-built declarative policy language that supports Open Policy Agent (OPA).
 
 
-### **Library main componenets:**
+## Terminology
 
 - **Framework** - a group of controls to test against
 
@@ -15,11 +15,9 @@ This repository contains a library of security controls that codify Kubernetes b
 
 - **Rule** - a single specific test
 
----
+## Contributing
 
-## **Contributing**
-
-### **Add a framework** 
+### Add a framework
 
 Add `frameworkName.json` file in the `/frameworks` directory
 
@@ -49,7 +47,7 @@ Example of a framework:
 * Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
 * controlNames - List of controls to run, must be exact name. Use copy-paste to be sure.
 
-### **Add a control**
+### Add a control
 
 Add `controlName.json` file in the `/controls` directory.
 
@@ -79,7 +77,7 @@ Example of a control:
 
 * See [control go struct](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructures.go#L56) for more control fields
 
-### **Add a rule**:
+### Add a rule:
 
 1. Add to `/rules` a new directory with the rule name
 
@@ -283,9 +281,9 @@ Reach out if you have any questions:
 * [Slack Community ](https://cloud-native.slack.com/archives/C04EY3ZF9GE) For any Q&A or support you can reach us at our CNCF Slack channels
 
 
-## Frameworks support:
-- #### [NSA Framework](https://www.nsa.gov/Press-Room/News-Highlights/Article/Article/2716980/nsa-cisa-release-kubernetes-hardening-guidance/)
+## Learn more: 
+- [NSA Framework](https://www.nsa.gov/Press-Room/News-Highlights/Article/Article/2716980/nsa-cisa-release-kubernetes-hardening-guidance/)
 
-- #### [MITRE ATT&CK® Framework](https://www.microsoft.com/security/blog/wp-content/uploads/2021/03/Matrix-1536x926.png)
+- [MITRE ATT&CK® Framework](https://www.microsoft.com/security/blog/wp-content/uploads/2021/03/Matrix-1536x926.png)
 
-- #### [CIS Framework](https://workbench.cisecurity.org/benchmarks/8973)
+- [CIS Framework](https://workbench.cisecurity.org/benchmarks/8973)
