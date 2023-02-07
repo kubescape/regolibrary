@@ -2,22 +2,20 @@
 [![release-date](https://img.shields.io/github/release-date/kubescape/regolibrary)](releases)
 [![GitHub](https://img.shields.io/github/license/kubescape/kubescape)](https://github.com/kubescape/kubescape/blob/master/LICENSE)
 
-# Welcome to Kubescape Regolibrary!
+# Kubescape Regolibrary
 
-Kubescape Regolibrary is part of the Kubescape open-source Kubernetes security platform. It provides good practice software on security configurations for unmanaged Kubernetes clusters where you typically manage the Kubernetes cluster control plane and nodes.
-
-
-The main components of the [regolibrary](https://www.armosec.io/blog/kubescape-open-source-kubernetes-security-platform/?utm_source=github&utm_medium=repository):
-
-**Framework** - a group of controls to test against
-
-**Control** - a potential vulnerability to check, can include multiple rules
-
-**Rule** - a single specific test
-
-These are used by [Kubescape](https://github.com/kubescape/kubescape).
+This repository contains a library of security controls that codify Kubernetes best practices derived from the most prevalent security frameworks in the industry. [Kubescape](https://github.com/kubescape/kubescape) uses these controls to scan again running clusters or manifest files under development. They’re written in Rego, the purpose-built declarative policy language that supports Open Policy Agent (OPA).
 
 
+### **Library main componenets:**
+
+- **Framework** - a group of controls to test against
+
+- **Control** - a potential vulnerability to check, can include multiple rules
+
+- **Rule** - a single specific test
+
+---
 
 ## **Contributing**
 
@@ -277,13 +275,13 @@ The following controls are not supported in the OPA bundles:
 - C-0083 - Workloads with critical vulnerabilities exposed to external traffic
 <!-- End of OPA bundles removed controls -->
 
+---
+
 ## Support & Communication
 Reach out if you have any questions:
 
 * [Open an issue](https://github.com/kubescape/regolibrary/issues/new/choose)
 * [Slack Community ](https://cloud-native.slack.com/archives/C04EY3ZF9GE) For any Q&A or support you can reach us at our CNCF Slack channels
-
-
 
 ---
 
