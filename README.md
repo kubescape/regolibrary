@@ -275,7 +275,6 @@ The following controls are not supported in the OPA bundles:
 - C-0083 - Workloads with critical vulnerabilities exposed to external traffic
 <!-- End of OPA bundles removed controls -->
 
----
 
 ## Support & Communication
 Reach out if you have any questions:
@@ -283,11 +282,10 @@ Reach out if you have any questions:
 * [Open an issue](https://github.com/kubescape/regolibrary/issues/new/choose)
 * [Slack Community ](https://cloud-native.slack.com/archives/C04EY3ZF9GE) For any Q&A or support you can reach us at our CNCF Slack channels
 
----
 
-### Frameworks support:
-#### [NSA Framework](https://www.nsa.gov/Press-Room/News-Highlights/Article/Article/2716980/nsa-cisa-release-kubernetes-hardening-guidance/)
+## Frameworks support:
+- #### [NSA Framework](https://www.nsa.gov/Press-Room/News-Highlights/Article/Article/2716980/nsa-cisa-release-kubernetes-hardening-guidance/)
 
-#### [MITRE ATT&CK® Framework](https://www.microsoft.com/security/blog/wp-content/uploads/2021/03/Matrix-1536x926.png)
+- #### [MITRE ATT&CK® Framework](https://www.microsoft.com/security/blog/wp-content/uploads/2021/03/Matrix-1536x926.png)
 
-#### [CIS Framework](https://workbench.cisecurity.org/benchmarks/8973)
+- #### [CIS Framework](https://workbench.cisecurity.org/benchmarks/8973)
