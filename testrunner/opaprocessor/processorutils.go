@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"sort"
@@ -145,7 +144,7 @@ func SetPolicyRule(policy string, rego string) (*reporthandling.PolicyRule, erro
 }
 
 func GetExpectedResults(dir string) ([]reporthandling.RuleResponse, error) {
-	expected, err := ioutil.ReadFile(fmt.Sprintf("%v/%v", dir, expectedFilename))
+	expected, err := os.ReadFile(fmt.Sprintf("%v/%v", dir, expectedFilename))
 	if err != nil {
 		return nil, err
 	}
@@ -163,7 +162,7 @@ func GetExpectedResults(dir string) ([]reporthandling.RuleResponse, error) {
 }
 
 func GetInputResources(dir string) ([]map[string]interface{}, error) {
-	inputs, _ := ioutil.ReadDir(dir)
+	inputs, _ := os.ReadDir(dir)
 	var resources []map[string]interface{}
 
 	for _, input := range inputs {

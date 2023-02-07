@@ -1,0 +1,20 @@
+{
+    "controlID": "C-0226",
+    "name": "Prefer using a container-optimized OS when possible",
+    "description": "A container-optimized OS is an operating system image that is designed for secure managed hosting of containers on compute instances.\n\n Use cases for container-optimized OSes might include:\n\n * Docker container or Kubernetes support with minimal setup.\n* A small-secure container footprint.\n* An OS that is tested, hardened and verified for running Kubernetes nodes in your compute instances.",
+    "long_description": "Container-optimized OSes have a smaller footprint which will reduce the instance's potential attack surface. The container runtime is pre-installed and security settings like locked-down firewall is configured by default. Container-optimized images may also be configured to automatically update on a regular period in the background.",
+    "remediation": "",
+    "manual_test": "If a container-optimized OS is required examine the nodes in EC2 and click on their AMI to ensure that it is a container-optimized OS like Amazon Bottlerocket; or connect to the worker node and check its OS.",
+    "references": [
+        "https://aws.amazon.com/blogs/containers/bottlerocket-a-special-purpose-container-operating-system/",
+        "https://aws.amazon.com/bottlerocket/"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": ["alert-container-optimized-os-not-in-use"],
+    "baseScore": 0,
+    "impact_statement": "A container-optimized OS may have limited or no support for package managers, execution of non-containerized applications, or ability to install third-party drivers or kernel modules. Conventional remote access to the host (i.e. ssh) may not be possible, with access and debugging being intended via a management tool.",
+    "default_value": "A container-optimized OS is not the default.",
+    "control-CIS-ID": "CIS-3.3.1"
+} 

@@ -1,0 +1,17 @@
+{
+    "controlID": "CIS-4.1.3",
+    "name": "Minimize wildcard use in Roles and ClusterRoles",
+    "description": "Kubernetes Roles and ClusterRoles provide access to resources based on sets of objects and actions that can be taken on those objects. It is possible to set either of these to be the wildcard \"\\*\" which matches all items.\n\n Use of wildcards is not optimal from a security perspective as it may allow for inadvertent access to be granted when new resources are added to the Kubernetes API either as CRDs or in later versions of the product.",
+    "long_description": "The principle of least privilege recommends that users are provided only the access required for their role and nothing more. The use of wildcard rights grants is likely to provide excessive rights to the Kubernetes API.",
+    "remediation": "Where possible replace any use of wildcards in clusterroles and roles with specific objects or actions.",
+    "manual_test": "Retrieve the roles defined across each namespaces in the cluster and review for wildcards\n\n \n```\nkubectl get roles --all-namespaces -o yaml\n\n```\n Retrieve the cluster roles defined in the cluster and review for wildcards\n\n \n```\nkubectl get clusterroles -o yaml\n\n```",
+    "references": [],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [],
+    "baseScore": 0,
+    "impact_statement": "",
+    "default_value": "",
+    "control-CIS-ID": "CIS-4.1.3"
+} 

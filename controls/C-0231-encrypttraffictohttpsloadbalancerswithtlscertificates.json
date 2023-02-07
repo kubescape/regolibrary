@@ -1,0 +1,18 @@
+{
+    "controlID": "C-0231",
+    "name": "Encrypt traffic to HTTPS load balancers with TLS certificates",
+    "description": "Encrypt traffic to HTTPS load balancers using TLS certificates.",
+    "long_description": "Encrypting traffic between users and your Kubernetes workload is fundamental to protecting data sent over the web.",
+    "remediation": "",
+    "manual_test": "",
+    "references": [
+        "https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/data-protection.html"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": ["ensure-https-loadbalancers-encrypted-with-tls-aws"],
+    "baseScore": 5.0,
+    "impact_statement": "",
+    "default_value": ""
+}

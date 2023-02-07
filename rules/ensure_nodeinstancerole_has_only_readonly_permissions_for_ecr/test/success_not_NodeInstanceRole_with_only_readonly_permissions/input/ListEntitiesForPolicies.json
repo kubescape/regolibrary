@@ -1,0 +1,38 @@
+{
+    "apiVersion": "eks.amazonaws.com/v1",
+    "kind": "ListEntitiesForPolicies",
+    "metadata": {
+        "name": "clusterName",
+        "provider": "eks"
+    },
+    "data": {
+        "rolesPolicies": {
+            "arn:aws:iam::xxx2:policy/PolicyA": {
+                "IsTruncated": false,
+                "Marker": null,
+                "PolicyGroups": [],
+                "PolicyRoles": [
+                    {
+                        "RoleId": "roleID1",
+                        "RoleName": "yyy-nodegroup-sta-SomeOtherRole-xxx"
+                    }
+                ],
+                "PolicyUsers": [],
+                "ResultMetadata": {}
+            },
+            "arn:aws:iam::xxx:policy/AmazonEC2ContainerRegistryReadOnly": {
+                "IsTruncated": false,
+                "Marker": null,
+                "PolicyGroups": [],
+                "PolicyRoles": [
+                    {
+                        "RoleId": "roleID2",
+                        "RoleName": "yyy-nodegroup-sta-NodeInstanceRole-xxx1"
+                    }
+                ],
+                "PolicyUsers": [],
+                "ResultMetadata": {}
+            }
+        }
+    }
+}

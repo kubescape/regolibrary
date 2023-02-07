@@ -1,0 +1,21 @@
+{
+    "controlID": "CIS-3.2.8",
+    "name": "Ensure that the --hostname-override argument is not set",
+    "description": "Do not override node hostnames.",
+    "long_description": "Overriding hostnames could potentially break TLS setup between the kubelet and the apiserver. Additionally, with overridden hostnames, it becomes increasingly difficult to associate logs with a particular node and process them for security analytics. Hence, you should setup your kubelet nodes with resolvable FQDNs and avoid overriding the hostnames with IPs. Usage of --hostname-override also may have some undefined/unsupported behaviours.",
+    "remediation": "**Remediation Method 1:**\n\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and remove the below parameter from the `KUBELET_ARGS` variable string.\n\n \n```\n--hostname-override\n\n```\n Based on your system, restart the `kubelet` service and check status. The example below is for systemctl:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\nsystemctl status kubelet -l\n\n```",
+    "manual_test": "**Audit Method 1:**\n\n SSH to each node:\n\n Run the following command on each node to find the Kubelet process:\n\n \n```\nps -ef | grep kubelet\n\n```\n Verify that `--hostname-override` argument does not exist in the output of the above command.\n\n **Note** This setting is not configurable via the Kubelet config file.",
+    "references": [
+        "https://kubernetes.io/docs/admin/kubelet/",
+        "https://github.com/kubernetes/kubernetes/issues/22063",
+        "https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [],
+    "baseScore": 0,
+    "impact_statement": "--hostname-override may not take when the kubelet also has --cloud-provider aws",
+    "default_value": "See the Amazon EKS documentation for the default value.",
+    "control-CIS-ID": "CIS-3.2.8"
+} 

@@ -15,7 +15,7 @@
                 "v1beta0"
             ],
             "resources": [
-                "ControlPlaneInfo"
+                "CNIInfo"
             ]
         }
     ],

@@ -1,0 +1,22 @@
+{
+    "controlID": "CIS-2.1.1",
+    "name": "Enable audit Logs",
+    "description": "Control plane logs provide visibility into operation of the EKS Control plane component systems. The API server audit logs record all accepted and rejected requests in the cluster. When enabled via EKS configuration the control plane logs for a cluster are exported to a CloudWatch Log Group for persistence.",
+    "long_description": "Audit logs enable visibility into all API server requests from authentic and anonymous sources. Stored log data can be analyzed manually or with tools to identify and understand anomalous or negative activity and lead to intelligent remediations.",
+    "remediation": "**From Console:**\n\n 1. For each EKS Cluster in each region;\n2. Go to 'Amazon EKS' > 'Clusters' > '' > 'Configuration' > 'Logging'.\n3. Click 'Manage logging'.\n4. Ensure that all options are toggled to 'Enabled'.\n\n \n```\nAPI server: Enabled\nAudit: Enabled\t\nAuthenticator: Enabled\nController manager: Enabled\nScheduler: Enabled\n\n```\n 5. Click 'Save Changes'.\n\n **From CLI:**\n\n \n```\n# For each EKS Cluster in each region;\naws eks update-cluster-config \\\n    --region '${REGION_CODE}' \\\n    --name '${CLUSTER_NAME}' \\\n    --logging '{\"clusterLogging\":[{\"types\":[\"api\",\"audit\",\"authenticator\",\"controllerManager\",\"scheduler\"],\"enabled\":true}]}'\n\n```",
+    "manual_test": "**From Console:**\n\n 1. For each EKS Cluster in each region;\n2. Go to 'Amazon EKS' > 'Clusters' > 'CLUSTER\\_NAME' > 'Configuration' > 'Logging'.\n3. This will show the control plane logging configuration:\n\n \n```\nAPI server: Enabled / Disabled\t\nAudit: Enabled / Disabled\t\nAuthenticator: Enabled / Disabled\nController manager: Enabled / Disabled\nScheduler: Enabled / Disabled\n\n```\n 4. Ensure that all options are set to 'Enabled'.\n\n **From CLI:**\n\n \n```\n# For each EKS Cluster in each region;\naws eks describe-cluster --name '${CLUSTER_NAME}' --query 'cluster.logging.clusterLogging' --region '${REGION_CODE}'\n\n```",
+    "references": [
+        "https://kubernetes.io/docs/tasks/debug-application-cluster/audit/",
+        "https://aws.github.io/aws-eks-best-practices/detective/",
+        "https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html",
+        "https://docs.aws.amazon.com/eks/latest/userguide/logging-using-cloudtrail.html"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [],
+    "baseScore": 0,
+    "impact_statement": "",
+    "default_value": "Control Plane Logging is disabled by default.\n\n \n```\nAPI server: Disabled\t\nAudit: Disabled\t\nAuthenticator: Disabled\nController manager: Disabled\nScheduler: Disabled\n\n```",
+    "control-CIS-ID": "CIS-2.1.1"
+}

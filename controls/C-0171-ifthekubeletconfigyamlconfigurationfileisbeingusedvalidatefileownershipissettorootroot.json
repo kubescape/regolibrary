@@ -9,7 +9,7 @@
         "https://workbench.cisecurity.org/sections/1126659/recommendations/1838629"
     ],
     "rulesNames": [
-        "if-the-kubelet-config.yaml-configuration-file-is-being-used-validate-file-ownership-is-set-to-root-root"
+        "ensure-that-the-kubelet-configuration-file-ownership-is-set-to-root-root"
     ],
     "attributes": {
         "armoBuiltin": true
