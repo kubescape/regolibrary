@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -137,7 +136,7 @@ func RunSingleRego(rule *reporthandling.PolicyRule, inputObj []map[string]interf
 }
 
 func (opap *OPAProcessor) regoEval(inputObj []map[string]interface{}, compiledRego *ast.Compiler, data resources.RegoDependenciesData) ([]reporthandling.RuleResponse, error) {
-	configInput, err := ioutil.ReadFile("../default-config-inputs.json")
+	configInput, err := os.ReadFile("../default-config-inputs.json")
 	if err != nil {
 		return nil, err
 	}

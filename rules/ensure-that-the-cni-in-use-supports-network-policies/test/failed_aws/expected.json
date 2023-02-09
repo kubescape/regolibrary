@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "CNI doesn't support Network Policies.",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+                "data": {
+                    "CNINames": ["aws"]
+                },
+                "kind": "CNIInfo",
+                "metadata": {
+                    "name": "minikube"
+                }
+            }
+        },
+        "alertScore": 2,
+        "failedPaths": [],
+        "fixCommand": "",
+        "fixPaths": [],
+        "packagename": "armo_builtins"
+    }
+]

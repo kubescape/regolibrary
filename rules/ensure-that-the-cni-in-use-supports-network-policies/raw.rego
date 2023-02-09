@@ -2,27 +2,20 @@ package armo_builtins
 
 
 # Deny CNIs that don't support Network Policies.
-# Deny when CNIName in input and in CNINotSupportsNetworkPolicies list.
-# Pass when CNIName not in input, or when CNIName in input but not in CNINotSupportsNetworkPolicies
 
 deny[msg] {
 	# Filter out irrelevent resources
 	obj = input[_]
-    is_control_plane_info(obj)
-  
-	# list of CNIs not supporting support Network Policies
- 	CNINotSupportsNetworkPolicies := ["Flannel"]
 
-	# filter CNIs not supporting Network Policies
-    CNINotSupportsNetworkPolicies[_] = obj.data.CNIName
+    is_CNIInfo(obj)
+
+	network_policy_not_supported(obj.data.CNINames)
 
 	# filter out irrelevant host-sensor data
-    obj_filtered := json.filter(obj, ["apiVersion", "kind", "metadata", "data/CNIName"])
+    obj_filtered := json.filter(obj, ["apiVersion", "kind", "metadata", "data/CNINames"])
     
-	alert := sprintf("''%s' CNI doesn't support Network Policies.", [obj.data.CNIName])
-
     msg := {
-		"alertMessage": alert,
+		"alertMessage": "CNI doesn't support Network Policies.",
 		"alertScore": 2,
 		"failedPaths": [],
 		"fixPaths": [],
@@ -33,7 +26,25 @@ deny[msg] {
 	}
 }
 
-is_control_plane_info(obj) {
+is_CNIInfo(obj) {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
-	obj.kind == "ControlPlaneInfo"
+	obj.kind == "CNIInfo"
+}
+
+
+# deny if Flannel is running without calico
+network_policy_not_supported(CNIs) {
+	contains(CNIs, "Flannel")
+	not contains(CNIs, "Calico")
+}
+
+# deny if aws is running without any other CNI
+network_policy_not_supported(CNIs) {
+	contains(CNIs, "aws")
+	count(CNIs) < 2
+}
+
+
+contains(ls, elem) {
+  ls[_] = elem
 }

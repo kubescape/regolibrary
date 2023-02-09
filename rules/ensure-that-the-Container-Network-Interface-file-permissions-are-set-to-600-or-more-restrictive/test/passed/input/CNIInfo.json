@@ -1,0 +1,21 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "CNIInfo",
+    "metadata": {
+        "name": "minikube"
+    },
+    "data": {
+        "CNIConfigFiles": [
+            {
+                "ownership": {
+                    "uid": 0,
+                    "gid": 0,
+                    "username": "root",
+                    "groupname": "root"
+                },
+                "path": "/etc/cni/net.d/10-minikube.conflist",
+                "permissions": 384
+            }
+        ]
+    }
+}
