@@ -287,3 +287,11 @@ Reach out if you have any questions:
 - [MITRE ATT&CK® Framework](https://www.microsoft.com/security/blog/wp-content/uploads/2021/03/Matrix-1536x926.png)
 
 - [CIS Framework](https://workbench.cisecurity.org/benchmarks/8973)
+
+## Contributions
+
+Thanks to all our contributors! Check out our [CONTRIBUTING](https://github.com/kubescape/kubescape/blob/master/CONTRIBUTING.md) file to learn how to join them.
+
+* Feel free to pick a task from the [issues](https://github.com/kubescape/regolibrary/issues?q=is%3Aissue+is%3Aopen+label%3A%22open+for+contribution%22), roadmap or suggest a feature of your own.
+* [Open an issue](https://github.com/kubescape/regolibrary/issues/new/choose): we aim to respond to all issues within 48 hours.
+* [Join the CNCF Slack](https://slack.cncf.io/) and then our [users](https://cloud-native.slack.com/archives/C04EY3ZF9GE) or [developers](https://cloud-native.slack.com/archives/C04GY6H082K) channel.
