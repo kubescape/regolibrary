@@ -1,0 +1,20 @@
+{
+    "controlID": "C-0215",
+    "name": "Minimize the admission of containers wishing to share the host IPC namespace",
+    "description": "Do not generally permit containers to be run with the `hostIPC` flag set to true.",
+    "long_description": "A container running in the host's IPC namespace can use IPC to interact with processes outside the container.\n\n There should be at least one PodSecurityPolicy (PSP) defined which does not permit containers to share the host IPC namespace.\n\n If you have a requirement to containers which require hostIPC, this should be defined in a separate PSP and you should carefully check RBAC controls to ensure that only limited service accounts and users are given permission to access that PSP.",
+    "remediation": "Create a PSP as described in the Kubernetes documentation, ensuring that the `.spec.hostIPC` field is omitted or set to false.",
+    "manual_test": "Get the set of PSPs with the following command:\n\n \n```\nkubectl get psp\n\n```\n For each PSP, check whether privileged is enabled:\n\n \n```\nkubectl get psp <name> -o=jsonpath='{.spec.hostIPC}'\n\n```\n Verify that there is at least one PSP which does not return true.",
+    "references": [
+        "https://kubernetes.io/docs/concepts/policy/pod-security-policy"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "psp-deny-hostipc"
+    ],
+    "baseScore": 5.0,
+    "impact_statement": "Pods defined with `spec.hostIPC: true` will not be permitted unless they are run under a specific PSP.",
+    "default_value": "By default, PodSecurityPolicies are not defined."
+}

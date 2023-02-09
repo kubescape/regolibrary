@@ -792,6 +792,58 @@
         "resourceEnumerator": "package armo_builtins\n\ndeny[msg] {\n\tobj = input[_]\n\tis_controller_manager(obj)\n\tmsg := {\"alertObject\": {\"k8sApiObjects\": [obj]}}\n}\n\nis_controller_manager(obj) {\n\tobj.apiVersion == \"v1\"\n\tobj.kind == \"Pod\"\n\tobj.metadata.namespace == \"kube-system\"\n\tcount(obj.spec.containers) == 1\n\tcount(obj.spec.containers[0].command) > 0\n\tendswith(obj.spec.containers[0].command[0], \"kube-controller-manager\")\n}\n"
     },
     {
+        "name": "ensure-external-secrets-storage-is-in-use",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    ""
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "Pod"
+                ]
+            },
+            {
+                "apiGroups": [
+                    "apps"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "Deployment",
+                    "ReplicaSet",
+                    "DaemonSet",
+                    "StatefulSet"
+                ]
+            },
+            {
+                "apiGroups": [
+                    "batch"
+                ],
+                "apiVersions": [
+                    "*"
+                ],
+                "resources": [
+                    "Job",
+                    "CronJob"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "relevantCloudProviders": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\nimport data.kubernetes.api.client as client\nimport data\nimport future.keywords.in\n\n\n# deny workloads that doesn't support external service provider (secretProviderClass)\n# reference - https://secrets-store-csi-driver.sigs.k8s.io/concepts.html\ndeny[msga] {\n\n    resources := input[_]\n\n\t# get volume paths for each resource\n\tvolumes_path := get_volumes_path(resources)\n\n\t# get volumes for each resources\n\tvolumes := object.get(resources, volumes_path, [])\n\n\t# continue if secretProviderClass not found in resource\n\thaving_secretProviderClass := {i | volumes[i].csi.volumeAttributes.secretProviderClass}\n  \tcount(having_secretProviderClass) == 0\n\n\n\t# prepare message data.\n\talert_message :=  sprintf(\"%s: %v is not using external secret storage\", [resources.kind, resources.metadata.name])\n\tfailed_paths := []\n\tfixed_paths := [{\"path\":sprintf(\"%s[0].csi.volumeAttributes.secretProviderClass\",[concat(\".\", volumes_path)]), \"value\":\"YOUR_VALUE\"}]\n\n\tmsga := {\n\t\t\"alertMessage\": alert_message,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": failed_paths,\n\t\t\"fixPaths\": fixed_paths,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [resources]\n\t\t}\n\t}\n}\n\n\n# get_volume_path - get resource volumes paths for {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\nget_volumes_path(resources) := result {\n\tresources_kinds := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tresources_kinds[resources.kind]\n\tresult = [\"spec\", \"template\", \"spec\", \"volumes\"]\n}\n\n# get_volumes_path - get resource volumes paths for \"Pod\"\nget_volumes_path(resources) := result {\n\tresources.kind == \"Pod\"\n\tresult = [\"spec\", \"volumes\"]\n}\n\n# get_volumes_path - get resource volumes paths for \"CronJob\"\nget_volumes_path(resources) := result {\n\tresources.kind == \"CronJob\"\n\tresult = [\"spec\", \"jobTemplate\", \"spec\", \"template\", \"spec\", \"volumes\"]\n}\n"
+    },
+    {
         "name": "container-hostPort",
         "attributes": {
             "armoBuiltin": true
@@ -1035,6 +1087,41 @@
         "rule": "package armo_builtins\n\nimport future.keywords.in\n\n# fails if subject has create/modify access to pods \ndeny[msga] {\n\tsubjectVector := input[_]\n\trole := subjectVector.relatedObjects[i]\n\trolebinding := subjectVector.relatedObjects[j]\n\tendswith(role.kind, \"Role\")\n\tendswith(rolebinding.kind, \"Binding\")\n\n\trule := role.rules[p]\n\n\tsubject := rolebinding.subjects[k]\n\tis_same_subjects(subjectVector, subject)\n\nrule_path := sprintf(\"relatedObjects[%d].rules[%d]\", [i, p])\n\n\tverbs := [\"create\", \"patch\", \"update\", \"*\"]\n\tverb_path := [sprintf(\"%s.verbs[%d]\", [rule_path, l]) | verb = rule.verbs[l]; verb in verbs]\n\tcount(verb_path) > 0\n\n\tapi_groups := [\"\", \"*\"]\n\tapi_groups_path := [sprintf(\"%s.apiGroups[%d]\", [rule_path, a]) | apiGroup = rule.apiGroups[a]; apiGroup in api_groups]\n\tcount(api_groups_path) > 0\n\n\tresources := [\"pods\", \"deployments\", \"daemonsets\", \"replicasets\", \"statefulsets\", \"jobs\", \"cronjobs\", \"*\"]\n\tresources_path := [sprintf(\"%s.resources[%d]\", [rule_path, l]) | resource = rule.resources[l]; resource in resources]\n\tcount(resources_path) > 0\n\n\tpath := array.concat(resources_path, verb_path)\n\tpath2 := array.concat(path, api_groups_path)\n\tfinalpath := array.concat(path2, [\n\t\tsprintf(\"relatedObjects[%d].subjects[%d]\", [j, k]),\n\t\tsprintf(\"relatedObjects[%d].roleRef.name\", [j]),\n\t])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Subject: %s-%s can create/modify workloads\", [subjectVector.kind, subjectVector.name]),\n\t\t\"alertScore\": 3,\n\t\t\"failedPaths\": finalpath,\n\t\t\"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n\t\t\t\"externalObjects\": subjectVector,\n\t\t},\n\t}\n}\n\n# for service accounts\nis_same_subjects(subjectVector, subject) {\n\tsubjectVector.kind == subject.kind\n\tsubjectVector.name == subject.name\n\tsubjectVector.namespace == subject.namespace\n}\n\n# for users/ groups\nis_same_subjects(subjectVector, subject) {\n\tsubjectVector.kind == subject.kind\n\tsubjectVector.name == subject.name\n\tsubjectVector.apiGroup == subject.apiGroup\n}\n"
     },
     {
+        "name": "ensure-endpointprivateaccess-is-enabled-and-endpointpublicaccess-is-disabled-eks",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [],
+                "apiVersions": [],
+                "resources": []
+            }
+        ],
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "eks.amazonaws.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ClusterDescribe"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "EKS"
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\n\n# Check if EndpointPrivateAccess in disabled or EndpointPublicAccess is enabled for EKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"eks.amazonaws.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"eks\"\t\n\tconfig = cluster_config.data\n\n\t\t\n\tis_endpointaccess_misconfigured(config)\n\n\tmsga := {\n\t\t\"alertMessage\": \"endpointPrivateAccess is not enabled, or EndpointPublicAccess is enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"aws eks update-cluster-config --region $AWS_REGION --name $CLUSTER_NAME --resources-vpc-config endpointPrivateAccess=true,endpointPublicAccess=true,publicAccessCidrs='203.0.113.5/32'\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n# check if EndpointPrivateAccess is disabled\nis_endpointaccess_misconfigured(config) {\n\tconfig.Cluster.ResourcesVpcConfig.EndpointPrivateAccess == false\n}\n\n# check if EndpointPublicAccess is enabled\nis_endpointaccess_misconfigured(config) {\n\tconfig.Cluster.ResourcesVpcConfig.EndpointPublicAccess == true\n}\n\n"
+    },
+    {
         "name": "CVE-2022-3172",
         "attributes": {
             "armoBuiltin": true
@@ -1085,6 +1172,34 @@
         "resourceEnumerator": "package armo_builtins\n\nimport future.keywords.in\n\ndeny[msg] {\n\t# find aggregated API APIServices\n\tobj = input[_]\n\tobj.apiVersion == \"apiregistration.k8s.io/v1\"\n\tobj.kind == \"APIService\"\n\tapi_service := obj.spec.service\n\n\t# check API server version vulnerability\n\tapi_infos = [api_info |\n\t\tapi_info := input[i]\n\t\tapi_info.apiVersion == \"apiserverinfo.kubescape.cloud/v1beta0\"\n\t\tapi_info.kind == \"APIServerInfo\"\n\t\tapi_info.metadata.name == \"version\"\n\t]\n\n\t# Find the service that exposes the extended API\n\tservices = [ obj |\n\t\tobj := input[j]\n\t\tobj.apiVersion == \"v1\"\n\t\tobj.kind == \"Service\"\n\t\tobj.metadata.name == api_service.name\n\t]\n\n\n\tmsg := {\n\t\t\"alertObject\": {\"k8sApiObjects\": [obj]},\n\t}\n}\n\n"
     },
     {
+        "name": "ensure_nodeinstancerole_has_only_readonly_permissions_for_ecr",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "eks.amazonaws.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ListEntitiesForPolicies"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "EKS"
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\nimport future.keywords.if\nimport future.keywords.every\n\n# deny if a NodeInstanceRole has a poloicy that is not AmazonEC2ContainerRegistryReadOnly\ndeny[msg] {\n\tresources := input[_]\n\tresources.kind == \"ListEntitiesForPolicies\"\n\tresources.metadata.provider == \"eks\"\n    \n    # filter out policies that are not AmazonEC2ContainerRegistryReadOnly\n    ec2_readonly_policies_names := [key | resources.data.rolesPolicies[key]; not endswith(key, \"AmazonEC2ContainerRegistryReadOnly\")]\n    \n\t# construct a new object with the filtered policies\n\tec2_readonly_policies := object.filter(resources.data.rolesPolicies, ec2_readonly_policies_names)\n    \n\t# check if the filtered policies are attached to a NodeInstanceRole\n    is_NodeInstanceRole(ec2_readonly_policies)\n\n\n\tmsg := {\n\t\t\"alertMessage\": \"Cluster has none read-only access to ECR; Review AWS ECS worker node IAM role (NodeInstanceRole) IAM Policy Permissions to verify that they are set and the minimum required level.\",\n\t\t\"packagename\": \"armo_builtins\",\n\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObjects\": resources\n\t\t}\n\t}\n}\n\n\n# is_NodeInstanceRole - return true if the policy is attached to a NodeInstanceRole\nis_NodeInstanceRole(policies) {\n    some key, _ in policies\n    contains(policies[key].PolicyRoles[_].RoleName,\"NodeInstanceRole\")\n}"
+    },
+    {
         "name": "access-tiller-endpoint",
         "attributes": {
             "microsoftK8sThreatMatrix": "Lateral movement::Access tiller endpoint",
@@ -1110,6 +1225,41 @@
         "ruleQuery": "armo_builtins",
         "rule": "package armo_builtins\n\n# input: deployment\n# fails if tiller exists in cluster\n\ndeny[msga] {\n\tdeployment := \tinput[_]\n\tdeployment.kind == \"Deployment\"\n    deployment.metadata.name == \"tiller-deploy\"\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"tiller exists in namespace: %v\", [deployment.metadata.namespace]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [\"metadata.name\"],\n\t\t\"fixPaths\":[],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [deployment]\n\t\t}\n\t}\n}",
         "resourceEnumerator": "package armo_builtins\n\n# input: deployment\n# fails if tiller exists in cluster\n\ndeny[msga] {\n\tdeployment := \tinput[_]\n\tdeployment.kind == \"Deployment\"\n    deployment.metadata.name == \"tiller-deploy\"\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"tiller exists in namespace: %v\", [deployment.metadata.namespace]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [\"metadata.name\"],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [deployment]\n\t\t}\n\t}\n}"
+    },
+    {
+        "name": "ensure-endpointprivateaccess-is-enabled",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [],
+                "apiVersions": [],
+                "resources": []
+            }
+        ],
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "eks.amazonaws.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ClusterDescribe"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "EKS"
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\n\n# Check if EndpointPrivateAccess in disabled for EKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"eks.amazonaws.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"eks\"\t\n\tconfig = cluster_config.data\n\n\tconfig.Cluster.ResourcesVpcConfig.EndpointPrivateAccess == false    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"endpointPrivateAccess is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"aws eks update-cluster-config --region $AWS_REGION --name $CLUSTER_NAME --resources-vpc-config endpointPrivateAccess=true,endpointPublicAccess=false\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n"
     },
     {
         "name": "rule-list-all-cluster-admins",
@@ -1147,6 +1297,62 @@
         "rule": "package armo_builtins\nimport data.cautils as cautils\n\n# input: roles\n# apiversion: v1\n# does: returns roles+ related subjects in rolebinding\n\ndeny[msga] {\n\troles := [role |  role= input[_]; role.kind == \"Role\"]\n    rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == \"RoleBinding\"]\n    role:= roles[_]\n    rolebinding := rolebindings[_]\n\n    rule:= role.rules[i]\n\tcanCreate(rule, i)\n\tcanCreateResources(rule, i)\n\n\trolebinding.roleRef.kind == \"Role\"\n\trolebinding.roleRef.name == role.metadata.name\n    subject := rolebinding.subjects[i]\n    path := sprintf(\"subjects[%v]\", [format_int(i, 10)])\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"The following %v: %v have high privileges, such as cluster-admin\", [subject.kind, subject.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n        \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [role,rolebinding],\n\t\t\t\"externalObjects\": {\n\t\t\t\t\"subject\" : [subject]\n\t\t\t}\n\t\t}\n    }\n}\n\n# input: ClusterRole\n# apiversion: v1\n# does: returns clusterroles+ related subjects in rolebinding\n\ndeny[msga] {\n    roles := [role |  role= input[_]; role.kind == \"ClusterRole\"]\n    rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == \"RoleBinding\"]\n    role:= roles[_]\n    rolebinding := rolebindings[_]\n\n    rule:= role.rules[i]\n\tcanCreate(rule, i)\n\tcanCreateResources(rule, i)\n\n\trolebinding.roleRef.kind == \"ClusterRole\"\n\trolebinding.roleRef.name == role.metadata.name\n    \n    subject := rolebinding.subjects[i]\n    path := sprintf(\"subjects[%v]\", [format_int(i, 10)])\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"The following %v: %v have high privileges, such as cluster-admin\", [subject.kind, subject.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n        \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [role,rolebinding],\n\t\t\t\"externalObjects\": {\n\t\t\t\t\"subject\" : [subject]\n\t\t\t}\n\t\t}\n    }\n}\n\n# input: ClusterRole\n# apiversion: v1\n# does:\treturns clusterroles+ related subjects in clusterrolebinding\n\ndeny[msga] {\n    roles := [role |  role= input[_]; role.kind == \"ClusterRole\"]\n    rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == \"ClusterRoleBinding\"]\n    role:= roles[_]\n    rolebinding := rolebindings[_]\n\n    rule:= role.rules[i]\n\tcanCreate(rule, i)\n    canCreateResources(rule, i)\n\n\trolebinding.roleRef.kind == \"ClusterRole\"\n\trolebinding.roleRef.name == role.metadata.name\n\t\n    subject := rolebinding.subjects[i]\n    path := sprintf(\"subjects[%v]\", [format_int(i, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"The following %v: %v have high privileges, such as cluster-admin\", [subject.kind, subject.name]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [role,rolebinding],\n\t\t\t\"externalObjects\": {\n\t\t\t\t\"subject\" : [subject]\n\t\t\t}\n\t\t}\n\t}\n}\n\n\ncanCreate(rule, i) {\n\tverb := rule.verbs[j]\n\tverb == \"*\"\n}\n\ncanCreateResources(rule, i){\n\tis_api_group(rule)\n\tresource := rule.resources[j]\n\tresource == \"*\"\n}\n\nis_api_group(rule) {\n\tapiGroup := rule.apiGroups[_]\n\tapiGroup == \"\"\n}\n\nis_api_group(rule) {\n\tapiGroup := rule.apiGroups[_]\n\tapiGroup == \"*\"\n}\n"
     },
     {
+        "name": "ensure-that-the-kubelet-configuration-file-ownership-is-set-to-root-root",
+        "attributes": {
+            "armoBuiltin": true,
+            "hostSensorRule": "true"
+        },
+        "ruleLanguage": "Rego",
+        "match": [],
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "hostdata.kubescape.cloud"
+                ],
+                "apiVersions": [
+                    "v1beta0"
+                ],
+                "resources": [
+                    "KubeletInfo"
+                ]
+            }
+        ],
+        "ruleDependencies": [
+            {
+                "packageName": "cautils"
+            }
+        ],
+        "description": "Ensure that if the kubelet refers to a configuration file with the `--config` argument, that file is owned by root:root.",
+        "remediation": "Run the following command (using the config file location identied in the Audit step)\n\n \n```\nchown root:root /etc/kubernetes/kubelet.conf\n\n```",
+        "ruleQuery": "",
+        "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tis_kubelet_info(obj)\n\n\tfile_obj_path := [\"data\", \"configFile\"]\n\tfile := object.get(obj, file_obj_path, false)\n\n\t# Actual ownership check\n\tallowed_user := \"root\"\n\tallowed_group := \"root\"\n\tnot allowed_ownership(file.ownership, allowed_user, allowed_group)\n\n\t# Build the message\n\t# filter out irrelevant host-sensor data\n\tobj_filtered := json.filter(obj, [\n\t\tconcat(\"/\", file_obj_path),\n\t\t\"apiVersion\",\n\t\t\"kind\",\n\t\t\"metadata\",\n\t])\n\n\talert := sprintf(\"%s is not owned by %s:%s (actual owners are %s:%s)\", [\n\t\tfile.path,\n\t\tallowed_user,\n\t\tallowed_group,\n\t\tfile.ownership.username,\n\t\tfile.ownership.groupname,\n\t])\n\n\tmsg := {\n\t\t\"alertMessage\": alert,\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chown %s:%s %s\", [allowed_user, allowed_group, file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\t}\n}\n\nis_kubelet_info(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"KubeletInfo\"\n}\n\nallowed_ownership(ownership, user, group) {\n\townership.error # Do not fail if ownership is not found\n}\n\nallowed_ownership(ownership, user, group) {\n\townership.username == user\n\townership.groupname == group\n}\n"
+    },
+    {
+        "name": "psp-deny-privileged-container",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "policy"
+                ],
+                "apiVersions": [
+                    "v1beta1"
+                ],
+                "resources": [
+                    "PodSecurityPolicy"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\nimport future.keywords.every\n\ndeny[msga] {\n\t# only fail resources if there all PSPs have privileged set to true\n\t# if even one PSP has privileged set to false, then the rule will not fail\n\tevery psp in input {\n\t\tpsp.kind == \"PodSecurityPolicy\"\n\t\tpsp.spec.privileged == true\n\t}\n\n\t# return al the PSPs that have privileged set to true\n\tpsp := input[_]\n\tpsp.kind == \"PodSecurityPolicy\"\n\tpsp.spec.privileged == true\n\n\tpath := \"spec.privileged\"\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"PodSecurityPolicy: '%v' has privileged set as true.\", [psp.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\"k8sApiObjects\": [psp]},\n\t}\n}\n"
+    },
+    {
         "name": "ensure-that-the-cni-in-use-supports-network-policies",
         "attributes": {
             "armoBuiltin": true,
@@ -1163,7 +1369,7 @@
                     "v1beta0"
                 ],
                 "resources": [
-                    "ControlPlaneInfo"
+                    "CNIInfo"
                 ]
             }
         ],
@@ -1171,7 +1377,7 @@
         "description": "There are a variety of CNI plugins available for Kubernetes. If the CNI in use does not support Network Policies it may not be possible to effectively restrict traffic in the cluster.",
         "remediation": "If the CNI plugin in use does not support network policies, consideration should be given to making use of a different plugin, or finding an alternate mechanism for restricting traffic in the Kubernetes cluster.",
         "ruleQuery": "",
-        "rule": "package armo_builtins\n\n\n# Deny CNIs that don't support Network Policies.\n# Deny when CNIName in input and in CNINotSupportsNetworkPolicies list.\n# Pass when CNIName not in input, or when CNIName in input but not in CNINotSupportsNetworkPolicies\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n    is_control_plane_info(obj)\n  \n\t# list of CNIs not supporting support Network Policies\n \tCNINotSupportsNetworkPolicies := [\"Flannel\"]\n\n\t# filter CNIs not supporting Network Policies\n    CNINotSupportsNetworkPolicies[_] = obj.data.CNIName\n\n\t# filter out irrelevant host-sensor data\n    obj_filtered := json.filter(obj, [\"apiVersion\", \"kind\", \"metadata\", \"data/CNIName\"])\n    \n\talert := sprintf(\"''%s' CNI doesn't support Network Policies.\", [obj.data.CNIName])\n\n    msg := {\n\t\t\"alertMessage\": alert,\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\n\t}\n}\n\nis_control_plane_info(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"ControlPlaneInfo\"\n}\n"
+        "rule": "package armo_builtins\n\n\n# Deny CNIs that don't support Network Policies.\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\n    is_CNIInfo(obj)\n\n\tnetwork_policy_not_supported(obj.data.CNINames)\n\n\t# filter out irrelevant host-sensor data\n    obj_filtered := json.filter(obj, [\"apiVersion\", \"kind\", \"metadata\", \"data/CNINames\"])\n    \n    msg := {\n\t\t\"alertMessage\": \"CNI doesn't support Network Policies.\",\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\n\t}\n}\n\nis_CNIInfo(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"CNIInfo\"\n}\n\n\n# deny if Flannel is running without calico\nnetwork_policy_not_supported(CNIs) {\n\tcontains(CNIs, \"Flannel\")\n\tnot contains(CNIs, \"Calico\")\n}\n\n# deny if aws is running without any other CNI\nnetwork_policy_not_supported(CNIs) {\n\tcontains(CNIs, \"aws\")\n\tcount(CNIs) < 2\n}\n\n\ncontains(ls, elem) {\n  ls[_] = elem\n}"
     },
     {
         "name": "ensure-that-the-API-Server-only-makes-use-of-Strong-Cryptographic-Ciphers",
@@ -1467,6 +1673,31 @@
         "remediation": "Make sure you define seccompProfile at workload or container lever.",
         "ruleQuery": "armo_builtins",
         "rule": "package armo_builtins\n\n# Fails if pod does not define seccompProfile\ndeny[msga] {\n    wl := input[_]\n    wl.kind == \"Pod\"\n    spec := wl.spec\n\tpath_to_search := [\"securityContext\", \"seccompProfile\"]\n\tseccompProfile_not_defined(spec, path_to_search)\n\n\tpath_to_containers := [\"spec\", \"containers\"]\n\tcontainers := object.get(wl, path_to_containers, [])\n\tcontainer := containers[i]\n    seccompProfile_not_defined(container, path_to_search)\n\n\tfix_path := sprintf(\"%s[%d].%s\", [concat(\".\", path_to_containers), i, concat(\".\", path_to_search)]) \n\tfixPaths := [{\"path\": fix_path, \"value\": \"YOUR_VALUE\"}]\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Pod: %v does not define seccompProfile\", [wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": fixPaths,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\n# Fails if workload does not define seccompProfile\ndeny[msga] {\n    wl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n    spec := wl.spec.template.spec\n\tpath_to_search := [\"securityContext\", \"seccompProfile\"]\n\tseccompProfile_not_defined(spec, path_to_search)\n\n\tpath_to_containers := [\"spec\", \"template\", \"spec\", \"containers\"]\n\tcontainers := object.get(wl, path_to_containers, [])\n\tcontainer := containers[i]\n    seccompProfile_not_defined(container, path_to_search)\n\n\tfix_path := sprintf(\"%s[%d].%s\", [concat(\".\", path_to_containers), i, concat(\".\", path_to_search)]) \n\tfixPaths := [{\"path\": fix_path, \"value\": \"YOUR_VALUE\"}]\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Workload: %v does not define seccompProfile\", [wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": fixPaths,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\n\n# Fails if CronJob does not define seccompProfile\ndeny[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n    spec := wl.spec.jobTemplate.spec.template.spec\n\tpath_to_search := [\"securityContext\", \"seccompProfile\"]\n\tseccompProfile_not_defined(spec, path_to_search)\n\n\tpath_to_containers := [\"spec\", \"jobTemplate\", \"spec\", \"template\", \"spec\", \"containers\"]\n\tcontainers := object.get(wl, path_to_containers, [])\n\tcontainer := containers[i]\n    seccompProfile_not_defined(container, path_to_search)\n\n\tfix_path := sprintf(\"%s[%d].%s\", [concat(\".\", path_to_containers), i, concat(\".\", path_to_search)]) \n\tfixPaths := [{\"path\": fix_path, \"value\": \"YOUR_VALUE\"}]\n\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Cronjob: %v does not define seccompProfile\", [wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": fixPaths,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\nseccompProfile_not_defined(spec, path_to_search){\n\tobject.get(spec, path_to_search, \"\") == \"\"\n}"
+    },
+    {
+        "name": "psp-deny-hostnetwork",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "policy"
+                ],
+                "apiVersions": [
+                    "v1beta1"
+                ],
+                "resources": [
+                    "PodSecurityPolicy"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\nimport future.keywords.every\n\ndeny[msga] {\n\t# only fail resources if there all PSPs have hostNetwork set to true\n\t# if even one PSP has hostNetwork set to false, then the rule will not fail\n\tevery psp in input {\n\t\tpsp.kind == \"PodSecurityPolicy\"\n\t\tpsp.spec.hostNetwork == true\n\t}\n\n\t# return al the PSPs that have hostNetwork set to true\n\tpsp := input[_]\n\tpsp.kind == \"PodSecurityPolicy\"\n\tpsp.spec.hostNetwork == true\n\n\tpath := \"spec.hostNetwork\"\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"PodSecurityPolicy: '%v' has hostNetwork set as true.\", [psp.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\"k8sApiObjects\": [psp]},\n\t}\n}\n"
     },
     {
         "name": "ensure-that-the-api-server-encryption-providers-are-appropriately-configured",
@@ -1788,6 +2019,31 @@
         "remediation": "Run the below command (based on the file location on your system) on the each worker node. For example,\n\n \n```\nchmod 600 <proxy kubeconfig file>\n\n```",
         "ruleQuery": "",
         "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tis_kubproxy_info(obj)\n\n\tfile_obj_path := [\"data\", \"kubeConfigFile\"]\n\tfile := object.get(obj, file_obj_path, false)\n\n\t# Actual permissions test    \n\tallowed_perms := 384 # == 0o600\n\tnot cautils.unix_permissions_allow(allowed_perms, file.permissions)\n\n\t# Build the message\n\t# filter out irrelevant host-sensor data\n\tobj_filtered := json.filter(obj, [\n\t\tconcat(\"/\", file_obj_path),\n\t\t\"apiVersion\",\n\t\t\"kind\",\n\t\t\"metadata\",\n\t])\n\n\talert := sprintf(\"the permissions of %s are too permissive. maximum allowed: %o. actual: %o\", [file.path, allowed_perms, file.permissions])\n\tmsg := {\n\t\t\"alertMessage\": alert,\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chmod %o %s\", [allowed_perms, file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\t}\n}\n\nis_kubproxy_info(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"KubeProxyInfo\"\n}\n"
+    },
+    {
+        "name": "psp-deny-allowprivilegeescalation",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "policy"
+                ],
+                "apiVersions": [
+                    "v1beta1"
+                ],
+                "resources": [
+                    "PodSecurityPolicy"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\nimport future.keywords.every\n\ndeny[msga] {\n\t# only fail resources if there all PSPs have allowPrivilegeEscalation set to true\n\t# if even one PSP has allowPrivilegeEscalation set to false, then the rule will not fail\n\tevery psp in input {\n\t\tpsp.kind == \"PodSecurityPolicy\"\n\t\tpsp.spec.allowPrivilegeEscalation == true\n\t}\n\n\t# return al the PSPs that have allowPrivilegeEscalation set to true\n\tpsp := input[_]\n\tpsp.kind == \"PodSecurityPolicy\"\n\tpsp.spec.allowPrivilegeEscalation == true\n\n\tpath := \"spec.allowPrivilegeEscalation\"\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"PodSecurityPolicy: '%v' has allowPrivilegeEscalation set as true.\", [psp.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\"k8sApiObjects\": [psp]},\n\t}\n}\n"
     },
     {
         "name": "k8s-audit-logs-enabled-native-cis",
@@ -3374,6 +3630,35 @@
         "rule": "package armo_builtins\n\nimport future.keywords.in\n\n#CIS 4.2.11 https://workbench.cisecurity.org/sections/1126668/recommendations/1838658\n\ndeny[msga] {\n\tobj := input[_]\n\tis_kubelet_info(obj)\n\n\tcommand := obj.data.cmdLine\n\n\tcontains(command, \"--rotate-certificates\")\n\tnot contains(command, \"--rotate-certificates=true\")\n\n\texternal_obj := json.filter(obj, [\"apiVersion\", \"data/cmdLine\", \"kind\", \"metadata\"])\n\n\tmsga := {\n\t\t\"alertMessage\": \"Kubelet client certificates rotation is disabled\",\n\t\t\"alertScore\": 6,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": external_obj},\n\t}\n}\n\ndeny[msga] {\n\tobj := input[_]\n\tis_kubelet_info(obj)\n\n\tcommand := obj.data.cmdLine\n\n\tnot contains(command, \"--rotate-certificates\")\n\tcontains(command, \"--config\")\n\n\tdecodedConfigContent := base64.decode(obj.data.configFile.content)\n\tyamlConfig := yaml.unmarshal(decodedConfigContent)\n\tyamlConfig.rotateCertificates == false\n\n\tmsga := {\n\t\t\"alertMessage\": \"Kubelet client certificates rotation is disabled\",\n\t\t\"alertScore\": 6,\n\t\t\"failedPaths\": [\"rotateCertificates\"],\n\t\t\"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": {\n\t\t\t\"apiVersion\": obj.apiVersion,\n\t\t\t\"kind\": obj.kind,\n\t\t\t\"metadata\": obj.metadata,\n\t\t\t\"data\": {\"configFile\": {\"content\": decodedConfigContent}},\n\t\t}},\n\t}\n}\n\n## Host sensor failed to get config file content\ndeny[msga] {\n\tobj := input[_]\n\tis_kubelet_info(obj)\n\n\tcommand := obj.data.cmdLine\n\n\tnot contains(command, \"--rotate-certificates\")\n\tcontains(command, \"--config\")\n\n\tnot obj.data.configFile.content\n\n\tmsga := {\n\t\t\"alertMessage\": \"Failed to analyze config file\",\n\t\t\"alertScore\": 6,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": {\n\t\t\t\"apiVersion\": obj.apiVersion,\n\t\t\t\"kind\": obj.kind,\n\t\t\t\"data\": obj.data,\n\t\t}},\n\t}\n}\n\nis_kubelet_info(obj) {\n\tobj.kind == \"KubeletInfo\"\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n}\n"
     },
     {
+        "name": "ensure-https-loadbalancers-encrypted-with-tls-aws",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    ""
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "Service"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "relevantCloudProviders": [
+            "EKS"
+        ],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\nimport data.kubernetes.api.client as client\nimport data\n\n# deny LoadBalancer services that are configured for ssl connection (port: 443), but don't have TLS certificate set.\ndeny[msga] {\n\n\twl_kind := \"Service\"\n\twl_type := \"LoadBalancer\"\n\twl_required_annotation := \"service.beta.kubernetes.io/aws-load-balancer-ssl-cert\"\n\n\t# filterring LoadBalancers\n\twl := \tinput[_]\n\twl.kind == wl_kind\n\twl.spec.type == wl_type\t\n\n\t#  filterring loadbalancers with port 443.\n\twl.spec.ports[_].port == 443\n\n\t# filterring annotations without ssl cert confgiured.\n\tannotations := object.get(wl, [\"metadata\", \"annotations\"], [])\n\tssl_cert_annotations := [annotations[i] | annotation = i; startswith(i, wl_required_annotation)]\n\tcount(ssl_cert_annotations) == 0\n\n\t# prepare message data.\n\talert_message :=  sprintf(\"LoadBalancer '%v' has no TLS configured\", [wl.metadata.name])\n\tfailed_paths := []\n\tfixed_paths := [{\"path\": sprintf(\"metadata.annotations['%v']\", [wl_required_annotation]), \"value\": \"AWS_LOADBALANCER_SSL_CERT\"}]\n\n\tmsga := {\n\t\t\"alertMessage\": alert_message,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": failed_paths,\n\t\t\"fixPaths\": fixed_paths,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": wl\n\t\t}\n\t}\n}\n\n",
+        "resourceEnumerator": "package armo_builtins\nimport data.kubernetes.api.client as client\nimport data\n\ndeny[msga] {\n\tobj := input[_]\n\tobj.kind == \"Service\"\n\tobj.spec.type == \"LoadBalancer\"\n\tmsga := {\"alertObject\": {\"k8sApiObjects\": [obj]}}\n}\n\n"
+    },
+    {
         "name": "ingress-and-egress-blocked",
         "attributes": {
             "armoBuiltin": true
@@ -3715,7 +4000,7 @@
                     "v1beta0"
                 ],
                 "resources": [
-                    "ControlPlaneInfo"
+                    "CNIInfo"
                 ]
             }
         ],
@@ -3727,7 +4012,7 @@
         "description": "Ensure that the Container Network Interface files have permissions of `600` or more restrictive.",
         "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchmod 600 <path/to/cni/files>\n\n```",
         "ruleQuery": "",
-        "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tis_control_plane_info(obj)\n\n\tfile_obj_path := [\"data\", \"CNIConfigFiles\"]\n\tfiles := object.get(obj, file_obj_path, false)\n\tfile := files[file_index]\n\n\t# Actual permissions test    \n\tallowed_perms := 384 # == 0o600\n\tnot cautils.unix_permissions_allow(allowed_perms, file.permissions)\n\n\t# Build the message\n\t# filter out irrelevant host-sensor data\n\tobj_filtered := json.filter(obj, [\n\t\tsprintf(\"%s/%d\", [concat(\"/\", file_obj_path), file_index]),\n\t\t\"apiVersion\",\n\t\t\"kind\",\n\t\t\"metadata\",\n\t])\n\n\talert := sprintf(\"the permissions of %s are too permissive. maximum allowed: %o. actual: %o\", [file.path, allowed_perms, file.permissions])\n\tmsg := {\n\t\t\"alertMessage\": alert,\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chmod %o %s\", [allowed_perms, file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\t}\n}\n\nis_control_plane_info(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"ControlPlaneInfo\"\n}\n"
+        "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tis_CNIInfo(obj)\n\n\tfile_obj_path := [\"data\", \"CNIConfigFiles\"]\n\tfiles := object.get(obj, file_obj_path, false)\n\tfile := files[file_index]\n\n\t# Actual permissions test    \n\tallowed_perms := 384 # == 0o600\n\tnot cautils.unix_permissions_allow(allowed_perms, file.permissions)\n\n\t# Build the message\n\t# filter out irrelevant host-sensor data\n\tobj_filtered := json.filter(obj, [\n\t\tsprintf(\"%s/%d\", [concat(\"/\", file_obj_path), file_index]),\n\t\t\"apiVersion\",\n\t\t\"kind\",\n\t\t\"metadata\",\n\t])\n\n\talert := sprintf(\"the permissions of %s are too permissive. maximum allowed: %o. actual: %o\", [file.path, allowed_perms, file.permissions])\n\tmsg := {\n\t\t\"alertMessage\": alert,\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chmod %o %s\", [allowed_perms, file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\t}\n}\n\nis_CNIInfo(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"CNIInfo\"\n}\n"
     },
     {
         "name": "insecure-port-flag",
@@ -3829,37 +4114,6 @@
         "remediation": "",
         "ruleQuery": "armo_builtins",
         "rule": "package armo_builtins\n# import data.cautils as cautils\n# import data.kubernetes.api.client as client\nimport data\n\n# fails if config map has keys with suspicious name\ndeny[msga] {\n\tconfigmap := input[_]\n    configmap.kind == \"ConfigMap\"\n    # see default-config-inputs.json for list values\n    sensitive_key_names := data.postureControlInputs.sensitiveKeyNames\n    key_name := sensitive_key_names[_]\n    map_secret := configmap.data[map_key]\n    map_secret != \"\"\n    \n    contains(lower(map_key), lower(key_name))\n    # check that value wasn't allowed by user\n    not is_allowed_value(map_secret)\n    \n    path := sprintf(\"data[%v]\", [map_key])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"this configmap has sensitive information: %v\", [configmap.metadata.name]),\n\t\t\"alertScore\": 9,\n       \"failedPaths\": [path],\n        \"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n          \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [configmap]\n\t\t}\n     }\n}\n\n# fails if config map has values with suspicious content - not base 64\ndeny[msga] {\n    # see default-config-inputs.json for list values\n    sensitive_values := data.postureControlInputs.sensitiveValues\n    value := sensitive_values[_]\n\n\tconfigmap := input[_]\n    configmap.kind == \"ConfigMap\"\n    map_secret := configmap.data[map_key]\n    map_secret != \"\"\n\n    regex.match(value , map_secret)\n    # check that value wasn't allowed by user\n    not is_allowed_value(map_secret)\n\n    path := sprintf(\"data[%v]\", [map_key])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"this configmap has sensitive information: %v\", [configmap.metadata.name]),\n\t\t\"alertScore\": 9,\n       \"failedPaths\": [path],\n        \"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n          \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [configmap]\n\t\t}\n     }\n}\n\n# fails if config map has values with suspicious content - base 64\ndeny[msga] {\n    # see default-config-inputs.json for list values\n    sensitive_values := data.postureControlInputs.sensitiveValues\n    value := sensitive_values[_]\n\n\tconfigmap := input[_]\n    configmap.kind == \"ConfigMap\"\n    map_secret := configmap.data[map_key]\n    map_secret != \"\"\n\n    decoded_secret := base64.decode(map_secret)\n    \n    # check that value wasn't allowed by user\n    not is_allowed_value(map_secret)\n\n    regex.match(value , decoded_secret)\n\n    path := sprintf(\"data[%v]\", [map_key])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"this configmap has sensitive information: %v\", [configmap.metadata.name]),\n\t\t\"alertScore\": 9,\n       \"failedPaths\": [path],\n        \"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n          \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [configmap]\n\t\t}\n     }\n}\n\n\nis_allowed_value(value) {\n    allow_val := data.postureControlInputs.sensitiveValuesAllowed[_]\n    value == allow_val\n}"
-    },
-    {
-        "name": "if-the-kubelet-config.yaml-configuration-file-is-being-used-validate-file-ownership-is-set-to-root-root",
-        "attributes": {
-            "armoBuiltin": true,
-            "hostSensorRule": "true"
-        },
-        "ruleLanguage": "Rego",
-        "match": [],
-        "dynamicMatch": [
-            {
-                "apiGroups": [
-                    "hostdata.kubescape.cloud"
-                ],
-                "apiVersions": [
-                    "v1beta0"
-                ],
-                "resources": [
-                    "KubeletInfo"
-                ]
-            }
-        ],
-        "ruleDependencies": [
-            {
-                "packageName": "cautils"
-            }
-        ],
-        "description": "Ensure that if the kubelet refers to a configuration file with the `--config` argument, that file is owned by root:root.",
-        "remediation": "Run the following command (using the config file location identied in the Audit step)\n\n \n```\nchown root:root /etc/kubernetes/kubelet.conf\n\n```",
-        "ruleQuery": "",
-        "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tis_kubelet_info(obj)\n\n\tfile_obj_path := [\"data\", \"configFile\"]\n\tfile := object.get(obj, file_obj_path, false)\n\n\t# Actual ownership check\n\tallowed_user := \"root\"\n\tallowed_group := \"root\"\n\tnot allowed_ownership(file.ownership, allowed_user, allowed_group)\n\n\t# Build the message\n\t# filter out irrelevant host-sensor data\n\tobj_filtered := json.filter(obj, [\n\t\tconcat(\"/\", file_obj_path),\n\t\t\"apiVersion\",\n\t\t\"kind\",\n\t\t\"metadata\",\n\t])\n\n\talert := sprintf(\"%s is not owned by %s:%s (actual owners are %s:%s)\", [\n\t\tfile.path,\n\t\tallowed_user,\n\t\tallowed_group,\n\t\tfile.ownership.username,\n\t\tfile.ownership.groupname,\n\t])\n\n\tmsg := {\n\t\t\"alertMessage\": alert,\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chown %s:%s %s\", [allowed_user, allowed_group, file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\t}\n}\n\nis_kubelet_info(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"KubeletInfo\"\n}\n\nallowed_ownership(ownership, user, group) {\n\townership.error # Do not fail if ownership is not found\n}\n\nallowed_ownership(ownership, user, group) {\n\townership.username == user\n\townership.groupname == group\n}\n"
     },
     {
         "name": "validate-kubelet-tls-configuration-updated",
@@ -4042,6 +4296,31 @@
         "remediation": "",
         "ruleQuery": "armo_builtins",
         "rule": "package armo_builtins\n\n# alert cronjobs\n\n#handles cronjob\ndeny[msga] {\n\n\twl := input[_]\n\twl.kind == \"CronJob\"\n    msga := {\n\t\t\"alertMessage\": sprintf(\"the following cronjobs are defined: %v\", [wl.metadata.name]),\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [\"\"],\n\t\t\"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n         \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n     }\n}\n"
+    },
+    {
+        "name": "alert-fargate-not-in-use",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    ""
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "Node"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\n\n\n\n# deny if fargate is not being used in any of the nodes in cluster.\n# a Node is identified as using fargate if it's name starts with 'fargate'.\ndeny[msga] {\n\n\n    # get all nodes\n    nodes := [node | node = input[_]; node.kind == \"Node\"]\n    count(nodes) > 0\n\n    # get all nodes without fargate\n    nodes_not_fargate := [node | node = nodes[_]; not startswith(node.metadata.name, \"fargate\")]\n\n    # if count of all nodes equals to count of nodes_not_fargate it means fargate is not being used.\n    count(nodes) == count(nodes_not_fargate)\n\n\t# prepare message data.\n\talert_message :=  \"Consider Fargate for running untrusted workloads\"\n\n\tmsga := {\n\t\t\"alertMessage\": alert_message,\n\t\t\"packagename\": \"armo_builtins\",\n\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": nodes_not_fargate\n\t\t}\n\t}\n}"
     },
     {
         "name": "ensure-that-the-client-certificate-authorities-file-ownership-is-set-to-root-root",
@@ -4298,6 +4577,31 @@
         "rule": "package armo_builtins\nimport data.kubernetes.api.client as client\n\ndeny[msga] {\n\t\tkubelet_config := input[_]\n\t\tkubelet_config.kind == \"KubeletConfiguration\"\n\t\tkubelet_config.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\n\t\tkubelet_cli := input[_]            \n\t\tkubelet_cli.kind == \"KubeletCommandLine\"\n\t\tkubelet_cli.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\t\tkubelet_cli_data := kubelet_cli.data\n\n\t\tis_tls_disabled_both(kubelet_config, kubelet_cli_data)\n\n\n\t\tmsga := {\n\t\t\t\"alertMessage\": \"kubelet client TLS authentication is not enabled\",\n\t\t\t\"alertScore\": 2,\n\t\t\t\"fixPaths\": [],\n\t\t\t\"failedPaths\": [],\n\t\t\t\"packagename\": \"armo_builtins\",\n\t\t\t\"alertObject\": {\n                \"k8sApiObjects\": [kubelet_config, kubelet_cli]\n\t\t\t},\n\t\t}\n\t}\n\n\ndeny[msga] {\n\t\texternal_obj := is_tls_disabled_single(input)\n\n\n\t\tmsga := {\n\t\t\t\"alertMessage\": \"kubelet client TLS authentication is not enabled\",\n\t\t\t\"alertScore\": 2,\n\t\t\t\"fixPaths\": [],\n\t\t\t\"failedPaths\": [],\n\t\t\t\"packagename\": \"armo_builtins\",\n\t\t\t\"alertObject\": {\n                \"k8sApiObjects\": [external_obj]\n\t\t\t},\n\t\t}\n\t}\n\n\n\n# CLI overrides config\nis_tls_disabled_both(kubelet_config, kubelet_cli) {\n    is_not_tls_cli(kubelet_cli)\n    is_not_tls_config(kubelet_config)\n}\n\nis_tls_disabled_single(resources) = obj {\n\tkubelet_cli := resources[_]            \n\tkubelet_cli.kind == \"KubeletCommandLine\"\n\tkubelet_cli.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\n\tkubelet_config := [config | config = resources[_]; config.kind == \"KubeletConfiguration\"]\n\tcount(kubelet_config) == 0\n\n\tis_not_tls_cli(kubelet_cli)\n\n\tobj = kubelet_cli\n}\n\n\nis_tls_disabled_single(resources) = obj {\n\tkubelet_config := resources[_]\n\tkubelet_config.kind == \"KubeletConfiguration\"\n\tkubelet_config.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\n\tkubelet_cli := [cli | cli = resources[_]; cli.kind == \"KubeletCommandLine\"]\n\tcount(kubelet_cli) == 0\n\n\tis_not_tls_config(kubelet_config)\n\n\tobj = kubelet_config\n}\n\n\nis_not_tls_cli(kubelet_cli) {\n\tkubelet_cli_data := kubelet_cli.data\n\tnot contains(kubelet_cli_data[\"fullCommand\"], \"tls-cert-file\")\n\tnot contains(kubelet_cli_data[\"fullCommand\"], \"tls-private-key-file\")\n}\n\nis_not_tls_config(kubelet_config){\n    not kubelet_config.data.tlsCertFile\n    not kubelet_config.data.tlsPrivateKeyFile\n}\n"
     },
     {
+        "name": "psp-required-drop-capabilities",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "policy"
+                ],
+                "apiVersions": [
+                    "v1beta1"
+                ],
+                "resources": [
+                    "PodSecurityPolicy"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\nimport future.keywords.every\n\ndeny[msga] {\n\t# only fail resources if all PSPs don't have requiredDropCapabilities\n\t# if even one PSP has requiredDropCapabilities, then the rule will not fail\n\tevery psp in input {\n\t\tpsp.kind == \"PodSecurityPolicy\"\n\t\tnot has_requiredDropCapabilities(psp.spec)\n\t}\n\n\t# return al the PSPs that don't have requiredDropCapabilities\n\tpsp := input[_]\n\tpsp.kind == \"PodSecurityPolicy\"\n\tnot has_requiredDropCapabilities(psp.spec)\n\n\tfixpath := {\"path\":\"spec.requiredDropCapabilities[0]\", \"value\":\"ALL\"}\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"PodSecurityPolicy: '%v' doesn't have requiredDropCapabilities.\", [psp.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [fixpath],\n\t\t\"alertObject\": {\"k8sApiObjects\": [psp]},\n\t}\n}\n\nhas_requiredDropCapabilities(spec) {\n\tcount(spec.requiredDropCapabilities) > 0\n}\n"
+    },
+    {
         "name": "rule-access-dashboard-wl-v1",
         "attributes": {
             "m$K8sThreatMatrix": "Lateral Movement::Access Kubernetes dashboard, Discovery::Access Kubernetes dashboard",
@@ -4349,6 +4653,41 @@
         "remediation": "",
         "ruleQuery": "armo_builtins",
         "rule": "package armo_builtins\n\n# input: \n# apiversion: \n# fails if pod that is not dashboard is associated to dashboard service account\n\ndeny[msga] {\n    pod := input[_]\n    pod.spec.serviceAccountName == \"kubernetes-dashboard\"\n    not startswith(pod.metadata.name, \"kubernetes-dashboard\")\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"the following pods: %s are associated with dashboard service account\", [pod.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [\"spec.serviceaccountname\"],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n\t}\n}\n\n# input: \n# apiversion: \n# fails if workload that is not dashboard is associated to dashboard service account\n\ndeny[msga] {\n    wl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n    wl.spec.template.spec.serviceAccountName == \"kubernetes-dashboard\"\n    not startswith(wl.metadata.name, \"kubernetes-dashboard\")\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"%v: %v is associated with dashboard service account\", [wl.kind, wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [\"spec.template.spec.serviceaccountname\"],\n\t\t\"alertScore\": 7,\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\n# input: \n# apiversion: \n# fails if CronJob that is not dashboard is associated to dashboard service account\n\ndeny[msga] {\n    wl := input[_]\n\twl.kind == \"CronJob\"\n    wl.spec.jobTemplate.spec.template.spec.serviceAccountName == \"kubernetes-dashboard\"\n    not startswith(wl.metadata.name, \"kubernetes-dashboard\")\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"the following cronjob: %s is associated with dashboard service account\", [wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [\"spec.jobTemplate.spec.template.spec.serviceaccountname\"],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}"
+    },
+    {
+        "name": "ensure-endpointpublicaccess-is-disabled-on-private-nodes-eks",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [],
+                "apiVersions": [],
+                "resources": []
+            }
+        ],
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "eks.amazonaws.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ClusterDescribe"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "EKS"
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\n\n# Check if EndpointPublicAccess in enabled on a private node for EKS. A private node is a node with no public ips access.\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"eks.amazonaws.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"eks\"\t\n\tconfig = cluster_config.data\n\n\tconfig.Cluster.ResourcesVpcConfig.EndpointPublicAccess == true\n\n\t# filter out private nodes\n\tconfig.Cluster.ResourcesVpcConfig.PublicAccessCidrs[_] == \"0.0.0.0/0\"\n\t\n\tmsga := {\n\t\t\"alertMessage\": \"endpointPublicAccess is enabled on a private node\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"aws eks update-cluster-config --region $AWS_REGION --name $CLUSTER_NAME --resources-vpc-config endpointPrivateAccess=true,endpointPublicAccess=false\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n"
     },
     {
         "name": "ensure-that-the-api-server-audit-log-maxage-argument-is-set-to-30-or-as-appropriate",
@@ -4751,6 +5090,36 @@
         "resourceEnumerator": "package armo_builtins\n\n# input: deployment, service\n# apiversion: v1\n# fails if dashboard exists and is exposed\n\ndeny[msga] {\n\tdeployment := input[_]\n\tstartswith(deployment.metadata.name, \"kubernetes-dashboard\")\n\tcontainer := deployment.spec.template.spec.containers[j]\n\tversion := trim_prefix(container.image, \"kubernetesui/dashboard:v\")\n\tto_number(replace(version, \".\", \"\")) < 201\n\t\n\tservice := input[_]\n\tservice.kind == \"Service\"\n\tcount({x | service.spec.selector[x]; deployment.metadata.labels[x]}) == count(service.spec.selector)\n\tpath := sprintf(\"spec.template.spec.containers[%v]\", [format_int(j, 10)])\n\n\tdeploymentvector = {\"name\": deployment.metadata.name,\n\t\t\t\t\t\t\"namespace\": deployment.metadata.namespace,\n\t\t\t\t\t\t\"kind\": deployment.kind,\n\t\t\t\t\t\t\"relatedObjects\": [service]}\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"dashboard exists and is exposed %s\", [container.image]),\n\t\t\"alertScore\": 9,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n\t\t\t\"externalObjects\": deploymentvector\n\t\t}\n\t}\n}\n\n\n\nisNodePortLbService(service) {\n\tservice.spec.type == \"NodePort\"\n}\n\nisNodePortLbService(service) {\n\tservice.spec.type == \"LoadBalancer\"\n}"
     },
     {
+        "name": "Ensure-that-the-kubeconfig-file-permissions-are-set-to-644-or-more-restrictive",
+        "attributes": {
+            "armoBuiltin": true,
+            "hostSensorRule": "true"
+        },
+        "ruleLanguage": "Rego",
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "hostdata.kubescape.cloud"
+                ],
+                "apiVersions": [
+                    "v1beta0"
+                ],
+                "resources": [
+                    "KubeletInfo"
+                ]
+            }
+        ],
+        "ruleDependencies": [
+            {
+                "packageName": "cautils"
+            }
+        ],
+        "description": "Ensure that the kubeconfig file permissions are set to 644 or more restrictive",
+        "remediation": "Run the below command (based on the file location on your system) on the each worker node.\n\n \n```\nchmod 644 <kubeconfig file>\n\n```",
+        "ruleQuery": "",
+        "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tis_kubelet_info(obj)\n\n\tfile_obj_path := [\"data\", \"kubeConfigFile\"]\n\tfile := object.get(obj, file_obj_path, false)\n\n\t# Actual permissions test. num. configured from Octal (644) to Decimal num.    \n\tallowed_perms := 420\n\tnot cautils.unix_permissions_allow(allowed_perms, file.permissions)\n\n\t# Build the message\n\t# filter out irrelevant host-scanner data\n\tobj_filtered := json.filter(obj, [\n\t\tconcat(\"/\", file_obj_path),\n\t\t\"apiVersion\",\n\t\t\"kind\",\n\t\t\"metadata\"\n\t])\n\n\talert := sprintf(\"The permissions of %s are too permissive. maximum allowed: %o. actual: %o\", \n\t[file.path, allowed_perms, file.permissions])\n\n\tmsg := {\n\t\t\"alertMessage\": alert,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chmod %o %s\", [allowed_perms, file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\t}\n}\n\nis_kubelet_info(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"KubeletInfo\"\n}\n"
+    },
+    {
         "name": "CVE-2022-0185",
         "attributes": {
             "armoBuiltin": true
@@ -5131,6 +5500,31 @@
         "rule": "package armo_builtins\n\n# input: service accounts\n# apiversion: v1 \n# returns ImagePullSecrets that more than one service account have access to\n\ndeny[msga] {\n\n    image = input[i].imagePullSecrets[k] == input[j].imagePullSecrets[_]\n\tpath := sprintf(\"imagePullSecrets[%v]\", [format_int(k, 10)])\n\ti > j\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"the following ImagePullSecret: %v, is exposed to more than one serviceaccount\", [image]),\n\t\t\"alertScore\": 9,\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\":[],\n\t\t\"packagename\": \"armo_builtins\",\n\t   \"alertObject\": {\n\t\t}\n\t}\n}"
     },
     {
+        "name": "psp-deny-hostpid",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "policy"
+                ],
+                "apiVersions": [
+                    "v1beta1"
+                ],
+                "resources": [
+                    "PodSecurityPolicy"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\nimport future.keywords.every\n\ndeny[msga] {\n\t# only fail resources if there all PSPs have hostPID set to true\n\t# if even one PSP has hostPID set to false, then the rule will not fail\n\tevery psp in input {\n\t\tpsp.kind == \"PodSecurityPolicy\"\n\t\tpsp.spec.hostPID == true\n\t}\n\n\t# return al the PSPs that have hostPID set to true\n\tpsp := input[_]\n\tpsp.kind == \"PodSecurityPolicy\"\n\tpsp.spec.hostPID == true\n\n\tpath := \"spec.hostPID\"\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"PodSecurityPolicy: '%v' has hostPID set as true.\", [psp.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\"k8sApiObjects\": [psp]},\n\t}\n}\n"
+    },
+    {
         "name": "rule-can-delete-k8s-events",
         "attributes": {
             "microsoftK8sThreatMatrix": "Defense Evasion::Delete K8S events",
@@ -5239,7 +5633,7 @@
                     "v1beta0"
                 ],
                 "resources": [
-                    "ControlPlaneInfo"
+                    "CNIInfo"
                 ]
             }
         ],
@@ -5251,7 +5645,7 @@
         "description": "Ensure that the Container Network Interface files have ownership set to `root:root`.",
         "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchown root:root <path/to/cni/files>\n\n```",
         "ruleQuery": "",
-        "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tis_control_plane_info(obj)\n\n\tfile_obj_path := [\"data\", \"CNIConfigFiles\"]\n\tfiles := object.get(obj, file_obj_path, false)\n\tfile := files[file_index]\n\n\t# Actual ownership check\n\tallowed_user := \"root\"\n\tallowed_group := \"root\"\n\tnot allowed_ownership(file.ownership, allowed_user, allowed_group)\n\n\t# Build the message\n\t# filter out irrelevant host-sensor data\n\tobj_filtered := json.filter(obj, [\n\t\tsprintf(\"%s/%d\", [concat(\"/\", file_obj_path), file_index]), \"apiVersion\",\n\t\t\"kind\",\n\t\t\"metadata\",\n\t])\n\n\talert := sprintf(\"%s is not owned by %s:%s (actual owners are %s:%s)\", [\n\t\tfile.path,\n\t\tallowed_user,\n\t\tallowed_group,\n\t\tfile.ownership.username,\n\t\tfile.ownership.groupname,\n\t])\n\n\tmsg := {\n\t\t\"alertMessage\": alert,\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chown %s:%s %s\", [allowed_user, allowed_group, file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\t}\n}\n\nis_control_plane_info(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"ControlPlaneInfo\"\n}\n\nallowed_ownership(ownership, user, group) {\n\townership.error # Do not fail if ownership is not found\n}\n\nallowed_ownership(ownership, user, group) {\n\townership.username == user\n\townership.groupname == group\n}\n"
+        "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tis_CNIInfo(obj)\n\n\tfile_obj_path := [\"data\", \"CNIConfigFiles\"]\n\tfiles := object.get(obj, file_obj_path, false)\n\tfile := files[file_index]\n\n\t# Actual ownership check\n\tallowed_user := \"root\"\n\tallowed_group := \"root\"\n\tnot allowed_ownership(file.ownership, allowed_user, allowed_group)\n\n\t# Build the message\n\t# filter out irrelevant host-sensor data\n\tobj_filtered := json.filter(obj, [\n\t\tsprintf(\"%s/%d\", [concat(\"/\", file_obj_path), file_index]), \"apiVersion\",\n\t\t\"kind\",\n\t\t\"metadata\",\n\t])\n\n\talert := sprintf(\"%s is not owned by %s:%s (actual owners are %s:%s)\", [\n\t\tfile.path,\n\t\tallowed_user,\n\t\tallowed_group,\n\t\tfile.ownership.username,\n\t\tfile.ownership.groupname,\n\t])\n\n\tmsg := {\n\t\t\"alertMessage\": alert,\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chown %s:%s %s\", [allowed_user, allowed_group, file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\t}\n}\n\nis_CNIInfo(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"CNIInfo\"\n}\n\nallowed_ownership(ownership, user, group) {\n\townership.error # Do not fail if ownership is not found\n}\n\nallowed_ownership(ownership, user, group) {\n\townership.username == user\n\townership.groupname == group\n}\n"
     },
     {
         "name": "kubelet-rotate-kubelet-server-certificate",
@@ -5347,6 +5741,34 @@
         "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchown root:root /etc/kubernetes/admin.conf\n\n```",
         "ruleQuery": "",
         "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tis_control_plane_info(obj)\n\n\tfile_obj_path := [\"data\", \"adminConfigFile\"]\n\tfile := object.get(obj, file_obj_path, false)\n\n\t# Actual ownership check\n\tallowed_user := \"root\"\n\tallowed_group := \"root\"\n\tnot allowed_ownership(file.ownership, allowed_user, allowed_group)\n\n\t# Build the message\n\t# filter out irrelevant host-sensor data\n\tobj_filtered := json.filter(obj, [\n\t\tconcat(\"/\", file_obj_path),\n\t\t\"apiVersion\",\n\t\t\"kind\",\n\t\t\"metadata\",\n\t])\n\n\talert := sprintf(\"%s is not owned by %s:%s (actual owners are %s:%s)\", [\n\t\tfile.path,\n\t\tallowed_user,\n\t\tallowed_group,\n\t\tfile.ownership.username,\n\t\tfile.ownership.groupname,\n\t])\n\n\tmsg := {\n\t\t\"alertMessage\": alert,\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chown %s:%s %s\", [allowed_user, allowed_group, file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\t}\n}\n\nis_control_plane_info(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"ControlPlaneInfo\"\n}\n\nallowed_ownership(ownership, user, group) {\n\townership.error # Do not fail if ownership is not found\n}\n\nallowed_ownership(ownership, user, group) {\n\townership.username == user\n\townership.groupname == group\n}\n"
+    },
+    {
+        "name": "alert-container-optimized-os-not-in-use",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    ""
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "Node"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "EKS"
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\nimport future.keywords.in\n\n\n# checks if a node is not using a \"Container-Optimized OS\". \n# \"Container-Optimized OS\" prefixes are configured in 'container_optimized_os_prefixes'.  \n# deny if 'nodes.status.nodeInfo.osImage' not starting with at least one item in 'container_optimized_os_prefixes'.\ndeny[msga] {\n\n\tnodes := input[_]\n\tnodes.kind == \"Node\"\n\n\t# list of \"Container-Optimized OS\" images prefixes \n\tcontainer_optimized_os_prefixes = [\"Bottlerocket\"]\n\n\t# check if osImage starts with at least one prefix\n\tsome str in container_optimized_os_prefixes\n\tnot startswith(nodes.status.nodeInfo.osImage, str)\n\n\t# prepare message data.\n\talert_message :=  \"Prefer using Container-Optimized OS when possible\"\n\n\tfailedPaths:= [\"status.nodeInfo.osImage\"]\n\n\tmsga := {\n\t\t\"alertMessage\": alert_message,\n\t\t\"packagename\": \"armo_builtins\",\n\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": failedPaths,\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [nodes]\n\t\t}\n\t}\n}"
     },
     {
         "name": "rule-credentials-in-env-var",
@@ -5564,7 +5986,7 @@
         "description": "Ensure that the --event-qps argument is set to 0 or a level which ensures appropriate event capture.",
         "remediation": "Set --event-qps argument to appropiate level or if using a config file set the eventRecordQPS property to the value other than 0",
         "ruleQuery": "",
-        "rule": "package armo_builtins\n\nimport future.keywords.in\n\n#CIS 4.2.9 https://workbench.cisecurity.org/sections/1126668/recommendations/1838656\n\n# if --event-qps is present rule should pass\ndeny[msga] {\n\tobj := input[_]\n\tis_kubelet_info(obj)\n\n\tcommand := obj.data.cmdLine\n\n\tnot contains(command, \"--event-qps\")\n\tcontains(command, \"--config\")\n\n\tdecodedConfigContent := base64.decode(obj.data.configFile.content)\n\tyamlConfig := yaml.unmarshal(decodedConfigContent)\n\tyamlConfig.eventRecordQPS == 0\n\n\tmsga := {\n\t\t\"alertMessage\": \"Value of the eventRecordQPS argument is set to 0\",\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [\"eventRecordQPS\"],\n\t\t\"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": {\n\t\t\t\"apiVersion\": obj.apiVersion,\n\t\t\t\"kind\": obj.kind,\n\t\t\t\"metadata\": obj.metadata,\n\t\t\t\"data\": {\"configFile\": {\"content\": decodedConfigContent}},\n\t\t}},\n\t}\n}\n\n## Host sensor failed to get config file content\ndeny[msga] {\n\tobj := input[_]\n\tis_kubelet_info(obj)\n\n\tcommand := obj.data.cmdLine\n\n\tnot contains(command, \"--event-qps\")\n\tcontains(command, \"--config\")\n\n\tnot obj.data.configFile.content\n\n\tmsga := {\n\t\t\"alertMessage\": \"Failed to analyze config file\",\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": {\n\t\t\t\"apiVersion\": obj.apiVersion,\n\t\t\t\"kind\": obj.kind,\n\t\t\t\"data\": obj.data,\n\t\t}},\n\t}\n}\n\nis_kubelet_info(obj) {\n\tobj.kind == \"KubeletInfo\"\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n}\n"
+        "rule": "package armo_builtins\n\nimport future.keywords.in\n\n#CIS 4.2.9 https://workbench.cisecurity.org/sections/1126668/recommendations/1838656\n\n# if --event-qps is present rule should pass\ndeny[msga] {\n\tobj := input[_]\n\tis_kubelet_info(obj)\n\n\tcommand := obj.data.cmdLine\n\n\t# \"--event-qps\" is DEPRECATED\n\t# not contains(command, \"--event-qps\")\n\tcontains(command, \"--config\")\n\n\tdecodedConfigContent := base64.decode(obj.data.configFile.content)\n\tyamlConfig := yaml.unmarshal(decodedConfigContent)\n\tyamlConfig.eventRecordQPS == 0\n\n\tmsga := {\n\t\t\"alertMessage\": \"Value of the eventRecordQPS argument is set to 0\",\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [\"eventRecordQPS\"],\n\t\t\"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": {\n\t\t\t\"apiVersion\": obj.apiVersion,\n\t\t\t\"kind\": obj.kind,\n\t\t\t\"metadata\": obj.metadata,\n\t\t\t\"data\": {\"configFile\": {\"content\": decodedConfigContent}},\n\t\t}},\n\t}\n}\n\n## Host sensor failed to get config file content\ndeny[msga] {\n\tobj := input[_]\n\tis_kubelet_info(obj)\n\n\tcommand := obj.data.cmdLine\n\n\t# \"--event-qps\" is DEPRECATED\n\t# not contains(command, \"--event-qps\")\n\tcontains(command, \"--config\")\n\n\tnot obj.data.configFile.content\n\n\tmsga := {\n\t\t\"alertMessage\": \"Failed to analyze config file\",\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": {\n\t\t\t\"apiVersion\": obj.apiVersion,\n\t\t\t\"kind\": obj.kind,\n\t\t\t\"data\": obj.data,\n\t\t}},\n\t}\n}\n\nis_kubelet_info(obj) {\n\tobj.kind == \"KubeletInfo\"\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n}\n"
     },
     {
         "name": "rule-can-update-configmap",
@@ -5715,6 +6137,36 @@
         "resourceEnumerator": "package armo_builtins\n\ndeny[msg] {\n\tobj = input[_]\n\tis_api_server(obj)\n\tmsg := {\"alertObject\": {\"k8sApiObjects\": [obj]}}\n}\n\nis_api_server(obj) {\n\tobj.apiVersion == \"v1\"\n\tobj.kind == \"Pod\"\n\tobj.metadata.namespace == \"kube-system\"\n\tcount(obj.spec.containers) == 1\n\tcount(obj.spec.containers[0].command) > 0\n\tendswith(obj.spec.containers[0].command[0], \"kube-apiserver\")\n}\n"
     },
     {
+        "name": "ensure-network-policy-is-enabled-eks",
+        "attributes": {
+            "armoBuiltin": true,
+            "hostSensorRule": "true"
+        },
+        "ruleLanguage": "Rego",
+        "match": [],
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "hostdata.kubescape.cloud"
+                ],
+                "apiVersions": [
+                    "v1beta0"
+                ],
+                "resources": [
+                    "CNIInfo"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "EKS"
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "",
+        "rule": "package armo_builtins\n\n\n# EKS supports Calico and Cilium add-ons, both supports Network Policy.\n# Deny if at least on of them is not in the list of CNINames.\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\n    is_CNIInfos(obj)\n\n\tnot contains(obj.data.CNINames, \"Calico\")\n\tnot contains(obj.data.CNINames, \"Cilium\")\n\n\n\t# filter out irrelevant host-sensor data\n    obj_filtered := json.filter(obj, [\"apiVersion\", \"kind\", \"metadata\", \"data/CNINames\"])\n    \n    msg := {\n\t\t\"alertMessage\": \"CNI doesn't support Network Policies.\",\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\n\t}\n}\n\nis_CNIInfos(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"CNIInfo\"\n}\n\ncontains(ls, elem) {\n  ls[_] = elem\n}"
+    },
+    {
         "name": "strict-file-owners-root",
         "attributes": {
             "armoBuiltin": true,
@@ -5754,6 +6206,31 @@
         "ruleQuery": "",
         "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\n# Fail for every file in data.postureControlInputs.fileObjPath\n# if the owners of the file are not `root:root`.\n# Expect (supposed to be fixed per control, not user configurable): \n# \t(required) data.postureControlInputs.fileObjPath - list of paths strings. The item delimiter is `.`.\n# \t(optional) data.postureControlInputs.kindFilter \n# \t(optional) data.postureControlInputs.pathGlob \ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tfilter_kind(obj.kind)\n\n\t# Get the file info using the input object-paths\n\trawObjPath = data.postureControlInputs.fileObjPath[_]\n\tobjPath := split(rawObjPath, \"/\")\n\tsubject := object.get(obj, objPath, false)\n\tsubject != false\n\n\t# Run the test for every file\n\tfiles := get_files(subject)\n\tfile = files[file_index]\n\tfile_path_glob(file.path)\n\n\t# Actual ownership test    \n\tcautils.is_not_strict_conf_ownership(file.ownership)\n\n\t# Filter out irrelevant data from the alert object\n\tfile_filtered := filter_file(obj, objPath, file_index)\n\tobj_filtered := json.filter(obj, [\"apiVersion\", \"kind\", \"metadata\"])\n\toutput := object.union(file_filtered, obj_filtered)\n\n\tmsg := {\n\t\t\"alertMessage\": sprintf(\"%s is not owned by `root:root`\", [file.path]),\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chown root:root %s\", [file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": output},\n\t}\n}\n\n# Always return a list\nget_files(obj) = files {\n\tis_array(obj)\n\tfiles = obj\n}\n\nget_files(obj) = files {\n\tnot is_array(obj)\n\tfiles = [obj]\n}\n\n# Filter only kinds that are in data.postureControlInputs.kindFilter.\n# If no kindFilter - match everything\nfilter_kind(kind) {\n\tkind in data.postureControlInputs.kindFilter\n}\n\nfilter_kind(kind) {\n\tnot data.postureControlInputs.kindFilter\n}\n\n# Filter file path globs from data.postureControlInputs.pathGlob\nfile_path_glob(path) {\n\tpatterns = data.postureControlInputs.pathGlob\n\tcount({true | patterns[i]; glob.match(patterns[i], null, path)}) > 0\n}\n\nfile_path_glob(path) {\n\tnot data.postureControlInputs.pathGlob\n}\n\n# Filter only the current file\nfilter_file(obj, objPath, file_index) = ret {\n\tis_array(object.get(obj, objPath, false))\n\tfull_path := array.concat(objPath, [format_int(file_index, 10)])\n\tfinal_path := concat(\"/\", full_path)\n\tret := json.filter(obj, [final_path])\n}\n\nfilter_file(obj, objPath, file_index) = ret {\n\tnot is_array(object.get(obj, objPath, false))\n\tret = object.filter(obj, objPath)\n}\n",
         "resourceEnumerator": "package armo_builtins\n\nimport future.keywords.in\n\n# Filter only kinds that are in data.postureControlInputs.kindFilter.\n# Filter out non-host-sensor as well.\n# If no kindFilter - match every kind\ndeny[msg] {\n\tobj = input[_]\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tfilter_kind(obj.kind)\n\tmsg := {\"alertObject\": {\"externalObjects\": obj}}\n}\n\n# Filter only kinds that are in data.postureControlInputs.kindFilter.\n# If no kindFilter - match everything\nfilter_kind(kind) {\n\tkind in data.postureControlInputs.kindFilter\n}\n\nfilter_kind(kind) {\n\tnot data.postureControlInputs.kindFilter\n}\n"
+    },
+    {
+        "name": "psp-deny-root-container",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "policy"
+                ],
+                "apiVersions": [
+                    "v1beta1"
+                ],
+                "resources": [
+                    "PodSecurityPolicy"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\nimport future.keywords.every\n\ndeny[msga] {\n\t# only fail resources if all PSPs permit containers to run as the root user\n\t# if even one PSP restricts containers to run as the root user, then the rule will not fail\n\tevery psp in input {\n\t\tpsp.kind == \"PodSecurityPolicy\"\n\t\tnot deny_run_as_root(psp.spec.runAsUser)\n\t}\n\n\t# return al the PSPs that permit containers to run as the root user\n\tpsp := input[_]\n\tpsp.kind == \"PodSecurityPolicy\"\n\tnot deny_run_as_root(psp.spec.runAsUser)\n\n\tpath := \"spec.runAsUser.rule\"\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"PodSecurityPolicy: '%v' permits containers to run as the root user.\", [psp.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\"k8sApiObjects\": [psp]},\n\t}\n}\n\ndeny_run_as_root(runAsUser){\n\trunAsUser.rule == \"MustRunAsNonRoot\"\n}\n\ndeny_run_as_root(runAsUser){\n\trunAsUser.rule == \"MustRunAs\"\n\trunAsUser.ranges[_].min > 0\n}"
     },
     {
         "name": "ensure-that-the-api-server-secure-port-argument-is-not-set-to-0",
@@ -7109,6 +7586,32 @@
         "rule": "package armo_builtins\n# Deny mutating action unless user is in group owning the resource\n\n\n\ndeny[msga] {\n\n\tpod := input[_]\n\tpod.kind == \"Pod\"\n\tfixPath := no_K8s_label_or_no_K8s_label_usage(pod, \"\")\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"in the following pod the kubernetes common labels are not defined: %v\", [pod.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 1,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": fixPath,\n         \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n     }\n}\n\n\ndeny[msga] {\n\twl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n\tpodSpec := wl.spec.template\n\tbeggining_of_pod_path := \"spec.template.\"\n\tfixPath := no_K8s_label_usage(wl, podSpec, beggining_of_pod_path)\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"%v: %v the kubernetes common labels are is not defined:\", [wl.kind, wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 1,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": fixPath,\n         \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n     }\n}\n\n#handles cronjob\ndeny[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tpodSpec := wl.spec.jobTemplate.spec.template\n\tbeggining_of_pod_path := \"spec.jobTemplate.spec.template.\"\n\tfixPath := no_K8s_label_usage(wl, podSpec, beggining_of_pod_path)\n\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"the following cronjobs the kubernetes common labels are not defined: %v\", [wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 1,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": fixPath,\n         \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n     }\n}\n\n\n\n# There is no label-usage in WL and also for his Pod\nno_K8s_label_usage(wl, podSpec, beggining_of_pod_path) = path{\n\tpath1 := no_K8s_label_or_no_K8s_label_usage(wl, \"\")\n\tpath2 := no_K8s_label_or_no_K8s_label_usage(podSpec, beggining_of_pod_path)\n\tpath = array.concat(path1, path2)\n}\n\n# There is label-usage for WL but not for his Pod\nno_K8s_label_usage(wl, podSpec, beggining_of_pod_path) = path{\n\tnot no_K8s_label_or_no_K8s_label_usage(wl, \"\")\n\tpath := no_K8s_label_or_no_K8s_label_usage(podSpec, beggining_of_pod_path)\n}\n\n# There is no label-usage for WL but there is for his Pod\nno_K8s_label_usage(wl, podSpec, beggining_of_pod_path) = path{\n\tnot no_K8s_label_or_no_K8s_label_usage(podSpec, beggining_of_pod_path)\n\tpath := no_K8s_label_or_no_K8s_label_usage(wl, \"\")\n}\n\nno_K8s_label_or_no_K8s_label_usage(wl, beggining_of_path) = path{\n\tnot wl.metadata.labels\n\tpath = [{\"path\": sprintf(\"%vmetadata.labels\", [beggining_of_path]), \"value\": \"YOUR_VALUE\"}]\n}\n\nno_K8s_label_or_no_K8s_label_usage(wl, beggining_of_path) = path{\n\tmetadata := wl.metadata\n\tnot metadata.labels\n\tpath = [{\"path\": sprintf(\"%vmetadata.labels\", [beggining_of_path]), \"value\": \"YOUR_VALUE\"}]\n}\n\nno_K8s_label_or_no_K8s_label_usage(wl, beggining_of_path) = path{\n\tlabels := wl.metadata.labels\n\tnot all_kubernetes_labels(labels)\n\tpath = [{\"path\": sprintf(\"%vmetadata.labels\", [beggining_of_path]), \"value\": \"YOUR_VALUE\"}]\n}\n\nall_kubernetes_labels(labels){\n\trecommended_labels := data.postureControlInputs.k8sRecommendedLabels\n\trecommended_label := recommended_labels[_]\n\tlabels[recommended_label]\n}\n"
     },
     {
+        "name": "ensure-default-service-accounts-has-only-default-roles",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "rbac.authorization.k8s.io"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ClusterRoleBinding",
+                    "RoleBinding"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\n\n# deny if a default ServiceAccount has rules bound to it that are not defaults. \ndeny[msga] {\n\n    wl := input[_]\n\tspec_template_spec_patterns := {\"RoleBinding\", \"ClusterRoleBinding\"}\n\tspec_template_spec_patterns[wl.kind]\n\n    # filter service accounts\n    wl.subjects[i].kind == \"ServiceAccount\"\n\n    # filter defaults\n    wl.subjects[i].name == \"default\"\n\n    not wl.metadata.labels[\"kubernetes.io/bootstrapping\"] == \"rbac-defaults\"\n\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"%s: %v has for ServiceAccount 'default' rules bound to it that are not defaults\", [wl.kind, wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n        \"failedPaths\": [sprintf(\"subjects[%d]\", [i])],\n        \"fixPaths\":[],\n\t\t\"alertScore\": 7,\n        \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n"
+    },
+    {
         "name": "list-all-validating-webhooks",
         "attributes": {
             "m$K8sThreatMatrix": "Credential Access::Malicious admission controller",
@@ -7689,6 +8192,31 @@
         "rule": "package armo_builtins\n\n\n# Fails if pods has container with mutable filesystem\ndeny[msga] {\n    pod := input[_]\n    pod.kind == \"Pod\"\n\tcontainer := pod.spec.containers[i]\n\tbeggining_of_path := \"spec.\"\n    result := is_mutable_filesystem(container, beggining_of_path, i)\n\tfailed_path := get_failed_path(result)\n    fixed_path := get_fixed_path(result)\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"container: %v in pod: %v  has  mutable filesystem\", [container.name, pod.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": failed_path,\n\t\t\"fixPaths\": fixed_path,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n\t}\n}\n\n# Fails if workload has  container with mutable filesystem \ndeny[msga] {\n    wl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n    container := wl.spec.template.spec.containers[i]\n\tbeggining_of_path := \"spec.template.spec.\"\n    result := is_mutable_filesystem(container, beggining_of_path, i)\n\tfailed_path := get_failed_path(result)\n    fixed_path := get_fixed_path(result)\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"container :%v in %v: %v has  mutable filesystem\", [container.name, wl.kind, wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": failed_path,\n\t\t\"fixPaths\": fixed_path,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\n\n# Fails if cronjob has  container with mutable filesystem \ndeny[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer = wl.spec.jobTemplate.spec.template.spec.containers[i]\n\tbeggining_of_path := \"spec.jobTemplate.spec.template.spec.\"\n\tresult := is_mutable_filesystem(container, beggining_of_path, i)\n\tfailed_path := get_failed_path(result)\n    fixed_path := get_fixed_path(result)\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"container :%v in %v: %v has mutable filesystem\", [container.name, wl.kind, wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": failed_path,\n\t\t\"fixPaths\": fixed_path,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\n# Default of readOnlyRootFilesystem is false. This field is only in container spec and not pod spec\nis_mutable_filesystem(container, beggining_of_path, i) = [failed_path, fixPath]  {\n\tcontainer.securityContext.readOnlyRootFilesystem == false\n\tfailed_path = sprintf(\"%vcontainers[%v].securityContext.readOnlyRootFilesystem\", [beggining_of_path, format_int(i, 10)])\n\tfixPath = \"\"\n }\n\n is_mutable_filesystem(container, beggining_of_path, i)  = [failed_path, fixPath] {\n\tnot container.securityContext.readOnlyRootFilesystem == false\n    not container.securityContext.readOnlyRootFilesystem == true\n\tfixPath = {\"path\": sprintf(\"%vcontainers[%v].securityContext.readOnlyRootFilesystem\", [beggining_of_path, format_int(i, 10)]), \"value\": \"true\"}\n\tfailed_path = \"\"\n }\n\n\n get_failed_path(paths) = [paths[0]] {\n\tpaths[0] != \"\"\n} else = []\n\n\nget_fixed_path(paths) = [paths[1]] {\n\tpaths[1] != \"\"\n} else = []\n"
     },
     {
+        "name": "psp-deny-hostipc",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "policy"
+                ],
+                "apiVersions": [
+                    "v1beta1"
+                ],
+                "resources": [
+                    "PodSecurityPolicy"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\nimport future.keywords.every\n\ndeny[msga] {\n\t# only fail resources if there all PSPs have hostIPC set to true\n\t# if even one PSP has hostIPC set to false, then the rule will not fail\n\tevery psp in input {\n\t\tpsp.kind == \"PodSecurityPolicy\"\n\t\tpsp.spec.hostIPC == true\n\t}\n\n\t# return al the PSPs that have hostIPC set to true\n\tpsp := input[_]\n\tpsp.kind == \"PodSecurityPolicy\"\n\tpsp.spec.hostIPC == true\n\n\tpath := \"spec.hostIPC\"\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"PodSecurityPolicy: '%v' has hostIPC set as true.\", [psp.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\"k8sApiObjects\": [psp]},\n\t}\n}\n"
+    },
+    {
         "name": "set-seccomp-profile-RuntimeDefault",
         "attributes": {
             "armoBuiltin": true
@@ -7818,6 +8346,31 @@
         "rule": "package armo_builtins\n\n\n# Fails if pod does not have container with readinessProbe\ndeny[msga] {\n    pod := input[_]\n    pod.kind == \"Pod\"\n    container := pod.spec.containers[i]\n\tnot container.readinessProbe\n\tfix_path := {\"path\": sprintf(\"spec.containers[%v].readinessProbe\", [format_int(i, 10)]), \"value\": \"YOUR_VALUE\"}\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Container: %v does not have readinessProbe\", [ container.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 3,\n\t\t\"fixPaths\": [fix_path],\n\t\t\"failedPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n\t}\n}\n\n# Fails if workload does not have container with readinessProbe\ndeny[msga] {\n    wl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n    container := wl.spec.template.spec.containers[i]\n    not container.readinessProbe\n\tfix_path := {\"path\": sprintf(\"spec.template.spec.containers[%v].readinessProbe\", [format_int(i, 10)]), \"value\": \"YOUR_VALUE\"}\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Container: %v in %v: %v   does not have readinessProbe\", [ container.name, wl.kind, wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 3,\n\t\t\"fixPaths\": [fix_path],\n\t\t\"failedPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\n# Fails if cronjob does not have container with readinessProbe\ndeny[msga] {\n  \twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer = wl.spec.jobTemplate.spec.template.spec.containers[i]\n    not container.readinessProbe\n\tfix_path := {\"path\": sprintf(\"spec.jobTemplate.spec.template.spec.containers[%v].readinessProbe\", [format_int(i, 10)]), \"value\": \"YOUR_VALUE\"}\n    msga := {\n\t\t\"alertMessage\": sprintf(\"Container: %v in %v: %v   does not have readinessProbe\", [ container.name, wl.kind, wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 3,\n\t\t\"fixPaths\": [fix_path],\n\t\t\"failedPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n"
     },
     {
+        "name": "psp-deny-allowed-capabilities",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "policy"
+                ],
+                "apiVersions": [
+                    "v1beta1"
+                ],
+                "resources": [
+                    "PodSecurityPolicy"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\nimport future.keywords.every\n\ndeny[msga] {\n\t# only fail resources if all PSPs have allowedCapabilities\n\t# if even one PSP has allowedCapabilities as an empty list, then the rule will not fail\n\tevery psp in input {\n\t\tpsp.kind == \"PodSecurityPolicy\"\n\t\tcount(psp.spec.allowedCapabilities) > 0\n\t}\n\n\t# return al the PSPs that have allowedCapabilities\n\tpsp := input[_]\n\tpsp.kind == \"PodSecurityPolicy\"\n\tcount(psp.spec.allowedCapabilities) > 0\n\n\tpath := \"spec.allowedCapabilities\"\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"PodSecurityPolicy: '%v' has allowedCapabilities.\", [psp.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\"k8sApiObjects\": [psp]},\n\t}\n}\n"
+    },
+    {
         "name": "CVE-2022-39328",
         "attributes": {
             "armoBuiltin": true
@@ -7900,6 +8453,34 @@
         "rule": "package armo_builtins\n\n# returns all namespace objects in cluster\ndeny[msga] {\n\tnamespace = input[_]\n\tnamespace.kind == \"Namespace\"\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"review the following namespace: %v\", [namespace.metadata.name]),\n\t\t\"alertScore\": 9,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [namespace]\n\t\t}\n\t}\n}"
     },
     {
+        "name": "ensure-image-scanning-enabled-cloud",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "eks.amazonaws.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "DescribeRepositories"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "EKS"
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\nimport future.keywords.in\n\n# Check if image scanning enabled for EKS\ndeny[msga] {\n\tdescribe_repositories := input[_]\n\tdescribe_repositories.apiVersion == \"eks.amazonaws.com/v1\"\n\tdescribe_repositories.kind == \"DescribeRepositories\"\n\tdescribe_repositories.metadata.provider == \"eks\"\n\trepos := describe_repositories.data.Repositories\n\tsome repo in repos\n\tnot image_scanning_configured(repo)\n\t\n\n\tmsga := {\n\t\t\"alertMessage\": \"image scanning is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"aws ecr put-image-scanning-configuration --repository-name $REPO_NAME --image-scanning-configuration scanOnPush=true --region $REGION_CODE\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n\t\t\t\"externalObjects\": describe_repositories,\n\t\t},\n\t}\n}\n\nimage_scanning_configured(repo) {\n\trepo.ImageScanningConfiguration.ScanOnPush == true\n}"
+    },
+    {
         "name": "k8s-audit-logs-enabled-cloud",
         "attributes": {
             "armoBuiltin": true
@@ -7934,7 +8515,38 @@
         "description": "",
         "remediation": "",
         "ruleQuery": "armo_builtins",
-        "rule": "package armo_builtins\nimport data.cautils as cautils\n\n# Check if audit logs is enabled for GKE\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"container.googleapis.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"gke\"\t\n\tconfig := cluster_config.data\n\t\n    # If enableComponents is empty, it will disable logging\n    # https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters#loggingcomponentconfig\n\tis_logging_disabled(config)\n\tmsga := {\n\t\t\"alertMessage\": \"audit logs is disabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\":\"\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n# Check if audit logs is enabled for EKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"eks.amazonaws.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"eks\"\t\n\tconfig := cluster_config.data\n    # logSetup is an object representing the enabled or disabled Kubernetes control plane logs for your cluster.\n    # types - available cluster control plane log types\n    # https://docs.aws.amazon.com/eks/latest/APIReference/API_LogSetup.html\n    goodTypes := [logSetup  | logSetup =  config.Cluster.Logging.ClusterLogging[_];  isAuditLogs(logSetup)]\n    count(goodTypes) == 0\n\t\n\tmsga := {\n\t\t\"alertMessage\": \"audit logs is disabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixCommand\":\"aws eks update-cluster-config --region <region_code> --name <cluster_name> --logging '{'clusterLogging':[{'types':['<api/audit/authenticator>'],'enabled':true}]}'\",\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n\t\t\t\"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\nis_logging_disabled(cluster_config) {\n\tnot cluster_config.logging_config.component_config.enable_components\n}\nis_logging_disabled(cluster_config) {\n\tcluster_config.logging_config.component_config.enable_components\n\tcount(cluster_config.logging_config.component_config.enable_components) == 0\n}\n\nisAuditLogs(logSetup) {\n    logSetup.Enabled == true\n    cautils.list_contains(logSetup.Types, \"api\")\n}\n\nisAuditLogs(logSetup) {\n    logSetup.Enabled == true\n    cautils.list_contains(logSetup.Types, \"audit\")\n}\n\nisAuditLogs(logSetup) {\n    logSetup.enabled == true\n    cautils.list_contains(logSetup.Types, \"authenticator\")\n}"
+        "rule": "package armo_builtins\n\nimport future.keywords.every\n\n# =============================== GKE ===============================\n# Check if audit logs is enabled for GKE\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"container.googleapis.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n\tcluster_config.metadata.provider == \"gke\"\n\tconfig := cluster_config.data\n\n\t# If enableComponents is empty, it will disable logging\n\t# https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters#loggingcomponentconfig\n\tis_logging_disabled(config)\n\tmsga := {\n\t\t\"alertMessage\": \"audit logs is disabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n\t\t\t\"externalObjects\": cluster_config,\n\t\t},\n\t}\n}\n\nis_logging_disabled(cluster_config) {\n\tnot cluster_config.logging_config.component_config.enable_components\n}\n\nis_logging_disabled(cluster_config) {\n\tcluster_config.logging_config.component_config.enable_components\n\tcount(cluster_config.logging_config.component_config.enable_components) == 0\n}\n\n# =============================== EKS ===============================\n# Check if audit logs is enabled for EKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"eks.amazonaws.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n\tcluster_config.metadata.provider == \"eks\"\n\tconfig := cluster_config.data\n\n\t# logSetup is an object representing the enabled or disabled Kubernetes control plane logs for your cluster.\n\t# types - available cluster control plane log types\n\t# https://docs.aws.amazon.com/eks/latest/APIReference/API_LogSetup.html\n\tlogging_types := {\"api\", \"audit\", \"authenticator\", \"controllerManager\", \"scheduler\"}\n\tlogSetups = config.Cluster.Logging.ClusterLogging\n\tnot all_auditlogs_enabled(logSetups, logging_types)\n\n\tmsga := {\n\t\t\"alertMessage\": \"audit logs is disabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixCommand\": \"aws eks update-cluster-config --region '${REGION_CODE}' --name '${CLUSTER_NAME}' --logging '{'clusterLogging':[{'types':['api','audit','authenticator','controllerManager','scheduler'],'enabled':true}]}'\",\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n\t\t\t\"externalObjects\": cluster_config,\n\t\t},\n\t}\n}\n\nall_auditlogs_enabled(logSetups, types) {\n\tevery type in types {\n\t\tauditlogs_enabled(logSetups, type)\n\t}\n}\n\nauditlogs_enabled(logSetups, type) {\n\tlogSetup := logSetups[_]\n\tlogSetup.Enabled == true\n\tlogSetup.Types[_] == type\n}\n"
+    },
+    {
+        "name": "ensure-that-the-kubelet-configuration-file-has-permissions-set-to-644-or-more-restrictive",
+        "attributes": {
+            "armoBuiltin": true,
+            "hostSensorRule": "true"
+        },
+        "ruleLanguage": "Rego",
+        "match": [],
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "hostdata.kubescape.cloud"
+                ],
+                "apiVersions": [
+                    "v1beta0"
+                ],
+                "resources": [
+                    "KubeletInfo"
+                ]
+            }
+        ],
+        "ruleDependencies": [
+            {
+                "packageName": "cautils"
+            }
+        ],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "",
+        "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tis_kubelet_info(obj)\n\n\tfile_obj_path := [\"data\", \"configFile\"]\n\tfile := object.get(obj, file_obj_path, false)\n\n\t# Actual permissions test    \n\tallowed_perms := 420 # == 0o644\n\tnot cautils.unix_permissions_allow(allowed_perms, file.permissions)\n\n\t# Build the message\n\t# filter out irrelevant host-sensor data\n\tobj_filtered := json.filter(obj, [\n\t\tconcat(\"/\", file_obj_path),\n\t\t\"apiVersion\",\n\t\t\"kind\",\n\t\t\"metadata\",\n\t])\n\n\talert := sprintf(\"the permissions of %s are too permissive. maximum allowed: %o. actual: %o\", [file.path, allowed_perms, file.permissions])\n\tmsg := {\n\t\t\"alertMessage\": alert,\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chmod %o %s\", [allowed_perms, file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\t}\n}\n\nis_kubelet_info(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"KubeletInfo\"\n}\n"
     },
     {
         "name": "rbac-enabled-cloud",

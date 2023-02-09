@@ -1,0 +1,27 @@
+[
+    {
+        "alertMessage": "PodSecurityPolicy: 'eks.privileged' has allowPrivilegeEscalation set as true.",
+        "failedPaths": [
+            "spec.allowPrivilegeEscalation"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 0,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "policy/v1beta1",
+                    "kind": "PodSecurityPolicy",
+                    "metadata": {
+                        "labels": {
+                            "eks.amazonaws.com/component": "pod-security-policy",
+                            "kubernetes.io/cluster-service": "true"
+                        },
+                        "name": "eks.privileged"
+                    }
+                }
+            ]
+        }
+    }
+]
