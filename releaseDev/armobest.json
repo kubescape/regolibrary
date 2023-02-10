@@ -3130,6 +3130,153 @@
                     "resourceEnumerator": "package armo_builtins\n\ndeny[msga] {\n\tdeployment := input[_]\n\tdeployment.kind == \"Deployment\"\n\timage := deployment.spec.template.spec.containers[i].image\n\tcontains(image, \"kyverno:\")\n\tpath := sprintf(\"spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n    msga := {\n\t\t\t\"alertMessage\": \"You may be vulnerable to CVE-2022-47633\",\n\t\t\t\"failedPaths\": [path],\n\t\t\t\"alertObject\": { \n                \"k8SApiObjects\": [deployment]\n            },\n\t\t}\n}\n"
                 }
             ]
+        },
+        {
+            "controlID": "C-0236",
+            "name": "Verify image signature",
+            "description": "Verifies the signature of each image with given public keys",
+            "long_description": "Verifies the signature of each image with given public keys",
+            "remediation": "Replace the image with an image that is signed correctly",
+            "manual_test": "",
+            "references": [],
+            "attributes": {
+                "armoBuiltin": true
+            },
+            "baseScore": 7,
+            "impact_statement": "",
+            "default_value": "",
+            "rules": [
+                {
+                    "name": "verify-image-signature",
+                    "attributes": {
+                        "armoBuiltin": true,
+                        "useFromKubescapeVersion": "v2.1.3"
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                ""
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Pod"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "apps"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Deployment",
+                                "ReplicaSet",
+                                "DaemonSet",
+                                "StatefulSet"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "batch"
+                            ],
+                            "apiVersions": [
+                                "*"
+                            ],
+                            "resources": [
+                                "Job",
+                                "CronJob"
+                            ]
+                        }
+                    ],
+                    "dynamicMatch": [],
+                    "ruleDependencies": [],
+                    "description": "Verifies the signature of each image with given public keys",
+                    "remediation": "Replace the image with an image that is signed correctly",
+                    "ruleQuery": "armo_builtins",
+                    "controlConfigInputs": [
+                        {
+                            "path": "settings.postureControlInputs.trustedCosignPublicKeys",
+                            "name": "Trusted Cosign public keys",
+                            "description": "Trusted Cosign public keys"
+                        }
+                    ],
+                    "rule": "package armo_builtins\nimport data\n\ndeny[msga] {\n\n    pod := input[_]\n    pod.kind == \"Pod\"\n\tcontainer := pod.spec.containers[i]\n\t\n    verified_keys := [trusted_key | trusted_key = data.postureControlInputs.trustedCosignPublicKeys[_]; cosign.verify(container.image, trusted_key)]\n    count(verified_keys) == 0\n\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"signature not verified for image: %v\", [container.image]),\n\t\t\"alertScore\": 7,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [container.image],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t},\n\t}\n}\n\ndeny[msga] {\n    wl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n    container := wl.spec.template.spec.containers[i]\n\n\tverified_keys := [trusted_key | trusted_key = data.postureControlInputs.trustedCosignPublicKeys[_]; cosign.verify(container.image, trusted_key)]\n    count(verified_keys) == 0\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"signature not verified for image: %v\", [container.image]),\n\t\t\"alertScore\": 7,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [container.image],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t},\n\t}\n}\n\n\ndeny[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer = wl.spec.jobTemplate.spec.template.spec.containers[i]\n\t\n    verified_keys := [trusted_key | trusted_key = data.postureControlInputs.trustedCosignPublicKeys[_]; cosign.verify(container.image, trusted_key)]\n    count(verified_keys) == 0\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"signature not verified for image: %v\", [container.image]),\n\t\t\"alertScore\": 7,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [container.image],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t},\n\t}\n}\n"
+                }
+            ]
+        },
+        {
+            "controlID": "C-0237",
+            "name": "Check if signature exists",
+            "description": "Ensures that all images contain some signature",
+            "long_description": "Verifies that each image is signed",
+            "remediation": "Replace the image with a signed image",
+            "manual_test": "",
+            "references": [],
+            "attributes": {
+                "armoBuiltin": true
+            },
+            "baseScore": 7,
+            "impact_statement": "",
+            "default_value": "",
+            "rules": [
+                {
+                    "name": "has-image-signature",
+                    "attributes": {
+                        "armoBuiltin": true,
+                        "useFromKubescapeVersion": "v2.1.3"
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                ""
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Pod"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "apps"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "Deployment",
+                                "ReplicaSet",
+                                "DaemonSet",
+                                "StatefulSet"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "batch"
+                            ],
+                            "apiVersions": [
+                                "*"
+                            ],
+                            "resources": [
+                                "Job",
+                                "CronJob"
+                            ]
+                        }
+                    ],
+                    "dynamicMatch": [],
+                    "ruleDependencies": [],
+                    "description": "Ensures that all images contain some signature",
+                    "remediation": "Replace the image with a signed image",
+                    "ruleQuery": "armo_builtins",
+                    "rule": "package armo_builtins\nimport data\n\ndeny[msga] {\n\n    pod := input[_]\n    pod.kind == \"Pod\"\n\tcontainer := pod.spec.containers[i]\n\n    not cosign.has_signature(container.image)\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"image: %v is not signed\", [ container.image]),\n\t\t\"alertScore\": 7,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [container.image],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t},\n\t}\n}\n\ndeny[msga] {\n    wl := input[_]\n\twl_kinds := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\twl_kinds[wl.kind]\n    container := wl.spec.template.spec.containers[i]\n\n    not cosign.has_signature(container.image)\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"image: %v is not signed\", [ container.image]),\n\t\t\"alertScore\": 7,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [container.image],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t},\n\t}\n}\n\n\ndeny[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer = wl.spec.jobTemplate.spec.template.spec.containers[i]\n\t\n    not cosign.has_signature(container.image)\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"image: %v is not signed\", [ container.image]),\n\t\t\"alertScore\": 7,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [container.image],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t},\n\t}\n}\n"
+                }
+            ]
         }
     ],
     "ControlsIDs": [
@@ -3172,6 +3319,8 @@
         "C-0086",
         "C-0087",
         "C-0089",
-        "C-0091"
+        "C-0091",
+        "C-0236",
+        "C-0237"
     ]
 }

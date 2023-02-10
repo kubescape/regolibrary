@@ -39,6 +39,8 @@ ArmoBest,C-0086,CVE-2022-0492-cgroups-container-escape
 ArmoBest,C-0087,CVE-2022-23648-containerd-fs-escape
 ArmoBest,C-0089,CVE-2022-3172-aggregated-API-server-redirect
 ArmoBest,C-0091,CVE-2022-47633-kyverno-signature-bypass
+ArmoBest,C-0236,Verify image signature
+ArmoBest,C-0237,Check if signature exists
 cis-v1.23-t1.0.1,C-0092,Ensure that the API server pod specification file permissions are set to 600 or more restrictive
 cis-v1.23-t1.0.1,C-0093,Ensure that the API server pod specification file ownership is set to root:root
 cis-v1.23-t1.0.1,C-0094,Ensure that the controller manager pod specification file permissions are set to 600 or more restrictive

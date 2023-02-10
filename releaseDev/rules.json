@@ -229,7 +229,7 @@
         "name": "has-image-signature",
         "attributes": {
             "armoBuiltin": true,
-            "useFromKubescapeVersion": "v2.0.184"
+            "useFromKubescapeVersion": "v2.1.3"
         },
         "ruleLanguage": "Rego",
         "match": [
@@ -648,7 +648,7 @@
         "name": "verify-image-signature",
         "attributes": {
             "armoBuiltin": true,
-            "useFromKubescapeVersion": "v2.0.184"
+            "useFromKubescapeVersion": "v2.1.3"
         },
         "ruleLanguage": "Rego",
         "match": [
