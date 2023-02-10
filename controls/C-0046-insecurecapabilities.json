@@ -1,6 +1,7 @@
 {
     "name": "Insecure capabilities",
     "attributes": {
+        "actionRequired": "configuration",
         "armoBuiltin": true,
         "controlTypeTags": [
             "security",

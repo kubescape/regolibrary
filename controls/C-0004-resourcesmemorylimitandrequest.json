@@ -13,7 +13,8 @@
                     "Impact - service destruction"
                 ]
             }
-        ]
+        ],
+        "actionRequired": "configuration"
     },
     "description": "This control identifies all Pods for which the memory limit is not set.",
     "remediation": "Set the memory limit or use exception mechanism to avoid unnecessary notifications.",

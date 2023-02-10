@@ -1,6 +1,7 @@
 {
     "name": "Exposed sensitive interfaces",
     "attributes": {
+        "actionRequired": "configuration",
         "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Initial access"
