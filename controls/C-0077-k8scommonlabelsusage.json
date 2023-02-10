@@ -1,6 +1,7 @@
 {
     "name": "K8s common labels usage",
     "attributes": {
+        "actionRequired": "configuration",
         "armoBuiltin": true,
         "controlTypeTags": [
             "devops"
