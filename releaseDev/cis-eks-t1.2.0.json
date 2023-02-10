@@ -360,6 +360,7 @@
         {
             "name": "CIS-5.1.4 Minimize Container Registries to only those approved",
             "attributes": {
+                "actionRequired": "configuration",
                 "armoBuiltin": true,
                 "microsoftMitreColumns": [
                     "Collection"

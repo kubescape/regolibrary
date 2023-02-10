@@ -25,7 +25,8 @@
                                 "Initial access"
                             ]
                         }
-                    ]
+                    ],
+                    "actionRequired": "configuration"
                 },
                 "description": "In cases where the Kubernetes cluster is provided by a CSP (e.g., AKS in Azure, GKE in GCP, or EKS in AWS), compromised cloud credential can lead to the cluster takeover. Attackers may abuse cloud account credentials or IAM mechanism to the cluster\u2019s management layer.",
                 "remediation": "Limit the registries from which you pull container images from",
@@ -111,6 +112,7 @@
             {
                 "name": "Applications credentials in configuration files",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Credential access",
@@ -379,6 +381,7 @@
             {
                 "name": "Insecure capabilities",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "security",
@@ -788,6 +791,7 @@
             {
                 "name": "Images from allowed registry",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Collection"
@@ -921,6 +925,7 @@
             {
                 "name": "Workloads with excessive amount of vulnerabilities",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "security",
@@ -1050,6 +1055,7 @@
                 "manual_test": "",
                 "references": [],
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true
                 },
                 "baseScore": 7,
@@ -3693,7 +3699,8 @@
                                 "Impact - service destruction"
                             ]
                         }
-                    ]
+                    ],
+                    "actionRequired": "configuration"
                 },
                 "description": "This control identifies all Pods for which the memory limit is not set.",
                 "remediation": "Set the memory limit or use exception mechanism to avoid unnecessary notifications.",
@@ -3748,6 +3755,7 @@
             {
                 "name": "Resources CPU limit and request",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "compliance",
@@ -3843,6 +3851,7 @@
             {
                 "name": "Label usage for resources",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "devops"
@@ -3859,6 +3868,7 @@
             {
                 "name": "K8s common labels usage",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "devops"
@@ -3913,7 +3923,8 @@
                                 "Initial access"
                             ]
                         }
-                    ]
+                    ],
+                    "actionRequired": "configuration"
                 },
                 "description": "In cases where the Kubernetes cluster is provided by a CSP (e.g., AKS in Azure, GKE in GCP, or EKS in AWS), compromised cloud credential can lead to the cluster takeover. Attackers may abuse cloud account credentials or IAM mechanism to the cluster\u2019s management layer.",
                 "remediation": "Limit the registries from which you pull container images from",
@@ -3961,7 +3972,8 @@
                                 "Impact - service destruction"
                             ]
                         }
-                    ]
+                    ],
+                    "actionRequired": "configuration"
                 },
                 "description": "This control identifies all Pods for which the memory limit is not set.",
                 "remediation": "Set the memory limit or use exception mechanism to avoid unnecessary notifications.",
@@ -4044,6 +4056,7 @@
             {
                 "name": "Applications credentials in configuration files",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Credential access",
@@ -4245,6 +4258,7 @@
             {
                 "name": "Exposed sensitive interfaces",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Initial access"
@@ -4572,6 +4586,7 @@
             {
                 "name": "Insecure capabilities",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "security",
@@ -4654,6 +4669,7 @@
             {
                 "name": "Resources CPU limit and request",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "compliance",
@@ -5146,6 +5162,7 @@
             {
                 "name": "Label usage for resources",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "devops"
@@ -5162,6 +5179,7 @@
             {
                 "name": "K8s common labels usage",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "devops"
@@ -5178,6 +5196,7 @@
             {
                 "name": "Images from allowed registry",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Collection"
@@ -5311,6 +5330,7 @@
             {
                 "name": "Workloads with excessive amount of vulnerabilities",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "security",
@@ -5587,6 +5607,7 @@
             {
                 "name": "Applications credentials in configuration files",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Credential access",
@@ -5694,6 +5715,7 @@
             {
                 "name": "Exposed sensitive interfaces",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Initial access"
@@ -6353,6 +6375,7 @@
             {
                 "name": "Applications credentials in configuration files",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Credential access",
@@ -6621,6 +6644,7 @@
             {
                 "name": "Insecure capabilities",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "security",
@@ -7160,6 +7184,7 @@
             {
                 "name": "CIS-5.1.4 Minimize Container Registries to only those approved",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Collection"
