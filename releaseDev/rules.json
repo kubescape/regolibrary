@@ -449,6 +449,31 @@
         "resourceEnumerator": "package armo_builtins\n\ndeny[msg] {\n\tobj = input[_]\n\tis_api_server(obj)\n\tmsg := {\"alertObject\": {\"k8sApiObjects\": [obj]}}\n}\n\nis_api_server(obj) {\n\tobj.apiVersion == \"v1\"\n\tobj.kind == \"Pod\"\n\tobj.metadata.namespace == \"kube-system\"\n\tcount(obj.spec.containers) == 1\n\tcount(obj.spec.containers[0].command) > 0\n\tendswith(obj.spec.containers[0].command[0], \"kube-apiserver\")\n}\n"
     },
     {
+        "name": "review-roles-with-aws-iam-authenticator",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "rbac.authorization.k8s.io"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "Role"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\ndeny[msga] {\n    resource := input[_]\n\tresource.kind == \"Role\"\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"For namespace '%v', make sure Kubernetes RBAC users are managed with AWS IAM Authenticator for Kubernetes or Upgrade to AWS CLI v1.16.156\", [resource.metadata.namespace]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObjects\": resource\n\t\t}\n\t}\n}\n"
+    },
+    {
         "name": "ensure-that-the-controller-manager.conf-file-permissions-are-set-to-600-or-more-restrictive",
         "attributes": {
             "armoBuiltin": true,

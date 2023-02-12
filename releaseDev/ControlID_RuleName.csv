@@ -226,6 +226,7 @@ C-0179,kubelet-hostname-override
 C-0146,ensure-that-the-controller-manager-use-service-account-credentials-argument-is-set-to-true
 C-0186,rule-can-list-get-secrets-v1
 C-0238,Ensure-that-the-kubeconfig-file-permissions-are-set-to-644-or-more-restrictive
+C-0232,review-roles-with-aws-iam-authenticator
 C-0174,enforce-kubelet-client-tls-authentication-updated
 C-0168,ensure-that-the-certificate-authorities-file-permissions-are-set-to-600-or-more-restrictive
 C-0082,read-only-port-enabled
