@@ -1,20 +1,23 @@
-# Welcome to Kubescape Regolibrary!
+[![Version](https://img.shields.io/github/v/release/kubescape/regolibrary)](releases)
+[![release-date](https://img.shields.io/github/release-date/kubescape/regolibrary)](releases)
+[![GitHub](https://img.shields.io/github/license/kubescape/kubescape)](https://github.com/kubescape/kubescape/blob/master/LICENSE)
 
-The main components of the [regolibrary](https://www.armosec.io/blog/kubescape-open-source-kubernetes-security-platform/?utm_source=github&utm_medium=repository):
+# Kubescape Regolibrary
 
-**Framework** - a group of controls to test against
-
-**Control** - a potential vulnerability to check, can include multiple rules
-
-**Rule** - a single specific test
-
-These are used by [Kubescape](https://github.com/kubescape/kubescape).
+This repository contains a library of security controls that codify Kubernetes best practices derived from the most prevalent security frameworks in the industry. [Kubescape](https://github.com/kubescape/kubescape) uses these controls to scan again running clusters or manifest files under development. They’re written in Rego, the purpose-built declarative policy language that supports Open Policy Agent (OPA).
 
 
+## Terminology
 
-## **Contributing**
+- **Framework** - a group of controls to test against
 
-### **Add a framework** 
+- **Control** - a potential vulnerability to check, can include multiple rules
+
+- **Rule** - a single specific test
+
+## Contributing
+
+### Add a framework
 
 Add `frameworkName.json` file in the `/frameworks` directory
 
@@ -44,7 +47,7 @@ Example of a framework:
 * Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
 * controlNames - List of controls to run, must be exact name. Use copy-paste to be sure.
 
-### **Add a control**
+### Add a control
 
 Add `controlName.json` file in the `/controls` directory.
 
@@ -74,7 +77,7 @@ Example of a control:
 
 * See [control go struct](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructures.go#L56) for more control fields
 
-### **Add a rule**:
+### Add a rule:
 
 1. Add to `/rules` a new directory with the rule name
 
@@ -270,19 +273,17 @@ The following controls are not supported in the OPA bundles:
 - C-0083 - Workloads with critical vulnerabilities exposed to external traffic
 <!-- End of OPA bundles removed controls -->
 
-## Support
+
+## Support & Communication
 Reach out if you have any questions:
 
 * [Open an issue](https://github.com/kubescape/regolibrary/issues/new/choose)
-* [Join us](https://discord.com/invite/WKZRaCtBxN) in the discussion on our discord server!
+* [Slack Community ](https://cloud-native.slack.com/archives/C04EY3ZF9GE) For any Q&A or support you can reach us at our CNCF Slack channels
 
-We aren't open for contributions currently, but feel free to contact us with suggestions :)
 
----
+## Learn more: 
+- [NSA Framework](https://www.nsa.gov/Press-Room/News-Highlights/Article/Article/2716980/nsa-cisa-release-kubernetes-hardening-guidance/)
 
-### Our frameworks include:
-#### [NSA Framework](https://www.nsa.gov/Press-Room/News-Highlights/Article/Article/2716980/nsa-cisa-release-kubernetes-hardening-guidance/)
+- [MITRE ATT&CK® Framework](https://www.microsoft.com/security/blog/wp-content/uploads/2021/03/Matrix-1536x926.png)
 
-#### [MITRE ATT&CK® Framework](https://www.microsoft.com/security/blog/wp-content/uploads/2021/03/Matrix-1536x926.png)
-
-#### [CIS Framework](https://workbench.cisecurity.org/benchmarks/8973)
+- [CIS Framework](https://workbench.cisecurity.org/benchmarks/8973)

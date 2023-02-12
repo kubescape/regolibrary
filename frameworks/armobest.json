@@ -244,6 +244,18 @@
             "patch": {
                 "name": "CVE-2022-47633-kyverno-signature-bypass"
             }
+        },
+        {
+            "controlID": "C-0236",
+            "patch": {
+                "name": "Verify image signature"
+            }
+        },
+        {
+            "controlID": "C-0237",
+            "patch": {
+                "name": "Check if signature exists"
+            }
         }
     ]
 }
