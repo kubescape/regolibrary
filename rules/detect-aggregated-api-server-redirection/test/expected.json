@@ -1,0 +1,21 @@
+[  
+    {    
+        "alertMessage": "API server 1.21.14 is vulnerable to CVE-2022-3172, an aggregated API server is redirecting client traffic to any URL.",    
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 5.1,
+        "alertObject": {
+        "k8sApiObjects": [
+            {
+            "apiVersion": "apiregistration.k8s.io/v1",
+            "kind": "APIService",
+            "metadata": {
+                "name": "1.21.14"
+            }
+            }
+        ]
+    }
+  }
+]
