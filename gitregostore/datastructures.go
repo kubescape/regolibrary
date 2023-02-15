@@ -22,6 +22,10 @@ type GitRegoStore struct {
 	controlsLock                       sync.RWMutex
 	attackTracksLock                   sync.RWMutex
 	systemPostureExceptionPoliciesLock sync.RWMutex
+	controlRelationsLock               sync.RWMutex
+	frameworkRelationsLock             sync.RWMutex
+	frameworkEscalatedLock             sync.Mutex // escalated X-lock when the object is mutating itself (lazy loaders)
+	controlEscalatedLock               sync.Mutex
 	ControlRuleRelations               dataframe.DataFrame
 	FrameworkControlRelations          dataframe.DataFrame
 	httpClient                         *http.Client
