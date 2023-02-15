@@ -10,7 +10,8 @@
         "https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html"
     ],
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "actionRequired": "requires review"
     },
     "rulesNames": [
         "review-roles-with-aws-iam-authenticator"
