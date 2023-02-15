@@ -34,18 +34,21 @@ const (
 	controlIDRegex = `^(?:[a-z]+|[A-Z]+)(?:[\-][v]?(?:[0-9][\.]?)+)(?:[\-]?[0-9][\.]?)+$`
 )
 
-var controlIDRegexCompiled *regexp.Regexp = nil
+var (
+	controlIDRegexCompiled *regexp.Regexp
+	compileRexOnce         sync.Once
 
-var storeSetterMapping = map[string]storeSetter{
-	attackTracksJsonFileName:          (*GitRegoStore).setAttackTracks,
-	frameworksJsonFileName:            (*GitRegoStore).setFrameworks,
-	controlsJsonFileName:              (*GitRegoStore).setControls,
-	rulesJsonFileName:                 (*GitRegoStore).setRules,
-	frameworkControlRelationsFileName: (*GitRegoStore).setFrameworkControlRelations,
-	ControlRuleRelationsFileName:      (*GitRegoStore).setControlRuleRelations,
-	defaultConfigInputsFileName:       (*GitRegoStore).setDefaultConfigInputs,
-	systemPostureExceptionFileName:    (*GitRegoStore).setSystemPostureExceptionPolicies,
-}
+	storeSetterMapping = map[string]storeSetter{
+		attackTracksJsonFileName:          (*GitRegoStore).setAttackTracks,
+		frameworksJsonFileName:            (*GitRegoStore).setFrameworks,
+		controlsJsonFileName:              (*GitRegoStore).setControls,
+		rulesJsonFileName:                 (*GitRegoStore).setRules,
+		frameworkControlRelationsFileName: (*GitRegoStore).setFrameworkControlRelations,
+		ControlRuleRelationsFileName:      (*GitRegoStore).setControlRuleRelations,
+		defaultConfigInputsFileName:       (*GitRegoStore).setDefaultConfigInputs,
+		systemPostureExceptionFileName:    (*GitRegoStore).setSystemPostureExceptionPolicies,
+	}
+)
 
 type InnerTree []struct {
 	PATH string `json:"path"`
@@ -75,38 +78,6 @@ func (gs *GitRegoStore) setObjects() error {
 		return gs.setObjectsFromRepoOnce()
 	}
 	return gs.setObjectsFromReleaseLoop()
-}
-
-// DEPRECATED
-func isUrlRelease(u string) bool {
-	return strings.Contains(u, "releases")
-}
-
-// ========================== set Objects From Repo =====================================
-// DEPRECATED
-func (gs *GitRegoStore) setObjectsFromRepoLoop() error {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var e error
-
-	go func() {
-		f := true
-		for {
-			if err := gs.setObjectsFromRepoOnce(); err != nil {
-				e = err
-			}
-			if f {
-				wg.Done() // first update to done
-				f = false
-			}
-			if !gs.Watch {
-				return
-			}
-			time.Sleep(time.Duration(gs.FrequencyPullFromGitMinutes) * time.Minute)
-		}
-	}()
-	wg.Wait()
-	return e
 }
 
 // DEPRECATED
@@ -328,6 +299,7 @@ func (gs *GitRegoStore) setFrameworks(respStr string) error {
 	}
 	gs.frameworksLock.Lock()
 	defer gs.frameworksLock.Unlock()
+
 	gs.Frameworks = frameworks
 	return nil
 }
@@ -339,6 +311,7 @@ func (gs *GitRegoStore) setAttackTracks(respStr string) error {
 	}
 	gs.attackTracksLock.Lock()
 	defer gs.attackTracksLock.Unlock()
+
 	gs.AttackTracks = attacktracks
 	return nil
 }
@@ -350,6 +323,7 @@ func (gs *GitRegoStore) setControls(respStr string) error {
 	}
 	gs.controlsLock.Lock()
 	defer gs.controlsLock.Unlock()
+
 	gs.Controls = controls
 	return nil
 }
@@ -361,6 +335,7 @@ func (gs *GitRegoStore) setRules(respStr string) error {
 	}
 	gs.rulesLock.Lock()
 	defer gs.rulesLock.Unlock()
+
 	gs.Rules = *rules
 	return nil
 }
@@ -371,6 +346,7 @@ func (gs *GitRegoStore) setDefaultConfigInputs(respStr string) error {
 	}
 	gs.DefaultConfigInputsLock.Lock()
 	defer gs.DefaultConfigInputsLock.Unlock()
+
 	gs.DefaultConfigInputs = defaultConfigInputs
 	return nil
 }
@@ -382,25 +358,36 @@ func (gs *GitRegoStore) setSystemPostureExceptionPolicies(respStr string) error 
 	}
 	gs.systemPostureExceptionPoliciesLock.Lock()
 	defer gs.systemPostureExceptionPoliciesLock.Unlock()
+
 	gs.SystemPostureExceptionPolicies = exceptions
 	return nil
 }
 
 func (gs *GitRegoStore) setFrameworkControlRelations(respStr string) error {
 	df := dataframe.ReadCSV(strings.NewReader(respStr))
+
+	gs.frameworkRelationsLock.Lock()
 	gs.FrameworkControlRelations = df
+	gs.frameworkRelationsLock.Unlock()
+
 	return nil
 }
 
 func (gs *GitRegoStore) setControlRuleRelations(respStr string) error {
 	df := dataframe.ReadCSV(strings.NewReader(respStr))
+
+	gs.controlRelationsLock.Lock()
 	gs.ControlRuleRelations = df
+	gs.controlRelationsLock.Unlock()
+
 	return nil
 }
 
 func (gs *GitRegoStore) lockAll() {
 	gs.frameworksLock.Lock()
 	gs.controlsLock.Lock()
+	gs.controlRelationsLock.Lock()
+	gs.frameworkRelationsLock.Lock()
 	gs.rulesLock.Lock()
 	gs.attackTracksLock.Lock()
 	gs.systemPostureExceptionPoliciesLock.Lock()
@@ -410,6 +397,8 @@ func (gs *GitRegoStore) lockAll() {
 func (gs *GitRegoStore) rLockAll() {
 	gs.frameworksLock.RLock()
 	gs.controlsLock.RLock()
+	gs.controlRelationsLock.RLock()
+	gs.frameworkRelationsLock.RLock()
 	gs.rulesLock.RLock()
 	gs.attackTracksLock.RLock()
 	gs.systemPostureExceptionPoliciesLock.RLock()
@@ -417,21 +406,27 @@ func (gs *GitRegoStore) rLockAll() {
 }
 
 func (gs *GitRegoStore) unlockAll() {
-	gs.frameworksLock.Unlock()
-	gs.controlsLock.Unlock()
-	gs.rulesLock.Unlock()
-	gs.attackTracksLock.Unlock()
-	gs.systemPostureExceptionPoliciesLock.Unlock()
+	// unlock acquired mutexes in the reverse order of locking
 	gs.DefaultConfigInputsLock.Unlock()
+	gs.systemPostureExceptionPoliciesLock.Unlock()
+	gs.attackTracksLock.Unlock()
+	gs.rulesLock.Unlock()
+	gs.frameworkRelationsLock.Unlock()
+	gs.controlRelationsLock.Unlock()
+	gs.controlsLock.Unlock()
+	gs.frameworksLock.Unlock()
 }
 
 func (gs *GitRegoStore) rUnlockAll() {
-	gs.frameworksLock.RUnlock()
-	gs.controlsLock.RUnlock()
-	gs.rulesLock.RUnlock()
-	gs.attackTracksLock.RUnlock()
-	gs.systemPostureExceptionPoliciesLock.RUnlock()
+	// unlock acquired mutexes in the reverse order of locking
 	gs.DefaultConfigInputsLock.RUnlock()
+	gs.systemPostureExceptionPoliciesLock.RUnlock()
+	gs.frameworkRelationsLock.RUnlock()
+	gs.attackTracksLock.RUnlock()
+	gs.rulesLock.RUnlock()
+	gs.controlRelationsLock.RUnlock()
+	gs.controlsLock.RUnlock()
+	gs.frameworksLock.RUnlock()
 }
 
 func (gs *GitRegoStore) copyData(other *GitRegoStore) {
@@ -439,6 +434,7 @@ func (gs *GitRegoStore) copyData(other *GitRegoStore) {
 	defer other.rUnlockAll()
 	gs.lockAll()
 	defer gs.unlockAll()
+
 	gs.Frameworks = other.Frameworks
 	gs.Controls = other.Controls
 	gs.Rules = other.Rules
@@ -506,16 +502,10 @@ func HTTPRespToString(resp *http.Response) (string, error) {
 }
 
 func isControlID(c string) bool {
+	compileRexOnce.Do(func() {
+		// compile regex only once
+		controlIDRegexCompiled = regexp.MustCompile(controlIDRegex)
+	})
 
-	// Compile regex only once
-	if controlIDRegexCompiled == nil {
-		compiled, err := regexp.Compile(controlIDRegex)
-		if err != nil {
-			return false
-		}
-		controlIDRegexCompiled = compiled
-	}
-
-	// Match
 	return controlIDRegexCompiled.MatchString(c)
 }
