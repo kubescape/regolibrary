@@ -227,6 +227,7 @@
         {
             "name": "Applications credentials in configuration files",
             "attributes": {
+                "actionRequired": "configuration",
                 "armoBuiltin": true,
                 "microsoftMitreColumns": [
                     "Credential access",
@@ -1118,6 +1119,7 @@
         {
             "name": "Insecure capabilities",
             "attributes": {
+                "actionRequired": "configuration",
                 "armoBuiltin": true,
                 "controlTypeTags": [
                     "security",

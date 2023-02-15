@@ -8,6 +8,7 @@
     "references": [
     ],
     "attributes": {
+        "actionRequired": "configuration",
         "armoBuiltin": true
     },
     "rulesNames": [

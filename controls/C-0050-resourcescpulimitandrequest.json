@@ -1,6 +1,7 @@
 {
     "name": "Resources CPU limit and request",
     "attributes": {
+        "actionRequired": "configuration",
         "armoBuiltin": true,
         "controlTypeTags": [
             "compliance",

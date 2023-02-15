@@ -25,7 +25,8 @@
                                 "Initial access"
                             ]
                         }
-                    ]
+                    ],
+                    "actionRequired": "configuration"
                 },
                 "description": "In cases where the Kubernetes cluster is provided by a CSP (e.g., AKS in Azure, GKE in GCP, or EKS in AWS), compromised cloud credential can lead to the cluster takeover. Attackers may abuse cloud account credentials or IAM mechanism to the cluster\u2019s management layer.",
                 "remediation": "Limit the registries from which you pull container images from",
@@ -111,6 +112,7 @@
             {
                 "name": "Applications credentials in configuration files",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Credential access",
@@ -379,6 +381,7 @@
             {
                 "name": "Insecure capabilities",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "security",
@@ -788,6 +791,7 @@
             {
                 "name": "Images from allowed registry",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Collection"
@@ -921,6 +925,7 @@
             {
                 "name": "Workloads with excessive amount of vulnerabilities",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "security",
@@ -1040,6 +1045,39 @@
                 "baseScore": 8.0,
                 "example": "",
                 "rules": []
+            },
+            {
+                "controlID": "C-0236",
+                "name": "Verify image signature",
+                "description": "Verifies the signature of each image with given public keys",
+                "long_description": "Verifies the signature of each image with given public keys",
+                "remediation": "Replace the image with an image that is signed correctly",
+                "manual_test": "",
+                "references": [],
+                "attributes": {
+                    "actionRequired": "configuration",
+                    "armoBuiltin": true
+                },
+                "baseScore": 7,
+                "impact_statement": "",
+                "default_value": "",
+                "rules": []
+            },
+            {
+                "controlID": "C-0237",
+                "name": "Check if signature exists",
+                "description": "Ensures that all images contain some signature",
+                "long_description": "Verifies that each image is signed",
+                "remediation": "Replace the image with a signed image",
+                "manual_test": "",
+                "references": [],
+                "attributes": {
+                    "armoBuiltin": true
+                },
+                "baseScore": 7,
+                "impact_statement": "",
+                "default_value": "",
+                "rules": []
             }
         ],
         "ControlsIDs": [
@@ -1082,7 +1120,9 @@
             "C-0086",
             "C-0087",
             "C-0089",
-            "C-0091"
+            "C-0091",
+            "C-0236",
+            "C-0237"
         ]
     },
     {
@@ -3659,7 +3699,8 @@
                                 "Impact - service destruction"
                             ]
                         }
-                    ]
+                    ],
+                    "actionRequired": "configuration"
                 },
                 "description": "This control identifies all Pods for which the memory limit is not set.",
                 "remediation": "Set the memory limit or use exception mechanism to avoid unnecessary notifications.",
@@ -3714,6 +3755,7 @@
             {
                 "name": "Resources CPU limit and request",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "compliance",
@@ -3809,6 +3851,7 @@
             {
                 "name": "Label usage for resources",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "devops"
@@ -3825,6 +3868,7 @@
             {
                 "name": "K8s common labels usage",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "devops"
@@ -3879,7 +3923,8 @@
                                 "Initial access"
                             ]
                         }
-                    ]
+                    ],
+                    "actionRequired": "configuration"
                 },
                 "description": "In cases where the Kubernetes cluster is provided by a CSP (e.g., AKS in Azure, GKE in GCP, or EKS in AWS), compromised cloud credential can lead to the cluster takeover. Attackers may abuse cloud account credentials or IAM mechanism to the cluster\u2019s management layer.",
                 "remediation": "Limit the registries from which you pull container images from",
@@ -3927,7 +3972,8 @@
                                 "Impact - service destruction"
                             ]
                         }
-                    ]
+                    ],
+                    "actionRequired": "configuration"
                 },
                 "description": "This control identifies all Pods for which the memory limit is not set.",
                 "remediation": "Set the memory limit or use exception mechanism to avoid unnecessary notifications.",
@@ -4010,6 +4056,7 @@
             {
                 "name": "Applications credentials in configuration files",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Credential access",
@@ -4211,6 +4258,7 @@
             {
                 "name": "Exposed sensitive interfaces",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Initial access"
@@ -4538,6 +4586,7 @@
             {
                 "name": "Insecure capabilities",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "security",
@@ -4620,6 +4669,7 @@
             {
                 "name": "Resources CPU limit and request",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "compliance",
@@ -5112,6 +5162,7 @@
             {
                 "name": "Label usage for resources",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "devops"
@@ -5128,6 +5179,7 @@
             {
                 "name": "K8s common labels usage",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "devops"
@@ -5144,6 +5196,7 @@
             {
                 "name": "Images from allowed registry",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Collection"
@@ -5277,6 +5330,7 @@
             {
                 "name": "Workloads with excessive amount of vulnerabilities",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "security",
@@ -5553,6 +5607,7 @@
             {
                 "name": "Applications credentials in configuration files",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Credential access",
@@ -5660,6 +5715,7 @@
             {
                 "name": "Exposed sensitive interfaces",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Initial access"
@@ -6319,6 +6375,7 @@
             {
                 "name": "Applications credentials in configuration files",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Credential access",
@@ -6587,6 +6644,7 @@
             {
                 "name": "Insecure capabilities",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "security",
@@ -7053,7 +7111,9 @@
                     "5": {
                         "name": "Authentication and Authorization",
                         "id": "5.5",
-                        "controlsIDs": []
+                        "controlsIDs": [
+                            "C-0232"
+                        ]
                     },
                     "6": {
                         "name": "Other Cluster Configurations",
@@ -7126,6 +7186,7 @@
             {
                 "name": "CIS-5.1.4 Minimize Container Registries to only those approved",
                 "attributes": {
+                    "actionRequired": "configuration",
                     "armoBuiltin": true,
                     "microsoftMitreColumns": [
                         "Collection"
@@ -7941,6 +8002,26 @@
                 "rules": []
             },
             {
+                "controlID": "C-0232",
+                "name": "CIS-5.5.1 Manage Kubernetes RBAC users with AWS IAM Authenticator for Kubernetes or Upgrade to AWS CLI v1.16.156",
+                "description": "Amazon EKS uses IAM to provide authentication to your Kubernetes cluster through the AWS IAM Authenticator for Kubernetes. You can configure the stock kubectl client to work with Amazon EKS by installing the AWS IAM Authenticator for Kubernetes and modifying your kubectl configuration file to use it for authentication.",
+                "long_description": "On- and off-boarding users is often difficult to automate and prone to error. Using a single source of truth for user permissions reduces the number of locations that an individual must be off-boarded from, and prevents users gaining unique permissions sets that increase the cost of audit.",
+                "remediation": "Refer to the '[Managing users or IAM roles for your cluster](https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html)' in Amazon EKS documentation.\n\n Note: If using AWS CLI version 1.16.156 or later there is no need to install the AWS IAM Authenticator anymore.\n\n The relevant AWS CLI commands, depending on the use case, are:\n\n \n```\naws eks update-kubeconfig\naws eks get-token\n\n```",
+                "manual_test": "To Audit access to the namespace $NAMESPACE, assume the IAM role yourIAMRoleName for a user that you created, and then run the following command:\n\n \n```\n$ kubectl get role -n $NAMESPACE\n\n```\n The response lists the RBAC role that has access to this Namespace.",
+                "references": [
+                    "https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html",
+                    "https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html"
+                ],
+                "attributes": {
+                    "armoBuiltin": true,
+                    "actionRequired": "requires review"
+                },
+                "baseScore": 7,
+                "impact_statement": "Users must now be assigned to the IAM group created to use this namespace and deploy applications. If they are not they will not be able to access the namespace or deploy.",
+                "default_value": "For role-based access control (RBAC), system:masters permissions are configured in the Amazon EKS control plane",
+                "rules": []
+            },
+            {
                 "controlID": "C-0233",
                 "name": "CIS-5.6.1 Consider Fargate for running untrusted workloads",
                 "description": "It is Best Practice to restrict or fence untrusted workloads when running in a multi-tenant environment.",
@@ -8057,6 +8138,7 @@
             "C-0229",
             "C-0230",
             "C-0231",
+            "C-0232",
             "C-0233",
             "C-0234",
             "C-0235",
