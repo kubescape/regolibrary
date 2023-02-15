@@ -2839,7 +2839,8 @@
                 "https://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html"
             ],
             "attributes": {
-                "armoBuiltin": true
+                "armoBuiltin": true,
+                "actionRequired": "requires review"
             },
             "baseScore": 7,
             "impact_statement": "Users must now be assigned to the IAM group created to use this namespace and deploy applications. If they are not they will not be able to access the namespace or deploy.",
