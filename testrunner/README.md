@@ -1,13 +1,17 @@
 # Test-Runner for Rego Rules
+
 This package tests the OPA Rego rules.
 
 # Running the tests
-First you need to [setup the environment](#environment-setup). Then run
+
+You can easily test your custom rules by running this command:
 
 ```
 go test -v -tags=static rego_test.go -run TestAllRules
 ```
-Or
+
+or simply:
+
 ```
 make test
 ```
