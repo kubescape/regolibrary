@@ -1,5 +1,7 @@
+<!-- markdown-link-check-disable -->
 [![Version](https://img.shields.io/github/v/release/kubescape/regolibrary)](releases)
 [![release-date](https://img.shields.io/github/release-date/kubescape/regolibrary)](releases)
+<!-- markdown-link-check-enable-->
 [![GitHub](https://img.shields.io/github/license/kubescape/kubescape)](https://github.com/kubescape/kubescape/blob/master/LICENSE)
 
 # Kubescape Regolibrary
@@ -169,7 +171,7 @@ Example of rule.metadata.json:
     See structure of a [rule response](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructuresv1.go#L23)
 
 
-4. Add a test for the new rule (and run it!). Learn how to add a test [here](/rules-tests/README.md) and how to run it [here](/testrunner/README.md)
+4. Add a test for the new rule (and run it!). Learn how to add a test [here](testrunner/README.md#adding-new-rules) and how to run it [here](testrunner/README.md).
 
 5. Add `filter.rego` if needed - If it exists, the filter is run by Kubescape to calculate ‘all resources’ = the number of potential resources to fail. It affects the risk score. This is needed in cases where a rule asks for resources that wil not potentially fail. Example: if a rule asks for pods and service accounts to see if they are connected but only fails the pods, we would create a filter rego that returns only pods.
 
@@ -193,7 +195,7 @@ Manual review | `manual review` | This status indicates that the control cannot 
 
 
 ## OPA bundles
-The Kubescape regolibrary is [available](../../releases/latest) as an [OPA bundle](https://www.openpolicyagent.org/docs/latest/management-bundles), for both targets, WASM and Rego. 
+The Kubescape regolibrary is [available](https://github.com/kubescape/regolibrary/releases/latest) as an [OPA bundle](https://www.openpolicyagent.org/docs/latest/management-bundles), for both targets, WASM and Rego. 
 
 ### Using the bundles
 > Endpoint names are normalized to be used as a Rego package name. Here are some examples:
