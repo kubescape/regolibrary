@@ -23,5 +23,5 @@
     ],
     "description": "Detects if an aggregated API server is vulnerable to redirection as described in CVE-2022-3172.",
     "remediation": "Upgrade to a fixed version of kube-apiserver or follow security best practices with any aggregated API servers that may be in use.",
-    "ruleQuery": "data.vulnerability_detection.aggregated_api_server_redirection_vulnerability"
+    "ruleQuery": "armo_builtins"
 }
