@@ -3,6 +3,7 @@
 This package tests the OPA Rego rules.
 
 # Running the tests
+
 You can easily test your custom rules by running this command:
 
 ```shell
