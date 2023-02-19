@@ -44,7 +44,9 @@ Example of a framework:
     ]
 }
 ```
-* Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
+
+* `attributes` - See [Control Attributes](#control-attributes) for more information.
+
 * controlNames - List of controls to run, must be exact name. Use copy-paste to be sure.
 
 ### Add a control
@@ -70,7 +72,9 @@ Example of a control:
     "baseScore": 3
 }
 ```
-* Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
+
+* `attributes` - See [Control Attributes](#control-attributes) for more information.
+
 * `rulesNames` -  List of rules to run, must be exact name. Use copy-paste to be sure.
 
 * `long_description`, `test` and other control fields are used mainly in the [documentation](https://hub.armosec.io/docs)
@@ -118,8 +122,8 @@ Example of rule.metadata.json:
     "ruleQuery": "armo_builtins"
 }
 ```
-* Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
 
+* `attributes` - See [Control Attributes](#control-attributes) for more information.
 
 * See [rule go struct](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructures.go#L37) for further explanations of rule fields
 * Optional attributes :
@@ -168,6 +172,24 @@ Example of rule.metadata.json:
 4. Add a test for the new rule (and run it!). Learn how to add a test [here](/rules-tests/README.md) and how to run it [here](/testrunner/README.md)
 
 5. Add `filter.rego` if needed - If it exists, the filter is run by Kubescape to calculate ‘all resources’ = the number of potential resources to fail. It affects the risk score. This is needed in cases where a rule asks for resources that wil not potentially fail. Example: if a rule asks for pods and service accounts to see if they are connected but only fails the pods, we would create a filter rego that returns only pods.
+
+### Control Attributes
+
+Attribute | Description | Type | Values
+--- | --- | --- | ---
+`armoBuiltin` | Mandatory for ARMO rules. Only ARMO team members are authorized to create builtin objects | Boolean | <ul><li>`true`</li><li>`false`</li></ul>
+`actionRequired` | Some controls that do not simply fail or pass, may have a different status called 'Action Required', meaning, the user needs to take an action in order for the control should run properly. Kubescape differentiates between the different controls based on the `actionRequired` attribute. | String | [Action Required attribute values](#action-required-attribute-values)
+
+#### Action Required attribute values
+
+The following values are supported for the `actionRequired` attribute:
+
+Action Required | Value | Description
+--- | --- | ---
+Configuration | `configuration` | This applies to controls with configurations. This status indicates that the configurations of the control are empty.
+Integration | `integration` |  This status indicates that the control requires third-party integration (e.g. cloud integration, host-scanner, etc.)
+Review | `requires review` | This status indicates that the user needs to review the result manually
+Manual review | `manual review` | This status indicates that the control cannot be automated. The user will need to check the controls manually (this is can be found in CIS-related controls)
 
 
 ## OPA bundles
