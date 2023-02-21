@@ -1,6 +1,7 @@
 [![Version](https://img.shields.io/github/v/release/kubescape/regolibrary)](releases)
 [![release-date](https://img.shields.io/github/release-date/kubescape/regolibrary)](releases)
 [![GitHub](https://img.shields.io/github/license/kubescape/kubescape)](https://github.com/kubescape/kubescape/blob/master/LICENSE)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fkubescape%2Fregolibrary.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fkubescape%2Fregolibrary?ref=badge_shield)
 
 # Kubescape Regolibrary
 
@@ -295,3 +296,6 @@ Thanks to all our contributors! Check out our [CONTRIBUTING](https://github.com/
 * Feel free to pick a task from the [issues](https://github.com/kubescape/regolibrary/issues?q=is%3Aissue+is%3Aopen+label%3A%22open+for+contribution%22), roadmap or suggest a feature of your own.
 * [Open an issue](https://github.com/kubescape/regolibrary/issues/new/choose): we aim to respond to all issues within 48 hours.
 * [Join the CNCF Slack](https://slack.cncf.io/) and then our [users](https://cloud-native.slack.com/archives/C04EY3ZF9GE) or [developers](https://cloud-native.slack.com/archives/C04GY6H082K) channel.
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fkubescape%2Fregolibrary.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fkubescape%2Fregolibrary?ref=badge_large)
