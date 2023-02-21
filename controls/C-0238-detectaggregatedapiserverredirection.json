@@ -1,0 +1,17 @@
+{
+    "name": "Kubernetes Aggregated API Server Redirection Vulnerability",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "references": [
+    ],
+    "description": "A security vulnerability has been discovered in kube-apiserver that allows an aggregated API server to redirect client traffic to any URL, potentially compromising client credentials and leading to unexpected actions.",
+    "remediation": "Upgrade to a fixed version of kube-apiserver, ensure that only trusted administrators can create or modify APIService configuration, and follow security best practices with aggregated API servers.",
+    "rulesNames": [
+        "detect-aggregated-api-server-redirection"
+    ],
+    "long_description": "Kubernetes aggregated API servers are a trusted part of the control plane, but this vulnerability allows them to redirect client traffic to any URL, potentially compromising client credentials and leading to unexpected actions. To mitigate this vulnerability, it is recommended to upgrade to a fixed version of kube-apiserver, and to ensure that only trusted administrators can create or modify APIService configuration, and follow security best practices with any aggregated API servers that may be in use. The fix impacts redirect functionality from aggregated API servers, but this behavior can be restored by setting the --aggregator-reject-forwarding-redirect Kubernetes API server flag to false.",
+    "test": "Run the following command to identify if aggregated API servers are in use: kubectl get apiservices.apiregistration.k8s.io -o=jsonpath='{range .items[?(@.spec.service)]}{.metadata.name}{\n}{end}'. Check the version of kube-apiserver and ensure it is a fixed version. Monitor the Kubernetes audit log for evidence of redirection.",
+    "controlID": "C-0238",
+    "baseScore": 5.1
+    }
