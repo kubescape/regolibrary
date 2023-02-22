@@ -18,7 +18,8 @@
         "non-root-containers",
         "drop-capability-netraw",
         "set-seLinuxOptions",
-        "set-seccomp-profile"
+        "set-seccomp-profile",
+	"set-procmount-default"
     ],
     "baseScore": 8,
     "impact_statement": "If you incorrectly apply security contexts, you may have trouble running the pods.",
