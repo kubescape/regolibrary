@@ -342,17 +342,10 @@
             "controlID": "C-0211",
             "patch": {
                 "name": "CIS-4.6.2 Apply Security Context to Your Pods and Containers",
-<<<<<<< HEAD
                 "long_description": "A security context defines the operating system security settings (uid, gid, capabilities, SELinux role, etc..) applied to a container. When designing your containers and pods, make sure that you configure the security context for your pods, containers, and volumes. A security context is a property defined in the deployment yaml. It controls the security parameters that will be assigned to the pod/container/volume. There are two levels of security context: pod level security context, and container level security context.",
                 "references": [
                     "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
                 ]
-=======
-		"long_description": "A security context defines the operating system security settings (uid, gid, capabilities, SELinux role, etc..) applied to a container. When designing your containers and pods, make sure that you configure the security context for your pods, containers, and volumes. A security context is a property defined in the deployment yaml. It controls the security parameters that will be assigned to the pod/container/volume. There are two levels of security context: pod level security context, and container level security context.",
-                "references": [
-		    "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
-		]
->>>>>>> 2385a44 (fix: add C-0211 to CIS-EKS framework)
             }
         },
         {
