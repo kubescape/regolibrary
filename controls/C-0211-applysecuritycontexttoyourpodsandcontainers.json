@@ -22,7 +22,8 @@
 	"set-procmount-default",
 	"set-fsgroup-value",
 	"set-fsgroupchangepolicy-values",
-	"set-systctls-params"
+	"set-systctls-params",
+	"set-supplementalgroups-values"
     ],
     "baseScore": 8,
     "impact_statement": "If you incorrectly apply security contexts, you may have trouble running the pods.",
