@@ -1,0 +1,25 @@
+{
+    "name": "check-gtfo-bins",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "Pod"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "Checks for the presence of known GTFOBins binaries on the filesystem",
+    "remediation": "Remove any GTFOBins binaries that are not required for system operation.",
+    "ruleQuery": "armo_builtins"
+}
+  
