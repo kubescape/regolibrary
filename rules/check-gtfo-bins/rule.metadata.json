@@ -22,4 +22,3 @@
     "remediation": "Remove any GTFOBins binaries that are not required for system operation.",
     "ruleQuery": "armo_builtins"
 }
-  
