@@ -3,7 +3,7 @@ package armo_builtins
 violation[msg] {
     pod := input[_]
     container := pod.spec.containers[_]
-    cmd := container.command[_]
+    cmds := container.command
     gtfo_cmds := {
         "/bin/sh",
         "/bin/bash",
@@ -113,9 +113,10 @@ violation[msg] {
         "/usr/sbin/mount.nfs",
         "/usr/sbin/mount.nfs4"
     }
-    cmd == gtfo_cmds[_]
+    cmd_matches := [cmd | cmd := cmds[_]; gtfo_cmds[cmd]]
+    count(cmd_matches) > 0
     msg := {
-        "msg": sprintf("GTFOBin %v is present in container %v of pod %v", [cmd, container.name, pod.metadata.name]),
+        "msg": sprintf("GTFOBin %v is present in container %v of pod %v", [cmd_matches, container.name, pod.metadata.name]),
         "packagename": "armo_builtins",
         "alertScore": 4,
         "failedPaths": [],
