@@ -1,1 +1,6 @@
-[  {    "msg": "GTFOBin /bin/sh is present on the filesystem",    "details": {}  }]
+[  {    "msg": "GTFOBin /bin/sh is present on the filesystem",    "packagename": "armo_builtins", "alertScore": 4, "failedPaths": [], "fixPaths": [],
+"fixCommand": "Remove any GTFOBins binaries that are not required for system operation.", "alertObject": {"k8sApiObjects": [ {"apiVersion" : "v1",
+"kind": "Pod",
+"metadata": {
+  "name": "test-pod"}}]},
+"ruleStatus": "failed"  }]

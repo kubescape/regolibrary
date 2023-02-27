@@ -116,6 +116,14 @@ violation[msg] {
     cmd == gtfo_cmds[_]
     msg := {
         "msg": sprintf("GTFOBin %v is present in container %v of pod %v", [cmd, container.name, pod.metadata.name]),
-        "details": {}
+        "packagename": "armo_builtins",
+        "alertScore": 4,
+        "failedPaths": [],
+        "fixPaths": [],
+        "fixCommand": "Remove any GTFOBins binaries that are not required for system operation.",
+        "alertObject": {
+            "k8sApiObjects": [pod]
+        },
+        "ruleStatus": "failed"
     }
 }
