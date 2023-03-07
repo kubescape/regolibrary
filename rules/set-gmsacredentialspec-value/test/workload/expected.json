@@ -1,0 +1,22 @@
+{
+    "alertMessage": "Deployment: my-deployment1 does not set 'securityContext.gmsaCredentialSpec' with allowed value",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "failedPaths": ["Deployment.securityContext.gmsaCredentialSpec"],
+        "fixPaths": [],
+    "ruleStatus": "",
+    "alertObject": {
+        "k8sApiObjects": [
+            {
+              "apiVersion": "apps/v1",
+              "kind": "Deployment",
+              "metadata": {
+                "name": "my-deployment1",
+                "labels": {
+                  "app": "goproxy"
+                }
+              }
+            }
+        ]
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "alertMessage": "CronJob: hello1 does not set 'spec.hostProcess' with allowed value",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "failedPaths": ["CronJob.spec.hostProcess"],
+        "fixPaths": [],
+    "ruleStatus": "",
+    "alertObject": {
+        "k8sApiObjects": [
+            {
+              "apiVersion": "batch/v1beta1",
+              "kind": "CronJob",
+              "metadata": {
+                "name": "hello1"
+              }
+            }
+        ]
+    }
+}

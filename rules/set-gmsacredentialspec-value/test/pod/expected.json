@@ -1,0 +1,20 @@
+{
+    "alertMessage": "Pod: nginx1 does not set 'securityContext.gmsaCredentialSpec' with allowed value",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "failedPaths": [
+        "Pod.securityContext.gmsaCredentialSpec"
+    ],
+    "fixPaths": [],
+    "alertObject": {
+        "k8sApiObjects": [
+            {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "metadata": {
+                    "name": "nginx1"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,50 @@
+{
+    "name": "set-gmsacredentialspecname-value",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        },
+        {
+            "apiGroups": [
+                "apps"
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Deployment",
+                "ReplicaSet",
+                "DaemonSet",
+                "StatefulSet"
+            ]
+        },
+        {
+            "apiGroups": [
+                "batch"
+            ],
+            "apiVersions": [
+                "*"
+            ],
+            "resources": [
+                "Job",
+                "CronJob"
+            ]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "Fails if GMSA credential spec name is not set in the security context.",
+    "remediation": "Set the GMSA credential spec name in the security context.",
+    "ruleQuery": "armo_builtins"
+}

@@ -1,0 +1,50 @@
+{
+    "name": "set-hostprocess-true",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        },
+        {
+            "apiGroups": [
+                "apps"
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Deployment",
+                "ReplicaSet",
+                "DaemonSet",
+                "StatefulSet"
+            ]
+        },
+        {
+            "apiGroups": [
+                "batch"
+            ],
+            "apiVersions": [
+                "*"
+            ],
+            "resources": [
+                "Job",
+                "CronJob"
+            ]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "Fails if any container in the pod is not set to run as a 'Host Process' container or if WindowsHostProcessContainers feature flag is disabled in api-server when HostProcess is true.",
+    "remediation": "Set the 'HostProcess' field to true and ensure that WindowsHostProcessContainers feature flag is enabled in api-server",
+    "ruleQuery": "armo_builtins"
+}
