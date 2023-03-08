@@ -6,5 +6,110 @@
         "armoBuiltin": true
     },
     "activeControls": [],
-    "subSections": {}
+    "subSections": {
+        "2": {
+            "name": "Master (Control Plane) Configuration",
+            "id": "2",
+            "subSections": {
+                "1": {
+                    "name": "Logging",
+                    "id": "2.1",
+                    "controlsIDs": []
+                }
+            }
+        },
+        "3": {
+            "name": "Worker Nodes",
+            "id": "3",
+            "subSections": {
+                "1": {
+                    "name": "Worker Node Configuration Files",
+                    "id": "3.1",
+                    "controlsIDs": []
+                },
+                "2": {
+                    "name": "Kubelet",
+                    "id": "3.2",
+                    "controlsIDs": []
+                }
+            }
+        },
+        "4": {
+            "name": "Policies",
+            "id": "4",
+            "subSections": {
+                "1": {
+                    "name": "RBAC and Service Accounts",
+                    "id": "4.1",
+                    "controlsIDs": []
+                },
+                "2": {
+                    "name": "Pod Security Standards",
+                    "id": "4.2",
+                    "controlsIDs": []
+                },
+                "3": {
+                    "name": "Azure Policy / OPA",
+                    "id": "4.3",
+                    "controlsIDs": []
+                },
+                "4": {
+                    "name": "CNI Plugin",
+                    "id": "4.4",
+                    "controlsIDs": []
+                },
+                "5": {
+                    "name": "Secrets Management",
+                    "id": "4.5",
+                    "controlsIDs": []
+                },
+                "6": {
+                    "name": "Extensible Admission Control",
+                    "id": "4.6",
+                    "controlsIDs": []
+                },
+                "7": {
+                    "name": "General Policies",
+                    "id": "4.7",
+                    "controlsIDs": []
+                }
+            }
+        },
+        "5": {
+            "name": "Managed services",
+            "id": "5",
+            "subSections": {
+                "1": {
+                    "name": "Image Registry and Image Scanning",
+                    "id": "5.1",
+                    "controlsIDs": []
+                },
+                "2": {
+                    "name": "Access and identity options for Azure Kubernetes Service (AKS)",
+                    "id": "5.2",
+                    "controlsIDs": []
+                },
+                "3": {
+                    "name": "Key Management Service (KMS)",
+                    "id": "5.3",
+                    "controlsIDs": []
+                },
+                "4": {
+                    "name": "Cluster Networking",
+                    "id": "5.4",
+                    "controlsIDs": []
+                },
+                "5": {
+                    "name": "Authentication and Authorization",
+                    "id": "5.5",
+                    "controlsIDs": []
+                },
+                "6": {
+                    "name": "Other Cluster Configurations",
+                    "id": "5.6",
+                    "controlsIDs": []
+                }
+            }
+        }
+    }
 }
