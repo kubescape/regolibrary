@@ -1,0 +1,18 @@
+{
+    "controlID": "CIS-4.1.5",
+    "name": "Ensure that default service accounts are not actively used.",
+    "description": "The `default` service account should not be used to ensure that rights granted to applications can be more easily audited and reviewed.",
+    "long_description": "Kubernetes provides a `default` service account which is used by cluster workloads where no specific service account is assigned to the pod.\n\n Where access to the Kubernetes API from a pod is required, a specific service account should be created for that pod, and rights granted to that service account.\n\n The default service account should be configured such that it does not provide a service account token and does not have any explicit rights assignments.",
+    "remediation": "Create explicit service accounts wherever a Kubernetes workload requires specific access to the Kubernetes API server.\n\n Modify the configuration of each default service account to include this value\n\n \n```\nautomountServiceAccountToken: false\n\n```\n Automatic remediation for the default account:\n\n `kubectl patch serviceaccount default -p $'automountServiceAccountToken: false'`",
+    "manual_test": "For each namespace in the cluster, review the rights assigned to the default service account and ensure that it has no roles or cluster roles bound to it apart from the defaults.\n\n Additionally ensure that the `automountServiceAccountToken: false` setting is in place for each default service account.",
+    "references": [
+        "<https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-identity-management#im-2-manage-application-identities-securely-and-automatically>"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [],
+    "baseScore": 0,
+    "impact_statement": "All workloads which require access to the Kubernetes API will require an explicit service account to be created.",
+    "default_value": "By default the `default` service account allows for its service account token to be mounted in pods in its namespace."
+}
