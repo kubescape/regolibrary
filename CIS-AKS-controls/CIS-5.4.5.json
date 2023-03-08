@@ -1,0 +1,18 @@
+{
+    "controlID": "CIS-5.4.5",
+    "name": "Encrypt traffic to HTTPS load balancers with TLS certificates",
+    "description": "Encrypt traffic to HTTPS load balancers using TLS certificates.",
+    "long_description": "Encrypting traffic between users and your Kubernetes workload is fundamental to protecting data sent over the web.",
+    "remediation": "",
+    "manual_test": "",
+    "references": [
+        "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-data-protection#dp-4-encrypt-sensitive-information-in-transit>"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [],
+    "baseScore": 0,
+    "impact_statement": "",
+    "default_value": ""
+}
