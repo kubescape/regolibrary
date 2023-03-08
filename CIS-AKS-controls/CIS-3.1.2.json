@@ -1,0 +1,18 @@
+{
+    "controlID": "CIS-3.1.2",
+    "name": "Ensure that the kubelet kubeconfig file ownership is set to root:root",
+    "description": "If `kubelet` is running, ensure that the file ownership of its kubeconfig file is set to `root:root`.",
+    "long_description": "The kubeconfig file for `kubelet` controls various parameters for the `kubelet` service in the worker node. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`.",
+    "remediation": "Run the below command (based on the file location on your system) on each worker node. For example,\n\n \n```\nchown root:root <proxy kubeconfig file>\n\n```",
+    "manual_test": "SSH to the worker nodes\n\n To check to see if the Kubelet Service is running:\n\n \n```\nsudo systemctl status kubelet\n\n```\n The output should return `Active: active (running) since..`\n\n Run the following command on each node to find the appropriate kubeconfig file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--kubeconfig /var/lib/kubelet/kubeconfig` which is the location of the kubeconfig file.\n\n Run this command to obtain the kubeconfig file ownership:\n\n \n```\nstat -c %U:%G /var/lib/kubelet/kubeconfig\n\n```\n The output of the above command gives you the kubeconfig file's ownership. Verify that the ownership is set to `root:root`.",
+    "references": [
+        "<https://kubernetes.io/docs/admin/kube-proxy/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [],
+    "baseScore": 0,
+    "impact_statement": "None",
+    "default_value": "See the Azure AKS documentation for the default value."
+}
