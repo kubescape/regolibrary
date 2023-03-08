@@ -1,0 +1,10 @@
+{
+    "name": "cis-aks-t1.2.0",
+    "description": "Testing CIS for Azure Kubernetes Service (AKS) as suggested by CIS benchmark: https://workbench.cisecurity.org/benchmarks/9058",
+    "attributes": {
+        "version": "v1.2.0",
+        "armoBuiltin": true
+    },
+    "activeControls": [],
+    "subSections": {}
+}
