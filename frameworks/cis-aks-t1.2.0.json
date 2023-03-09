@@ -7,6 +7,84 @@
     },
     "activeControls": [
         {
+            "controlID": "C-0167",
+            "patch": {
+                "name": "CIS-3.1.2 Ensure that the kubelet kubeconfig file ownership is set to root:root",
+                "description": "If `kubelet` is running, ensure that the file ownership of its kubeconfig file is set to `root:root`.",
+                "long_description": "The kubeconfig file for `kubelet` controls various parameters for the `kubelet` service in the worker node. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`.",
+                "remediation": "Run the below command (based on the file location on your system) on each worker node. For example,\n\n \n```\nchown root:root <proxy kubeconfig file>\n\n```",
+                "manual_test": "SSH to the worker nodes\n\n To check to see if the Kubelet Service is running:\n\n \n```\nsudo systemctl status kubelet\n\n```\n The output should return `Active: active (running) since..`\n\n Run the following command on each node to find the appropriate kubeconfig file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--kubeconfig /var/lib/kubelet/kubeconfig` which is the location of the kubeconfig file.\n\n Run this command to obtain the kubeconfig file ownership:\n\n \n```\nstat -c %U:%G /var/lib/kubelet/kubeconfig\n\n```\n The output of the above command gives you the kubeconfig file's ownership. Verify that the ownership is set to `root:root`.",
+                "references": [
+                    "<https://kubernetes.io/docs/admin/kube-proxy/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0171",
+            "patch": {
+                "name": "CIS-3.1.4 Ensure that the kubelet configuration file ownership is set to root:root",
+                "long_description": "The kubelet reads various parameters, including security settings, from a config file specified by the `--config` argument. If this file is specified you should restrict its file permissions to maintain the integrity of the file. The file should be writable by only the administrators on the system.",
+                "remediation": "Run the following command (using the config file location identified in the Audit step)\n\n \n```\nchown root:root /etc/kubernetes/kubelet/kubelet-config.json\n\n```",
+                "manual_test": "First, SSH to the relevant worker node:\n\n To check to see if the Kubelet Service is running:\n\n \n```\nsudo systemctl status kubelet\n\n```\n The output should return `Active: active (running) since..`\n\n Run the following command on each node to find the appropriate Kubelet config file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Run the following command:\n\n \n```\nstat -c %U:%G /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n The output of the above command is the Kubelet config file's ownership. Verify that the ownership is set to `root:root`",
+                "references": [
+                    "<https://kubernetes.io/docs/admin/kube-proxy/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0172",
+            "patch": {
+                "name": "CIS-3.2.1 Ensure that the --anonymous-auth argument is set to false",
+                "remediation": "**Remediation Method 1:**\n\n If modifying the Kubelet config file, edit the kubelet-config.json file `/etc/kubernetes/kubelet/kubelet-config.json` and set the below parameter to false\n\n \n```\n\"anonymous\": \"enabled\": false\n\n```\n **Remediation Method 2:**\n\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and add the below parameter at the end of the `KUBELET_ARGS` variable string.\n\n \n```\n--anonymous-auth=false\n\n```\n **Remediation Method 3:**\n\n If using the api configz endpoint consider searching for the status of `\"authentication.*anonymous\":{\"enabled\":false}\"` by extracting the live configuration from the nodes running kubelet.\\*\\*See detailed step-by-step configmap procedures in[Reconfigure a Node's Kubelet in a Live Cluster](https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/), and then rerun the curl statement from audit process to check for kubelet configuration changes\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```\n **For all three remediations:**\nBased on your system, restart the `kubelet` service and check status\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\nsystemctl status kubelet -l\n\n```",
+                "manual_test": "**Audit Method 1:**\n\n If using a Kubelet configuration file, check that there is an entry for `authentication: anonymous: enabled` set to `false`.\n\n First, SSH to the relevant node:\n\n Run the following command on each node to find the appropriate Kubelet config file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Open the Kubelet config file:\n\n \n```\nsudo more /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n Verify that the `\"authentication\": { \"anonymous\": { \"enabled\": false }` argument is set to `false`.\n\n **Audit Method 2:**\n\n If using the api configz endpoint consider searching for the status of `authentication... \"anonymous\":{\"enabled\":false}` by extracting the live configuration from the nodes running kubelet.\n\n Set the local proxy port and the following variables and provide proxy port number and node name;\n`HOSTNAME_PORT=\"localhost-and-port-number\"` `NODE_NAME=\"The-Name-Of-Node-To-Extract-Configuration\" from the output of \"kubectl get nodes\"`\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```",
+                "references": [
+                    "<https://kubernetes.io/docs/admin/kubelet/>\n\n  <https://kubernetes.io/docs/admin/kubelet-authentication-authorization/#kubelet-authentication>\n\n  <https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-governance-strategy#gs-6-define-identity-and-privileged-access-strategy>"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0175",
+            "patch": {
+                "name": "CIS-3.2.4 Ensure that the --read-only-port is secured",
+                "remediation": "If modifying the Kubelet config file, edit the kubelet-config.json file `/etc/kubernetes/kubelet/kubelet-config.json` and set the below parameter to false\n\n \n```\nreadOnlyPort to 0\n\n```\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and add the below parameter at the end of the `KUBELET_ARGS` variable string.\n\n \n```\n--read-only-port=0\n\n```\n For all remediations:\nBased on your system, restart the `kubelet` service and check status\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\nsystemctl status kubelet -l\n\n```",
+                "manual_test": "If using a Kubelet configuration file, check that there is an entry for `authentication: anonymous: enabled` set to `0`.\n\n First, SSH to the relevant node:\n\n Run the following command on each node to find the appropriate Kubelet config file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Open the Kubelet config file:\n\n \n```\ncat /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n Verify that the `--read-only-port` argument exists and is set to `0`.\n\n If the `--read-only-port` argument is not present, check that there is a Kubelet config file specified by `--config`. Check that if there is a `readOnlyPort` entry in the file, it is set to `0`.",
+                "references": [
+                    "<https://kubernetes.io/docs/admin/kubelet/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0179",
+            "patch": {
+                "name": "CIS-3.2.8 Ensure that the --hostname-override argument is not set",
+                "long_description": "Overriding hostnames could potentially break TLS setup between the kubelet and the apiserver. Additionally, with overridden hostnames, it becomes increasingly difficult to associate logs with a particular node and process them for security analytics. Hence, you should setup your kubelet nodes with resolvable FQDNs and avoid overriding the hostnames with IPs. Usage of --hostname-override also may have some undefined/unsupported behaviours.",
+                "remediation": "**Remediation Method 1:**\n\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and remove the below parameter from the `KUBELET_ARGS` variable string.\n\n \n```\n--hostname-override\n\n```\n Based on your system, restart the `kubelet` service and check status. The example below is for systemctl:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\nsystemctl status kubelet -l\n\n```",
+                "manual_test": "**Audit Method 1:**\n\n SSH to each node:\n\n Run the following command on each node to find the Kubelet process:\n\n \n```\nps -ef | grep kubelet\n\n```\n Verify that `--hostname-override` argument does not exist in the output of the above command.\n\n **Note** This setting is not configurable via the Kubelet config file.",
+                "references": [
+                    "<https://kubernetes.io/docs/admin/kubelet/>\n\n  <https://github.com/kubernetes/kubernetes/issues/22063>\n\n  <https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
+                ],
+                "impact_statement": "--hostname-override may not take when the kubelet also has --cloud-provider aws",
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0182",
+            "patch": {
+                "name": "CIS-3.2.10 Ensure that the --rotate-certificates argument is not set to false",
+                "long_description": "The `--rotate-certificates` setting causes the kubelet to rotate its client certificates by creating new CSRs as its existing credentials expire. This automated periodic rotation ensures that the there is no downtime due to expired certificates and thus addressing availability in the CIA (Confidentiality, Integrity, and Availability) security triad.\n\n **Note:** This recommendation only applies if you let kubelets get their certificates from the API server. In case your kubelet certificates come from an outside authority/tool (e.g. Vault) then you need to implement rotation yourself.\n\n **Note:** This feature also requires the `RotateKubeletClientCertificate` feature gate to be enabled.",
+                "remediation": "**Remediation Method 1:**\n\n If modifying the Kubelet config file, edit the kubelet-config.json file `/etc/kubernetes/kubelet/kubelet-config.json` and set the below parameter to true\n\n \n```\n\"RotateCertificate\":true\n\n```\n Additionally, ensure that the kubelet service file /etc/systemd/system/kubelet.service.d/10-kubelet-args.conf does not set the --RotateCertificate executable argument to false because this would override the Kubelet config file.\n\n **Remediation Method 2:**\n\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and add the below parameter at the end of the `KUBELET_ARGS` variable string.\n\n \n```\n--RotateCertificate=true\n\n```",
+                "manual_test": "**Audit Method 1:**\n\n SSH to each node and run the following command to find the Kubelet process:\n\n \n```\nps -ef | grep kubelet\n\n```\n If the output of the command above includes the `--RotateCertificate` executable argument, verify that it is set to true.\nIf the output of the command above does not include the `--RotateCertificate` executable argument then check the Kubelet config file. The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Open the Kubelet config file:\n\n \n```\ncat /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n Verify that the `RotateCertificate` argument is not present, or is set to `true`.",
+                "references": [
+                    "<https://github.com/kubernetes/kubernetes/pull/41912>\n\n  <https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/#kubelet-configuration>\n\n  <https://kubernetes.io/docs/imported/release/notes/>\n\n  <https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/>\n\n  <https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-data-protection#dp-4-encrypt-sensitive-information-in-transit>"
+                ],
+                "default_value": "See the AKS documentation for the default value."
+            }
+        },
+        {
             "controlID": "C-0185",
             "patch": {
                 "name": "CIS-4.1.1 Ensure that the cluster-admin role is only used where required",
@@ -204,6 +282,27 @@
                 ],
                 "default_value": "By default, PodSecurityPolicies are not defined."
             }
+        },
+        {
+            "controlID": "C-0235",
+            "patch": {
+                "name": "CIS-3.1.3 Ensure that the kubelet configuration file has permissions set to 644 or more restrictive",
+                "references": [
+                    "<https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0238",
+            "patch": {
+                "name": "CIS-3.1.1 Ensure that the kubeconfig file permissions are set to 644 or more restrictive",
+                "description": "If `kubelet` is running, and if it is configured by a kubeconfig file, ensure that the proxy kubeconfig file has permissions of 644 or more restrictive.",
+                "references": [
+                    "<https://kubernetes.io/docs/admin/kube-proxy/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
         }
     ],
     "subSections": {
@@ -225,12 +324,22 @@
                 "1": {
                     "name": "Worker Node Configuration Files",
                     "id": "3.1",
-                    "controlsIDs": []
+                    "controlsIDs": [
+                        "C-0167",
+                        "C-0171",
+                        "C-0235",
+                        "C-0238"
+                    ]
                 },
                 "2": {
                     "name": "Kubelet",
                     "id": "3.2",
-                    "controlsIDs": []
+                    "controlsIDs": [
+                        "C-0172",
+                        "C-0175",
+                        "C-0179",
+                        "C-0182"
+                    ]
                 }
             }
         },
