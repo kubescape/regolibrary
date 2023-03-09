@@ -1,5 +1,5 @@
 {
-    "name": "ensure_nodeinstancerole_has_only_readonly_permissions_for_ecr",
+    "name": "ensure_nodeinstancerole_has_right_permissions_for_ecr",
     "attributes": {
       "armoBuiltin": true
     },
@@ -13,7 +13,8 @@
           "v1"
         ],
         "resources": [
-          "ListEntitiesForPolicies"
+          "ListEntitiesForPolicies",
+          "PolicyVersion"
         ]
       }
     ],
