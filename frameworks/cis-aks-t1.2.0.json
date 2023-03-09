@@ -7,6 +7,17 @@
     },
     "activeControls": [
         {
+            "controlID": "C-0088",
+            "patch": {
+                "name": "CIS-5.5.1 Manage Kubernetes RBAC users with Azure AD",
+                "description": "Azure Kubernetes Service (AKS) can be configured to use Azure Active Directory (AD) for user authentication. In this configuration, you sign in to an AKS cluster using an Azure AD authentication token. You can also configure Kubernetes role-based access control (Kubernetes RBAC) to limit access to cluster resources based a user's identity or group membership.",
+                "long_description": "Kubernetes RBAC and AKS help you secure your cluster access and provide only the minimum required permissions to developers and operators.",
+                "references": [
+                    "<https://docs.microsoft.com/en-us/azure/aks/azure-ad-rbac>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-privileged-access#pa-7-follow-just-enough-administration-least-privilege-principle>"
+                ]
+            }
+        },
+        {
             "controlID": "C-0167",
             "patch": {
                 "name": "CIS-3.1.2 Ensure that the kubelet kubeconfig file ownership is set to root:root",
@@ -394,7 +405,8 @@
                     "name": "CNI Plugin",
                     "id": "4.4",
                     "controlsIDs": [
-                        "C-0206"
+                        "C-0206",
+                        "C-0205"
                     ]
                 },
                 "5": {
@@ -448,7 +460,9 @@
                 "5": {
                     "name": "Authentication and Authorization",
                     "id": "5.5",
-                    "controlsIDs": []
+                    "controlsIDs": [
+                        "C-0088"
+                    ]
                 },
                 "6": {
                     "name": "Other Cluster Configurations",
