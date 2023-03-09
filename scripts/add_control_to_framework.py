@@ -124,10 +124,10 @@ def main():
         new_control = json.loads(input_file_1.read())
 
     # Add name to patch
-    # If control is added to a CIS framework, add the controlID to the name
+    # If control is added to a CIS framework, add the CIS subsection to the name
     # else just add the name
     if "cis" in args.framework.lower():
-        name = new_control["control-CIS-ID"] + " " + new_control["name"]
+        name = new_control["controlID"] + " " + new_control["name"]
     else:
         name = new_control["name"]
     patch["name"] = name
