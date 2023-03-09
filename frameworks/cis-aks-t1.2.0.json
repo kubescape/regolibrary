@@ -155,6 +155,18 @@
             }
         },
         {
+            "controlID": "C-0205",
+            "patch": {
+                "name": "CIS-4.4.1 Ensure latest CNI version is used",
+                "remediation": "As with RBAC policies, network policies should adhere to the policy of least privileged access. Start by creating a deny all policy that restricts all inbound and outbound traffic from a namespace or create a global policy using Calico.",
+                "manual_test": "Ensure CNI plugin supports network policies.",
+                "references": [
+                    "<https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-network-security#ns-1-implement-security-for-internal-traffic>"
+                ],
+                "impact_statement": "None."
+            }
+        },
+        {
             "controlID": "C-0206",
             "patch": {
                 "name": "CIS-4.4.2 Ensure that all Namespaces have Network Policies defined",
