@@ -40,8 +40,9 @@ def init_parser():
 
 def restart_controlIDs_list(framework):
     for subsection1 in framework["subSections"]:
-        for item in framework["subSections"][subsection1]["subSections"]:
-            framework["subSections"][subsection1]["subSections"][item]["controlsIDs"] = []
+        if "subSections" in framework["subSections"][subsection1]:
+            for item in framework["subSections"][subsection1]["subSections"]:
+                framework["subSections"][subsection1]["subSections"][item]["controlsIDs"] = []
 
 
 def populate_controlIds_list(framework):
@@ -49,9 +50,10 @@ def populate_controlIds_list(framework):
         control_id = active_control["controlID"]
         cis_subsection = active_control["patch"]["name"].split(" ")[0].replace("CIS-", "")
         sections = cis_subsection.split(".")
-        tmp_controlIDs = framework["subSections"][sections[0]]["subSections"][sections[1]]["controlsIDs"]
-        if control_id not in tmp_controlIDs:
-            tmp_controlIDs.append(control_id)
+        if "subSections" in framework["subSections"][sections[0]]:
+            tmp_controlIDs = framework["subSections"][sections[0]]["subSections"][sections[1]]["controlsIDs"]
+            if control_id not in tmp_controlIDs:
+                tmp_controlIDs.append(control_id)
 
 
 def main():
