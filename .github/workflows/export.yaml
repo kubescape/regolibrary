@@ -12,11 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@dc323e67f16fb5f7663d20ff7941f27f5809e9b6
         name: checkout repo content
+
       # Test using Golang OPA hot rule compilation
       - name: Set up Go
         uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492
         with:
           go-version: 1.19
+
       - name: Test Regoes
         working-directory: testrunner
         run: |
@@ -26,28 +28,11 @@ jobs:
         uses: actions/setup-python@75f3110429a8c05be0e1bf360334e4cced2b63fa
         with:
           python-version: 3.10.6
-      # - name: Setup OPA binaries
-      #   uses: open-policy-agent/setup-opa@v2
-      #   with:
-      #     version: v0.44.0
 
-      # - name: Build OPA bundles
-      #   run: |
-      #     mkdir -p release
-      #     pip install requests pyyaml
-      #     python ./scripts/bundle.py . -o ./release --removed-out release/removed.json --edit-readme
-
-      # - name: Test OPA bundle
-      #   working-directory: testrunner
-      #   env:
-      #     BUNDLE: ../release/kubescape_regolibrary_bundle.tar.gz
-      #     SKIPPED_RULES: ../release/removed.json
-      #   run: |
-      #     go test -v -tags="static" . -run TestRegoBundles
-      #     rm ${SKIPPED_RULES}
       - name: Create Metadata Release Files
         run: |
           python ./scripts/export.py
+
       # The next step kept here for only backward competability.
       # Release files should have extensions!
       - name: Strip Metadata Files Extensions (to be removed)
@@ -55,6 +40,7 @@ jobs:
           cd release
           find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
           find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e
@@ -65,6 +51,7 @@ jobs:
           release_name: Release v1.0.${{ github.run_number }}
           draft: false
           prerelease: false
+
       - name: Upload Release Assets
         id: upload-release-assets
         uses: dwenegar/upload-release-assets@5bc3024cf83521df8ebfadf00ad0c4614fd59148
@@ -73,6 +60,7 @@ jobs:
         with:
           release_id: ${{ steps.create_release.outputs.id }}
           assets_path: release
+          
       - name: Update readme
         uses: Andro999b/push@c77535fe7a94645f7ceca83e48e6cc977620710e
         with:
