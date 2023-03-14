@@ -11,7 +11,7 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["rule-cni-enabled-aks"],
+    "rulesNames": [],
     "baseScore": 0,
     "impact_statement": "Network Policy requires the Network Policy add-on. This add-on is included automatically when a cluster with Network Policy is created, but for an existing cluster, needs to be added prior to enabling Network Policy.\n\n Enabling/Disabling Network Policy causes a rolling update of all cluster nodes, similar to performing a cluster upgrade. This operation is long-running and will block other operations on the cluster (including delete) until it has run to completion.\n\n If Network Policy is used, a cluster must have at least 2 nodes of type `n1-standard-1` or higher. The recommended minimum size cluster to run Network Policy enforcement is 3 `n1-standard-1` instances.\n\n Enabling Network Policy enforcement consumes additional resources in nodes. Specifically, it increases the memory footprint of the `kube-system` process by approximately 128MB, and requires approximately 300 millicores of CPU.",
     "default_value": "By default, Network Policy is disabled."
