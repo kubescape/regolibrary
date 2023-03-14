@@ -8,8 +8,8 @@ deny[msga] {
 	container := pod.spec.containers[i]
 	
 	
-	beggining_of_path := "spec."
-	fixPath := is_no_cpu_and_memory_limits_defined(container, beggining_of_path, i)
+	beginning_of_path := "spec."
+	fixPath := is_no_cpu_and_memory_limits_defined(container, beginning_of_path, i)
 	
 
 	msga := {
@@ -34,8 +34,8 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 	
-	beggining_of_path	:= "spec.template.spec."
-	fixPath := is_no_cpu_and_memory_limits_defined(container, beggining_of_path, i)
+	beginning_of_path	:= "spec.template.spec."
+	fixPath := is_no_cpu_and_memory_limits_defined(container, beginning_of_path, i)
 	
 	
 
@@ -60,8 +60,8 @@ deny [msga] {
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 	
-	beggining_of_path := "spec.jobTemplate.spec.template.spec."
-	fixPath := is_no_cpu_and_memory_limits_defined(container, beggining_of_path, i)
+	beginning_of_path := "spec.jobTemplate.spec.template.spec."
+	fixPath := is_no_cpu_and_memory_limits_defined(container, beginning_of_path, i)
 	
 	msga := {
 		"alertMessage": sprintf("there are no cpu and memory limits defined for container : %v",  [container.name]),
@@ -76,31 +76,31 @@ deny [msga] {
 }
 
 # no limits at all
-is_no_cpu_and_memory_limits_defined(container, beggining_of_path, i) =  fixPath {
+is_no_cpu_and_memory_limits_defined(container, beginning_of_path, i) =  fixPath {
 	not container.resources.limits
-	fixPath = [{"path": sprintf("%vcontainers[%v].resources.limits.cpu", [beggining_of_path, format_int(i, 10)]), "value":"YOUR_VALUE"}, {"path": sprintf("%vcontainers[%v].resources.limits.memory", [beggining_of_path, format_int(i, 10)]), "value":"YOUR_VALUE"}]
+	fixPath = [{"path": sprintf("%vcontainers[%v].resources.limits.cpu", [beginning_of_path, format_int(i, 10)]), "value":"YOUR_VALUE"}, {"path": sprintf("%vcontainers[%v].resources.limits.memory", [beginning_of_path, format_int(i, 10)]), "value":"YOUR_VALUE"}]
 }
 
 # only memory limit
-is_no_cpu_and_memory_limits_defined(container, beggining_of_path, i) = fixPath {
+is_no_cpu_and_memory_limits_defined(container, beginning_of_path, i) = fixPath {
 	container.resources.limits
 	not container.resources.limits.cpu
 	container.resources.limits.memory
-	fixPath = [{"path": sprintf("%vcontainers[%v].resources.limits.cpu", [beggining_of_path, format_int(i, 10)]), "value":"YOUR_VALUE"}]
+	fixPath = [{"path": sprintf("%vcontainers[%v].resources.limits.cpu", [beginning_of_path, format_int(i, 10)]), "value":"YOUR_VALUE"}]
 }
 
 # only cpu limit
-is_no_cpu_and_memory_limits_defined(container, beggining_of_path, i) =fixPath {
+is_no_cpu_and_memory_limits_defined(container, beginning_of_path, i) =fixPath {
 	container.resources.limits
 	not container.resources.limits.memory
 	container.resources.limits.cpu
-	fixPath = [{"path": sprintf("%vcontainers[%v].resources.limits.memory", [beggining_of_path, format_int(i, 10)]), "value":"YOUR_VALUE"}]
+	fixPath = [{"path": sprintf("%vcontainers[%v].resources.limits.memory", [beginning_of_path, format_int(i, 10)]), "value":"YOUR_VALUE"}]
 	failed_path = ""
 }
 # limits but without capu and memory 
-is_no_cpu_and_memory_limits_defined(container, beggining_of_path, i) = fixPath {
+is_no_cpu_and_memory_limits_defined(container, beginning_of_path, i) = fixPath {
 	container.resources.limits
 	not container.resources.limits.memory
 	not container.resources.limits.cpu
-	fixPath = [{"path": sprintf("%vcontainers[%v].resources.limits.cpu", [beggining_of_path, format_int(i, 10)]), "value":"YOUR_VALUE"}, {"path": sprintf("%vcontainers[%v].resources.limits.memory", [beggining_of_path, format_int(i, 10)]), "value":"YOUR_VALUE"}]
+	fixPath = [{"path": sprintf("%vcontainers[%v].resources.limits.cpu", [beginning_of_path, format_int(i, 10)]), "value":"YOUR_VALUE"}, {"path": sprintf("%vcontainers[%v].resources.limits.memory", [beginning_of_path, format_int(i, 10)]), "value":"YOUR_VALUE"}]
 }

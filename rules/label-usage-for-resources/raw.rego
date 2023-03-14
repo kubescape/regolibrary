@@ -27,8 +27,8 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
 	podSpec := wl.spec.template
-	beggining_of_pod_path := "spec.template."
-	fixPath := no_label_usage(wl, podSpec, beggining_of_pod_path)
+	beginning_of_pod_path := "spec.template."
+	fixPath := no_label_usage(wl, podSpec, beginning_of_pod_path)
 
     msga := {
 		"alertMessage": sprintf("%v: %v a certain set of labels is not defined:", [wl.kind, wl.metadata.name]),
@@ -47,8 +47,8 @@ deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	podSpec := wl.spec.jobTemplate.spec.template
-	beggining_of_pod_path := "spec.jobTemplate.spec.template."
-	fixPath := no_label_usage(wl, podSpec, beggining_of_pod_path)
+	beginning_of_pod_path := "spec.jobTemplate.spec.template."
+	fixPath := no_label_usage(wl, podSpec, beginning_of_pod_path)
 
 
     msga := {
@@ -64,39 +64,39 @@ deny[msga] {
 }
 
 # There is no label-usage in WL and also for his Pod
-no_label_usage(wl, podSpec, beggining_of_pod_path) = path{
+no_label_usage(wl, podSpec, beginning_of_pod_path) = path{
 	path1 := no_label_or_no_label_usage(wl, "")
-	path2 := no_label_or_no_label_usage(podSpec, beggining_of_pod_path)
+	path2 := no_label_or_no_label_usage(podSpec, beginning_of_pod_path)
 	path = array.concat(path1, path2)
 }
  
 # There is label-usage for WL but not for his Pod
-no_label_usage(wl, podSpec, beggining_of_pod_path) = path{
+no_label_usage(wl, podSpec, beginning_of_pod_path) = path{
 	not no_label_or_no_label_usage(wl, "")
-	path := no_label_or_no_label_usage(podSpec, beggining_of_pod_path)
+	path := no_label_or_no_label_usage(podSpec, beginning_of_pod_path)
 }
 
 # There is no label-usage for WL but there is for his Pod
-no_label_usage(wl, podSpec, beggining_of_pod_path) = path{
-	not no_label_or_no_label_usage(podSpec, beggining_of_pod_path)
+no_label_usage(wl, podSpec, beginning_of_pod_path) = path{
+	not no_label_or_no_label_usage(podSpec, beginning_of_pod_path)
 	path := no_label_or_no_label_usage(wl, "")
 }
 
-no_label_or_no_label_usage(wl, beggining_of_path) = path{
+no_label_or_no_label_usage(wl, beginning_of_path) = path{
 	not wl.metadata
-	path = [{"path": sprintf("%vmetadata.labels", [beggining_of_path]), "value": "YOUR_VALUE"}]
+	path = [{"path": sprintf("%vmetadata.labels", [beginning_of_path]), "value": "YOUR_VALUE"}]
 }
 
-no_label_or_no_label_usage(wl, beggining_of_path) = path{
+no_label_or_no_label_usage(wl, beginning_of_path) = path{
 	metadata := wl.metadata
 	not metadata.labels
-	path = [{"path": sprintf("%vmetadata.labels", [beggining_of_path]), "value": "YOUR_VALUE"}]
+	path = [{"path": sprintf("%vmetadata.labels", [beginning_of_path]), "value": "YOUR_VALUE"}]
 }
 
-no_label_or_no_label_usage(wl, beggining_of_path) = path{
+no_label_or_no_label_usage(wl, beginning_of_path) = path{
 	labels := wl.metadata.labels
 	not is_desired_label(labels)
-	path = [{"path": sprintf("%vmetadata.labels", [beggining_of_path]), "value": "YOUR_VALUE"}]
+	path = [{"path": sprintf("%vmetadata.labels", [beginning_of_path]), "value": "YOUR_VALUE"}]
 }
 
 is_desired_label(labels) {
