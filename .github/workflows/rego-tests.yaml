@@ -2,7 +2,7 @@ name: test regos
 on:
   pull_request:
     branches: [dev, master]
-    types: [opened]
+    types: [ edited, opened, synchronize, reopened ]
     paths-ignore:
       # Do not run the pipeline if only Markdown files changed
       - '**.yaml'
