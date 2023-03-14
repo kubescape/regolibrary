@@ -3,9 +3,6 @@ on:
   pull_request:
     branches: [dev, master]
     types: [opened]
-    paths-ignore:
-      # Do not run the pipeline if only Markdown files changed
-      - '**.md'
 jobs:
   build:
     runs-on: ubuntu-latest
