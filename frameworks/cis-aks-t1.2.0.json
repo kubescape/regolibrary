@@ -430,6 +430,12 @@
             "patch": {
                 "name": "CIS-5.2.1 Prefer using dedicated AKS Service Accounts"
             }
+        },
+        {
+            "controlID": "C-0240",
+            "patch": {
+                "name": "CIS-5.4.4 Ensure Network Policy is Enabled and set as appropriate"
+            }
         }
     ],
     "subSections": {
