@@ -430,6 +430,12 @@
             "patch": {
                 "name": "CIS-5.2.1 Prefer using dedicated AKS Service Accounts"
             }
+        },
+        {
+            "controlID": "C-0241",
+            "patch": {
+                "name": "CIS-5.2.2 Use Azure RBAC for Kubernetes Authorization"
+            }
         }
     ],
     "subSections": {
