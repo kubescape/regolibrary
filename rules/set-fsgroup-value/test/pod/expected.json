@@ -1,0 +1,40 @@
+[
+    {
+        "alertMessage": "Pod: nginx1 does not set 'securityContext.fsGroup' with allowed value",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "failedPaths": ["spec.securityContext.fsGroup"],
+		    "fixPaths": [],
+        "ruleStatus": "",
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                  "apiVersion": "v1",
+                  "kind": "Pod",
+                  "metadata": {
+                    "name": "nginx1"
+                  }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Pod: nginx2 does not set 'securityContext.fsGroup' with allowed value",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "failedPaths": ["spec.securityContext.fsGroup"],
+		    "fixPaths": [],
+        "ruleStatus": "",
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                  "apiVersion": "v1",
+                  "kind": "Pod",
+                  "metadata": {
+                    "name": "nginx2"
+                  }
+                }
+            ]
+        }
+    }
+]
