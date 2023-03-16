@@ -476,6 +476,12 @@
             "patch": {
                 "name": "CIS-3.1.1 Ensure that the kubeconfig file permissions are set to 644 or more restrictive"
             }
+        },
+        {
+            "controlID": "C-0242",
+            "patch": {
+                "name": "CIS-5.6.2 Hostile multi-tenant workloads"
+            }
         }
     ],
     "subSections": {
