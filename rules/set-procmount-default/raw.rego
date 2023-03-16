@@ -29,10 +29,6 @@ deny[msga] {
 }
 
 deny[msga] {
-    # check if we are managing with an api-server
-    api_server := input[_]
-    is_api_server(api_server)
-
     # checks at first if we the procMountType feature gate is enabled on the api-server
     obj := input[_]
     is_control_plane_info(obj)
@@ -61,10 +57,6 @@ deny[msga] {
 }
 
 deny[msga] {
-    # check if we are managing with an api-server
-    api_server := input[_]
-    is_api_server(api_server)
-
     # checks at first if we the procMountType feature gate is enabled on the api-server
     obj := input[_]
     is_control_plane_info(obj)
@@ -91,15 +83,6 @@ deny[msga] {
     }
 }
 
-# check if we are managing a kube-apiserver
-is_api_server(obj) {
-	obj.apiVersion == "v1"
-	obj.kind == "Pod"
-	obj.metadata.namespace == "kube-system"
-	count(obj.spec.containers) == 1
-	count(obj.spec.containers[0].command) > 0
-	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
-}
 
 # check if we are managing ControlPlaneInfo
 is_control_plane_info(obj) {
