@@ -6,14 +6,26 @@ This package tests the OPA Rego rules.
 
 You can easily test your custom rules by running this command:
 
-```
+```shell
 go test -v -tags=static rego_test.go -run TestAllRules
 ```
 
 or simply:
 
-```
+```shell
 make test
+```
+
+If you want to test only a single rule, then you should use this command insted:
+
+```shell
+go test -v -tags="static" rego_test.go -run TestSingleRule -args -rule <rule-name>
+```
+
+Example:
+
+```shell
+go test -v -tags="static" rego_test.go -run TestSingleRule -args -rule ensure-azure-rbac-is-set
 ```
 
 # VS code configuration samples
