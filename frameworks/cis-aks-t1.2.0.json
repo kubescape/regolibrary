@@ -432,11 +432,16 @@
             }
         },
         {
+            "controlID": "C-0240",
+            "patch": {
+                "name": "CIS-5.4.4 Ensure Network Policy is Enabled and set as appropriate"
+            }
+        },
             "controlID": "C-0241",
             "patch": {
                 "name": "CIS-5.2.2 Use Azure RBAC for Kubernetes Authorization"
-            }
-        }
+	    }
+	}
     ],
     "subSections": {
         "2": {
