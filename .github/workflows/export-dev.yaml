@@ -12,18 +12,22 @@ jobs:
         uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492
         with:
           go-version: 1.19
+
       - name: Test Regoes
         working-directory: testrunner
         run: |
           apt update && apt install -y cmake
           GOPATH=$(go env GOPATH) make
+          
       - name: Run export script
         run: |
           OUTPUT=pre-release python ./scripts/export.py
           rm -r releaseDev
           cp -R pre-release releaseDev
+
       - name: stage changed files
         run: git add .
+
       - name: Commit & Push changes
         uses: Andro999b/push@c77535fe7a94645f7ceca83e48e6cc977620710e
         with:

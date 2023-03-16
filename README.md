@@ -1,8 +1,8 @@
 <!-- markdown-link-check-disable -->
 [![Version](https://img.shields.io/github/v/release/kubescape/regolibrary)](releases)
 [![release-date](https://img.shields.io/github/release-date/kubescape/regolibrary)](releases)
-<!-- markdown-link-check-enable-->
 [![GitHub](https://img.shields.io/github/license/kubescape/kubescape)](https://github.com/kubescape/kubescape/blob/master/LICENSE)
+<!-- markdown-link-check-enable-->
 
 # Kubescape Regolibrary
 
