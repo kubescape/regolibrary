@@ -16,7 +16,7 @@ or simply:
 make test
 ```
 
-If you want to test only a single rule, then you should use this command insted:
+If you want to test only a single rule, then you should use this command instead:
 
 ```shell
 go test -v -tags="static" rego_test.go -run TestSingleRule -args -rule <rule-name>
