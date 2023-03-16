@@ -243,6 +243,9 @@ func RunSingleTest(t *testing.T, dir string, policyRule *reporthandling.PolicyRu
 	if err != nil {
 		return err
 	}
+	// useful for debugging purposes
+	// res2B, _ := json.Marshal(responses)
+	// fmt.Printf("result:\n%s\n", string(res2B))
 
 	expectedResponses, err := GetExpectedResults(dir)
 	if err != nil {

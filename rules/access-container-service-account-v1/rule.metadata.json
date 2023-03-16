@@ -3,48 +3,11 @@
     "attributes": {
       "m$K8sThreatMatrix": "Credential Access::Access container service account, Lateral Movement::Container service account",
       "armoBuiltin": true,
+      "resourcesAggregator": "subject-role-rolebinding",
       "useFromKubescapeVersion": "v1.0.133"
     },
     "ruleLanguage": "Rego",
     "match": [
-      {
-        "apiGroups": [
-          ""
-        ],
-        "apiVersions": [
-          "v1"
-        ],
-        "resources": [
-          "Pod",
-          "ServiceAccount"
-        ]
-      },
-      {
-        "apiGroups": [
-          "apps"
-        ],
-        "apiVersions": [
-          "v1"
-        ],
-        "resources": [
-            "Deployment",
-            "ReplicaSet",
-            "DaemonSet",
-            "StatefulSet"
-        ]
-      },
-      {
-        "apiGroups": [
-          "batch"
-        ],
-        "apiVersions": [
-          "*"
-        ],
-        "resources": [
-            "Job",
-            "CronJob"
-        ]
-      },
       {
         "apiGroups": [
           "rbac.authorization.k8s.io"
