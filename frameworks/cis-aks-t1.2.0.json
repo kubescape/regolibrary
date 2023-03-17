@@ -514,7 +514,13 @@
             "patch": {
                 "name": "CIS-2.1.1 Enable audit Logs"
 	    }
-	}
+	},
+        {
+            "controlID": "C-0243",
+            "patch": {
+                "name": "CIS-5.1.1 Ensure Image Vulnerability Scanning using Azure Defender image scanning or a third party provider"
+            }
+        }
     ],
     "subSections": {
         "2": {
