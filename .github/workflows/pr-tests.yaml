@@ -45,8 +45,8 @@ jobs:
     secrets: inherit
 
   # build and e2e tests
-  binary-build:
-    uses: kubescape/.github/workflows/b-binary-build-and-e2e-tests.yaml
+  binary_build_and_e2e:
+    uses: kubescape/.github/workflows/b-binary-build-and-e2e-tests.yaml@master
     with:
       COMPONENT_NAME: kubescape
       CGO_ENABLED: 1
