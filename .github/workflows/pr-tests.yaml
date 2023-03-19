@@ -43,3 +43,15 @@ jobs:
       GO_VERSION: 1.19
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
+
+  # build and e2e tests
+  binary-build:
+    uses: kubescape/.github/workflows/b-binary-build-and-e2e-tests.yaml
+    with:
+      COMPONENT_NAME: kubescape
+      CGO_ENABLED: 1
+      GO111MODULE: ""
+      GO_VERSION: "1.19"
+      RELEASE: ""
+      CLIENT: test
+    secrets: inherit
