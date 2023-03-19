@@ -54,4 +54,5 @@ jobs:
       GO_VERSION: "1.19"
       RELEASE: ""
       CLIENT: test
+      CHECKOUT_REPO: kubescape/kubescape
     secrets: inherit
