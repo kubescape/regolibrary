@@ -1,8 +1,10 @@
 name: pr-tests
 on:
+  push:
+    branches: [ master, main ]
   pull_request:
-    branches: [dev, master, main]
-    types: [ edited, opened, synchronize, reopened ]
+    # run for every chnage in the PR
+    types: [ opened, synchronize, reopened ]
     # Do not run the pipeline if only Markdown files changed
     paths-ignore: ['**.md']
 jobs:
@@ -18,7 +20,7 @@ jobs:
 
   # testing rego library
   test_rego:
-    name: Build, Test Regos
+    name: Test Regos
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@50fbc622fc4ef5163becd7fab6573eac35f8462e
