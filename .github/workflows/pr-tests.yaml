@@ -46,7 +46,7 @@ jobs:
 
   # build and e2e tests
   binary_build_and_e2e:
-    uses: kubescape/.github/workflows/b-binary-build-and-e2e-tests.yaml@master
+    uses: kubescape/kubescape/.github/workflows/b-binary-build-and-e2e-tests.yaml@master
     with:
       COMPONENT_NAME: kubescape
       CGO_ENABLED: 1
