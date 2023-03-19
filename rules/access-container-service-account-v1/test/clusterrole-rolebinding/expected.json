@@ -1,6 +1,6 @@
 [
     {
-        "alertMessage": "service account: jane has the following permissions in the cluster: test",
+        "alertMessage": "service account: default has the following permissions in the cluster",
         "failedPaths": [],
         "fixPaths": [],
         "ruleStatus": "",
@@ -9,9 +9,29 @@
         "alertObject": {
             "externalObjects": {
                 "kind": "ServiceAccount",
-                "name": "jane",
+                "name": "default",
                 "namespace": "default",
                 "relatedObjects": [
+                    {
+                        "apiVersion": "rbac.authorization.k8s.io/v1",
+                        "kind": "RoleBinding",
+                        "metadata": {
+                            "name": "pod",
+                            "namespace": "default"
+                        },
+                        "roleRef": {
+                            "apiGroup": "rbac.authorization.k8s.io",
+                            "kind": "ClusterRole",
+                            "name": "test"
+                        },
+                        "subjects": [
+                            {
+                                "kind": "ServiceAccount",
+                                "name": "default",
+                                "namespace": "default"
+                            }
+                        ]
+                    },
                     {
                         "apiVersion": "rbac.authorization.k8s.io/v1",
                         "kind": "ClusterRole",
@@ -33,26 +53,6 @@
                                     "watch",
                                     "list"
                                 ]
-                            }
-                        ]
-                    },
-                    {
-                        "apiVersion": "rbac.authorization.k8s.io/v1",
-                        "kind": "RoleBinding",
-                        "metadata": {
-                            "name": "pod",
-                            "namespace": "default"
-                        },
-                        "roleRef": {
-                            "apiGroup": "rbac.authorization.k8s.io",
-                            "kind": "ClusterRole",
-                            "name": "test"
-                        },
-                        "subjects": [
-                            {
-                                "kind": "ServiceAccount",
-                                "name": "jane",
-                                "namespace": "default"
                             }
                         ]
                     }
