@@ -21,7 +21,7 @@
         "set-seccomp-profile",
 	"set-procmount-default",
 	"set-fsgroup-value",
-	"set-fsgroupchangepolicy-values",
+	"set-fsgroupchangepolicy-value",
 	"set-systctls-params",
 	"set-supplementalgroups-values"
     ],
