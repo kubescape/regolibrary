@@ -58,3 +58,4 @@ jobs:
       CHECKOUT_REPO: kubescape/kubescape
       BUILD_AND_TEST_LOCAL_KUBESCAPE_CLI: false
     secrets: inherit
+    
