@@ -1,0 +1,26 @@
+
+{
+    "name": "ensure-system-master-group-is-not-set",
+    "attributes": {
+      "armoBuiltin": true,
+      "hostSensorRule": false,
+      "useFromKubescapeVersion": "",
+      "useUntilKubescapeVersion": "",
+      "imageScanRelated": false,
+      "controlConfigInputs": "",
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+          "apiGroups": [
+          ],
+          "apiVersions": [
+          ],
+          "resources": [
+          ]
+        }
+    ],
+    "description": "The special group system:masters should not be used to grant permissions to any user or service account, except where strictly necessary (e.g. bootstrapping access prior to RBAC being fully available)",
+    "remediation": "Remove the system:masters group from all users in the cluster.",
+    "ruleQuery": ""
+}
