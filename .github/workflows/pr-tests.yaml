@@ -47,6 +47,7 @@ jobs:
   # build and e2e tests
   binary_build_and_e2e:
     uses: kubescape/kubescape/.github/workflows/b-binary-build-and-e2e-tests.yaml@master
+    needs: [markdown-link-check, test_rego, test_pr_checks]
     with:
       COMPONENT_NAME: kubescape
       CGO_ENABLED: 1
@@ -55,4 +56,5 @@ jobs:
       RELEASE: ""
       CLIENT: test
       CHECKOUT_REPO: kubescape/kubescape
+      BUILD_AND_TEST_LOCAL_KUBESCAPE_CLI: false
     secrets: inherit
