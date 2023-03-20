@@ -47,7 +47,7 @@ jobs:
   # build and e2e tests
   binary_build_and_e2e:
     uses: kubescape/kubescape/.github/workflows/b-binary-build-and-e2e-tests.yaml@master
-    # needs: [markdown-link-check, test_rego, test_pr_checks]
+    needs: [markdown-link-check, test_rego, test_pr_checks]
     with:
       COMPONENT_NAME: kubescape
       CGO_ENABLED: 1
