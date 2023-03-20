@@ -58,8 +58,10 @@ def validate_controls():
 # Test that each rule directory in the "rules" directory has a non-empty "tests" subdirectory
 def validate_tests_dir_for_rule(rule_dir):
         tests_dir = os.path.join(rules_dir, rule_dir, "test")
+        # TODO: Uncomment the assert statements below once all rules have tests
+        # for now, just print a message
         if not os.path.isdir(tests_dir):
-            print(f"Tests directory {tests_dir} does not exist")
+            print(f"Rule '{rule_dir}' does not have tests")
         # assert os.path.isdir(tests_dir), f"Tests directory {tests_dir} does not exist"
         # assert len(os.listdir(tests_dir)) > 0, f"Tests directory {tests_dir} is empty"
 
