@@ -480,7 +480,7 @@
         "rules": []
     },
     {
-        "name": "Secret/ETCD encryption enabled",
+        "name": "Secret/etcd encryption enabled",
         "attributes": {
             "armoBuiltin": true,
             "controlTypeTags": [
