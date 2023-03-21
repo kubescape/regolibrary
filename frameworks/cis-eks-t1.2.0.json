@@ -342,10 +342,10 @@
             "controlID": "C-0211",
             "patch": {
                 "name": "CIS-4.6.2 Apply Security Context to Your Pods and Containers",
-		"long_description": "A security context defines the operating system security settings (uid, gid, capabilities, SELinux role, etc..) applied to a container. When designing your containers and pods, make sure that you configure the security context for your pods, containers, and volumes. A security context is a property defined in the deployment yaml. It controls the security parameters that will be assigned to the pod/container/volume. There are two levels of security context: pod level security context, and container level security context.",
+                "long_description": "A security context defines the operating system security settings (uid, gid, capabilities, SELinux role, etc..) applied to a container. When designing your containers and pods, make sure that you configure the security context for your pods, containers, and volumes. A security context is a property defined in the deployment yaml. It controls the security parameters that will be assigned to the pod/container/volume. There are two levels of security context: pod level security context, and container level security context.",
                 "references": [
-		    "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
-		]
+                    "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
+                ]
             }
         },
         {
@@ -486,6 +486,12 @@
             "patch": {
                 "name": "CIS-3.1.1 Ensure that the kubeconfig file permissions are set to 644 or more restrictive"
             }
+        },
+        {
+            "controlID": "C-0246",
+            "patch": {
+                "name": "CIS-4.1.7 Avoid use of system:masters group"
+            }
         }
     ],
     "subSections": {
@@ -594,7 +600,7 @@
                     "id": "4.6",
                     "controlsIDs": [
                         "C-0209",
-			"C-0211",
+                        "C-0211",
                         "C-0212"
                     ]
                 }
