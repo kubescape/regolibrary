@@ -18,7 +18,7 @@
             }
         ]
     },
-    "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host. This control identifies all the PODs using hostPath mount.",
+    "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host. This control identifies all the pods using hostPath mount.",
     "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: test-pd\nspec:\n  containers:\n  - image: k8s.gcr.io/test-webserver\n    name: test-container\n    volumeMounts:\n    - mountPath: /test-pd\n      name: test-volume\n  volumes:\n  - name: test-volume\n    hostPath: # This field triggers failure!\n      path: /data\n      type: Directory\n",
     "remediation": "Remove hostPath mounts unless they are absolutely necessary and use exception mechanism to remove notifications.",
     "rulesNames": [

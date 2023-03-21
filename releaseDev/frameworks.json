@@ -101,7 +101,7 @@
                     ]
                 },
                 "description": "CPU and memory resources should have a limit set for every container or a namespace to prevent resource exhaustion. This control identifies all the Pods without resource limit definitions by checking their yaml definition file as well as their namespace LimitRange objects. It is also recommended to use ResourceQuota object to restrict overall namespace resources, but this is not verified by this control.",
-                "remediation": "Define LimitRange and Resource Limits in the namespace or in the deployment/POD yamls.",
+                "remediation": "Define LimitRange and Resource Limits in the namespace or in the deployment/pod yamls.",
                 "long_description": "CPU and memory resources should have a limit set for every container or a namespace to prevent resource exhaustion. This control identifies all the Pods without resource limit definitions by checking their yaml definition file as well as their namespace LimitRange objects. It is also recommended to use ResourceQuota object to restrict overall namespace resources, but this is not verified by this control.",
                 "test": " Check for each container if there is a \u2018limits\u2019 field defined for both cpu and memory",
                 "controlID": "C-0009",
@@ -216,7 +216,7 @@
                     ]
                 },
                 "description": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks.",
-                "remediation": "Set the filesystem of the container to read-only when possible (POD securityContext, readOnlyRootFilesystem: true). If containers application needs to write into the filesystem, it is recommended to mount secondary filesystems for specific directories where application require write access.",
+                "remediation": "Set the filesystem of the container to read-only when possible (pod securityContext, readOnlyRootFilesystem: true). If containers application needs to write into the filesystem, it is recommended to mount secondary filesystems for specific directories where application require write access.",
                 "long_description": "By default, containers are permitted mostly unrestricted execution within their own context. An attacker who has access to a container, can create files and download scripts as he wishes, and modify the underlying application running on the container. ",
                 "test": "Check whether the readOnlyRootFilesystem field in the SecurityContext is set to true. ",
                 "controlID": "C-0017",
@@ -232,7 +232,7 @@
                         "compliance"
                     ]
                 },
-                "description": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new PODs, and then enable sources/destinations that this POD must communicate with.",
+                "description": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new pods, and then enable sources/destinations that this pod must communicate with.",
                 "remediation": "Define a network policy that restricts ingress and egress connections.",
                 "long_description": "Network policies control traffic flow between Pods, namespaces, and external IP addresses. By default, no network policies are applied to Pods or namespaces, resulting in unrestricted ingress and egress traffic within the Pod network. Pods become isolated through a network policy that applies to the Pod or the Pod\u2019s namespace. Once a Pod is selected in a network policy, it rejects any connections that are not specifically allowed by any applicable policy object.Administrators should use a default policy selecting all Pods to deny all ingress and egress traffic and ensure any unselected Pods are isolated. Additional policies could then relax these restrictions for permissible connections.",
                 "test": "Check for each Pod whether there is an ingress and egress policy defined (whether using Pod or Namespace). ",
@@ -259,8 +259,8 @@
                         }
                     ]
                 },
-                "description": "Potential attacker may gain access to a POD and steal its service account token. Therefore, it is recommended to disable automatic mapping of the service account tokens in service account configuration and enable it only for PODs that need to use them.",
-                "remediation": "Disable automatic mounting of service account tokens to PODs either at the service account level or at the individual POD level, by specifying the automountServiceAccountToken: false. Note that POD level takes precedence.",
+                "description": "Potential attacker may gain access to a pod and steal its service account token. Therefore, it is recommended to disable automatic mapping of the service account tokens in service account configuration and enable it only for pods that need to use them.",
+                "remediation": "Disable automatic mounting of service account tokens to pods either at the service account level or at the individual pod level, by specifying the automountServiceAccountToken: false. Note that pod level takes precedence.",
                 "long_description": "We have it in Armo best (Automatic mapping of service account token).",
                 "test": "Check all service accounts on which automount is not disabled.  Check all workloads on which they and their service account don't disable automount ",
                 "controlID": "C-0034",
@@ -315,9 +315,9 @@
                         }
                     ]
                 },
-                "description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all PODs using hostPID or hostIPC privileges.",
+                "description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all pods using hostPID or hostIPC privileges.",
                 "remediation": "Remove hostPID and hostIPC from the yaml file(s) privileges unless they are absolutely necessary.",
-                "long_description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all PODs using hostPID or hostIPC privileges.",
+                "long_description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all pods using hostPID or hostIPC privileges.",
                 "controlID": "C-0038",
                 "baseScore": 7.0,
                 "example": "@controls/examples/c038.yaml",
@@ -342,8 +342,8 @@
                         }
                     ]
                 },
-                "description": "Potential attackers may gain access to a POD and inherit access to the entire host network. For example, in AWS case, they will have access to the entire VPC. This control identifies all the PODs with host network access enabled.",
-                "remediation": "Only connect PODs to host network when it is necessary. If not, set the hostNetwork field of the pod spec to false, or completely remove it (false is the default). Whitelist only those PODs that must have access to host network by design.",
+                "description": "Potential attackers may gain access to a pod and inherit access to the entire host network. For example, in AWS case, they will have access to the entire VPC. This control identifies all the pods with host network access enabled.",
+                "remediation": "Only connect pods to host network when it is necessary. If not, set the hostNetwork field of the pod spec to false, or completely remove it (false is the default). Whitelist only those pods that must have access to host network by design.",
                 "long_description": "We have it in ArmoBest",
                 "test": "",
                 "controlID": "C-0041",
@@ -396,7 +396,7 @@
                         }
                     ]
                 },
-                "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the PODs with dangerous capabilities (see documentation pages for details).",
+                "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the pods with dangerous capabilities (see documentation pages for details).",
                 "remediation": "Remove all insecure capabilities which are not necessary for the container.",
                 "long_description": "Giving  insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
                 "test": "Check capabilities given against a configurable blacklist of insecure capabilities (https://man7.org/linux/man-pages/man7/capabilities.7.html). ",
@@ -511,7 +511,7 @@
                 "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: privileged\nspec:\n  containers:\n    - name: pause\n      image: k8s.gcr.io/pause\n      securityContext:\n          privileged: true # This field triggers failure!\n",
                 "remediation": "Remove privileged capabilities by setting the securityContext.privileged to false. If you must deploy a Pod as privileged, add other restriction to it, such as network policy, Seccomp etc and still remove all unnecessary capabilities. Use the exception mechanism to remove unnecessary notifications.",
                 "long_description": "A privileged container is a container that has all the capabilities of the host machine, which lifts all the limitations regular containers have. Practically, this means that privileged containers can do almost every action that can be performed directly on the host. Attackers who gain access to a privileged container or have permissions to create a new privileged container (by using the compromised pod\u2019s service account, for example), can get access to the host\u2019s resources.",
-                "test": "Check in POD spec if securityContext.privileged == true, if so raise an alert.",
+                "test": "Check in Pod spec if securityContext.privileged == true, if so raise an alert.",
                 "controlID": "C-0057",
                 "baseScore": 8.0,
                 "rules": []
@@ -574,9 +574,9 @@
                         "devops"
                     ]
                 },
-                "description": "It is recommended to avoid running PODs in cluster without explicit namespace assignment. This control identifies all the PODs running in the default namespace.",
-                "remediation": "Create necessary namespaces and move all the PODs from default namespace there.",
-                "long_description": "It is recommended to avoid running PODs in cluster without explicit namespace assignment. This may lead to wrong capabilities and permissions assignment and potential compromises. This control identifies all the PODs running in the default namespace.",
+                "description": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This control identifies all the pods running in the default namespace.",
+                "remediation": "Create necessary namespaces and move all the pods from default namespace there.",
+                "long_description": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This may lead to wrong capabilities and permissions assignment and potential compromises. This control identifies all the pods running in the default namespace.",
                 "test": "Check that there are no pods in the 'default' namespace",
                 "controlID": "C-0061",
                 "baseScore": 3,
@@ -598,9 +598,9 @@
                         }
                     ]
                 },
-                "description": "Adding sudo to a container entry point command may escalate process privileges and allow access to forbidden resources. This control checks all the entry point commands in all containers in the POD to find those that have sudo command.",
+                "description": "Adding sudo to a container entry point command may escalate process privileges and allow access to forbidden resources. This control checks all the entry point commands in all containers in the pod to find those that have sudo command.",
                 "remediation": "Remove sudo from the command line and use Kubernetes native root and capabilities controls to provide necessary privileges where they are required.",
-                "long_description": "Adding sudo to a container entry point command may escalate process privileges and allow access to forbidden resources. This control checks all the entry point commands in all containers in the POD to find those that have sudo command.",
+                "long_description": "Adding sudo to a container entry point command may escalate process privileges and allow access to forbidden resources. This control checks all the entry point commands in all containers in the pod to find those that have sudo command.",
                 "test": "Check that there is no 'sudo' in the container entrypoint",
                 "controlID": "C-0062",
                 "baseScore": 5.0,
@@ -627,7 +627,7 @@
                         }
                     ]
                 },
-                "description": "Attackers with relevant RBAC permission can use \u201ckubectl portforward\u201d command to establish direct communication with PODs from within the cluster or even remotely. Such communication will most likely bypass existing security measures in the cluster. This control determines which subjects have permissions to use this command.",
+                "description": "Attackers with relevant RBAC permission can use \u201ckubectl portforward\u201d command to establish direct communication with pods from within the cluster or even remotely. Such communication will most likely bypass existing security measures in the cluster. This control determines which subjects have permissions to use this command.",
                 "remediation": "It is recommended to prohibit \u201ckubectl portforward\u201d command in production environments. It is also recommended not to use subjects with this permission for daily cluster operations.",
                 "long_description": "Attackers who have relevant RBAC permissions, can run open a backdoor communication channel directly to the sockets inside target container using exec command \u201ckubectl portforward\u201d command. Using this method, attackers can bypass network security restrictions and communicate directly with software in the containers.",
                 "test": "Check which subjects have RBAC permissions to portforward into pods\u2013 if they have the \u201cpods/portforward\u201d resource.",
@@ -732,7 +732,7 @@
                 },
                 "description": "PSP enable fine-grained authorization of pod creation and it is important to enable it",
                 "remediation": "Turn Pod Security Policies on in your cluster, if you use other admission controllers to control the behavior that PSP controls, exclude this control from your scans",
-                "long_description": "Pod Security Policies enable fine-grained authorization of pod creation and updates and it extends authorization  beyond RBAC. It is an important to use PSP to control the creation of sensitive PODs in your cluster.",
+                "long_description": "Pod Security Policies enable fine-grained authorization of pod creation and updates and it extends authorization  beyond RBAC. It is an important to use PSP to control the creation of sensitive pods in your cluster.",
                 "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if PSP is enabled",
                 "controlID": "C-0068",
                 "baseScore": 1.0,
@@ -887,7 +887,7 @@
                     ]
                 },
                 "description": "Container images with known critical vulnerabilities pose elevated risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if either LoadBalancer or NodePort service is assigned to them.",
-                "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the POD to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
+                "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the pod to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
                 "long_description": "Container images with known critical vulnerabilities pose elevated risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if either LoadBalancer or NodePort service assigned to them.",
                 "test": "This control enumerates external facing workloads, that have LoadBalancer or NodePort services and checks image vulnerability information to see if the image has critical vulnerabilities.",
                 "controlID": "C-0083",
@@ -913,9 +913,9 @@
                         }
                     ]
                 },
-                "description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their POD has either LoadBalancer or NodePort service.",
-                "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the POD to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
-                "long_description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their POD has either LoadBalancer or NodePort service.",
+                "description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their pod has either LoadBalancer or NodePort service.",
+                "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the pod to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
+                "long_description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their pod has either LoadBalancer or NodePort service.",
                 "test": "This control enumerates external facing workloads, that have LoadBalancer or NodePort service and checks the image vulnerability information for the RCE vulnerability.",
                 "controlID": "C-0084",
                 "baseScore": 8.0,
@@ -993,7 +993,7 @@
                         }
                     ]
                 },
-                "description": "CVE-2022-23648 is a vulnerability of containerd enabling attacker to gain access to read-only copies of arbitrary files from the host using aspecially-crafted POD configuration yamls",
+                "description": "CVE-2022-23648 is a vulnerability of containerd enabling attacker to gain access to read-only copies of arbitrary files from the host using a specially-crafted Pod configuration",
                 "remediation": "Patch containerd to 1.6.1, 1.5.10, 1.4.12  or above",
                 "long_description": "Containerd is a container runtime available as a daemon for Linux and Windows. A bug was found in containerd prior to versions 1.6.1, 1.5.10, and 1.4.12 where containers launched through containerd\u2019s CRI implementation on Linux with a specially-crafted image configuration could gain access to read-only copies of arbitrary files and directories on the host. This may bypass any policy-based enforcement on container setup (including a Kubernetes Pod Security Policy) and expose potentially sensitive information. This bug was fixed in containerd versions 1.6.1, 1.5.10, and 1.4.12. Users should update to these versions to resolve the issue.",
                 "test": "Checking containerd version to see if it is a vulnerable version (where the container runtime is containerd)",
@@ -3717,9 +3717,9 @@
                         "devops"
                     ]
                 },
-                "description": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the PODs where the readiness probe is not configured.",
+                "description": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the pods where the readiness probe is not configured.",
                 "remediation": "Ensure Readiness probes are configured wherever possible.",
-                "long_description": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the PODs where the readiness probe is not configured.",
+                "long_description": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the pods where the readiness probe is not configured.",
                 "controlID": "C-0018",
                 "example": "@controls/examples/c018.yaml",
                 "baseScore": 3,
@@ -3776,9 +3776,9 @@
                         "devops"
                     ]
                 },
-                "description": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the PODs where the Liveness probe is not configured.",
+                "description": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the pods where the Liveness probe is not configured.",
                 "remediation": "Ensure Liveness probes are configured wherever possible.",
-                "long_description": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the PODs where the Liveness probe is not configured.",
+                "long_description": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the pods where the Liveness probe is not configured.",
                 "controlID": "C-0056",
                 "baseScore": 4,
                 "rules": []
@@ -3792,26 +3792,26 @@
                         "devops"
                     ]
                 },
-                "description": "It is recommended to avoid running PODs in cluster without explicit namespace assignment. This control identifies all the PODs running in the default namespace.",
-                "remediation": "Create necessary namespaces and move all the PODs from default namespace there.",
-                "long_description": "It is recommended to avoid running PODs in cluster without explicit namespace assignment. This may lead to wrong capabilities and permissions assignment and potential compromises. This control identifies all the PODs running in the default namespace.",
+                "description": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This control identifies all the pods running in the default namespace.",
+                "remediation": "Create necessary namespaces and move all the pods from default namespace there.",
+                "long_description": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This may lead to wrong capabilities and permissions assignment and potential compromises. This control identifies all the pods running in the default namespace.",
                 "test": "Check that there are no pods in the 'default' namespace",
                 "controlID": "C-0061",
                 "baseScore": 3,
                 "rules": []
             },
             {
-                "name": "Naked PODs",
+                "name": "Naked pods",
                 "attributes": {
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "devops"
                     ]
                 },
-                "description": "It is not recommended to create PODs without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if PODs may lead to a configuration drifts and other untracked changes in the system. Such PODs won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every POD that does not have corresponding parental object.",
-                "remediation": "Create necessary Deployment object for every POD making any POD a first class citizen in your IaC architecture.",
-                "long_description": "It is not recommended to create PODs without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if PODs may lead to a configuration drifts and other untracked changes in the system. Such PODs won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every POD that does not have corresponding parental object.",
-                "test": "Test if PODs are not associated with Deployment, ReplicaSet etc. If not, fail.",
+                "description": "It is not recommended to create pods without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if pods may lead to a configuration drifts and other untracked changes in the system. Such pods won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every pod that does not have corresponding parental object.",
+                "remediation": "Create necessary Deployment object for every pod making any pod a first class citizen in your IaC architecture.",
+                "long_description": "It is not recommended to create pods without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if pods may lead to a configuration drifts and other untracked changes in the system. Such pods won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every pod that does not have corresponding parental object.",
+                "test": "Test if pods are not associated with Deployment, ReplicaSet etc. If not, fail.",
                 "controlID": "C-0073",
                 "baseScore": 3,
                 "rules": []
@@ -3824,9 +3824,9 @@
                         "devops"
                     ]
                 },
-                "description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies PODs that attempt to mount Docker socket for accessing Docker runtime.",
+                "description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies pods that attempt to mount Docker socket for accessing Docker runtime.",
                 "remediation": "Remove docker socket mount request or define an exception.",
-                "long_description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies PODs that attempt to mount Docker socket for accessing Docker runtime.",
+                "long_description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies pods that attempt to mount Docker socket for accessing Docker runtime.",
                 "test": "Check hostpath. If the path is set to /var/run/docker.sock or /var/lib/docker , the container has access to Docker internals - fail.",
                 "controlID": "C-0074",
                 "baseScore": 5,
@@ -3840,9 +3840,9 @@
                         "devops"
                     ]
                 },
-                "description": "While usage of the latest tag is not generally recommended, in some cases this is necessary. If it is, the ImagePullPolicy must be set to Always, otherwise Kubernetes may run an older image with the same name that happens to be present in the node cache. Note that using Always will not cause additional image downloads because Kubernetes will check the image hash of the local local against the registry and only pull the image if this hash has changed, which is exactly what users want when use the latest tag. This control will identify all PODs with latest tag that have ImagePullSecret not set to Always.",
-                "remediation": "Set ImagePullPolicy to Always in all PODs found by this control.",
-                "long_description": "While usage of the latest tag is not generally recommended, in some cases this is necessary. If it is, the ImagePullPolicy must be set to Always, otherwise Kubernetes may run an older image with the same name that happens to be present in the node cache. Note that using Always will not cause additional image downloads because Kubernetes will check the image hash of the local local against the registry and only pull the image if this hash has changed, which is exactly what users want when use the latest tag. This control will identify all PODs with latest tag that have ImagePullSecret not set to Always. Note as well that some vendors don't use the word latest in the tag. Some other word may also behave like the latest. For example, Redis uses redis:alpine to signify the latest. Therefore, this control treats any word that does not contain digits as the latest. If no tag is specified, the image is treated as latests too.",
+                "description": "While usage of the latest tag is not generally recommended, in some cases this is necessary. If it is, the ImagePullPolicy must be set to Always, otherwise Kubernetes may run an older image with the same name that happens to be present in the node cache. Note that using Always will not cause additional image downloads because Kubernetes will check the image hash of the local local against the registry and only pull the image if this hash has changed, which is exactly what users want when use the latest tag. This control will identify all pods with latest tag that have ImagePullSecret not set to Always.",
+                "remediation": "Set ImagePullPolicy to Always in all pods found by this control.",
+                "long_description": "While usage of the latest tag is not generally recommended, in some cases this is necessary. If it is, the ImagePullPolicy must be set to Always, otherwise Kubernetes may run an older image with the same name that happens to be present in the node cache. Note that using Always will not cause additional image downloads because Kubernetes will check the image hash of the local local against the registry and only pull the image if this hash has changed, which is exactly what users want when use the latest tag. This control will identify all pods with latest tag that have ImagePullSecret not set to Always. Note as well that some vendors don't use the word latest in the tag. Some other word may also behave like the latest. For example, Redis uses redis:alpine to signify the latest. Therefore, this control treats any word that does not contain digits as the latest. If no tag is specified, the image is treated as latests too.",
                 "test": "If  imagePullPolicy = always pass, else fail.",
                 "controlID": "C-0075",
                 "baseScore": 2,
@@ -4045,7 +4045,7 @@
                     ]
                 },
                 "description": "CPU and memory resources should have a limit set for every container or a namespace to prevent resource exhaustion. This control identifies all the Pods without resource limit definitions by checking their yaml definition file as well as their namespace LimitRange objects. It is also recommended to use ResourceQuota object to restrict overall namespace resources, but this is not verified by this control.",
-                "remediation": "Define LimitRange and Resource Limits in the namespace or in the deployment/POD yamls.",
+                "remediation": "Define LimitRange and Resource Limits in the namespace or in the deployment/pod yamls.",
                 "long_description": "CPU and memory resources should have a limit set for every container or a namespace to prevent resource exhaustion. This control identifies all the Pods without resource limit definitions by checking their yaml definition file as well as their namespace LimitRange objects. It is also recommended to use ResourceQuota object to restrict overall namespace resources, but this is not verified by this control.",
                 "test": " Check for each container if there is a \u2018limits\u2019 field defined for both cpu and memory",
                 "controlID": "C-0009",
@@ -4211,7 +4211,7 @@
                     ]
                 },
                 "description": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks.",
-                "remediation": "Set the filesystem of the container to read-only when possible (POD securityContext, readOnlyRootFilesystem: true). If containers application needs to write into the filesystem, it is recommended to mount secondary filesystems for specific directories where application require write access.",
+                "remediation": "Set the filesystem of the container to read-only when possible (pod securityContext, readOnlyRootFilesystem: true). If containers application needs to write into the filesystem, it is recommended to mount secondary filesystems for specific directories where application require write access.",
                 "long_description": "By default, containers are permitted mostly unrestricted execution within their own context. An attacker who has access to a container, can create files and download scripts as he wishes, and modify the underlying application running on the container. ",
                 "test": "Check whether the readOnlyRootFilesystem field in the SecurityContext is set to true. ",
                 "controlID": "C-0017",
@@ -4227,9 +4227,9 @@
                         "devops"
                     ]
                 },
-                "description": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the PODs where the readiness probe is not configured.",
+                "description": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the pods where the readiness probe is not configured.",
                 "remediation": "Ensure Readiness probes are configured wherever possible.",
-                "long_description": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the PODs where the readiness probe is not configured.",
+                "long_description": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the pods where the readiness probe is not configured.",
                 "controlID": "C-0018",
                 "example": "@controls/examples/c018.yaml",
                 "baseScore": 3,
@@ -4286,7 +4286,7 @@
                         "compliance"
                     ]
                 },
-                "description": "Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a POD in the cluster. This control lists all the CronJobs that exist in the cluster for the user to approve.",
+                "description": "Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a pod in the cluster. This control lists all the CronJobs that exist in the cluster for the user to approve.",
                 "remediation": "Watch Kubernetes CronJobs and make sure they are legitimate.",
                 "long_description": "Kubernetes Job is a controller that creates one or more pods and ensures that a specified number of them successfully terminate. Kubernetes Job can be used to run containers that perform finite tasks for batch jobs. Kubernetes CronJob is used to schedule Jobs. Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a container in the cluster.",
                 "test": "We list all CronJobs that exist in cluster for the user to approve.",
@@ -4302,7 +4302,7 @@
                         "compliance"
                     ]
                 },
-                "description": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new PODs, and then enable sources/destinations that this POD must communicate with.",
+                "description": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new pods, and then enable sources/destinations that this pod must communicate with.",
                 "remediation": "Define a network policy that restricts ingress and egress connections.",
                 "long_description": "Network policies control traffic flow between Pods, namespaces, and external IP addresses. By default, no network policies are applied to Pods or namespaces, resulting in unrestricted ingress and egress traffic within the Pod network. Pods become isolated through a network policy that applies to the Pod or the Pod\u2019s namespace. Once a Pod is selected in a network policy, it rejects any connections that are not specifically allowed by any applicable policy object.Administrators should use a default policy selecting all Pods to deny all ingress and egress traffic and ensure any unselected Pods are isolated. Additional policies could then relax these restrictions for permissible connections.",
                 "test": "Check for each Pod whether there is an ingress and egress policy defined (whether using Pod or Namespace). ",
@@ -4359,8 +4359,8 @@
                         }
                     ]
                 },
-                "description": "Potential attacker may gain access to a POD and steal its service account token. Therefore, it is recommended to disable automatic mapping of the service account tokens in service account configuration and enable it only for PODs that need to use them.",
-                "remediation": "Disable automatic mounting of service account tokens to PODs either at the service account level or at the individual POD level, by specifying the automountServiceAccountToken: false. Note that POD level takes precedence.",
+                "description": "Potential attacker may gain access to a pod and steal its service account token. Therefore, it is recommended to disable automatic mapping of the service account tokens in service account configuration and enable it only for pods that need to use them.",
+                "remediation": "Disable automatic mounting of service account tokens to pods either at the service account level or at the individual pod level, by specifying the automountServiceAccountToken: false. Note that pod level takes precedence.",
                 "long_description": "We have it in Armo best (Automatic mapping of service account token).",
                 "test": "Check all service accounts on which automount is not disabled.  Check all workloads on which they and their service account don't disable automount ",
                 "controlID": "C-0034",
@@ -4442,9 +4442,9 @@
                         }
                     ]
                 },
-                "description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all PODs using hostPID or hostIPC privileges.",
+                "description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all pods using hostPID or hostIPC privileges.",
                 "remediation": "Remove hostPID and hostIPC from the yaml file(s) privileges unless they are absolutely necessary.",
-                "long_description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all PODs using hostPID or hostIPC privileges.",
+                "long_description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all pods using hostPID or hostIPC privileges.",
                 "controlID": "C-0038",
                 "baseScore": 7.0,
                 "example": "@controls/examples/c038.yaml",
@@ -4495,8 +4495,8 @@
                         }
                     ]
                 },
-                "description": "Potential attackers may gain access to a POD and inherit access to the entire host network. For example, in AWS case, they will have access to the entire VPC. This control identifies all the PODs with host network access enabled.",
-                "remediation": "Only connect PODs to host network when it is necessary. If not, set the hostNetwork field of the pod spec to false, or completely remove it (false is the default). Whitelist only those PODs that must have access to host network by design.",
+                "description": "Potential attackers may gain access to a pod and inherit access to the entire host network. For example, in AWS case, they will have access to the entire VPC. This control identifies all the pods with host network access enabled.",
+                "remediation": "Only connect pods to host network when it is necessary. If not, set the hostNetwork field of the pod spec to false, or completely remove it (false is the default). Whitelist only those pods that must have access to host network by design.",
                 "long_description": "We have it in ArmoBest",
                 "test": "",
                 "controlID": "C-0041",
@@ -4577,7 +4577,7 @@
                 "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host and gain persistence.",
                 "remediation": "Refrain from using the hostPath mount or use the exception mechanism to remove unnecessary notifications.",
                 "long_description": "hostPath volume mounts a directory or a file from the host to the container. Attackers who have permissions to create a new container in the cluster may create one with a writable hostPath volume and gain persistence on the underlying host. For example, the latter can be achieved by creating a cron job on the host.",
-                "test": "Checking in POD spec if there is a hostPath volume, if it has the section mount.readOnly == false (or doesn\u2019t exist) we raise an alert.",
+                "test": "Checking in Pod spec if there is a hostPath volume, if it has the section mount.readOnly == false (or doesn\u2019t exist) we raise an alert.",
                 "controlID": "C-0045",
                 "baseScore": 8.0,
                 "example": "@controls/examples/c045.yaml",
@@ -4601,7 +4601,7 @@
                         }
                     ]
                 },
-                "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the PODs with dangerous capabilities (see documentation pages for details).",
+                "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the pods with dangerous capabilities (see documentation pages for details).",
                 "remediation": "Remove all insecure capabilities which are not necessary for the container.",
                 "long_description": "Giving  insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
                 "test": "Check capabilities given against a configurable blacklist of insecure capabilities (https://man7.org/linux/man-pages/man7/capabilities.7.html). ",
@@ -4630,7 +4630,7 @@
                         }
                     ]
                 },
-                "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host. This control identifies all the PODs using hostPath mount.",
+                "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host. This control identifies all the pods using hostPath mount.",
                 "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: test-pd\nspec:\n  containers:\n  - image: k8s.gcr.io/test-webserver\n    name: test-container\n    volumeMounts:\n    - mountPath: /test-pd\n      name: test-volume\n  volumes:\n  - name: test-volume\n    hostPath: # This field triggers failure!\n      path: /data\n      type: Directory\n",
                 "remediation": "Remove hostPath mounts unless they are absolutely necessary and use exception mechanism to remove notifications.",
                 "controlID": "C-0048",
@@ -4734,8 +4734,8 @@
                         }
                     ]
                 },
-                "description": "Attackers who obtain access to a pod can use its SA token to communicate with KubeAPI server. All PODs with SA token mounted (if such token has a Role or a ClusterRole binding) are considerred potentially dangerous.",
-                "remediation": "Verify that RBAC is enabled. Follow the least privilege principle and ensure that only necessary PODs have SA token mounted into them.",
+                "description": "Attackers who obtain access to a pod can use its SA token to communicate with KubeAPI server. All pods with SA token mounted (if such token has a Role or a ClusterRole binding) are considerred potentially dangerous.",
+                "remediation": "Verify that RBAC is enabled. Follow the least privilege principle and ensure that only necessary pods have SA token mounted into them.",
                 "long_description": "Service account (SA) represents an application identity in Kubernetes. By default, an SA is mounted to every created pod in the cluster. Using the SA, containers in the pod can send requests to the Kubernetes API server. Attackers who get access to a pod can access the SA token (located in /var/run/secrets/kubernetes.io/serviceaccount/token) and perform actions in the cluster, according to the SA permissions. If RBAC is not enabled, the SA has unlimited permissions in the cluster. If RBAC is enabled, its permissions are determined by the RoleBindings\\\\ClusterRoleBindings that are associated with it.",
                 "test": "Check if RBAC is enabled. If is not, the sa has unlimited permissions.If RBAC enabled, list which workloads have bound service accounts and all the sas permissionsScore-",
                 "controlID": "C-0053",
@@ -4804,9 +4804,9 @@
                         "devops"
                     ]
                 },
-                "description": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the PODs where the Liveness probe is not configured.",
+                "description": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the pods where the Liveness probe is not configured.",
                 "remediation": "Ensure Liveness probes are configured wherever possible.",
-                "long_description": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the PODs where the Liveness probe is not configured.",
+                "long_description": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the pods where the Liveness probe is not configured.",
                 "controlID": "C-0056",
                 "baseScore": 4,
                 "rules": []
@@ -4834,7 +4834,7 @@
                 "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: privileged\nspec:\n  containers:\n    - name: pause\n      image: k8s.gcr.io/pause\n      securityContext:\n          privileged: true # This field triggers failure!\n",
                 "remediation": "Remove privileged capabilities by setting the securityContext.privileged to false. If you must deploy a Pod as privileged, add other restriction to it, such as network policy, Seccomp etc and still remove all unnecessary capabilities. Use the exception mechanism to remove unnecessary notifications.",
                 "long_description": "A privileged container is a container that has all the capabilities of the host machine, which lifts all the limitations regular containers have. Practically, this means that privileged containers can do almost every action that can be performed directly on the host. Attackers who gain access to a privileged container or have permissions to create a new privileged container (by using the compromised pod\u2019s service account, for example), can get access to the host\u2019s resources.",
-                "test": "Check in POD spec if securityContext.privileged == true, if so raise an alert.",
+                "test": "Check in Pod spec if securityContext.privileged == true, if so raise an alert.",
                 "controlID": "C-0057",
                 "baseScore": 8.0,
                 "rules": []
@@ -4897,9 +4897,9 @@
                         "devops"
                     ]
                 },
-                "description": "It is recommended to avoid running PODs in cluster without explicit namespace assignment. This control identifies all the PODs running in the default namespace.",
-                "remediation": "Create necessary namespaces and move all the PODs from default namespace there.",
-                "long_description": "It is recommended to avoid running PODs in cluster without explicit namespace assignment. This may lead to wrong capabilities and permissions assignment and potential compromises. This control identifies all the PODs running in the default namespace.",
+                "description": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This control identifies all the pods running in the default namespace.",
+                "remediation": "Create necessary namespaces and move all the pods from default namespace there.",
+                "long_description": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This may lead to wrong capabilities and permissions assignment and potential compromises. This control identifies all the pods running in the default namespace.",
                 "test": "Check that there are no pods in the 'default' namespace",
                 "controlID": "C-0061",
                 "baseScore": 3,
@@ -4921,9 +4921,9 @@
                         }
                     ]
                 },
-                "description": "Adding sudo to a container entry point command may escalate process privileges and allow access to forbidden resources. This control checks all the entry point commands in all containers in the POD to find those that have sudo command.",
+                "description": "Adding sudo to a container entry point command may escalate process privileges and allow access to forbidden resources. This control checks all the entry point commands in all containers in the pod to find those that have sudo command.",
                 "remediation": "Remove sudo from the command line and use Kubernetes native root and capabilities controls to provide necessary privileges where they are required.",
-                "long_description": "Adding sudo to a container entry point command may escalate process privileges and allow access to forbidden resources. This control checks all the entry point commands in all containers in the POD to find those that have sudo command.",
+                "long_description": "Adding sudo to a container entry point command may escalate process privileges and allow access to forbidden resources. This control checks all the entry point commands in all containers in the pod to find those that have sudo command.",
                 "test": "Check that there is no 'sudo' in the container entrypoint",
                 "controlID": "C-0062",
                 "baseScore": 5.0,
@@ -4950,7 +4950,7 @@
                         }
                     ]
                 },
-                "description": "Attackers with relevant RBAC permission can use \u201ckubectl portforward\u201d command to establish direct communication with PODs from within the cluster or even remotely. Such communication will most likely bypass existing security measures in the cluster. This control determines which subjects have permissions to use this command.",
+                "description": "Attackers with relevant RBAC permission can use \u201ckubectl portforward\u201d command to establish direct communication with pods from within the cluster or even remotely. Such communication will most likely bypass existing security measures in the cluster. This control determines which subjects have permissions to use this command.",
                 "remediation": "It is recommended to prohibit \u201ckubectl portforward\u201d command in production environments. It is also recommended not to use subjects with this permission for daily cluster operations.",
                 "long_description": "Attackers who have relevant RBAC permissions, can run open a backdoor communication channel directly to the sockets inside target container using exec command \u201ckubectl portforward\u201d command. Using this method, attackers can bypass network security restrictions and communicate directly with software in the containers.",
                 "test": "Check which subjects have RBAC permissions to portforward into pods\u2013 if they have the \u201cpods/portforward\u201d resource.",
@@ -5055,7 +5055,7 @@
                 },
                 "description": "PSP enable fine-grained authorization of pod creation and it is important to enable it",
                 "remediation": "Turn Pod Security Policies on in your cluster, if you use other admission controllers to control the behavior that PSP controls, exclude this control from your scans",
-                "long_description": "Pod Security Policies enable fine-grained authorization of pod creation and updates and it extends authorization  beyond RBAC. It is an important to use PSP to control the creation of sensitive PODs in your cluster.",
+                "long_description": "Pod Security Policies enable fine-grained authorization of pod creation and updates and it extends authorization  beyond RBAC. It is an important to use PSP to control the creation of sensitive pods in your cluster.",
                 "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if PSP is enabled",
                 "controlID": "C-0068",
                 "baseScore": 1.0,
@@ -5112,17 +5112,17 @@
                 "rules": []
             },
             {
-                "name": "Naked PODs",
+                "name": "Naked pods",
                 "attributes": {
                     "armoBuiltin": true,
                     "controlTypeTags": [
                         "devops"
                     ]
                 },
-                "description": "It is not recommended to create PODs without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if PODs may lead to a configuration drifts and other untracked changes in the system. Such PODs won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every POD that does not have corresponding parental object.",
-                "remediation": "Create necessary Deployment object for every POD making any POD a first class citizen in your IaC architecture.",
-                "long_description": "It is not recommended to create PODs without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if PODs may lead to a configuration drifts and other untracked changes in the system. Such PODs won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every POD that does not have corresponding parental object.",
-                "test": "Test if PODs are not associated with Deployment, ReplicaSet etc. If not, fail.",
+                "description": "It is not recommended to create pods without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if pods may lead to a configuration drifts and other untracked changes in the system. Such pods won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every pod that does not have corresponding parental object.",
+                "remediation": "Create necessary Deployment object for every pod making any pod a first class citizen in your IaC architecture.",
+                "long_description": "It is not recommended to create pods without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if pods may lead to a configuration drifts and other untracked changes in the system. Such pods won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every pod that does not have corresponding parental object.",
+                "test": "Test if pods are not associated with Deployment, ReplicaSet etc. If not, fail.",
                 "controlID": "C-0073",
                 "baseScore": 3,
                 "rules": []
@@ -5135,9 +5135,9 @@
                         "devops"
                     ]
                 },
-                "description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies PODs that attempt to mount Docker socket for accessing Docker runtime.",
+                "description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies pods that attempt to mount Docker socket for accessing Docker runtime.",
                 "remediation": "Remove docker socket mount request or define an exception.",
-                "long_description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies PODs that attempt to mount Docker socket for accessing Docker runtime.",
+                "long_description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies pods that attempt to mount Docker socket for accessing Docker runtime.",
                 "test": "Check hostpath. If the path is set to /var/run/docker.sock or /var/lib/docker , the container has access to Docker internals - fail.",
                 "controlID": "C-0074",
                 "baseScore": 5,
@@ -5151,9 +5151,9 @@
                         "devops"
                     ]
                 },
-                "description": "While usage of the latest tag is not generally recommended, in some cases this is necessary. If it is, the ImagePullPolicy must be set to Always, otherwise Kubernetes may run an older image with the same name that happens to be present in the node cache. Note that using Always will not cause additional image downloads because Kubernetes will check the image hash of the local local against the registry and only pull the image if this hash has changed, which is exactly what users want when use the latest tag. This control will identify all PODs with latest tag that have ImagePullSecret not set to Always.",
-                "remediation": "Set ImagePullPolicy to Always in all PODs found by this control.",
-                "long_description": "While usage of the latest tag is not generally recommended, in some cases this is necessary. If it is, the ImagePullPolicy must be set to Always, otherwise Kubernetes may run an older image with the same name that happens to be present in the node cache. Note that using Always will not cause additional image downloads because Kubernetes will check the image hash of the local local against the registry and only pull the image if this hash has changed, which is exactly what users want when use the latest tag. This control will identify all PODs with latest tag that have ImagePullSecret not set to Always. Note as well that some vendors don't use the word latest in the tag. Some other word may also behave like the latest. For example, Redis uses redis:alpine to signify the latest. Therefore, this control treats any word that does not contain digits as the latest. If no tag is specified, the image is treated as latests too.",
+                "description": "While usage of the latest tag is not generally recommended, in some cases this is necessary. If it is, the ImagePullPolicy must be set to Always, otherwise Kubernetes may run an older image with the same name that happens to be present in the node cache. Note that using Always will not cause additional image downloads because Kubernetes will check the image hash of the local local against the registry and only pull the image if this hash has changed, which is exactly what users want when use the latest tag. This control will identify all pods with latest tag that have ImagePullSecret not set to Always.",
+                "remediation": "Set ImagePullPolicy to Always in all pods found by this control.",
+                "long_description": "While usage of the latest tag is not generally recommended, in some cases this is necessary. If it is, the ImagePullPolicy must be set to Always, otherwise Kubernetes may run an older image with the same name that happens to be present in the node cache. Note that using Always will not cause additional image downloads because Kubernetes will check the image hash of the local local against the registry and only pull the image if this hash has changed, which is exactly what users want when use the latest tag. This control will identify all pods with latest tag that have ImagePullSecret not set to Always. Note as well that some vendors don't use the word latest in the tag. Some other word may also behave like the latest. For example, Redis uses redis:alpine to signify the latest. Therefore, this control treats any word that does not contain digits as the latest. If no tag is specified, the image is treated as latests too.",
                 "test": "If  imagePullPolicy = always pass, else fail.",
                 "controlID": "C-0075",
                 "baseScore": 2,
@@ -5292,7 +5292,7 @@
                     ]
                 },
                 "description": "Container images with known critical vulnerabilities pose elevated risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if either LoadBalancer or NodePort service is assigned to them.",
-                "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the POD to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
+                "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the pod to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
                 "long_description": "Container images with known critical vulnerabilities pose elevated risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if either LoadBalancer or NodePort service assigned to them.",
                 "test": "This control enumerates external facing workloads, that have LoadBalancer or NodePort services and checks image vulnerability information to see if the image has critical vulnerabilities.",
                 "controlID": "C-0083",
@@ -5318,9 +5318,9 @@
                         }
                     ]
                 },
-                "description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their POD has either LoadBalancer or NodePort service.",
-                "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the POD to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
-                "long_description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their POD has either LoadBalancer or NodePort service.",
+                "description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their pod has either LoadBalancer or NodePort service.",
+                "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the pod to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
+                "long_description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their pod has either LoadBalancer or NodePort service.",
                 "test": "This control enumerates external facing workloads, that have LoadBalancer or NodePort service and checks the image vulnerability information for the RCE vulnerability.",
                 "controlID": "C-0084",
                 "baseScore": 8.0,
@@ -5398,7 +5398,7 @@
                         }
                     ]
                 },
-                "description": "CVE-2022-23648 is a vulnerability of containerd enabling attacker to gain access to read-only copies of arbitrary files from the host using aspecially-crafted POD configuration yamls",
+                "description": "CVE-2022-23648 is a vulnerability of containerd enabling attacker to gain access to read-only copies of arbitrary files from the host using a specially-crafted Pod configuration",
                 "remediation": "Patch containerd to 1.6.1, 1.5.10, 1.4.12  or above",
                 "long_description": "Containerd is a container runtime available as a daemon for Linux and Windows. A bug was found in containerd prior to versions 1.6.1, 1.5.10, and 1.4.12 where containers launched through containerd\u2019s CRI implementation on Linux with a specially-crafted image configuration could gain access to read-only copies of arbitrary files and directories on the host. This may bypass any policy-based enforcement on container setup (including a Kubernetes Pod Security Policy) and expose potentially sensitive information. This bug was fixed in containerd versions 1.6.1, 1.5.10, and 1.4.12. Users should update to these versions to resolve the issue.",
                 "test": "Checking containerd version to see if it is a vulnerable version (where the container runtime is containerd)",
@@ -5743,7 +5743,7 @@
                         "compliance"
                     ]
                 },
-                "description": "Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a POD in the cluster. This control lists all the CronJobs that exist in the cluster for the user to approve.",
+                "description": "Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a pod in the cluster. This control lists all the CronJobs that exist in the cluster for the user to approve.",
                 "remediation": "Watch Kubernetes CronJobs and make sure they are legitimate.",
                 "long_description": "Kubernetes Job is a controller that creates one or more pods and ensures that a specified number of them successfully terminate. Kubernetes Job can be used to run containers that perform finite tasks for batch jobs. Kubernetes CronJob is used to schedule Jobs. Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a container in the cluster.",
                 "test": "We list all CronJobs that exist in cluster for the user to approve.",
@@ -5937,7 +5937,7 @@
                 "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host and gain persistence.",
                 "remediation": "Refrain from using the hostPath mount or use the exception mechanism to remove unnecessary notifications.",
                 "long_description": "hostPath volume mounts a directory or a file from the host to the container. Attackers who have permissions to create a new container in the cluster may create one with a writable hostPath volume and gain persistence on the underlying host. For example, the latter can be achieved by creating a cron job on the host.",
-                "test": "Checking in POD spec if there is a hostPath volume, if it has the section mount.readOnly == false (or doesn\u2019t exist) we raise an alert.",
+                "test": "Checking in Pod spec if there is a hostPath volume, if it has the section mount.readOnly == false (or doesn\u2019t exist) we raise an alert.",
                 "controlID": "C-0045",
                 "baseScore": 8.0,
                 "example": "@controls/examples/c045.yaml",
@@ -5963,7 +5963,7 @@
                         }
                     ]
                 },
-                "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host. This control identifies all the PODs using hostPath mount.",
+                "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host. This control identifies all the pods using hostPath mount.",
                 "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: test-pd\nspec:\n  containers:\n  - image: k8s.gcr.io/test-webserver\n    name: test-container\n    volumeMounts:\n    - mountPath: /test-pd\n      name: test-volume\n  volumes:\n  - name: test-volume\n    hostPath: # This field triggers failure!\n      path: /data\n      type: Directory\n",
                 "remediation": "Remove hostPath mounts unless they are absolutely necessary and use exception mechanism to remove notifications.",
                 "controlID": "C-0048",
@@ -6022,8 +6022,8 @@
                         }
                     ]
                 },
-                "description": "Attackers who obtain access to a pod can use its SA token to communicate with KubeAPI server. All PODs with SA token mounted (if such token has a Role or a ClusterRole binding) are considerred potentially dangerous.",
-                "remediation": "Verify that RBAC is enabled. Follow the least privilege principle and ensure that only necessary PODs have SA token mounted into them.",
+                "description": "Attackers who obtain access to a pod can use its SA token to communicate with KubeAPI server. All pods with SA token mounted (if such token has a Role or a ClusterRole binding) are considerred potentially dangerous.",
+                "remediation": "Verify that RBAC is enabled. Follow the least privilege principle and ensure that only necessary pods have SA token mounted into them.",
                 "long_description": "Service account (SA) represents an application identity in Kubernetes. By default, an SA is mounted to every created pod in the cluster. Using the SA, containers in the pod can send requests to the Kubernetes API server. Attackers who get access to a pod can access the SA token (located in /var/run/secrets/kubernetes.io/serviceaccount/token) and perform actions in the cluster, according to the SA permissions. If RBAC is not enabled, the SA has unlimited permissions in the cluster. If RBAC is enabled, its permissions are determined by the RoleBindings\\\\ClusterRoleBindings that are associated with it.",
                 "test": "Check if RBAC is enabled. If is not, the sa has unlimited permissions.If RBAC enabled, list which workloads have bound service accounts and all the sas permissionsScore-",
                 "controlID": "C-0053",
@@ -6082,7 +6082,7 @@
                 "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: privileged\nspec:\n  containers:\n    - name: pause\n      image: k8s.gcr.io/pause\n      securityContext:\n          privileged: true # This field triggers failure!\n",
                 "remediation": "Remove privileged capabilities by setting the securityContext.privileged to false. If you must deploy a Pod as privileged, add other restriction to it, such as network policy, Seccomp etc and still remove all unnecessary capabilities. Use the exception mechanism to remove unnecessary notifications.",
                 "long_description": "A privileged container is a container that has all the capabilities of the host machine, which lifts all the limitations regular containers have. Practically, this means that privileged containers can do almost every action that can be performed directly on the host. Attackers who gain access to a privileged container or have permissions to create a new privileged container (by using the compromised pod\u2019s service account, for example), can get access to the host\u2019s resources.",
-                "test": "Check in POD spec if securityContext.privileged == true, if so raise an alert.",
+                "test": "Check in Pod spec if securityContext.privileged == true, if so raise an alert.",
                 "controlID": "C-0057",
                 "baseScore": 8.0,
                 "rules": []
@@ -6205,7 +6205,7 @@
                 },
                 "description": "PSP enable fine-grained authorization of pod creation and it is important to enable it",
                 "remediation": "Turn Pod Security Policies on in your cluster, if you use other admission controllers to control the behavior that PSP controls, exclude this control from your scans",
-                "long_description": "Pod Security Policies enable fine-grained authorization of pod creation and updates and it extends authorization  beyond RBAC. It is an important to use PSP to control the creation of sensitive PODs in your cluster.",
+                "long_description": "Pod Security Policies enable fine-grained authorization of pod creation and updates and it extends authorization  beyond RBAC. It is an important to use PSP to control the creation of sensitive pods in your cluster.",
                 "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if PSP is enabled",
                 "controlID": "C-0068",
                 "baseScore": 1.0,
@@ -6364,7 +6364,7 @@
                     ]
                 },
                 "description": "CPU and memory resources should have a limit set for every container or a namespace to prevent resource exhaustion. This control identifies all the Pods without resource limit definitions by checking their yaml definition file as well as their namespace LimitRange objects. It is also recommended to use ResourceQuota object to restrict overall namespace resources, but this is not verified by this control.",
-                "remediation": "Define LimitRange and Resource Limits in the namespace or in the deployment/POD yamls.",
+                "remediation": "Define LimitRange and Resource Limits in the namespace or in the deployment/pod yamls.",
                 "long_description": "CPU and memory resources should have a limit set for every container or a namespace to prevent resource exhaustion. This control identifies all the Pods without resource limit definitions by checking their yaml definition file as well as their namespace LimitRange objects. It is also recommended to use ResourceQuota object to restrict overall namespace resources, but this is not verified by this control.",
                 "test": " Check for each container if there is a \u2018limits\u2019 field defined for both cpu and memory",
                 "controlID": "C-0009",
@@ -6479,7 +6479,7 @@
                     ]
                 },
                 "description": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks.",
-                "remediation": "Set the filesystem of the container to read-only when possible (POD securityContext, readOnlyRootFilesystem: true). If containers application needs to write into the filesystem, it is recommended to mount secondary filesystems for specific directories where application require write access.",
+                "remediation": "Set the filesystem of the container to read-only when possible (pod securityContext, readOnlyRootFilesystem: true). If containers application needs to write into the filesystem, it is recommended to mount secondary filesystems for specific directories where application require write access.",
                 "long_description": "By default, containers are permitted mostly unrestricted execution within their own context. An attacker who has access to a container, can create files and download scripts as he wishes, and modify the underlying application running on the container. ",
                 "test": "Check whether the readOnlyRootFilesystem field in the SecurityContext is set to true. ",
                 "controlID": "C-0017",
@@ -6495,7 +6495,7 @@
                         "compliance"
                     ]
                 },
-                "description": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new PODs, and then enable sources/destinations that this POD must communicate with.",
+                "description": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new pods, and then enable sources/destinations that this pod must communicate with.",
                 "remediation": "Define a network policy that restricts ingress and egress connections.",
                 "long_description": "Network policies control traffic flow between Pods, namespaces, and external IP addresses. By default, no network policies are applied to Pods or namespaces, resulting in unrestricted ingress and egress traffic within the Pod network. Pods become isolated through a network policy that applies to the Pod or the Pod\u2019s namespace. Once a Pod is selected in a network policy, it rejects any connections that are not specifically allowed by any applicable policy object.Administrators should use a default policy selecting all Pods to deny all ingress and egress traffic and ensure any unselected Pods are isolated. Additional policies could then relax these restrictions for permissible connections.",
                 "test": "Check for each Pod whether there is an ingress and egress policy defined (whether using Pod or Namespace). ",
@@ -6522,8 +6522,8 @@
                         }
                     ]
                 },
-                "description": "Potential attacker may gain access to a POD and steal its service account token. Therefore, it is recommended to disable automatic mapping of the service account tokens in service account configuration and enable it only for PODs that need to use them.",
-                "remediation": "Disable automatic mounting of service account tokens to PODs either at the service account level or at the individual POD level, by specifying the automountServiceAccountToken: false. Note that POD level takes precedence.",
+                "description": "Potential attacker may gain access to a pod and steal its service account token. Therefore, it is recommended to disable automatic mapping of the service account tokens in service account configuration and enable it only for pods that need to use them.",
+                "remediation": "Disable automatic mounting of service account tokens to pods either at the service account level or at the individual pod level, by specifying the automountServiceAccountToken: false. Note that pod level takes precedence.",
                 "long_description": "We have it in Armo best (Automatic mapping of service account token).",
                 "test": "Check all service accounts on which automount is not disabled.  Check all workloads on which they and their service account don't disable automount ",
                 "controlID": "C-0034",
@@ -6578,9 +6578,9 @@
                         }
                     ]
                 },
-                "description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all PODs using hostPID or hostIPC privileges.",
+                "description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all pods using hostPID or hostIPC privileges.",
                 "remediation": "Remove hostPID and hostIPC from the yaml file(s) privileges unless they are absolutely necessary.",
-                "long_description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all PODs using hostPID or hostIPC privileges.",
+                "long_description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all pods using hostPID or hostIPC privileges.",
                 "controlID": "C-0038",
                 "baseScore": 7.0,
                 "example": "@controls/examples/c038.yaml",
@@ -6605,8 +6605,8 @@
                         }
                     ]
                 },
-                "description": "Potential attackers may gain access to a POD and inherit access to the entire host network. For example, in AWS case, they will have access to the entire VPC. This control identifies all the PODs with host network access enabled.",
-                "remediation": "Only connect PODs to host network when it is necessary. If not, set the hostNetwork field of the pod spec to false, or completely remove it (false is the default). Whitelist only those PODs that must have access to host network by design.",
+                "description": "Potential attackers may gain access to a pod and inherit access to the entire host network. For example, in AWS case, they will have access to the entire VPC. This control identifies all the pods with host network access enabled.",
+                "remediation": "Only connect pods to host network when it is necessary. If not, set the hostNetwork field of the pod spec to false, or completely remove it (false is the default). Whitelist only those pods that must have access to host network by design.",
                 "long_description": "We have it in ArmoBest",
                 "test": "",
                 "controlID": "C-0041",
@@ -6659,7 +6659,7 @@
                         }
                     ]
                 },
-                "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the PODs with dangerous capabilities (see documentation pages for details).",
+                "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the pods with dangerous capabilities (see documentation pages for details).",
                 "remediation": "Remove all insecure capabilities which are not necessary for the container.",
                 "long_description": "Giving  insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
                 "test": "Check capabilities given against a configurable blacklist of insecure capabilities (https://man7.org/linux/man-pages/man7/capabilities.7.html). ",
@@ -6745,7 +6745,7 @@
                 "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: privileged\nspec:\n  containers:\n    - name: pause\n      image: k8s.gcr.io/pause\n      securityContext:\n          privileged: true # This field triggers failure!\n",
                 "remediation": "Remove privileged capabilities by setting the securityContext.privileged to false. If you must deploy a Pod as privileged, add other restriction to it, such as network policy, Seccomp etc and still remove all unnecessary capabilities. Use the exception mechanism to remove unnecessary notifications.",
                 "long_description": "A privileged container is a container that has all the capabilities of the host machine, which lifts all the limitations regular containers have. Practically, this means that privileged containers can do almost every action that can be performed directly on the host. Attackers who gain access to a privileged container or have permissions to create a new privileged container (by using the compromised pod\u2019s service account, for example), can get access to the host\u2019s resources.",
-                "test": "Check in POD spec if securityContext.privileged == true, if so raise an alert.",
+                "test": "Check in Pod spec if securityContext.privileged == true, if so raise an alert.",
                 "controlID": "C-0057",
                 "baseScore": 8.0,
                 "rules": []
@@ -6868,7 +6868,7 @@
                 },
                 "description": "PSP enable fine-grained authorization of pod creation and it is important to enable it",
                 "remediation": "Turn Pod Security Policies on in your cluster, if you use other admission controllers to control the behavior that PSP controls, exclude this control from your scans",
-                "long_description": "Pod Security Policies enable fine-grained authorization of pod creation and updates and it extends authorization  beyond RBAC. It is an important to use PSP to control the creation of sensitive PODs in your cluster.",
+                "long_description": "Pod Security Policies enable fine-grained authorization of pod creation and updates and it extends authorization  beyond RBAC. It is an important to use PSP to control the creation of sensitive pods in your cluster.",
                 "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if PSP is enabled",
                 "controlID": "C-0068",
                 "baseScore": 1.0,

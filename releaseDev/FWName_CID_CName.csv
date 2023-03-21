@@ -168,7 +168,7 @@ DevOpsBest,C-0044,Container hostPort
 DevOpsBest,C-0050,Resources CPU limit and request
 DevOpsBest,C-0056,Configured liveness probe
 DevOpsBest,C-0061,Pods in default namespace
-DevOpsBest,C-0073,Naked PODs
+DevOpsBest,C-0073,Naked pods
 DevOpsBest,C-0074,Containers mounting Docker socket
 DevOpsBest,C-0075,Image pull policy on latest tag
 DevOpsBest,C-0076,Label usage for resources
@@ -221,7 +221,7 @@ AllControls,C-0067,Audit logs enabled
 AllControls,C-0068,PSP enabled
 AllControls,C-0069,Disable anonymous access to Kubelet service
 AllControls,C-0070,Enforce Kubelet client TLS authentication
-AllControls,C-0073,Naked PODs
+AllControls,C-0073,Naked pods
 AllControls,C-0074,Containers mounting Docker socket
 AllControls,C-0075,Image pull policy on latest tag
 AllControls,C-0076,Label usage for resources

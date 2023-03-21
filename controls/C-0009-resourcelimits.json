@@ -15,7 +15,7 @@
         ]
     },
     "description": "CPU and memory resources should have a limit set for every container or a namespace to prevent resource exhaustion. This control identifies all the Pods without resource limit definitions by checking their yaml definition file as well as their namespace LimitRange objects. It is also recommended to use ResourceQuota object to restrict overall namespace resources, but this is not verified by this control.",
-    "remediation": "Define LimitRange and Resource Limits in the namespace or in the deployment/POD yamls.",
+    "remediation": "Define LimitRange and Resource Limits in the namespace or in the deployment/pod yamls.",
     "rulesNames": [
         "resource-policies"
     ],

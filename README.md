@@ -32,7 +32,7 @@ Example of a framework:
       "armoBuiltin": true
     },
     "controlsNames": [
-        "Naked PODs",
+        "Naked pods",
         "Containers mounting Docker socket",
         "Image pull policy on latest tag",
         "Label usage for resources",
@@ -60,12 +60,12 @@ Example of a control:
     "attributes": {
         "armoBuiltin": true
     },
-    "description": "It is recommended to avoid running PODs in cluster without explicit namespace assignment. This control identifies all the PODs running in the default namespace.",
-    "remediation": "Create necessary namespaces and move all the PODs from default namespace there.",
+    "description": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This control identifies all the pods running in the default namespace.",
+    "remediation": "Create necessary namespaces and move all the pods from default namespace there.",
     "rulesNames": [
         "pods-in-default-namespace"
     ],
-    "long_description": "It is recommended to avoid running PODs in cluster without explicit namespace assignment. This may lead to wrong capabilities and permissions assignment and potential compromises. This control identifies all the PODs running in the default namespace.",
+    "long_description": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This may lead to wrong capabilities and permissions assignment and potential compromises. This control identifies all the pods running in the default namespace.",
     "test": "Check that there are no pods in the 'default' namespace",
     "id": "C-0061",
     "controlID": "C-0061",
