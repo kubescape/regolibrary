@@ -492,6 +492,12 @@
             "patch": {
                 "name": "CIS-3.1.1 Ensure that the kubeconfig file permissions are set to 644 or more restrictive"
             }
+        },
+        {
+            "controlID": "C-0246",
+            "patch": {
+                "name": "CIS-4.1.7 Avoid use of system:masters group"
+            }
         }
     ],
     "subSections": {

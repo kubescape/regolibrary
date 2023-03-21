@@ -1,0 +1,23 @@
+{
+    "name": "rule-manual",
+    "attributes": {
+      "armoBuiltin": true,
+      "actionRequired": "manual review",
+      "hostSensorRule": false,
+      "imageScanRelated": false
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+          "apiGroups": [
+          ],
+          "apiVersions": [
+          ],
+          "resources": [
+          ]
+        }
+    ],
+    "description": "Due to the difficulty of performing a good check, the review is left manual to the user.",
+    "remediation": "",
+    "ruleQuery": ""
+}
