@@ -62,7 +62,6 @@ jobs:
           assets_path: release
           
       - run: git status # show modified files
-
       - run: git diff # show diff in files
 
       - name: Update readme
