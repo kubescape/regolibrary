@@ -447,6 +447,12 @@
             "controlID": "C-0243",
             "patch": {
                 "name": "CIS-5.1.1 Ensure Image Vulnerability Scanning using Azure Defender image scanning or a third party provider"
+	    }
+	},
+	{
+            "controlID": "C-0244",
+            "patch": {
+                "name": "CIS-5.3.1 Ensure Kubernetes Secrets are encrypted"
             }
         }
     ],

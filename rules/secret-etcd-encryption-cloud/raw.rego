@@ -1,5 +1,28 @@
 package armo_builtins
 
+# Check if encryption in etcd in enabled for AKS
+deny[msga] {
+	cluster_config := input[_]
+	cluster_config.apiVersion == "management.azure.com/v1"
+	cluster_config.kind == "ClusterDescribe"
+    cluster_config.metadata.provider == "aks"	
+	config = cluster_config.data
+
+	not isEncryptedAKS(config)
+	
+	msga := {
+		"alertMessage": "etcd/secret encryption is not enabled",
+		"alertScore": 3,
+		"packagename": "armo_builtins",
+		"failedPaths": [],
+		"fixPaths": [],
+		"fixCommand": "az aks nodepool add --name hostencrypt --cluster-name <myAKSCluster> --resource-group <myResourceGroup> -s Standard_DS2_v2 -l <myRegion> --enable-encryption-at-host",
+		"alertObject": {
+            "externalObject": [cluster_config]
+		}
+	}
+}
+
 
 # Check if encryption in etcd in enabled for EKS
 deny[msga] {
@@ -77,4 +100,8 @@ is_not_encrypted_EKS(cluster_config) {
 is_not_encrypted_EKS(cluster_config) {
 	encryptionConfig := cluster_config.Cluster.EncryptionConfig[_]
     count(encryptionConfig.Resources) == 0
+}
+
+isEncryptedAKS(cluster_config) {
+	cluster_config.properties.agentPoolProfiles.enableEncryptionAtHost == true
 }
