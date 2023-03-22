@@ -7,27 +7,27 @@
     },
     "data": {
         "rolesPolicies": {
-            "arn:aws:iam::xxx2:policy/PolicyA": {
+            "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly": {
                 "IsTruncated": false,
                 "Marker": null,
                 "PolicyGroups": [],
                 "PolicyRoles": [
                     {
                         "RoleId": "roleID1",
-                        "RoleName": "yyy-nodegroup-sta-SomeOtherRole-xxx"
+                        "RoleName": "yyy-nodegroup-sta-NodeInstanceRole-xxx"
                     }
                 ],
                 "PolicyUsers": [],
                 "ResultMetadata": {}
             },
-            "arn:aws:iam::xxx:policy/AmazonEC2ContainerRegistryReadOnly": {
+            "arn:aws:iam::xxx:policy/policyA": {
                 "IsTruncated": false,
                 "Marker": null,
                 "PolicyGroups": [],
                 "PolicyRoles": [
                     {
                         "RoleId": "roleID2",
-                        "RoleName": "yyy-nodegroup-sta-NodeInstanceRole-xxx1"
+                        "RoleName": "yyy-nodegroup-sta-SomeOtherRole-xxx1"
                     }
                 ],
                 "PolicyUsers": [],

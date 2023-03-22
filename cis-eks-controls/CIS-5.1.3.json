@@ -9,9 +9,10 @@
         "https://docs.aws.amazon.com/AmazonECR/latest/userguide/ECR_on_EKS.html"
     ],
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "useFromKubescapeVersion": "v2.2.5"
     },
-    "rulesNames": ["ensure_nodeinstancerole_has_only_readonly_permissions_for_ecr"],
+    "rulesNames": ["ensure_nodeinstancerole_has_right_permissions_for_ecr"],
     "baseScore": 6,
     "impact_statement": "A separate dedicated service account may be required for use by build servers and other robot users pushing or managing container images.",
     "default_value": "If you used eksctl or the AWS CloudFormation templates in Getting Started with Amazon EKS to create your cluster and worker node groups, these IAM permissions are applied to your worker node IAM role by default.",

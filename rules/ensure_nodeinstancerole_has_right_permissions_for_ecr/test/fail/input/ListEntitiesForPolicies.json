@@ -2,20 +2,12 @@
     "apiVersion": "eks.amazonaws.com/v1",
     "kind": "ListEntitiesForPolicies",
     "metadata": {
-        "name": "clusterName",
+        "name": "ca-terraform-eks-dev-stage",
         "provider": "eks"
     },
     "data": {
         "rolesPolicies": {
-            "arn:aws:iam::xxx2:policy/SomePolicy": {
-                "IsTruncated": false,
-                "Marker": null,
-                "PolicyGroups": [],
-                "PolicyRoles": [],
-                "PolicyUsers": [],
-                "ResultMetadata": {}
-            },
-            "arn:aws:iam::xxx1:policy/AmazonEC2ContainerRegistryReadOnly": {
+            "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly": {
                 "IsTruncated": false,
                 "Marker": null,
                 "PolicyGroups": [],
@@ -35,7 +27,7 @@
                 "PolicyRoles": [
                     {
                         "RoleId": "roleID2",
-                        "RoleName": "yyy-nodegroup-sta-NodeInstanceRole-xxx1"
+                        "RoleName": "yyy-nodegroup-sta-SomeOtherRole-xxx1"
                     }
                 ],
                 "PolicyUsers": [],
