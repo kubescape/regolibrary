@@ -1,0 +1,147 @@
+[
+    {
+       "fixCommand": "az aks nodepool add --name hostencrypt --cluster-name <myAKSCluster> --resource-group <myResourceGroup> -s Standard_DS2_v2 -l <myRegion> --enable-encryption-at-host",
+       "alertMessage": "etcd/secret encryption is not enabled",
+       "fixPaths": [],
+       "failedPaths": [],
+       "ruleStatus": "",
+       "packagename": "armo_builtins",
+       "alertScore": 3,
+       "alertObject": {
+         "externalObject": [
+            {
+               "apiVersion": "management.azure.com/v1",
+               "kind": "ClusterDescribe",
+               "metadata": {
+                  "name": "test-abtwh-aks",
+                  "provider": "aks"
+               },
+               "data": {
+                  "id": "/subscriptions/*****/resourcegroups/test-abtwh-rg/providers/Microsoft.ContainerService/managedClusters/test-abtwh-aks",
+                  "identity": {
+                     "principalId": "*****",
+                     "tenantId": "*****",
+                     "type": "SystemAssigned"
+                  },
+                  "location": "northeurope",
+                  "name": "test-abtwh-aks",
+                  "properties": {
+                     "aadProfile": {
+                           "enableAzureRBAC": true,
+                           "managed": true,
+                           "tenantID": "*****"
+                     },
+                     "agentPoolProfiles": [
+                           {
+                              "availabilityZones": [
+                                 "2",
+                                 "3",
+                                 "1"
+                              ],
+                              "count": 3,
+                              "currentOrchestratorVersion": "1.24.9",
+                              "enableAutoScaling": false,
+                              "enableEncryptionAtHost": false,
+                              "enableFIPS": false,
+                              "enableNodePublicIP": false,
+                              "enableUltraSSD": false,
+                              "kubeletDiskType": "OS",
+                              "maxPods": 110,
+                              "mode": "System",
+                              "name": "default",
+                              "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2023.02.15",
+                              "orchestratorVersion": "1.24.9",
+                              "osDiskSizeGB": 30,
+                              "osDiskType": "Managed",
+                              "osSKU": "Ubuntu",
+                              "osType": "Linux",
+                              "powerState": {
+                                 "code": "Running"
+                              },
+                              "provisioningState": "Succeeded",
+                              "scaleDownMode": "Delete",
+                              "type": "VirtualMachineScaleSets",
+                              "upgradeSettings": {},
+                              "vmSize": "Standard_B2ms"
+                           }
+                     ],
+                     "autoUpgradeProfile": {
+                           "upgradeChannel": "none"
+                     },
+                     "azurePortalFQDN": "test-abtwh-k8s-6gpa8mep.portal.hcp.northeurope.azmk8s.io",
+                     "currentKubernetesVersion": "1.24.9",
+                     "disableLocalAccounts": false,
+                     "dnsPrefix": "test-abtwh-k8s",
+                     "enableRBAC": true,
+                     "fqdn": "test-abtwh-k8s-6gpa8mep.hcp.northeurope.azmk8s.io",
+                     "kubernetesVersion": "1.24.9",
+                     "maxAgentPools": 100,
+                     "networkProfile": {
+                           "dnsServiceIP": "10.0.0.10",
+                           "dockerBridgeCidr": "172.17.0.1/16",
+                           "ipFamilies": [
+                              "IPv4"
+                           ],
+                           "loadBalancerProfile": {
+                              "effectiveOutboundIPs": [
+                                 {
+                                       "id": "/subscriptions/*****/resourceGroups/MC_test-abtwh-rg_test-abtwh-aks_northeurope/providers/Microsoft.Network/publicIPAddresses/*****"
+                                 }
+                              ],
+                              "managedOutboundIPs": {
+                                 "count": 1
+                              }
+                           },
+                           "loadBalancerSku": "Standard",
+                           "networkPlugin": "kubenet",
+                           "outboundType": "loadBalancer",
+                           "podCidr": "10.244.0.0/16",
+                           "podCidrs": [
+                              "10.244.0.0/16"
+                           ],
+                           "serviceCidr": "10.0.0.0/16",
+                           "serviceCidrs": [
+                              "10.0.0.0/16"
+                           ]
+                     },
+                     "nodeResourceGroup": "MC_test-abtwh-rg_test-abtwh-aks_northeurope",
+                     "oidcIssuerProfile": {
+                           "enabled": false
+                     },
+                     "powerState": {
+                           "code": "Running"
+                     },
+                     "provisioningState": "Succeeded",
+                     "publicNetworkAccess": "Enabled",
+                     "securityProfile": {},
+                     "servicePrincipalProfile": {
+                           "clientId": "msi"
+                     },
+                     "storageProfile": {
+                           "diskCSIDriver": {
+                              "enabled": true
+                           },
+                           "fileCSIDriver": {
+                              "enabled": true
+                           },
+                           "snapshotController": {
+                              "enabled": true
+                           }
+                     }
+                  },
+                  "sku": {
+                     "name": "Basic",
+                     "tier": "Free"
+                  },
+                  "tags": {
+                     "environment": "test-cluster",
+                     "owner": "test",
+                     "suffix": "abtwh"
+                  },
+                  "type": "Microsoft.ContainerService/ManagedClusters"
+               }
+            }
+         ]
+      }
+   }
+]
