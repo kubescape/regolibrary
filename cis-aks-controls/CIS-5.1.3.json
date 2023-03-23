@@ -12,7 +12,7 @@
         "armoBuiltin": true
     },
     "rulesNames": [],
-    "baseScore": 0,
+    "baseScore": 6,
     "impact_statement": "A separate dedicated service account may be required for use by build servers and other robot users pushing or managing container images.",
     "default_value": ""
 }
