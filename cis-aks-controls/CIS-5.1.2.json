@@ -12,7 +12,7 @@
         "armoBuiltin": true
     },
     "rulesNames": [],
-    "baseScore": 0,
+    "baseScore": 6,
     "impact_statement": "Care should be taken not to remove access to Azure ACR for accounts that require this for their operation.",
     "default_value": ""
 }
