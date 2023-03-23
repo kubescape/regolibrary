@@ -12,7 +12,7 @@
         "armoBuiltin": true
     },
     "rulesNames": ["ensure-azure-rbac-is-set"],
-    "baseScore": 0,
+    "baseScore": 7,
     "impact_statement": "",
     "default_value": ""
 }
