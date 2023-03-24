@@ -471,6 +471,12 @@
             "controlID": "C-0251",
             "patch": {
                 "name": "C-0251 Minimize user access to Azure Container Registry (ACR)"
+	    }
+	},
+	{
+            "controlID": "C-0248",
+            "patch": {
+                "name": "CIS-5.4.3 Ensure clusters are created with Private Nodes"
             }
         }
     ],
