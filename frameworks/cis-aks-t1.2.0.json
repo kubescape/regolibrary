@@ -461,12 +461,6 @@
                 "name": "CIS-5.3.1 Ensure Kubernetes Secrets are encrypted"
             }
         },
-	{
-            "controlID": "C-0249",
-            "patch": {
-                "name": "CIS-5.6.1 Restrict untrusted workloads"
-            }
-        },
         {
             "controlID": "C-0245",
             "patch": {
@@ -514,13 +508,7 @@
             "patch": {
                 "name": "CIS-2.1.1 Enable audit Logs"
 	    }
-	},
-        {
-            "controlID": "C-0250",
-            "patch": {
-                "name": "C-0250 Minimize cluster access to read-only for Azure Container Registry (ACR)"
-            }
-        }
+	}
     ],
     "subSections": {
         "2": {
