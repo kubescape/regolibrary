@@ -461,6 +461,12 @@
                 "name": "CIS-5.3.1 Ensure Kubernetes Secrets are encrypted"
             }
         },
+	{
+            "controlID": "C-0249",
+            "patch": {
+                "name": "CIS-5.6.1 Restrict untrusted workloads"
+            }
+        },
         {
             "controlID": "C-0250",
             "patch": {
