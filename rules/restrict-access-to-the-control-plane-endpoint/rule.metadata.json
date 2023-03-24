@@ -1,0 +1,25 @@
+{
+    "name": "restrict-access-to-the-control-plane-endpoint",
+    "attributes": {
+      "armoBuiltin": true,
+      "hostSensorRule": "false",
+      "imageScanRelated": false
+    },
+    "ruleLanguage": "Rego",
+    "dynamicMatch": [
+        {
+          "apiGroups": [
+            "management.azure.com"
+          ],
+          "apiVersions": [
+            "v1"
+          ],
+          "resources": [
+            "ClusterDescribe"
+          ]
+        }
+    ],
+    "description": "Enable Endpoint Private Access to restrict access to the cluster's control plane to only an allowlist of authorized IPs.",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}
