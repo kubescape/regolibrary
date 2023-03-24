@@ -480,11 +480,17 @@
 	    }
 	},
 	{
+            "controlID": "C-0247",
+            "patch": {
+                "name": "CIS-5.4.1 Restrict Access to the Control Plane Endpoint"
+            }
+        },
+	{
             "controlID": "C-0248",
             "patch": {
                 "name": "CIS-5.4.3 Ensure clusters are created with Private Nodes"
-            }
-        }
+	    }
+	}
     ],
     "subSections": {
         "2": {
