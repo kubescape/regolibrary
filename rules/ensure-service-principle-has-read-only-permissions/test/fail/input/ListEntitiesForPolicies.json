@@ -1,0 +1,57 @@
+{
+    "apiVersion": "management.azure.com/v1",
+    "kind": "ListEntitiesForPolicies",
+    "metadata": {
+        "name": "yiscah-abtwh-aks",
+        "provider": "aks"
+    },
+    "data": {
+     "roleAssignments": [
+            {
+                "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f/providers/Microsoft.Authorization/roleAssignments/b925e22e-a17f-4228-b268-bed5500e463a",
+                "name": "b925e22e-a17f-4228-b268-bed5500e463a",
+                "properties": {
+                    "createdBy": "",
+                    "createdOn": "2022-12-25T09:58:55.3897463Z",
+                    "principalId": "cc4dacfb-3d59-472d-91f1-9c2362fcb4b5",
+                    "principalType": "User",
+                    "roleDefinitionId": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f/providers/Microsoft.Authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
+                    "scope": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f",
+                    "updatedBy": "",
+                    "updatedOn": "2022-12-25T09:58:55.3897463Z"
+                },
+                "type": "Microsoft.Authorization/roleAssignments"
+            },
+            {
+                "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f/resourceGroups/MC_eran-nuy8v-rg_eran-nuy8v-aks_northeurope/providers/Microsoft.Authorization/roleAssignments/48980074-c9b0-426f-bebc-13fd0ca194af",
+                "name": "48980074-c9b0-426f-bebc-13fd0ca194af",
+                "properties": {
+                    "createdBy": "3c6f841c-1aef-4981-8ee1-34aa9668126a",
+                    "createdOn": "2023-02-21T14:07:46.7162459Z",
+                    "principalId": "d317511f-6a2a-443d-b4bf-1f5f54c87799",
+                    "principalType": "ServicePrincipal",
+                    "roleDefinitionId": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+                    "scope": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f/resourceGroups/MC_eran-nuy8v-rg_eran-nuy8v-aks_northeurope",
+                    "updatedBy": "3c6f841c-1aef-4981-8ee1-34aa9668126a",
+                    "updatedOn": "2023-02-21T14:07:46.7162459Z"
+                },
+                "type": "Microsoft.Authorization/roleAssignments"
+            },
+            {
+                "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f/resourceGroups/MC_yiscah-abtwh-rg_yiscah-abtwh-aks_northeurope/providers/Microsoft.Authorization/roleAssignments/d80318c9-dadf-4b61-b9c2-2dd36901183e",
+                "name": "d80318c9-dadf-4b61-b9c2-2dd36901183e",
+                "properties": {
+                    "createdBy": "3c6f841c-1aef-4981-8ee1-34aa9668126a",
+                    "createdOn": "2023-03-12T08:23:03.9208455Z",
+                    "principalId": "c037f147-b0b8-45bb-927c-ec79ce01dff4",
+                    "principalType": "ServicePrincipal",
+                    "roleDefinitionId": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+                    "scope": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f/resourceGroups/MC_yiscah-abtwh-rg_yiscah-abtwh-aks_northeurope",
+                    "updatedBy": "3c6f841c-1aef-4981-8ee1-34aa9668126a",
+                    "updatedOn": "2023-03-12T08:23:03.9208455Z"
+                },
+                "type": "Microsoft.Authorization/roleAssignments"
+            }
+        ]
+    }
+}
