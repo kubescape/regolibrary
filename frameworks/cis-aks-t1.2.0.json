@@ -516,9 +516,9 @@
 	    }
 	},
         {
-            "controlID": "C-0243",
+            "controlID": "C-0250",
             "patch": {
-                "name": "CIS-5.1.1 Ensure Image Vulnerability Scanning using Azure Defender image scanning or a third party provider"
+                "name": "C-0250 Minimize cluster access to read-only for Azure Container Registry (ACR)"
             }
         }
     ],
