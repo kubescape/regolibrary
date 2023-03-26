@@ -1,0 +1,28 @@
+{
+  "name": "ensure-service-principle-has-read-only-permissions",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "management.azure.com"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "ListEntitiesForPolicies",
+        "PolicyVersion"
+      ]
+    }
+  ],
+  "relevantCloudProviders": [
+    "AKS"
+  ],
+  "ruleDependencies": [],
+  "description": "",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}
