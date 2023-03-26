@@ -437,22 +437,28 @@
                 "name": "CIS-5.4.4 Ensure Network Policy is Enabled and set as appropriate"
             }
         },
-	{
+        {
             "controlID": "C-0241",
             "patch": {
                 "name": "CIS-5.2.2 Use Azure RBAC for Kubernetes Authorization"
-	    }
-	},
+            }
+        },
         {
             "controlID": "C-0243",
             "patch": {
                 "name": "CIS-5.1.1 Ensure Image Vulnerability Scanning using Azure Defender image scanning or a third party provider"
-	    }
-	},
-	{
+            }
+        },
+        {
             "controlID": "C-0244",
             "patch": {
                 "name": "CIS-5.3.1 Ensure Kubernetes Secrets are encrypted"
+            }
+        },
+        {
+            "controlID": "C-0251",
+            "patch": {
+                "name": "C-0251 Minimize user access to Azure Container Registry (ACR)"
             }
         }
     ],

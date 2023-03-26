@@ -1,5 +1,5 @@
 {
-    "controlID": "CIS-5.1.2",
+    "controlID": "C-0251",
     "name": "Minimize user access to Azure Container Registry (ACR)",
     "description": "Restrict user access to Azure Container Registry (ACR), limiting interaction with build images to only authorized personnel and service accounts.",
     "long_description": "Weak access control to Azure Container Registry (ACR) may allow malicious users to replace built images with vulnerable containers.",
@@ -11,7 +11,9 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": ["list-role-definitions-in-acr"],
+    "rulesNames": [
+        "list-role-definitions-in-acr"
+    ],
     "baseScore": 6,
     "impact_statement": "Care should be taken not to remove access to Azure ACR for accounts that require this for their operation.",
     "default_value": ""
