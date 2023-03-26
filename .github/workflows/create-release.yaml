@@ -91,7 +91,7 @@ jobs:
                         "scan_customer_configuration", 
                         "host_scanner"
                       ]'
-      DOWNLOAD_ARTIFACT_PATH: release
+      DOWNLOAD_ARTIFACT_PATH: ${{ env.REGO_ARTIFACT_PATH }}
     secrets: inherit
 
   release:
