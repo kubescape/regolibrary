@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
         name: checkout repo content
         with:
-          token: ${{ secrets.PAT_TOKEN }} #name of the token
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} #name of the token
         
       - id: tag-calculator
         # uses: ./.github/actions/tag-action
@@ -73,7 +73,7 @@ jobs:
         id: create_release_upload_assets
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
         with:
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           name: Release ${{ inputs.TAG }}
           tag_name: ${{ inputs.TAG }}
           body: ${{ github.event.pull_request.body }}
