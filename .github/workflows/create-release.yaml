@@ -6,27 +6,31 @@ on:
         description: 'Tag name'
         required: true
         type: string
+
   push:
     tags:
       - 'v*.*.*-rc.*'
 
+env:
+  REGO_ARTIFACT_KEY_NAME: rego_artifact
+  REGO_ARTIFACT_PATH: release
+
 jobs:
-  once:
-    name: Build, Test, Create And Upload Release
+  build-and-rego-test:
+    name: Build and test rego artifacts
     runs-on: ubuntu-latest
     outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
+      NEW_TAG: ${{ steps.tag-calculator.outputs.NEW_TAG }}
     steps:
       - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
         name: checkout repo content
         with:
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} #name of the token
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
         
       - id: tag-calculator
-        # uses: ./.github/actions/tag-action
         uses: kubescape/workflows/.github/actions/tag-action@main
         with: 
-          ORIGINAL_TAG: ${{ inputs.TAG }}
+          ORIGINAL_TAG: {{ needs.build-and-rego-test.outputs.}}
           SUB_STRING: "-rc"
 
       # Test using Golang OPA hot rule compilation
@@ -49,38 +53,77 @@ jobs:
         run: |
           python ./scripts/export.py
 
-      # The next step kept here for only backward competability.
-      # Release files should have extensions!
-      - name: Strip Metadata Files Extensions (to be removed)
-        run: |
-          cd release
-          find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
-          find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+      # # The next step kept here for only backward competability.
+      # # Release files should have extensions!
+      # - name: Strip Metadata Files Extensions (to be removed)
+      #   run: |
+      #     cd release
+      #     find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
+      #     find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
 
-      - name: kubescape_e2e_test
-        uses: kubescape/kubescape/.github/workflows/b-binary-build-and-e2e-tests.yaml@master
+      - uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # ratchet:actions/upload-artifact@v3.1.1
+        name: Upload artifact
         with:
-          COMPONENT_NAME: kubescape
-          CGO_ENABLED: 1
-          GO111MODULE: ""
-          GO_VERSION: "1.19"
-          RELEASE: ""
-          CLIENT: test
-          CHECKOUT_REPO: kubescape/kubescape
-          BUILD_AND_TEST_LOCAL_KUBESCAPE_CLI: false
+          name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
+          path: ${{ env.REGO_ARTIFACT_PATH }}
+          if-no-files-found: error
+
+
+  ks-and-rego-test:
+    # if: ${{ github.event.pull_request.merged == true && contains( github.event.pull_request.labels.*.name, 'trigger-integration-test') && github.event.pull_request.base.ref == 'master' }} ## run only if labeled as "trigger-integration-test" and base branch is master
+    uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
+    needs: [build-and-rego-test]
+    with:
+      DOWNLOAD_ARTIFACT_KEY_NAME: ${{ env.REGO_ARTIFACT_KEY_NAME }}
+      BINARY_TESTS: '[  "scan_nsa", 
+                        "scan_mitre", 
+                        "scan_with_exceptions", 
+                        "scan_repository", 
+                        "scan_local_file", 
+                        "scan_local_glob_files", 
+                        "scan_local_list_of_files", 
+                        "scan_nsa_and_submit_to_backend", 
+                        "scan_mitre_and_submit_to_backend", 
+                        "scan_local_repository_and_submit_to_backend", 
+                        "scan_repository_from_url_and_submit_to_backend", 
+                        "scan_with_exception_to_backend", 
+                        "scan_with_custom_framework", 
+                        "scan_customer_configuration", 
+                        "host_scanner"
+                      ]'
+      DOWNLOAD_ARTIFACT_PATH: release
+    secrets: inherit
+
+  release:
+    if: ${{ (always() && contains(needs.*.result, 'success') && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
+    needs: [ks-and-rego-test, build-and-rego-test]
+    name: create release and upload assets
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # ratchet:actions/download-artifact@v3.0.2
+        id: download-artifact
+        with:
+          name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
+          path: ${{ env.REGO_ARTIFACT_PATH }}
+
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
+        name: checkout repo content
+        with:
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - name: Create Release and upload assets
         id: create_release_upload_assets
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          name: Release ${{ inputs.TAG }}
-          tag_name: ${{ inputs.TAG }}
+          name: Release ${{ needs.build-and-rego-test.outputs.NEW_TAG}}
+          tag_name: ${{ needs.build-and-rego-test.outputs.NEW_TAG }}
           body: ${{ github.event.pull_request.body }}
           draft: false
           fail_on_unmatched_files: true
           prerelease: false
-          files: 'release/*'
+          files: '${{ env.REGO_ARTIFACT_PATH }}/*'
 
       - run: git status
 
