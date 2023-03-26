@@ -12,7 +12,7 @@
         "armoBuiltin": true
     },
     "rulesNames": [],
-    "baseScore": 0,
+    "baseScore": 5,
     "impact_statement": "What is collected from Kubernetes clusters\nContainer insights includes a predefined set of metrics and inventory items collected that are written as log data in your Log Analytics workspace. All metrics listed below are collected by default every one minute.\n\n Node metrics collected\nThe following list is the 24 metrics per node that are collected:\n\n cpuUsageNanoCores\ncpuCapacityNanoCores\ncpuAllocatableNanoCores\nmemoryRssBytes\nmemoryWorkingSetBytes\nmemoryCapacityBytes\nmemoryAllocatableBytes\nrestartTimeEpoch\nused (disk)\nfree (disk)\nused\\_percent (disk)\nio\\_time (diskio)\nwrites (diskio)\nreads (diskio)\nwrite\\_bytes (diskio)\nwrite\\_time (diskio)\niops\\_in\\_progress (diskio)\nread\\_bytes (diskio)\nread\\_time (diskio)\nerr\\_in (net)\nerr\\_out (net)\nbytes\\_recv (net)\nbytes\\_sent (net)\nKubelet\\_docker\\_operations (kubelet)\nContainer metrics\nThe following list is the eight metrics per container collected:\n\n cpuUsageNanoCores\ncpuRequestNanoCores\ncpuLimitNanoCores\nmemoryRssBytes\nmemoryWorkingSetBytes\nmemoryRequestBytes\nmemoryLimitBytes\nrestartTimeEpoch\nCluster inventory\nThe following list is the cluster inventory data collected by default:\n\n KubePodInventory \u2013 1 per minute per container\nKubeNodeInventory \u2013 1 per node per minute\nKubeServices \u2013 1 per service per minute\nContainerInventory \u2013 1 per container per minute",
     "default_value": "By default, cluster control plane logs aren't sent to be Logged."
 }
