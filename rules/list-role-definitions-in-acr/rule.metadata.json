@@ -1,0 +1,26 @@
+{
+    "name": "list-role-definitions-in-acr",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "dynamicMatch": [
+      {
+        "apiGroups": [
+          "management.azure.com"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "ListEntitiesForPolicies"
+        ]
+      }
+    ],
+    "relevantCloudProviders": ["AKS"],
+    "ruleDependencies": [
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}
