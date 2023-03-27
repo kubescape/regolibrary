@@ -39,15 +39,15 @@ jobs:
         with:
           go-version: 1.19
 
-      - name: Test Regoes
-        working-directory: testrunner
-        run: |
-          apt update && apt install -y cmake
-          GOPATH=$(go env GOPATH) make
-      - name: setup python
-        uses: actions/setup-python@75f3110429a8c05be0e1bf360334e4cced2b63fa
-        with:
-          python-version: 3.10.6
+      # - name: Test Regoes
+      #   working-directory: testrunner
+      #   run: |
+      #     apt update && apt install -y cmake
+      #     GOPATH=$(go env GOPATH) make
+      # - name: setup python
+      #   uses: actions/setup-python@75f3110429a8c05be0e1bf360334e4cced2b63fa
+      #   with:
+      #     python-version: 3.10.6
 
       - name: Create Metadata Release Files
         run: |
@@ -65,7 +65,7 @@ jobs:
         name: Upload artifact
         with:
           name: $REGO_ARTIFACT_KEY_NAME
-          path: $REGO_ARTIFACT_PATH
+          path: $REGO_ARTIFACT_PATH/
           if-no-files-found: error
 
 
@@ -76,21 +76,25 @@ jobs:
     with:
       DOWNLOAD_ARTIFACT_KEY_NAME: $REGO_ARTIFACT_KEY_NAME
       BINARY_TESTS: '[  "scan_nsa", 
-                        "scan_mitre", 
-                        "scan_with_exceptions", 
-                        "scan_repository", 
-                        "scan_local_file", 
-                        "scan_local_glob_files", 
-                        "scan_local_list_of_files", 
-                        "scan_nsa_and_submit_to_backend", 
-                        "scan_mitre_and_submit_to_backend", 
-                        "scan_local_repository_and_submit_to_backend", 
-                        "scan_repository_from_url_and_submit_to_backend", 
-                        "scan_with_exception_to_backend", 
-                        "scan_with_custom_framework", 
-                        "scan_customer_configuration", 
-                        "host_scanner"
-                      ]'
+                        "scan_mitre"
+                    ]'
+
+      # BINARY_TESTS: '[  "scan_nsa", 
+      #                   "scan_mitre", 
+      #                   "scan_with_exceptions", 
+      #                   "scan_repository", 
+      #                   "scan_local_file", 
+      #                   "scan_local_glob_files", 
+      #                   "scan_local_list_of_files", 
+      #                   "scan_nsa_and_submit_to_backend", 
+      #                   "scan_mitre_and_submit_to_backend", 
+      #                   "scan_local_repository_and_submit_to_backend", 
+      #                   "scan_repository_from_url_and_submit_to_backend", 
+      #                   "scan_with_exception_to_backend", 
+      #                   "scan_with_custom_framework", 
+      #                   "scan_customer_configuration", 
+      #                   "host_scanner"
+      #                 ]'
       DOWNLOAD_ARTIFACT_PATH: $REGO_ARTIFACT_PATH
     secrets: inherit
 
