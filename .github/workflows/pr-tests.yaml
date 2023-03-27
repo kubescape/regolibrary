@@ -7,6 +7,11 @@ on:
     types: [ opened, synchronize, reopened ]
     # Do not run the pipeline if only Markdown files changed
     paths-ignore: ['**.md']
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   # testing link checks
   markdown-link-check:
