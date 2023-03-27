@@ -30,7 +30,7 @@ jobs:
       - id: tag-calculator
         uses: kubescape/workflows/.github/actions/tag-action@main
         with: 
-          ORIGINAL_TAG: {{ needs.build-and-rego-test.outputs.}}
+          ORIGINAL_TAG: ${{ inputs.TAG }}
           SUB_STRING: "-rc"
 
       # Test using Golang OPA hot rule compilation
