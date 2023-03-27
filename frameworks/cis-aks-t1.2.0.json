@@ -501,6 +501,12 @@
             "controlID": "C-0252",
             "patch": {
                 "name": "CIS-5.4.2 Ensure clusters are created with Private Endpoint Enabled and Public Access Disabled"
+	    }
+	},
+        {
+            "controlID": "C-0253",
+            "patch": {
+                "name": "CIS-2.1.1 Enable audit Logs"
             }
         }
     ],
