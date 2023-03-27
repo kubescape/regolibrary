@@ -61,11 +61,13 @@ jobs:
       #     find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
       #     find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
 
+      - run: ls -laR
+
       - uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # ratchet:actions/upload-artifact@v3.1.1
         name: Upload artifact
         with:
           name: $REGO_ARTIFACT_KEY_NAME
-          path: $REGO_ARTIFACT_PATH/
+          path: ${{ env.REGO_ARTIFACT_PATH }}/
           if-no-files-found: error
 
 
