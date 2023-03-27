@@ -76,7 +76,7 @@ jobs:
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     needs: [build-and-rego-test]
     with:
-      DOWNLOAD_ARTIFACT_KEY_NAME: ${{ env.REGO_ARTIFACT_KEY_NAME }}
+      # DOWNLOAD_ARTIFACT_KEY_NAME: ${{ env.REGO_ARTIFACT_KEY_NAME }}
       BINARY_TESTS: '[  "scan_nsa", 
                         "scan_mitre"
                     ]'
@@ -97,7 +97,7 @@ jobs:
       #                   "scan_customer_configuration", 
       #                   "host_scanner"
       #                 ]'
-      DOWNLOAD_ARTIFACT_PATH: ${{ env.REGO_ARTIFACT_PATH }}
+      # DOWNLOAD_ARTIFACT_PATH: ${{ env.REGO_ARTIFACT_PATH }}
     secrets: inherit
 
   release:
