@@ -456,6 +456,12 @@
             }
         },
         {
+            "controlID": "C-0250",
+            "patch": {
+                "name": "C-0250 Minimize cluster access to read-only for Azure Container Registry (ACR)"
+            }
+        },
+        {
             "controlID": "C-0251",
             "patch": {
                 "name": "C-0251 Minimize user access to Azure Container Registry (ACR)"
