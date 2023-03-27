@@ -64,8 +64,8 @@ jobs:
       - uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # ratchet:actions/upload-artifact@v3.1.1
         name: Upload artifact
         with:
-          name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
-          path: ${{ env.REGO_ARTIFACT_PATH }}
+          name: $REGO_ARTIFACT_KEY_NAME
+          path: $REGO_ARTIFACT_PATH
           if-no-files-found: error
 
 
@@ -74,7 +74,7 @@ jobs:
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     needs: [build-and-rego-test]
     with:
-      DOWNLOAD_ARTIFACT_KEY_NAME: ${{ env.REGO_ARTIFACT_KEY_NAME }}
+      DOWNLOAD_ARTIFACT_KEY_NAME: $REGO_ARTIFACT_KEY_NAME
       BINARY_TESTS: '[  "scan_nsa", 
                         "scan_mitre", 
                         "scan_with_exceptions", 
@@ -91,7 +91,7 @@ jobs:
                         "scan_customer_configuration", 
                         "host_scanner"
                       ]'
-      DOWNLOAD_ARTIFACT_PATH: ${{ env.REGO_ARTIFACT_PATH }}
+      DOWNLOAD_ARTIFACT_PATH: $REGO_ARTIFACT_PATH
     secrets: inherit
 
   release:
@@ -104,8 +104,8 @@ jobs:
       - uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # ratchet:actions/download-artifact@v3.0.2
         id: download-artifact
         with:
-          name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
-          path: ${{ env.REGO_ARTIFACT_PATH }}
+          name: $REGO_ARTIFACT_KEY_NAME
+          path: $REGO_ARTIFACT_PATH
 
       - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
         name: checkout repo content
@@ -123,7 +123,7 @@ jobs:
           draft: false
           fail_on_unmatched_files: true
           prerelease: false
-          files: '${{ env.REGO_ARTIFACT_PATH }}/*'
+          files: '$REGO_ARTIFACT_PATH/*'
 
       - run: git status
 
