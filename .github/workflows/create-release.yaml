@@ -19,7 +19,7 @@ env:
 jobs:
 
   build-and-rego-test:
-    if: endsWith(github.ref, 'main') == true
+    # if: endsWith(github.ref, 'main') == true
     name: Build and test rego artifacts
     runs-on: ubuntu-latest
     outputs:
