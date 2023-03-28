@@ -1,0 +1,25 @@
+[
+    {
+        "alertMessage": "Cluster has not policies to minimize access to Amazon ECR; Add some policy in order to minimize access on it.",
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+          "externalObject": [
+            {
+              "apiVersion": "eks.amazonaws.com/v1",
+              "kind": "PolicyVersion",
+              "metadata": {
+                  "name": "ca-terraform-eks-dev-stage",
+                  "provider": "eks"
+              },
+              "data": {
+                  "policiesDocuments": {}
+              }
+            }
+          ]
+        }
+    }
+]

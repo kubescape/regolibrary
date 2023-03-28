@@ -16,6 +16,5 @@
     ],
     "baseScore": 0,
     "impact_statement": "Care should be taken not to remove access to Amazon ECR for accounts that require this for their operation.",
-    "default_value": "",
-    "control-CIS-ID": "CIS-5.1.2"
-} 
+    "default_value": ""
+}
