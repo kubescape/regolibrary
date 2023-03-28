@@ -11,6 +11,7 @@ on:
     tags:
       - 'v*.*.*-rc.*'
 
+
 env:
   REGO_ARTIFACT_KEY_NAME: rego_artifact
   REGO_ARTIFACT_PATH: release
@@ -18,6 +19,7 @@ env:
 jobs:
 
   build-and-rego-test:
+    if: endsWith(github.ref, 'main') == true
     name: Build and test rego artifacts
     runs-on: ubuntu-latest
     outputs:
@@ -42,27 +44,26 @@ jobs:
         with:
           go-version: 1.19
 
-      # - name: Test Regoes
-      #   working-directory: testrunner
-      #   run: |
-      #     apt update && apt install -y cmake
-      #     GOPATH=$(go env GOPATH) make
-      # - name: setup python
-      #   uses: actions/setup-python@75f3110429a8c05be0e1bf360334e4cced2b63fa
-      #   with:
-      #     python-version: 3.10.6
-
-      - name: Create Metadata Release Files
+      - name: Test Regoes
+        working-directory: testrunner
         run: |
-          python ./scripts/export.py
+          apt update && apt install -y cmake
+          GOPATH=$(go env GOPATH) make
 
-      # # The next step kept here for only backward competability.
-      # # Release files should have extensions!
-      # - name: Strip Metadata Files Extensions (to be removed)
-      #   run: |
-      #     cd release
-      #     find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
-      #     find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+      - name: setup python
+        uses: actions/setup-python@75f3110429a8c05be0e1bf360334e4cced2b63fa
+        with:
+          python-version: 3.10.6
+
+      - run: python ./scripts/export.py
+
+      - name: Strip Metadata Files Extensions
+        run: |
+          cd release
+          find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
+          find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+
+      - run: python ./scripts/validations.py
 
       - run: ls -laR
 
@@ -127,12 +128,28 @@ jobs:
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
+      - name: setup python
+        uses: actions/setup-python@75f3110429a8c05be0e1bf360334e4cced2b63fa
+        with:
+          python-version: 3.8
+
+      - name: install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+        
+      - name: execute upload script 
+        env:
+          README_API_KEY: ${{ secrets.README_API_KEY }}
+        run: |
+          python ./scripts/upload-readme.py
+
       - name: Create Release and upload assets
         id: create_release_upload_assets
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          name: Release ${{ needs.build-and-rego-test.outputs.NEW_TAG}}
+          name: Release ${{ needs.build-and-rego-test.outputs.NEW_TAG }}
           tag_name: ${{ needs.build-and-rego-test.outputs.NEW_TAG }}
           body: ${{ github.event.pull_request.body }}
           draft: false
