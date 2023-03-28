@@ -10,7 +10,7 @@
     ],
     "long_description": "Kubernetes team has deprecated GCR (k8s.gcr.io) registry and recommends pulling Kubernetes components from the new registry (registry.k8s.io). This is mandatory from 1.27",
     "test": "Checking images in kube-system namespace, if the registry of the image is from the old registry we raise an alert.",
-    "controlID": "C-0239",
+    "controlID": "C-0253",
     "baseScore": 5.0,
     "example": "@controls/examples/c239.yaml"
 }

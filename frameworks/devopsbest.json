@@ -72,7 +72,7 @@
             }
         },
         {
-            "controlID": "C-0239",
+            "controlID": "C-0253",
             "patch": {
                 "name": "Deprecated Kubernetes image registry"
             }
