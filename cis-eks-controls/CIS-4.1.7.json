@@ -11,9 +11,7 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "rulesNames": [
-        "rule-manual"
-    ],
+    "rulesNames": [],
     "baseScore": 0,
     "impact_statement": "Once the RBAC system is operational in a cluster `system:masters` should not be specifically required, as ordinary bindings from principals to the `cluster-admin` cluster role can be made where unrestricted access is required.",
     "default_value": "By default some clusters will create a \"break glass\" client certificate which is a member of this group. Access to this client certificate should be carefully controlled and it should not be used for general cluster operations.",

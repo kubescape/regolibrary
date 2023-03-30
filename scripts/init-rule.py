@@ -38,17 +38,13 @@ deny[msga] {{
 	msga := {}
 }}
 """
-set_use_from_kubescape_version = """
-      "useFromKubescapeVersion": "{use_from_kubescape_version}","""
-
-set_use_until_kubescape_version = """
-      "useUntilKubescapeVersion": "{use_until_kubescape_version}","""
-
 rule_metadata = """{{
     "name": "{rule_name}",
     "attributes": {{
-      "armoBuiltin": true,{use_from_kubescape_version}{use_until_kubescape_version}
+      "armoBuiltin": true,
       "hostSensorRule": "{host_sensor_rule}",
+      "useFromKubescapeVersion": "{use_from_kubescape_version}",
+      "useUntilKubescapeVersion": "{use_until_kubescape_version}",
       "imageScanRelated": {image_scan_related}
     }},
     "ruleLanguage": "Rego",
@@ -103,26 +99,13 @@ def create_rule_metadata_file(dirpath, rule_name, action_required, host_sensor_r
                             rule_description,
                             rule_remediation))
 
-def generate_use_from_kubescape_version(use_from_kubescape_version):
-    if use_from_kubescape_version != '':
-        return set_use_from_kubescape_version.format(use_from_kubescape_version=use_from_kubescape_version)
-    else:
-        return ''
-
-def generate_use_until_kubescape_version(use_until_kubescape_version):
-    if use_until_kubescape_version != '':
-        return set_use_until_kubescape_version.format(use_until_kubescape_version=use_until_kubescape_version)
-    else:
-        return ''
 
 def generate_rule_metadata_file(rule_name, action_required, host_sensor_rule, use_from_kubescape_version, use_until_kubescape_version, image_scan_related, rule_description, rule_remediation):
-    until_version = generate_use_until_kubescape_version(use_until_kubescape_version)
-    from_version = generate_use_from_kubescape_version(use_from_kubescape_version)
     return rule_metadata.format(rule_name=rule_name,
                             action_required=action_required,
                             host_sensor_rule=host_sensor_rule,
-                            use_from_kubescape_version=from_version,
-                            use_until_kubescape_version=until_version,
+                            use_from_kubescape_version=use_from_kubescape_version,
+                            use_until_kubescape_version=use_until_kubescape_version,
                             image_scan_related=image_scan_related,
                             rule_description=rule_description,
                             rule_remediation=rule_remediation)
@@ -206,7 +189,7 @@ def define_args():
                     help='attribute "hostSensorRule" you want to set on rule.metadata.json file.')
     parser.add_argument('--use-from-kubescape-version',
                     type=str,
-                    default='',
+                    default='v1.0.130',
                     help='attribute "useFromKubescapeVersion" you want to set on rule.metadata.json file.')
     parser.add_argument('--use-until-kubescape-version',
                     type=str,
