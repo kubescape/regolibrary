@@ -25,7 +25,7 @@
         "roleName": "AcrPush",
         "type": "BuiltInRole"
        },
-       "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f/providers/Microsoft.Authorization/roleDefinitions/8311e382-0749-4cb8-b61a-304f252e45ec",
+       "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d198e/providers/Microsoft.Authorization/roleDefinitions/8311e382-0749-4cb8-b61a-304f252e45ec",
        "name": "8311e382-0749-4cb8-b61a-304f252e45ec",
        "type": "Microsoft.Authorization/roleDefinitions"
       },
@@ -52,7 +52,7 @@
         "roleName": "API Management Service Contributor",
         "type": "BuiltInRole"
        },
-       "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f/providers/Microsoft.Authorization/roleDefinitions/312a565d-c81f-4fd8-895a-4e21e48d571c",
+       "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d198e/providers/Microsoft.Authorization/roleDefinitions/312a565d-c81f-4fd8-895a-4e21e48d571c",
        "name": "312a565d-c81f-4fd8-895a-4e21e48d571c",
        "type": "Microsoft.Authorization/roleDefinitions"
       },
@@ -73,7 +73,7 @@
         "roleName": "AcrPull",
         "type": "BuiltInRole"
        },
-       "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f/providers/Microsoft.Authorization/roleDefinitions/7f951dda-4ed3-4680-a7ca-43fe172d538d",
+       "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d198e/providers/Microsoft.Authorization/roleDefinitions/7f951dda-4ed3-4680-a7ca-43fe172d538d",
        "name": "7f951dda-4ed3-4680-a7ca-43fe172d538d",
        "type": "Microsoft.Authorization/roleDefinitions"
       },
@@ -99,7 +99,7 @@
          "roleName": "Contributor",
          "type": "BuiltInRole"
         },
-        "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d189f/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+        "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d198e/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
         "name": "b24988ac-6180-42a0-ab88-20f7382dd24c",
         "type": "Microsoft.Authorization/roleDefinitions"
        }
