@@ -1,0 +1,33 @@
+
+[
+	{
+    	"alertMessage": "Service object LoadBalancer has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.",
+    	"packagename": "armo_builtins",
+    	"alertScore": 7,
+    	"failedPaths": ["spec.metadata.annotations['service.beta.kubernetes.io/azure-load-balancer-internal']"],
+    	"fixPaths":[],
+        "fixCommand": "",
+    	"alertObject": {
+			"k8sObject": [
+				{
+					"apiVersion": "v1",
+					"kind": "Service",
+					"metadata": {
+					  "name": "rmq-external-service"
+					},
+					"spec": {
+					  "type": "LoadBalancer",
+					  "ports": [
+						{
+						  "name": "lb-azure",
+						  "protocol": "TCP",
+						  "port": 15672,
+						  "targetPort": 15672
+						}
+					  ]
+					}
+				}
+			]
+        }
+    }
+]
