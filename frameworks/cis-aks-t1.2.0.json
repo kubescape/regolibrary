@@ -468,6 +468,18 @@
             }
         },
 	{
+            "controlID": "C-0247",
+            "patch": {
+                "name": "CIS-5.4.1 Restrict Access to the Control Plane Endpoint"
+            }
+        },
+        {
+            "controlID": "C-0248",
+            "patch": {
+                "name": "CIS-5.4.3 Ensure clusters are created with Private Nodes"
+            }
+        },
+        {
             "controlID": "C-0249",
             "patch": {
                 "name": "CIS-5.6.1 Restrict untrusted workloads"
@@ -476,27 +488,21 @@
         {
             "controlID": "C-0250",
             "patch": {
-                "name": "C-0250 Minimize cluster access to read-only for Azure Container Registry (ACR)"
+                "name": "CIS-5.1.2 Minimize cluster access to read-only for Azure Container Registry (ACR)"
             }
         },
         {
             "controlID": "C-0251",
             "patch": {
-                "name": "C-0251 Minimize user access to Azure Container Registry (ACR)"
-	    }
-	},
-	{
-            "controlID": "C-0247",
-            "patch": {
-                "name": "CIS-5.4.1 Restrict Access to the Control Plane Endpoint"
+                "name": "CIS-5.1.3 Minimize user access to Azure Container Registry (ACR)"
             }
         },
-	{
-            "controlID": "C-0248",
+        {
+            "controlID": "C-0252",
             "patch": {
-                "name": "CIS-5.4.3 Ensure clusters are created with Private Nodes"
-	    }
-	}
+                "name": "CIS-5.4.2 Ensure clusters are created with Private Endpoint Enabled and Public Access Disabled"
+            }
+        }
     ],
     "subSections": {
         "2": {
