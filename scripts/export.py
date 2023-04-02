@@ -69,6 +69,7 @@ def load_rules():
                 new_rule = json.load(f)
         except Exception as e:
             logging.exception(f"failed to read rule '{f}'")
+            raise Exception(e)
 
         try:
             with open(os.path.join(os.path.dirname(path),regofile), 'r') as f:
@@ -83,9 +84,9 @@ def load_rules():
                     except FileNotFoundError as e:
                         pass
                     except Exception as e1:
-                        raise logging.exception(f"failed to read rego-filter file: '{os.path.join(os.path.dirname(path),filterregofile)}' with error '{e1}'")
+                        raise TypeError(f"Failed to read rego-filter file: '{os.path.join(os.path.dirname(path),filterregofile)}' with error '{e1}'")
         except Exception as e:
-            raise logging.error(f"failed to read rego file: '{os.path.join(os.path.dirname(path),regofile)}'")
+            raise TypeError(f"Failed to read rego file: '{os.path.join(os.path.dirname(path),regofile)}'")
 
         rules_list.append(new_rule)
         loaded_rules[new_rule['name']] = new_rule
@@ -114,7 +115,8 @@ def load_controls(loaded_rules: dict):
             with open(path_in_str, "r") as f:
                 new_control = json.load(f)
         except Exception as e:
-            raise logging.error(f"failed to open control: '{path_in_str}'")
+            logging.error(f"failed to open control: '{path_in_str}'")
+            raise TypeError(e)
         
         new_control["rules"] = []
         new_control_copy = copy.deepcopy(new_control)
@@ -126,7 +128,7 @@ def load_controls(loaded_rules: dict):
                 new_row = [new_control['controlID'], rule_name] 
                 __CONTROL_RULE_ROWS__.append(new_row)
             else:
-                raise logging.error("Error in ruleNames of control '{0}', rule '{1}' does not exist".format(new_control["name"], rule_name))
+                raise TypeError("Error in ruleNames of control '{0}', rule '{1}' does not exist".format(new_control["name"], rule_name))
 
         del new_control["rulesNames"]  # remove rule names list from dict
         loaded_controls[new_control['controlID']] = new_control
