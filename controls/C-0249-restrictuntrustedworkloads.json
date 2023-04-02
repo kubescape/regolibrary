@@ -15,7 +15,7 @@
     "rulesNames": [
         "rule-manual"
     ],
-    "baseScore": 0,
+    "baseScore": 5,
     "impact_statement": "",
     "default_value": "ACI is not a default component of the AKS"
 }
