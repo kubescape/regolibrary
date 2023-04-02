@@ -14,7 +14,7 @@
     "rulesNames": [
         "rule-hostile-multitenant-workloads"
     ],
-    "baseScore": 0,
+    "baseScore": 5,
     "impact_statement": "",
     "default_value": ""
 }
