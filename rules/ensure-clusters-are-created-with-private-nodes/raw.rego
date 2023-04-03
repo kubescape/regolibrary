@@ -12,7 +12,7 @@ deny[msga] {
 	not isPrivateClusterEnabled(config)
 
 	msga := {
-    	"alertMessage": "Cluster is not private.",
+    	"alertMessage": "Cluster does not have private nodes.",
     	"packagename": "armo_builtins",
     	"alertScore": 7,
     	"failedPaths": [""],
