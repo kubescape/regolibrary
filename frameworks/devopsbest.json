@@ -70,6 +70,12 @@
             "patch": {
                 "name": "K8s common labels usage"
             }
+        },
+        {
+            "controlID": "C-0253",
+            "patch": {
+                "name": "Deprecated Kubernetes image registry"
+            }
         }
     ]
 }
