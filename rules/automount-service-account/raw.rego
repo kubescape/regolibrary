@@ -29,9 +29,9 @@ deny [msga]{
     pod := input[_]
 	pod.kind == "Pod"
 
-	beginning_of_path := "spec."
+	start_of_path := "spec."
 	wl_namespace := pod.metadata.namespace
-	result := is_sa_auto_mounted(pod.spec, beginning_of_path, wl_namespace)
+	result := is_sa_auto_mounted(pod.spec, start_of_path, wl_namespace)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
 
@@ -52,10 +52,10 @@ deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
-	beginning_of_path := "spec.template.spec."
+	start_of_path := "spec.template.spec."
 
 	wl_namespace := wl.metadata.namespace
-	result := is_sa_auto_mounted(wl.spec.template.spec, beginning_of_path, wl_namespace)
+	result := is_sa_auto_mounted(wl.spec.template.spec, start_of_path, wl_namespace)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
 
@@ -76,10 +76,10 @@ deny[msga] {
   	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	beginning_of_path := "spec.jobTemplate.spec.template.spec."
+	start_of_path := "spec.jobTemplate.spec.template.spec."
    
 	wl_namespace := wl.metadata.namespace
-	result := is_sa_auto_mounted(wl.spec.jobTemplate.spec.template.spec, beginning_of_path, wl_namespace)
+	result := is_sa_auto_mounted(wl.spec.jobTemplate.spec.template.spec, start_of_path, wl_namespace)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
 
@@ -98,7 +98,7 @@ deny[msga] {
 
 
  #  -- ----     For workloads     -- ----     
-is_sa_auto_mounted(spec, beginning_of_path, wl_namespace) = [failed_path, fix_path]   {
+is_sa_auto_mounted(spec, start_of_path, wl_namespace) = [failed_path, fix_path]   {
 	# automountServiceAccountToken not in pod spec
 	not spec.automountServiceAccountToken == false
 	not spec.automountServiceAccountToken == true
@@ -110,7 +110,7 @@ is_sa_auto_mounted(spec, beginning_of_path, wl_namespace) = [failed_path, fix_pa
 	not sa.automountServiceAccountToken == false
 
 	# path is pod spec
-	fix_path = { "path": sprintf("%vautomountServiceAccountToken", [beginning_of_path]), "value": "false"}
+	fix_path = { "path": sprintf("%vautomountServiceAccountToken", [start_of_path]), "value": "false"}
 	failed_path = ""
 }
 
@@ -123,7 +123,7 @@ get_fixed_path(paths) = [paths[1]] {
 	paths[1] != ""
 } else = []
 
-is_sa_auto_mounted(spec, beginning_of_path, wl_namespace) =  [failed_path, fix_path]  {
+is_sa_auto_mounted(spec, start_of_path, wl_namespace) =  [failed_path, fix_path]  {
 	# automountServiceAccountToken set to true in pod spec
 	spec.automountServiceAccountToken == true
 	
@@ -135,18 +135,18 @@ is_sa_auto_mounted(spec, beginning_of_path, wl_namespace) =  [failed_path, fix_p
 	is_same_namespace(sa.metadata.namespace , wl_namespace)
 	not sa.automountServiceAccountToken == false
 
-	failed_path = sprintf("%vautomountServiceAccountToken", [beginning_of_path])
+	failed_path = sprintf("%vautomountServiceAccountToken", [start_of_path])
 	fix_path = ""
 }
 
-is_sa_auto_mounted(spec, beginning_of_path, wl_namespace) =  [failed_path, fix_path]  {
+is_sa_auto_mounted(spec, start_of_path, wl_namespace) =  [failed_path, fix_path]  {
 	# automountServiceAccountToken set to true in pod spec
 	spec.automountServiceAccountToken == true
 	
 	# No SA (yaml scan)
 	service_accounts := [service_account | service_account = input[_]; service_account.kind == "ServiceAccount"]
 	count(service_accounts) == 0
-	failed_path = sprintf("%vautomountServiceAccountToken", [beginning_of_path])
+	failed_path = sprintf("%vautomountServiceAccountToken", [start_of_path])
 	fix_path = ""
 }
 

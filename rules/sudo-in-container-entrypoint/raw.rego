@@ -5,8 +5,8 @@ deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	beginning_of_path := "spec."
-    result := is_sudo_entrypoint(container, beginning_of_path, i)
+	start_of_path := "spec."
+    result := is_sudo_entrypoint(container, start_of_path, i)
 	msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  have sudo in entrypoint", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -24,8 +24,8 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
-	beginning_of_path := "spec.template.spec."
-    result := is_sudo_entrypoint(container, beginning_of_path, i)
+	start_of_path := "spec.template.spec."
+    result := is_sudo_entrypoint(container, start_of_path, i)
 	msga := {
 		"alertMessage": sprintf("container: %v in %v: %v  have sudo in entrypoint", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -42,8 +42,8 @@ deny[msga] {
     wl := input[_]
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
-	beginning_of_path := "spec.jobTemplate.spec.template.spec."
-	result := is_sudo_entrypoint(container, beginning_of_path, i)
+	start_of_path := "spec.jobTemplate.spec.template.spec."
+	result := is_sudo_entrypoint(container, start_of_path, i)
 	msga := {
 		"alertMessage": sprintf("container: %v in cronjob: %v  have sudo in entrypoint", [container.name, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -56,7 +56,7 @@ deny[msga] {
 	}
 }
 
-is_sudo_entrypoint(container, beginning_of_path, i) = path {
-	path = [sprintf("%vcontainers[%v].command[%v]", [beginning_of_path, format_int(i, 10), format_int(k, 10)]) |  command = container.command[k];  contains(command, "sudo")]
+is_sudo_entrypoint(container, start_of_path, i) = path {
+	path = [sprintf("%vcontainers[%v].command[%v]", [start_of_path, format_int(i, 10), format_int(k, 10)]) |  command = container.command[k];  contains(command, "sudo")]
 	count(path) > 0
 }
