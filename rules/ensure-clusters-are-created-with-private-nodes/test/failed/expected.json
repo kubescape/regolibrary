@@ -1,6 +1,6 @@
 
 [{
-    	"alertMessage": "AKS private access is disabled.",
+    	"alertMessage": "Cluster does not have private nodes.",
     	"packagename": "armo_builtins",
     	"alertScore": 7,
     	"failedPaths": [""],
