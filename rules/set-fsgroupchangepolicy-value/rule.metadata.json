@@ -1,5 +1,5 @@
 {
-    "name": "set-fsgroupchangepolicy-values",
+    "name": "set-fsgroupchangepolicy-value",
     "attributes": {
       "armoBuiltin": true
     },
