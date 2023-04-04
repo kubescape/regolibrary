@@ -11,7 +11,6 @@ on:
     tags:
       - 'v*.*.*-rc.*'
 
-
 env:
   REGO_ARTIFACT_KEY_NAME: rego_artifact
   REGO_ARTIFACT_PATH: release
