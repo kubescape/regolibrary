@@ -13,6 +13,8 @@ C-0125,ensure-that-the-admission-control-plugin-ServiceAccount-is-set
 C-0217,psp-deny-allowprivilegeescalation
 C-0108,ensure-that-the-controller-manager.conf-file-permissions-are-set-to-600-or-more-restrictive
 C-0203,pod-security-admission-baseline-applied
+C-0242,rule-hostile-multitenant-workloads
+C-0239,ensure-default-service-accounts-has-only-default-roles
 C-0118,ensure-that-the-api-server-authorization-mode-argument-is-not-set-to-AlwaysAllow
 C-0066,secret-etcd-encryption-cloud
 C-0066,etcd-encryption-native
@@ -21,12 +23,14 @@ C-0026,rule-deny-cronjobs
 C-0210,set-seccomp-profile-RuntimeDefault
 C-0216,psp-deny-hostnetwork
 C-0058,Symlink-Exchange-Can-Allow-Host-Filesystem-Access
+C-0243,ensure-image-vulnerability-scanning-using-azure-defender-image-scanning-or-a-third-party-provider
 C-0126,ensure-that-the-admission-control-plugin-NamespaceLifecycle-is-set
 C-0165,if-proxy-kubeconfig-file-exists-ensure-ownership-is-set-to-root-root
 C-0176,kubelet-streaming-connection-idle-timeout
 C-0074,containers-mounting-docker-socket
 C-0229,ensure-endpointpublicaccess-is-disabled-on-private-nodes-eks
 C-0179,kubelet-hostname-override
+C-0240,rule-cni-enabled-aks
 C-0113,ensure-that-the-api-server-anonymous-auth-argument-is-set-to-false
 C-0005,insecure-port-flag
 C-0167,ensure-that-the-kubeconfig-kubelet.conf-file-ownership-is-set-to-root-root
@@ -80,6 +84,7 @@ C-0211,set-fsgroupchangepolicy-value
 C-0211,set-systctls-params
 C-0211,set-supplementalgroups-values
 C-0153,etcd-tls-enabled
+C-0245,encrypt-traffic-to-https-load-balancers-with-tls-certificates
 C-0148,ensure-that-the-controller-manager-root-ca-file-argument-is-set-as-appropriate
 C-0069,anonymous-requests-to-kubelet-service-updated
 C-0175,read-only-port-enabled-updated
@@ -90,6 +95,7 @@ C-0095,ensure-that-the-controller-manager-pod-specification-file-ownership-is-se
 C-0206,internal-networking
 C-0091,CVE-2022-47633
 C-0124,ensure-that-the-admission-control-plugin-SecurityContextDeny-is-set-if-PodSecurityPolicy-is-not-used
+C-0246,rule-manual
 C-0030,ingress-and-egress-blocked
 C-0039,list-all-mutating-webhooks
 C-0154,etcd-client-auth-cert
@@ -100,6 +106,7 @@ C-0199,pod-security-admission-baseline-applied
 C-0076,label-usage-for-resources
 C-0184,kubelet-strong-cryptographics-ciphers
 C-0048,alert-any-hostpath
+C-0252,ensure-clusters-are-created-with-private-endpoint-enabled-and-public-access-disabled
 C-0013,non-root-containers
 C-0099,ensure-that-the-etcd-pod-specification-file-ownership-is-set-to-root-root
 C-0170,if-the-kubelet-config.yaml-configuration-file-is-being-used-validate-permissions-set-to-600-or-more-restrictive
@@ -132,6 +139,7 @@ C-0196,pod-security-admission-baseline-applied
 C-0102,ensure-that-the-etcd-data-directory-permissions-are-set-to-700-or-more-restrictive
 C-0171,ensure-that-the-kubelet-configuration-file-ownership-is-set-to-root-root
 C-0219,psp-deny-allowed-capabilities
+C-0247,restrict-access-to-the-control-plane-endpoint
 C-0077,K8s common labels usage
 C-0083,exposed-critical-pods
 C-0097,ensure-that-the-scheduler-pod-specification-file-ownership-is-set-to-root-root
@@ -147,13 +155,15 @@ C-0198,pod-security-admission-restricted-applied
 C-0075,image-pull-policy-is-not-set-to-always
 C-0162,ensure-that-the-kubelet-service-file-permissions-are-set-to-600-or-more-restrictive
 C-0122,ensure-that-the-admission-control-plugin-AlwaysAdmit-is-not-set
+C-0248,ensure-clusters-are-created-with-private-nodes
 C-0235,ensure-that-the-kubelet-configuration-file-has-permissions-set-to-644-or-more-restrictive
 C-0233,alert-fargate-not-in-use
 C-0215,psp-deny-hostipc
 C-0129,ensure-that-the-api-server-profiling-argument-is-set-to-false
 C-0009,resource-policies
 C-0181,validate-kubelet-tls-configuration-updated
-C-0223,ensure_nodeinstancerole_has_only_readonly_permissions_for_ecr
+C-0223,ensure_nodeinstancerole_has_right_permissions_for_ecr
+C-0241,ensure-azure-rbac-is-set
 C-0189,automount-default-service-account
 C-0189,namespace-without-service-account
 C-0214,psp-deny-hostpid
@@ -164,18 +174,21 @@ C-0021,exposed-sensitive-interfaces-v1
 C-0146,ensure-that-the-controller-manager-use-service-account-credentials-argument-is-set-to-true
 C-0085,excessive_amount_of_vulnerabilities_pods
 C-0166,ensure-that-the-kubeconfig-kubelet.conf-file-permissions-are-set-to-600-or-more-restrictive
+C-0244,secret-etcd-encryption-cloud
 C-0017,immutable-container-filesystem
 C-0225,ensure-default-service-accounts-has-only-default-roles
 C-0225,automount-default-service-account
 C-0213,psp-deny-privileged-container
 C-0208,external-secret-storage
 C-0062,sudo-in-container-entrypoint
+C-0250,ensure-service-principle-has-read-only-permissions
 C-0044,container-hostPort
 C-0088,rbac-enabled-cloud
 C-0088,rbac-enabled-native
 C-0057,rule-privilege-escalation
 C-0186,rule-can-list-get-secrets-v1
 C-0183,kubelet-rotate-kubelet-server-certificate
+C-0249,rule-manual
 C-0018,configured-readiness-probe
 C-0004,resources-memory-limit-and-request
 C-0195,pod-security-admission-baseline-applied
@@ -204,6 +217,7 @@ C-0052,instance-metadata-api-access
 C-0002,exec-into-container
 C-0002,exec-into-container-v1
 C-0055,linux-hardening
+C-0222,ensure-aws-policies-are-present
 C-0014,rule-access-dashboard
 C-0014,rule-access-dashboard-subject-v1
 C-0014,rule-access-dashboard-wl-v1
@@ -224,6 +238,7 @@ C-0192,pod-security-admission-applied
 C-0089,CVE-2022-3172
 C-0141,ensure-that-the-api-server-encryption-provider-config-argument-is-set-as-appropriate
 C-0194,pod-security-admission-baseline-applied
+C-0253,rule-manual
 C-0139,ensure-that-the-api-server-client-ca-file-argument-is-set-as-appropriate
 C-0063,rule-can-portforward
 C-0063,rule-can-portforward-v1
@@ -233,6 +248,7 @@ C-0230,ensure-network-policy-is-enabled-eks
 C-0084,exposed-rce-pods
 C-0001,rule-identify-blocklisted-image-registries
 C-0150,ensure-that-the-controller-manager-bind-address-argument-is-set-to-127.0.0.1
+C-0251,list-role-definitions-in-acr
 C-0100,ensure-that-the-Container-Network-Interface-file-permissions-are-set-to-600-or-more-restrictive
 C-0037,rule-can-update-configmap
 C-0037,rule-can-update-configmap-v1

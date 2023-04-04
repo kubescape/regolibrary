@@ -665,6 +665,35 @@
         "rule": "package armo_builtins\n\n\n################################################################################\n# Rules\ndeny[msga] {\n    pod := input[_]\n    pod.kind == \"Pod\"\n\tcontainer := pod.spec.containers[i]\n\n\tbeggining_of_path := \"spec\"\n\talertInfo := evaluate_workload_non_root_container(container, pod, beggining_of_path)\n\tfixPath := get_fixed_path(alertInfo, i)\n    failed_path := get_failed_path(alertInfo, i) \n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"container: %v in pod: %v  may run as root\", [container.name, pod.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": failed_path,\n        \"fixPaths\": fixPath,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n\t}\n}\n\n\ndeny[msga] {\n    wl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n    container := wl.spec.template.spec.containers[i]\n\n\tbeggining_of_path := \"spec.template.spec\"\n\talertInfo := evaluate_workload_non_root_container(container, wl.spec.template, beggining_of_path)\n\tfixPath := get_fixed_path(alertInfo, i)\n    failed_path := get_failed_path(alertInfo, i) \n    msga := {\n\t\t\"alertMessage\": sprintf(\"container :%v in %v: %v may run as root\", [container.name, wl.kind, wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": failed_path,\n        \"fixPaths\": fixPath,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\n# Fails if cronjob has a container configured to run as root\ndeny[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer = wl.spec.jobTemplate.spec.template.spec.containers[i]\n\n\tbeggining_of_path := \"spec.jobTemplate.spec.template.spec\"\n\talertInfo := evaluate_workload_non_root_container(container, wl.spec.jobTemplate.spec.template, beggining_of_path)\n\tfixPath := get_fixed_path(alertInfo, i)\n    failed_path := get_failed_path(alertInfo, i) \n\t\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"container :%v in %v: %v  may run as root\", [container.name, wl.kind, wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": failed_path,\n        \"fixPaths\": fixPath,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\nget_failed_path(alertInfo, i) = [replace(alertInfo.failed_path,\"container_ndx\",format_int(i,10))] {\n\talertInfo.failed_path != \"\"\n} else = []\n\n\nget_fixed_path(alertInfo, i) = [{\"path\":replace(alertInfo.fixPath[0].path,\"container_ndx\",format_int(i,10)), \"value\":alertInfo.fixPath[0].value}, {\"path\":replace(alertInfo.fixPath[1].path,\"container_ndx\",format_int(i,10)), \"value\":alertInfo.fixPath[1].value}]{\n\tcount(alertInfo.fixPath) == 2\n} else = [{\"path\":replace(alertInfo.fixPath[0].path,\"container_ndx\",format_int(i,10)), \"value\":alertInfo.fixPath[0].value}] {\n\tcount(alertInfo.fixPath) == 1\n}  else = []\n\n#################################################################################\n# Workload evaluation \n\nevaluate_workload_non_root_container(container, pod, beggining_of_path) = alertInfo {\n\trunAsNonRootValue := get_run_as_non_root_value(container, pod, beggining_of_path)\n\trunAsNonRootValue.value == false\n\t\n\trunAsUserValue := get_run_as_user_value(container, pod, beggining_of_path)\n\trunAsUserValue.value == 0\n\n\talertInfo := choose_first_if_defined(runAsUserValue, runAsNonRootValue)\n} else = alertInfo {\n    allowPrivilegeEscalationValue := get_allow_privilege_escalation(container, pod, beggining_of_path)\n    allowPrivilegeEscalationValue.value == true\n\n    alertInfo := allowPrivilegeEscalationValue\n}\n\n\n#################################################################################\n# Value resolution functions\n\n\nget_run_as_non_root_value(container, pod, beggining_of_path) = runAsNonRoot {\n    failed_path := sprintf(\"%v.containers[container_ndx].securityContext.runAsNonRoot\", [beggining_of_path]) \n    runAsNonRoot := {\"value\" : container.securityContext.runAsNonRoot, \"failed_path\" : failed_path, \"fixPath\": [] ,\"defined\" : true}\n} else = runAsNonRoot {\n\tfailed_path := sprintf(\"%v.securityContext.runAsNonRoot\", [beggining_of_path]) \n    runAsNonRoot := {\"value\" : pod.spec.securityContext.runAsNonRoot,  \"failed_path\" : failed_path, \"fixPath\": [], \"defined\" : true}\n} else = {\"value\" : false,  \"failed_path\" : \"\", \"fixPath\": [{\"path\": sprintf(\"%v.containers[container_ndx].securityContext.runAsNonRoot\", [beggining_of_path]), \"value\":\"true\"}], \"defined\" : false} {\n\tis_allow_privilege_escalation_field(container, pod)\n} else = {\"value\" : false,  \"failed_path\" : \"\", \"fixPath\": [{\"path\":  sprintf(\"%v.containers[container_ndx].securityContext.runAsNonRoot\", [beggining_of_path]) , \"value\":\"true\"}, {\"path\":sprintf(\"%v.containers[container_ndx].securityContext.allowPrivilegeEscalation\", [beggining_of_path]), \"value\":\"false\"}], \"defined\" : false}\n\nget_run_as_user_value(container, pod, beggining_of_path) = runAsUser {\n\tfailed_path := sprintf(\"%v.containers[container_ndx].securityContext.runAsUser\", [beggining_of_path]) \n    runAsUser := {\"value\" : container.securityContext.runAsUser,  \"failed_path\" : failed_path,  \"fixPath\": [], \"defined\" : true}\n} else = runAsUser {\n\tfailed_path := sprintf(\"%v.securityContext.runAsUser\", [beggining_of_path]) \n    runAsUser := {\"value\" : pod.spec.securityContext.runAsUser,  \"failed_path\" : failed_path, \"fixPath\": [],\"defined\" : true}\n} else = {\"value\" : 0, \"failed_path\": \"\", \"fixPath\": [{\"path\":  sprintf(\"%v.containers[container_ndx].securityContext.runAsNonRoot\", [beggining_of_path]), \"value\":\"true\"}],\"defined\" : false}{\n\tis_allow_privilege_escalation_field(container, pod)\n} else = {\"value\" : 0, \"failed_path\": \"\", \n\t\"fixPath\": [{\"path\":  sprintf(\"%v.containers[container_ndx].securityContext.runAsNonRoot\", [beggining_of_path]), \"value\":\"true\"},{\"path\":  sprintf(\"%v.containers[container_ndx].securityContext.allowPrivilegeEscalation\", [beggining_of_path]), \"value\":\"false\"}],\n\t\"defined\" : false}\n\nget_run_as_group_value(container, pod, beggining_of_path) = runAsGroup {\n\tfailed_path := sprintf(\"%v.containers[container_ndx].securityContext.runAsGroup\", [beggining_of_path])\n    runAsGroup := {\"value\" : container.securityContext.runAsGroup,  \"failed_path\" : failed_path, \"fixPath\": [],\"defined\" : true}\n} else = runAsGroup {\n\tfailed_path := sprintf(\"%v.securityContext.runAsGroup\", [beggining_of_path])\n    runAsGroup := {\"value\" : pod.spec.securityContext.runAsGroup,  \"failed_path\" : failed_path, \"fixPath\":[], \"defined\" : true}\n} else = {\"value\" : 0, \"failed_path\": \"\", \"fixPath\": [{\"path\": sprintf(\"%v.containers[container_ndx].securityContext.runAsNonRoot\", [beggining_of_path]), \"value\":\"true\"}], \"defined\" : false}{\n\tis_allow_privilege_escalation_field(container, pod)\n} else = {\"value\" : 0, \"failed_path\": \"\", \n\t\"fixPath\": [{\"path\": sprintf(\"%v.containers[container_ndx].securityContext.runAsNonRoot\", [beggining_of_path]), \"value\":\"true\"},{\"path\": sprintf(\"%v.containers[container_ndx].securityContext.allowPrivilegeEscalation\", [beggining_of_path]), \"value\":\"false\"}],\n \t\"defined\" : false\n}\n\nget_allow_privilege_escalation(container, pod, beggining_of_path) = allowPrivilegeEscalation {\n\tfailed_path := sprintf(\"%v.containers[container_ndx].securityContext.allowPrivilegeEscalation\", [beggining_of_path])\n    allowPrivilegeEscalation := {\"value\" : container.securityContext.allowPrivilegeEscalation,  \"failed_path\" : failed_path, \"fixPath\": [],\"defined\" : true}\n} else = allowPrivilegeEscalation {\n\tfailed_path := sprintf(\"%v.securityContext.allowPrivilegeEscalation\", [beggining_of_path])\n    allowPrivilegeEscalation := {\"value\" : pod.spec.securityContext.allowPrivilegeEscalation,  \"failed_path\" : failed_path, \"fixPath\": [],\"defined\" : true}\n} else = {\"value\" : true, \"failed_path\": \"\", \"fixPath\": [{\"path\": sprintf(\"%v.containers[container_ndx].securityContext.allowPrivilegeEscalation\", [beggining_of_path]), \"value\":\"false\"}], \"defined\" : false}\n\nchoose_first_if_defined(l1, l2) = c {\n    l1.defined\n    c := l1\n} else = l2\n\n\nis_allow_privilege_escalation_field(container, pod) {\n\tcontainer.securityContext.allowPrivilegeEscalation == false\n}\n\nis_allow_privilege_escalation_field(container, pod) {\n\tpod.spec.securityContext.allowPrivilegeEscalation == false\n}\n\n\n"
     },
     {
+        "name": "ensure-image-vulnerability-scanning-using-azure-defender-image-scanning-or-a-third-party-provider",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "match": [],
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "management.azure.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ClusterDescribe"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "AKS"
+        ],
+        "ruleDependencies": [],
+        "description": "Scan images being deployed to Azure (AKS) for vulnerabilities. Vulnerability scanning for images stored in Azure Container Registry is generally available in Azure Security Center. This capability is powered by Qualys, a leading provider of information security. When you push an image to Container Registry, Security Center automatically scans it, then checks for known vulnerabilities in packages or dependencies defined in the file. When the scan completes (after about 10 minutes), Security Center provides details and a security classification for each vulnerability detected, along with guidance on how to remediate issues and protect vulnerable attack surfaces.",
+        "remediation": "Enable Azure Defender image scanning. Command: az aks update --enable-defender --resource-group <your-resource-group> --name <your-cluster-name>",
+        "ruleQuery": "armo_builtin",
+        "rule": "package armo_builtins\n\n# fails in case Azure Defender image scanning is not enabled.\ndeny[msga] {\n    cluster_describe := input[_]\n\tcluster_describe.apiVersion == \"management.azure.com/v1\"\n\tcluster_describe.kind == \"ClusterDescribe\"\n\tcluster_describe.metadata.provider == \"aks\"\n\tproperties := cluster_describe.data.properties \n\n    not isAzureImageScanningEnabled(properties)\n\n    msga := {\n\t\t\"alertMessage\": \"Azure Defender image scanning is not enabled.\",\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"az aks update --enable-defender --resource-group <your-resource-group> --name <your-cluster-name>\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n            \"externalObject\": cluster_describe\n        },\n\n\t}\n}\n\n# isAzureImageScanningEnabled check if Azure Defender is enabled into the ClusterDescribe object.\nisAzureImageScanningEnabled(properties) {\n    properties.securityProfile.defender.securityMonitoring.enabled == true\n}"
+    },
+    {
         "name": "CVE-2022-47633",
         "attributes": {
             "armoBuiltin": true
@@ -868,6 +897,34 @@
         "rule": "package armo_builtins\n\nimport future.keywords.every\n\n# =============================== GKE ===============================\n# Check if audit logs is enabled for GKE\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"container.googleapis.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n\tcluster_config.metadata.provider == \"gke\"\n\tconfig := cluster_config.data\n\n\t# If enableComponents is empty, it will disable logging\n\t# https://cloud.google.com/kubernetes-engine/docs/reference/rest/v1beta1/projects.locations.clusters#loggingcomponentconfig\n\tis_logging_disabled(config)\n\tmsga := {\n\t\t\"alertMessage\": \"audit logs is disabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n\t\t\t\"externalObjects\": cluster_config,\n\t\t},\n\t}\n}\n\nis_logging_disabled(cluster_config) {\n\tnot cluster_config.logging_config.component_config.enable_components\n}\n\nis_logging_disabled(cluster_config) {\n\tcluster_config.logging_config.component_config.enable_components\n\tcount(cluster_config.logging_config.component_config.enable_components) == 0\n}\n\n# =============================== EKS ===============================\n# Check if audit logs is enabled for EKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"eks.amazonaws.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n\tcluster_config.metadata.provider == \"eks\"\n\tconfig := cluster_config.data\n\n\t# logSetup is an object representing the enabled or disabled Kubernetes control plane logs for your cluster.\n\t# types - available cluster control plane log types\n\t# https://docs.aws.amazon.com/eks/latest/APIReference/API_LogSetup.html\n\tlogging_types := {\"api\", \"audit\", \"authenticator\", \"controllerManager\", \"scheduler\"}\n\tlogSetups = config.Cluster.Logging.ClusterLogging\n\tnot all_auditlogs_enabled(logSetups, logging_types)\n\n\tmsga := {\n\t\t\"alertMessage\": \"audit logs is disabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixCommand\": \"aws eks update-cluster-config --region '${REGION_CODE}' --name '${CLUSTER_NAME}' --logging '{'clusterLogging':[{'types':['api','audit','authenticator','controllerManager','scheduler'],'enabled':true}]}'\",\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n\t\t\t\"externalObjects\": cluster_config,\n\t\t},\n\t}\n}\n\nall_auditlogs_enabled(logSetups, types) {\n\tevery type in types {\n\t\tauditlogs_enabled(logSetups, type)\n\t}\n}\n\nauditlogs_enabled(logSetups, type) {\n\tlogSetup := logSetups[_]\n\tlogSetup.Enabled == true\n\tlogSetup.Types[_] == type\n}\n"
     },
     {
+        "name": "ensure-azure-rbac-is-set",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "management.azure.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ClusterDescribe"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "AKS"
+        ],
+        "ruleDependencies": [],
+        "description": "Azure role-based access control (RBAC) is an authorization system built on Azure Resource Manager that provides fine-grained access management of Azure resources.",
+        "remediation": "Enable Azure RBAC on AKS by using the following command: az aks update -g <resource_group> -n <cluster_name> --enable-azure-rbac",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\n# fails in case Azure RBAC is not set on AKS instance.\ndeny[msga] {\n   \tcluster_describe := input[_]\n\tcluster_describe.apiVersion == \"management.azure.com/v1\"\n\tcluster_describe.kind == \"ClusterDescribe\"\n\tcluster_describe.metadata.provider == \"aks\"\n\tproperties := cluster_describe.data.properties\n\n\tnot isAzureRBACEnabled(properties)\n\n\tmsga := {\n\t\t\"alertMessage\": \"Azure RBAC is not set. Enable it using the command: az aks update -g <resource_group> -n <cluster_name> --enable-azure-rbac\",\n\t\t\"alertScore\": 7,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixCommand\": \"az aks update -g <resource_group> -n <cluster_name> --enable-azure-rbac\",\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObject\": [\n\t\t\t\tcluster_describe\n\t\t\t]\n\t\t},\n\t} \n}\n\n# isAzureRBACEnabled check if Azure RBAC is enabled into ClusterDescribe object\n# retrieved from azure cli.\nisAzureRBACEnabled(properties) {\n    properties.aadProfile.enableAzureRBAC == true\n}"
+    },
+    {
         "name": "ensure-that-the-api-server-service-account-key-file-argument-is-set-as-appropriate",
         "attributes": {
             "armoBuiltin": true,
@@ -957,6 +1014,26 @@
         "remediation": "",
         "ruleQuery": "armo_builtins",
         "rule": "package armo_builtins\n\nimport data.cautils as cautils\n\n# Check if encryption in etcd is enabled for native k8s\ndeny[msga] {\n\tapiserverpod := input[_]\n\tcmd := apiserverpod.spec.containers[0].command\n\tenc_command := [command | command := cmd[_]; contains(command, \"--encryption-provider-config=\")]\n\tcount(enc_command) < 1\n\tpath := \"spec.containers[0].command\"\n\n\tmsga := {\n\t\t\"alertMessage\": \"etcd encryption is not enabled\",\n\t\t\"alertScore\": 9,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\"k8sApiObjects\": [apiserverpod]},\n\t}\n}\n"
+    },
+    {
+        "name": "ensure-clusters-are-created-with-private-endpoint-enabled-and-public-access-disabled",
+        "attributes": {
+            "armoBuiltin": true,
+            "hostSensorRule": "false",
+            "imageScanRelated": false
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [],
+                "apiVersions": [],
+                "resources": []
+            }
+        ],
+        "description": "Disable access to the Kubernetes API from outside the node network if it is not required.",
+        "remediation": "To use a private endpoint, create a new private endpoint in your virtual network then create a link between your virtual network and a new private DNS zone",
+        "ruleQuery": "armo_builtins",
+        "rule": "\npackage armo_builtins\n\n# fails in case privateEndpoint.id parameter is not found on ClusterDescribe\ndeny[msga] {\n\tobj := input[_]\n\tobj.apiVersion == \"management.azure.com/v1\"\n\tobj.kind == \"ClusterDescribe\"\n\tobj.metadata.provider == \"aks\"\n\tconfig = obj.data\n\n\tnot isPrivateEndpointEnabled(config)\n\n\tmsga := {\n    \t\"alertMessage\": \"Private endpoint not enabled.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"externalObject\": [obj]\n        }\n    }\n}\n\nisPrivateEndpointEnabled(config) {\n\tconfig.properties.privateEndpoint.id\n}"
     },
     {
         "name": "set-seccomp-profile",
@@ -1952,6 +2029,27 @@
         "resourceEnumerator": "package armo_builtins\n\ndeny[msga] {\n\tnode := input[_]\n    node.kind == \"Node\"\n    \n    node.status.nodeInfo.operatingSystem == \"linux\"\n\n   linux_kernel_vars := [linux_kernel_var | linux_kernel_var = input[_]; linux_kernel_var.kind == \"LinuxKernelVariables\"]\n   linux_kernel_vars_for_node := [linux_kernel_var | linux_kernel_var = linux_kernel_vars[_]; linux_kernel_var.metadata.name == node.metadata.name]\n\n   external_vector := {\n       \"name\": node.metadata.name,\n\t\t\"namespace\": \"\",\n\t\t\"kind\": node.kind,\n\t\t\"relatedObjects\": linux_kernel_vars_for_node,\n        \"kernelVersion\": node.status.nodeInfo.kernelVersion\n   }\n\n \tmsga := {\n\t\t\t\"alertMessage\": \"You are vulnerable to CVE-2022-0185\",\n    \t\t\"alertObject\": {\n               \"externalObjects\": external_vector\n            },\n\t\t\t\"failedPaths\": [],\n            \"fixPaths\":[],\n\t}\n}\n"
     },
     {
+        "name": "rule-manual",
+        "attributes": {
+            "armoBuiltin": true,
+            "actionRequired": "manual review",
+            "hostSensorRule": false,
+            "imageScanRelated": false
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [],
+                "apiVersions": [],
+                "resources": []
+            }
+        ],
+        "description": "Due to the difficulty of performing a good check, the review is left manual to the user.",
+        "remediation": "",
+        "ruleQuery": "",
+        "rule": "\npackage armo_builtins\n\ndeny[msga] {\n\n\tmsga := {\n    \t\"alertMessage\": \"Please check it manually.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 2,\n    \t\"failedPaths\": [],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sObject\": []\n        }\n    }\n}"
+    },
+    {
         "name": "ensure-that-the-controller-manager-use-service-account-credentials-argument-is-set-to-true",
         "attributes": {
             "armoBuiltin": true
@@ -2004,6 +2102,35 @@
         "ruleQuery": "",
         "rule": "package armo_builtins\n\nimport future.keywords.in\n\ndeny[msg] {\n\tobj = input[_]\n\tis_api_server(obj)\n\tresult = invalid_flag(obj.spec.containers[0].command)\n\tmsg := {\n\t\t\"alertMessage\": result.alert,\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": result.failed_paths,\n\t\t\"fixPaths\": result.fix_paths,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"k8sApiObjects\": [obj]},\n\t}\n}\n\nis_api_server(obj) {\n\tobj.apiVersion == \"v1\"\n\tobj.kind == \"Pod\"\n\tobj.metadata.namespace == \"kube-system\"\n\tcount(obj.spec.containers) == 1\n\tcount(obj.spec.containers[0].command) > 0\n\tendswith(obj.spec.containers[0].command[0], \"kube-apiserver\")\n}\n\n# Assume flag set only once\ninvalid_flag(cmd) = result {\n\tcontains(cmd[i], \"--audit-log-maxbackup\")\n\tresult = {\n\t\t\"alert\": \"Please validate that the audit log max backup is set to an appropriate value\",\n\t\t\"failed_paths\": [sprintf(\"spec.containers[0].command[%v]\", [i])],\n\t\t\"fix_paths\": [],\n\t}\n}\n\ninvalid_flag(cmd) = result {\n\tfull_cmd = concat(\" \", cmd)\n\tnot contains(full_cmd, \"--audit-log-maxbackup\")\n\tpath = sprintf(\"spec.containers[0].command[%v]\", [count(cmd)])\n\tresult = {\n\t\t\"alert\": \"Audit log max backup is not set\",\n\t\t\"failed_paths\": [path],\n\t\t\"fix_paths\": [{\"path\": path, \"value\": \"--audit-log-maxbackup=YOUR_VALUE\"}],\n\t}\n}\n",
         "resourceEnumerator": "package armo_builtins\n\ndeny[msg] {\n\tobj = input[_]\n\tis_api_server(obj)\n\tmsg := {\"alertObject\": {\"k8sApiObjects\": [obj]}}\n}\n\nis_api_server(obj) {\n\tobj.apiVersion == \"v1\"\n\tobj.kind == \"Pod\"\n\tobj.metadata.namespace == \"kube-system\"\n\tcount(obj.spec.containers) == 1\n\tcount(obj.spec.containers[0].command) > 0\n\tendswith(obj.spec.containers[0].command[0], \"kube-apiserver\")\n}\n"
+    },
+    {
+        "name": "ensure-clusters-are-created-with-private-nodes",
+        "attributes": {
+            "armoBuiltin": true,
+            "hostSensorRule": false,
+            "useFromKubescapeVersion": "",
+            "useUntilKubescapeVersion": "",
+            "imageScanRelated": false,
+            "controlConfigInputs": ""
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "management.azure.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ClusterDescribe"
+                ]
+            }
+        ],
+        "description": "Disable public IP addresses for cluster nodes, so that they only have private IP addresses. Private Nodes are nodes with no public IP addresses.",
+        "remediation": "az aks create --resource-group <private-cluster-resource-group> --name <private-cluster-name> --load-balancer-sku standard --enable-private-cluster --network-plugin azure --vnet-subnet-id <subnet-id> --docker-bridge-address --dns-service-ip --service-cidr",
+        "ruleQuery": "",
+        "rule": "\npackage armo_builtins\n\n# fails in case enablePrivateCluster is set to false.\ndeny[msga] {\n\tobj := input[_]\n\tobj.apiVersion == \"management.azure.com/v1\"\n\tobj.kind == \"ClusterDescribe\"\n\tobj.metadata.provider == \"aks\"\n\tconfig = obj.data\n\n\tnot isPrivateClusterEnabled(config)\n\n\tmsga := {\n    \t\"alertMessage\": \"Cluster does not have private nodes.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"az aks create --resource-group <private-cluster-resource-group> --name <private-cluster-name> --load-balancer-sku standard --enable-private-cluster --network-plugin azure --vnet-subnet-id <subnet-id> --docker-bridge-address --dns-service-ip --service-cidr\",\n    \t\"alertObject\": {\n\t\t\"externalObject\": [obj]\n        }\n    }\n}\n\nisPrivateClusterEnabled(config) {\n\tconfig.properties.apiServerAccessProfile.enablePrivateCluster == true\n}\n"
     },
     {
         "name": "psp-deny-root-container",
@@ -2148,6 +2275,34 @@
         "rule": "package armo_builtins\n\n\ndeny[msga] {\n    pod := input[_]\n    pod.kind == \"Pod\"\n    container := pod.spec.containers[i]\n    is_not_security_context(pod, container)\n\tfixPaths := [{\"path\": sprintf(\"spec.containers[%v].securityContext\", [format_int(i, 10)]), \"value\": \"YOUR_VALUE\"}]\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"Container: %v in pod: %v does not define a securityContext.\", [container.name, pod.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": fixPaths,\n\t\t\"alertScore\": 7,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n\t}\t\n}\n\n\n\ndeny[msga] {\n    wl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n    container := wl.spec.template.spec.containers[i]\n\tis_not_security_context(wl.spec.template, container)\n\tfixPaths := [{\"path\": sprintf(\"spec.template.spec.containers[%v].securityContext\", [format_int(i, 10)]), \"value\": \"YOUR_VALUE\"}]\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Container: %v in %v: %v does not define a securityContext.\", [ container.name, wl.kind, wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": fixPaths,\n\t\t\"alertScore\": 7,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\n\ndeny[msga] {\n  \twl := input[_]\n\twl.kind == \"CronJob\"\n\tcontainer = wl.spec.jobTemplate.spec.template.spec.containers[i]\n\tis_not_security_context(wl.spec.jobTemplate.spec.template, container)\n\tfixPaths := [{\"path\": sprintf(\"spec.jobTemplate.spec.template.spec.containers[%v].securityContext\", [format_int(i, 10)]), \"value\": \"YOUR_VALUE\"}]\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"Container: %v in %v: %v does not define a securityContext.\", [ container.name, wl.kind, wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": fixPaths,\n\t\t\"alertScore\": 7,\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n\t}\n}\n\n\nis_not_security_context(pod, container) {\n\tnot pod.spec.securityContext \n\tnot container.securityContext\n}\n\nis_not_security_context(pod, container) {\n\tcount(pod.spec.securityContext) == 0\n\tnot container.securityContext\n}\n\n\nis_not_security_context(pod, container) {\n\tnot pod.spec.securityContext \n\tcontainer.securityContext\n\tcount(container.securityContext) == 0\n}\n\nis_not_security_context(pod, container) {\n   \tcount(pod.spec.securityContext) == 0\n   \tcontainer.securityContext\n  \tcount(container.securityContext) == 0\n}"
     },
     {
+        "name": "list-role-definitions-in-acr",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "management.azure.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ListEntitiesForPolicies"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "AKS"
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\n# return ListEntitiesForPolicies resource in azure\ndeny[msg] {\n\tresources := input[_]\n\tresources.kind == \"ListEntitiesForPolicies\"\n\tresources.apiVersion == \"management.azure.com/v1\"\n\tresources.metadata.provider == \"aks\"\n\n\tmsg := {\n\t\t\"alertMessage\": \"\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObjects\": resources\n\t\t}\n\t}\n}\n"
+    },
+    {
         "name": "alert-fargate-not-in-use",
         "attributes": {
             "armoBuiltin": true
@@ -2273,7 +2428,7 @@
         "description": "",
         "remediation": "",
         "ruleQuery": "armo_builtins",
-        "rule": "package armo_builtins\n\n\n# Check if encryption in etcd in enabled for EKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"eks.amazonaws.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"eks\"\t\n\tconfig = cluster_config.data\n\n\tis_not_encrypted_EKS(config)\n    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"eksctl utils enable-secrets-encryption --cluster=<cluster> --key-arn=arn:aws:kms:<cluster_region>:<account>:key/<key> --region=<region>\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n\n# Check if encryption in etcd in enabled for GKE\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"container.googleapis.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"gke\"\t\n\tconfig := cluster_config.data\n\n\tnot is_encrypted_GKE(config)\n    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [\"data.database_encryption.state\"],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"gcloud container clusters update <cluster_name> --region=<compute_region> --database-encryption-key=<key_project_id>/locations/<location>/keyRings/<ring_name>/cryptoKeys/<key_name> --project=<cluster_project_id>\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\nis_encrypted_GKE(config) {\n\t config.database_encryption.state == \"1\"\n}\nis_encrypted_GKE(config) {\n\t config.database_encryption.state == \"ENCRYPTED\"\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tencryptionConfig := cluster_config.Cluster.EncryptionConfig[_]\n    goodResources := [resource  | resource =   cluster_config.Cluster.EncryptionConfig.Resources[_]; resource == \"secrets\"]\n\tcount(goodResources) == 0\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tcluster_config.Cluster.EncryptionConfig == null\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tcount(cluster_config.Cluster.EncryptionConfig) == 0\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tencryptionConfig := cluster_config.Cluster.EncryptionConfig[_]\n    count(encryptionConfig.Resources) == 0\n}"
+        "rule": "package armo_builtins\n\n# Check if encryption in etcd in enabled for AKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"management.azure.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"aks\"\t\n\tconfig = cluster_config.data\n\n\tnot isEncryptedAKS(config)\n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"az aks nodepool add --name hostencrypt --cluster-name <myAKSCluster> --resource-group <myResourceGroup> -s Standard_DS2_v2 -l <myRegion> --enable-encryption-at-host\",\n\t\t\"alertObject\": {\n            \"externalObject\": [cluster_config]\n\t\t}\n\t}\n}\n\n\n# Check if encryption in etcd in enabled for EKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"eks.amazonaws.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"eks\"\t\n\tconfig = cluster_config.data\n\n\tis_not_encrypted_EKS(config)\n    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"eksctl utils enable-secrets-encryption --cluster=<cluster> --key-arn=arn:aws:kms:<cluster_region>:<account>:key/<key> --region=<region>\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n\n# Check if encryption in etcd in enabled for GKE\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"container.googleapis.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"gke\"\t\n\tconfig := cluster_config.data\n\n\tnot is_encrypted_GKE(config)\n    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [\"data.database_encryption.state\"],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"gcloud container clusters update <cluster_name> --region=<compute_region> --database-encryption-key=<key_project_id>/locations/<location>/keyRings/<ring_name>/cryptoKeys/<key_name> --project=<cluster_project_id>\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\nis_encrypted_GKE(config) {\n\t config.database_encryption.state == \"1\"\n}\nis_encrypted_GKE(config) {\n\t config.database_encryption.state == \"ENCRYPTED\"\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tencryptionConfig := cluster_config.Cluster.EncryptionConfig[_]\n    goodResources := [resource  | resource =   cluster_config.Cluster.EncryptionConfig.Resources[_]; resource == \"secrets\"]\n\tcount(goodResources) == 0\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tcluster_config.Cluster.EncryptionConfig == null\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tcount(cluster_config.Cluster.EncryptionConfig) == 0\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tencryptionConfig := cluster_config.Cluster.EncryptionConfig[_]\n    count(encryptionConfig.Resources) == 0\n}\n\nisEncryptedAKS(cluster_config) {\n\tcluster_config.properties.agentPoolProfiles.enableEncryptionAtHost == true\n}"
     },
     {
         "name": "alert-mount-potential-credentials-paths",
@@ -2865,34 +3020,6 @@
         "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tis_kubelet_info(obj)\n\n\tfile_obj_path := [\"data\", \"kubeConfigFile\"]\n\tfile := object.get(obj, file_obj_path, false)\n\n\t# Actual permissions test. num. configured from Octal (644) to Decimal num.    \n\tallowed_perms := 420\n\tnot cautils.unix_permissions_allow(allowed_perms, file.permissions)\n\n\t# Build the message\n\t# filter out irrelevant host-scanner data\n\tobj_filtered := json.filter(obj, [\n\t\tconcat(\"/\", file_obj_path),\n\t\t\"apiVersion\",\n\t\t\"kind\",\n\t\t\"metadata\"\n\t])\n\n\talert := sprintf(\"The permissions of %s are too permissive. maximum allowed: %o. actual: %o\", \n\t[file.path, allowed_perms, file.permissions])\n\n\tmsg := {\n\t\t\"alertMessage\": alert,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chmod %o %s\", [allowed_perms, file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\t}\n}\n\nis_kubelet_info(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"KubeletInfo\"\n}\n"
     },
     {
-        "name": "ensure_nodeinstancerole_has_only_readonly_permissions_for_ecr",
-        "attributes": {
-            "armoBuiltin": true
-        },
-        "ruleLanguage": "Rego",
-        "dynamicMatch": [
-            {
-                "apiGroups": [
-                    "eks.amazonaws.com"
-                ],
-                "apiVersions": [
-                    "v1"
-                ],
-                "resources": [
-                    "ListEntitiesForPolicies"
-                ]
-            }
-        ],
-        "relevantCloudProviders": [
-            "EKS"
-        ],
-        "ruleDependencies": [],
-        "description": "",
-        "remediation": "",
-        "ruleQuery": "armo_builtins",
-        "rule": "package armo_builtins\n\nimport future.keywords.if\nimport future.keywords.every\n\n# deny if a NodeInstanceRole has a poloicy that is not AmazonEC2ContainerRegistryReadOnly\ndeny[msg] {\n\tresources := input[_]\n\tresources.kind == \"ListEntitiesForPolicies\"\n\tresources.metadata.provider == \"eks\"\n    \n    # filter out policies that are not AmazonEC2ContainerRegistryReadOnly\n    ec2_readonly_policies_names := [key | resources.data.rolesPolicies[key]; not endswith(key, \"AmazonEC2ContainerRegistryReadOnly\")]\n    \n\t# construct a new object with the filtered policies\n\tec2_readonly_policies := object.filter(resources.data.rolesPolicies, ec2_readonly_policies_names)\n    \n\t# check if the filtered policies are attached to a NodeInstanceRole\n    is_NodeInstanceRole(ec2_readonly_policies)\n\n\n\tmsg := {\n\t\t\"alertMessage\": \"Cluster has none read-only access to ECR; Review AWS ECS worker node IAM role (NodeInstanceRole) IAM Policy Permissions to verify that they are set and the minimum required level.\",\n\t\t\"packagename\": \"armo_builtins\",\n\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObjects\": resources\n\t\t}\n\t}\n}\n\n\n# is_NodeInstanceRole - return true if the policy is attached to a NodeInstanceRole\nis_NodeInstanceRole(policies) {\n    some key, _ in policies\n    contains(policies[key].PolicyRoles[_].RoleName,\"NodeInstanceRole\")\n}"
-    },
-    {
         "name": "ensure-that-the-api-server-anonymous-auth-argument-is-set-to-false",
         "attributes": {
             "armoBuiltin": true
@@ -3042,6 +3169,34 @@
         "remediation": "",
         "ruleQuery": "armo_builtins",
         "rule": "package armo_builtins\n\nimport future.keywords.in\n\n# fails if user can can delete important resources\ndeny[msga] {\n\tsubjectVector := input[_]\n\trole := subjectVector.relatedObjects[i]\n\trolebinding := subjectVector.relatedObjects[j]\n\tendswith(role.kind, \"Role\")\n\tendswith(rolebinding.kind, \"Binding\")\n\n\trule := role.rules[p]\n\tsubject := rolebinding.subjects[k]\n\tis_same_subjects(subjectVector, subject)\n\nrule_path := sprintf(\"relatedObjects[%d].rules[%d]\", [i, p])\n\n\tverbs := [\"delete\", \"deletecollection\", \"*\"]\n\tverb_path := [sprintf(\"%s.verbs[%d]\", [rule_path, l]) | verb = rule.verbs[l]; verb in verbs]\n\tcount(verb_path) > 0\n\n\tapi_groups := [\"\", \"*\", \"apps\", \"batch\"]\n\tapi_groups_path := [sprintf(\"%s.apiGroups[%d]\", [rule_path, a]) | apiGroup = rule.apiGroups[a]; apiGroup in api_groups]\n\tcount(api_groups_path) > 0\n\n\tresources := [\"secrets\", \"pods\", \"services\", \"deployments\", \"replicasets\", \"daemonsets\", \"statefulsets\", \"jobs\", \"cronjobs\", \"*\"]\n\tresources_path := [sprintf(\"%s.resources[%d]\", [rule_path, l]) | resource = rule.resources[l]; resource in resources]\n\tcount(resources_path) > 0\n\n\tpath := array.concat(resources_path, verb_path)\n\tpath2 := array.concat(path, api_groups_path)\n\tfinalpath := array.concat(path2, [\n\t\tsprintf(\"relatedObjects[%d].subjects[%d]\", [j, k]),\n\t\tsprintf(\"relatedObjects[%d].roleRef.name\", [j]),\n\t])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"Subject: %s-%s can delete important resources\", [subjectVector.kind, subjectVector.name]),\n\t\t\"alertScore\": 3,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": finalpath,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n\t\t\t\"externalObjects\": subjectVector,\n\t\t},\n\t}\n}\n\n# for service accounts\nis_same_subjects(subjectVector, subject) {\n\tsubjectVector.kind == subject.kind\n\tsubjectVector.name == subject.name\n\tsubjectVector.namespace == subject.namespace\n}\n\n# for users/ groups\nis_same_subjects(subjectVector, subject) {\n\tsubjectVector.kind == subject.kind\n\tsubjectVector.name == subject.name\n\tsubjectVector.apiGroup == subject.apiGroup\n}\n"
+    },
+    {
+        "name": "rule-cni-enabled-aks",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "management.azure.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ClusterDescribe"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "AKS"
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\n# fails if cni is not enabled like defined in:\n# https://learn.microsoft.com/en-us/azure/aks/use-network-policies#create-an-aks-cluster-and-enable-network-policy\ndeny[msga] {\n\tcluster_describe := input[_]\n\tcluster_describe.apiVersion == \"management.azure.com/v1\"\n\tcluster_describe.kind == \"ClusterDescribe\"\n\tcluster_describe.metadata.provider == \"aks\"\n\tproperties := cluster_describe.data.properties\n\n\tnot cni_enabled_aks(properties)\n\n\tmsga := {\n\t\t\"alertMessage\": \"cni is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixCommand\": \"\",\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n\t\t\t\"externalObjects\": cluster_describe,\n\t\t},\n\t}\n}\n\ncni_enabled_aks(properties) {\n\tproperties.networkProfile.networkPlugin == \"azure\"\n\tproperties.networkProfile.networkPolicy == \"azure\"\n}\n\ncni_enabled_aks(properties) {\n\tproperties.networkProfile.networkPlugin == \"azure\"\n\tproperties.networkProfile.networkPolicy == \"calico\"\n}\n\ncni_enabled_aks(properties) {\n\tproperties.networkProfile.networkPlugin == \"kubenet\"\n\tproperties.networkProfile.networkPolicy == \"calico\"\n}\n"
     },
     {
         "name": "access-tiller-endpoint",
@@ -3613,6 +3768,35 @@
         "ruleQuery": "armo_builtins",
         "rule": "package armo_builtins\n\ndeny[msga] {\n  services := [ x | x = input[_]; x.kind == \"Service\" ]\n  pods     := [ x | x = input[_]; x.kind == \"Pod\" ]\n  vulns    := [ x | x = input[_]; x.kind == \"ImageVulnerabilities\" ]\n\n  pod     := pods[_]\n  service := services[_]\n  vuln    := vulns[_]\n\n  # vuln data is relevant \n  count(vuln.data) > 0 \n\n  # service is external-facing\n  filter_external_access(service)\n\n  # pod has the current service\n  service_to_pod(service, pod) > 0\n\n  # get container image name\n  container := pod.spec.containers[i]\n\n  # image has vulnerabilities\n  container.image == vuln.metadata.name\n\n  # At least one rce vulnerability\n  filter_rce_vulnerabilities(vuln)\n\n  related_objects := [pod, vuln]\n\n  path := sprintf(\"status.containerStatuses[%v].imageID\", [format_int(i, 10)])\n\n  metadata = {\n    \"name\": pod.metadata.name,\n    \"namespace\": pod.metadata.namespace\n  }\n\n  external_objects = { \n    \"apiVersion\": \"result.vulnscan.com/v1\",\n    \"kind\": pod.kind,\n    \"metadata\": metadata,\n    \"relatedObjects\": related_objects\n  }\n\n  msga := {\n    \"alertMessage\": sprintf(\"pod '%v' exposed with rce vulnerability\", [pod.metadata.name]),\n    \"packagename\": \"armo_builtins\",\n    \"alertScore\": 8,\n   \"failedPaths\": [path],\n    \"fixPaths\": [],\n    \"alertObject\": {\n      \"externalObjects\": external_objects\n    }\n  }\n}\n\nfilter_rce_vulnerabilities(vuln) {\n  data := vuln.data[_]\n  data.categories.isRce == true\n}\n\nfilter_external_access(service) {\n  service.spec.type != \"ClusterIP\"\n}\n\nservice_to_pod(service, pod) = res {\n  # Make sure we're looking on the same namespace\n  service.metadata.namespace == pod.metadata.namespace\n\n  service_selectors := [ x | x = service.spec.selector[_] ]\n\n  res := count([ x | x = pod.metadata.labels[_]; x == service_selectors[_] ])\n}",
         "resourceEnumerator": "package armo_builtins\n    \ndeny[msga] {\n  services := [ x | x = input[_]; x.kind == \"Service\" ; x.apiVersion == \"v1\"]\n  pods     := [ x | x = input[_]; x.kind == \"Pod\" ; x.apiVersion == \"v1\"]\n  vulns    := [ x | x = input[_]; x.kind == \"ImageVulnerabilities\"] # TODO: x.apiVersion == \"--input--\" || x.apiVersion == \"--input--\"  ]\n\n  pod     := pods[_]\n  service := services[_]\n  vuln    := vulns[_]\n\n  # vuln data is relevant \n  count(vuln.data) > 0 \n\n  # service is external-facing\n  filter_external_access(service)\n\n  # pod has the current service\n  service_to_pod(service, pod) > 0\n\n  # get container image name\n  container := pod.spec.containers[i]\n\n  # image has vulnerabilities\n  container.image == vuln.metadata.name\n\n  related_objects := [pod, vuln]\n\n  path := sprintf(\"status.containerStatuses[%v].imageID\", [format_int(i, 10)])\n\n  metadata = {\n    \"name\": pod.metadata.name,\n    \"namespace\": pod.metadata.namespace\n  }\n\n  external_objects = { \n    \"apiVersion\": \"result.vulnscan.com/v1\",\n    \"kind\": pod.kind,\n    \"metadata\": metadata,\n    \"relatedObjects\": related_objects\n  }\n\n  msga := {\n    \"alertMessage\": sprintf(\"pod '%v' exposed with rce vulnerability\", [pod.metadata.name]),\n    \"packagename\": \"armo_builtins\",\n    \"alertScore\": 8,\n   \"failedPaths\": [path],\n    \"fixPaths\": [],\n    \"alertObject\": {\n      \"externalObjects\": external_objects\n    }\n  }\n}\n\nfilter_external_access(service) {\n  service.spec.type != \"ClusterIP\"\n}\n\nservice_to_pod(service, pod) = res {\n  # Make sure we're looking on the same namespace\n  service.metadata.namespace == pod.metadata.namespace\n\n  service_selectors := [ x | x = service.spec.selector[_] ]\n\n  res := count([ x | x = pod.metadata.labels[_]; x == service_selectors[_] ])\n}"
+    },
+    {
+        "name": "ensure-service-principle-has-read-only-permissions",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "management.azure.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ListEntitiesForPolicies",
+                    "PolicyVersion"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "AKS"
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\nimport future.keywords.every\n\n# deny if servicePrincipal has permissions that are not read-only\ndeny[msga] {\n\tresources := input[_]\n\tresources.kind == \"ListEntitiesForPolicies\"\n\tresources.metadata.provider == \"aks\"\n\n\troleAssignment := resources.data.roleAssignments[_]\n\troleAssignment.properties.principalType == \"ServicePrincipal\"\n\n\tpolicies := input[_]\n\tpolicies.kind == \"PolicyVersion\"\n\tpolicies.metadata.provider == \"aks\"\n\n\tpolicy := policies.data.roleDefinitions[_]\n\tpolicy.id == roleAssignment.properties.roleDefinitionId\n\n\t# check if policy has at least one action that is not read\n\tsome action in policy.properties.permissions[_].actions\n\t\tnot endswith(action, \"read\")\n\n\tmsga := {\n\t\t\"alertMessage\": \"ServicePrincipal has permissions that are not read-only to ACR.\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObject\": resources\n\t\t}\n\t}\n}\n"
     },
     {
         "name": "ensure-that-the-api-server-profiling-argument-is-set-to-false",
@@ -4851,6 +5035,33 @@
         "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchmod 600 /etc/kubernetes/admin.conf\n\n```",
         "ruleQuery": "",
         "rule": "package armo_builtins\n\nimport data.cautils as cautils\nimport future.keywords.in\n\ndeny[msg] {\n\t# Filter out irrelevent resources\n\tobj = input[_]\n\tis_control_plane_info(obj)\n\n\tfile_obj_path := [\"data\", \"adminConfigFile\"]\n\tfile := object.get(obj, file_obj_path, false)\n\n\t# Actual permissions test    \n\tallowed_perms := 384 # == 0o600\n\tnot cautils.unix_permissions_allow(allowed_perms, file.permissions)\n\n\t# Build the message\n\t# filter out irrelevant host-sensor data\n\tobj_filtered := json.filter(obj, [\n\t\tconcat(\"/\", file_obj_path),\n\t\t\"apiVersion\",\n\t\t\"kind\",\n\t\t\"metadata\",\n\t])\n\n\talert := sprintf(\"the permissions of %s are too permissive. maximum allowed: %o. actual: %o\", [file.path, allowed_perms, file.permissions])\n\tmsg := {\n\t\t\"alertMessage\": alert,\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": sprintf(\"chmod %o %s\", [allowed_perms, file.path]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\"externalObjects\": obj_filtered},\n\t}\n}\n\nis_control_plane_info(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"ControlPlaneInfo\"\n}\n"
+    },
+    {
+        "name": "encrypt-traffic-to-https-load-balancers-with-tls-certificates",
+        "attributes": {
+            "armoBuiltin": true,
+            "hostSensorRule": "false",
+            "imageScanRelated": false
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [
+                    "*"
+                ],
+                "apiVersions": [
+                    "*"
+                ],
+                "resources": [
+                    "Service",
+                    "Ingress"
+                ]
+            }
+        ],
+        "description": "Encrypt traffic to HTTPS load balancers using TLS certificates.",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\n# fails in case 'Service' object has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type == \"LoadBalancer\"\n\tnot svc.metadata.annotations[\"service.beta.kubernetes.io/azure-load-balancer-internal\"]\n\n\tmsga := {\n    \t\"alertMessage\": \"Service object LoadBalancer has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"spec.metadata.annotations['service.beta.kubernetes.io/azure-load-balancer-internal']\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sObject\": [svc]\n        }\n    }\n}\n\n# fails in case 'Service' object has annotation 'service.beta.kubernetes.io/azure-load-balancer-internal' != 'true'.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type == \"LoadBalancer\"\n\tsvc.metadata.annotations[\"service.beta.kubernetes.io/azure-load-balancer-internal\"] != \"true\"\n\n\tmsga := {\n    \t\"alertMessage\": \"Service object LoadBalancer has annotation 'service.beta.kubernetes.io/azure-load-balancer-internal' != 'true'.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"spec.metadata.annotations['service.beta.kubernetes.io/azure-load-balancer-internal']\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sObject\": [svc]\n        }\n    }\n}\n\n# fails in case 'Ingress' object has spec.tls value not set.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type == \"LoadBalancer\"\n\tsvc.metadata.annotations[\"service.beta.kubernetes.io/azure-load-balancer-internal\"] == \"true\"\n\n\tingress := input[_]\n\tingress.kind == \"Ingress\"\n\tnot isTLSSet(ingress.spec)\n\n\tmsga := {\n    \t\"alertMessage\": \"Ingress object has 'spec.tls' value not set.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"spec.tls\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sObject\": [ingress]\n        }\n    }\n}\n\n# fails in case 'Ingress' object has annotation 'kubernetes.io/ingress.class' != 'azure/application-gateway'.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type == \"LoadBalancer\"\n\tsvc.metadata.annotations[\"service.beta.kubernetes.io/azure-load-balancer-internal\"] == \"true\"\n\n\tingress := input[_]\n\tingress.kind == \"Ingress\"\n\tisTLSSet(ingress.spec)\n\tingress.metadata.annotations[\"kubernetes.io/ingress.class\"] != \"azure/application-gateway\"\n\n\tmsga := {\n    \t\"alertMessage\": \"Ingress object has annotation 'kubernetes.io/ingress.class' != 'azure/application-gateway'.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"spec.metadata.annotations['kubernetes.io/ingress.class']\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sObject\": [ingress]\n        }\n    }\n}\n\nisTLSSet(spec) {\n\tcount(spec.tls) > 0\n}"
     },
     {
         "name": "rule-can-delete-logs-v1",
@@ -6332,6 +6543,31 @@
         "rule": "\npackage armo_builtins\nimport data.cautils as cautils\n\n\ndeny[msga] {\n\t roles := [role |  role= input[_]; role.kind == \"Role\"]\n    rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == \"RoleBinding\"]\n    role:= roles[_]\n    rolebinding := rolebindings[_]\n\n    rule:= role.rules[_]\n\tcanImpersonateVerb(rule)\n    canImpersonateResource(rule)\n\n\trolebinding.roleRef.kind == \"Role\"\n\trolebinding.roleRef.name == role.metadata.name\n\t\n    subject := rolebinding.subjects[i]\n    path := sprintf(\"subjects[%v]\", [format_int(i, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"the following %v: %v, can impersonate users\", [subject.kind, subject.name]),\n\t\t\"alertScore\": 9,\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [role, rolebinding],\n\t\t\t\"externalObjects\": {\n\t\t\t\t\"subject\" : [subject]\n\t\t\t}\n\t\t}\n\t}\n}\n\n\ndeny[msga] {\n    roles := [role |  role= input[_]; role.kind == \"ClusterRole\"]\n    rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == \"RoleBinding\"]\n    role:= roles[_]\n    rolebinding := rolebindings[_]\n\n    rule:= role.rules[_]\n\tcanImpersonateVerb(rule)\n    canImpersonateResource(rule)\n\n\trolebinding.roleRef.kind == \"ClusterRole\"\n\trolebinding.roleRef.name == role.metadata.name\n\t\n    subject := rolebinding.subjects[i]\n    path := sprintf(\"subjects[%v]\", [format_int(i, 10)])\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"the following %v: %v,  can impersonate users\", [subject.kind, subject.name]),\n\t\t\"alertScore\": 9,\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [role, rolebinding],\n\t\t\t\"externalObjects\": {\n\t\t\t\t\"subject\" : [subject]\n\t\t\t}\n\t\t}\n\t}\n}\n\n\n\ndeny[msga] {\n    roles := [role |  role= input[_]; role.kind == \"ClusterRole\"]\n    rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == \"ClusterRoleBinding\"]\n    role:= roles[_]\n    rolebinding := rolebindings[_]\n\n    rule:= role.rules[_]\n\tcanImpersonateVerb(rule)\n    canImpersonateResource(rule)\n\n\trolebinding.roleRef.kind == \"ClusterRole\"\n\trolebinding.roleRef.name == role.metadata.name\n\t\n    subject := rolebinding.subjects[i]\n    path := sprintf(\"subjects[%v]\", [format_int(i, 10)])\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"the following %v: %v, can impersonate users\", [subject.kind, subject.name]),\n\t\t\"alertScore\": 9,\n\t\t\"failedPaths\": [path],\n\t\t\"packagename\": \"armo_builtins\",\n  \t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [role, rolebinding],\n\t\t\t\"externalObjects\": {\n\t\t\t\t\"subject\" : [subject]\n\t\t\t}\n\t\t}\n\t}\n}\n\n\ncanImpersonateVerb(rule) {\n\t\tcautils.list_contains(rule.verbs, \"impersonate\")\n}\ncanImpersonateVerb(rule) {\n\t\tcautils.list_contains(rule.verbs, \"*\")\n}\n\n\ncanImpersonateResource(rule) {\n\tcautils.list_contains(rule.resources,\"users\")\n}\n\ncanImpersonateResource(rule) {\n\tcautils.list_contains(rule.resources,\"serviceaccounts\")\n}\n\ncanImpersonateResource(rule) {\n\tcautils.list_contains(rule.resources,\"groups\")\n}\n\ncanImpersonateResource(rule) {\n\tcautils.list_contains(rule.resources,\"uids\")\n}\n\ncanImpersonateResource(rule) {\n\tis_api_group(rule)\n\tcautils.list_contains(rule.resources,\"*\")\n}\n\nis_api_group(rule) {\n\tapiGroup := rule.apiGroups[_]\n\tapiGroup == \"*\"\n}\n\nis_api_group(rule) {\n\tapiGroup := rule.apiGroups[_]\n\tapiGroup == \"\"\n}"
     },
     {
+        "name": "ensure-aws-policies-are-present",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "ruleLanguage": "Rego",
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "eks.amazonaws.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "PolicyVersion"
+                ]
+            }
+        ],
+        "ruleDependencies": [],
+        "description": "fails if aws policies are not found",
+        "remediation": "Implement policies to minimize user access to Amazon ECR",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\n# deny if policies are not present on AWS\ndeny[msg] {\n\tpolicies := input[_]\n\tpolicies.kind == \"PolicyVersion\"\n\tpolicies.metadata.provider == \"eks\"\n\n\tmsg := {\n\t\t\"alertMessage\": \"Cluster has not policies to minimize access to Amazon ECR; Add some policy in order to minimize access on it.\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObject\": [policies]\n\t\t}\n\t}\n}\n"
+    },
+    {
         "name": "resource-policies",
         "attributes": {
             "armoBuiltin": true
@@ -6637,6 +6873,32 @@
         "ruleQuery": "armo_builtins",
         "rule": "package armo_builtins\nimport data\n\ndeny[msga] {\n  pods    := [ x | x = input[_]; x.kind == \"Pod\" ]\n  vulns   := [ x | x = input[_]; x.kind == \"ImageVulnerabilities\"]\n\n  pod     := pods[_]\n  vuln    := vulns[_]\n\n  # vuln data is relevant \n  count(vuln.data) > 0 \n  \n  # get container image name\n  container := pod.spec.containers[i]\n\n  # image has vulnerabilities\n  container.image == vuln.metadata.name\n\n  # Has ^ amount of vulnerabilities\n  check_num_vulnerabilities(vuln)\n\n  related_objects := [pod, vuln]\n\n  path := sprintf(\"status.containerStatuses[%v].imageID\", [format_int(i, 10)])\n\n  metadata = {\n  \t\"name\": pod.metadata.name,\n  \t\"namespace\": pod.metadata.namespace\n  }\n\n  external_objects = {\n  \t\"apiVersion\": \"result.vulnscan.com/v1\",\n  \t\"kind\": pod.kind,\n  \t\"metadata\": metadata,\n  \t\"relatedObjects\": related_objects\n  }\n\n  msga := {\n  \t\"alertMessage\": sprintf(\"pod '%v' exposed with critical vulnerabilities\", [pod.metadata.name]),\n  \t\"packagename\": \"armo_builtins\",\n  \t\"alertScore\": 7,\n  \t\"failedPaths\": [path],\n  \t\"fixPaths\": [],\n  \t\"alertObject\": {\n      \"externalObjects\": external_objects\n  \t}\n  }\n}\n\ncheck_num_vulnerabilities(vuln) {\n  exists := count([ x | x = vuln.data[_]; x.severity == \"Critical\" ])\n\n  str_max := data.postureControlInputs.max_critical_vulnerabilities[_]\n  exists > to_number(str_max)\n}\n\ncheck_num_vulnerabilities(vuln) {\n  exists := count([ x | x = vuln.data[_]; x.severity == \"High\" ])\n  \n  str_max := data.postureControlInputs.max_high_vulnerabilities[_]\n  exists > to_number(str_max)\n}",
         "resourceEnumerator": "package armo_builtins\n\ndeny[msga] {\n  pods    := [ x | x = input[_]; x.kind == \"Pod\" ]\n  vulns   := [ x | x = input[_]; x.kind == \"ImageVulnerabilities\"]\n\n  pod     := pods[_]\n  vuln    := vulns[_]\n\n  # vuln data is relevant \n  count(vuln.data) > 0 \n  \n  # get container image name\n  container := pod.spec.containers[i]\n\n  # image has vulnerabilities\n  container.image == vuln.metadata.name\n\n  related_objects := [pod, vuln]\n\n  path := sprintf(\"status.containerStatuses[%v].imageID\", [format_int(i, 10)])\n\n  metadata = {\n  \t\"name\": pod.metadata.name,\n  \t\"namespace\": pod.metadata.namespace\n  }\n\n  external_objects = {\n  \t\"apiVersion\": \"result.vulnscan.com/v1\",\n  \t\"kind\": pod.kind,\n  \t\"metadata\": metadata,\n  \t\"relatedObjects\": related_objects\n  }\n\n  msga := {\n  \t\"alertMessage\": sprintf(\"pod '%v' exposed with critical vulnerabilities\", [pod.metadata.name]),\n  \t\"packagename\": \"armo_builtins\",\n  \t\"alertScore\": 7,\n  \t\"failedPaths\": [path],\n  \t\"fixPaths\": [],\n  \t\"alertObject\": {\n      \"externalObjects\": external_objects\n  \t}\n  }\n}"
+    },
+    {
+        "name": "restrict-access-to-the-control-plane-endpoint",
+        "attributes": {
+            "armoBuiltin": true,
+            "hostSensorRule": "false",
+            "imageScanRelated": false
+        },
+        "ruleLanguage": "Rego",
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "management.azure.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ClusterDescribe"
+                ]
+            }
+        ],
+        "description": "Enable Endpoint Private Access to restrict access to the cluster's control plane to only an allowlist of authorized IPs.",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "\npackage armo_builtins\n\n# fails in case authorizedIPRanges is not set.\ndeny[msga] {\n\tobj := input[_]\n\tobj.apiVersion == \"management.azure.com/v1\"\n\tobj.kind == \"ClusterDescribe\"\n\tobj.metadata.provider == \"aks\"\n\tconfig = obj.data\n\n\tnot isAuthorizedIPRangesSet(config)\n\n\tmsga := {\n    \t\"alertMessage\": \"Parameter 'authorizedIPRanges' was not set.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"az aks update -n '<name>' -g '<resource_group>' --api-server-authorized-ip-ranges '0.0.0.0/32'\",\n    \t\"alertObject\": {\n\t\t\t\"externalObject\": [obj]\n        }\n    }\n\n}\n\nisAuthorizedIPRangesSet(config) {\n\tcount(config.properties.apiServerAccessProfile.authorizedIPRanges) > 0\n}"
     },
     {
         "name": "pod-specific-version-tag",
@@ -8475,6 +8737,28 @@
         "resourceEnumerator": "package armo_builtins\nimport data.cautils as cautils\n\n# Fails if pod has insecure-port flag enabled\ndeny[msga] {\n    pod := input[_]\n    pod.kind == \"Pod\"\n\tcontains(pod.metadata.name, \"kube-apiserver\")\n    container := pod.spec.containers[_]\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"The API server container: %v has insecure-port flag enabled\", [ container.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [\"\"],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n\t}\n}\n"
     },
     {
+        "name": "rule-hostile-multitenant-workloads",
+        "attributes": {
+            "armoBuiltin": true,
+            "actionRequired": "manual review"
+        },
+        "ruleLanguage": "Rego",
+        "match": [
+            {
+                "apiGroups": [],
+                "apiVersions": [],
+                "resources": []
+            }
+        ],
+        "ruleDependencies": [],
+        "configInputs": [],
+        "controlConfigInputs": [],
+        "description": "Currently, Kubernetes environments aren't safe for hostile multi-tenant usage. Extra security features, like Pod Security Policies or Kubernetes RBAC for nodes, efficiently block exploits. For true security when running hostile multi-tenant workloads, only trust a hypervisor. The security domain for Kubernetes becomes the entire cluster, not an individual node.",
+        "remediation": "Use physically isolated clusters",
+        "ruleQuery": "",
+        "rule": "package armo_builtins\n\ndeny[msga] {\n\n\tmsga := {\n\t\t\"alertMessage\": \"Please check it manually.\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 2,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [],\n         \"alertObject\": {}\n    }\n}\n"
+    },
+    {
         "name": "ensure-that-the-api-server-token-auth-file-parameter-is-not-set",
         "attributes": {
             "armoBuiltin": true
@@ -9174,6 +9458,36 @@
         "remediation": "",
         "ruleQuery": "armo_builtins",
         "rule": "package armo_builtins\n\n\ndeny[msg] {\n\tobj = input[_]\n\tis_cloud_provider_info(obj)\n\n\tobj.data.providerMetaDataAPIAccess == true\n\n\n\tmsg := {\n\t\t\"alertMessage\": sprintf(\"Node '%s' has access to Instance Metadata Services of cloud provider.\", [obj.metadata.name]),\n\t\t\"alert\": true,\n\t\t\"alertScore\": 1,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObjects\": obj\n\t\t},\n\t\t\"packagename\": \"armo_builtins\"\n\t}\n\n}\n\n\n\nis_cloud_provider_info(obj) {\n\tobj.apiVersion == \"hostdata.kubescape.cloud/v1beta0\"\n\tobj.kind == \"cloudProviderInfo\"\n}"
+    },
+    {
+        "name": "ensure_nodeinstancerole_has_right_permissions_for_ecr",
+        "attributes": {
+            "armoBuiltin": true,
+            "useFromKubescapeVersion": "v2.2.5"
+        },
+        "ruleLanguage": "Rego",
+        "dynamicMatch": [
+            {
+                "apiGroups": [
+                    "eks.amazonaws.com"
+                ],
+                "apiVersions": [
+                    "v1"
+                ],
+                "resources": [
+                    "ListEntitiesForPolicies",
+                    "PolicyVersion"
+                ]
+            }
+        ],
+        "relevantCloudProviders": [
+            "EKS"
+        ],
+        "ruleDependencies": [],
+        "description": "",
+        "remediation": "",
+        "ruleQuery": "armo_builtins",
+        "rule": "package armo_builtins\n\nimport future.keywords.every\n\n# deny if a NodeInstanceRole has a policies not compliant with the following:\n# {\n#    \"Version\": \"YYY-MM-DD\",\n#    \"Statement\": [\n#        {\n#            \"Effect\": \"Allow\",\n#            \"Action\": [\n#                \"ecr:BatchCheckLayerAvailability\",\n#                \"ecr:BatchGetImage\",\n#                \"ecr:GetDownloadUrlForLayer\",\n#                \"ecr:GetAuthorizationToken\"\n#            ],\n#            \"Resource\": \"*\"\n#        }\n#    ]\n# }\ndeny[msga] {\n\tresources := input[_]\n\tresources.kind == \"ListEntitiesForPolicies\"\n\tresources.metadata.provider == \"eks\"\n\n\trole_policies := resources.data.rolesPolicies\n\tnode_instance_role_policies := [key | role_policies[key]; contains(role_policies[key].PolicyRoles[_].RoleName, \"NodeInstance\")]\n\n\t# check if the policy satisfies the minimum prerequisites\n\tpolicies := input[_]\n\tpolicies.kind == \"PolicyVersion\"\n\tpolicies.metadata.provider == \"eks\"\n\n\t#node_instance_role_policies := [\"arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly\"]\n\tsome policy in node_instance_role_policies\n\t\tsome stat, _ in policies.data.policiesDocuments[policy].Statement\n\t\t\tnot isPolicyCompliant(policies, policy, stat)\n\n\tmsga := {\n\t\t\"alertMessage\": \"Cluster has none read-only access to ECR; Review AWS ECS worker node IAM role (NodeInstanceRole) IAM Policy Permissions to verify that they are set and the minimum required level.\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObject\": [\n\t\t\t\tresources\n\t\t\t]\n\t\t}\n\t}\n}\n\nisPolicyCompliant(policies, policy, stat) {\n\t# allowed action provided by the CIS\n\tallowed_actions := [\"ecr:BatchCheckLayerAvailability\",\n                \t    \"ecr:BatchGetImage\",\n                \t    \"ecr:GetAuthorizationToken\",\n                \t    \"ecr:GetDownloadUrlForLayer\"]\n\tpolicies.data.policiesDocuments[policy].Statement[stat].Effect == \"Allow\"\n\tpolicies.data.policiesDocuments[policy].Statement[stat].Resource == \"*\"\n\tsorted_actions := sort(policies.data.policiesDocuments[policy].Statement[stat].Action)\n\tsorted_actions == allowed_actions\n}"
     },
     {
         "name": "verify-image-signature",

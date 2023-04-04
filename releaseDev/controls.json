@@ -295,6 +295,48 @@
         "rules": []
     },
     {
+        "controlID": "C-0242",
+        "name": "Hostile multi-tenant workloads",
+        "description": "Currently, Kubernetes environments aren't safe for hostile multi-tenant usage. Extra security features, like Pod Security Policies or Kubernetes RBAC for nodes, efficiently block exploits. For true security when running hostile multi-tenant workloads, only trust a hypervisor. The security domain for Kubernetes becomes the entire cluster, not an individual node.\n\n For these types of hostile multi-tenant workloads, you should use physically isolated clusters. For more information on ways to isolate workloads, see Best practices for cluster isolation in AKS.",
+        "long_description": "",
+        "remediation": "",
+        "manual_test": "",
+        "references": [
+            "<https://docs.microsoft.com/en-us/azure/aks/operator-best-practices-cluster-isolation>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "rule-hostile-multitenant-workloads"
+        ],
+        "baseScore": 5,
+        "impact_statement": "",
+        "default_value": "",
+        "rules": []
+    },
+    {
+        "controlID": "C-0239",
+        "name": "Prefer using dedicated AKS Service Accounts",
+        "description": "Kubernetes workloads should not use cluster node service accounts to authenticate to Azure AKS APIs. Each Kubernetes workload that needs to authenticate to other Azure Web Services using IAM should be provisioned with a dedicated Service account.",
+        "long_description": "Manual approaches for authenticating Kubernetes workloads running on Azure AKS against Azure APIs are: storing service account keys as a Kubernetes secret (which introduces manual key rotation and potential for key compromise); or use of the underlying nodes' IAM Service account, which violates the principle of least privilege on a multi-tenanted node, when one pod needs to have access to a service, but every other pod on the node that uses the Service account does not.",
+        "remediation": "Azure Active Directory integration\nThe security of AKS clusters can be enhanced with the integration of Azure Active Directory (AD). Built on decades of enterprise identity management, Azure AD is a multi-tenant, cloud-based directory, and identity management service that combines core directory services, application access management, and identity protection. With Azure AD, you can integrate on-premises identities into AKS clusters to provide a single source for account management and security.\n\n Azure Active Directory integration with AKS clusters\n\n With Azure AD-integrated AKS clusters, you can grant users or groups access to Kubernetes resources within a namespace or across the cluster. To obtain a kubectl configuration context, a user can run the az aks get-credentials command. When a user then interacts with the AKS cluster with kubectl, they're prompted to sign in with their Azure AD credentials. This approach provides a single source for user account management and password credentials. The user can only access the resources as defined by the cluster administrator.\n\n Azure AD authentication is provided to AKS clusters with OpenID Connect. OpenID Connect is an identity layer built on top of the OAuth 2.0 protocol. For more information on OpenID Connect, see the Open ID connect documentation. From inside of the Kubernetes cluster, Webhook Token Authentication is used to verify authentication tokens. Webhook token authentication is configured and managed as part of the AKS cluster.",
+        "manual_test": "For each namespace in the cluster, review the rights assigned to the default service account and ensure that it has no roles or cluster roles bound to it apart from the defaults.",
+        "references": [
+            "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-identity-management#im-2-manage-application-identities-securely-and-automatically>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "ensure-default-service-accounts-has-only-default-roles"
+        ],
+        "baseScore": 7,
+        "impact_statement": "",
+        "default_value": "",
+        "rules": []
+    },
+    {
         "controlID": "C-0118",
         "name": "Ensure that the API Server --authorization-mode argument is not set to AlwaysAllow",
         "description": "Do not always authorize all requests.",
@@ -458,6 +500,27 @@
         "rules": []
     },
     {
+        "controlID": "C-0243",
+        "name": "Ensure Image Vulnerability Scanning using Azure Defender image scanning or a third party provider",
+        "description": "Scan images being deployed to Azure (AKS) for vulnerabilities.\n\n Vulnerability scanning for images stored in Azure Container Registry is generally available in Azure Security Center. This capability is powered by Qualys, a leading provider of information security.\n\n When you push an image to Container Registry, Security Center automatically scans it, then checks for known vulnerabilities in packages or dependencies defined in the file.\n\n When the scan completes (after about 10 minutes), Security Center provides details and a security classification for each vulnerability detected, along with guidance on how to remediate issues and protect vulnerable attack surfaces.",
+        "long_description": "Vulnerabilities in software packages can be exploited by hackers or malicious users to obtain unauthorized access to local cloud resources. Azure Defender and other third party products allow images to be scanned for known vulnerabilities.",
+        "remediation": "",
+        "manual_test": "",
+        "references": [
+            "<https://docs.microsoft.com/en-us/azure/security-center/defender-for-container-registries-usage>\n\n  <https://docs.microsoft.com/en-us/azure/container-registry/container-registry-check-health>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-6-perform-software-vulnerability-assessments>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "ensure-image-vulnerability-scanning-using-azure-defender-image-scanning-or-a-third-party-provider"
+        ],
+        "baseScore": 5,
+        "impact_statement": "When using an Azure container registry, you might occasionally encounter problems. For example, you might not be able to pull a container image because of an issue with Docker in your local environment. Or, a network issue might prevent you from connecting to the registry.",
+        "default_value": "Images are not scanned by Default.",
+        "rules": []
+    },
+    {
         "controlID": "C-0126",
         "name": "Ensure that the admission control plugin NamespaceLifecycle is set",
         "description": "Reject creating objects in a namespace that is undergoing termination.",
@@ -577,6 +640,27 @@
         "baseScore": 3,
         "impact_statement": "Some cloud providers may require this flag to ensure that hostname matches names issued by the cloud provider. In these environments, this recommendation should not apply.",
         "default_value": "By default, `--hostname-override` argument is not set.",
+        "rules": []
+    },
+    {
+        "controlID": "C-0240",
+        "name": "Ensure Network Policy is Enabled and set as appropriate",
+        "description": "When you run modern, microservices-based applications in Kubernetes, you often want to control which components can communicate with each other. The principle of least privilege should be applied to how traffic can flow between pods in an Azure Kubernetes Service (AKS) cluster. Let's say you likely want to block traffic directly to back-end applications. The Network Policy feature in Kubernetes lets you define rules for ingress and egress traffic between pods in a cluster.",
+        "long_description": "All pods in an AKS cluster can send and receive traffic without limitations, by default. To improve security, you can define rules that control the flow of traffic. Back-end applications are often only exposed to required front-end services, for example. Or, database components are only accessible to the application tiers that connect to them.\n\n Network Policy is a Kubernetes specification that defines access policies for communication between Pods. Using Network Policies, you define an ordered set of rules to send and receive traffic and apply them to a collection of pods that match one or more label selectors.\n\n These network policy rules are defined as YAML manifests. Network policies can be included as part of a wider manifest that also creates a deployment or service.",
+        "remediation": "",
+        "manual_test": "",
+        "references": [
+            "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-network-security#ns-2-connect-private-networks-together>\n\n  <https://docs.microsoft.com/en-us/azure/aks/use-network-policies>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "rule-cni-enabled-aks"
+        ],
+        "baseScore": 6,
+        "impact_statement": "Network Policy requires the Network Policy add-on. This add-on is included automatically when a cluster with Network Policy is created, but for an existing cluster, needs to be added prior to enabling Network Policy.\n\n Enabling/Disabling Network Policy causes a rolling update of all cluster nodes, similar to performing a cluster upgrade. This operation is long-running and will block other operations on the cluster (including delete) until it has run to completion.\n\n If Network Policy is used, a cluster must have at least 2 nodes of type `n1-standard-1` or higher. The recommended minimum size cluster to run Network Policy enforcement is 3 `n1-standard-1` instances.\n\n Enabling Network Policy enforcement consumes additional resources in nodes. Specifically, it increases the memory footprint of the `kube-system` process by approximately 128MB, and requires approximately 300 millicores of CPU.",
+        "default_value": "By default, Network Policy is disabled.",
         "rules": []
     },
     {
@@ -1520,6 +1604,27 @@
         "rules": []
     },
     {
+        "controlID": "C-0245",
+        "name": "Encrypt traffic to HTTPS load balancers with TLS certificates",
+        "description": "Encrypt traffic to HTTPS load balancers using TLS certificates.",
+        "long_description": "Encrypting traffic between users and your Kubernetes workload is fundamental to protecting data sent over the web.",
+        "remediation": "",
+        "manual_test": "",
+        "references": [
+            "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-data-protection#dp-4-encrypt-sensitive-information-in-transit>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "encrypt-traffic-to-https-load-balancers-with-tls-certificates"
+        ],
+        "baseScore": 8,
+        "impact_statement": "",
+        "default_value": "",
+        "rules": []
+    },
+    {
         "controlID": "C-0148",
         "name": "Ensure that the Controller Manager --root-ca-file argument is set as appropriate",
         "description": "Allow pods to verify the API server's serving certificate before establishing connections.",
@@ -1746,6 +1851,27 @@
         "rules": []
     },
     {
+        "controlID": "C-0246",
+        "name": "Avoid use of system:masters group",
+        "description": "The special group `system:masters` should not be used to grant permissions to any user or service account, except where strictly necessary (e.g. bootstrapping access prior to RBAC being fully available)",
+        "long_description": "The `system:masters` group has unrestricted access to the Kubernetes API hard-coded into the API server source code. An authenticated user who is a member of this group cannot have their access reduced, even if all bindings and cluster role bindings which mention it, are removed.\n\n When combined with client certificate authentication, use of this group can allow for irrevocable cluster-admin level credentials to exist for a cluster.",
+        "remediation": "Remove the `system:masters` group from all users in the cluster.",
+        "manual_test": "Review a list of all credentials which have access to the cluster and ensure that the group `system:masters` is not used.",
+        "references": [
+            "https://github.com/kubernetes/kubernetes/blob/master/pkg/registry/rbac/escalation_check.go#L38"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "rule-manual"
+        ],
+        "baseScore": 0,
+        "impact_statement": "Once the RBAC system is operational in a cluster `system:masters` should not be specifically required, as ordinary bindings from principals to the `cluster-admin` cluster role can be made where unrestricted access is required.",
+        "default_value": "By default some clusters will create a \"break glass\" client certificate which is a member of this group. Access to this client certificate should be carefully controlled and it should not be used for general cluster operations.",
+        "rules": []
+    },
+    {
         "name": "Ingress and Egress blocked",
         "attributes": {
             "armoBuiltin": true,
@@ -1960,6 +2086,27 @@
         ],
         "controlID": "C-0048",
         "baseScore": 7.0,
+        "rules": []
+    },
+    {
+        "controlID": "C-0252",
+        "name": "Ensure clusters are created with Private Endpoint Enabled and Public Access Disabled",
+        "description": "Disable access to the Kubernetes API from outside the node network if it is not required.",
+        "long_description": "In a private cluster, the master node has two endpoints, a private and public endpoint. The private endpoint is the internal IP address of the master, behind an internal load balancer in the master's wirtual network. Nodes communicate with the master using the private endpoint. The public endpoint enables the Kubernetes API to be accessed from outside the master's virtual network.\n\n Although Kubernetes API requires an authorized token to perform sensitive actions, a vulnerability could potentially expose the Kubernetes publically with unrestricted access. Additionally, an attacker may be able to identify the current cluster and Kubernetes API version and determine whether it is vulnerable to an attack. Unless required, disabling public endpoint will help prevent such threats, and require the attacker to be on the master's virtual network to perform any attack on the Kubernetes API.",
+        "remediation": "To use a private endpoint, create a new private endpoint in your virtual network then create a link between your virtual network and a new private DNS zone",
+        "manual_test": "",
+        "references": [
+            "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-network-security#ns-2-connect-private-networks-together>\n\n  <https://learn.microsoft.com/en-us/azure/aks/private-clusters>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "ensure-clusters-are-created-with-private-endpoint-enabled-and-public-access-disabled"
+        ],
+        "baseScore": 8,
+        "impact_statement": "",
+        "default_value": "",
         "rules": []
     },
     {
@@ -2621,6 +2768,27 @@
         "rules": []
     },
     {
+        "controlID": "C-0247",
+        "name": "Restrict Access to the Control Plane Endpoint",
+        "description": "Enable Endpoint Private Access to restrict access to the cluster's control plane to only an allowlist of authorized IPs.",
+        "long_description": "Authorized networks are a way of specifying a restricted range of IP addresses that are permitted to access your cluster's control plane. Kubernetes Engine uses both Transport Layer Security (TLS) and authentication to provide secure access to your cluster's control plane from the public internet. This provides you the flexibility to administer your cluster from anywhere; however, you might want to further restrict access to a set of IP addresses that you control. You can set this restriction by specifying an authorized network.\n\n Restricting access to an authorized network can provide additional security benefits for your container cluster, including:\n\n * Better protection from outsider attacks: Authorized networks provide an additional layer of security by limiting external access to a specific set of addresses you designate, such as those that originate from your premises. This helps protect access to your cluster in the case of a vulnerability in the cluster's authentication or authorization mechanism.\n* Better protection from insider attacks: Authorized networks help protect your cluster from accidental leaks of master certificates from your company's premises. Leaked certificates used from outside Azure virtual machines and outside the authorized IP ranges (for example, from addresses outside your company) are still denied access.",
+        "remediation": "",
+        "manual_test": "",
+        "references": [
+            "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-network-security#ns-1-implement-security-for-internal-traffic>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "restrict-access-to-the-control-plane-endpoint"
+        ],
+        "baseScore": 8,
+        "impact_statement": "When implementing Endpoint Private Access, be careful to ensure all desired networks are on the allowlist (whitelist) to prevent inadvertently blocking external access to your cluster's control plane.\n\n Limitations\nIP authorized ranges can't be applied to the private api server endpoint, they only apply to the public API server\nAvailability Zones are currently supported for certain regions.\nAzure Private Link service limitations apply to private clusters.\nNo support for Azure DevOps Microsoft-hosted Agents with private clusters. Consider to use Self-hosted Agents.\nFor customers that need to enable Azure Container Registry to work with private AKS, the Container Registry virtual network must be peered with the agent cluster virtual network.",
+        "default_value": "By default, Endpoint Private Access is disabled.",
+        "rules": []
+    },
+    {
         "name": "K8s common labels usage",
         "attributes": {
             "actionRequired": "configuration",
@@ -2909,6 +3077,27 @@
         "rules": []
     },
     {
+        "controlID": "C-0248",
+        "name": "Ensure clusters are created with Private Nodes",
+        "description": "Disable public IP addresses for cluster nodes, so that they only have private IP addresses. Private Nodes are nodes with no public IP addresses.",
+        "long_description": "Disabling public IP addresses on cluster nodes restricts access to only internal networks, forcing attackers to obtain local network access before attempting to compromise the underlying Kubernetes hosts.",
+        "remediation": "\n```\naz aks create \\\n--resource-group <private-cluster-resource-group> \\\n--name <private-cluster-name> \\\n--load-balancer-sku standard \\\n--enable-private-cluster \\\n--network-plugin azure \\\n--vnet-subnet-id <subnet-id> \\\n--docker-bridge-address \\\n--dns-service-ip \\\n--service-cidr \n\n```\n Where `--enable-private-cluster` is a mandatory flag for a private cluster.",
+        "manual_test": "",
+        "references": [
+            "<https://learn.microsoft.com/en-us/azure/aks/private-clusters>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "ensure-clusters-are-created-with-private-nodes"
+        ],
+        "baseScore": 8,
+        "impact_statement": "To enable Private Nodes, the cluster has to also be configured with a private master IP range and IP Aliasing enabled.\n\n Private Nodes do not have outbound access to the public internet. If you want to provide outbound Internet access for your private nodes, you can use Cloud NAT or you can manage your own NAT gateway.",
+        "default_value": "",
+        "rules": []
+    },
+    {
         "controlID": "C-0235",
         "name": "Ensure that the kubelet configuration file has permissions set to 644 or more restrictive",
         "description": "Ensure that if the kubelet refers to a configuration file with the `--config` argument, that file has permissions of 644 or more restrictive.",
@@ -3055,11 +3244,32 @@
             "armoBuiltin": true
         },
         "rulesNames": [
-            "ensure_nodeinstancerole_has_only_readonly_permissions_for_ecr"
+            "ensure_nodeinstancerole_has_right_permissions_for_ecr"
         ],
         "baseScore": 6,
         "impact_statement": "A separate dedicated service account may be required for use by build servers and other robot users pushing or managing container images.",
         "default_value": "If you used eksctl or the AWS CloudFormation templates in Getting Started with Amazon EKS to create your cluster and worker node groups, these IAM permissions are applied to your worker node IAM role by default.",
+        "rules": []
+    },
+    {
+        "controlID": "C-0241",
+        "name": "Use Azure RBAC for Kubernetes Authorization.",
+        "description": "The ability to manage RBAC for Kubernetes resources from Azure gives you the choice to manage RBAC for the cluster resources either using Azure or native Kubernetes mechanisms.",
+        "long_description": "The ability to manage RBAC for Kubernetes resources from Azure gives you the choice to manage RBAC for the cluster resources either using Azure or native Kubernetes mechanisms. When enabled, Azure AD principals will be validated exclusively by Azure RBAC while regular Kubernetes users and service accounts are exclusively validated by Kubernetes RBAC. Azure role-based access control (RBAC) is an authorization system built on Azure Resource Manager that provides fine-grained access management of Azure resources.With Azure RBAC, you create a role definition that outlines the permissions to be applied. You then assign a user or group this role definition via a role assignment for a particular scope. The scope can be an individual resource, a resource group, or across the subscription.",
+        "remediation": "Set Azure RBAC as access system.",
+        "manual_test": "",
+        "references": [
+            "<https://docs.microsoft.com/en-us/azure/aks/manage-azure-rbac>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "ensure-azure-rbac-is-set"
+        ],
+        "baseScore": 7,
+        "impact_statement": "",
+        "default_value": "",
         "rules": []
     },
     {
@@ -3251,6 +3461,27 @@
         "rules": []
     },
     {
+        "controlID": "C-0244",
+        "name": "Ensure Kubernetes Secrets are encrypted",
+        "description": "Encryption at Rest is a common security requirement. In Azure, organizations can encrypt data at rest without the risk or cost of a custom key management solution. Organizations have the option of letting Azure completely manage Encryption at Rest. Additionally, organizations have various options to closely manage encryption or encryption keys.",
+        "long_description": "",
+        "remediation": "",
+        "manual_test": "",
+        "references": [
+            "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-data-protection#dp-5-encrypt-sensitive-data-at-rest>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "secret-etcd-encryption-cloud"
+        ],
+        "baseScore": 6,
+        "impact_statement": "",
+        "default_value": "",
+        "rules": []
+    },
+    {
         "name": "Immutable container filesystem",
         "attributes": {
             "armoBuiltin": true,
@@ -3374,6 +3605,27 @@
         "controlID": "C-0062",
         "baseScore": 5.0,
         "example": "@controls/examples/c062.yaml",
+        "rules": []
+    },
+    {
+        "controlID": "C-0250",
+        "name": "Minimize cluster access to read-only for Azure Container Registry (ACR)",
+        "description": "Configure the Cluster Service Account with Storage Object Viewer Role to only allow read-only access to Azure Container Registry (ACR)",
+        "long_description": "The Cluster Service Account does not require administrative access to Azure ACR, only requiring pull access to containers to deploy onto Azure AKS. Restricting permissions follows the principles of least privilege and prevents credentials from being abused beyond the required role.",
+        "remediation": "",
+        "manual_test": "",
+        "references": [
+            "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-data-protection#dp-2-protect-sensitive-data>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "ensure-service-principle-has-read-only-permissions"
+        ],
+        "baseScore": 6,
+        "impact_statement": "A separate dedicated service account may be required for use by build servers and other robot users pushing or managing container images.",
+        "default_value": "",
         "rules": []
     },
     {
@@ -3508,6 +3760,28 @@
         "baseScore": 6,
         "impact_statement": "None",
         "default_value": "By default, kubelet server certificate rotation is enabled.",
+        "rules": []
+    },
+    {
+        "controlID": "C-0249",
+        "name": "Restrict untrusted workloads",
+        "description": "Restricting unstrusted workloads can be achieved by using ACI along with AKS.\n\n What is ACI?\nACI lets you quickly deploy container instances without additional infrastructure overhead. When you connect with AKS, ACI becomes a secured, logical extension of your AKS cluster. The virtual nodes component, which is based on Virtual Kubelet, is installed in your AKS cluster that presents ACI as a virtual Kubernetes node. Kubernetes can then schedule pods that run as ACI instances through virtual nodes, not as pods on VM nodes directly in your AKS cluster.\n\n Your application requires no modification to use virtual nodes. Deployments can scale across AKS and ACI and with no delay as cluster autoscaler deploys new nodes in your AKS cluster.\n\n Virtual nodes are deployed to an additional subnet in the same virtual network as your AKS cluster. This virtual network configuration allows the traffic between ACI and AKS to be secured. Like an AKS cluster, an ACI instance is a secure, logical compute resource that is isolated from other users.",
+        "long_description": "It is Best Practice to restrict or fence untrusted workloads when running in a multi-tenant environment. Azure Container Instances is a great solution for any scenario that can operate in isolated containers, including simple applications, task automation, and build jobs.",
+        "remediation": "",
+        "manual_test": "",
+        "references": [
+            "<https://docs.microsoft.com/en-us/azure/aks/operator-best-practices-cluster-isolation>\n\n  <https://azure.microsoft.com/en-us/blog/azure-container-instances-now-generally-available/>\n\n  <https://azure.microsoft.com/en-us/resources/videos/ignite-2018-run-a-serverless-kubernetes-cluster-by-bridging-aks-and-aci-through-the-virtual-kubelet/>"
+        ],
+        "attributes": {
+            "armoBuiltin": true,
+            "actionRequired": "manual review"
+        },
+        "rulesNames": [
+            "rule-manual"
+        ],
+        "baseScore": 5,
+        "impact_statement": "",
+        "default_value": "ACI is not a default component of the AKS",
         "rules": []
     },
     {
@@ -4140,6 +4414,27 @@
         "rules": []
     },
     {
+        "controlID": "C-0222",
+        "name": "Minimize user access to Amazon ECR",
+        "description": "Restrict user access to Amazon ECR, limiting interaction with build images to only authorized personnel and service accounts.",
+        "long_description": "Weak access control to Amazon ECR may allow malicious users to replace built images with vulnerable containers.",
+        "remediation": "Before you use IAM to manage access to Amazon ECR, you should understand what IAM features are available to use with Amazon ECR. To get a high-level view of how Amazon ECR and other AWS services work with IAM, see AWS Services That Work with IAM in the IAM User Guide.\n\n **Topics**\n\n * Amazon ECR Identity-Based Policies\n* Amazon ECR Resource-Based Policies\n* Authorization Based on Amazon ECR Tags\n* Amazon ECR IAM Roles\n\n **Amazon ECR Identity-Based Policies**\n\n With IAM identity-based policies, you can specify allowed or denied actions and resources as well as the conditions under which actions are allowed or denied. Amazon ECR supports specific actions, resources, and condition keys. To learn about all of the elements that you use in a JSON policy, see IAM JSON Policy Elements Reference in the IAM User Guide.\n\n **Actions**\nThe Action element of an IAM identity-based policy describes the specific action or actions that will be allowed or denied by the policy. Policy actions usually have the same name as the associated AWS API operation. The action is used in a policy to grant permissions to perform the associated operation.\n\n Policy actions in Amazon ECR use the following prefix before the action: ecr:. For example, to grant someone permission to create an Amazon ECR repository with the Amazon ECR CreateRepository API operation, you include the ecr:CreateRepository action in their policy. Policy statements must include either an Action or NotAction element. Amazon ECR defines its own set of actions that describe tasks that you can perform with this service.\n\n To specify multiple actions in a single statement, separate them with commas as follows:\n\n `\"Action\": [ \"ecr:action1\", \"ecr:action2\"`\n\n You can specify multiple actions using wildcards (\\*). For example, to specify all actions that begin with the word Describe, include the following action:\n\n `\"Action\": \"ecr:Describe*\"`\n\n To see a list of Amazon ECR actions, see Actions, Resources, and Condition Keys for Amazon Elastic Container Registry in the IAM User Guide.\n\n **Resources**\nThe Resource element specifies the object or objects to which the action applies. Statements must include either a Resource or a NotResource element. You specify a resource using an ARN or using the wildcard (\\*) to indicate that the statement applies to all resources.\n\n An Amazon ECR repository resource has the following ARN:\n\n `arn:${Partition}:ecr:${Region}:${Account}:repository/${Repository-name}`\n\n For more information about the format of ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces.\n\n For example, to specify the my-repo repository in the us-east-1 Region in your statement, use the following ARN:\n\n `\"Resource\": \"arn:aws:ecr:us-east-1:123456789012:repository/my-repo\"`\n\n To specify all repositories that belong to a specific account, use the wildcard (\\*):\n\n `\"Resource\": \"arn:aws:ecr:us-east-1:123456789012:repository/*\"`\n\n To specify multiple resources in a single statement, separate the ARNs with commas.\n\n `\"Resource\": [ \"resource1\", \"resource2\"`\n\n To see a list of Amazon ECR resource types and their ARNs, see Resources Defined by Amazon Elastic Container Registry in the IAM User Guide. To learn with which actions you can specify the ARN of each resource, see Actions Defined by Amazon Elastic Container Registry.\n\n **Condition Keys**\nThe Condition element (or Condition block) lets you specify conditions in which a statement is in effect. The Condition element is optional. You can build conditional expressions that use condition operators, such as equals or less than, to match the condition in the policy with values in the request.\n\n If you specify multiple Condition elements in a statement, or multiple keys in a single Condition element, AWS evaluates them using a logical AND operation. If you specify multiple values for a single condition key, AWS evaluates the condition using a logical OR operation. All of the conditions must be met before the statement's permissions are granted.\n\n You can also use placeholder variables when you specify conditions. For example, you can grant an IAM user permission to access a resource only if it is tagged with their IAM user name. For more information, see IAM Policy Elements: Variables and Tags in the IAM User Guide.\n\n Amazon ECR defines its own set of condition keys and also supports using some global condition keys. To see all AWS global condition keys, see AWS Global Condition Context Keys in the IAM User Guide.\n\n Most Amazon ECR actions support the aws:ResourceTag and ecr:ResourceTag condition keys. For more information, see Using Tag-Based Access Control.\n\n To see a list of Amazon ECR condition keys, see Condition Keys Defined by Amazon Elastic Container Registry in the IAM User Guide. To learn with which actions and resources you can use a condition key, see Actions Defined by Amazon Elastic Container Registry.",
+        "manual_test": "",
+        "references": [
+            "https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html#scanning-repository"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "ensure-aws-policies-are-present"
+        ],
+        "baseScore": 0,
+        "impact_statement": "Care should be taken not to remove access to Amazon ECR for accounts that require this for their operation.",
+        "default_value": "",
+        "rules": []
+    },
+    {
         "name": "Access Kubernetes dashboard",
         "attributes": {
             "armoBuiltin": true,
@@ -4533,6 +4828,27 @@
         "rules": []
     },
     {
+        "controlID": "C-0253",
+        "name": "Enable audit Logs",
+        "description": "With Azure Kubernetes Service (AKS), the control plane components such as the kube-apiserver and kube-controller-manager are provided as a managed service. You create and manage the nodes that run the kubelet and container runtime, and deploy your applications through the managed Kubernetes API server. To help troubleshoot your application and services, you may need to view the logs generated by these control plane components.\n\n To help collect and review data from multiple sources, Azure Monitor logs provides a query language and analytics engine that provides insights to your environment. A workspace is used to collate and analyze the data, and can integrate with other Azure services such as Application Insights and Security Center.",
+        "long_description": "Exporting logs and metrics to a dedicated, persistent datastore ensures availability of audit data following a cluster security event, and provides a central location for analysis of log and metric data collated from multiple sources.",
+        "remediation": "Azure audit logs are enabled and managed in the Azure portal. To enable log collection for the Kubernetes master components in your AKS cluster, open the Azure portal in a web browser and complete the following steps:\n\n 1. Select the resource group for your AKS cluster, such as myResourceGroup. Don't select the resource group that contains your individual AKS cluster resources, such as MC\\_myResourceGroup\\_myAKSCluster\\_eastus.\n2. On the left-hand side, choose Diagnostic settings.\n3. Select your AKS cluster, such as myAKSCluster, then choose to Add diagnostic setting.\n4. Enter a name, such as myAKSClusterLogs, then select the option to Send to Log Analytics.\n5. Select an existing workspace or create a new one. If you create a workspace, provide a workspace name, a resource group, and a location.\n6. In the list of available logs, select the logs you wish to enable. For this example, enable the kube-audit and kube-audit-admin logs. Common logs include the kube-apiserver, kube-controller-manager, and kube-scheduler. You can return and change the collected logs once Log Analytics workspaces are enabled.\n7. When ready, select Save to enable collection of the selected logs.",
+        "manual_test": "",
+        "references": [
+            "<https://kubernetes.io/docs/tasks/debug-application-cluster/audit/>\n\n  <https://docs.microsoft.com/en-us/azure/aks/view-master-logs>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-logging-threat-detection#lt-4-enable-logging-for-azure-resources>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "rule-manual"
+        ],
+        "baseScore": 5,
+        "impact_statement": "What is collected from Kubernetes clusters\nContainer insights includes a predefined set of metrics and inventory items collected that are written as log data in your Log Analytics workspace. All metrics listed below are collected by default every one minute.\n\n Node metrics collected\nThe following list is the 24 metrics per node that are collected:\n\n cpuUsageNanoCores\ncpuCapacityNanoCores\ncpuAllocatableNanoCores\nmemoryRssBytes\nmemoryWorkingSetBytes\nmemoryCapacityBytes\nmemoryAllocatableBytes\nrestartTimeEpoch\nused (disk)\nfree (disk)\nused\\_percent (disk)\nio\\_time (diskio)\nwrites (diskio)\nreads (diskio)\nwrite\\_bytes (diskio)\nwrite\\_time (diskio)\niops\\_in\\_progress (diskio)\nread\\_bytes (diskio)\nread\\_time (diskio)\nerr\\_in (net)\nerr\\_out (net)\nbytes\\_recv (net)\nbytes\\_sent (net)\nKubelet\\_docker\\_operations (kubelet)\nContainer metrics\nThe following list is the eight metrics per container collected:\n\n cpuUsageNanoCores\ncpuRequestNanoCores\ncpuLimitNanoCores\nmemoryRssBytes\nmemoryWorkingSetBytes\nmemoryRequestBytes\nmemoryLimitBytes\nrestartTimeEpoch\nCluster inventory\nThe following list is the cluster inventory data collected by default:\n\n KubePodInventory \u2013 1 per minute per container\nKubeNodeInventory \u2013 1 per node per minute\nKubeServices \u2013 1 per service per minute\nContainerInventory \u2013 1 per container per minute",
+        "default_value": "By default, cluster control plane logs aren't sent to be Logged.",
+        "rules": []
+    },
+    {
         "controlID": "C-0139",
         "name": "Ensure that the API Server --client-ca-file argument is set as appropriate",
         "description": "Setup TLS connection on the API server.",
@@ -4729,6 +5045,27 @@
         "baseScore": 5,
         "impact_statement": "None",
         "default_value": "By default, the `--bind-address` parameter is set to 0.0.0.0",
+        "rules": []
+    },
+    {
+        "controlID": "C-0251",
+        "name": "Minimize user access to Azure Container Registry (ACR)",
+        "description": "Restrict user access to Azure Container Registry (ACR), limiting interaction with build images to only authorized personnel and service accounts.",
+        "long_description": "Weak access control to Azure Container Registry (ACR) may allow malicious users to replace built images with vulnerable containers.",
+        "remediation": "Azure Container Registry\nIf you use Azure Container Registry (ACR) as your container image store, you need to grant permissions to the service principal for your AKS cluster to read and pull images. Currently, the recommended configuration is to use the az aks create or az aks update command to integrate with a registry and assign the appropriate role for the service principal. For detailed steps, see Authenticate with Azure Container Registry from Azure Kubernetes Service.\n\n To avoid needing an Owner or Azure account administrator role, you can configure a service principal manually or use an existing service principal to authenticate ACR from AKS. For more information, see ACR authentication with service principals or Authenticate from Kubernetes with a pull secret.",
+        "manual_test": "",
+        "references": [
+            "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-privileged-access#pa-7-follow-just-enough-administration-least-privilege-principle>"
+        ],
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "rulesNames": [
+            "list-role-definitions-in-acr"
+        ],
+        "baseScore": 6,
+        "impact_statement": "Care should be taken not to remove access to Azure ACR for accounts that require this for their operation.",
+        "default_value": "",
         "rules": []
     },
     {
