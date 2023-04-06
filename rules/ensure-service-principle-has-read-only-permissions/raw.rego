@@ -29,7 +29,7 @@ deny[msga] {
 		"failedPaths": [],
 		"fixPaths": [],
 		"alertObject": {
-			"externalObject": resources
+			"externalObjects": resources
 		}
 	}
 }

@@ -13,7 +13,17 @@
         "v1"
       ],
       "resources": [
-        "ListEntitiesForPolicies",
+        "ListEntitiesForPolicies"
+      ]
+    },
+    {
+      "apiGroups": [
+        "management.azure.com"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
         "PolicyVersion"
       ]
     }
