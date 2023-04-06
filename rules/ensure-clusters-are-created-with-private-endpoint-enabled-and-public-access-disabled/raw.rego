@@ -19,7 +19,7 @@ deny[msga] {
     	"fixPaths":[],
         "fixCommand": "",
     	"alertObject": {
-			"externalObject": [obj]
+			"externalObjects": obj
         }
     }
 }
