@@ -6,7 +6,7 @@
         "packagename": "armo_builtins",
         "alertScore": 7,
         "alertObject": {
-            "externalObject": [
+            "externalObjects":
                 {
                     "apiVersion": "eks.amazonaws.com/v1",
                     "kind": "ListEntitiesForPolicies",
@@ -45,7 +45,6 @@
                         }
                     }
                 }
-            ]
         }
     }
 ]
