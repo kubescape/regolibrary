@@ -18,9 +18,7 @@ deny[msga] {
 		"fixCommand": "az aks update -g <resource_group> -n <cluster_name> --enable-azure-rbac",
 		"fixPaths": [],
 		"alertObject": {
-			"externalObject": [
-				cluster_describe
-			]
+			"externalObjects": cluster_describe
 		},
 	} 
 }
