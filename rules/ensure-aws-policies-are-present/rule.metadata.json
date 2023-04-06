@@ -17,6 +17,7 @@
         ]
       }
     ],
+    "relevantCloudProviders": ["AKS"],
     "ruleDependencies": [
   
     ],

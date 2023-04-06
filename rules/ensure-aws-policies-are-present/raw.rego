@@ -13,7 +13,7 @@ deny[msg] {
 		"failedPaths": [],
 		"fixPaths": [],
 		"alertObject": {
-			"externalObject": [policies]
+			"externalObjects": policies
 		}
 	}
 }
