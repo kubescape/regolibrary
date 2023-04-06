@@ -19,7 +19,7 @@ deny[msga] {
     	"fixPaths":[],
         "fixCommand": "az aks create --resource-group <private-cluster-resource-group> --name <private-cluster-name> --load-balancer-sku standard --enable-private-cluster --network-plugin azure --vnet-subnet-id <subnet-id> --docker-bridge-address --dns-service-ip --service-cidr",
     	"alertObject": {
-		"externalObject": [obj]
+		"externalObjects": obj
         }
     }
 }
