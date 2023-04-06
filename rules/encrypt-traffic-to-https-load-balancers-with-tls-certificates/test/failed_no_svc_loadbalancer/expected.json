@@ -1,10 +1,9 @@
-
 [
 	{
-    	"alertMessage": "Service object LoadBalancer has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.",
+        "alertMessage": "No LoadBalancer service found.",
     	"packagename": "armo_builtins",
     	"alertScore": 7,
-    	"failedPaths": ["spec.metadata.annotations['service.beta.kubernetes.io/azure-load-balancer-internal']"],
+    	"failedPaths": [""],
     	"fixPaths":[],
         "fixCommand": "",
     	"alertObject": {

@@ -9,13 +9,23 @@
     "match": [
         {
           "apiGroups": [
-            "*"
+            ""
           ],
           "apiVersions": [
-            "*"
+            "v1"
           ],
           "resources": [
-            "Service",
+            "Service"
+          ]
+        },
+        {
+          "apiGroups": [
+            "networking.k8s.io"
+          ],
+          "apiVersions": [
+            "v1"
+          ],
+          "resources": [
             "Ingress"
           ]
         }

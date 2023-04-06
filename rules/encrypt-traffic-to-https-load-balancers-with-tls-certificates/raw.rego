@@ -1,5 +1,24 @@
 package armo_builtins
 
+# fails in case of 'Services' of type 'LoadBalancer' are not found.
+deny[msga] {
+	svc := input[_]
+	svc.kind == "Service"
+	svc.spec.type != "LoadBalancer"
+
+	msga := {
+		"alertMessage": "No LoadBalancer service found.",
+    	"packagename": "armo_builtins",
+    	"alertScore": 7,
+    	"failedPaths": [""],
+    	"fixPaths":[],
+        "fixCommand": "",
+		"alertObject": {
+			"k8sApiObjects": [svc]
+		}
+	}
+}
+
 # fails in case 'Service' object has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.
 deny[msga] {
 	svc := input[_]
@@ -15,7 +34,7 @@ deny[msga] {
     	"fixPaths":[],
         "fixCommand": "",
     	"alertObject": {
-			"k8sObject": [svc]
+			"k8sApiObjects": [svc]
         }
     }
 }
@@ -35,7 +54,7 @@ deny[msga] {
     	"fixPaths":[],
         "fixCommand": "",
     	"alertObject": {
-			"k8sObject": [svc]
+			"k8sApiObjects": [svc]
         }
     }
 }
@@ -59,7 +78,7 @@ deny[msga] {
     	"fixPaths":[],
         "fixCommand": "",
     	"alertObject": {
-			"k8sObject": [ingress]
+			"k8sApiObjects": [ingress]
         }
     }
 }
@@ -84,7 +103,7 @@ deny[msga] {
     	"fixPaths":[],
         "fixCommand": "",
     	"alertObject": {
-			"k8sObject": [ingress]
+			"k8sApiObjects": [ingress]
         }
     }
 }
