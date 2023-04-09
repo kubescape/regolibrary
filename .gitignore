@@ -16,5 +16,6 @@
 .vscode/*
 json_to_string.sh
 release
+releaseDev
 pre-release
 *.py[cod]
