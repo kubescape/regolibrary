@@ -8,7 +8,7 @@
     	"fixPaths":[],
         "fixCommand": "",
     	"alertObject": {
-			"externalObject": [
+			"externalObjects":
 				{
 				    "apiVersion": "management.azure.com/v1",
 				    "kind": "ClusterDescribe",
@@ -142,7 +142,6 @@
 				        "type": "Microsoft.ContainerService/ManagedClusters"
 				    }
 				}
-			]
         }
     }
 ]

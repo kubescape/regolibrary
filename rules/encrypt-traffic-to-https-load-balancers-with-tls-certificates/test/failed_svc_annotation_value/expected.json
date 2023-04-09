@@ -8,26 +8,12 @@
     	"fixPaths":[],
         "fixCommand": "",
     	"alertObject": {
-			"k8sObject": [
+			"k8sApiObjects": [
 				{
 					"apiVersion": "v1",
 					"kind": "Service",
 					"metadata": {
-					  "name": "rmq-external-service",
-					  "annotations": {
-						"service.beta.kubernetes.io/azure-load-balancer-internal": "false"
-					  }
-					},
-					"spec": {
-					  "type": "LoadBalancer",
-					  "ports": [
-						{
-						  "name": "lb-azure",
-						  "protocol": "TCP",
-						  "port": 15672,
-						  "targetPort": 15672
-						}
-					  ]
+					  "name": "rmq-external-service"
 					}
 				}
 			]

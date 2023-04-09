@@ -7,19 +7,17 @@
         "packagename": "armo_builtins",
         "alertScore": 7,
         "alertObject": {
-          "externalObject": [
-            {
-              "apiVersion": "eks.amazonaws.com/v1",
-              "kind": "PolicyVersion",
-              "metadata": {
-                  "name": "ca-terraform-eks-dev-stage",
-                  "provider": "eks"
-              },
-              "data": {
-                  "policiesDocuments": {}
-              }
-            }
-          ]
+          "externalObjects":
+	  	{
+		    "apiVersion": "eks.amazonaws.com/v1",
+		    "kind": "PolicyVersion",
+		    "metadata": {
+		        "name": "ca-terraform-eks-dev-stage",
+		        "provider": "eks"
+		    },
+		    "data": {}
+		}
+
         }
     }
 ]

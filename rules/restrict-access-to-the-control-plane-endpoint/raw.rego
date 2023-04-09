@@ -19,7 +19,7 @@ deny[msga] {
     	"fixPaths":[],
         "fixCommand": "az aks update -n '<name>' -g '<resource_group>' --api-server-authorized-ip-ranges '0.0.0.0/32'",
     	"alertObject": {
-			"externalObject": [obj]
+			"externalObjects": obj
         }
     }
 

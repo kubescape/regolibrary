@@ -18,7 +18,7 @@ deny[msga] {
 		"fixPaths": [],
 		"fixCommand": "az aks nodepool add --name hostencrypt --cluster-name <myAKSCluster> --resource-group <myResourceGroup> -s Standard_DS2_v2 -l <myRegion> --enable-encryption-at-host",
 		"alertObject": {
-            "externalObject": [cluster_config]
+            "externalObjects": cluster_config
 		}
 	}
 }

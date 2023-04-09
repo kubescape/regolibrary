@@ -6,13 +6,16 @@
       "imageScanRelated": false
     },
     "ruleLanguage": "Rego",
-    "match": [
+    "dynamicMatch": [
         {
           "apiGroups": [
+            "management.azure.com"
           ],
           "apiVersions": [
+            "v1"
           ],
           "resources": [
+            "ClusterDescribe"
           ]
         }
     ],

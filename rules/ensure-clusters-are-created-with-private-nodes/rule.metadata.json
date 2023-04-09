@@ -3,13 +3,10 @@
     "attributes": {
       "armoBuiltin": true,
       "hostSensorRule": false,
-      "useFromKubescapeVersion": "",
-      "useUntilKubescapeVersion": "",
-      "imageScanRelated": false,
-      "controlConfigInputs": ""
+      "imageScanRelated": false
     },
     "ruleLanguage": "Rego",
-    "match": [
+    "dynamicMatch": [
         {
           "apiGroups": [
             "management.azure.com"

@@ -14,7 +14,17 @@
           "v1"
         ],
         "resources": [
-          "ListEntitiesForPolicies",
+          "ListEntitiesForPolicies"
+        ]
+      },
+      {
+        "apiGroups": [
+          "eks.amazonaws.com"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
           "PolicyVersion"
         ]
       }

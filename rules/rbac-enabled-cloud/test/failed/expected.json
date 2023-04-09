@@ -1,14 +1,13 @@
-
-[{
-    	"alertMessage": "Parameter 'authorizedIPRanges' was not set.",
-    	"packagename": "armo_builtins",
-    	"alertScore": 7,
-    	"failedPaths": [""],
-    	"fixPaths":[],
-        "fixCommand": "az aks update -n '<name>' -g '<resource_group>' --api-server-authorized-ip-ranges '0.0.0.0/32'",
-    	"alertObject": {
-			"externalObjects":
-				{
+[
+	{
+		"alertMessage": "rbac is not enabled",
+		"alertScore": 3,
+		"packagename": "armo_builtins",
+		"failedPaths": ["data.properties.enableRBAC"],
+		"fixCommand": "",
+		"fixPaths": [],
+		"alertObject": {
+ 	   		"externalObjects": {
 				    "apiVersion": "management.azure.com/v1",
 				    "kind": "ClusterDescribe",
 				    "metadata": {
@@ -71,7 +70,11 @@
 				            "currentKubernetesVersion": "1.24.9",
 				            "disableLocalAccounts": false,
 				            "dnsPrefix": "test-abtwh-k8s",
-				            "enableRBAC": true,
+				            "apiServerAccessProfile":{
+				                "enablePrivateCluster":true,
+				                "privateDNSZone":"/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.Network/privateDnsZones/privatelink.location1.azmk8s.io"
+				            },
+				            "enableRBAC": false,
 				            "fqdn": "test-abtwh-k8s-6gpa8mep.hcp.northeurope.azmk8s.io",
 				            "kubernetesVersion": "1.24.9",
 				            "maxAgentPools": 100,
@@ -139,8 +142,8 @@
 				            "suffix": "abtwh"
 				        },
 				        "type": "Microsoft.ContainerService/ManagedClusters"
-				    }
-				}
-        }
-    }
+				   }
+			}
+		}
+	}
 ]
