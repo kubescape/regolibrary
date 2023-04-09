@@ -214,8 +214,29 @@
                     "dynamicMatch": [
                         {
                             "apiGroups": [
-                                "container.googleapis.com",
+                                "management.azure.com"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "ClusterDescribe"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
                                 "eks.amazonaws.com"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "ClusterDescribe"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "container.googleapis.com"
                             ],
                             "apiVersions": [
                                 "v1"
@@ -226,6 +247,7 @@
                         }
                     ],
                     "relevantCloudProviders": [
+                        "AKS",
                         "EKS",
                         "GKE"
                     ],
@@ -233,7 +255,7 @@
                     "description": "",
                     "remediation": "",
                     "ruleQuery": "armo_builtins",
-                    "rule": "package armo_builtins\n\n# Check if encryption in etcd in enabled for AKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"management.azure.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"aks\"\t\n\tconfig = cluster_config.data\n\n\tnot isEncryptedAKS(config)\n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"az aks nodepool add --name hostencrypt --cluster-name <myAKSCluster> --resource-group <myResourceGroup> -s Standard_DS2_v2 -l <myRegion> --enable-encryption-at-host\",\n\t\t\"alertObject\": {\n            \"externalObject\": [cluster_config]\n\t\t}\n\t}\n}\n\n\n# Check if encryption in etcd in enabled for EKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"eks.amazonaws.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"eks\"\t\n\tconfig = cluster_config.data\n\n\tis_not_encrypted_EKS(config)\n    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"eksctl utils enable-secrets-encryption --cluster=<cluster> --key-arn=arn:aws:kms:<cluster_region>:<account>:key/<key> --region=<region>\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n\n# Check if encryption in etcd in enabled for GKE\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"container.googleapis.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"gke\"\t\n\tconfig := cluster_config.data\n\n\tnot is_encrypted_GKE(config)\n    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [\"data.database_encryption.state\"],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"gcloud container clusters update <cluster_name> --region=<compute_region> --database-encryption-key=<key_project_id>/locations/<location>/keyRings/<ring_name>/cryptoKeys/<key_name> --project=<cluster_project_id>\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\nis_encrypted_GKE(config) {\n\t config.database_encryption.state == \"1\"\n}\nis_encrypted_GKE(config) {\n\t config.database_encryption.state == \"ENCRYPTED\"\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tencryptionConfig := cluster_config.Cluster.EncryptionConfig[_]\n    goodResources := [resource  | resource =   cluster_config.Cluster.EncryptionConfig.Resources[_]; resource == \"secrets\"]\n\tcount(goodResources) == 0\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tcluster_config.Cluster.EncryptionConfig == null\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tcount(cluster_config.Cluster.EncryptionConfig) == 0\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tencryptionConfig := cluster_config.Cluster.EncryptionConfig[_]\n    count(encryptionConfig.Resources) == 0\n}\n\nisEncryptedAKS(cluster_config) {\n\tcluster_config.properties.agentPoolProfiles.enableEncryptionAtHost == true\n}"
+                    "rule": "package armo_builtins\n\n# Check if encryption in etcd in enabled for AKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"management.azure.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"aks\"\t\n\tconfig = cluster_config.data\n\n\tnot isEncryptedAKS(config)\n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"az aks nodepool add --name hostencrypt --cluster-name <myAKSCluster> --resource-group <myResourceGroup> -s Standard_DS2_v2 -l <myRegion> --enable-encryption-at-host\",\n\t\t\"alertObject\": {\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n# Check if encryption in etcd in enabled for EKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"eks.amazonaws.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"eks\"\t\n\tconfig = cluster_config.data\n\n\tis_not_encrypted_EKS(config)\n    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"eksctl utils enable-secrets-encryption --cluster=<cluster> --key-arn=arn:aws:kms:<cluster_region>:<account>:key/<key> --region=<region>\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n\n# Check if encryption in etcd in enabled for GKE\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"container.googleapis.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"gke\"\t\n\tconfig := cluster_config.data\n\n\tnot is_encrypted_GKE(config)\n    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [\"data.database_encryption.state\"],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"gcloud container clusters update <cluster_name> --region=<compute_region> --database-encryption-key=<key_project_id>/locations/<location>/keyRings/<ring_name>/cryptoKeys/<key_name> --project=<cluster_project_id>\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\nis_encrypted_GKE(config) {\n\t config.database_encryption.state == \"1\"\n}\nis_encrypted_GKE(config) {\n\t config.database_encryption.state == \"ENCRYPTED\"\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tencryptionConfig := cluster_config.Cluster.EncryptionConfig[_]\n    goodResources := [resource  | resource =   cluster_config.Cluster.EncryptionConfig.Resources[_]; resource == \"secrets\"]\n\tcount(goodResources) == 0\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tcluster_config.Cluster.EncryptionConfig == null\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tcount(cluster_config.Cluster.EncryptionConfig) == 0\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tencryptionConfig := cluster_config.Cluster.EncryptionConfig[_]\n    count(encryptionConfig.Resources) == 0\n}\n\nisEncryptedAKS(cluster_config) {\n\tcluster_config.properties.agentPoolProfiles.enableEncryptionAtHost == true\n}\n"
                 },
                 {
                     "name": "etcd-encryption-native",
@@ -3036,11 +3058,14 @@
                             ]
                         }
                     ],
+                    "relevantCloudProviders": [
+                        "EKS"
+                    ],
                     "ruleDependencies": [],
                     "description": "fails if aws policies are not found",
                     "remediation": "Implement policies to minimize user access to Amazon ECR",
                     "ruleQuery": "armo_builtins",
-                    "rule": "package armo_builtins\n\n# deny if policies are not present on AWS\ndeny[msg] {\n\tpolicies := input[_]\n\tpolicies.kind == \"PolicyVersion\"\n\tpolicies.metadata.provider == \"eks\"\n\n\tmsg := {\n\t\t\"alertMessage\": \"Cluster has not policies to minimize access to Amazon ECR; Add some policy in order to minimize access on it.\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObject\": [policies]\n\t\t}\n\t}\n}\n"
+                    "rule": "package armo_builtins\n\n# deny if policies are not present on AWS\ndeny[msg] {\n\tpolicies := input[_]\n\tpolicies.kind == \"PolicyVersion\"\n\tpolicies.metadata.provider == \"eks\"\n\n\tmsg := {\n\t\t\"alertMessage\": \"Cluster has not policies to minimize access to Amazon ECR; Add some policy in order to minimize access on it.\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObjects\": policies\n\t\t}\n\t}\n}\n"
                 }
             ]
         },
@@ -3077,7 +3102,17 @@
                                 "v1"
                             ],
                             "resources": [
-                                "ListEntitiesForPolicies",
+                                "ListEntitiesForPolicies"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "eks.amazonaws.com"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
                                 "PolicyVersion"
                             ]
                         }
@@ -3089,7 +3124,7 @@
                     "description": "",
                     "remediation": "",
                     "ruleQuery": "armo_builtins",
-                    "rule": "package armo_builtins\n\nimport future.keywords.every\n\n# deny if a NodeInstanceRole has a policies not compliant with the following:\n# {\n#    \"Version\": \"YYY-MM-DD\",\n#    \"Statement\": [\n#        {\n#            \"Effect\": \"Allow\",\n#            \"Action\": [\n#                \"ecr:BatchCheckLayerAvailability\",\n#                \"ecr:BatchGetImage\",\n#                \"ecr:GetDownloadUrlForLayer\",\n#                \"ecr:GetAuthorizationToken\"\n#            ],\n#            \"Resource\": \"*\"\n#        }\n#    ]\n# }\ndeny[msga] {\n\tresources := input[_]\n\tresources.kind == \"ListEntitiesForPolicies\"\n\tresources.metadata.provider == \"eks\"\n\n\trole_policies := resources.data.rolesPolicies\n\tnode_instance_role_policies := [key | role_policies[key]; contains(role_policies[key].PolicyRoles[_].RoleName, \"NodeInstance\")]\n\n\t# check if the policy satisfies the minimum prerequisites\n\tpolicies := input[_]\n\tpolicies.kind == \"PolicyVersion\"\n\tpolicies.metadata.provider == \"eks\"\n\n\t#node_instance_role_policies := [\"arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly\"]\n\tsome policy in node_instance_role_policies\n\t\tsome stat, _ in policies.data.policiesDocuments[policy].Statement\n\t\t\tnot isPolicyCompliant(policies, policy, stat)\n\n\tmsga := {\n\t\t\"alertMessage\": \"Cluster has none read-only access to ECR; Review AWS ECS worker node IAM role (NodeInstanceRole) IAM Policy Permissions to verify that they are set and the minimum required level.\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObject\": [\n\t\t\t\tresources\n\t\t\t]\n\t\t}\n\t}\n}\n\nisPolicyCompliant(policies, policy, stat) {\n\t# allowed action provided by the CIS\n\tallowed_actions := [\"ecr:BatchCheckLayerAvailability\",\n                \t    \"ecr:BatchGetImage\",\n                \t    \"ecr:GetAuthorizationToken\",\n                \t    \"ecr:GetDownloadUrlForLayer\"]\n\tpolicies.data.policiesDocuments[policy].Statement[stat].Effect == \"Allow\"\n\tpolicies.data.policiesDocuments[policy].Statement[stat].Resource == \"*\"\n\tsorted_actions := sort(policies.data.policiesDocuments[policy].Statement[stat].Action)\n\tsorted_actions == allowed_actions\n}"
+                    "rule": "package armo_builtins\n\nimport future.keywords.every\n\n# deny if a NodeInstanceRole has a policies not compliant with the following:\n# {\n#    \"Version\": \"YYY-MM-DD\",\n#    \"Statement\": [\n#        {\n#            \"Effect\": \"Allow\",\n#            \"Action\": [\n#                \"ecr:BatchCheckLayerAvailability\",\n#                \"ecr:BatchGetImage\",\n#                \"ecr:GetDownloadUrlForLayer\",\n#                \"ecr:GetAuthorizationToken\"\n#            ],\n#            \"Resource\": \"*\"\n#        }\n#    ]\n# }\ndeny[msga] {\n\tresources := input[_]\n\tresources.kind == \"ListEntitiesForPolicies\"\n\tresources.metadata.provider == \"eks\"\n\n\trole_policies := resources.data.rolesPolicies\n\tnode_instance_role_policies := [key | role_policies[key]; contains(role_policies[key].PolicyRoles[_].RoleName, \"NodeInstance\")]\n\n\t# check if the policy satisfies the minimum prerequisites\n\tpolicies := input[_]\n\tpolicies.kind == \"PolicyVersion\"\n\tpolicies.metadata.provider == \"eks\"\n\n\t#node_instance_role_policies := [\"arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly\"]\n\tsome policy in node_instance_role_policies\n\t\tsome stat, _ in policies.data.policiesDocuments[policy].Statement\n\t\t\tnot isPolicyCompliant(policies, policy, stat)\n\n\tmsga := {\n\t\t\"alertMessage\": \"Cluster has none read-only access to ECR; Review AWS ECS worker node IAM role (NodeInstanceRole) IAM Policy Permissions to verify that they are set and the minimum required level.\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObjects\": resources\n\t\t}\n\t}\n}\n\nisPolicyCompliant(policies, policy, stat) {\n\t# allowed action provided by the CIS\n\tallowed_actions := [\"ecr:BatchCheckLayerAvailability\",\n                \t    \"ecr:BatchGetImage\",\n                \t    \"ecr:GetAuthorizationToken\",\n                \t    \"ecr:GetDownloadUrlForLayer\"]\n\tpolicies.data.policiesDocuments[policy].Statement[stat].Effect == \"Allow\"\n\tpolicies.data.policiesDocuments[policy].Statement[stat].Resource == \"*\"\n\tsorted_actions := sort(policies.data.policiesDocuments[policy].Statement[stat].Action)\n\tsorted_actions == allowed_actions\n}\n"
                 }
             ]
         },

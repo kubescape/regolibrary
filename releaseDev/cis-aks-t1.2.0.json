@@ -300,8 +300,28 @@
                     "dynamicMatch": [
                         {
                             "apiGroups": [
-                                "management.azure.com",
-                                "container.googleapis.com",
+                                "management.azure.com"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "ClusterDescribe"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "container.googleapis.com"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "ClusterDescribe"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
                                 "eks.amazonaws.com"
                             ],
                             "apiVersions": [
@@ -321,7 +341,7 @@
                     "description": "",
                     "remediation": "",
                     "ruleQuery": "armo_builtins",
-                    "rule": "package armo_builtins\n\n\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"management.azure.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"aks\"\t\n    config := cluster_config.data\n    config.properties.enableRBAC == false\n\n\tmsga := {\n\t\t\"alertMessage\": \"rbac is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [\"data.properties.enableRBAC\"],\n\t\t\"fixCommand\": \"\",\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n\n"
+                    "rule": "package armo_builtins\n\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"management.azure.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n\tcluster_config.metadata.provider == \"aks\"\n\tconfig := cluster_config.data\n\tnot config.properties.enableRBAC == true\n\n\tmsga := {\n\t\t\"alertMessage\": \"rbac is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [\"data.properties.enableRBAC\"],\n\t\t\"fixCommand\": \"\",\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n            \t\t\"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n\n"
                 },
                 {
                     "name": "rbac-enabled-native",
@@ -3044,7 +3064,7 @@
                     "description": "Azure role-based access control (RBAC) is an authorization system built on Azure Resource Manager that provides fine-grained access management of Azure resources.",
                     "remediation": "Enable Azure RBAC on AKS by using the following command: az aks update -g <resource_group> -n <cluster_name> --enable-azure-rbac",
                     "ruleQuery": "armo_builtins",
-                    "rule": "package armo_builtins\n\n# fails in case Azure RBAC is not set on AKS instance.\ndeny[msga] {\n   \tcluster_describe := input[_]\n\tcluster_describe.apiVersion == \"management.azure.com/v1\"\n\tcluster_describe.kind == \"ClusterDescribe\"\n\tcluster_describe.metadata.provider == \"aks\"\n\tproperties := cluster_describe.data.properties\n\n\tnot isAzureRBACEnabled(properties)\n\n\tmsga := {\n\t\t\"alertMessage\": \"Azure RBAC is not set. Enable it using the command: az aks update -g <resource_group> -n <cluster_name> --enable-azure-rbac\",\n\t\t\"alertScore\": 7,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixCommand\": \"az aks update -g <resource_group> -n <cluster_name> --enable-azure-rbac\",\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObject\": [\n\t\t\t\tcluster_describe\n\t\t\t]\n\t\t},\n\t} \n}\n\n# isAzureRBACEnabled check if Azure RBAC is enabled into ClusterDescribe object\n# retrieved from azure cli.\nisAzureRBACEnabled(properties) {\n    properties.aadProfile.enableAzureRBAC == true\n}"
+                    "rule": "package armo_builtins\n\n# fails in case Azure RBAC is not set on AKS instance.\ndeny[msga] {\n   \tcluster_describe := input[_]\n\tcluster_describe.apiVersion == \"management.azure.com/v1\"\n\tcluster_describe.kind == \"ClusterDescribe\"\n\tcluster_describe.metadata.provider == \"aks\"\n\tproperties := cluster_describe.data.properties\n\n\tnot isAzureRBACEnabled(properties)\n\n\tmsga := {\n\t\t\"alertMessage\": \"Azure RBAC is not set. Enable it using the command: az aks update -g <resource_group> -n <cluster_name> --enable-azure-rbac\",\n\t\t\"alertScore\": 7,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixCommand\": \"az aks update -g <resource_group> -n <cluster_name> --enable-azure-rbac\",\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObjects\": cluster_describe\n\t\t},\n\t} \n}\n\n# isAzureRBACEnabled check if Azure RBAC is enabled into ClusterDescribe object\n# retrieved from azure cli.\nisAzureRBACEnabled(properties) {\n    properties.aadProfile.enableAzureRBAC == true\n}\n"
                 }
             ]
         },
@@ -3133,7 +3153,7 @@
                     "description": "Scan images being deployed to Azure (AKS) for vulnerabilities. Vulnerability scanning for images stored in Azure Container Registry is generally available in Azure Security Center. This capability is powered by Qualys, a leading provider of information security. When you push an image to Container Registry, Security Center automatically scans it, then checks for known vulnerabilities in packages or dependencies defined in the file. When the scan completes (after about 10 minutes), Security Center provides details and a security classification for each vulnerability detected, along with guidance on how to remediate issues and protect vulnerable attack surfaces.",
                     "remediation": "Enable Azure Defender image scanning. Command: az aks update --enable-defender --resource-group <your-resource-group> --name <your-cluster-name>",
                     "ruleQuery": "armo_builtin",
-                    "rule": "package armo_builtins\n\n# fails in case Azure Defender image scanning is not enabled.\ndeny[msga] {\n    cluster_describe := input[_]\n\tcluster_describe.apiVersion == \"management.azure.com/v1\"\n\tcluster_describe.kind == \"ClusterDescribe\"\n\tcluster_describe.metadata.provider == \"aks\"\n\tproperties := cluster_describe.data.properties \n\n    not isAzureImageScanningEnabled(properties)\n\n    msga := {\n\t\t\"alertMessage\": \"Azure Defender image scanning is not enabled.\",\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"az aks update --enable-defender --resource-group <your-resource-group> --name <your-cluster-name>\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n            \"externalObject\": cluster_describe\n        },\n\n\t}\n}\n\n# isAzureImageScanningEnabled check if Azure Defender is enabled into the ClusterDescribe object.\nisAzureImageScanningEnabled(properties) {\n    properties.securityProfile.defender.securityMonitoring.enabled == true\n}"
+                    "rule": "package armo_builtins\n\n# fails in case Azure Defender image scanning is not enabled.\ndeny[msga] {\n    cluster_describe := input[_]\n\tcluster_describe.apiVersion == \"management.azure.com/v1\"\n\tcluster_describe.kind == \"ClusterDescribe\"\n\tcluster_describe.metadata.provider == \"aks\"\n\tproperties := cluster_describe.data.properties \n\n    not isAzureImageScanningEnabled(properties)\n\n    msga := {\n\t\t\"alertMessage\": \"Azure Defender image scanning is not enabled.\",\n\t\t\"alertScore\": 2,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"az aks update --enable-defender --resource-group <your-resource-group> --name <your-cluster-name>\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertObject\": {\n            \"externalObjects\": cluster_describe\n        },\n\n\t}\n}\n\n# isAzureImageScanningEnabled check if Azure Defender is enabled into the ClusterDescribe object.\nisAzureImageScanningEnabled(properties) {\n    properties.securityProfile.defender.securityMonitoring.enabled == true\n}\n"
                 }
             ]
         },
@@ -3170,8 +3190,29 @@
                     "dynamicMatch": [
                         {
                             "apiGroups": [
-                                "container.googleapis.com",
+                                "management.azure.com"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "ClusterDescribe"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
                                 "eks.amazonaws.com"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "ClusterDescribe"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "container.googleapis.com"
                             ],
                             "apiVersions": [
                                 "v1"
@@ -3182,6 +3223,7 @@
                         }
                     ],
                     "relevantCloudProviders": [
+                        "AKS",
                         "EKS",
                         "GKE"
                     ],
@@ -3189,7 +3231,7 @@
                     "description": "",
                     "remediation": "",
                     "ruleQuery": "armo_builtins",
-                    "rule": "package armo_builtins\n\n# Check if encryption in etcd in enabled for AKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"management.azure.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"aks\"\t\n\tconfig = cluster_config.data\n\n\tnot isEncryptedAKS(config)\n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"az aks nodepool add --name hostencrypt --cluster-name <myAKSCluster> --resource-group <myResourceGroup> -s Standard_DS2_v2 -l <myRegion> --enable-encryption-at-host\",\n\t\t\"alertObject\": {\n            \"externalObject\": [cluster_config]\n\t\t}\n\t}\n}\n\n\n# Check if encryption in etcd in enabled for EKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"eks.amazonaws.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"eks\"\t\n\tconfig = cluster_config.data\n\n\tis_not_encrypted_EKS(config)\n    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"eksctl utils enable-secrets-encryption --cluster=<cluster> --key-arn=arn:aws:kms:<cluster_region>:<account>:key/<key> --region=<region>\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n\n# Check if encryption in etcd in enabled for GKE\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"container.googleapis.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"gke\"\t\n\tconfig := cluster_config.data\n\n\tnot is_encrypted_GKE(config)\n    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [\"data.database_encryption.state\"],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"gcloud container clusters update <cluster_name> --region=<compute_region> --database-encryption-key=<key_project_id>/locations/<location>/keyRings/<ring_name>/cryptoKeys/<key_name> --project=<cluster_project_id>\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\nis_encrypted_GKE(config) {\n\t config.database_encryption.state == \"1\"\n}\nis_encrypted_GKE(config) {\n\t config.database_encryption.state == \"ENCRYPTED\"\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tencryptionConfig := cluster_config.Cluster.EncryptionConfig[_]\n    goodResources := [resource  | resource =   cluster_config.Cluster.EncryptionConfig.Resources[_]; resource == \"secrets\"]\n\tcount(goodResources) == 0\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tcluster_config.Cluster.EncryptionConfig == null\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tcount(cluster_config.Cluster.EncryptionConfig) == 0\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tencryptionConfig := cluster_config.Cluster.EncryptionConfig[_]\n    count(encryptionConfig.Resources) == 0\n}\n\nisEncryptedAKS(cluster_config) {\n\tcluster_config.properties.agentPoolProfiles.enableEncryptionAtHost == true\n}"
+                    "rule": "package armo_builtins\n\n# Check if encryption in etcd in enabled for AKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"management.azure.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"aks\"\t\n\tconfig = cluster_config.data\n\n\tnot isEncryptedAKS(config)\n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"az aks nodepool add --name hostencrypt --cluster-name <myAKSCluster> --resource-group <myResourceGroup> -s Standard_DS2_v2 -l <myRegion> --enable-encryption-at-host\",\n\t\t\"alertObject\": {\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n# Check if encryption in etcd in enabled for EKS\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"eks.amazonaws.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"eks\"\t\n\tconfig = cluster_config.data\n\n\tis_not_encrypted_EKS(config)\n    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"eksctl utils enable-secrets-encryption --cluster=<cluster> --key-arn=arn:aws:kms:<cluster_region>:<account>:key/<key> --region=<region>\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\n\n\n# Check if encryption in etcd in enabled for GKE\ndeny[msga] {\n\tcluster_config := input[_]\n\tcluster_config.apiVersion == \"container.googleapis.com/v1\"\n\tcluster_config.kind == \"ClusterDescribe\"\n    cluster_config.metadata.provider == \"gke\"\t\n\tconfig := cluster_config.data\n\n\tnot is_encrypted_GKE(config)\n    \n\t\n\tmsga := {\n\t\t\"alertMessage\": \"etcd/secret encryption is not enabled\",\n\t\t\"alertScore\": 3,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [\"data.database_encryption.state\"],\n\t\t\"fixPaths\": [],\n\t\t\"fixCommand\": \"gcloud container clusters update <cluster_name> --region=<compute_region> --database-encryption-key=<key_project_id>/locations/<location>/keyRings/<ring_name>/cryptoKeys/<key_name> --project=<cluster_project_id>\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [],\n            \"externalObjects\": cluster_config\n\t\t}\n\t}\n}\n\nis_encrypted_GKE(config) {\n\t config.database_encryption.state == \"1\"\n}\nis_encrypted_GKE(config) {\n\t config.database_encryption.state == \"ENCRYPTED\"\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tencryptionConfig := cluster_config.Cluster.EncryptionConfig[_]\n    goodResources := [resource  | resource =   cluster_config.Cluster.EncryptionConfig.Resources[_]; resource == \"secrets\"]\n\tcount(goodResources) == 0\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tcluster_config.Cluster.EncryptionConfig == null\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tcount(cluster_config.Cluster.EncryptionConfig) == 0\n}\n\nis_not_encrypted_EKS(cluster_config) {\n\tencryptionConfig := cluster_config.Cluster.EncryptionConfig[_]\n    count(encryptionConfig.Resources) == 0\n}\n\nisEncryptedAKS(cluster_config) {\n\tcluster_config.properties.agentPoolProfiles.enableEncryptionAtHost == true\n}\n"
                 }
             ]
         },
@@ -3221,13 +3263,23 @@
                     "match": [
                         {
                             "apiGroups": [
-                                "*"
+                                ""
                             ],
                             "apiVersions": [
-                                "*"
+                                "v1"
                             ],
                             "resources": [
-                                "Service",
+                                "Service"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "networking.k8s.io"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
                                 "Ingress"
                             ]
                         }
@@ -3235,7 +3287,7 @@
                     "description": "Encrypt traffic to HTTPS load balancers using TLS certificates.",
                     "remediation": "",
                     "ruleQuery": "armo_builtins",
-                    "rule": "package armo_builtins\n\n# fails in case 'Service' object has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type == \"LoadBalancer\"\n\tnot svc.metadata.annotations[\"service.beta.kubernetes.io/azure-load-balancer-internal\"]\n\n\tmsga := {\n    \t\"alertMessage\": \"Service object LoadBalancer has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"spec.metadata.annotations['service.beta.kubernetes.io/azure-load-balancer-internal']\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sObject\": [svc]\n        }\n    }\n}\n\n# fails in case 'Service' object has annotation 'service.beta.kubernetes.io/azure-load-balancer-internal' != 'true'.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type == \"LoadBalancer\"\n\tsvc.metadata.annotations[\"service.beta.kubernetes.io/azure-load-balancer-internal\"] != \"true\"\n\n\tmsga := {\n    \t\"alertMessage\": \"Service object LoadBalancer has annotation 'service.beta.kubernetes.io/azure-load-balancer-internal' != 'true'.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"spec.metadata.annotations['service.beta.kubernetes.io/azure-load-balancer-internal']\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sObject\": [svc]\n        }\n    }\n}\n\n# fails in case 'Ingress' object has spec.tls value not set.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type == \"LoadBalancer\"\n\tsvc.metadata.annotations[\"service.beta.kubernetes.io/azure-load-balancer-internal\"] == \"true\"\n\n\tingress := input[_]\n\tingress.kind == \"Ingress\"\n\tnot isTLSSet(ingress.spec)\n\n\tmsga := {\n    \t\"alertMessage\": \"Ingress object has 'spec.tls' value not set.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"spec.tls\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sObject\": [ingress]\n        }\n    }\n}\n\n# fails in case 'Ingress' object has annotation 'kubernetes.io/ingress.class' != 'azure/application-gateway'.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type == \"LoadBalancer\"\n\tsvc.metadata.annotations[\"service.beta.kubernetes.io/azure-load-balancer-internal\"] == \"true\"\n\n\tingress := input[_]\n\tingress.kind == \"Ingress\"\n\tisTLSSet(ingress.spec)\n\tingress.metadata.annotations[\"kubernetes.io/ingress.class\"] != \"azure/application-gateway\"\n\n\tmsga := {\n    \t\"alertMessage\": \"Ingress object has annotation 'kubernetes.io/ingress.class' != 'azure/application-gateway'.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"spec.metadata.annotations['kubernetes.io/ingress.class']\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sObject\": [ingress]\n        }\n    }\n}\n\nisTLSSet(spec) {\n\tcount(spec.tls) > 0\n}"
+                    "rule": "package armo_builtins\n\n# fails in case of 'Services' of type 'LoadBalancer' are not found.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type != \"LoadBalancer\"\n\n\tmsga := {\n\t\t\"alertMessage\": \"No LoadBalancer service found.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n\t\t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [svc]\n\t\t}\n\t}\n}\n\n# fails in case 'Service' object has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type == \"LoadBalancer\"\n\tnot svc.metadata.annotations[\"service.beta.kubernetes.io/azure-load-balancer-internal\"]\n\n\tmsga := {\n    \t\"alertMessage\": \"Service object LoadBalancer has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"spec.metadata.annotations['service.beta.kubernetes.io/azure-load-balancer-internal']\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [svc]\n        }\n    }\n}\n\n# fails in case 'Service' object has annotation 'service.beta.kubernetes.io/azure-load-balancer-internal' != 'true'.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type == \"LoadBalancer\"\n\tsvc.metadata.annotations[\"service.beta.kubernetes.io/azure-load-balancer-internal\"] != \"true\"\n\n\tmsga := {\n    \t\"alertMessage\": \"Service object LoadBalancer has annotation 'service.beta.kubernetes.io/azure-load-balancer-internal' != 'true'.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"spec.metadata.annotations['service.beta.kubernetes.io/azure-load-balancer-internal']\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [svc]\n        }\n    }\n}\n\n# fails in case 'Ingress' object has spec.tls value not set.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type == \"LoadBalancer\"\n\tsvc.metadata.annotations[\"service.beta.kubernetes.io/azure-load-balancer-internal\"] == \"true\"\n\n\tingress := input[_]\n\tingress.kind == \"Ingress\"\n\tnot isTLSSet(ingress.spec)\n\n\tmsga := {\n    \t\"alertMessage\": \"Ingress object has 'spec.tls' value not set.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"spec.tls\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [ingress]\n        }\n    }\n}\n\n# fails in case 'Ingress' object has annotation 'kubernetes.io/ingress.class' != 'azure/application-gateway'.\ndeny[msga] {\n\tsvc := input[_]\n\tsvc.kind == \"Service\"\n\tsvc.spec.type == \"LoadBalancer\"\n\tsvc.metadata.annotations[\"service.beta.kubernetes.io/azure-load-balancer-internal\"] == \"true\"\n\n\tingress := input[_]\n\tingress.kind == \"Ingress\"\n\tisTLSSet(ingress.spec)\n\tingress.metadata.annotations[\"kubernetes.io/ingress.class\"] != \"azure/application-gateway\"\n\n\tmsga := {\n    \t\"alertMessage\": \"Ingress object has annotation 'kubernetes.io/ingress.class' != 'azure/application-gateway'.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"spec.metadata.annotations['kubernetes.io/ingress.class']\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"k8sApiObjects\": [ingress]\n        }\n    }\n}\n\nisTLSSet(spec) {\n\tcount(spec.tls) > 0\n}\n"
                 }
             ]
         },
@@ -3280,7 +3332,7 @@
                     "description": "Enable Endpoint Private Access to restrict access to the cluster's control plane to only an allowlist of authorized IPs.",
                     "remediation": "",
                     "ruleQuery": "armo_builtins",
-                    "rule": "\npackage armo_builtins\n\n# fails in case authorizedIPRanges is not set.\ndeny[msga] {\n\tobj := input[_]\n\tobj.apiVersion == \"management.azure.com/v1\"\n\tobj.kind == \"ClusterDescribe\"\n\tobj.metadata.provider == \"aks\"\n\tconfig = obj.data\n\n\tnot isAuthorizedIPRangesSet(config)\n\n\tmsga := {\n    \t\"alertMessage\": \"Parameter 'authorizedIPRanges' was not set.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"az aks update -n '<name>' -g '<resource_group>' --api-server-authorized-ip-ranges '0.0.0.0/32'\",\n    \t\"alertObject\": {\n\t\t\t\"externalObject\": [obj]\n        }\n    }\n\n}\n\nisAuthorizedIPRangesSet(config) {\n\tcount(config.properties.apiServerAccessProfile.authorizedIPRanges) > 0\n}"
+                    "rule": "\npackage armo_builtins\n\n# fails in case authorizedIPRanges is not set.\ndeny[msga] {\n\tobj := input[_]\n\tobj.apiVersion == \"management.azure.com/v1\"\n\tobj.kind == \"ClusterDescribe\"\n\tobj.metadata.provider == \"aks\"\n\tconfig = obj.data\n\n\tnot isAuthorizedIPRangesSet(config)\n\n\tmsga := {\n    \t\"alertMessage\": \"Parameter 'authorizedIPRanges' was not set.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"az aks update -n '<name>' -g '<resource_group>' --api-server-authorized-ip-ranges '0.0.0.0/32'\",\n    \t\"alertObject\": {\n\t\t\t\"externalObjects\": obj\n        }\n    }\n\n}\n\nisAuthorizedIPRangesSet(config) {\n\tcount(config.properties.apiServerAccessProfile.authorizedIPRanges) > 0\n}\n"
                 }
             ]
         },
@@ -3306,13 +3358,10 @@
                     "attributes": {
                         "armoBuiltin": true,
                         "hostSensorRule": false,
-                        "useFromKubescapeVersion": "",
-                        "useUntilKubescapeVersion": "",
-                        "imageScanRelated": false,
-                        "controlConfigInputs": ""
+                        "imageScanRelated": false
                     },
                     "ruleLanguage": "Rego",
-                    "match": [
+                    "dynamicMatch": [
                         {
                             "apiGroups": [
                                 "management.azure.com"
@@ -3328,7 +3377,7 @@
                     "description": "Disable public IP addresses for cluster nodes, so that they only have private IP addresses. Private Nodes are nodes with no public IP addresses.",
                     "remediation": "az aks create --resource-group <private-cluster-resource-group> --name <private-cluster-name> --load-balancer-sku standard --enable-private-cluster --network-plugin azure --vnet-subnet-id <subnet-id> --docker-bridge-address --dns-service-ip --service-cidr",
                     "ruleQuery": "",
-                    "rule": "\npackage armo_builtins\n\n# fails in case enablePrivateCluster is set to false.\ndeny[msga] {\n\tobj := input[_]\n\tobj.apiVersion == \"management.azure.com/v1\"\n\tobj.kind == \"ClusterDescribe\"\n\tobj.metadata.provider == \"aks\"\n\tconfig = obj.data\n\n\tnot isPrivateClusterEnabled(config)\n\n\tmsga := {\n    \t\"alertMessage\": \"Cluster does not have private nodes.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"az aks create --resource-group <private-cluster-resource-group> --name <private-cluster-name> --load-balancer-sku standard --enable-private-cluster --network-plugin azure --vnet-subnet-id <subnet-id> --docker-bridge-address --dns-service-ip --service-cidr\",\n    \t\"alertObject\": {\n\t\t\"externalObject\": [obj]\n        }\n    }\n}\n\nisPrivateClusterEnabled(config) {\n\tconfig.properties.apiServerAccessProfile.enablePrivateCluster == true\n}\n"
+                    "rule": "\npackage armo_builtins\n\n# fails in case enablePrivateCluster is set to false.\ndeny[msga] {\n\tobj := input[_]\n\tobj.apiVersion == \"management.azure.com/v1\"\n\tobj.kind == \"ClusterDescribe\"\n\tobj.metadata.provider == \"aks\"\n\tconfig = obj.data\n\n\tnot isPrivateClusterEnabled(config)\n\n\tmsga := {\n    \t\"alertMessage\": \"Cluster does not have private nodes.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"az aks create --resource-group <private-cluster-resource-group> --name <private-cluster-name> --load-balancer-sku standard --enable-private-cluster --network-plugin azure --vnet-subnet-id <subnet-id> --docker-bridge-address --dns-service-ip --service-cidr\",\n    \t\"alertObject\": {\n\t\t\"externalObjects\": obj\n        }\n    }\n}\n\nisPrivateClusterEnabled(config) {\n\tconfig.properties.apiServerAccessProfile.enablePrivateCluster == true\n}\n"
                 }
             ]
         },
@@ -3405,7 +3454,17 @@
                                 "v1"
                             ],
                             "resources": [
-                                "ListEntitiesForPolicies",
+                                "ListEntitiesForPolicies"
+                            ]
+                        },
+                        {
+                            "apiGroups": [
+                                "management.azure.com"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
                                 "PolicyVersion"
                             ]
                         }
@@ -3417,7 +3476,7 @@
                     "description": "",
                     "remediation": "",
                     "ruleQuery": "armo_builtins",
-                    "rule": "package armo_builtins\n\nimport future.keywords.every\n\n# deny if servicePrincipal has permissions that are not read-only\ndeny[msga] {\n\tresources := input[_]\n\tresources.kind == \"ListEntitiesForPolicies\"\n\tresources.metadata.provider == \"aks\"\n\n\troleAssignment := resources.data.roleAssignments[_]\n\troleAssignment.properties.principalType == \"ServicePrincipal\"\n\n\tpolicies := input[_]\n\tpolicies.kind == \"PolicyVersion\"\n\tpolicies.metadata.provider == \"aks\"\n\n\tpolicy := policies.data.roleDefinitions[_]\n\tpolicy.id == roleAssignment.properties.roleDefinitionId\n\n\t# check if policy has at least one action that is not read\n\tsome action in policy.properties.permissions[_].actions\n\t\tnot endswith(action, \"read\")\n\n\tmsga := {\n\t\t\"alertMessage\": \"ServicePrincipal has permissions that are not read-only to ACR.\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObject\": resources\n\t\t}\n\t}\n}\n"
+                    "rule": "package armo_builtins\n\nimport future.keywords.every\n\n# deny if servicePrincipal has permissions that are not read-only\ndeny[msga] {\n\tresources := input[_]\n\tresources.kind == \"ListEntitiesForPolicies\"\n\tresources.metadata.provider == \"aks\"\n\n\troleAssignment := resources.data.roleAssignments[_]\n\troleAssignment.properties.principalType == \"ServicePrincipal\"\n\n\tpolicies := input[_]\n\tpolicies.kind == \"PolicyVersion\"\n\tpolicies.metadata.provider == \"aks\"\n\n\tpolicy := policies.data.roleDefinitions[_]\n\tpolicy.id == roleAssignment.properties.roleDefinitionId\n\n\t# check if policy has at least one action that is not read\n\tsome action in policy.properties.permissions[_].actions\n\t\tnot endswith(action, \"read\")\n\n\tmsga := {\n\t\t\"alertMessage\": \"ServicePrincipal has permissions that are not read-only to ACR.\",\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 7,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\n\t\t\t\"externalObjects\": resources\n\t\t}\n\t}\n}\n"
                 }
             ]
         },
@@ -3493,17 +3552,23 @@
                         "imageScanRelated": false
                     },
                     "ruleLanguage": "Rego",
-                    "match": [
+                    "dynamicMatch": [
                         {
-                            "apiGroups": [],
-                            "apiVersions": [],
-                            "resources": []
+                            "apiGroups": [
+                                "management.azure.com"
+                            ],
+                            "apiVersions": [
+                                "v1"
+                            ],
+                            "resources": [
+                                "ClusterDescribe"
+                            ]
                         }
                     ],
                     "description": "Disable access to the Kubernetes API from outside the node network if it is not required.",
                     "remediation": "To use a private endpoint, create a new private endpoint in your virtual network then create a link between your virtual network and a new private DNS zone",
                     "ruleQuery": "armo_builtins",
-                    "rule": "\npackage armo_builtins\n\n# fails in case privateEndpoint.id parameter is not found on ClusterDescribe\ndeny[msga] {\n\tobj := input[_]\n\tobj.apiVersion == \"management.azure.com/v1\"\n\tobj.kind == \"ClusterDescribe\"\n\tobj.metadata.provider == \"aks\"\n\tconfig = obj.data\n\n\tnot isPrivateEndpointEnabled(config)\n\n\tmsga := {\n    \t\"alertMessage\": \"Private endpoint not enabled.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"externalObject\": [obj]\n        }\n    }\n}\n\nisPrivateEndpointEnabled(config) {\n\tconfig.properties.privateEndpoint.id\n}"
+                    "rule": "\npackage armo_builtins\n\n# fails in case privateEndpoint.id parameter is not found on ClusterDescribe\ndeny[msga] {\n\tobj := input[_]\n\tobj.apiVersion == \"management.azure.com/v1\"\n\tobj.kind == \"ClusterDescribe\"\n\tobj.metadata.provider == \"aks\"\n\tconfig = obj.data\n\n\tnot isPrivateEndpointEnabled(config)\n\n\tmsga := {\n    \t\"alertMessage\": \"Private endpoint not enabled.\",\n    \t\"packagename\": \"armo_builtins\",\n    \t\"alertScore\": 7,\n    \t\"failedPaths\": [\"\"],\n    \t\"fixPaths\":[],\n        \"fixCommand\": \"\",\n    \t\"alertObject\": {\n\t\t\t\"externalObjects\": obj\n        }\n    }\n}\n\nisPrivateEndpointEnabled(config) {\n\tconfig.properties.privateEndpoint.id\n}\n"
                 }
             ]
         },
