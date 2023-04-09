@@ -38,6 +38,70 @@
                 "attributes": {
                     "kind": "Deployment",
                     "namespace": "kube-system",
+                    "name": "coredns-autoscaler"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "namespace": "kube-system",
+                    "name": "coredns"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "namespace": "kube-system",
+                    "name": "metrics-server"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "namespace": "kube-system",
+                    "name": "konnectivity-agent"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "csi-azuredisk-node-win"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "azure-ip-masq-agent"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "cloud-node-manager"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "namespace": "kube-system",
+                    "name": "cloud-node-manager-windows"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "namespace": "kube-system",
                     "name": "metrics-server"
                 }
             },
@@ -408,6 +472,14 @@
                     "kind": "ServiceAccount",
                     "namespace": "kube-system",
                     "name": "bootstrap-signer"
+                }
+            },
+            {
+                "designatorType": "sAttributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "namespace": "kube-system",
+                    "name": "clusterrole-aggregation-controller"
                 }
             },
             {
