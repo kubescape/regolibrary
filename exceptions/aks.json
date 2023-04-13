@@ -475,7 +475,7 @@
                 }
             },
             {
-                "designatorType": "sAttributes",
+                "designatorType": "Attributes",
                 "attributes": {
                     "kind": "ServiceAccount",
                     "namespace": "kube-system",
