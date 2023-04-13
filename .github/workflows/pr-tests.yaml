@@ -68,7 +68,11 @@ jobs:
         with:
           python-version: 3.10.6
 
-      - run: python ./scripts/export.py
+      - name: Run export script
+        run: |
+          OUTPUT=pre-release python ./scripts/export.py
+          rm -r releaseDev
+          cp -R pre-release releaseDev
 
       - name: Strip Metadata Files Extensions
         run: |
