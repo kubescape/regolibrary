@@ -1,11 +1,10 @@
 ######
-
 # Description: Script populates ControlIDs list in CIS framework subsections.
 # Params:
 # -fw - the name of the framwork
 # -clean - if true, first clean the controlIDs lists. False or not sent - add controlIds that doesn't exist on list
-
 # ================================================
+
 import argparse
 import json
 import os
@@ -83,4 +82,5 @@ def main():
 
 
 if __name__ == "__main__":
+    # TODO: add comments and python convetion for all document
     main()

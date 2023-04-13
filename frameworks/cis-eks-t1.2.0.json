@@ -448,6 +448,12 @@
             }
         },
         {
+            "controlID": "C-0232",
+            "patch": {
+                "name": "CIS-5.5.1 Manage Kubernetes RBAC users with AWS IAM Authenticator for Kubernetes or Upgrade to AWS CLI v1.16.156"
+            }
+        },
+        {
             "controlID": "C-0233",
             "patch": {
                 "name": "CIS-5.6.1 Consider Fargate for running untrusted workloads"
@@ -624,7 +630,9 @@
                 "5": {
                     "name": "Authentication and Authorization",
                     "id": "5.5",
-                    "controlsIDs": []
+                    "controlsIDs": [
+                        "C-0232"
+                    ]
                 },
                 "6": {
                     "name": "Other Cluster Configurations",

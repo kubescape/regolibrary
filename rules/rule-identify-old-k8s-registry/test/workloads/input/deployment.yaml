@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app : goproxy
+  template:
+    metadata :
+      name : goproxy
+      labels :
+        app : goproxy
+    spec :
+      containers:
+      - name : php
+        image : k8s.gcr.io/php:7.0-apache
+        

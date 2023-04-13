@@ -7,6 +7,7 @@ require (
 	github.com/armosec/armoapi-go v0.0.119
 	github.com/go-gota/gota v0.12.0
 	github.com/kubescape/opa-utils v0.0.223
+	github.com/stretchr/testify v1.8.0
 	go.uber.org/zap v1.24.0
 )
 
@@ -85,6 +86,7 @@ require (
 	github.com/opencontainers/image-spec v1.0.3-0.20211202183452-c5a74bcca799 // indirect
 	github.com/pkg/browser v0.0.0-20210115035449-ce105d075bb4 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/pquerna/cachecontrol v0.1.0 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20200313005456-10cdbea86bc0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect

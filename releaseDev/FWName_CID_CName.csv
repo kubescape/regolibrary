@@ -39,6 +39,8 @@ ArmoBest,C-0086,CVE-2022-0492-cgroups-container-escape
 ArmoBest,C-0087,CVE-2022-23648-containerd-fs-escape
 ArmoBest,C-0089,CVE-2022-3172-aggregated-API-server-redirect
 ArmoBest,C-0091,CVE-2022-47633-kyverno-signature-bypass
+ArmoBest,C-0236,Verify image signature
+ArmoBest,C-0237,Check if signature exists
 cis-v1.23-t1.0.1,C-0092,Ensure that the API server pod specification file permissions are set to 600 or more restrictive
 cis-v1.23-t1.0.1,C-0093,Ensure that the API server pod specification file ownership is set to root:root
 cis-v1.23-t1.0.1,C-0094,Ensure that the controller manager pod specification file permissions are set to 600 or more restrictive
@@ -331,6 +333,7 @@ cis-eks-t1.2.0,C-0228,Ensure clusters are created with Private Endpoint Enabled 
 cis-eks-t1.2.0,C-0229,Ensure clusters are created with Private Nodes
 cis-eks-t1.2.0,C-0230,Ensure Network Policy is Enabled and set as appropriate
 cis-eks-t1.2.0,C-0231,Encrypt traffic to HTTPS load balancers with TLS certificates
+cis-eks-t1.2.0,C-0232,Manage Kubernetes RBAC users with AWS IAM Authenticator for Kubernetes or Upgrade to AWS CLI v1.16.156
 cis-eks-t1.2.0,C-0233,Consider Fargate for running untrusted workloads
 cis-eks-t1.2.0,C-0234,Consider external secret storage
 cis-eks-t1.2.0,C-0235,Ensure that the kubelet configuration file has permissions set to 644 or more restrictive

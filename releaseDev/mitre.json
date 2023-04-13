@@ -182,6 +182,7 @@
         {
             "name": "Applications credentials in configuration files",
             "attributes": {
+                "actionRequired": "configuration",
                 "armoBuiltin": true,
                 "microsoftMitreColumns": [
                     "Credential access",
@@ -644,6 +645,7 @@
         {
             "name": "Exposed sensitive interfaces",
             "attributes": {
+                "actionRequired": "configuration",
                 "armoBuiltin": true,
                 "microsoftMitreColumns": [
                     "Initial access"

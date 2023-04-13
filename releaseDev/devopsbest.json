@@ -21,7 +21,8 @@
                             "Impact - service destruction"
                         ]
                     }
-                ]
+                ],
+                "actionRequired": "configuration"
             },
             "description": "This control identifies all Pods for which the memory limit is not set.",
             "remediation": "Set the memory limit or use exception mechanism to avoid unnecessary notifications.",
@@ -240,6 +241,7 @@
         {
             "name": "Resources CPU limit and request",
             "attributes": {
+                "actionRequired": "configuration",
                 "armoBuiltin": true,
                 "controlTypeTags": [
                     "compliance",
@@ -649,6 +651,7 @@
         {
             "name": "Label usage for resources",
             "attributes": {
+                "actionRequired": "configuration",
                 "armoBuiltin": true,
                 "controlTypeTags": [
                     "devops"
@@ -707,6 +710,7 @@
         {
             "name": "K8s common labels usage",
             "attributes": {
+                "actionRequired": "configuration",
                 "armoBuiltin": true,
                 "controlTypeTags": [
                     "devops"

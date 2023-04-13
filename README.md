@@ -1,6 +1,8 @@
+<!-- markdown-link-check-disable -->
 [![Version](https://img.shields.io/github/v/release/kubescape/regolibrary)](releases)
 [![release-date](https://img.shields.io/github/release-date/kubescape/regolibrary)](releases)
 [![GitHub](https://img.shields.io/github/license/kubescape/kubescape)](https://github.com/kubescape/kubescape/blob/master/LICENSE)
+<!-- markdown-link-check-enable-->
 
 # Kubescape Regolibrary
 
@@ -165,13 +167,13 @@ Example of rule.metadata.json:
     See structure of a [rule response](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructuresv1.go#L23)
 
 
-4. Add a test for the new rule (and run it!). Learn how to add a test [here](/rules-tests/README.md) and how to run it [here](/testrunner/README.md)
+4. Add a test for the new rule (and run it!). Learn how to add a test [here](testrunner/README.md#adding-new-rules) and how to run it [here](testrunner/README.md).
 
 5. Add `filter.rego` if needed - If it exists, the filter is run by Kubescape to calculate ‘all resources’ = the number of potential resources to fail. It affects the risk score. This is needed in cases where a rule asks for resources that wil not potentially fail. Example: if a rule asks for pods and service accounts to see if they are connected but only fails the pods, we would create a filter rego that returns only pods.
 
 
 ## OPA bundles
-The Kubescape regolibrary is [available](../../releases/latest) as an [OPA bundle](https://www.openpolicyagent.org/docs/latest/management-bundles), for both targets, WASM and Rego. 
+The Kubescape regolibrary is [available](https://github.com/kubescape/regolibrary/releases/latest) as an [OPA bundle](https://www.openpolicyagent.org/docs/latest/management-bundles), for both targets, WASM and Rego. 
 
 ### Using the bundles
 > Endpoint names are normalized to be used as a Rego package name. Here are some examples:
@@ -287,3 +289,11 @@ Reach out if you have any questions:
 - [MITRE ATT&CK® Framework](https://www.microsoft.com/security/blog/wp-content/uploads/2021/03/Matrix-1536x926.png)
 
 - [CIS Framework](https://workbench.cisecurity.org/benchmarks/8973)
+
+## Contributions
+
+Thanks to all our contributors! Check out our [CONTRIBUTING](https://github.com/kubescape/kubescape/blob/master/CONTRIBUTING.md) file to learn how to join them.
+
+* Feel free to pick a task from the [issues](https://github.com/kubescape/regolibrary/issues?q=is%3Aissue+is%3Aopen+label%3A%22open+for+contribution%22), roadmap or suggest a feature of your own.
+* [Open an issue](https://github.com/kubescape/regolibrary/issues/new/choose): we aim to respond to all issues within 48 hours.
+* [Join the CNCF Slack](https://slack.cncf.io/) and then our [users](https://cloud-native.slack.com/archives/C04EY3ZF9GE) or [developers](https://cloud-native.slack.com/archives/C04GY6H082K) channel.

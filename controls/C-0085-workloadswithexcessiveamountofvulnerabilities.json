@@ -1,6 +1,7 @@
 {
     "name": "Workloads with excessive amount of vulnerabilities",
     "attributes": {
+        "actionRequired": "configuration",
         "armoBuiltin": true,
         "controlTypeTags": [
             "security",
