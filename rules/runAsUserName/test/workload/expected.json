@@ -1,9 +1,14 @@
 {
-    "alertMessage": "Deployment: my-deployment1 does not set 'securityContext.runAsUserName' with allowed value",
+    "alertMessage": "Workload: my-deployment1 does not set 'securityContext.runAsUserName' with allowed value",
     "packagename": "armo_builtins",
     "alertScore": 7,
-    "failedPaths": ["Deployment.securityContext.runAsUserName"],
-        "fixPaths": [],
+    "failedPaths": [],
+    "fixPaths": [
+      {
+          "path": "spec.template.spec.containers[1].PodSecurityContext.securityContext",
+          "value": "YOUR_VALUE"
+      }
+  ],
     "ruleStatus": "",
     "alertObject": {
         "k8sApiObjects": [

@@ -1,9 +1,14 @@
 {
-    "alertMessage": "CronJob: hello1 does not set 'securityContext.runAsUserName' with allowed value",
+    "alertMessage": "Cronjob: hello1 does not set 'securityContext.runAsUserName' with allowed value",
     "packagename": "armo_builtins",
     "alertScore": 7,
-    "failedPaths": ["CronJob.securityContext.runAsUserName"],
-        "fixPaths": [],
+    "failedPaths": [],
+    "fixPaths": [
+      {
+          "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.PodSecurityContext",
+          "value": "YOUR_VALUE"
+      }
+  ],
     "ruleStatus": "",
     "alertObject": {
         "k8sApiObjects": [

@@ -11,6 +11,8 @@ spec:
           securityContext:
             runAsUserName: null
           hostNetwork: true
+          nodeSelector:
+            kubernetes.io/os: windows
           containers :
             -
               name : mysql

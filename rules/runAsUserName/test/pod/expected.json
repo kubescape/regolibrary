@@ -5,7 +5,12 @@
     "failedPaths": [
         "Pod.securityContext.runAsUserName"
     ],
-    "fixPaths": [],
+    "fixPaths": [
+        {
+            "path": "spec.containers[0].PodSecurityContext.SecurityContext",
+            "value": "YOUR_VALUE"
+        }
+    ],
     "alertObject": {
         "k8sApiObjects": [
             {
