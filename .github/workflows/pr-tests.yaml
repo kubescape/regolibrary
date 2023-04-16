@@ -114,8 +114,7 @@ jobs:
                         "scan_with_exception_to_backend", 
                         "scan_with_custom_framework", 
                         "scan_customer_configuration", 
-                        "host_scanner",
-                        "stripe_plans"
+                        "host_scanner"
                       ]'
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
     secrets: inherit
