@@ -14,7 +14,7 @@ concurrency:
 
 env:
   REGO_ARTIFACT_KEY_NAME: rego_artifact
-  REGO_ARTIFACT_PATH: release
+  REGO_ARTIFACT_PATH: releaseDev
 
 jobs:
 
