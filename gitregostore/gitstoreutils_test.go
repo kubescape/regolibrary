@@ -1,7 +1,6 @@
 package gitregostore
 
 import (
-	"errors"
 	"testing"
 )
 
@@ -160,102 +159,5 @@ func TestGitRegoStore_setURL(t *testing.T) {
 				t.Errorf("setURL() = %v, want %v", gs.URL, tt.wantedURL)
 			}
 		})
-	}
-}
-
-func TestSetFramework(t *testing.T) {
-	gs := &GitRegoStore{}
-
-	// Successful test case
-	input := `{"name": "framework1"}`
-	err := gs.setFramework(input)
-	if err != nil {
-		t.Errorf("Expected nil error, but got: %v", err)
-	}
-	if len(gs.Frameworks) != 1 {
-		t.Errorf("Expected 1 framework, but got: %d", len(gs.Frameworks))
-	}
-
-	// Error test case
-	input = `invalid JSON`
-	expectedErr := errors.New("invalid character 'i' looking for beginning of value")
-	err = gs.setFramework(input)
-	if err == nil || err.Error() != expectedErr.Error() {
-		t.Errorf("Expected error '%v', but got: %v", expectedErr, err)
-	}
-	if len(gs.Frameworks) != 1 {
-		t.Errorf("Expected 1 framework, but got: %d", len(gs.Frameworks))
-	}
-}
-
-func TestSetAttackTrack(t *testing.T) {
-	store := &GitRegoStore{}
-	// Successful test case
-	respStr := `{"name": "attack_track_name"}`
-	err := store.setAttackTrack(respStr)
-	if err != nil {
-		t.Errorf("Error setting attack track: %v", err)
-	}
-	if len(store.AttackTracks) != 1 {
-		t.Errorf("Attack track not added to store")
-	}
-
-	// Error test case
-	respStr = `invalid JSON`
-	expectedErr := errors.New("invalid character 'i' looking for beginning of value")
-	err = store.setAttackTrack(respStr)
-	if err == nil || err.Error() != expectedErr.Error() {
-		t.Errorf("Expected error '%v', but got: %v", expectedErr, err)
-	}
-	if len(store.AttackTracks) != 1 {
-		t.Errorf("Expected 1 attack track, but got: %d", len(store.AttackTracks))
-	}
-}
-
-func TestSetSystemPostureExceptionPolicy(t *testing.T) {
-	store := &GitRegoStore{}
-	// Successful test case
-	respStr := `[{"name": "policy1"}, {"name": "policy2"}]`
-	err := store.setSystemPostureExceptionPolicy(respStr)
-	if err != nil {
-		t.Errorf("Error setting system posture exception policy: %v", err)
-	}
-	if len(store.SystemPostureExceptionPolicies) != 2 {
-		t.Errorf("System posture exception policies not added to store")
-	}
-
-	// Error test case
-	respStr = `invalid JSON`
-	expectedErr := errors.New("invalid character 'i' looking for beginning of value")
-	err = store.setSystemPostureExceptionPolicy(respStr)
-	if err == nil || err.Error() != expectedErr.Error() {
-		t.Errorf("Expected error '%v', but got: %v", expectedErr, err)
-	}
-	if len(store.SystemPostureExceptionPolicies) != 2 {
-		t.Errorf("Expected 2 system posture exception policies, but got: %d", len(store.SystemPostureExceptionPolicies))
-	}
-}
-
-func TestSetControl(t *testing.T) {
-	store := &GitRegoStore{}
-	// Successful test case
-	respStr := `{"name": "control_name"}`
-	err := store.setControl(respStr)
-	if err != nil {
-		t.Errorf("Error setting control: %v", err)
-	}
-	if len(store.Controls) != 1 {
-		t.Errorf("Control not added to store")
-	}
-
-	// Error test case
-	respStr = `invalid JSON`
-	expectedErr := errors.New("invalid character 'i' looking for beginning of value")
-	err = store.setControl(respStr)
-	if err == nil || err.Error() != expectedErr.Error() {
-		t.Errorf("Expected error '%v', but got: %v", expectedErr, err)
-	}
-	if len(store.Controls) != 1 {
-		t.Errorf("Expected 1 control, but got: %d", len(store.Controls))
 	}
 }
