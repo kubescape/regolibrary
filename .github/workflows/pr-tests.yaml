@@ -70,6 +70,18 @@ jobs:
 
       - run: python ./scripts/validations.py
 
+      - name: Run export script
+        run: |
+          OUTPUT=pre-release python ./scripts/export.py
+          rm -r releaseDev
+          cp -R pre-release releaseDev
+
+      # - name: Strip Metadata Files Extensions (to be removed)
+      #   run: |
+      #     cd releaseDev
+      #     find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
+      #     find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+
       - name: Set outputs
         id: set_outputs
         run: |
