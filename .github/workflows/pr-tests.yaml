@@ -82,11 +82,11 @@ jobs:
           cp -R pre-release releaseDev
 
       # removing artifacts file extensions 
-      - name: Strip Metadata Files Extensions
-        run: |
-          cd releaseDev
-          find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
-          find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+      # - name: Strip Metadata Files Extensions
+      #   run: |
+      #     cd releaseDev
+      #     find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
+      #     find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
 
       - name: Set outputs
         id: set_outputs
