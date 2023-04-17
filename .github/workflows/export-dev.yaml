@@ -13,11 +13,11 @@ jobs:
           rm -r releaseDev
           cp -R pre-release releaseDev
 
-      # - name: stage changed files
-      #   run: git add .
+      - name: stage changed files
+        run: git add .
 
-      # - name: Commit & Push changes
-      #   uses: Andro999b/push@c77535fe7a94645f7ceca83e48e6cc977620710e
-      #   with:
-      #     branch: dev
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit & Push changes
+        uses: Andro999b/push@c77535fe7a94645f7ceca83e48e6cc977620710e
+        with:
+          branch: dev
+          github_token: ${{ secrets.GITHUB_TOKEN }}

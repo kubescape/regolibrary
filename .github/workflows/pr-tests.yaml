@@ -17,7 +17,6 @@ env:
   REGO_ARTIFACT_PATH: releaseDev
 
 jobs:
-
   # testing link checks
   markdown-link-check:
     runs-on: ubuntu-latest
@@ -68,14 +67,22 @@ jobs:
         with:
           python-version: 3.10.6
 
+      # validate control-ID duplications 
       - run: python ./scripts/validations.py
 
+      # generating subsections ids
+      - name: Update frameworks subsections
+        run: |
+          ./scripts/generate_subsections_ids.sh
+
+      # run export script to generate regolibrary artifacts 
       - name: Run export script
         run: |
           OUTPUT=pre-release python ./scripts/export.py
           rm -r releaseDev
           cp -R pre-release releaseDev
 
+      # removing artifacts file extensions 
       - name: Strip Metadata Files Extensions
         run: |
           cd releaseDev
@@ -95,6 +102,7 @@ jobs:
           path: ${{ env.REGO_ARTIFACT_PATH }}/
           if-no-files-found: error
 
+  # test kubescape with regolibrary artifacts 
   ks-and-rego-test:
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     needs: [build-and-rego-test]
