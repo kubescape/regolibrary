@@ -72,6 +72,8 @@ jobs:
 
       # generating subsections ids
       - name: Update frameworks subsections
+        permissions:
+          pull-requests: write
         run: ./scripts/generate_subsections_ids.sh
 
       # run export script to generate regolibrary artifacts 
