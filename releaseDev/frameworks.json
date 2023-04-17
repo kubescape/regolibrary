@@ -2796,7 +2796,9 @@
                     "1": {
                         "name": "Logging",
                         "id": "2.1",
-                        "controlsIDs": []
+                        "controlsIDs": [
+                            "C-0253"
+                        ]
                     }
                 }
             },
@@ -2908,25 +2910,37 @@
                         "name": "Image Registry and Image Scanning",
                         "id": "5.1",
                         "controlsIDs": [
-                            "C-0078"
+                            "C-0078",
+                            "C-0243",
+                            "C-0250",
+                            "C-0251"
                         ]
                     },
                     "2": {
                         "name": "Access and identity options for Azure Kubernetes Service (AKS)",
                         "id": "5.2",
                         "controlsIDs": [
-                            "C-0239"
+                            "C-0239",
+                            "C-0241"
                         ]
                     },
                     "3": {
                         "name": "Key Management Service (KMS)",
                         "id": "5.3",
-                        "controlsIDs": []
+                        "controlsIDs": [
+                            "C-0244"
+                        ]
                     },
                     "4": {
                         "name": "Cluster Networking",
                         "id": "5.4",
-                        "controlsIDs": []
+                        "controlsIDs": [
+                            "C-0240",
+                            "C-0245",
+                            "C-0247",
+                            "C-0248",
+                            "C-0252"
+                        ]
                     },
                     "5": {
                         "name": "Authentication and Authorization",
@@ -2938,7 +2952,10 @@
                     "6": {
                         "name": "Other Cluster Configurations",
                         "id": "5.6",
-                        "controlsIDs": []
+                        "controlsIDs": [
+                            "C-0242",
+                            "C-0249"
+                        ]
                     }
                 }
             }
