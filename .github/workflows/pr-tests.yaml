@@ -40,8 +40,6 @@ jobs:
   build-and-rego-test:
     name: Build and test rego artifacts
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
     outputs:
       REGO_ARTIFACT_KEY_NAME: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_KEY_NAME }}
       REGO_ARTIFACT_PATH: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_PATH }}
@@ -74,7 +72,7 @@ jobs:
 
       # generating subsections ids
       - name: Update frameworks subsections
-        run: ./scripts/generate_subsections_ids.sh
+        run: bash ./scripts/generate_subsections_ids.sh
 
       # run export script to generate regolibrary artifacts 
       - name: Run export script
