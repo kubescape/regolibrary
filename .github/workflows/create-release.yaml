@@ -65,11 +65,11 @@ jobs:
       - run: python ./scripts/export.py
 
       # removing release artifacts file extensions 
-      - name: Strip Metadata Files Extensions
-        run: |
-          cd release
-          find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
-          find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+      # - name: Strip Metadata Files Extensions
+      #   run: |
+      #     cd release
+      #     find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
+      #     find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
 
       - run: ls -laR
 

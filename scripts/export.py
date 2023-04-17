@@ -406,7 +406,11 @@ def export_json(data: dict, f_name:str, output_path: str):
     
     os.makedirs(output_path, exist_ok=True)
     try:    
+        # generate with extentions for system testing 
         with open(os.path.join(output_path, f"{f_name.lower()}.json"), "w") as f:
+            f.write(json.dumps(data, indent=4))
+        # generate without extentions for backward compatability 
+        with open(os.path.join(output_path, f"{f_name.lower()}"), "w") as f:
             f.write(json.dumps(data, indent=4))
     except Exception as e:
         logging.error(f"failed to open path: '{output_path}'")
