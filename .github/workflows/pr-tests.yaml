@@ -122,16 +122,23 @@ jobs:
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
     secrets: inherit
 
+  # test kubescape with regolibrary artifacts 
+  strip-for-ks:
+    steps:
+      run: |
+      cd releaseDev
+      find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
+      find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+
   # test kubescape with regolibrary artifacts with extentions
   ks-and-rego-test-with-exten:
     # removing artifacts file extensions 
     # - name: Strip Metadata Files Extensions
-    run: |
-      cd releaseDev
-      find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
-      find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     needs: [build-and-rego-test]
+    steps:
+
     with:
       DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
       BINARY_TESTS: '[  "scan_local_list_of_files", 
