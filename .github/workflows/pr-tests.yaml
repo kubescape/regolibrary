@@ -125,10 +125,11 @@ jobs:
   # test kubescape with regolibrary artifacts 
   strip-for-ks:
     steps:
-      run: |
-      cd releaseDev
-      find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
-      find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+      - name: Strip Metadata Files Extensions
+        run: |
+          cd releaseDev
+          find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
+          find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
 
   # test kubescape with regolibrary artifacts with extentions
   ks-and-rego-test-with-exten:
