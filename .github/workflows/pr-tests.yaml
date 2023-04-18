@@ -123,8 +123,8 @@ jobs:
     secrets: inherit
 
   # test kubescape with regolibrary artifacts with extentions
-  ks-and-rego-test:
-      # removing artifacts file extensions 
+  ks-and-rego-test-with-exten:
+    # removing artifacts file extensions 
     # - name: Strip Metadata Files Extensions
     run: |
       cd releaseDev
