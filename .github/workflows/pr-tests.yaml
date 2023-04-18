@@ -124,6 +124,7 @@ jobs:
 
   # test kubescape with regolibrary artifacts 
   strip-for-ks:
+    name: Strip Metadata Files Extensions
     steps:
       - name: Strip Metadata Files Extensions
         run: |
@@ -133,13 +134,8 @@ jobs:
 
   # test kubescape with regolibrary artifacts with extentions
   ks-and-rego-test-with-exten:
-    # removing artifacts file extensions 
-    # - name: Strip Metadata Files Extensions
-
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     needs: [build-and-rego-test]
-    steps:
-
     with:
       DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
       BINARY_TESTS: '[  "scan_local_list_of_files", 
