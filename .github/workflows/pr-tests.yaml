@@ -125,6 +125,7 @@ jobs:
   # test kubescape with regolibrary artifacts 
   strip-for-ks:
     name: Strip Metadata Files Extensions
+    runs-on: ubuntu-latest
     steps:
       - name: Strip Metadata Files Extensions
         run: |
