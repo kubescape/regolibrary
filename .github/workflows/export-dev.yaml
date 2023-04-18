@@ -1,4 +1,4 @@
-name: update-csvs
+name: export-releaseDev-into-main
 on:
   push:
     branches: [dev]
