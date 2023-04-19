@@ -107,6 +107,15 @@ jobs:
   ks-and-rego-test:
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     needs: [build-and-rego-test]
+    env:
+          CUSTOMER: ${{ secrets.CUSTOMER }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID_PROD }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY_PROD }}
+          REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+          REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+    run: "echo \"is-secret-set=${{ env.CUSTOMER != '' && \n                        env.USERNAME != '' &&\n                        env.PASSWORD != '' &&\n                        env.CLIENT_ID != '' &&\n                        env.SECRET_KEY != '' &&\n                        env.REGISTRY_USERNAME != '' &&\n                        env.REGISTRY_PASSWORD != ''\n                      }}\" >> $GITHUB_OUTPUT\n"
     with:
       DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
       BINARY_TESTS: '[  "scan_nsa", 
