@@ -3,7 +3,7 @@
         "alertMessage": "Pod: nginx1 does not set 'securityContext.fsGroupChangePolicy' with allowed value",
         "packagename": "armo_builtins",
         "alertScore": 7,
-        "failedPaths": ["spec.securityContext.fsGroupChangePolicy"],
+        "failedPaths": ["spec.securityContext"],
 		    "fixPaths": [],
         "ruleStatus": "",
         "alertObject": {
@@ -22,7 +22,7 @@
         "alertMessage": "Pod: nginx2 does not set 'securityContext.fsGroupChangePolicy' with allowed value",
         "packagename": "armo_builtins",
         "alertScore": 7,
-        "failedPaths": ["spec.securityContext.fsGroupChangePolicy"],
+        "failedPaths": ["spec.securityContext"],
 		    "fixPaths": [],
         "ruleStatus": "",
         "alertObject": {

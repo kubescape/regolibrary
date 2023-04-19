@@ -3,7 +3,7 @@
         "alertMessage": "CronJob: hello1 does not set 'securityContext.fsGroupChangePolicy' with allowed value",
         "packagename": "armo_builtins",
         "alertScore": 7,
-        "failedPaths": ["spec.jobTemplate.spec.template.spec.securityContext.fsGroupChangePolicy"],
+        "failedPaths": ["spec.jobTemplate.spec.template.spec.securityContext"],
 		    "fixPaths": [],
         "ruleStatus": "",
         "alertObject": {
@@ -22,7 +22,7 @@
         "alertMessage": "CronJob: hello2 does not set 'securityContext.fsGroupChangePolicy' with allowed value",
         "packagename": "armo_builtins",
         "alertScore": 7,
-        "failedPaths": ["spec.jobTemplate.spec.template.spec.securityContext.fsGroupChangePolicy"],
+        "failedPaths": ["spec.jobTemplate.spec.template.spec.securityContext"],
 		    "fixPaths": [],
         "ruleStatus": "",
         "alertObject": {

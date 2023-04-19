@@ -13,7 +13,7 @@ deny[msga] {
     # check securityContext has fsGroup set properly
     not fsGroupSetProperly(pod.spec.securityContext)
 
-    path := "spec.securityContext.fsGroup"
+    path := "spec.securityContext"
     msga := {
 		"alertMessage": sprintf("Pod: %v does not set 'securityContext.fsGroup' with allowed value", [pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -38,7 +38,7 @@ deny[msga] {
     # check securityContext has fsGroup set properly
     not fsGroupSetProperly(wl.spec.template.spec.securityContext)
 
-    path := "spec.template.spec.securityContext.fsGroup"
+    path := "spec.template.spec.securityContext"
     msga := {
 		"alertMessage": sprintf("Workload: %v does not set 'securityContext.fsGroup' with allowed value", [wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -62,7 +62,7 @@ deny[msga] {
     # check securityContext has fsGroup set properly
     not fsGroupSetProperly(cj.spec.jobTemplate.spec.template.spec.securityContext)
 
-    path := "spec.jobTemplate.spec.template.spec.securityContext.fsGroup"
+    path := "spec.jobTemplate.spec.template.spec.securityContext"
     msga := {
 		"alertMessage": sprintf("CronJob: %v does not set 'securityContext.fsGroup' with allowed value", [cj.metadata.name]),
 		"packagename": "armo_builtins",

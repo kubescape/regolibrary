@@ -11,7 +11,7 @@ deny[msga] {
 	# check securityContext has supplementalGroups set
     not pod.spec.securityContext.supplementalGroups
 
-    path := "spec.securityContext.supplementalGroups"
+    path := "spec.securityContext"
     msga := {
 		"alertMessage": sprintf("Pod: %v does not set 'securityContext.supplementalGroups'", [pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -36,7 +36,7 @@ deny[msga] {
 	# check securityContext has supplementalGroups set
     not wl.spec.template.spec.securityContext.supplementalGroups
 
-    path := "spec.template.spec.securityContext.supplementalGroups"
+    path := "spec.template.spec.securityContext"
     msga := {
 		"alertMessage": sprintf("Workload: %v does not set 'securityContext.supplementalGroups'", [wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -60,7 +60,7 @@ deny[msga] {
 	# check securityContext has supplementalGroups set
     not cj.spec.jobTemplate.spec.template.spec.securityContext.supplementalGroups
 
-    path := "spec.jobTemplate.spec.template.spec.securityContext.supplementalGroups"
+    path := "spec.jobTemplate.spec.template.spec.securityContext"
     msga := {
 		"alertMessage": sprintf("CronJob: %v does not set 'securityContext.supplementalGroups'", [cj.metadata.name]),
 		"packagename": "armo_builtins",
