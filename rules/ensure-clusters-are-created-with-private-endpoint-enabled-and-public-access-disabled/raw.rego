@@ -15,7 +15,7 @@ deny[msga] {
     	"alertMessage": "Private endpoint not enabled.",
     	"packagename": "armo_builtins",
     	"alertScore": 7,
-    	"failedPaths": [""],
+    	"failedPaths": [],
     	"fixPaths":[],
         "fixCommand": "",
     	"alertObject": {

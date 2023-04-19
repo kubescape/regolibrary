@@ -12,7 +12,7 @@ deny[msga] {
 		"alertMessage": sprintf("no policy is defined for namespace %v", [namespace.metadata.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
-		"failedPaths": [""],
+		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [namespace]
 		}

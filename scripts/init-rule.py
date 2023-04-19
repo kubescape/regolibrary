@@ -23,7 +23,7 @@ msga = """{{
     	"alertMessage": "{alert_message}",
     	"packagename": "armo_builtins",
     	"alertScore": {alert_score},
-    	"failedPaths": ["{failed_paths}"],
+    	"failedPaths": [{failed_paths}],
     	"fixPaths":[{fix_paths}],
         "fixCommand": "{fix_command}",
     	"alertObject": {{

@@ -10,7 +10,7 @@ deny[msga] {
 		"alertMessage": "No LoadBalancer service found.",
     	"packagename": "armo_builtins",
     	"alertScore": 7,
-    	"failedPaths": [""],
+    	"failedPaths": [],
     	"fixPaths":[],
         "fixCommand": "",
 		"alertObject": {
