@@ -4982,34 +4982,6 @@
         "rules": []
     },
     {
-        "name": "Read-only port enabled",
-        "attributes": {
-            "armoBuiltin": true,
-            "controlTypeTags": [
-                "security",
-                "compliance"
-            ],
-            "attackTracks": [
-                {
-                    "attackTrack": "node",
-                    "categories": [
-                        "Initial access"
-                    ]
-                }
-            ]
-        },
-        "description": "",
-        "remediation": "Start the kubelet with the --read-only-port flag set to 0.",
-        "rulesNames": [
-            "read-only-port-enabled"
-        ],
-        "long_description": "",
-        "test": "",
-        "controlID": "C-0082",
-        "baseScore": 9.0,
-        "rules": []
-    },
-    {
         "controlID": "C-0222",
         "name": "Minimize user access to Amazon ECR",
         "description": "Restrict user access to Amazon ECR, limiting interaction with build images to only authorized personnel and service accounts.",

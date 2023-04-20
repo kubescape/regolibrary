@@ -245,7 +245,6 @@ C-0026,rule-deny-cronjobs
 C-0063,rule-can-portforward
 C-0063,rule-can-portforward-v1
 C-0020,alert-mount-potential-credentials-paths
-C-0082,read-only-port-enabled
 C-0222,ensure-aws-policies-are-present
 C-0116,ensure-that-the-api-server-kubelet-client-certificate-and-kubelet-client-key-arguments-are-set-as-appropriate
 C-0175,read-only-port-enabled-updated
