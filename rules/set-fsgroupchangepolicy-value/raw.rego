@@ -13,14 +13,13 @@ deny[msga] {
     # check securityContext has fsGroupChangePolicy set
     not fsGroupChangePolicySetProperly(pod.spec.securityContext)
 
-    path := "spec.securityContext"
     msga := {
 		"alertMessage": sprintf("Pod: %v does not set 'securityContext.fsGroupChangePolicy' with allowed value", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [path],
-		"fixPaths": [],
-		"alertObject": {
+		"failedPaths": [],
+		"fixPaths": [{"path": "spec.securityContext.fsGroupChangePolicy", "value": "Always"}],
+    "alertObject": {
 			"k8sApiObjects": [pod]
 		}
     }
@@ -38,13 +37,12 @@ deny[msga] {
     # check securityContext has fsGroupChangePolicy set
     not fsGroupChangePolicySetProperly(wl.spec.template.spec.securityContext)
 
-    path := "spec.template.spec.securityContext"
     msga := {
 		"alertMessage": sprintf("Workload: %v does not set 'securityContext.fsGroupChangePolicy' with allowed value", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [path],
-		"fixPaths": [],
+		"failedPaths": [],
+		"fixPaths": [{"path": "spec.template.spec.securityContext.fsGroupChangePolicy", "value": "Always"}],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -62,13 +60,12 @@ deny[msga] {
     # check securityContext has fsGroupChangePolicy set
     not fsGroupChangePolicySetProperly(cj.spec.jobTemplate.spec.template.spec.securityContext)
 
-    path := "spec.jobTemplate.spec.template.spec.securityContext"
     msga := {
 		"alertMessage": sprintf("CronJob: %v does not set 'securityContext.fsGroupChangePolicy' with allowed value", [cj.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [path],
-		"fixPaths": [],
+		"failedPaths": [],
+		"fixPaths": [{"path": "spec.jobTemplate.spec.template.spec.securityContext.fsGroupChangePolicy", "value": "Always"}],
 		"alertObject": {
 			"k8sApiObjects": [cj]
 		}
