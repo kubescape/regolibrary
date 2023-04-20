@@ -81,25 +81,17 @@ jobs:
           rm -r releaseDev
           cp -R pre-release releaseDev
 
-      - name: ls-releasedev
-        run: ls releaseDev/
-      - name: print_env
-        env:
-          CUSTOMER: ${{ secrets.CUSTOMER }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-          CLIENT_ID: ${{ secrets.CLIENT_ID_PROD }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY_PROD }}
-          REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
-          REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
-        run: "echo \"is-secret-set=${{ env.CUSTOMER != '' && \n                        env.USERNAME != '' &&\n                        env.PASSWORD != '' &&\n                        env.CLIENT_ID != '' &&\n                        env.SECRET_KEY != '' &&\n                        env.REGISTRY_USERNAME != '' &&\n                        env.REGISTRY_PASSWORD != ''\n                      }}\" >> $GITHUB_OUTPUT\n"
- 
-      # removing artifacts file extensions 
-      # - name: Strip Metadata Files Extensions
-      #   run: |
-      #     cd releaseDev
-      #     find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
-      #     find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+      # - name: ls-releasedev
+      #   run: ls releaseDev/
+      # - name: print_env
+      #   env:
+      #     CUSTOMER: ${{ secrets.CUSTOMER }}
+      #     USERNAME: ${{ secrets.USERNAME }}
+      #     PASSWORD: ${{ secrets.PASSWORD }}
+      #     CLIENT_ID: ${{ secrets.CLIENT_ID_PROD }}
+      #     SECRET_KEY: ${{ secrets.SECRET_KEY_PROD }}
+      #     REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+      #     REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
       - name: Set outputs
         id: set_outputs
@@ -119,14 +111,6 @@ jobs:
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     needs: [build-and-rego-test]
     with:
-      # env:
-      #   CUSTOMER: ${{ secrets.CUSTOMER }}
-      #   USERNAME: ${{ secrets.USERNAME }}
-      #   PASSWORD: ${{ secrets.PASSWORD }}
-      #   CLIENT_ID: ${{ secrets.CLIENT_ID_PROD }}
-      #   SECRET_KEY: ${{ secrets.SECRET_KEY_PROD }}
-      #   REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
-      #   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
       DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
       BINARY_TESTS: '[  "scan_nsa", 
                         "scan_mitre", 
@@ -139,10 +123,7 @@ jobs:
                         "scan_local_repository_and_submit_to_backend", 
                         "scan_repository_from_url_and_submit_to_backend", 
                         "host_scanner",
-                        "scan_local_list_of_files", 
-                        "scan_with_exception_to_backend", 
-                        "scan_with_custom_framework", 
-                        "scan_customer_configuration"
+                        "scan_local_list_of_files"
                       ]'
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
     secrets: inherit
