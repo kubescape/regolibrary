@@ -185,7 +185,7 @@ def create_md_for_control(control):
     if host_sensor:
         md_text += '## Prerequisites\n*Run Kubescape with host sensor (see [here](https://hub.armo.cloud/docs/host-sensor))*\n'
     if cloud_control:
-        md_text += '## Prerequisites*Integrate with cloud provider (see [here](https://hub.armosec.io/docs/kubescape-integration-with-cloud-providers))*\n'
+        md_text += '## Prerequisites\n*Integrate with cloud provider (see [here](https://hub.armosec.io/docs/kubescape-integration-with-cloud-providers))*\n'
     md_text += '## Framework\n'
     md_text += ', '.join(get_frameworks_for_control(control)) + '\n'
     md_text += '## Severity\n'
