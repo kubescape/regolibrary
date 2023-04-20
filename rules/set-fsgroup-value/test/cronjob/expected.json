@@ -22,8 +22,8 @@
         "alertMessage": "CronJob: hello2 does not set 'securityContext.fsGroup' with allowed value",
         "packagename": "armo_builtins",
         "alertScore": 7,
-        "failedPaths": ["spec.jobTemplate.spec.template.spec.securityContext"],
-		    "fixPaths": [],
+        "failedPaths": [],
+		    "fixPaths": [{"path":"spec.jobTemplate.spec.template.spec.securityContext.fsGroup", "value": "YOUR_VALUE"}],
         "ruleStatus": "",
         "alertObject": {
             "k8sApiObjects": [
