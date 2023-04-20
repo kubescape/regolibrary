@@ -93,9 +93,6 @@ fsGroupSetProperly(securityContext) := true if {
 } else := false
 
 
-has_key(x, k) { _ = x[k] }
-
-
 get_paths(resources, securityContextPath) := result {  
 
   objectPath := array.concat(split(securityContextPath, "."), ["fsGroup"])
