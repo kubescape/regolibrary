@@ -15,7 +15,7 @@ deny[msga] {
     	"alertMessage": "Parameter 'authorizedIPRanges' was not set.",
     	"packagename": "armo_builtins",
     	"alertScore": 7,
-    	"failedPaths": [""],
+    	"failedPaths": [],
     	"fixPaths":[],
         "fixCommand": "az aks update -n '<name>' -g '<resource_group>' --api-server-authorized-ip-ranges '0.0.0.0/32'",
     	"alertObject": {

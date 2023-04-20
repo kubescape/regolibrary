@@ -3,8 +3,8 @@
         "alertMessage": "Workload: my-deployment1 does not set 'securityContext.fsGroupChangePolicy' with allowed value",
         "packagename": "armo_builtins",
         "alertScore": 7,
-        "failedPaths": ["spec.template.spec.securityContext.fsGroupChangePolicy"],
-		    "fixPaths": [],
+        "failedPaths": [],
+		    "fixPaths": [{"path":"spec.template.spec.securityContext.fsGroupChangePolicy", "value": "Always"}],
         "ruleStatus": "",
         "alertObject": {
             "k8sApiObjects": [
@@ -25,8 +25,8 @@
         "alertMessage": "Workload: my-deployment2 does not set 'securityContext.fsGroupChangePolicy' with allowed value",
         "packagename": "armo_builtins",
         "alertScore": 7,
-        "failedPaths": ["spec.template.spec.securityContext.fsGroupChangePolicy"],
-		    "fixPaths": [],
+        "failedPaths": [],
+		    "fixPaths": [{"path":"spec.template.spec.securityContext.fsGroupChangePolicy", "value": "Always"}],
         "ruleStatus": "",
         "alertObject": {
             "k8sApiObjects": [

@@ -26,7 +26,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("Pod: %v has the following permissions in the cluster: %v", [pod.metadata.name, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
-       "failedPaths": [""],
+       "failedPaths": [],
 		"alertScore": 7,
         "alertObject": {
 			"k8sApiObjects": [rolebinding, role, pod]
@@ -59,7 +59,7 @@ deny[msga] {
 		"alertMessage": sprintf("Pod: %v has the following permissions in the cluster: %v", [pod.metadata.name, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-        "failedPaths": [""],
+        "failedPaths": [],
 		"alertObject": {
 				"k8sApiObjects": [rolebinding, role, pod]
 		}
@@ -92,7 +92,7 @@ deny[msga] {
 		"alertMessage": sprintf("Pod: %v has the following permissions in the cluster: %v", [pod.metadata.name, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-        "failedPaths": [""],
+        "failedPaths": [],
         "alertObject": {
 			"k8sApiObjects": [rolebinding, role, pod]
 		}
@@ -133,7 +133,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has the following permissions in the cluster: %v", [wl.kind, wl.metadata.name, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-       "failedPaths": [""],
+       "failedPaths": [],
         "alertObject": {
 			"k8sApiObjects": [rolebinding, role, wl]
 		}
@@ -168,7 +168,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has the following permissions in the cluster: %v", [wl.kind, wl.metadata.name, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-       "failedPaths": [""],
+       "failedPaths": [],
         "alertObject": {
 			"k8sApiObjects": [rolebinding, role, wl]
 		}
@@ -205,7 +205,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has the following permissions in the cluster: %v", [wl.kind, wl.metadata.name, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-       "failedPaths": [""],
+       "failedPaths": [],
         "alertObject": {
 			"k8sApiObjects": [rolebinding, role, wl]
 		}
@@ -244,7 +244,7 @@ deny[msga] {
 		"alertMessage": sprintf("Cronjob: %v has the following permissions in the cluster: %v", [wl.metadata.name, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-       "failedPaths": [""],
+       "failedPaths": [],
         "alertObject": {
 			"k8sApiObjects": [rolebinding, role, wl]
 		}
@@ -279,7 +279,7 @@ deny[msga] {
 		"alertMessage": sprintf("Cronjob: %v has the following permissions in the cluster: %v", [wl.metadata.name, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-       "failedPaths": [""],
+       "failedPaths": [],
         "alertObject": {
 			"k8sApiObjects": [rolebinding, role, wl]
 		}
@@ -314,7 +314,7 @@ deny[msga] {
 		"alertMessage": sprintf("Cronjob: %v has the following permissions in the cluster: %v", [wl.metadata.name, rolebinding.roleRef.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-       "failedPaths": [""],
+       "failedPaths": [],
         "alertObject": {
 			"k8sApiObjects": [rolebinding, role, wl]
 		}

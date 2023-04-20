@@ -1,9 +1,7 @@
 [
     {
         "alertMessage": "The following validating webhook configuration should be checked test-validating-webhook.",
-        "failedPaths": [
-            ""
-        ],
+        "failedPaths": [],
         "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
@@ -22,9 +20,7 @@
     },
     {
         "alertMessage": "The following validating webhook configuration should be checked test-validating-webhook2.",
-        "failedPaths": [
-            ""
-        ],
+        "failedPaths": [],
         "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",

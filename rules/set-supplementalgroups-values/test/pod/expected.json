@@ -3,7 +3,7 @@
         "alertMessage": "Pod: nginx does not set 'securityContext.supplementalGroups'",
         "packagename": "armo_builtins",
         "alertScore": 7,
-        "failedPaths": ["spec.securityContext.supplementalGroups"],
+        "failedPaths": ["spec.securityContext"],
 		    "fixPaths": [],
         "ruleStatus": "",
         "alertObject": {

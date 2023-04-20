@@ -15,7 +15,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("the following subjects: %s are bound to dashboard role/clusterrole", [subject.name]),
 		"alertScore": 9,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"packagename": "armo_builtins",
          "alertObject": {
 			"k8sApiObjects": [roleBinding],
@@ -41,7 +41,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("the following subjects: %s are bound to dashboard role/clusterrole", [subject.name]),
 		"alertScore": 9,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [roleBinding],
