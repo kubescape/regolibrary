@@ -98,30 +98,10 @@ has_key(x, k) { _ = x[k] }
 
 get_paths(resources, securityContextPath) := result {  
 
-  # resources.kind == "CronJob"
-  # objectPath := ["spec","jobTemplate","spec","template","spec","securityContext", "fsGroup"]
   objectPath := array.concat(split(securityContextPath, "."), ["fsGroup"])
-  # objectPath[count(objectPath)] = 
   object.get(resources, objectPath, false)
 
-
-  # has_key(securityContext, "fsGroup")
-  # has_key(object.get(resources, "spec.jobTemplate.spec.template.spec.securityContext", "") , "fsGroup")
-
-
-  # has_key(resources.spec.jobTemplate.spec.template.spec.securityContext, "fsGroup")
   result = {"failedPaths": [], "fixPaths": [{"path":sprintf("%v.fsGroup", [securityContextPath]), "value": "YOUR_VALUE"}]}
 } else = result {
   result = {"failedPaths": [securityContextPath], "fixPaths": []}
 }
-
-
-
-# get_paths(resources) := result {  
-# 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-# 	spec_template_spec_patterns[resources.kind]
-#   has_key(resources.spec.template.spec.securityContext, "fsGroup")
-#   result = {"failedPaths": [], "fixPaths": []}
-# } else := result {
-#   result = {"failedPaths": ["spec.template.spec.securityContext"], "fixPaths": []}
-# }
