@@ -156,7 +156,7 @@ cis-aks-t1.2.0,C-0249,Restrict untrusted workloads
 cis-aks-t1.2.0,C-0250,Minimize cluster access to read-only for Azure Container Registry (ACR)
 cis-aks-t1.2.0,C-0251,Minimize user access to Azure Container Registry (ACR)
 cis-aks-t1.2.0,C-0252,Ensure clusters are created with Private Endpoint Enabled and Public Access Disabled
-cis-aks-t1.2.0,C-0253,Enable audit Logs
+cis-aks-t1.2.0,C-0254,Enable audit Logs
 NSA,C-0002,Exec into container
 NSA,C-0005,API server insecure port is enabled
 NSA,C-0009,Resource limits

@@ -89,7 +89,6 @@ C-0225,ensure-default-service-accounts-has-only-default-roles
 C-0225,automount-default-service-account
 C-0073,naked-pods
 C-0106,ensure-that-the-scheduler.conf-file-permissions-are-set-to-600-or-more-restrictive
-C-0253,rule-manual
 C-0015,rule-can-list-get-secrets
 C-0015,rule-can-list-get-secrets-v1
 C-0055,linux-hardening
@@ -183,6 +182,7 @@ C-0127,ensure-that-the-admission-control-plugin-NodeRestriction-is-set
 C-0066,secret-etcd-encryption-cloud
 C-0066,etcd-encryption-native
 C-0244,secret-etcd-encryption-cloud
+C-0254,rule-manual
 C-0187,rule-list-all-cluster-admins-v1
 C-0209,list-all-namespaces
 C-0085,excessive_amount_of_vulnerabilities_pods
