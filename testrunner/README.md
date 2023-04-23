@@ -9,10 +9,8 @@ You can easily test your custom rules by running this command:
 ```shell
 go test -v -tags=static rego_test.go -run TestAllRules
 ```
-
-or simply:
-
-```shell
+Or
+```
 make test
 ```
 

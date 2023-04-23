@@ -1,31 +1,61 @@
 name: pr-tests
 on:
+  push:
+    branches: [ master, main ]
   pull_request:
-    branches: [dev, master]
-    types: [opened]
-    paths-ignore:
-      # Do not run the pipeline if only Markdown files changed
-      - '**.yaml'
-      - '**.md'
+    # run for every chnage in the PR
+    types: [ opened, synchronize, reopened ]
+    # Do not run the pipeline if only Markdown files changed
+    paths-ignore: ['**.md']
 jobs:
-  build:
+  # testing link checks
+  markdown-link-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@dc323e67f16fb5f7663d20ff7941f27f5809e9b6
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+      - name: Check links
+        uses: gaurav-nelson/github-action-markdown-link-check@5c5dfc0ac2e225883c0e5f03a85311ec2830d368
+        with:
+          use-verbose-mode: 'yes'
+
+  # testing rego library
+  test_rego:
+    name: Test Regos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@50fbc622fc4ef5163becd7fab6573eac35f8462e
       - name: Set up Go
-        uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492
+        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568
         with:
           go-version: 1.19
-      - name: golangci-lint
-        continue-on-error: true
-        uses: golangci/golangci-lint-action@08e2f20817b15149a52b5b3ebe7de50aff2ba8c5
-        with:
-          version: latest
-          args: --timeout 10m ./...
-          only-new-issues: true
-      - name: Test
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: go test -v -race ./...
-      - name: Build
-        run: go build -v github.com/kubescape/regolibrary/gitregostore/...
+      - name: Test Regoes
+        working-directory: testrunner
+        run: |-
+          apt update && apt install -y cmake
+          GOPATH=$(go env GOPATH) make
+
+  # main job of testing and building the env. 
+  test_pr_checks:
+    permissions:
+      pull-requests: write
+    uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@main
+    with:
+      GO_VERSION: 1.19
+      BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
+    secrets: inherit
+
+  # build and e2e tests
+  binary_build_and_e2e:
+    uses: kubescape/kubescape/.github/workflows/b-binary-build-and-e2e-tests.yaml@master
+    needs: [markdown-link-check, test_rego, test_pr_checks]
+    with:
+      COMPONENT_NAME: kubescape
+      CGO_ENABLED: 1
+      GO111MODULE: ""
+      GO_VERSION: "1.19"
+      RELEASE: ""
+      CLIENT: test
+      CHECKOUT_REPO: kubescape/kubescape
+      BUILD_AND_TEST_LOCAL_KUBESCAPE_CLI: false
+    secrets: inherit
+    
