@@ -81,18 +81,6 @@ jobs:
           rm -r releaseDev
           cp -R pre-release releaseDev
 
-      # - name: ls-releasedev
-      #   run: ls releaseDev/
-      # - name: print_env
-      #   env:
-      #     CUSTOMER: ${{ secrets.CUSTOMER }}
-      #     USERNAME: ${{ secrets.USERNAME }}
-      #     PASSWORD: ${{ secrets.PASSWORD }}
-      #     CLIENT_ID: ${{ secrets.CLIENT_ID_PROD }}
-      #     SECRET_KEY: ${{ secrets.SECRET_KEY_PROD }}
-      #     REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
-      #     REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
-
       - name: Set outputs
         id: set_outputs
         run: |
