@@ -2126,7 +2126,7 @@
                     "description": "",
                     "remediation": "",
                     "ruleQuery": "armo_builtins",
-                    "rule": "package armo_builtins\n\nimport data.cautils as cautils\n\n# Check if encryption in etcd is enabled for native k8s\ndeny[msga] {\n\tapiserverpod := input[_]\n\tcmd := apiserverpod.spec.containers[0].command\n\tenc_command := [command | command := cmd[_]; contains(command, \"--encryption-provider-config=\")]\n\tcount(enc_command) < 1\n\tpath := \"spec.containers[0].command\"\n\n\tmsga := {\n\t\t\"alertMessage\": \"etcd encryption is not enabled\",\n\t\t\"alertScore\": 9,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [path],\n\t\t\"fixPaths\": [],\n\t\t\"alertObject\": {\"k8sApiObjects\": [apiserverpod]},\n\t}\n}\n"
+                    "rule": "package armo_builtins\n\nimport data.cautils as cautils\n\n# Check if encryption in etcd is enabled for native k8s\ndeny[msga] {\n\tapiserverpod := input[_]\n\tcmd := apiserverpod.spec.containers[0].command\n\tenc_command := [command | command := cmd[_]; contains(command, \"--encryption-provider-config=\")]\n\tcount(enc_command) < 1\n\tfixpath := {\"path\":sprintf(\"spec.containers[0].command[%d]\", [count(cmd)]), \"value\": \"--encryption-provider-config=YOUR_VALUE\"}\n\n\tmsga := {\n\t\t\"alertMessage\": \"etcd encryption is not enabled\",\n\t\t\"alertScore\": 9,\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": [fixpath],\n\t\t\"alertObject\": {\"k8sApiObjects\": [apiserverpod]},\n\t}\n}\n"
                 }
             ]
         },
