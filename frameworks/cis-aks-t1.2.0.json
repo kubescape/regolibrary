@@ -504,7 +504,7 @@
             }
         },
         {
-            "controlID": "C-0253",
+            "controlID": "C-0254",
             "patch": {
                 "name": "CIS-2.1.1 Enable audit Logs"
             }
@@ -519,7 +519,7 @@
                     "name": "Logging",
                     "id": "2.1",
                     "controlsIDs": [
-                        "C-0253"
+                        "C-0254"
                     ]
                 }
             }
