@@ -459,7 +459,7 @@ if __name__ == '__main__':
     export_json(controls_list, 'controls', output_dir_name)
     export_json(rules_list, 'rules', output_dir_name)
     export_json(default_config_inputs, 'default_config_inputs', output_dir_name)
-    export_json(attack_tracks_list, 'attack-tracks', output_dir_name)
+    export_json(attack_tracks_list, 'attack_tracks', output_dir_name)
     export_json(exceptions_list, 'exceptions', output_dir_name)
 
     # generate CSV files: [frameworkName, ControlID, ControlName]
