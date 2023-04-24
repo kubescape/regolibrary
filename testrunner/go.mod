@@ -76,7 +76,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kr/pretty v0.2.1 // indirect
 	github.com/kubescape/go-logger v0.0.6 // indirect
-	github.com/kubescape/rbac-utils v0.0.19 // indirect
+	github.com/kubescape/rbac-utils v0.0.20 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect

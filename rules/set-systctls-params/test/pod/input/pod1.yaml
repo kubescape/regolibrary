@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  securityContext:
+  containers:
+  - name: nginx1
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+  - name: nginx2
+    securityContext:
+      procMount: Default
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 8080

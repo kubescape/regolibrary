@@ -1,0 +1,21 @@
+[
+    {
+        "alertMessage": "CronJob: hello does not set 'securityContext.systctls'",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "failedPaths": [],
+        "fixPaths": [{"path": "spec.jobTemplate.spec.template.spec.securityContext", "name": "net.ipv4.tcp_syncookie", "value": "1"}],
+        "ruleStatus": "",
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                  "apiVersion": "batch/v1beta1",
+                  "kind": "CronJob",
+                  "metadata": {
+                    "name": "hello"
+                  }
+                }
+            ]
+        }
+    }
+]

@@ -8,7 +8,7 @@ subjects:
   name: jane 
   apiGroup: rbac.authorization.k8s.io
 - kind: ServiceAccount
-  name: john-dev
+  name: default
   namespace: default
 roleRef:
   kind: Role 

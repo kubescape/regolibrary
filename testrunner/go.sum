@@ -373,8 +373,8 @@ github.com/kubescape/k8s-interface v0.0.89 h1:OtlvZosHpjlbHfsilfQk2wRbuBnxwF0e+W
 github.com/kubescape/k8s-interface v0.0.89/go.mod h1:pgFRs20mHiavf6+fFWY7h/f8HuKlwuZwirvjxiKJlu0=
 github.com/kubescape/opa-utils v0.0.204 h1:9O9drjyzjOhI7Xi2S4Px0WKa66U5GFPQqeOLvhDqHnw=
 github.com/kubescape/opa-utils v0.0.204/go.mod h1:rDC3PANuk8gU5lSDO/WPFTluypBQ+/6qiuZLye+slYg=
-github.com/kubescape/rbac-utils v0.0.19 h1:7iydgVxlMLW15MgHORfMBMqNj9jHtFGACd744fdtrFs=
-github.com/kubescape/rbac-utils v0.0.19/go.mod h1:t57AhSrjuNGQ+mpZWQM/hBzrCOeKBDHegFoVo4tbikQ=
+github.com/kubescape/rbac-utils v0.0.20 h1:1MMxsCsCZ3ntDi8f9ZYYcY+K7bv50bDW5ZvnGnhMhJw=
+github.com/kubescape/rbac-utils v0.0.20/go.mod h1:t57AhSrjuNGQ+mpZWQM/hBzrCOeKBDHegFoVo4tbikQ=
 github.com/lunixbochs/vtclean v1.0.0/go.mod h1:pHhQNgMf3btfWnGBVipUOjRYhoOsdGqdm/+2c2E2WMI=
 github.com/mailru/easyjson v0.0.0-20190312143242-1de009706dbe/go.mod h1:C1wdFJiN94OJF2b5HbByQZoLdCWB1Yqtg26g4irojpc=
 github.com/mailru/easyjson v0.0.0-20190614124828-94de47d64c63/go.mod h1:C1wdFJiN94OJF2b5HbByQZoLdCWB1Yqtg26g4irojpc=

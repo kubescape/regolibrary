@@ -1,0 +1,46 @@
+[
+    {
+        "alertMessage": "Workload: my-deployment1 does not set 'securityContext.fsGroup' with allowed value",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "failedPaths": ["spec.template.spec.securityContext"],
+		    "fixPaths": [],
+        "ruleStatus": "",
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                  "apiVersion": "apps/v1",
+                  "kind": "Deployment",
+                  "metadata": {
+                    "name": "my-deployment1",
+                    "labels": {
+                      "app": "goproxy"
+                    }
+                  }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Workload: my-deployment2 does not set 'securityContext.fsGroup' with allowed value",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "failedPaths": [],
+		    "fixPaths": [{"path":"spec.template.spec.securityContext.fsGroup", "value": "YOUR_VALUE"}],
+        "ruleStatus": "",
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                  "apiVersion": "apps/v1",
+                  "kind": "Deployment",
+                  "metadata": {
+                    "name": "my-deployment2",
+                    "labels": {
+                      "app": "goproxy"
+                    }
+                  }
+                }
+            ]
+        }
+    }
+]

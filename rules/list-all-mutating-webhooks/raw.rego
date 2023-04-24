@@ -8,7 +8,7 @@ deny [msga] {
     	msga := {
 		"alertMessage": sprintf("The following mutating webhook configuration should be checked %v.", [mutatingwebhook.metadata.name]),
 		"alertScore": 6,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {

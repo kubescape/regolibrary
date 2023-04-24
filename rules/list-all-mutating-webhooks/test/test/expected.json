@@ -1,6 +1,6 @@
 [{
     "alertMessage": "The following mutating webhook configuration should be checked test-webhook.",
-    "failedPaths": [""],
+    "failedPaths": [],
     "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
@@ -16,7 +16,7 @@
     }
 }, {
     "alertMessage": "The following mutating webhook configuration should be checked test-webhook2.",
-    "failedPaths": [""],
+    "failedPaths": [],
     "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",

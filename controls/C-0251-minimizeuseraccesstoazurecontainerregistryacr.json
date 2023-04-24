@@ -1,0 +1,20 @@
+{
+    "controlID": "C-0251",
+    "name": "Minimize user access to Azure Container Registry (ACR)",
+    "description": "Restrict user access to Azure Container Registry (ACR), limiting interaction with build images to only authorized personnel and service accounts.",
+    "long_description": "Weak access control to Azure Container Registry (ACR) may allow malicious users to replace built images with vulnerable containers.",
+    "remediation": "Azure Container Registry\nIf you use Azure Container Registry (ACR) as your container image store, you need to grant permissions to the service principal for your AKS cluster to read and pull images. Currently, the recommended configuration is to use the az aks create or az aks update command to integrate with a registry and assign the appropriate role for the service principal. For detailed steps, see Authenticate with Azure Container Registry from Azure Kubernetes Service.\n\n To avoid needing an Owner or Azure account administrator role, you can configure a service principal manually or use an existing service principal to authenticate ACR from AKS. For more information, see ACR authentication with service principals or Authenticate from Kubernetes with a pull secret.",
+    "manual_test": "",
+    "references": [
+        "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-privileged-access#pa-7-follow-just-enough-administration-least-privilege-principle>"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "list-role-definitions-in-acr"
+    ],
+    "baseScore": 6,
+    "impact_statement": "Care should be taken not to remove access to Azure ACR for accounts that require this for their operation.",
+    "default_value": ""
+}
