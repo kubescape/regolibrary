@@ -1,7 +1,7 @@
 name: export-releaseDev-into-main
 on:
   push:
-    branches: [dev]
+    branches: [ master, main ]
 jobs:
   once:
     name: Build, Test, Create And Generate releaseDev
@@ -12,13 +12,8 @@ jobs:
         uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492
         with:
           go-version: 1.19
-
-      - name: Test Regoes
-        working-directory: testrunner
-        run: |
-          apt update && apt install -y cmake
-          GOPATH=$(go env GOPATH) make
           
+      # run export script to generate regolibrary artifacts 
       - name: Run export script
         run: |
           OUTPUT=pre-release python ./scripts/export.py
