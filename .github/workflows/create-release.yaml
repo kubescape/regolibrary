@@ -86,10 +86,11 @@ jobs:
           path: ${{ env.REGO_ARTIFACT_PATH }}/
           if-no-files-found: error
 
-
+  # test kubescape e2e flow with tested artifacts 
   ks-and-rego-test:
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     needs: [build-and-rego-test]
+    if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
     with:
       DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
       BINARY_TESTS: '[  "scan_nsa", 
@@ -113,8 +114,8 @@ jobs:
     secrets: inherit
 
   release:
-    if: ${{ (always() && contains(needs.*.result, 'success') && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
-    needs: [ks-and-rego-test, build-and-rego-test]
+    needs: [ks-and-rego-test]
+    if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
     name: create release and upload assets
     runs-on: ubuntu-latest
     steps:
