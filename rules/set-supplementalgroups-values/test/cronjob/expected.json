@@ -1,0 +1,21 @@
+[
+    {
+        "alertMessage": "CronJob: hello does not set 'securityContext.supplementalGroups'",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "failedPaths": ["spec.jobTemplate.spec.template.spec.securityContext"],
+		    "fixPaths": [],
+        "ruleStatus": "",
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                  "apiVersion": "batch/v1beta1",
+                  "kind": "CronJob",
+                  "metadata": {
+                    "name": "hello"
+                  }
+                }
+            ]
+        }
+    }
+]

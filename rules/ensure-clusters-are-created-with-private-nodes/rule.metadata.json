@@ -1,0 +1,25 @@
+{
+    "name": "ensure-clusters-are-created-with-private-nodes",
+    "attributes": {
+      "armoBuiltin": true,
+      "hostSensorRule": false,
+      "imageScanRelated": false
+    },
+    "ruleLanguage": "Rego",
+    "dynamicMatch": [
+        {
+          "apiGroups": [
+            "management.azure.com"
+          ],
+          "apiVersions": [
+            "v1"
+          ],
+          "resources": [
+            "ClusterDescribe"
+          ]
+        }
+    ],
+    "description": "Disable public IP addresses for cluster nodes, so that they only have private IP addresses. Private Nodes are nodes with no public IP addresses.",
+    "remediation": "az aks create --resource-group <private-cluster-resource-group> --name <private-cluster-name> --load-balancer-sku standard --enable-private-cluster --network-plugin azure --vnet-subnet-id <subnet-id> --docker-bridge-address --dns-service-ip --service-cidr",
+    "ruleQuery": ""
+}

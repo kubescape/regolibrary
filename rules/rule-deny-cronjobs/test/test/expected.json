@@ -1,6 +1,6 @@
 [{
     "alertMessage": "the following cronjobs are defined: hello",
-    "failedPaths": [""],
+    "failedPaths": [],
     "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",

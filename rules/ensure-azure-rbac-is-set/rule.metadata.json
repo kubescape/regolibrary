@@ -1,0 +1,26 @@
+{
+    "name": "ensure-azure-rbac-is-set",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "dynamicMatch": [
+      {
+        "apiGroups": [
+          "management.azure.com"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "ClusterDescribe"
+        ]
+      }
+    ],
+    "relevantCloudProviders": ["AKS"],
+    "ruleDependencies": [
+    ],
+    "description": "Azure role-based access control (RBAC) is an authorization system built on Azure Resource Manager that provides fine-grained access management of Azure resources.",
+    "remediation": "Enable Azure RBAC on AKS by using the following command: az aks update -g <resource_group> -n <cluster_name> --enable-azure-rbac",
+    "ruleQuery": "armo_builtins"
+}

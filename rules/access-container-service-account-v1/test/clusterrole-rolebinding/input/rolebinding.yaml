@@ -5,7 +5,7 @@ metadata:
   namespace: default
 subjects:
 - kind: ServiceAccount  
-  name: jane
+  name: default
   namespace: default
 roleRef:
   kind: ClusterRole 
