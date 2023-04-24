@@ -12,11 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@dc323e67f16fb5f7663d20ff7941f27f5809e9b6
         name: checkout repo content
+
       # Test using Golang OPA hot rule compilation
       - name: Set up Go
         uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492
         with:
           go-version: 1.19
+
       - name: Test Regoes
         working-directory: testrunner
         run: |
@@ -49,6 +51,7 @@ jobs:
           release_name: Release v1.0.${{ github.run_number }}
           draft: false
           prerelease: false
+
       - name: Upload Release Assets
         id: upload-release-assets
         uses: dwenegar/upload-release-assets@5bc3024cf83521df8ebfadf00ad0c4614fd59148
