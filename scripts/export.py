@@ -406,6 +406,7 @@ def export_json(data: dict, f_name:str, output_path: str):
     
     os.makedirs(output_path, exist_ok=True)
     try:    
+        # generate with extentions for system testing 
         with open(os.path.join(output_path, f"{f_name.lower()}.json"), "w") as f:
             f.write(json.dumps(data, indent=4))
     except Exception as e:
@@ -436,7 +437,7 @@ if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s | %(levelname)s | %(message)s', datefmt='%d-%m-%YT%H:%M:%S', level=logging.INFO)
     logging.info("export.py script started")
     
-    output_dir_name = os.getenv("OUTPUT") if os.getenv("OUTPUT") else "release"   # creating local directory output / release 
+    output_dir_name = os.getenv("OUTPUT") if os.getenv("OUTPUT") else "release"   # creating local release dir. if parameter 'OUTPUT' exist creating pre-release
     loaded_rules, rules_list = load_rules()     # load all rules
     controls, controls_list = load_controls(loaded_rules)   # loading controls list
     validate_controls()   # validating controls scanned
@@ -455,7 +456,7 @@ if __name__ == '__main__':
     export_json(controls_list, 'controls', output_dir_name)
     export_json(rules_list, 'rules', output_dir_name)
     export_json(default_config_inputs, 'default_config_inputs', output_dir_name)
-    export_json(attack_tracks_list, 'attack_tracks', output_dir_name)
+    export_json(attack_tracks_list, 'attack-tracks', output_dir_name)
     export_json(exceptions_list, 'exceptions', output_dir_name)
 
     # generate CSV files: [frameworkName, ControlID, ControlName]
