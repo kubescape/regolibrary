@@ -1,7 +1,7 @@
 name: Updating documentation
 on:
   push:
-    branches: [master]
+    branches: [ main, master ]
 jobs:
   once:
     name: Upload to documentation
