@@ -116,7 +116,7 @@ jobs:
     needs: [build-and-rego-test]
     if: |
       always() &&
-      contains(needs.*.result, 'success') &&
+      (contains(needs.*.result, 'success') &&
       (!contains(needs.*.result, 'skipped') ||
       (!contains(needs.*.result, 'failure') ||
       (!contains(needs.*.result, 'cancelled'))
