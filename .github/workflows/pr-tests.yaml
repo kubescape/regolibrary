@@ -99,6 +99,8 @@ jobs:
 
   # test kubescape with regolibrary artifacts 
   ks-and-rego-test:
+    name: test rego artifatcs with kubescape
+    runs-on: ubuntu-latest
     needs: [build-and-rego-test]
     secrets: inherit
     steps:
