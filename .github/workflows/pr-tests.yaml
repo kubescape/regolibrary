@@ -99,6 +99,7 @@ jobs:
 
   # test kubescape with regolibrary artifacts 
   ks-and-rego-test:
+    needs: [build-and-rego-test]
     steps:
     - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
       name: checkout repo content
@@ -107,7 +108,6 @@ jobs:
         token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
     - uses: ./workflows/.github/workflows/kubescape-cli-e2e-tests.yaml
-      needs: [build-and-rego-test]
       with:
         DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
         BINARY_TESTS: '[  "scan_nsa", 
