@@ -4,4 +4,4 @@
 [submodule "workflows"]
 	path = workflows
 	url = https://github.com/kubescape/workflows.git
-	branch = master
+	branch = main
