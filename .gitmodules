@@ -1,3 +1,7 @@
 [submodule "testrunner/git2go"]
 	path = testrunner/git2go
 	url = https://github.com/libgit2/git2go.git
+[submodule "workflows"]
+	path = workflows
+	url = https://github.com/kubescape/workflows.git
+	branch = master
