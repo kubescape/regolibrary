@@ -15,6 +15,14 @@ concurrency:
 env:
   REGO_ARTIFACT_KEY_NAME: rego_artifact
   REGO_ARTIFACT_PATH: releaseDev
+  CUSTOMER: ${{ secrets.CUSTOMER }}
+  USERNAME: ${{ secrets.USERNAME }}
+  PASSWORD: ${{ secrets.PASSWORD }}
+  CLIENT_ID: ${{ secrets.CLIENT_ID_PROD }}
+  SECRET_KEY: ${{ secrets.SECRET_KEY_PROD }}
+  REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+  REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
+run: "echo \"is-secret-set=${{ env.CUSTOMER != '' && \n                        env.USERNAME != '' &&\n                        env.PASSWORD != '' &&\n                        env.CLIENT_ID != '' &&\n                        env.SECRET_KEY != '' &&\n                        env.REGISTRY_USERNAME != '' &&\n                        env.REGISTRY_PASSWORD != ''\n                      }}\" >> $GITHUB_OUTPUT\n"
 
 jobs:
   # testing link checks
@@ -106,13 +114,6 @@ jobs:
       (!contains(needs.*.result, 'failure') ||
       (!contains(needs.*.result, 'cancelled'))
     with:
-      CUSTOMER: ${{ secrets.CUSTOMER }}
-      USERNAME: ${{ secrets.USERNAME }}
-      PASSWORD: ${{ secrets.PASSWORD }}
-      CLIENT_ID: ${{ secrets.CLIENT_ID_PROD }}
-      SECRET_KEY: ${{ secrets.SECRET_KEY_PROD }}
-      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
-      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
       DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
       BINARY_TESTS: '[  "scan_nsa", 
                         "scan_mitre", 
@@ -128,5 +129,5 @@ jobs:
                         "scan_local_list_of_files"
                       ]'
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
-    # secrets: inherit
+    secrets: inherit
     # fail the job if jon terminated with skip / fail / cancel
