@@ -99,22 +99,29 @@ jobs:
 
   # test kubescape with regolibrary artifacts 
   ks-and-rego-test:
-    uses: ./workflows/.github/workflows/kubescape-cli-e2e-tests.yaml
-    needs: [build-and-rego-test]
-    with:
-      DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
-      BINARY_TESTS: '[  "scan_nsa", 
-                        "scan_mitre", 
-                        "scan_with_exceptions", 
-                        "scan_repository", 
-                        "scan_local_file", 
-                        "scan_local_glob_files", 
-                        "scan_nsa_and_submit_to_backend", 
-                        "scan_mitre_and_submit_to_backend", 
-                        "scan_local_repository_and_submit_to_backend", 
-                        "scan_repository_from_url_and_submit_to_backend", 
-                        "host_scanner",
-                        "scan_local_list_of_files"
-                      ]'
-      DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
-    secrets: inherit
+    steps:
+    - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
+      name: checkout repo content
+      with:
+        submodules: recursive
+        token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+    - uses: ./workflows/.github/workflows/kubescape-cli-e2e-tests.yaml
+      needs: [build-and-rego-test]
+      with:
+        DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
+        BINARY_TESTS: '[  "scan_nsa", 
+                          "scan_mitre", 
+                          "scan_with_exceptions", 
+                          "scan_repository", 
+                          "scan_local_file", 
+                          "scan_local_glob_files", 
+                          "scan_nsa_and_submit_to_backend", 
+                          "scan_mitre_and_submit_to_backend", 
+                          "scan_local_repository_and_submit_to_backend", 
+                          "scan_repository_from_url_and_submit_to_backend", 
+                          "host_scanner",
+                          "scan_local_list_of_files"
+                        ]'
+        DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
+      secrets: inherit
