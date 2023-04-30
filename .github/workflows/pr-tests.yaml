@@ -124,3 +124,12 @@ jobs:
                       ]'
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
     secrets: inherit
+
+  finalizing:
+    needs: [ks-and-rego-test]
+    if: |
+      always() &&
+      contains(needs.*.result, 'success') &&
+      (!contains(needs.*.result, 'skipped') ||
+      !contains(needs.*.result, 'failure') ||
+      !contains(needs.*.result, 'cancelled'))
