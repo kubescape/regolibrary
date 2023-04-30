@@ -29,14 +29,22 @@ jobs:
 
   # main job of testing and building the env. 
   test_pr_checks:
+    name: Test PR checks
+    runs-on: ubuntu-latest
     needs: [markdown-link-check]
     permissions:
       pull-requests: write
-    uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@main
-    with:
-      GO_VERSION: 1.19
-      BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
-    secrets: inherit
+    steps:
+    - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
+      name: checkout repo content
+      with:
+        submodules: recursive
+        token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+    - uses: ./workflows/.github/workflows/go-basic-tests.yaml
+      with:
+        GO_VERSION: 1.19
+        BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
+
 
   build-and-rego-test:
     name: Build and test rego artifacts
@@ -102,7 +110,6 @@ jobs:
     name: test rego artifatcs with kubescape
     runs-on: ubuntu-latest
     needs: [build-and-rego-test]
-    # secrets: inherit
     steps:
     - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
       name: checkout repo content
