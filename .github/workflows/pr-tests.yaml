@@ -102,7 +102,7 @@ jobs:
     name: test rego artifatcs with kubescape
     runs-on: ubuntu-latest
     needs: [build-and-rego-test]
-    secrets: inherit
+    # secrets: inherit
     steps:
     - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
       name: checkout repo content
