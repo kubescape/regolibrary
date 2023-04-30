@@ -100,14 +100,6 @@ jobs:
   ks-and-rego-test:
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     needs: [build-and-rego-test]
-    env:
-      CUSTOMER: ${{ secrets.CUSTOMER }}
-      USERNAME: ${{ secrets.USERNAME }}
-      PASSWORD: ${{ secrets.PASSWORD }}
-      CLIENT_ID: ${{ secrets.CLIENT_ID_PROD }}
-      SECRET_KEY: ${{ secrets.SECRET_KEY_PROD }}
-      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
-      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
     if: |
       always() &&
       contains(needs.*.result, 'success') &&
