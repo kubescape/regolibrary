@@ -128,5 +128,5 @@ jobs:
                         "scan_local_list_of_files"
                       ]'
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
-    secrets: inherit
+    # secrets: inherit
     # fail the job if jon terminated with skip / fail / cancel
