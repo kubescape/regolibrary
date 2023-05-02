@@ -35,7 +35,7 @@ jobs:
         if: ${{ env.CUSTOMER == '' }}
         run: 'echo "echo the secret \"MY_SECRET\" has not been made; echo please go to \"settings \> secrets \> actions\" to create it"'
       - name: yuvals-tests
-        if: ${{ env.CUSTOMER == '' }}
+        if: ${{ always() && env.CUSTOMER == '' }}
         run: 'echo "echo the secret \"MY_SECRET\" has not been made; echo please go to \"settings \> secrets \> actions\" to create it"'
 
   # testing link checks
