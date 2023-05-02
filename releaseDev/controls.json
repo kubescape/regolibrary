@@ -880,7 +880,7 @@
             "access-container-service-account-v1"
         ],
         "long_description": "Service account (SA) represents an application identity in Kubernetes. By default, an SA is mounted to every created pod in the cluster. Using the SA, containers in the pod can send requests to the Kubernetes API server. Attackers who get access to a pod can access the SA token (located in /var/run/secrets/kubernetes.io/serviceaccount/token) and perform actions in the cluster, according to the SA permissions. If RBAC is not enabled, the SA has unlimited permissions in the cluster. If RBAC is enabled, its permissions are determined by the RoleBindings\\\\ClusterRoleBindings that are associated with it.",
-        "test": "Check if RBAC is enabled. If is not, the sa has unlimited permissions.If RBAC enabled, list which workloads have bound service accounts and all the sas permissions",
+        "test": "Control checks if RBAC is enabled. If it's not, the SA has unlimited permissions. If RBAC is enabled, it lists  all permissions for each SA.",
         "controlID": "C-0053",
         "baseScore": 6.0,
         "rules": []
@@ -4590,7 +4590,7 @@
         "rulesNames": [
             "rule-manual"
         ],
-        "baseScore": 0,
+        "baseScore": 8,
         "impact_statement": "Once the RBAC system is operational in a cluster `system:masters` should not be specifically required, as ordinary bindings from principals to the `cluster-admin` cluster role can be made where unrestricted access is required.",
         "default_value": "By default some clusters will create a \"break glass\" client certificate which is a member of this group. Access to this client certificate should be carefully controlled and it should not be used for general cluster operations.",
         "rules": []
@@ -5261,7 +5261,7 @@
         "rulesNames": [
             "ensure-aws-policies-are-present"
         ],
-        "baseScore": 0,
+        "baseScore": 6,
         "impact_statement": "Care should be taken not to remove access to Amazon ECR for accounts that require this for their operation.",
         "default_value": "",
         "rules": []
