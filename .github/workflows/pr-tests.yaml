@@ -1,6 +1,7 @@
 name: pr-tests
 on:
   push:
+    # need to rebase here
     branches: [ master, main ]
   pull_request:
     # run for every chnage in the PR
