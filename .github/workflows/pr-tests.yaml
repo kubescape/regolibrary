@@ -19,6 +19,7 @@ env:
 
 jobs:
   wf-preparation:
+    name: secret-validator
     runs-on: ubuntu-latest
     steps:
       - name: check if the necessary secrets are set in github secrets
@@ -31,8 +32,9 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY_PROD }}
           REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
           REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
-      - name: yuval-test
-        id: yuval-test1
+        if: ${{ env.CUSTOMER == '' }}
+        run: 'echo "echo the secret \"MY_SECRET\" has not been made; echo please go to \"settings \> secrets \> actions\" to create it"'
+      - name: yuvals-tests
         if: ${{ env.CUSTOMER == '' }}
         run: 'echo "echo the secret \"MY_SECRET\" has not been made; echo please go to \"settings \> secrets \> actions\" to create it"'
 
