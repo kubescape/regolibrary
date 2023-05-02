@@ -16,7 +16,6 @@ env:
   REGO_ARTIFACT_PATH: release
 
 jobs:
-
   build-and-rego-test:
     # if: endsWith(github.ref, 'main') == true
     name: Build and test rego artifacts
