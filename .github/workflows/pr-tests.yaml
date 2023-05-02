@@ -16,10 +16,6 @@ concurrency:
 env:
   REGO_ARTIFACT_KEY_NAME: rego_artifact
   REGO_ARTIFACT_PATH: releaseDev
-  if: ${{ env.CUSTOMER == '' }}
-  run: 'echo "echo the secret \"MY_SECRET\" has not been made; echo please go to \"settings \> secrets \> actions\" to create it"'
-  # run: "echo \"is-secret-set=${{ env.CUSTOMER != '' && \n                        env.USERNAME != '' &&\n                        env.PASSWORD != '' &&\n                        env.CLIENT_ID != '' &&\n                        env.SECRET_KEY != '' &&\n                        env.REGISTRY_USERNAME != '' &&\n                        env.REGISTRY_PASSWORD != ''\n                      }}\" >> $GITHUB_OUTPUT\n"
-
 
 jobs:
   wf-preparation:
