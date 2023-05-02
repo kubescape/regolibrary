@@ -31,8 +31,8 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY_PROD }}
           REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
           REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
-      - name: test the env - test-yuval
-        if: ${{ always() }}
+      - name: yuval-test
+        id: yuval-test1
         if: ${{ env.CUSTOMER == '' }}
         run: 'echo "echo the secret \"MY_SECRET\" has not been made; echo please go to \"settings \> secrets \> actions\" to create it"'
 
