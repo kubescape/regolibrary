@@ -5,7 +5,6 @@
     	"alertScore": 7,
     	"failedPaths": [],
     	"fixPaths":[],
-        "fixCommand": "",
     	"alertObject": {
 			"k8sApiObjects": [
 				{
