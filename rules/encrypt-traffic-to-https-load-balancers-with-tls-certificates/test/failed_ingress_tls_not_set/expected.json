@@ -6,7 +6,6 @@
     	"alertScore": 7,
     	"failedPaths": ["spec.tls"],
     	"fixPaths":[],
-        "fixCommand": "",
     	"alertObject": {
 			"k8sApiObjects": [
 				{

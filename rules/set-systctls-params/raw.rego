@@ -11,7 +11,7 @@ deny[msga] {
 	# check securityContext has systctls set
     not pod.spec.securityContext.systctls
 
-    path := "spec.securityContext"
+    path := "spec.securityContext.systctls"
     msga := {
 		"alertMessage": sprintf("Pod: %v does not set 'securityContext.systctls'", [pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -36,7 +36,7 @@ deny[msga] {
 	# check securityContext has systctls set
     not wl.spec.template.spec.securityContext.systctls
 
-    path := "spec.template.spec.securityContext"
+    path := "spec.template.spec.securityContext.systctls"
     msga := {
 		"alertMessage": sprintf("Workload: %v does not set 'securityContext.systctls'", [wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -60,7 +60,7 @@ deny[msga] {
 	# check securityContext has systctls set
     not cj.spec.jobTemplate.spec.template.spec.securityContext.systctls
 
-    path := "spec.jobTemplate.spec.template.spec.securityContext"
+    path := "spec.jobTemplate.spec.template.spec.securityContext.systctls"
     msga := {
 		"alertMessage": sprintf("CronJob: %v does not set 'securityContext.systctls'", [cj.metadata.name]),
 		"packagename": "armo_builtins",
