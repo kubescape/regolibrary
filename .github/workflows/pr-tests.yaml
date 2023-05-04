@@ -125,3 +125,19 @@ jobs:
                       ]'
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
     secrets: inherit
+  
+  check-system-tests:
+    name: Check if system tests passed
+    runs-on: ubuntu-latest
+    needs: [ks-and-rego-test]
+    if: |
+      ${{ (always() && 
+      (contains(needs.ks-and-rego-test.result, 'success')) && 
+      !(contains(needs.ks-and-rego-test.result, 'skipped')) && 
+      !(contains(needs.ks-and-rego-test.result, 'failure')) && 
+      !(contains(needs.ks-and-rego-test.result, 'cancelled'))) }}
+    steps:
+        - env:
+          OUTPUT1: ${{needs.ks-and-rego-test.outputs.output1}}
+          OUTPUT2: ${{needs.job1.outputs.output2}}
+        run: echo "ks-and-rego-test status is $OUTPUT1"
