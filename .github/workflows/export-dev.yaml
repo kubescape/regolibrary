@@ -28,4 +28,3 @@ jobs:
         with:
           branch: master
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          rebase: true
