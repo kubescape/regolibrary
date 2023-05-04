@@ -136,8 +136,7 @@ jobs:
       !(contains(needs.ks-and-rego-test.result, 'skipped')) && 
       !(contains(needs.ks-and-rego-test.result, 'failure')) && 
       !(contains(needs.ks-and-rego-test.result, 'cancelled'))) }}
+    outputs:
+      OUTPUT1: ${{ needs.ks-and-rego-test.outputs.output1 }}
     steps:
-      - env:
-        OUTPUT1: ${{needs.ks-and-rego-test.outputs.output1}}
-        OUTPUT2: ${{needs.job1.outputs.output2}}
-      run: echo "ks-and-rego-test status is $OUTPUT1"
+      run: echo "ks-and-rego-test status is $OUTPUT1" >> $GITHUB_OUTPUT
