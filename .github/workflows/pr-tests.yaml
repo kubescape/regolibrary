@@ -18,26 +18,6 @@ env:
   REGO_ARTIFACT_PATH: releaseDev
 
 jobs:
-  wf-preparation:
-    name: secret-validator
-    runs-on: ubuntu-latest
-    steps:
-      - name: check if the necessary secrets are set in github secrets
-        id: check-secret-set
-        env:
-          CUSTOMER: ${{ secrets.CUSTOMER }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-          CLIENT_ID: ${{ secrets.CLIENT_ID_PROD }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY_PROD }}
-          REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
-          REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
-        if: ${{ env.CUSTOMER == '' }}
-        run: 'echo "echo the secret \"MY_SECRET\" has not been made; echo please go to \"settings \> secrets \> actions\" to create it"'
-      - name: yuvals-tests
-        if: ${{ always() && env.CUSTOMER == '' }}
-        run: 'echo "echo the secret \"MY_SECRET\" has not been made; echo please go to \"settings \> secrets \> actions\" to create it"'
-
   # testing link checks
   markdown-link-check:
     runs-on: ubuntu-latest
@@ -59,6 +39,7 @@ jobs:
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
 
+  # build regolibrary artifacts / test rego dependencies / test rego unit-tests 
   build-and-rego-test:
     name: Build and test rego artifacts
     runs-on: ubuntu-latest

@@ -16,8 +16,31 @@ env:
   REGO_ARTIFACT_PATH: release
 
 jobs:
+  # testing link checks
+  markdown-link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+      - name: Check links
+        uses: gaurav-nelson/github-action-markdown-link-check@5c5dfc0ac2e225883c0e5f03a85311ec2830d368
+        with:
+          use-verbose-mode: 'yes'
+
+  # main job of testing and building the env. 
+  test_pr_checks:
+    needs: [markdown-link-check]
+    permissions:
+      pull-requests: write
+    uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@main
+    with:
+      GO_VERSION: 1.19
+      BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
+    secrets: inherit
+
+  # build regolibrary artifacts / test rego dependencies / test rego unit-tests 
   build-and-rego-test:
     # if: endsWith(github.ref, 'main') == true
+    needs: [test_pr_checks]
     name: Build and test rego artifacts
     runs-on: ubuntu-latest
     outputs:
@@ -112,6 +135,7 @@ jobs:
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
     secrets: inherit
 
+  # start release process 
   release:
     needs: [ks-and-rego-test]
     if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
@@ -136,3 +160,24 @@ jobs:
           fail_on_unmatched_files: true
           prerelease: false
           files: '${{ env.REGO_ARTIFACT_PATH }}/*'
+
+  # Update regolibrary documentation with latest controls and rules. 
+  Update documentation:
+    needs: [release]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # ratchet:actions/checkout@v3.5.2
+        name: checkout repo content
+      - name: setup python
+        uses: actions/setup-python@57ded4d7d5e986d7296eab16560982c6dd7c923b # ratchet:actions/setup-python@v4.6.0
+        with:
+          python-version: 3.8
+      - name: install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+      - name: execute upload script
+        env:
+          README_API_KEY: ${{ secrets.README_API_KEY }}
+        run: |-
+          python ./scripts/upload-readme.py
