@@ -120,6 +120,12 @@ jobs:
   # test kubescape with regolibrary artifacts 
   ks-and-rego-test:
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
+    if: |
+      ${{ (always() && 
+      (contains(needs.*.result, 'success')) && 
+      !(contains(needs.*.result, 'skipped')) && 
+      !(contains(needs.*.result, 'failure')) && 
+      !(contains(needs.*.result, 'cancelled'))) }}
     needs: [build-and-rego-test]
     with:
       DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}

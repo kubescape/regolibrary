@@ -118,7 +118,6 @@ jobs:
     name: create release and upload assets
     runs-on: ubuntu-latest
     steps:
-
       - uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # ratchet:actions/download-artifact@v3.0.2
         id: download-artifact
         with:

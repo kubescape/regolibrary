@@ -23,12 +23,6 @@ jobs:
       - name: stage changed files
         run: git add .
 
-      # - name: Commit & Push changes
-      #   uses: Andro999b/push@c77535fe7a94645f7ceca83e48e6cc977620710e
-      #   with:
-      #     branch: master
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Commit & Push changes
         uses: actions-js/push@v1.1
         with:
