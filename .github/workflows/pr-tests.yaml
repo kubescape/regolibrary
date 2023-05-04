@@ -139,4 +139,5 @@ jobs:
     outputs:
       OUTPUT1: ${{ needs.ks-and-rego-test.outputs.output1 }}
     steps:
+      - name: Check outputs
       run: echo "ks-and-rego-test status is $OUTPUT1" >> $GITHUB_OUTPUT
