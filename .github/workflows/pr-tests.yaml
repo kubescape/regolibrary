@@ -113,7 +113,8 @@ jobs:
                         "scan_local_repository_and_submit_to_backend", 
                         "scan_repository_from_url_and_submit_to_backend", 
                         "host_scanner",
-                        "scan_local_list_of_files"
+                        "scan_local_list_of_files",
+                        "scan_compliance_score"
                       ]'
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
     secrets: inherit
