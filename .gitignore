@@ -18,3 +18,4 @@ json_to_string.sh
 release
 pre-release
 *.py[cod]
+.idea
