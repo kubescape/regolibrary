@@ -1,6 +1,7 @@
 name: pull request comment
 on:
-  issue_comment:                                     
+  issue_comment:
+    branches: [ "*" ]                                  
     types: [ opened, synchronize, reopened, ready_for_review ]
 jobs:
   job01:
