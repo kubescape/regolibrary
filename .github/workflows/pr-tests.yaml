@@ -65,7 +65,7 @@ jobs:
           GOPATH=$(go env GOPATH) make
 
       - name: setup python
-        uses: actions/setup-python@75f3110429a8c05be0e1bf360334e4cced2b63fa
+        uses: actions/setup-python@v4
         with:
           python-version: 3.10.6
 
@@ -119,7 +119,8 @@ jobs:
                         "scan_local_repository_and_submit_to_backend", 
                         "scan_repository_from_url_and_submit_to_backend", 
                         "host_scanner",
-                        "scan_local_list_of_files"
+                        "scan_local_list_of_files",
+                        "scan_compliance_score"
                       ]'
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
     secrets: inherit

@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     using: 'node16'
     steps:
-      - uses: actions/checkout@dc323e67f16fb5f7663d20ff7941f27f5809e9b6
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # ratchet:actions/checkout@v3.5.2
         name: checkout repo content
       - name: setup python
-        uses: actions/setup-python@75f3110429a8c05be0e1bf360334e4cced2b63fa
+        uses: actions/setup-python@57ded4d7d5e986d7296eab16560982c6dd7c923b # ratchet:actions/setup-python@v4.6.0
         with:
           python-version: 3.8
       - name: install dependencies

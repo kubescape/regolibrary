@@ -3,9 +3,8 @@
     	"alertMessage": "Ingress object has annotation 'kubernetes.io/ingress.class' != 'azure/application-gateway'.",
     	"packagename": "armo_builtins",
     	"alertScore": 7,
-    	"failedPaths": ["spec.metadata.annotations['kubernetes.io/ingress.class']"],
-    	"fixPaths":[],
-        "fixCommand": "",
+    	"failedPaths": [],
+    	"fixPaths":[{ "path": "metadata.annotations[kubernetes.io/ingress.class]", "value": "azure/application-gateway"}],
     	"alertObject": {
 			"k8sApiObjects": [
 				{

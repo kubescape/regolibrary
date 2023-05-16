@@ -4,9 +4,8 @@
     	"alertMessage": "Service object LoadBalancer has annotation 'service.beta.kubernetes.io/azure-load-balancer-internal' != 'true'.",
     	"packagename": "armo_builtins",
     	"alertScore": 7,
-    	"failedPaths": ["spec.metadata.annotations['service.beta.kubernetes.io/azure-load-balancer-internal']"],
-    	"fixPaths":[],
-        "fixCommand": "",
+    	"failedPaths": [],
+    	"fixPaths":[{"path": "metadata.annotations[service.beta.kubernetes.io/azure-load-balancer-internal]", "value": "true"}],
     	"alertObject": {
 			"k8sApiObjects": [
 				{
