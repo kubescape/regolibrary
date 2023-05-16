@@ -8,6 +8,8 @@ jobs:
     if: contains(github.event.comment.html_url, '/pull/')    # check if the comments come from pull request, exclude those from issue.
     runs-on: [ubuntu-latest]
     steps:
+    - name: Check out code
+        uses: actions/checkout@v3
     - name: say hello
       if: contains(github.event.comment.body, '/support')   # check the comment if it contains the keywords
       run: |
