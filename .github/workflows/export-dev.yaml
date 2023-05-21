@@ -1,7 +1,7 @@
 name: update-csvs
 on:
   push:
-    branches: [dev]
+    branches: [ master, main ]
 jobs:
   once:
     name: Build, Test, Create And Generate releaseDev
@@ -31,5 +31,5 @@ jobs:
       - name: Commit & Push changes
         uses: Andro999b/push@c77535fe7a94645f7ceca83e48e6cc977620710e
         with:
-          branch: dev
+          branch: [ master, main ] 
           github_token: ${{ secrets.GITHUB_TOKEN }}
