@@ -9,14 +9,16 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - name: Check out code
+        if: (github.actor == 'kubescape/sonar')
         uses: actions/checkout@v3
-        
+      # trigger system tests - TODO
+      # trigger release process - TODO 
       - name: say hello
-        if: contains(toLower(github.event.comment.body), '/support')  # check the comment if it contains the keywords
+        if: contains(toLower(github.event.comment.body), '/support') && (github.actor == 'kubescape/sonar') # check the comment if it contains the keywords
         run: |
           echo "Line 14 PR MSG"
           
       - name: test
-        if: contains(github.event.comment.body, '/test')  # check the comment if it contains the keywords
+        if: contains(github.event.comment.body, '/test') && (github.actor == 'kubescape/sonar') # check the comment if it contains the keywords
         run: |
           echo "Line 18 PR MSG"
