@@ -1,0 +1,36 @@
+{
+    "name": "encrypt-traffic-to-https-load-balancers-with-tls-certificates",
+    "attributes": {
+      "armoBuiltin": true,
+      "hostSensorRule": "false",
+      "imageScanRelated": false
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+          "apiGroups": [
+            ""
+          ],
+          "apiVersions": [
+            "v1"
+          ],
+          "resources": [
+            "Service"
+          ]
+        },
+        {
+          "apiGroups": [
+            "networking.k8s.io"
+          ],
+          "apiVersions": [
+            "v1"
+          ],
+          "resources": [
+            "Ingress"
+          ]
+        }
+    ],
+    "description": "Encrypt traffic to HTTPS load balancers using TLS certificates.",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}

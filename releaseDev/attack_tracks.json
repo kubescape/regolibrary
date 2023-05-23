@@ -3,7 +3,7 @@
         "apiVersion": "regolibrary.kubescape/v1alpha1",
         "kind": "AttackTrack",
         "metadata": {
-            "name": "container"
+            "name": "node"
         },
         "spec": {
             "version": null,
@@ -14,23 +14,13 @@
                         "name": "Execution",
                         "subSteps": [
                             {
-                                "name": "Privilege escalation"
+                                "name": "Persistence"
                             },
                             {
-                                "name": "Credential access",
-                                "subSteps": [
-                                    {
-                                        "name": "Impact - service access"
-                                    },
-                                    {
-                                        "name": "Impact - K8s API access",
-                                        "subSteps": [
-                                            {
-                                                "name": "Defense evasion - KubeAPI"
-                                            }
-                                        ]
-                                    }
-                                ]
+                                "name": "Credential access"
+                            },
+                            {
+                                "name": "Defense evasion"
                             },
                             {
                                 "name": "Discovery"
@@ -39,15 +29,15 @@
                                 "name": "Lateral movement"
                             },
                             {
-                                "name": "Impact - Data access in container"
+                                "name": "Impact - data theft"
                             },
                             {
-                                "name": "Persistence"
+                                "name": "Impact - data destruction"
+                            },
+                            {
+                                "name": "Impact - service injection"
                             }
                         ]
-                    },
-                    {
-                        "name": "Impact - service destruction"
                     }
                 ]
             }
@@ -96,7 +86,7 @@
         "apiVersion": "regolibrary.kubescape/v1alpha1",
         "kind": "AttackTrack",
         "metadata": {
-            "name": "node"
+            "name": "container"
         },
         "spec": {
             "version": null,
@@ -107,13 +97,23 @@
                         "name": "Execution",
                         "subSteps": [
                             {
-                                "name": "Persistence"
+                                "name": "Privilege escalation"
                             },
                             {
-                                "name": "Credential access"
-                            },
-                            {
-                                "name": "Defense evasion"
+                                "name": "Credential access",
+                                "subSteps": [
+                                    {
+                                        "name": "Impact - service access"
+                                    },
+                                    {
+                                        "name": "Impact - K8s API access",
+                                        "subSteps": [
+                                            {
+                                                "name": "Defense evasion - KubeAPI"
+                                            }
+                                        ]
+                                    }
+                                ]
                             },
                             {
                                 "name": "Discovery"
@@ -122,15 +122,15 @@
                                 "name": "Lateral movement"
                             },
                             {
-                                "name": "Impact - data theft"
+                                "name": "Impact - Data access in container"
                             },
                             {
-                                "name": "Impact - data destruction"
-                            },
-                            {
-                                "name": "Impact - service injection"
+                                "name": "Persistence"
                             }
                         ]
+                    },
+                    {
+                        "name": "Impact - service destruction"
                     }
                 ]
             }

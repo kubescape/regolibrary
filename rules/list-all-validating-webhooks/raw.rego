@@ -9,7 +9,7 @@ deny [msga] {
 		"alertMessage": sprintf("The following validating webhook configuration should be checked %v.", [admissionwebhook.metadata.name]),
 		"alertScore": 6,
 		"packagename": "armo_builtins",
-		"failedPaths": [""],
+		"failedPaths": [],
 		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [admissionwebhook]

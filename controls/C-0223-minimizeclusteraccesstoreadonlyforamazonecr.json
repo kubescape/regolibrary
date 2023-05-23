@@ -12,7 +12,7 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "ensure_nodeinstancerole_has_only_readonly_permissions_for_ecr"
+        "ensure_nodeinstancerole_has_right_permissions_for_ecr"
     ],
     "baseScore": 6,
     "impact_statement": "A separate dedicated service account may be required for use by build servers and other robot users pushing or managing container images.",

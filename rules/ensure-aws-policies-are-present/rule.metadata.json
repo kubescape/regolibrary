@@ -1,0 +1,28 @@
+{
+    "name": "ensure-aws-policies-are-present",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "dynamicMatch": [
+      {
+        "apiGroups": [
+          "eks.amazonaws.com"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "PolicyVersion"
+        ]
+      }
+    ],
+    "relevantCloudProviders": ["EKS"],
+    "ruleDependencies": [
+  
+    ],
+    "description": "fails if aws policies are not found",
+    "remediation": "Implement policies to minimize user access to Amazon ECR",
+    "ruleQuery": "armo_builtins"
+  }
+  

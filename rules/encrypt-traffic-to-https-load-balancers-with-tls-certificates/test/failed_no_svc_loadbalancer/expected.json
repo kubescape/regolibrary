@@ -1,0 +1,20 @@
+[
+	{
+        "alertMessage": "No LoadBalancer service found.",
+    	"packagename": "armo_builtins",
+    	"alertScore": 7,
+    	"failedPaths": [],
+    	"fixPaths":[],
+    	"alertObject": {
+			"k8sApiObjects": [
+				{
+					"apiVersion": "v1",
+					"kind": "Service",
+					"metadata": {
+					  "name": "rmq-external-service"
+					}
+				}
+			]
+        }
+    }
+]

@@ -1,0 +1,25 @@
+{
+    "name": "ensure-clusters-are-created-with-private-endpoint-enabled-and-public-access-disabled",
+    "attributes": {
+      "armoBuiltin": true,
+      "hostSensorRule": "false",
+      "imageScanRelated": false
+    },
+    "ruleLanguage": "Rego",
+    "dynamicMatch": [
+        {
+          "apiGroups": [
+            "management.azure.com"
+          ],
+          "apiVersions": [
+            "v1"
+          ],
+          "resources": [
+            "ClusterDescribe"
+          ]
+        }
+    ],
+    "description": "Disable access to the Kubernetes API from outside the node network if it is not required.",
+    "remediation": "To use a private endpoint, create a new private endpoint in your virtual network then create a link between your virtual network and a new private DNS zone",
+    "ruleQuery": "armo_builtins"
+}

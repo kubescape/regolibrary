@@ -1,0 +1,110 @@
+{
+    "apiVersion": "management.azure.com/v1",
+    "kind": "PolicyVersion",
+    "metadata": {
+     "name": "yiscah-abtwh-aks",
+     "provider": "aks"
+    },
+    "data": {
+      "roleDefinitions": [
+      {
+       "properties": {
+        "assignableScopes": [
+         "/"
+        ],
+        "description": "acr push",
+        "permissions": [
+         {
+          "actions": [
+           "Microsoft.ContainerRegistry/registries/pull/read",
+           "Microsoft.ContainerRegistry/registries/push/write"
+          ],
+          "notActions": []
+         }
+        ],
+        "roleName": "AcrPush",
+        "type": "BuiltInRole"
+       },
+       "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d198e/providers/Microsoft.Authorization/roleDefinitions/8311e382-0749-4cb8-b61a-304f252e45ec",
+       "name": "8311e382-0749-4cb8-b61a-304f252e45ec",
+       "type": "Microsoft.Authorization/roleDefinitions"
+      },
+      {
+       "properties": {
+        "assignableScopes": [
+         "/"
+        ],
+        "description": "Can manage service and the APIs",
+        "permissions": [
+         {
+          "actions": [
+           "Microsoft.ApiManagement/service/*",
+           "Microsoft.Authorization/*/read",
+           "Microsoft.Insights/alertRules/*",
+           "Microsoft.ResourceHealth/availabilityStatuses/read",
+           "Microsoft.Resources/deployments/*",
+           "Microsoft.Resources/subscriptions/resourceGroups/read",
+           "Microsoft.Support/*"
+          ],
+          "notActions": []
+         }
+        ],
+        "roleName": "API Management Service Contributor",
+        "type": "BuiltInRole"
+       },
+       "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d198e/providers/Microsoft.Authorization/roleDefinitions/312a565d-c81f-4fd8-895a-4e21e48d571c",
+       "name": "312a565d-c81f-4fd8-895a-4e21e48d571c",
+       "type": "Microsoft.Authorization/roleDefinitions"
+      },
+      {
+       "properties": {
+        "assignableScopes": [
+         "/"
+        ],
+        "description": "acr pull",
+        "permissions": [
+         {
+          "actions": [
+           "Microsoft.ContainerRegistry/registries/pull/read"
+          ],
+          "notActions": []
+         }
+        ],
+        "roleName": "AcrPull",
+        "type": "BuiltInRole"
+       },
+       "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d198e/providers/Microsoft.Authorization/roleDefinitions/7f951dda-4ed3-4680-a7ca-43fe172d538d",
+       "name": "7f951dda-4ed3-4680-a7ca-43fe172d538d",
+       "type": "Microsoft.Authorization/roleDefinitions"
+      },
+      {
+        "properties": {
+         "assignableScopes": [
+          "/"
+         ],
+         "description": "Grants full access to manage all resources, but does not allow you to assign roles in Azure RBAC, manage assignments in Azure Blueprints, or share image galleries.",
+         "permissions": [
+          {
+           "actions": [
+            "*"
+           ],
+           "notActions": [
+            "Microsoft.Authorization/*/Delete",
+            "Microsoft.Authorization/*/Write",
+            "Microsoft.Authorization/elevateAccess/Action",
+            "Microsoft.Blueprint/blueprintAssignments/write",
+            "Microsoft.Blueprint/blueprintAssignments/delete",
+            "Microsoft.Compute/galleries/share/action"
+           ]
+          }
+         ],
+         "roleName": "Contributor",
+         "type": "BuiltInRole"
+        },
+        "id": "/subscriptions/05fed2cc-041d-4c53-b4b8-a1aa128d198e/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+        "name": "b24988ac-6180-42a0-ab88-20f7382dd24c",
+        "type": "Microsoft.Authorization/roleDefinitions"
+       }
+     ]
+    }
+   }

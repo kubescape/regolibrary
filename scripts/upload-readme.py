@@ -182,11 +182,10 @@ def create_md_for_control(control):
             cloud_control = len(rule_obj['relevantCloudProviders']) > 0
 
     md_text = ''
-    md_text += '# %s\n' % control['name']
     if host_sensor:
-        md_text += '*Note: to enable this control run Kubescape with host sensor (see [here](https://hub.armo.cloud/docs/host-sensor))*\n'
+        md_text += '## Prerequisites\n*Run Kubescape with host sensor (see [here](https://hub.armo.cloud/docs/host-sensor))*\n'
     if cloud_control:
-        md_text += '*Note: this control relevant for cloud managed Kubernetes cluster*\n'
+        md_text += '## Prerequisites\n*Integrate with cloud provider (see [here](https://hub.armosec.io/docs/kubescape-integration-with-cloud-providers))*\n'
     md_text += '## Framework\n'
     md_text += ', '.join(get_frameworks_for_control(control)) + '\n'
     md_text += '## Severity\n'
