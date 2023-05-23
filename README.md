@@ -307,7 +307,6 @@ The following controls are not supported in the OPA bundles:
 - C-0083 - Workloads with critical vulnerabilities exposed to external traffic
 <!-- End of OPA bundles removed controls -->
 
-
 ## Support & Communication
 Reach out if you have any questions:
 
