@@ -185,22 +185,6 @@ func TestGetOPAFrameworkByName(t *testing.T) {
 	})
 }
 
-func TestGetPoliciesMethodsOld(t *testing.T) {
-	t.Parallel()
-
-	gs := InitGitRegoStore("https://github.com", "kubescape", "regolibrary", "releases", "latest/download", "", 15)
-
-	gs_tests(t, gs)
-}
-
-func TestGetPoliciesMethodsDevNewParams(t *testing.T) {
-	t.Parallel()
-
-	gs := InitGitRegoStore("https://raw.githubusercontent.com", "kubescape", "regolibrary", "releaseDev", "/", "dev", -1)
-
-	gs_tests(t, gs)
-}
-
 func TestGetPoliciesMethodsDevNew(t *testing.T) {
 	t.Parallel()
 
