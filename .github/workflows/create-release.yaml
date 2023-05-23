@@ -173,7 +173,7 @@ jobs:
           files: '${{ env.REGO_ARTIFACT_PATH }}/*'
 
   # Update regolibrary documentation with latest controls and rules. 
-  Update documentation:
+  update-documentation:
     needs: [release]
     runs-on: ubuntu-latest
     steps:
