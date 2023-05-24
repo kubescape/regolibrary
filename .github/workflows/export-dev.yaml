@@ -1,4 +1,4 @@
-name: export release files
+name: export releaseDev files
 on:
   push:
     branches: [ master, main ]
