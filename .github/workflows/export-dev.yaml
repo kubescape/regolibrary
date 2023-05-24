@@ -1,4 +1,4 @@
-name: update-csvs
+name: export releaseDev files
 on:
   push:
     branches: [ master, main ]
@@ -29,7 +29,8 @@ jobs:
         run: git add .
 
       - name: Commit & Push changes
-        uses: Andro999b/push@c77535fe7a94645f7ceca83e48e6cc977620710e
+        uses: actions-js/push@master
         with:
-          branch: master 
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
+          message: 'Overwritten by Github Actions - ${date}'
