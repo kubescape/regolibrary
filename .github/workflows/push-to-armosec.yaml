@@ -8,7 +8,10 @@ on:
 jobs:
   push:
     runs-on: ubuntu-latest
-    
+    env:
+      PRIVATE_REPO_URL: <private-repo-url>
+      PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
+      PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -16,7 +19,7 @@ jobs:
       - name: Configure Git Credentials
         run: |
           git config --global user.name "${PRIVATE_REPO_USERNAME}"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "${PRIVATE_REPO_EMAIL}"
 
       - name: Push Changes
         run: |
