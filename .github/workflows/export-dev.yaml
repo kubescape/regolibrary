@@ -6,6 +6,8 @@ jobs:
   once:
     name: Build, Test, Create And Generate releaseDev
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Code checkout
         uses: actions/checkout@v3
