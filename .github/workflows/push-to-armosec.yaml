@@ -15,6 +15,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Run export script
+        run: |
+          OUTPUT=pre-release python ./scripts/export.py
+          rm -r releaseDev
+          cp -R pre-release releaseDev
+
       - name: Configure Git Credentials
         run: |
           git config --global user.name "${PRIVATE_REPO_USERNAME}"
