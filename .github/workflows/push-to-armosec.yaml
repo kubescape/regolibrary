@@ -14,12 +14,12 @@ jobs:
 
       - name: Configure Git Credentials
         run: |
-          git config --global user.name "${PRIVATE_REPO_USERNAME}"
-          git config --global user.email "${PRIVATE_REPO_EMAIL}"
+          git config --global user.name "${ secrets.PRIVATE_REPO_USERNAME }"
+          git config --global user.email "${ secrets.PRIVATE_REPO_EMAIL }"
 
       - name: Push Changes
         run: |
-          git remote add private-repo "${PRIVATE_ARMOSEC_URL}"
+          git remote add private-repo "${ secrets.PRIVATE_ARMOSEC_URL }"
           git checkout -b temp-branch
           git add .
           git commit -m "Pushing changes from source repo"
