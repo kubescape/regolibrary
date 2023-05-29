@@ -43,12 +43,6 @@
                             "name": "Impact - service destruction"
                         }
                     ]
-                },
-                {
-                    "name": "Exploitable Image",
-                    "subSteps": [
-                        {}
-                    ]
                 }
             ]
         }
