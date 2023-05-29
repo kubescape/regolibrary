@@ -8,8 +8,9 @@ env:
   PRIVATE_REPO_URL: ${{ secrets.PRIVATE_ARMOSEC_URL }}
   PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
   PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
+  PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
 jobs:
-  push:
+  push-releasedev-to-armosec:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
