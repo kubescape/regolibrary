@@ -7,15 +7,15 @@ on:
 jobs:
   push-releasedev-to-armosec:
     runs-on: ubuntu-latest
+    env:
+      PRIVATE_REPO_URL: ${{ secrets.PRIVATE_ARMOSEC_URL }}
+      PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
+      PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
+      PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
     steps:
 
       - name: check if the necessary secrets are set in github secrets
         id: check-secret-set
-        env:
-          PRIVATE_REPO_URL: ${{ secrets.PRIVATE_ARMOSEC_URL }}
-          PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
-          PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
-          PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
 
         run: |
               env_vars=("PRIVATE_ARMOSEC_URL" "PRIVATE_REPO_USERNAME" "PRIVATE_REPO_TOKEN" "PRIVATE_REPO_EMAIL")
