@@ -7,12 +7,29 @@ on:
 jobs:
   push-releasedev-to-armosec:
     runs-on: ubuntu-latest
-    env:
-      PRIVATE_REPO_URL: ${{ secrets.PRIVATE_ARMOSEC_URL }}
-      PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
-      PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
-      PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
     steps:
+
+      - name: check if the necessary secrets are set in github secrets
+        id: check-secret-set
+        env:
+          PRIVATE_REPO_URL: ${{ secrets.PRIVATE_ARMOSEC_URL }}
+          PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
+          PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
+          PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
+
+        run: |
+              env_vars=("CUSTOMER" "USERNAME" "PASSWORD" "CLIENT_ID" "SECRET_KEY" "REGISTRY_USERNAME" "REGISTRY_PASSWORD")
+              
+              for var_name in "${env_vars[@]}"; do
+                var_value="${!var_name}"
+                if [[ -z "${var_value// /}" ]]; then
+                  echo "Environment variable '$var_name' is empty, null, or contains only whitespace. Failing the workflow."
+                  exit 1
+                fi
+              done
+              
+              echo "All environment variables are valid. Proceeding with the workflow."
+
       - name: Checkout Repository
         uses: actions/checkout@v3
 
@@ -21,6 +38,22 @@ jobs:
           OUTPUT=pre-release python ./scripts/export.py
           rm -r releaseDev
           cp -R pre-release releaseDev
+
+      - name: Configure Git Credentials
+
+        env:
+          PRIVATE_REPO_URL: ${{ secrets.PRIVATE_ARMOSEC_URL }}
+          PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
+          PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
+          PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PRIVATE_REPO_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git config --global user.name "${PRIVATE_REPO_USERNAME}"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+    
 
       - name: Configure Git Credentials
         run: |
