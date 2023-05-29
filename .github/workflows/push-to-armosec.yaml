@@ -4,14 +4,14 @@ on:
   pull_request:
     branches:
       - master
-env:
-  PRIVATE_REPO_URL: ${{ secrets.PRIVATE_ARMOSEC_URL }}
-  PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
-  PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
-  PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
 jobs:
   push-releasedev-to-armosec:
     runs-on: ubuntu-latest
+    env:
+      PRIVATE_REPO_URL: ${{ secrets.PRIVATE_ARMOSEC_URL }}
+      PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
+      PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
+      PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
