@@ -16,20 +16,16 @@
                             "name": "Privilege escalation"
                         },
                         {
-                            "name": "Credential access",
-                            "subSteps": [
-                                {
-                                    "name": "Impact - service access"
-                                },
-                                {
-                                    "name": "Impact - K8s API access",
-                                    "subSteps": [
-                                        {
-                                            "name": "Defense evasion - KubeAPI"
-                                        }
-                                    ]
-                                }
-                            ]
+                            "name": "Credential access"
+                        },
+                        {
+                            "name": "Impact - service access"
+                        },
+                        {
+                            "name": "Impact - K8s API access"
+                        },
+                        {
+                            "name": "Defense evasion - KubeAPI"
                         },
                         {
                             "name": "Discovery"
@@ -42,11 +38,17 @@
                         },
                         {
                             "name": "Persistence"
+                        },
+                        {
+                            "name": "Impact - service destruction"
                         }
                     ]
                 },
                 {
-                    "name": "Impact - service destruction"
+                    "name": "Exploitable Image",
+                    "subSteps": [
+                        {}
+                    ]
                 }
             ]
         }
