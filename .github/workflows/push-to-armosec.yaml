@@ -18,7 +18,7 @@ jobs:
           PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
 
         run: |
-              env_vars=("CUSTOMER" "USERNAME" "PASSWORD" "CLIENT_ID" "SECRET_KEY" "REGISTRY_USERNAME" "REGISTRY_PASSWORD")
+              env_vars=("PRIVATE_ARMOSEC_URL" "PRIVATE_REPO_USERNAME" "PRIVATE_REPO_TOKEN" "PRIVATE_REPO_EMAIL")
               
               for var_name in "${env_vars[@]}"; do
                 var_value="${!var_name}"
