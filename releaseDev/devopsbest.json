@@ -785,6 +785,54 @@
                     "rule": "package armo_builtins\n# Deny mutating action unless user is in group owning the resource\n\n\n\ndeny[msga] {\n\n\tpod := input[_]\n\tpod.kind == \"Pod\"\n\tfixPath := no_K8s_label_or_no_K8s_label_usage(pod, \"\")\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"in the following pod the kubernetes common labels are not defined: %v\", [pod.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 1,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": fixPath,\n         \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n     }\n}\n\n\ndeny[msga] {\n\twl := input[_]\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n\tpodSpec := wl.spec.template\n\tbeggining_of_pod_path := \"spec.template.\"\n\tfixPath := no_K8s_label_usage(wl, podSpec, beggining_of_pod_path)\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"%v: %v the kubernetes common labels are is not defined:\", [wl.kind, wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 1,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": fixPath,\n         \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n     }\n}\n\n#handles cronjob\ndeny[msga] {\n\twl := input[_]\n\twl.kind == \"CronJob\"\n\tpodSpec := wl.spec.jobTemplate.spec.template\n\tbeggining_of_pod_path := \"spec.jobTemplate.spec.template.\"\n\tfixPath := no_K8s_label_usage(wl, podSpec, beggining_of_pod_path)\n\n\n    msga := {\n\t\t\"alertMessage\": sprintf(\"the following cronjobs the kubernetes common labels are not defined: %v\", [wl.metadata.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 1,\n\t\t\"failedPaths\": [],\n\t\t\"fixPaths\": fixPath,\n         \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n     }\n}\n\n\n\n# There is no label-usage in WL and also for his Pod\nno_K8s_label_usage(wl, podSpec, beggining_of_pod_path) = path{\n\tpath1 := no_K8s_label_or_no_K8s_label_usage(wl, \"\")\n\tpath2 := no_K8s_label_or_no_K8s_label_usage(podSpec, beggining_of_pod_path)\n\tpath = array.concat(path1, path2)\n}\n\n# There is label-usage for WL but not for his Pod\nno_K8s_label_usage(wl, podSpec, beggining_of_pod_path) = path{\n\tnot no_K8s_label_or_no_K8s_label_usage(wl, \"\")\n\tpath := no_K8s_label_or_no_K8s_label_usage(podSpec, beggining_of_pod_path)\n}\n\n# There is no label-usage for WL but there is for his Pod\nno_K8s_label_usage(wl, podSpec, beggining_of_pod_path) = path{\n\tnot no_K8s_label_or_no_K8s_label_usage(podSpec, beggining_of_pod_path)\n\tpath := no_K8s_label_or_no_K8s_label_usage(wl, \"\")\n}\n\nno_K8s_label_or_no_K8s_label_usage(wl, beggining_of_path) = path{\n\tnot wl.metadata.labels\n\tpath = [{\"path\": sprintf(\"%vmetadata.labels\", [beggining_of_path]), \"value\": \"YOUR_VALUE\"}]\n}\n\nno_K8s_label_or_no_K8s_label_usage(wl, beggining_of_path) = path{\n\tmetadata := wl.metadata\n\tnot metadata.labels\n\tpath = [{\"path\": sprintf(\"%vmetadata.labels\", [beggining_of_path]), \"value\": \"YOUR_VALUE\"}]\n}\n\nno_K8s_label_or_no_K8s_label_usage(wl, beggining_of_path) = path{\n\tlabels := wl.metadata.labels\n\tnot all_kubernetes_labels(labels)\n\tpath = [{\"path\": sprintf(\"%vmetadata.labels\", [beggining_of_path]), \"value\": \"YOUR_VALUE\"}]\n}\n\nall_kubernetes_labels(labels){\n\trecommended_labels := data.postureControlInputs.k8sRecommendedLabels\n\trecommended_label := recommended_labels[_]\n\tlabels[recommended_label]\n}\n"
                 }
             ]
+        },
+        {
+            "name": "Deprecated Kubernetes image registry",
+            "attributes": {
+                "armoBuiltin": true
+            },
+            "description": "Kubernetes team has deprecated GCR (k8s.gcr.io) registry and recommends pulling Kubernetes components from the new registry (registry.k8s.io). This is mandatory from 1.27",
+            "remediation": "Change the images to be pulled from the new registry (registry.k8s.io).",
+            "long_description": "Kubernetes team has deprecated GCR (k8s.gcr.io) registry and recommends pulling Kubernetes components from the new registry (registry.k8s.io). This is mandatory from 1.27",
+            "test": "Checking images in kube-system namespace, if the registry of the image is from the old registry we raise an alert.",
+            "controlID": "C-0253",
+            "baseScore": 5.0,
+            "example": "@controls/examples/c239.yaml",
+            "rules": [
+                {
+                    "name": "rule-identify-old-k8s-registry",
+                    "attributes": {
+                        "m$K8sThreatMatrix": "Initial Access::Compromised images in registry",
+                        "armoBuiltin": true
+                    },
+                    "ruleLanguage": "Rego",
+                    "match": [
+                        {
+                            "apiGroups": [
+                                "*"
+                            ],
+                            "apiVersions": [
+                                "*"
+                            ],
+                            "resources": [
+                                "Pod",
+                                "Deployment",
+                                "ReplicaSet",
+                                "DaemonSet",
+                                "StatefulSet",
+                                "Job",
+                                "CronJob"
+                            ]
+                        }
+                    ],
+                    "ruleDependencies": [],
+                    "description": "Identifying if pod container images are from deprecated K8s registry",
+                    "remediation": "Use images new registry",
+                    "ruleQuery": "",
+                    "rule": "package armo_builtins\nimport data\n\ndeprecatedK8sRepo[msga] {\n\tpod := input[_]\n\tpod.metadata.namespace == \"kube-system\"\n\tk := pod.kind\n\tk == \"Pod\"\n\tcontainer := pod.spec.containers[i]\n\tpath := sprintf(\"spec.containers[%v].image\", [format_int(i, 10)])\n\timage := container.image\n    deprecated_registry(image)\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"image '%v' in container '%s' comes from the deprecated k8s.gcr.io\", [image, container.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 2,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n         \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [pod]\n\t\t}\n    }\n}\n\ndeprecatedK8sRepo[msga] {\n\twl := input[_]\n\twl.metadata.namespace == \"kube-system\"\n\tspec_template_spec_patterns := {\"Deployment\",\"ReplicaSet\",\"DaemonSet\",\"StatefulSet\",\"Job\"}\n\tspec_template_spec_patterns[wl.kind]\n\tcontainer := wl.spec.template.spec.containers[i]\n\tpath := sprintf(\"spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n\timage := container.image\n    deprecated_registry(image)\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"image '%v' in container '%s' comes from the deprecated k8s.gcr.io\", [image, container.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 2,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n         \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n    }\n}\n\ndeprecatedK8sRepo[msga] {\n\twl := input[_]\n\twl.metadata.namespace == \"kube-system\"\n\twl.kind == \"CronJob\"\n\tcontainer := wl.spec.jobTemplate.spec.template.spec.containers[i]\n\tpath := sprintf(\"spec.jobTemplate.spec.template.spec.containers[%v].image\", [format_int(i, 10)])\n\timage := container.image\n    deprecated_registry(image)\n\n\tmsga := {\n\t\t\"alertMessage\": sprintf(\"image '%v' in container '%s' comes from the deprecated k8s.gcr.io\", [image, container.name]),\n\t\t\"packagename\": \"armo_builtins\",\n\t\t\"alertScore\": 2,\n\t\t\"fixPaths\": [],\n\t\t\"failedPaths\": [path],\n        \"alertObject\": {\n\t\t\t\"k8sApiObjects\": [wl]\n\t\t}\n    }\n}\n\ndeprecated_registry(image){\n\tstartswith(image, \"k8s.gcr.io/\")\n}\n",
+                    "resourceEnumerator": "package armo_builtins\n\nimport future.keywords.in\n\ndeny[msg] {\n\t# find aggregated API APIServices\n\tobj = input[_]\n\tobj.metadata.namespace == \"kube-system\"\n\tmsg := {\"alertObject\": {\"k8sApiObjects\": [obj]}}\n}\n\n"
+                }
+            ]
         }
     ],
     "ControlsIDs": [
@@ -798,6 +846,7 @@
         "C-0074",
         "C-0075",
         "C-0076",
-        "C-0077"
+        "C-0077",
+        "C-0253"
     ]
 }

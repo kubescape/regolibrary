@@ -1,0 +1,21 @@
+
+[
+	{
+    	"alertMessage": "Ingress object has 'spec.tls' value not set.",
+    	"packagename": "armo_builtins",
+    	"alertScore": 7,
+    	"failedPaths": ["spec.tls"],
+    	"fixPaths":[],
+    	"alertObject": {
+			"k8sApiObjects": [
+				{
+					"apiVersion": "networking.k8s.io/v1",
+					"kind": "Ingress",
+					"metadata": {
+					  "name": "aspnetapp"
+					}
+				}
+			]
+        }
+    }
+]

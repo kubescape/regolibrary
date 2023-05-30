@@ -1,0 +1,20 @@
+{
+    "controlID": "C-0248",
+    "name": "Ensure clusters are created with Private Nodes",
+    "description": "Disable public IP addresses for cluster nodes, so that they only have private IP addresses. Private Nodes are nodes with no public IP addresses.",
+    "long_description": "Disabling public IP addresses on cluster nodes restricts access to only internal networks, forcing attackers to obtain local network access before attempting to compromise the underlying Kubernetes hosts.",
+    "remediation": "\n```\naz aks create \\\n--resource-group <private-cluster-resource-group> \\\n--name <private-cluster-name> \\\n--load-balancer-sku standard \\\n--enable-private-cluster \\\n--network-plugin azure \\\n--vnet-subnet-id <subnet-id> \\\n--docker-bridge-address \\\n--dns-service-ip \\\n--service-cidr \n\n```\n Where `--enable-private-cluster` is a mandatory flag for a private cluster.",
+    "manual_test": "",
+    "references": [
+        "<https://learn.microsoft.com/en-us/azure/aks/private-clusters>"
+    ],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "ensure-clusters-are-created-with-private-nodes"
+    ],
+    "baseScore": 8,
+    "impact_statement": "To enable Private Nodes, the cluster has to also be configured with a private master IP range and IP Aliasing enabled.\n\n Private Nodes do not have outbound access to the public internet. If you want to provide outbound Internet access for your private nodes, you can use Cloud NAT or you can manage your own NAT gateway.",
+    "default_value": ""
+}

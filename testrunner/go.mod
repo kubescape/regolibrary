@@ -7,7 +7,6 @@ require (
 	github.com/golang/glog v1.0.0
 	github.com/kubescape/k8s-interface v0.0.89
 	github.com/kubescape/opa-utils v0.0.204
-	github.com/nsf/jsondiff v0.0.0-20210926074059-1e845ec5d249
 	github.com/open-policy-agent/opa v0.45.0
 	github.com/stretchr/testify v1.8.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -46,7 +45,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sso v1.11.11 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.16.9 // indirect
 	github.com/aws/smithy-go v1.12.0 // indirect
-	github.com/bytecodealliance/wasmtime-go v1.0.0 // indirect
 	github.com/coreos/go-oidc v2.2.1+incompatible // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dimchansky/utfbom v1.1.1 // indirect
@@ -78,7 +76,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kr/pretty v0.2.1 // indirect
 	github.com/kubescape/go-logger v0.0.6 // indirect
-	github.com/kubescape/rbac-utils v0.0.19 // indirect
+	github.com/kubescape/rbac-utils v0.0.20 // indirect
 	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect

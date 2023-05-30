@@ -1,71 +1,31 @@
 {
-    "name": "access-container-service-account-v1",
-    "attributes": {
-      "m$K8sThreatMatrix": "Credential Access::Access container service account, Lateral Movement::Container service account",
-      "armoBuiltin": true,
-      "useFromKubescapeVersion": "v1.0.133"
-    },
-    "ruleLanguage": "Rego",
-    "match": [
-      {
-        "apiGroups": [
-          ""
-        ],
-        "apiVersions": [
-          "v1"
-        ],
-        "resources": [
-          "Pod",
-          "ServiceAccount"
-        ]
-      },
-      {
-        "apiGroups": [
-          "apps"
-        ],
-        "apiVersions": [
-          "v1"
-        ],
-        "resources": [
-            "Deployment",
-            "ReplicaSet",
-            "DaemonSet",
-            "StatefulSet"
-        ]
-      },
-      {
-        "apiGroups": [
-          "batch"
-        ],
-        "apiVersions": [
-          "*"
-        ],
-        "resources": [
-            "Job",
-            "CronJob"
-        ]
-      },
-      {
-        "apiGroups": [
-          "rbac.authorization.k8s.io"
-        ],
-        "apiVersions": [
-          "v1"
-        ],
-        "resources": [
-          "RoleBinding",
-          "ClusterRoleBinding",
-          "Role",
-          "ClusterRole"
-        ]
-      }
-    ],
-    "ruleDependencies": [
-  
-    ],
-    "description": "determines which service accounts can be used to access other resources in the cluster",
-    "remediation": "",
-    "ruleQuery": "armo_builtins",
-    "resourceCount": "subjects"
-  }
-  
+  "name": "access-container-service-account-v1",
+  "attributes": {
+    "m$K8sThreatMatrix": "Credential Access::Access container service account, Lateral Movement::Container service account",
+    "armoBuiltin": true,
+    "resourcesAggregator": "subject-role-rolebinding",
+    "useFromKubescapeVersion": "v1.0.133"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "rbac.authorization.k8s.io"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "RoleBinding",
+        "ClusterRoleBinding",
+        "Role",
+        "ClusterRole"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "determines which service accounts can be used to access other resources in the cluster",
+  "remediation": "",
+  "ruleQuery": "armo_builtins",
+  "resourceCount": "subjects"
+}

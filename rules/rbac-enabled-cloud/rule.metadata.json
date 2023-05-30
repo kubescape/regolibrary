@@ -1,7 +1,7 @@
 {
     "name": "rbac-enabled-cloud",
     "attributes": {
-    "armoBuiltin": true
+    	"armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [
@@ -17,8 +17,28 @@
     "dynamicMatch": [
       {
         "apiGroups": [
-          "management.azure.com",
-          "container.googleapis.com",
+          "management.azure.com"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "ClusterDescribe"
+        ]
+      },
+      {
+        "apiGroups": [
+          "container.googleapis.com"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "ClusterDescribe"
+        ]
+      },
+      {
+        "apiGroups": [
           "eks.amazonaws.com"
         ],
         "apiVersions": [

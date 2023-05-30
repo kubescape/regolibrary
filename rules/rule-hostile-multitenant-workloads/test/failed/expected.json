@@ -1,0 +1,10 @@
+[
+    {
+		"alertMessage": "Please check it manually.",
+		"packagename": "armo_builtins",
+		"alertScore": 2,
+		"fixPaths": [],
+		"failedPaths": [],
+        "alertObject": {}
+    }
+]

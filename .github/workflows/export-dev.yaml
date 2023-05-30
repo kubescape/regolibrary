@@ -1,23 +1,16 @@
-name: update-csvs
+name: export releaseDev files
 on:
   push:
-    branches: [dev]
+    branches: [ master, main ]
 jobs:
   once:
-    name: Build, Test, Create And Generate releaseDev
+    name: Build And Generate releaseDev
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@50fbc622fc4ef5163becd7fab6573eac35f8462e
-      - name: Set up Go
-        uses: actions/setup-go@bfdd3570ce990073878bf10f6b2d79082de49492
-        with:
-          go-version: 1.19
-
-      - name: Test Regoes
-        working-directory: testrunner
-        run: |
-          apt update && apt install -y cmake
-          GOPATH=$(go env GOPATH) make
+      - name: Code checkout
+        uses: actions/checkout@v3
           
       - name: Run export script
         run: |
@@ -25,11 +18,14 @@ jobs:
           rm -r releaseDev
           cp -R pre-release releaseDev
 
-      - name: stage changed files
-        run: git add .
+      - name: Commit files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "Updating releaseDev files"
 
-      - name: Commit & Push changes
-        uses: Andro999b/push@c77535fe7a94645f7ceca83e48e6cc977620710e
+      - name: Push changes
+        uses: ad-m/github-push-action@master
         with:
-          branch: dev
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master

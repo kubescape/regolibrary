@@ -1,0 +1,27 @@
+{
+  "name": "rule-cni-enabled-aks",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "management.azure.com"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "ClusterDescribe"
+      ]
+    }
+  ],
+  "relevantCloudProviders": [
+    "AKS"
+  ],
+  "ruleDependencies": [],
+  "description": "",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

@@ -23,7 +23,7 @@ deny[msga] {
 		"alertMessage": sprintf("wl: %v is in the cluster", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": [""],
+		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],
 			"externalObjects": wlvector
