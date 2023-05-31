@@ -328,8 +328,8 @@
                 "designatorType": "Attributes",
                 "attributes": {
                     "kind": "DaemonSet",
-                    "name": "kubescape",
-                    "namespace": "host-scanner"
+                    "name": "host-scanner",
+                    "namespace": "kubescape"
                 }
             }
         ],
