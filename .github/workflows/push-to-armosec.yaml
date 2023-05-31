@@ -39,31 +39,31 @@ jobs:
           rm -r releaseDev
           cp -R pre-release releaseDev
 
-      - name: Configure Git Credentials
+      # - name: Configure Git Credentials
 
-        env:
-          PRIVATE_REPO_URL: ${{ secrets.PRIVATE_ARMOSEC_URL }}
-          PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
-          PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
-          PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.PRIVATE_REPO_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          git config --global user.name "${PRIVATE_REPO_USERNAME}"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      #   env:
+      #     PRIVATE_REPO_URL: ${{ secrets.PRIVATE_ARMOSEC_URL }}
+      #     PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
+      #     PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
+      #     PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     echo "${{ secrets.PRIVATE_REPO_SSH_KEY }}" > ~/.ssh/id_rsa
+      #     chmod 600 ~/.ssh/id_rsa
+      #     ssh-keyscan github.com >> ~/.ssh/known_hosts
+      #     git config --global user.name "${PRIVATE_REPO_USERNAME}"
+      #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
     
 
-      - name: Configure Git Credentials
-        run: |
-          git config --global user.name "${PRIVATE_REPO_USERNAME}"
-          git config --global user.email "${PRIVATE_REPO_EMAIL}"
+      # - name: Configure Git Credentials
+      #   run: |
+      #     git config --global user.name "${PRIVATE_REPO_USERNAME}"
+      #     git config --global user.email "${PRIVATE_REPO_EMAIL}"
 
-      - name: Push Changes
-        run: |
-          git remote add private-repo "${PRIVATE_ARMOSEC_URL}"
-          git checkout -b temp-branch
-          git add .
-          git commit -m "Pushing changes from source repo"
-          git push private-repo temp-branch:main
+      # - name: Push Changes
+      #   run: |
+      #     git remote add private-repo "${PRIVATE_ARMOSEC_URL}"
+      #     git checkout -b temp-branch
+      #     git add .
+      #     git commit -m "Pushing changes from source repo"
+      #     git push private-repo temp-branch:main
