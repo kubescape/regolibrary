@@ -306,8 +306,6 @@
             
         ]
     },
-
-
     {
         "name": "exclude-kubescape-host-scanner-resources",
         "policyType": "postureExceptionPolicy",
@@ -324,6 +322,14 @@
                     "kind": "DaemonSet",
                     "name": "host-scanner",
                     "namespace": "kubescape-host-scanner"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "name": "kubescape",
+                    "namespace": "host-scanner"
                 }
             }
         ],
