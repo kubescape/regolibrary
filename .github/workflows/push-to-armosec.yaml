@@ -1,69 +1,35 @@
-name: Push to Armosec Repo
+name: Push to regolibrary-dev
 
 on:
   pull_request:
     branches:
       - master
+
 jobs:
-  push-releasedev-to-armosec:
+  build:
     runs-on: ubuntu-latest
-    env:
-      PRIVATE_REPO_URL: ${{ secrets.PRIVATE_ARMOSEC_URL }}
-      PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
-      PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
-      PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
     steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
+        token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
-      - name: check if the necessary secrets are set in github secrets
-        id: check-secret-set
+    - name: Run export script
+      run: |
+        OUTPUT=pre-release python ./scripts/export.py
+        rm -r releaseDev
+        cp -R pre-release releaseDev
+        
+    - name: Commit files
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -a -m "Add changes"
 
-        run: |
-              env_vars=("PRIVATE_ARMOSEC_URL" "PRIVATE_REPO_USERNAME" "PRIVATE_REPO_TOKEN" "PRIVATE_REPO_EMAIL")
-              
-              for var_name in "${env_vars[@]}"; do
-                var_value="${!var_name}"
-                if [[ -z "${var_value// /}" ]]; then
-                  echo "Environment variable '$var_name' is empty, null, or contains only whitespace. Failing the workflow."
-                  exit 1
-                fi
-              done
-              
-              echo "All environment variables are valid. Proceeding with the workflow."
-
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Run export script
-        run: |
-          OUTPUT=pre-release python ./scripts/export.py
-          rm -r releaseDev
-          cp -R pre-release releaseDev
-
-      # - name: Configure Git Credentials
-
-      #   env:
-      #     PRIVATE_REPO_URL: ${{ secrets.PRIVATE_ARMOSEC_URL }}
-      #     PRIVATE_REPO_USERNAME: ${{ secrets.PRIVATE_REPO_USERNAME }}
-      #     PRIVATE_REPO_TOKEN: ${{ secrets.PRIVATE_REPO_TOKEN }}
-      #     PRIVATE_REPO_EMAIL: ${{ secrets.PRIVATE_REPO_EMAIL }}
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     echo "${{ secrets.PRIVATE_REPO_SSH_KEY }}" > ~/.ssh/id_rsa
-      #     chmod 600 ~/.ssh/id_rsa
-      #     ssh-keyscan github.com >> ~/.ssh/known_hosts
-      #     git config --global user.name "${PRIVATE_REPO_USERNAME}"
-      #     git config --global user.email "github-actions[bot]@users.noreply.github.com"
-    
-
-      # - name: Configure Git Credentials
-      #   run: |
-      #     git config --global user.name "${PRIVATE_REPO_USERNAME}"
-      #     git config --global user.email "${PRIVATE_REPO_EMAIL}"
-
-      # - name: Push Changes
-      #   run: |
-      #     git remote add private-repo "${PRIVATE_ARMOSEC_URL}"
-      #     git checkout -b temp-branch
-      #     git add .
-      #     git commit -m "Pushing changes from source repo"
-      #     git push private-repo temp-branch:main
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        repository: kubescape/regolibrary-dev
+        force: true
