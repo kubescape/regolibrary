@@ -15,10 +15,7 @@ jobs:
         token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
     - name: Run export script
-      run: |
-        OUTPUT=pre-release python ./scripts/export.py
-        rm -r releaseDev
-        cp -R pre-release releaseDev
+      run: OUTPUT=releaseDev python ./scripts/export.py
 
     - name: Commit files
       run: |
