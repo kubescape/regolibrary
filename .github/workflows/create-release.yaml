@@ -39,7 +39,6 @@ jobs:
 
   # build regolibrary artifacts / test rego dependencies / test rego unit-tests 
   build-and-rego-test:
-    # if: endsWith(github.ref, 'main') == true
     needs: [test_pr_checks]
     name: Build and test rego artifacts
     runs-on: ubuntu-latest

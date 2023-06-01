@@ -76,11 +76,12 @@ jobs:
       - name: Update frameworks subsections
         run: bash ./scripts/generate_subsections_ids.sh
 
-      # run export script to generate regolibrary artifacts 
+      # run export script to generate regolibrary artifacts
+      # releaseDev clean up is for old compatability. should be removed at end of 2023.
       - name: Run export script
         run: |
           OUTPUT=pre-release python ./scripts/export.py
-          rm -r releaseDev
+          rm -r -f releaseDev
           cp -R pre-release releaseDev
 
       - name: Set outputs
@@ -124,3 +125,15 @@ jobs:
                       ]'
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
     secrets: inherit
+  
+  clean-up:
+    name: Remove pre-release folder and clean up
+    runs-on: ubuntu-latest
+    needs: [ks-and-rego-test]
+    steps:
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
+        name: checkout repo content
+        with:
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      - name: Remove pre-release folder
+        run: rm -r -f pre-release
