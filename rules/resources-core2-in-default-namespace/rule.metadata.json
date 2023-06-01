@@ -15,7 +15,6 @@
         "resources": [
           "ReplicationController",
           "ResourceQuota",
-          "Secret",
           "ServiceAccount",
           "Service"
         ]

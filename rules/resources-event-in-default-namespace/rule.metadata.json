@@ -1,5 +1,5 @@
 {
-    "name": "resources-other2-in-default-namespace",
+    "name": "resources-event-in-default-namespace",
     "attributes": {
       "armoBuiltin": true
     },
@@ -7,36 +7,24 @@
     "match": [
       {
         "apiGroups": [
-          "networking.k8s.io"
+          "events.k8s.io"
         ],
         "apiVersions": [
           "v1"
         ],
         "resources": [
-            "Ingress",
-            "NetworkPolicy"
+            "Event"
         ]
       },
       {
         "apiGroups": [
-          "policy"
+          ""
         ],
         "apiVersions": [
           "v1"
         ],
         "resources": [
-            "PodDisruptionBudget"
-        ]
-      },
-      {
-        "apiGroups": [
-          "storage.k8s.io"
-        ],
-        "apiVersions": [
-          "v1beta1"
-        ],
-        "resources": [
-            "CSIStorageCapacity"
+            "Event"
         ]
       }
     ],

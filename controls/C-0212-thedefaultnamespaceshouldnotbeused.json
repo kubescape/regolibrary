@@ -18,7 +18,9 @@
         "resources-core1-in-default-namespace",
         "resources-core2-in-default-namespace",
         "resources-other1-in-default-namespace",
-        "resources-other2-in-default-namespace"
+        "resources-other2-in-default-namespace",
+        "resources-secret-in-default-namespace",
+        "resources-event-in-default-namespace"
     ],
     "baseScore": 4,
     "impact_statement": "None",
