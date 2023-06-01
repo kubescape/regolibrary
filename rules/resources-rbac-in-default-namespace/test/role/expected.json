@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Role: allow-port-forward is in the 'default' namespace",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "metadata.namespace",
+                "value": "YOUR_NAMESPACE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "rbac.authorization.k8s.io/v1",
+                    "kind": "Role",
+                    "metadata": {
+                        "name": "allow-port-forward"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -2,11 +2,6 @@ package armo_builtins
 
 deny[msga] {
     resource := input[_]
-	resource_kinds := {"ConfigMap","Endpoints","Event","LimitRange","PersistentVolumeClaim","PodTemplate",
-						"ReplicationController","ResourceQuota","Secret","ServiceAccount","Service",
-						"ControllerRevision","HorizontalPodAutoscaler","Lease","EndpointSlice","Event",
-						"Ingress","NetworkPolicy","PodDisruptionBudget","RoleBinding","Role","CSIStorageCapacity"}
-	resource_kinds[resource.kind]
 	result := is_default_namespace(resource.metadata)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)

@@ -1,0 +1,29 @@
+{
+    "name": "resources-core1-in-default-namespace",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "ConfigMap",
+          "Endpoints",
+          "LimitRange",
+          "PersistentVolumeClaim",
+          "PodTemplate"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}
