@@ -14,7 +14,11 @@
     },
     "rulesNames": [
         "pods-in-default-namespace",
-        "resources-notpods-in-default-namespace"
+        "resources-rbac-in-default-namespace",
+        "resources-core1-in-default-namespace",
+        "resources-core2-in-default-namespace",
+        "resources-other1-in-default-namespace",
+        "resources-other2-in-default-namespace"
     ],
     "baseScore": 4,
     "impact_statement": "None",

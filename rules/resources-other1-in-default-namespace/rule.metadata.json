@@ -1,0 +1,59 @@
+{
+    "name": "resources-notpods-in-default-namespace",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "apps"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "ControllerRevision"
+        ]
+      },
+      {
+        "apiGroups": [
+          "autoscaling"
+        ],
+        "apiVersions": [
+          "v2"
+        ],
+        "resources": [
+            "HorizontalPodAutoscaler"
+        ]
+      }
+      ,
+      {
+        "apiGroups": [
+          "coordination.k8s.io"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "Lease"
+        ]
+      },
+      {
+        "apiGroups": [
+          "discovery.k8s.io"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "EndpointSlice"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}
