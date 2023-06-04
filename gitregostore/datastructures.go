@@ -104,8 +104,8 @@ func NewDefaultGitRegoStore(frequency int) *GitRegoStore {
 }
 
 // NewDevGitRegoStore - generates git store object for dev regolibrary release files
-// Release files source: "https://raw.githubusercontent.com/kubescape/regolibrary/dev/releaseDev"
+// Release files source: "https://raw.githubusercontent.com/kubescape/regolibrary-dev/main/releaseDev"
 func NewDevGitRegoStore(frequency int) *GitRegoStore {
-	gs := NewGitRegoStore("https://raw.githubusercontent.com", "kubescape", "regolibrary", "releaseDev", "", "dev", frequency)
+	gs := NewGitRegoStore("https://raw.githubusercontent.com", "kubescape", "regolibrary-dev", "releaseDev", "", "main", frequency)
 	return gs
 }

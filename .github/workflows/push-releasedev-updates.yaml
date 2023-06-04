@@ -1,0 +1,34 @@
+name: Push to regolibrary-dev
+
+on:
+  push:
+    branches: [master, main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
+        token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+    - name: Run export script
+      run: |
+        OUTPUT=pre-release python ./scripts/export.py
+        cp -R pre-release releaseDev
+
+    - name: Commit files
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add .
+        git commit -a -m "Updating releaseDev files"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        repository: kubescape/regolibrary-dev
+        force: true
