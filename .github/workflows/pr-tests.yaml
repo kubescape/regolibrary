@@ -45,7 +45,7 @@ jobs:
     steps:
       - name: Check coverage
         # path-to-lcov: coverage.lcov
-        run: cat coverage.lcov
+        run: cat ./coverage/lcov.info
       - name: test cover
         run: cat coverage.out
 
