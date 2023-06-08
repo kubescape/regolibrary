@@ -44,9 +44,10 @@ jobs:
     needs: [test_pr_checks]
     steps:
       - name: Check coverage
-        path-to-lcov: coverage.lcov
+        # path-to-lcov: coverage.lcov
         run: cat coverage.lcov
-        run: cat coverage.lcov
+      - name: test cover
+        run: cat coverage.out
 
         # run: |
         #   response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://coveralls.io/github/$GITHUB_REPOSITORY/builds/$GITHUB_RUN_ID.json)
