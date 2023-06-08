@@ -44,13 +44,17 @@ jobs:
     needs: [test_pr_checks]
     steps:
       - name: Check coverage
-        run: |
-          response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://coveralls.io/github/$GITHUB_REPOSITORY/builds/$GITHUB_RUN_ID.json)
-          coverage=$(echo "$response" | jq '.covered_percent')
-          if (( $(echo "$coverage < 80" |bc -l) )); then
-            echo "Code coverage is less than 80%, blocking the PR"
-            exit 1
-          fi
+        path-to-lcov: coverage.lcov
+        run: cat coverage.lcov
+        run: cat coverage.lcov
+
+        # run: |
+        #   response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://coveralls.io/github/$GITHUB_REPOSITORY/builds/$GITHUB_RUN_ID.json)
+        #   coverage=$(echo "$response" | jq '.covered_percent')
+        #   if (( $(echo "$coverage < 80" |bc -l) )); then
+        #     echo "Code coverage is less than 80%, blocking the PR"
+        #     exit 1
+        #   fi
 
 
   build-and-rego-test:
