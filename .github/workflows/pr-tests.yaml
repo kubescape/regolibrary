@@ -42,7 +42,7 @@ jobs:
     uses: ./.github/workflows/coverage-check.yaml
     needs: [test_pr_checks]
     with:
-      COVERAGELIMIT: "50"
+      COVERAGELIMIT: "80"
       SHA: ${{ github.sha }}
 
   build-and-rego-test:
