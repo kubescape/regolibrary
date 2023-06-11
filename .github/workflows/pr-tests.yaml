@@ -38,36 +38,6 @@ jobs:
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
 
-  test-coverage:
-    # name: Check coverage
-    # runs-on: ubuntu-latest
-    # uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
-    uses: ./.github/workflows/coverage-check.yaml
-    with:
-      COVERAGE-LIMIT: "50"
-      SHA: ${{ github.sha }}
-    # needs: [test_pr_checks]
-    # steps:
-    #   - name: Get Coverage Data from Coveralls by commit SHA
-    #     id: coveralls
-    #     run: |
-    #       response=$(curl -s -H "Authorization: token ${{ secrets.COVERALLS_TOKEN }}" \
-    #                       "https://coveralls.io/builds/${{ github.sha }}.json")
-    #       coverage=$(echo $response | jq '.covered_percent')
-    #       echo "COVERAGE=$coverage" >> $GITHUB_ENV
-      
-    #   - name: Use Coverage Data
-    #     run: |  
-    #       echo "Coverage: $COVERAGE"
-        # run: |
-        #   response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://coveralls.io/github/$GITHUB_REPOSITORY/builds/$GITHUB_RUN_ID.json)
-        #   coverage=$(echo "$response" | jq '.covered_percent')
-        #   if (( $(echo "$coverage < 80" |bc -l) )); then
-        #     echo "Code coverage is less than 80%, blocking the PR"
-        #     exit 1
-        #   fi
-
-
   build-and-rego-test:
     name: Build and test rego artifacts
     runs-on: ubuntu-latest
@@ -167,3 +137,9 @@ jobs:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
       - name: Remove pre-release folder
         run: rm -r -f pre-release
+
+  test-coverage:
+    uses: ./.github/workflows/coverage-check.yaml
+    with:
+      COVERAGE-LIMIT: "50"
+      SHA: ${{ github.sha }}
