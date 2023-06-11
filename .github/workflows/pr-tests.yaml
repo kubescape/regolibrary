@@ -43,12 +43,19 @@ jobs:
     runs-on: ubuntu-latest
     needs: [test_pr_checks]
     steps:
+
       - name: Output Run ID
         run: echo ${{ github.run_id }}
+
       - name: Output Run Number
         run: echo ${{ github.run_number }}
+
       - name: Output Run Attempt
         run: echo ${{ github.run_attempt }}
+      
+      - name: Output commit sha
+        run: echo ${{ github.sha }}
+
       - name: Get Coverage Data from Coveralls
         id: coveralls
         run: |
@@ -56,6 +63,7 @@ jobs:
                           "https://coveralls.io/builds/60582650.json")
           coverage=$(echo $response | jq '.covered_percent')
           echo "COVERAGE=$coverage" >> $GITHUB_ENV
+      
       - name: Use Coverage Data
         run: |  
           echo "Coverage: $COVERAGE"
