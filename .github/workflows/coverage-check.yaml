@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: print-sha
         run: |
-          echo "${{ inputs.SHA }}"
+          echo "${{ inputs.SHA }} , ${{ github.sha }}, ${{ secrets.COVERALLS_TOKEN }}"
 
       - name: Get Coverage Data from Coveralls by commit SHA
         id: coveralls
