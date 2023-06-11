@@ -12,6 +12,10 @@ jobs:
     name: Check coverage
     runs-on: ubuntu-latest
     steps:
+      - name: print-sha
+        run: |
+          echo "${{ github.sha }}"
+
       - name: Get Coverage Data from Coveralls by commit SHA
         id: coveralls
         run: |
