@@ -186,6 +186,30 @@
         ]
     },
 
+    {
+        "name": "exclude-kubescape-deployment-ingress-and-egress",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "name": "node-agent",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+            }
+        ]
+    },
 
     {
         "name": "exclude-ks-service-account",
