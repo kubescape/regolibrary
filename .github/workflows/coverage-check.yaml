@@ -3,7 +3,7 @@ name: Coverage-Check
 on:
   workflow_call:
     inputs:
-      COVERAGE-LIMIT: 
+      COVERAGELIMIT: 
         required: true
         type: string
       SHA: 
@@ -23,17 +23,16 @@ jobs:
         run: |
           response=$(curl -s -H "Authorization: token ${{ secrets.COVERALLS_TOKEN }}" \
                           "https://coveralls.io/builds/${{ inputs.SHA }}.json")
-          current-coverage=$(echo $response | jq '.covered_percent')
-          echo "CURRENT-COVERAGE=$current-coverage" >> $GITHUB_ENV
+          coverage=$(echo $response | jq '.covered_percent')
+          echo "COVERAGE=$coverage" >> $GITHUB_ENV
       
       - name: Use Coverage Data
         run: |  
-          echo "Current Coverage is: $CURRENT-COVERAGE"
+          echo "Current Coverage is: $COVERAGE"
 
       - name: test coverage
-        # coverage-limit: ${{ inputs.COVERAGE-LIMIT }}
         run: |    
-          if (( $(echo "$CURRENT-COVERAGE < ${{ inputs.COVERAGE-LIMIT }}" |bc -l) )); then
-            echo "Code coverage is less than ${{ inputs.COVERAGE-LIMIT }}%, blocking the PR"
+          if (( $(echo "$COVERAGE < ${{ inputs.COVERAGELIMIT }}" |bc -l) )); then
+            echo "Code coverage is less than ${{ inputs.COVERAGELIMIT }}%, blocking the PR"
             exit 1
           fi          
