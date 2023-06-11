@@ -38,6 +38,13 @@ jobs:
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
 
+  test-coverage:
+    uses: ./.github/workflows/coverage-check.yaml
+    needs: [test_pr_checks]
+    with:
+      COVERAGE-LIMIT: "50"
+      SHA: ${{ github.sha }}
+
   build-and-rego-test:
     name: Build and test rego artifacts
     runs-on: ubuntu-latest
@@ -137,9 +144,3 @@ jobs:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
       - name: Remove pre-release folder
         run: rm -r -f pre-release
-
-  test-coverage:
-    uses: ./.github/workflows/coverage-check.yaml
-    with:
-      COVERAGE-LIMIT: "50"
-      SHA: ${{ github.sha }}
