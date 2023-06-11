@@ -45,6 +45,7 @@ jobs:
     uses: ./.github/workflows/coverage-check.yaml
     with:
       COVERAGE-LIMIT: "50"
+      SHA: ${{ github.sha }}
     # needs: [test_pr_checks]
     # steps:
     #   - name: Get Coverage Data from Coveralls by commit SHA

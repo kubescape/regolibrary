@@ -6,7 +6,9 @@ on:
       COVERAGE-LIMIT: 
         required: true
         type: string
-
+      SHA: 
+        required: true
+        type: string
 jobs: 
   test-coverage:
     name: Check coverage
@@ -14,13 +16,13 @@ jobs:
     steps:
       - name: print-sha
         run: |
-          echo "${{ github.sha }}"
+          echo "${{ inputs.SHA }}"
 
       - name: Get Coverage Data from Coveralls by commit SHA
         id: coveralls
         run: |
           response=$(curl -s -H "Authorization: token ${{ secrets.COVERALLS_TOKEN }}" \
-                          "https://coveralls.io/builds/${{ github.sha }}.json")
+                          "https://coveralls.io/builds/${{ inputs.SHA }}.json")
           current-coverage=$(echo $response | jq '.covered_percent')
           echo "CURRENT-COVERAGE=$current-coverage" >> $GITHUB_ENV
       
