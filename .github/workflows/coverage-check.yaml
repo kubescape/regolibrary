@@ -25,9 +25,9 @@ jobs:
           echo "Current Coverage is: $CURRENT-COVERAGE"
 
       - name: test coverage
-        coverage-limit: ${{ inputs.COVERAGE-LIMIT }}
+        # coverage-limit: ${{ inputs.COVERAGE-LIMIT }}
         run: |    
-          if (( $(echo "$CURRENT-COVERAGE < $coverage-limit" |bc -l) )); then
-            echo "Code coverage is less than $coverage-limit%, blocking the PR"
+          if (( $(echo "$CURRENT-COVERAGE < ${{ inputs.COVERAGE-LIMIT }}" |bc -l) )); then
+            echo "Code coverage is less than ${{ inputs.COVERAGE-LIMIT }}%, blocking the PR"
             exit 1
           fi          
