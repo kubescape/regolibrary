@@ -42,7 +42,7 @@ jobs:
     name: Check coverage
     runs-on: ubuntu-latest
     # uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
-    uses: ./.github/workflows/coverage-check.yaml@main
+    uses: ./.github/workflows/coverage-check.yaml
     with:
       COVERAGE-LIMIT: "50"
     # needs: [test_pr_checks]
