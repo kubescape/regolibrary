@@ -24,7 +24,7 @@ jobs:
         run: |  
           echo "Current Coverage is: $CURRENT-COVERAGE"
 
-      - name : test coverage
+      - name: test coverage
         with:
           coverage-limit: ${{ inputs.COVERAGE-LIMIT }}
         run: |    
