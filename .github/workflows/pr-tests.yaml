@@ -39,8 +39,8 @@ jobs:
     secrets: inherit
 
   test-coverage:
-    name: Check coverage
-    runs-on: ubuntu-latest
+    # name: Check coverage
+    # runs-on: ubuntu-latest
     # uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     uses: ./.github/workflows/coverage-check.yaml
     with:
