@@ -39,7 +39,7 @@ jobs:
     secrets: inherit
 
   test-coverage:
-    uses: kubescape/workflows/.github/workflows/coverage-check.yaml
+    uses: kubescape/workflows/.github/workflows/coverage-check.yaml@main
     needs: [test_pr_checks]
     with:
       COVERAGELIMIT: "80"
