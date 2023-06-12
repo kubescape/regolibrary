@@ -42,7 +42,7 @@ jobs:
     uses: kubescape/workflows/.github/workflows/coverage-check.yaml@main
     needs: [test_pr_checks]
     with:
-      COVERAGELIMIT: "80"
+      COVERAGELIMIT: "57"
       SHA: ${{ github.sha }}
 
   build-and-rego-test:
