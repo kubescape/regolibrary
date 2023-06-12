@@ -38,6 +38,13 @@ jobs:
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
 
+  test-coverage:
+    uses: kubescape/workflows/.github/workflows/coverage-check.yaml@main
+    needs: [test_pr_checks]
+    with:
+      COVERAGELIMIT: "57"
+      SHA: ${{ github.sha }}
+
   build-and-rego-test:
     name: Build and test rego artifacts
     runs-on: ubuntu-latest
