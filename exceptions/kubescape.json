@@ -329,6 +329,58 @@
         ]
     },
     {
+        "name": "exclude-kubescape-service-accounts",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "ks-sa",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "kubescape-sa",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "storage-sa",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "node-agent-service-account",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0034"
+            },
+            {
+                "controlID": "c-0053"
+            }
+        ]
+    },
+    {
         "name": "exclude-kubescape-otel",
         "policyType": "postureExceptionPolicy",
         "actions": [
