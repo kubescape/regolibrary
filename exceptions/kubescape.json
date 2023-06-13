@@ -186,7 +186,67 @@
         ]
     },
 
-
+    {
+        "name": "exclude-kubescape-deployment-ingress-and-egress",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "name": "node-agent",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0045"
+            },
+            {
+                "controlID": "c-0046"
+            },
+            {
+                "controlID": "c-0048"
+            },
+            {
+                "controlID": "c-0057"
+            },
+            {
+                "controlID": "c-0013"
+            },
+            {
+                "controlID": "c-0016"
+            },
+            {
+                "controlID": "c-0030"
+            },
+            {
+                "controlID": "c-0034"
+            },
+            {
+                "controlID": "c-0074"
+            },
+            {
+                "controlID": "c-0055"
+            },
+            {
+                "controlID": "c-0056"
+            },
+            {
+                "controlID": "c-0017"
+            },
+            {
+                "controlID": "c-0018"
+            }
+        ]
+    },
     {
         "name": "exclude-ks-service-account",
         "policyType": "postureExceptionPolicy",
@@ -269,6 +329,58 @@
         ]
     },
     {
+        "name": "exclude-kubescape-service-accounts",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "ks-sa",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "kubescape-sa",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "storage-sa",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "node-agent-service-account",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0034"
+            },
+            {
+                "controlID": "c-0053"
+            }
+        ]
+    },
+    {
         "name": "exclude-kubescape-otel",
         "policyType": "postureExceptionPolicy",
         "actions": [
@@ -335,6 +447,94 @@
         ],
         "posturePolicies": [
             {}
+        ]
+    },
+    {
+        "name": "exclude-schedulers",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "CronJob",
+                    "name": "kubevuln-scheduler",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "CronJob",
+                    "name": "kubescape-scheduler",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0030"
+            },
+            {
+                "controlID": "c-0055"
+            },
+            {
+                "controlID": "c-0056"
+            },
+            {
+                "controlID": "c-0018"
+            },
+            {
+                "controlID": "c-0026"
+            }
+        ]
+    },
+    {
+        "name": "exclude-storage-apiserver",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "storage-apiserver",
+                    "namespace": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0030"
+            },
+            {
+                "controlID": "c-0034"
+            },
+            {
+                "controlID": "c-0055"
+            },
+            {
+                "controlID": "c-0056"
+            },
+            {
+                "controlID": "c-0017"
+            },
+            {
+                "controlID": "c-0018"
+            },
+            {
+                "controlID": "c-0076"
+            }
         ]
     }
 ]
