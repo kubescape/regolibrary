@@ -50,7 +50,7 @@
             ],
             "max_critical_vulnerabilities": ["5"],
             "max_high_vulnerabilities": ["10"],
-            "sensitiveValuesAllowed": [],
+            "sensitiveValuesAllowed": ["AllowedValue"],
             "sensitiveKeyNames": [
                 "aws_access_key_id",
                 "aws_secret_access_key",
