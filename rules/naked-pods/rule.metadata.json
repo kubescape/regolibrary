@@ -20,6 +20,6 @@
     "ruleDependencies": [
     ],
     "description": "Don't use naked Pods (that is, Pods not bound to a ReplicaSet or Deployment) if you can avoid it. Naked Pods will not be rescheduled in the event of a node failure.",
-    "remediation": "",
+    "remediation": "Create necessary deployment object for every Pod making any Pod a first class citizen in your IaC architecture. Example command: kubectl create deployment nginx-depl --image=nginx:1.19",
     "ruleQuery": "armo_builtins"
 }

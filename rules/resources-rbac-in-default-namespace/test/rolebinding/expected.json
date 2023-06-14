@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "RoleBinding: pod is in the 'default' namespace",
+        "failedPaths": [
+            "metadata.namespace"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "rbac.authorization.k8s.io/v1",
+                    "kind": "RoleBinding",
+                    "metadata": {
+                        "name": "pod"
+                    }
+                }
+            ]
+        }
+    }
+]

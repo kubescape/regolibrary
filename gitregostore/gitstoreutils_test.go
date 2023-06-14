@@ -137,12 +137,12 @@ func TestGitRegoStore_setURL(t *testing.T) {
 			fields: fields{
 				BaseUrl:    "https://raw.githubusercontent.com",
 				Owner:      "kubescape",
-				Repository: "regolibrary",
-				Branch:     "dev",
+				Repository: "regolibrary-dev",
+				Branch:     "main",
 				Path:       "releaseDev",
 				Tag:        "",
 			},
-			wantedURL: "https://raw.githubusercontent.com/kubescape/regolibrary/dev/releaseDev",
+			wantedURL: "https://raw.githubusercontent.com/kubescape/regolibrary-dev/main/releaseDev",
 		},
 	}
 	for _, tt := range tests {

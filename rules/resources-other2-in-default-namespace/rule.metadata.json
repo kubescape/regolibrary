@@ -1,0 +1,48 @@
+{
+    "name": "resources-other2-in-default-namespace",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "networking.k8s.io"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "Ingress",
+            "NetworkPolicy"
+        ]
+      },
+      {
+        "apiGroups": [
+          "policy"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "PodDisruptionBudget"
+        ]
+      },
+      {
+        "apiGroups": [
+          "storage.k8s.io"
+        ],
+        "apiVersions": [
+          "v1beta1"
+        ],
+        "resources": [
+            "CSIStorageCapacity"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}

@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "PodDisruptionBudget: zk-pdb is in the 'default' namespace",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "metadata.namespace",
+                "value": "YOUR_NAMESPACE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "policy/v1",
+                    "kind": "PodDisruptionBudget",
+                    "metadata": {
+                        "name": "zk-pdb"
+                    }
+                }
+            ]
+        }
+    }
+]

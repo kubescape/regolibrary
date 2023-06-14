@@ -1,10 +1,7 @@
 [{
     "alertMessage": "Pod: envar-demo not associated with ReplicaSet or Deployment",
     "failedPaths": [],
-    "fixPaths": [{
-        "path": "metadata.ownerReferences",
-        "value": "YOUR_VALUE"
-    }],
+    "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 3,
