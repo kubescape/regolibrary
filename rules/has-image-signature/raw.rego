@@ -9,11 +9,13 @@ deny[msga] {
 
     not cosign.has_signature(container.image)
 
+    failedPath := sprintf("spec.containers[%v].image", [format_int(i, 10)])
+
 	msga := {
 		"alertMessage": sprintf("image: %v is not signed", [ container.image]),
 		"alertScore": 7,
 		"fixPaths": [],
-		"failedPaths": [container.image],
+		"failedPaths": [failedPath],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -29,11 +31,14 @@ deny[msga] {
 
     not cosign.has_signature(container.image)
 
+	failedPath := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
+
+
     msga := {
 		"alertMessage": sprintf("image: %v is not signed", [ container.image]),
 		"alertScore": 7,
 		"fixPaths": [],
-		"failedPaths": [container.image],
+		"failedPaths": [failedPath],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -49,11 +54,13 @@ deny[msga] {
 	
     not cosign.has_signature(container.image)
 
+	failedPath := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)])
+
     msga := {
 		"alertMessage": sprintf("image: %v is not signed", [ container.image]),
 		"alertScore": 7,
 		"fixPaths": [],
-		"failedPaths": [container.image],
+		"failedPaths": [failedPath],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl]
