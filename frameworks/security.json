@@ -1,6 +1,6 @@
 {
     "name": "security",
-    "description": "Contains all the controls from all the frameworks",
+    "description": "Controls that are used to assess security threats.",
     "attributes": {
         "armoBuiltin": true
     },
