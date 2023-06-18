@@ -463,6 +463,14 @@
                 "designatorType": "Attributes",
                 "attributes": {
                     "kind": "CronJob",
+                    "name": "kubevuln-schedule-.*",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "CronJob",
                     "name": "kubevuln-scheduler",
                     "namespace": "kubescape"
                 }
@@ -491,6 +499,12 @@
             },
             {
                 "controlID": "c-0026"
+            },
+            {
+                "controlID": "c-0076"
+            },
+            {
+                "controlID": "c-0077"
             }
         ]
     },
