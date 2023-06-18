@@ -5,6 +5,7 @@
         "version": "v1.0.1",
         "armoBuiltin": true
     },
+    "typeTags": ["compliance"],
     "subSections": {
         "1": {
             "id": "1",
@@ -231,7 +232,7 @@
                 }
             }
         }
-    },
+    }, 
     "activeControls": [
         {
             "controlID": "C-0092",
