@@ -25,5 +25,9 @@
     "test": "Check capabilities given against a configurable blacklist of insecure capabilities (https://man7.org/linux/man-pages/man7/capabilities.7.html). ",
     "controlID": "C-0046",
     "baseScore": 7.0,
-    "example": "@controls/examples/c046.yaml"
+    "example": "@controls/examples/c046.yaml",
+    "controlTypeTags": [
+        "security",
+        "compliance"
+    ]
 }

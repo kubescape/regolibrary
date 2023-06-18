@@ -25,5 +25,9 @@
         "list-all-validating-webhooks"
     ],
     "controlID": "C-0036",
-    "baseScore": 3.0
+    "baseScore": 3.0,
+    "controlTypeTags": [
+        "security",
+        "compliance"
+    ]
 }

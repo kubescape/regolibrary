@@ -23,5 +23,9 @@
     ],
     "controlID": "C-0004",
     "example": "@controls/examples/c004.yaml",
-    "baseScore": 8.0
+    "baseScore": 8.0,
+    "controlTypeTags": [
+        "compliance",
+        "devops"
+    ]
 }
