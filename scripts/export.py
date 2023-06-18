@@ -17,6 +17,7 @@ __CWD__ = os.path.abspath(os.getcwd())  # current working dir
 __CONTROL_RULE_ROWS__ = []
 __FRAMEWORK_CONTROL_ROWS__ = []
 __SUBSECTION_TREE_SEPARATOR__ = '.'
+__TYPE_FIELD__ = "typeTags"
 
 
 """
@@ -35,11 +36,11 @@ def ignore_file(file_name: str):
 def ignore_file_rule(path: str):
     # ignore expected.json files
     if path.parent.parent.name == "test":
-        logging.info(f"Skipping test partent file '{path}'")
+        logging.info(f"Skipping test parent file '{path}'")
         return True
     # ignore test input files
     elif path.parent.parent.parent.name == "test":
-        logging.info(f"Skipping test partent file '{path}'")
+        logging.info(f"Skipping test parent file '{path}'")
         return True
     elif path.parent.name.startswith('__'):
         logging.info(f"Skipping file '{path}'")
@@ -163,10 +164,40 @@ def patch_control(control:dict, patch: dict, force_patch = True) -> dict:
     return control
 
 
-"""function is loading all frameworks found at the directory.
+"""function is checking if policy has type tag
+:param policy: policy to check (control or framework)
+:param type: type to check (security or compliance)
+:param default_value: default value to return if type is not found
+:param only_value: if true, will return true only if type is the only type tag
+:return: true if policy has type tag, false otherwise
+"""
+def policy_has_type_tag(policy: dict, type: str, default_value: bool, only_value=False) -> bool:
+    type_tags = policy.get(__TYPE_FIELD__, [])
+    if not type_tags:
+        return default_value
+    if only_value:
+        return len(type_tags) == 1 and type_tags[0] == type
+    return type in type_tags
+
+
+"""function is checking if framework has type tag
+:param framework: framework to check
+:param type: type to check (security or compliance)
+:return: true if framework has type tag, false otherwise
+If looking for security type, will return true only if security is the only type tag"""
+def is_type_framework(framework: dict, type: str) -> bool:
+    match type:
+        case "security":
+            return policy_has_type_tag(framework, type, False, only_value = True)
+        case "compliance":
+            return policy_has_type_tag(framework, type, True)
+
+
+
+"""function is loading all compliance frameworks found at the directory.
 :return list of all frameworks loaded and scanned
 """
-def load_frameworks(loaded_controls: dict):
+def load_frameworks(loaded_controls: dict, type: str):
     p3 = os.path.join(__CWD__, 'frameworks')
     logging.info(f"Loading frameworks from folder '{p3}'")
  
@@ -189,6 +220,8 @@ def load_frameworks(loaded_controls: dict):
         except Exception as e:
             logging.error(f"Cannot open path '{path_in_str}'")
             raise TypeError(e)
+        if not is_type_framework(new_framework, type):
+            continue
         # adding new attributes to frameowrk json
         new_framework["version"] = os.getenv("RELEASE")
         new_framework["controls"] = []
@@ -440,18 +473,22 @@ if __name__ == '__main__':
     loaded_rules, rules_list = load_rules()     # load all rules
     controls, controls_list = load_controls(loaded_rules)   # loading controls list
     validate_controls()   # validating controls scanned
-    frameworks, frameworks_list = load_frameworks(loaded_controls=controls)  # load all frameworks
+    compliance_frameworks, compliance_frameworks_list = load_frameworks(loaded_controls=controls, type="compliance")  # load compliance frameworks
+    security_frameworks, security_frameworks_list = load_frameworks(loaded_controls=controls, type="security")  # load security frameworks
     default_config_inputs = load_default_config_inputs()  # load default config json file
     attack_tracks_list = load_attack_tracks()   # load attack tracks data
     exceptions_list = load_exceptions() # load exceptions from exceptions folder
     
+
     # create full framework json files
     # TODO - delete when kubescape works with csv files
-    for k, v in frameworks.items():
+    all_frameworks = compliance_frameworks | security_frameworks
+    for k, v in all_frameworks.items():
         export_json(data=v, f_name=k, output_path=output_dir_name)
     
     # Generate json files: [frameworks, controls, rules]
-    export_json(frameworks_list, 'frameworks', output_dir_name)
+    export_json(compliance_frameworks_list, 'frameworks', output_dir_name)
+    export_json(security_frameworks_list, 'security_frameworks', output_dir_name)
     export_json(controls_list, 'controls', output_dir_name)
     export_json(rules_list, 'rules', output_dir_name)
     export_json(default_config_inputs, 'default_config_inputs', output_dir_name)
