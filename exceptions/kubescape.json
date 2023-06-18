@@ -48,6 +48,30 @@
                     "name": "kollector",
                     "namespace": "kubescape"
                 }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "storage",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "otel-collector",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "name": "node-agent",
+                    "namespace": "kubescape"
+                }
             }
         ],
         "posturePolicies": [
@@ -325,6 +349,12 @@
         "posturePolicies": [
             {
                 "controlID": "c-0034"
+            },
+            {
+                "controlID": "c-0189"
+            },
+            {
+                "controlID": "c-0190"
             }
         ]
     },
@@ -471,6 +501,14 @@
                 "designatorType": "Attributes",
                 "attributes": {
                     "kind": "CronJob",
+                    "name": "kubescape-registry-scan-.*",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "CronJob",
                     "name": "kubevuln-scheduler",
                     "namespace": "kubescape"
                 }
@@ -505,6 +543,12 @@
             },
             {
                 "controlID": "c-0077"
+            },
+            {
+                "controlID": "c-0210"
+            },
+            {
+                "controlID": "c-0211"
             }
         ]
     },

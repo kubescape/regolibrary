@@ -1100,5 +1100,47 @@
         "posturePolicies": [
             {}
         ]
+    },
+    {
+        "name": "exclude-service-accounts",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "kube-controller-manager",   
+                    "namespace": "kube-system"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "kube-scheduler",   
+                    "namespace": "kube-system"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "route-controller",   
+                    "namespace": "kube-system"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0053"
+            }
+        ]
     }
+    
 ]

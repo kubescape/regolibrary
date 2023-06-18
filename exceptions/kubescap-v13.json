@@ -72,6 +72,9 @@
                 "controlID": "c-0007"
             },
             {
+                "controlID": "c-0186"
+            },
+            {
                 "controlID": "c-0053"
             },
             {
@@ -96,11 +99,22 @@
                     "name": "storage",   
                     "namespace": "kubescape"
                 }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "node-agent",   
+                    "namespace": "kubescape"
+                }
             }
         ],
         "posturePolicies": [
             {
                 "controlID": "c-0034"
+            },
+            {
+                "controlID": "c-0190"
             }
         ]
     }
