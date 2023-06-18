@@ -17,7 +17,7 @@
     "controlID": "C-0089",
     "baseScore": 3.0,
     "example": "",
-    "controlTypeTags": [
+    "typeTags": [
         "security"
     ]
 }

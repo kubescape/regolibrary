@@ -24,7 +24,7 @@
     "test": "Check if the insecure-port flag is set (in case of cloud vendor hosted Kubernetes service this verification will not be effective).",
     "controlID": "C-0005",
     "baseScore": 9.0,
-    "controlTypeTags": [
+    "typeTags": [
         "security",
         "compliance"
     ]

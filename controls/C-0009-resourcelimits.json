@@ -24,7 +24,7 @@
     "controlID": "C-0009",
     "baseScore": 7.0,
     "example": "@controls/examples/c009.yaml",
-    "controlTypeTags": [
+    "typeTags": [
         "security"
     ]
 }

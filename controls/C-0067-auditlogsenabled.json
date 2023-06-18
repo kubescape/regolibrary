@@ -25,7 +25,7 @@
     "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if audit logging is enabled",
     "controlID": "C-0067",
     "baseScore": 5.0,
-    "controlTypeTags": [
+    "typeTags": [
         "security",
         "compliance"
     ]

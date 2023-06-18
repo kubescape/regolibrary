@@ -21,7 +21,7 @@
     "controlID": "C-0007",
     "baseScore": 5.0,
     "example": "@controls/examples/c007.yaml",
-    "controlTypeTags": [
+    "typeTags": [
         "compliance"
     ]
 }

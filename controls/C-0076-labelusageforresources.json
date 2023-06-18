@@ -16,7 +16,7 @@
     "test": "Test will check if a certain set of labels is defined, this is a configurable control. Initial list: app, tier, phase, version, owner, env.",
     "controlID": "C-0076",
     "baseScore": 2,
-    "controlTypeTags": [
+    "typeTags": [
         "devops"
     ]
 }

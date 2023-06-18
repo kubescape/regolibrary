@@ -30,7 +30,7 @@
     "controlID": "C-0031",
     "baseScore": 4.0,
     "example": "@controls/examples/c031.yaml",
-    "controlTypeTags": [
+    "typeTags": [
         "security",
         "compliance"
     ]

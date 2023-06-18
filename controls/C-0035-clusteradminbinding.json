@@ -30,7 +30,7 @@
     "test": "Check which subjects have cluster-admin RBAC permissions \u2013 either by being bound to the cluster-admin clusterrole, or by having equivalent high privileges.  ",
     "controlID": "C-0035",
     "baseScore": 6.0,
-    "controlTypeTags": [
+    "typeTags": [
         "security",
         "compliance"
     ]

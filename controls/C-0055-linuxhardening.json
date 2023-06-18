@@ -24,7 +24,7 @@
     "test": "Check if there is AppArmor or Seccomp or SELinux or Capabilities are defined in the securityContext of container and pod. If none of these fields are defined for both the container and pod, alert.",
     "controlID": "C-0055",
     "baseScore": 4.0,
-    "controlTypeTags": [
+    "typeTags": [
         "security",
         "compliance"
     ]

@@ -29,7 +29,7 @@
     "controlID": "C-0063",
     "baseScore": 5.0,
     "example": "@controls/examples/c063.yaml",
-    "controlTypeTags": [
+    "typeTags": [
         "security-impact",
         "compliance"
     ]

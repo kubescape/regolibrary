@@ -15,7 +15,7 @@
     ],
     "controlID": "C-0050",
     "baseScore": 8.0,
-    "controlTypeTags": [
+    "typeTags": [
         "compliance",
         "devops"
     ]

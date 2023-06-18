@@ -4,7 +4,7 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "type": "security",
+    "typeTags": "security",
     "activeControls": [
         {
             "controlID": "C-0017",

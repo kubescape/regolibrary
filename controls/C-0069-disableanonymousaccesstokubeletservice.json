@@ -24,7 +24,7 @@
     "test": "Reading the kubelet command lines and configuration file looking for anonymous-auth configuration. If this configuration is set on both, the command line values take precedence over it.",
     "controlID": "C-0069",
     "baseScore": 10,
-    "controlTypeTags": [
+    "typeTags": [
         "security",
         "compliance"
     ]
