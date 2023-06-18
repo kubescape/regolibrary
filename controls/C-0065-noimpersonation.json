@@ -26,9 +26,5 @@
     ],
     "controlID": "C-0065",
     "baseScore": 6.0,
-    "example": "@controls/examples/c065.yaml",
-    "controlTypeTags": [
-        "security",
-        "compliance"
-    ]
+    "example": "@controls/examples/c065.yaml"
 }

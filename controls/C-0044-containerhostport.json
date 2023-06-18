@@ -25,10 +25,5 @@
     "test": "Check for each workload (with container) if it exists inside the container hostPort.\u00a0\u00a0",
     "controlID": "C-0044",
     "baseScore": 4.0,
-    "example": "@controls/examples/c044.yaml",
-    "controlTypeTags": [
-        "security",
-        "compliance",
-        "devops"
-    ]
+    "example": "@controls/examples/c044.yaml"
 }

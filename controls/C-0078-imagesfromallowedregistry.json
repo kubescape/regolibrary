@@ -28,9 +28,5 @@
     "long_description": "If attackers get access to the cluster, they can re-point kubernetes to a compromized container repository. This control is intended to ensure that all the container images are taken from the authorized repositories only. User should list all the approved repositories in the parameters of this control so that any potential dangerous image can be identified.",
     "test": "Checks if image is from allowed listed registry.",
     "controlID": "C-0078",
-    "baseScore": 5.0,
-    "controlTypeTags": [
-        "security",
-        "compliance"
-    ]
+    "baseScore": 5.0
 }

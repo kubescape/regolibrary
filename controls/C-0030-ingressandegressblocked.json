@@ -15,8 +15,5 @@
     "test": "Check for each Pod whether there is an ingress and egress policy defined (whether using Pod or Namespace). ",
     "controlID": "C-0030",
     "baseScore": 6.0,
-    "example": "@controls/examples/c030.yaml",
-    "controlTypeTags": [
-        "compliance"
-    ]
+    "example": "@controls/examples/c030.yaml"
 }

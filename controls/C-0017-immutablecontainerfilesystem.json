@@ -25,9 +25,5 @@
     "test": "Check whether the readOnlyRootFilesystem field in the SecurityContext is set to true. ",
     "controlID": "C-0017",
     "baseScore": 3.0,
-    "example": "@controls/examples/c017.yaml",
-    "controlTypeTags": [
-        "security",
-        "compliance"
-    ]
+    "example": "@controls/examples/c017.yaml"
 }

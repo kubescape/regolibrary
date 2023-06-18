@@ -18,8 +18,5 @@
     "long_description": "When the cluster is deployed in the cloud, in some cases attackers can leverage their access to a container in the cluster to gain cloud credentials. For example, in AKS each node contains service principal credential.",
     "test": "Check which workloads have volumes with potential access to known cloud credentials folders or files in node, like \u201c/etc/kubernetes/azure.json\u201d for Azure.",
     "controlID": "C-0020",
-    "baseScore": 4.0,
-    "controlTypeTags": [
-        "compliance"
-    ]
+    "baseScore": 4.0
 }

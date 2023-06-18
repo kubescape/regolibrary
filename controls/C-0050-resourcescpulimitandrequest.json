@@ -14,9 +14,5 @@
         "resources-cpu-limit-and-request"
     ],
     "controlID": "C-0050",
-    "baseScore": 8.0,
-    "controlTypeTags": [
-        "compliance",
-        "devops"
-    ]
+    "baseScore": 8.0
 }

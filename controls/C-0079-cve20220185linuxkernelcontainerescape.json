@@ -24,9 +24,5 @@
     "test": "Checking Linux kernel version of the Node objects, if it is above 5.1 or below 5.16.2 it fires an alert",
     "controlID": "C-0079",
     "baseScore": 4.0,
-    "example": "",
-    "controlTypeTags": [
-        "security",
-        "compliance"
-    ]
+    "example": ""
 }

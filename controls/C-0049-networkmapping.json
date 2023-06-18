@@ -27,9 +27,5 @@
     "test": "Check for each namespace if there is a network policy defined.",
     "controlID": "C-0049",
     "baseScore": 3.0,
-    "example": "@controls/examples/c049.yaml",
-    "controlTypeTags": [
-        "security",
-        "compliance"
-    ]
+    "example": "@controls/examples/c049.yaml"
 }

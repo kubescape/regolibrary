@@ -22,9 +22,5 @@
         "Symlink-Exchange-Can-Allow-Host-Filesystem-Access"
     ],
     "controlID": "C-0058",
-    "baseScore": 6.0,
-    "controlTypeTags": [
-        "security",
-        "compliance"
-    ]
+    "baseScore": 6.0
 }

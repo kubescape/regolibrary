@@ -23,8 +23,5 @@
     "test": "Check that there is no 'sudo' in the container entrypoint",
     "controlID": "C-0062",
     "baseScore": 5.0,
-    "example": "@controls/examples/c062.yaml",
-    "controlTypeTags": [
-        "security"
-    ]
+    "example": "@controls/examples/c062.yaml"
 }
