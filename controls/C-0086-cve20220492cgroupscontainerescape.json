@@ -25,7 +25,7 @@
     "controlID": "C-0086",
     "baseScore": 4.0,
     "example": "",
-    "typeTags": [
+    "controlTypeTags": [
         "security",
         "compliance"
     ]

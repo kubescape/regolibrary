@@ -27,7 +27,7 @@
     "test": "Check in POD spec if securityContext.privileged == true, if so raise an alert.",
     "controlID": "C-0057",
     "baseScore": 8.0,
-    "typeTags": [
+    "controlTypeTags": [
         "security"
     ]
 }

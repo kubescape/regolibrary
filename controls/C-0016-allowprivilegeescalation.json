@@ -24,7 +24,7 @@
     "controlID": "C-0016",
     "baseScore": 6.0,
     "example": "@controls/examples/allowprivilegeescalation.yaml",
-    "typeTags": [
+    "controlTypeTags": [
         "security",
         "compliance"
     ]

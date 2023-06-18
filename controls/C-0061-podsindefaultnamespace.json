@@ -16,7 +16,7 @@
     "test": "Check that there are no pods in the 'default' namespace",
     "controlID": "C-0061",
     "baseScore": 3,
-    "typeTags": [
+    "controlTypeTags": [
         "compliance",
         "devops"
     ]

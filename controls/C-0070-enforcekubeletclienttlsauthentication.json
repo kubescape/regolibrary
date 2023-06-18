@@ -24,7 +24,7 @@
     "test": "Reading the kubelet command lines and configuration file looking for client TLS configuration.",
     "controlID": "C-0070",
     "baseScore": 9.0,
-    "typeTags": [
+    "controlTypeTags": [
         "security",
         "compliance"
     ]

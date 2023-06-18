@@ -20,7 +20,7 @@
     "test": "Checking if a service of type nodeport/loadbalancer to one of the known exploited interfaces (Apache NiFi, Kubeflow, Argo Workflows, Weave Scope Kubernetes dashboard) exists. Needs to add user config",
     "controlID": "C-0021",
     "baseScore": 6.0,
-    "typeTags": [
+    "controlTypeTags": [
         "compliance"
     ]
 }

@@ -25,7 +25,7 @@
     "controlID": "C-0013",
     "baseScore": 6.0,
     "example": "@controls/examples/c013.yaml",
-    "typeTags": [
+    "controlTypeTags": [
         "security",
         "compliance"
     ]

@@ -15,7 +15,7 @@
     "test": "Test if PODs are not associated with Deployment, ReplicaSet etc. If not, fail.",
     "controlID": "C-0073",
     "baseScore": 3,
-    "typeTags": [
+    "controlTypeTags": [
         "devops"
     ]
 }

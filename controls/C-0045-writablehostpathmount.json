@@ -32,7 +32,7 @@
     "controlID": "C-0045",
     "baseScore": 8.0,
     "example": "@controls/examples/c045.yaml",
-    "typeTags": [
+    "controlTypeTags": [
         "security",
         "compliance",
         "devops",
