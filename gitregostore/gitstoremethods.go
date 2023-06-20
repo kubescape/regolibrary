@@ -9,18 +9,11 @@ import (
 	"github.com/go-gota/gota/series"
 	opapolicy "github.com/kubescape/opa-utils/reporthandling"
 	"github.com/kubescape/opa-utils/reporthandling/attacktrack/v1alpha1"
-	"k8s.io/utils/strings/slices"
 )
 
 const (
 	supportBackwardCompatibility = true
-	typeCompliance               = "compliance"
-	typeSecurity                 = "security"
 )
-
-// =============================================================
-// =========================== Rules ===========================
-// =============================================================
 
 // GetOPAPolicies returns all the policies of given customer
 func (gs *GitRegoStore) GetOPAPolicies() ([]opapolicy.PolicyRule, error) {
@@ -68,10 +61,6 @@ func (gs *GitRegoStore) getOPAPolicyByName(ruleName string) (*opapolicy.PolicyRu
 	return nil, fmt.Errorf("rule '%s' not found", ruleName)
 }
 
-// =============================================================
-// =========================== AttackTracks ====================
-// =============================================================
-
 func (gs *GitRegoStore) GetAttackTracks() ([]v1alpha1.AttackTrack, error) {
 	gs.attackTracksLock.RLock()
 	defer gs.attackTracksLock.RUnlock()
@@ -82,10 +71,6 @@ func (gs *GitRegoStore) GetAttackTracks() ([]v1alpha1.AttackTrack, error) {
 
 	return gs.AttackTracks, nil
 }
-
-// =============================================================
-// =========================== Controls ========================
-// =============================================================
 
 // GetOPAControlByName returns specific BaseControl by the name.
 //
@@ -272,102 +257,38 @@ func (gs *GitRegoStore) GetOpaFrameworkListByControlID(controlID string) []strin
 	return frameworksNameList
 }
 
-// ===============================================================
-// =========================== Frameworks ========================
-// ===============================================================
-
-// GetOPAFrameworksByType returns all frameworks of given type
-func (gs *GitRegoStore) getOPAFrameworksByType(frameworkType string) ([]opapolicy.Framework, error) {
+// GetOPAFrameworks returns all the frameworks of given customer
+func (gs *GitRegoStore) GetOPAFrameworks() ([]opapolicy.Framework, error) {
 	gs.frameworksLock.RLock()
 	defer gs.frameworksLock.RUnlock()
 
 	if gs.Frameworks == nil {
 		return nil, fmt.Errorf("no frameworks found in GitRegoStore")
 	}
+
 	frameworksList := make([]opapolicy.Framework, 0, len(gs.Frameworks))
 	for _, frameworkToPin := range gs.Frameworks {
-		framework := frameworkToPin
-		if slices.Contains(framework.TypeTags, frameworkType) {
-			frameworksList = append(frameworksList, framework)
-		}
-	}
-	return frameworksList, nil
-}
-
-// ====================== compliance frameworks ======================
-
-// GetOPAFrameworks returns all compliance frameworks
-func (gs *GitRegoStore) GetOPAFrameworks() ([]opapolicy.Framework, error) {
-	complianceFrameworks, err := gs.getOPAFrameworksByType(typeCompliance)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get compliance frameworks: %w", err)
-	}
-
-	frameworksList := make([]opapolicy.Framework, 0, len(complianceFrameworks))
-	for _, frameworkToPin := range complianceFrameworks {
 		fw := frameworkToPin
 		if err := gs.fillControlsAndControlIDsInFramework(&fw); err != nil {
 			return nil, err
 		}
+
 		frameworksList = append(frameworksList, fw)
 	}
 
 	return frameworksList, nil
 }
 
-// GetOPAFrameworksNamesList returns all compliance frameworks names
 func (gs *GitRegoStore) GetOPAFrameworksNamesList() ([]string, error) {
-	complianceFrameworks, err := gs.getOPAFrameworksByType(typeCompliance)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get compliance frameworks: %w", err)
-	}
-	frameworksNameList := make([]string, 0, len(complianceFrameworks))
-	for _, framework := range complianceFrameworks {
+	gs.frameworksLock.RLock()
+	defer gs.frameworksLock.RUnlock()
+
+	frameworksNameList := make([]string, 0, len(gs.Frameworks))
+	for _, framework := range gs.Frameworks {
 		frameworksNameList = append(frameworksNameList, framework.Name)
 	}
 
 	return frameworksNameList, nil
-}
-
-// ====================== security frameworks ======================
-
-// GetOPAFrameworks returns all security frameworks
-func (gs *GitRegoStore) GetOPASecurityFrameworks() ([]opapolicy.Framework, error) {
-	securityFrameworks, err := gs.getOPAFrameworksByType(typeSecurity)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get security frameworks: %w", err)
-	}
-	frameworksList := make([]opapolicy.Framework, 0, len(securityFrameworks))
-	for _, frameworkToPin := range securityFrameworks {
-		fw := frameworkToPin
-		if err := gs.fillControlsAndControlIDsInFramework(&fw); err != nil {
-			return nil, err
-		}
-		frameworksList = append(frameworksList, fw)
-	}
-	return frameworksList, nil
-}
-
-// GetOPAFrameworksNamesList returns all security frameworks names
-func (gs *GitRegoStore) GetOPASecurityFrameworksNamesList() ([]string, error) {
-	securityFrameworks, err := gs.getOPAFrameworksByType(typeSecurity)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get security frameworks: %w", err)
-	}
-	frameworksNameList := make([]string, 0, len(securityFrameworks))
-	for _, framework := range securityFrameworks {
-		frameworksNameList = append(frameworksNameList, framework.Name)
-	}
-	return frameworksNameList, nil
-}
-
-// GetOPAFrameworkTypeTags returns all type tags of given framework
-func (gs *GitRegoStore) GetOPAFrameworkTypeTags(frameworkName string) ([]string, error) {
-	framework, err := gs.getOPAFrameworkByName(frameworkName)
-	if err != nil {
-		return nil, err
-	}
-	return framework.TypeTags, nil
 }
 
 // GetOPAFrameworkByName returns specific framework by the name
@@ -399,8 +320,6 @@ func (gs *GitRegoStore) getOPAFrameworkByName(frameworkName string) (*opapolicy.
 	return nil, fmt.Errorf("framework '%s' not found", frameworkName)
 }
 
-// ===============================================================
-
 func (gs *GitRegoStore) GetDefaultConfigInputs() (armotypes.CustomerConfig, error) {
 	gs.DefaultConfigInputsLock.RLock()
 	defer gs.DefaultConfigInputsLock.RUnlock()
@@ -414,8 +333,6 @@ func (gs *GitRegoStore) GetSystemPostureExceptionPolicies() ([]armotypes.Posture
 
 	return gs.SystemPostureExceptionPolicies, nil
 }
-
-// ====================== helpers ======================
 
 func (gs *GitRegoStore) fillRulesAndRulesIDsInControl(control *opapolicy.Control) error {
 	gs.controlEscalatedLock.Lock() // this locks all concurrent attempts to fill any control

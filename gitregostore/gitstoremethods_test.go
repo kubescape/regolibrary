@@ -4,8 +4,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/armosec/armoapi-go/armotypes"
-	opapolicy "github.com/kubescape/opa-utils/reporthandling"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -197,82 +195,4 @@ func TestGetPoliciesMethodsDevNew(t *testing.T) {
 	})
 
 	gs_tests(t, gs)
-}
-
-// Create a mock GitRegoStore instance
-var gitRegoStoreMock = &GitRegoStore{
-	Frameworks: []opapolicy.Framework{
-		{
-			PortalBase: armotypes.PortalBase{Name: "MITRE"},
-			TypeTags:   []string{"compliance"},
-		},
-		{
-			PortalBase: armotypes.PortalBase{Name: "NSA"},
-			TypeTags:   []string{"compliance"},
-		},
-		{
-			PortalBase: armotypes.PortalBase{Name: "security"},
-			TypeTags:   []string{"security"},
-		},
-	}}
-
-func TestGetOPAFrameworksByType(t *testing.T) {
-	gs := gitRegoStoreMock
-	complianceFrameworks, err := gs.getOPAFrameworksByType("compliance")
-	assert.NoError(t, err)
-	assert.NotEmptyf(t, complianceFrameworks, "failed to get all frameworks %v", err)
-	assert.Equal(t, 2, len(complianceFrameworks))
-
-	securityFrameworks, err := gs.getOPAFrameworksByType("security")
-	assert.NoError(t, err)
-	assert.NotEmptyf(t, securityFrameworks, "failed to get all frameworks %v", err)
-	assert.Equal(t, 1, len(securityFrameworks))
-}
-
-func TestGetOPAFrameworks(t *testing.T) {
-	gs := gitRegoStoreMock
-	frameworks, err := gs.GetOPAFrameworks()
-	assert.NoError(t, err)
-	assert.NotEmptyf(t, frameworks, "failed to get all frameworks %v", err)
-	assert.Equal(t, 2, len(frameworks))
-}
-
-func TestGetOPAFrameworksNamesList(t *testing.T) {
-	gs := gitRegoStoreMock
-	frameworksNames, err := gs.GetOPAFrameworksNamesList()
-	assert.NoError(t, err)
-	assert.NotEmptyf(t, frameworksNames, "failed to get all frameworks %v", err)
-	assert.Equal(t, 2, len(frameworksNames))
-	assert.Contains(t, frameworksNames, "MITRE")
-	assert.Contains(t, frameworksNames, "NSA")
-}
-
-func TestGetOPASecurityFrameworks(t *testing.T) {
-	gs := gitRegoStoreMock
-	securityFrameworks, err := gs.GetOPASecurityFrameworks()
-	assert.NoError(t, err)
-	assert.NotEmptyf(t, securityFrameworks, "failed to get all frameworks %v", err)
-	assert.Equal(t, 1, len(securityFrameworks))
-}
-
-func TestGetOPASecurityFrameworksNamesList(t *testing.T) {
-	gs := gitRegoStoreMock
-	securityFrameworks, err := gs.GetOPASecurityFrameworksNamesList()
-	assert.NoError(t, err)
-	assert.NotEmptyf(t, securityFrameworks, "failed to get all frameworks %v", err)
-	assert.Equal(t, 1, len(securityFrameworks))
-	assert.Contains(t, securityFrameworks, "security")
-}
-
-func TestGetOPAFrameworkTypeTags(t *testing.T) {
-	gs := gitRegoStoreMock
-	nsaTypeTags, err := gs.GetOPAFrameworkTypeTags("NSA")
-	assert.NoError(t, err)
-	assert.Equal(t, 1, len(nsaTypeTags))
-	assert.Contains(t, nsaTypeTags, "compliance")
-
-	securityTypeTags, err := gs.GetOPAFrameworkTypeTags("security")
-	assert.NoError(t, err)
-	assert.Equal(t, 1, len(securityTypeTags))
-	assert.Contains(t, securityTypeTags, "security")
 }
