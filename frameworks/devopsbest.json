@@ -4,6 +4,7 @@
     "attributes": {
         "armoBuiltin": true
     },
+    "typeTags": ["compliance"],
     "activeControls": [
         {
             "controlID": "C-0004",

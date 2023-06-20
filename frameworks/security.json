@@ -1,0 +1,16 @@
+{
+    "name": "security",
+    "description": "Controls that are used to assess security threats.",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "typeTags": ["security"],
+    "activeControls": [
+        {
+            "controlID": "C-0017",
+            "patch": {
+                "name": "Immutable container filesystem"
+            }
+        }
+    ]
+}

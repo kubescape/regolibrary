@@ -5,6 +5,7 @@
         "version": "v1.2.0",
         "armoBuiltin": true
     },
+    "typeTags": ["compliance"],
     "activeControls": [
         {
             "controlID": "C-0078",
