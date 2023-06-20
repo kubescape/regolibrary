@@ -24,7 +24,6 @@ const (
 	attackTracksJsonFileName          = "attack_tracks.json"
 	attackTracksPathPrefix            = "attack-tracks"
 	frameworksJsonFileName            = "frameworks.json"
-	securityFrameworksJsonFileName    = "security_frameworks.json"
 	controlsJsonFileName              = "controls.json"
 	rulesJsonFileName                 = "rules.json"
 	frameworkControlRelationsFileName = "FWName_CID_CName.csv"
@@ -298,18 +297,10 @@ func (gs *GitRegoStore) setFrameworks(respStr string) error {
 	if err := JSONDecoder(respStr).Decode(&frameworks); err != nil {
 		return err
 	}
-	respStr1, err := HttpGetter(gs.httpClient, fmt.Sprintf("%s/%s", gs.URL, gs.stripExtention(securityFrameworksJsonFileName)))
-	if err != nil {
-		return fmt.Errorf("error getting: %s from: '%s' ,error: %s", securityFrameworksJsonFileName, gs.URL, err)
-	}
-	securityFrameworks := []opapolicy.Framework{}
-	if err := JSONDecoder(respStr1).Decode(&securityFrameworks); err != nil {
-		return err
-	}
 	gs.frameworksLock.Lock()
 	defer gs.frameworksLock.Unlock()
 
-	gs.Frameworks = append(frameworks, securityFrameworks...)
+	gs.Frameworks = frameworks
 	return nil
 }
 
