@@ -212,6 +212,14 @@
             {
                 "designatorType": "Attributes",
                 "attributes": {
+                    "kind": "CronJob",
+                    "namespace": "kube-system",
+                    "name": "image-package-extractor-cleanup"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
                     "kind": "DaemonSet",
                     "namespace": "kube-system",
                     "name": "nvidia-gpu-device-plugin-small"
@@ -1100,5 +1108,47 @@
         "posturePolicies": [
             {}
         ]
+    },
+    {
+        "name": "exclude-service-accounts",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "kube-controller-manager",   
+                    "namespace": "kube-system"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "kube-scheduler",   
+                    "namespace": "kube-system"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "route-controller",   
+                    "namespace": "kube-system"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "c-0053"
+            }
+        ]
     }
+    
 ]
