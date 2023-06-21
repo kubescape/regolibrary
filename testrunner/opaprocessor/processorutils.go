@@ -16,6 +16,8 @@ import (
 	"github.com/kubescape/opa-utils/resources"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"github.com/yannh/kubeconform/pkg/resource"
+	"github.com/yannh/kubeconform/pkg/validator"
 	"gopkg.in/yaml.v3"
 )
 
@@ -42,6 +44,37 @@ func convertYamlToJson(i interface{}) interface{} {
 	return i
 }
 
+// validateInputResource return an error in case the provided k8s resource is not considered valid.
+// It uses packages from kubeconform project in order to validate resources.
+func validateInputResource(res []byte) error {
+	k8sResource := resource.Resource{
+		Bytes: res,
+	}
+	schemaLocation := []string{}
+	var val validator.Validator
+	val, err := validator.New(schemaLocation,
+		validator.Opts{
+			Cache:                "",
+			Debug:                false,
+			SkipTLS:              false,
+			SkipKinds:            map[string]struct{}{},
+			RejectKinds:          map[string]struct{}{},
+			KubernetesVersion:    "master",
+			Strict:               false,
+			IgnoreMissingSchemas: true,
+		},
+	)
+	if err != nil {
+		return err
+	}
+
+	result := val.ValidateResource(k8sResource)
+	if result.Err != nil {
+		return result.Err
+	}
+	return nil
+}
+
 func GetInputRawResources(dir string, policyRule *reporthandling.PolicyRule) ([]map[string]interface{}, error) {
 	var IMetadataResources []workloadinterface.IMetadata
 
@@ -53,6 +86,7 @@ func GetInputRawResources(dir string, policyRule *reporthandling.PolicyRule) ([]
 		if resp == nil {
 			return nil, fmt.Errorf("resource is nil")
 		}
+
 		metadataResource := objectsenvelopes.NewObject(resp)
 		// if metadataResource.GetNamespace() == "" {
 		// 	metadataResource.SetNamespace("default")
@@ -86,6 +120,12 @@ func GetMockContentFromFile(filename string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
+	// validate input resource using kubeconform packages
+	if err = validateInputResource(mockContent); err != nil {
+		return "", err
+	}
+
 	var body interface{}
 	if err := yaml.Unmarshal([]byte(mockContent), &body); err != nil {
 		return "", err
