@@ -6,7 +6,7 @@ require (
 	github.com/alecthomas/assert/v2 v2.2.1
 	github.com/armosec/armoapi-go v0.0.173
 	github.com/go-gota/gota v0.12.0
-	github.com/kubescape/opa-utils v0.0.250-0.20230620072457-33bbba804d75
+	github.com/kubescape/opa-utils v0.0.250
 	github.com/stretchr/testify v1.8.3
 	go.uber.org/zap v1.24.0
 	k8s.io/utils v0.0.0-20220728103510-ee6ede2d64ed
