@@ -9,5 +9,5 @@ jobs:
   test_ks_misconfigurations:
     uses: kubescape/workflows/.github/workflows/ks-ga-flow.yaml@main
     with:
-      FAILEDTHRESHOLD: 60 
+      FAILEDTHRESHOLD: 10
     secrets: inherit
