@@ -2,7 +2,7 @@
     "apiVersion": "regolibrary.kubescape/v1alpha1",
     "kind": "AttackTrack",
     "metadata": {
-        "name": "workload-external-track"
+        "name": "service-destruction"
     },
     "spec": {
         "version": "1.0",
