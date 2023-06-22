@@ -4,12 +4,20 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "typeTags": ["security"],
+    "typeTags": [
+        "security"
+    ],
     "activeControls": [
         {
             "controlID": "C-0017",
             "patch": {
                 "name": "Immutable container filesystem"
+            }
+        },
+        {
+            "controlID": "C-0255",
+            "patch": {
+                "name": "Workload with secret access"
             }
         }
     ]

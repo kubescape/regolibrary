@@ -1,0 +1,69 @@
+[
+	{
+		"alertMessage": "Pod: mypod has mounted secret",
+		"failedPaths": [
+			"spec.volumes[0].secret"
+		],
+		"fixPaths": [],
+		"ruleStatus": "",
+		"packagename": "armo_builtins",
+		"alertScore": 0,
+		"alertObject": {
+			"k8sApiObjects": [
+				{
+					"apiVersion": "v1",
+					"kind": "Pod",
+					"metadata": {
+						"name": "mypod"
+					}
+				}
+			],
+			"externalObjects": {
+				"apiVersion": "v1",
+				"kind": "Pod",
+				"metadata": {
+					"name": "mypod",
+					"namespace": "default"
+				},
+				"relatedObjects": [
+					{
+						"apiVersion": "v1",
+						"data": {
+							"password": "MWYyZDFlMmU2N2Rm",
+							"username": "YWRtaW4="
+						},
+						"kind": "Secret",
+						"metadata": {
+							"name": "mysecret"
+						},
+						"type": "Opaque"
+					}
+				],
+				"spec": {
+					"containers": [
+						{
+							"image": "redis",
+							"name": "mypod",
+							"volumeMounts": [
+								{
+									"mountPath": "/etc/foo",
+									"name": "foo",
+									"readOnly": true
+								}
+							]
+						}
+					],
+					"volumes": [
+						{
+							"name": "foo",
+							"secret": {
+								"optional": true,
+								"secretName": "mysecret"
+							}
+						}
+					]
+				}
+			}
+		}
+	}
+]
