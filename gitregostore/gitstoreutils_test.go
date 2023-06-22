@@ -262,6 +262,8 @@ func TestVersionHasSecurityFrameworks(t *testing.T) {
 		expectedValue bool
 	}{
 		{"download/v1.0.202", false},     // Expected: false, because tag < earliestTagWithSecurityFrameworks
+		{"download/v1.0.1", false},       // Expected: false, because tag < earliestTagWithSecurityFrameworks
+		{"download/v1.1.1", true},        // Expected: true, because tag > earliestTagWithSecurityFrameworks
 		{"download/v1.0.283", true},      // Expected: true, because tag > earliestTagWithSecurityFrameworks
 		{"download/v1.0.283-rc.0", true}, // Expected: true, because tag > earliestTagWithSecurityFrameworks
 		{"download/v1.0.283-rc.2", true}, // Expected: true, because tag > earliestTagWithSecurityFrameworks
