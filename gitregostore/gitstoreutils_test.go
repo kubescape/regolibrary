@@ -106,7 +106,7 @@ func Test_isControlID(t *testing.T) {
 	}
 }
 
-func TestGitRegoStore_setURL(t *testing.T) {
+func TestNewGitRegoStore(t *testing.T) {
 	type fields struct {
 		BaseUrl    string
 		Owner      string
@@ -121,19 +121,19 @@ func TestGitRegoStore_setURL(t *testing.T) {
 		wantedURL string
 	}{
 		{
-			name: "setURL 00",
+			name: "Check Prod gitregostore",
 			fields: fields{
 				BaseUrl:    "https://github.com",
 				Owner:      "kubescape",
 				Repository: "regolibrary",
-				Branch:     "releases",
-				Path:       "latest/download",
-				Tag:        "",
+				Branch:     "",
+				Path:       "releases",
+				Tag:        "latest/download",
 			},
 			wantedURL: "https://github.com/kubescape/regolibrary/releases/latest/download",
 		},
 		{
-			name: "setURL 01",
+			name: "Check Dev gitregostore",
 			fields: fields{
 				BaseUrl:    "https://raw.githubusercontent.com",
 				Owner:      "kubescape",
@@ -147,18 +147,14 @@ func TestGitRegoStore_setURL(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gs := &GitRegoStore{
-				BaseUrl:    tt.fields.BaseUrl,
-				Owner:      tt.fields.Owner,
-				Repository: tt.fields.Repository,
-				Branch:     tt.fields.Branch,
-				Path:       tt.fields.Path,
-				Tag:        tt.fields.Tag,
-			}
-			gs.setURL()
+
+			gs := NewGitRegoStore(tt.fields.BaseUrl, tt.fields.Owner, tt.fields.Repository, tt.fields.Path, tt.fields.Tag, tt.fields.Branch, 5)
 			if gs.URL != tt.wantedURL {
 				t.Errorf("setURL() = %v, want %v", gs.URL, tt.wantedURL)
 			}
+			gs.SetRegoObjects()
+			gs_tests(t, gs)
+
 		})
 	}
 }

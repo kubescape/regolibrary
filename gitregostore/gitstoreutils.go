@@ -72,110 +72,6 @@ func (gs *GitRegoStore) setURL() {
 	}
 }
 
-func (gs *GitRegoStore) setObjects() error {
-	// This condition to support old reading files from repo.
-	// Once dev helm parameters are updated to new releaseDev folder, this condition should be removed.
-	if gs.Path == "git/trees" {
-		return gs.setObjectsFromRepoOnce()
-	}
-	return gs.setObjectsFromReleaseLoop()
-}
-
-// DEPRECATED
-func (gs *GitRegoStore) setObjectsFromRepoOnce() error {
-
-	url := gs.BaseUrl + "/" + gs.Owner + "/" + gs.Repository + "/" + gs.Path + "/" + gs.Branch + "?recursive=1"
-
-	body, err := HttpGetter(gs.httpClient, url)
-	if err != nil {
-		return err
-	}
-	var trees Tree
-	err = json.Unmarshal([]byte(body), &trees)
-	if err != nil {
-		return fmt.Errorf("failed to unmarshal response body from '%s', reason: %s", gs.URL, err.Error())
-	}
-
-	//use a clone of the store for the update to avoid long lock time
-	gsClone := newGitRegoStore(gs.BaseUrl, gs.Owner, gs.Repository, gs.Path, gs.Tag, gs.Branch, gs.FrequencyPullFromGitMinutes)
-
-	// use only json files from relevant dirs
-	for _, path := range trees.TREE {
-		rawDataPath := "https://raw.githubusercontent.com/" + gsClone.Owner + "/" + gsClone.Repository + "/" + gsClone.Branch + "/" + path.PATH
-
-		if strings.HasPrefix(path.PATH, strings.Replace(rulesJsonFileName, ".json", "/", -1)) && strings.HasSuffix(path.PATH, ".json") && !strings.Contains(path.PATH, "/test/") {
-			respStr, err := HttpGetter(gsClone.httpClient, rawDataPath)
-			if err != nil {
-				return err
-			}
-			if err := gsClone.setRulesWithRawRego(respStr, rawDataPath); err != nil {
-				zap.L().Debug("In setObjectsFromRepoOnce - failed to set rule %s\n", zap.String("path", rawDataPath))
-				return err
-			}
-		} else if strings.HasPrefix(path.PATH, strings.Replace(controlsJsonFileName, ".json", "/", -1)) && strings.HasSuffix(path.PATH, ".json") {
-			respStr, err := HttpGetter(gs.httpClient, rawDataPath)
-			if err != nil {
-				return err
-			}
-			if err := gsClone.setControl(respStr); err != nil {
-				zap.L().Debug("In setObjectsFromRepoOnce - failed to set control %s\n", zap.String("path", rawDataPath))
-				return err
-			}
-		} else if strings.HasPrefix(path.PATH, strings.Replace(frameworksJsonFileName, ".json", "/", -1)) && strings.HasSuffix(path.PATH, ".json") {
-			respStr, err := HttpGetter(gs.httpClient, rawDataPath)
-			if err != nil {
-				return err
-			}
-			if err := gsClone.setFramework(respStr); err != nil {
-				zap.L().Debug("In setObjectsFromRepoOnce - failed to set framework %s\n", zap.String("path", rawDataPath))
-				return err
-			}
-		} else if strings.HasPrefix(path.PATH, attackTracksPathPrefix+"/") && strings.HasSuffix(path.PATH, ".json") {
-			respStr, err := HttpGetter(gs.httpClient, rawDataPath)
-			if err != nil {
-				return nil
-			}
-			if err := gsClone.setAttackTrack(respStr); err != nil {
-				zap.L().Debug("In setObjectsFromRepoOnce - failed to set attack track %s\n", zap.String("path", rawDataPath))
-				return nil
-			}
-		} else if strings.HasPrefix(path.PATH, defaultConfigInputsFileName) && strings.HasSuffix(path.PATH, ".json") {
-			respStr, err := HttpGetter(gs.httpClient, rawDataPath)
-			if err != nil {
-				return err
-			}
-			if err := gsClone.setDefaultConfigInputs(respStr); err != nil {
-				zap.L().Debug("In setObjectsFromRepoOnce - failed to set DefaultConfigInputs %s\n", zap.String("path", rawDataPath))
-				return err
-			}
-		} else if strings.HasPrefix(path.PATH, systemPostureExceptionFileName+"/") && strings.HasSuffix(path.PATH, ".json") {
-			respStr, err := HttpGetter(gs.httpClient, rawDataPath)
-			if err != nil {
-				return err
-			}
-			if err := gsClone.setSystemPostureExceptionPolicy(respStr); err != nil {
-				zap.L().Debug("In setObjectsFromRepoOnce - failed to set setSystemPostureExceptionPolicy %s\n", zap.String("path", rawDataPath))
-				return err
-			}
-		} else if strings.HasSuffix(path.PATH, ControlRuleRelationsFileName) {
-			respStr, err := HttpGetter(gs.httpClient, rawDataPath)
-			if err != nil {
-				return err
-			}
-			gsClone.setControlRuleRelations(respStr)
-		} else if strings.HasSuffix(path.PATH, frameworkControlRelationsFileName) {
-			respStr, err := HttpGetter(gs.httpClient, rawDataPath)
-			if err != nil {
-				return err
-			}
-			gsClone.setFrameworkControlRelations(respStr)
-		}
-	}
-
-	gs.copyData(gsClone)
-	return nil
-}
-
 func (gs *GitRegoStore) setFramework(respStr string) error {
 	framework := &opapolicy.Framework{}
 	if err := JSONDecoder(respStr).Decode(framework); err != nil {
@@ -213,49 +109,9 @@ func (gs *GitRegoStore) setControl(respStr string) error {
 	return nil
 }
 
-func (gs *GitRegoStore) setRulesWithRawRego(respStr string, path string) error {
-	rule := &opapolicy.PolicyRule{}
-	rawRego, err := gs.getRulesWithRawRego(rule, respStr, path)
-	if err != nil {
-		return err
-	}
-	filterRego, err := gs.getRulesWithFilterRego(rule, respStr, path)
-	if err != nil && !strings.Contains(err.Error(), "404 Not Found") {
-		return err
-	}
-	rule.Rule = rawRego
-	rule.ResourceEnumerator = filterRego
-	gs.Rules = append(gs.Rules, *rule)
-	return nil
-}
-
-func (gs *GitRegoStore) getRulesWithRawRego(rule *opapolicy.PolicyRule, respStr string, path string) (string, error) {
-	if err := JSONDecoder(respStr).Decode(rule); err != nil {
-		return "", err
-	}
-	rawRegoPath := path[:strings.LastIndex(path, "/")] + "/raw.rego"
-	respString, err := HttpGetter(gs.httpClient, rawRegoPath)
-	if err != nil {
-		return "", err
-	}
-	return respString, nil
-}
-
-func (gs *GitRegoStore) getRulesWithFilterRego(rule *opapolicy.PolicyRule, respStr string, path string) (string, error) {
-	if err := JSONDecoder(respStr).Decode(rule); err != nil {
-		return "", err
-	}
-	rawRegoPath := path[:strings.LastIndex(path, "/")] + "/filter.rego"
-	respString, err := HttpGetter(gs.httpClient, rawRegoPath)
-	if err != nil {
-		return "", err
-	}
-	return respString, nil
-}
-
 // ======================== set Objects From Release =============================================
 
-func (gs *GitRegoStore) setObjectsFromReleaseLoop() error {
+func (gs *GitRegoStore) setObjects() error {
 	var wg sync.WaitGroup
 	wg.Add(1)
 	var e error
@@ -390,68 +246,6 @@ func (gs *GitRegoStore) setControlRuleRelations(respStr string) error {
 	gs.controlRelationsLock.Unlock()
 
 	return nil
-}
-
-func (gs *GitRegoStore) lockAll() {
-	gs.frameworksLock.Lock()
-	gs.controlsLock.Lock()
-	gs.controlRelationsLock.Lock()
-	gs.frameworkRelationsLock.Lock()
-	gs.rulesLock.Lock()
-	gs.attackTracksLock.Lock()
-	gs.systemPostureExceptionPoliciesLock.Lock()
-	gs.DefaultConfigInputsLock.Lock()
-}
-
-func (gs *GitRegoStore) rLockAll() {
-	gs.frameworksLock.RLock()
-	gs.controlsLock.RLock()
-	gs.controlRelationsLock.RLock()
-	gs.frameworkRelationsLock.RLock()
-	gs.rulesLock.RLock()
-	gs.attackTracksLock.RLock()
-	gs.systemPostureExceptionPoliciesLock.RLock()
-	gs.DefaultConfigInputsLock.RLock()
-}
-
-func (gs *GitRegoStore) unlockAll() {
-	// unlock acquired mutexes in the reverse order of locking
-	gs.DefaultConfigInputsLock.Unlock()
-	gs.systemPostureExceptionPoliciesLock.Unlock()
-	gs.attackTracksLock.Unlock()
-	gs.rulesLock.Unlock()
-	gs.frameworkRelationsLock.Unlock()
-	gs.controlRelationsLock.Unlock()
-	gs.controlsLock.Unlock()
-	gs.frameworksLock.Unlock()
-}
-
-func (gs *GitRegoStore) rUnlockAll() {
-	// unlock acquired mutexes in the reverse order of locking
-	gs.DefaultConfigInputsLock.RUnlock()
-	gs.systemPostureExceptionPoliciesLock.RUnlock()
-	gs.frameworkRelationsLock.RUnlock()
-	gs.attackTracksLock.RUnlock()
-	gs.rulesLock.RUnlock()
-	gs.controlRelationsLock.RUnlock()
-	gs.controlsLock.RUnlock()
-	gs.frameworksLock.RUnlock()
-}
-
-func (gs *GitRegoStore) copyData(other *GitRegoStore) {
-	other.rLockAll()
-	defer other.rUnlockAll()
-	gs.lockAll()
-	defer gs.unlockAll()
-
-	gs.Frameworks = other.Frameworks
-	gs.Controls = other.Controls
-	gs.Rules = other.Rules
-	gs.AttackTracks = other.AttackTracks
-	gs.SystemPostureExceptionPolicies = other.SystemPostureExceptionPolicies
-	gs.DefaultConfigInputs = other.DefaultConfigInputs
-	gs.ControlRuleRelations = other.ControlRuleRelations
-	gs.FrameworkControlRelations = other.FrameworkControlRelations
 }
 
 // JSONDecoder returns JSON decoder for given string
