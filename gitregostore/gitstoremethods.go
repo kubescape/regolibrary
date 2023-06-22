@@ -13,9 +13,8 @@ import (
 )
 
 const (
-	supportBackwardCompatibility = true
-	TypeCompliance               = "compliance"
-	TypeSecurity                 = "security"
+	TypeCompliance = "compliance"
+	TypeSecurity   = "security"
 )
 
 // =============================================================
@@ -96,8 +95,7 @@ func (gs *GitRegoStore) GetOPAControlByName(controlName string) (*opapolicy.Cont
 
 	for _, controlToPin := range gs.Controls {
 		// If backward compatibility is supported, extract from patched control name the new name.
-		if !strings.EqualFold(controlToPin.Name, controlName) &&
-			(!supportBackwardCompatibility || !strings.EqualFold(controlToPin.Name, baseControlName(controlToPin.ControlID, controlName))) {
+		if !strings.EqualFold(controlToPin.Name, controlName) {
 			continue
 		}
 
@@ -126,8 +124,7 @@ func (gs *GitRegoStore) GetOPAControlByID(controlID string) (*opapolicy.Control,
 func (gs *GitRegoStore) getOPAControlByID(controlID string) (*opapolicy.Control, error) {
 	for _, controlToPin := range gs.Controls {
 		// If backward compatibility is supported, try to find if the controlID sent has a new controlID
-		if !strings.EqualFold(controlToPin.ControlID, controlID) &&
-			(!supportBackwardCompatibility || !strings.EqualFold(controlToPin.ControlID, newControlID(controlID))) {
+		if !strings.EqualFold(controlToPin.ControlID, controlID) {
 			continue
 		}
 
@@ -158,8 +155,7 @@ func (gs *GitRegoStore) GetOPAControlByFrameworkNameAndControlName(frameworkName
 
 	for _, controlToPin := range fw.Controls {
 		// If backward compatibility is supported, extract from patched control name the new name.
-		if !strings.EqualFold(controlToPin.Name, controlName) &&
-			(!supportBackwardCompatibility || !strings.EqualFold(controlToPin.Name, baseControlName(controlToPin.ControlID, controlName))) {
+		if !strings.EqualFold(controlToPin.Name, controlName) {
 			continue
 		}
 
@@ -383,7 +379,7 @@ func (gs *GitRegoStore) getOPAFrameworkByName(frameworkName string) (*opapolicy.
 
 	for _, frameworkToPin := range gs.Frameworks {
 		// If backward compatibility is supported,try to compare the new CIS name.
-		if !strings.EqualFold(frameworkToPin.Name, frameworkName) && (!supportBackwardCompatibilityFramework || !strings.EqualFold(frameworkToPin.Name, newFrameworkName(frameworkName))) {
+		if !strings.EqualFold(frameworkToPin.Name, frameworkName) {
 			continue
 		}
 
