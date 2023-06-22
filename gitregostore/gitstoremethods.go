@@ -94,7 +94,6 @@ func (gs *GitRegoStore) GetOPAControlByName(controlName string) (*opapolicy.Cont
 	defer gs.controlsLock.RUnlock()
 
 	for _, controlToPin := range gs.Controls {
-		// If backward compatibility is supported, extract from patched control name the new name.
 		if !strings.EqualFold(controlToPin.Name, controlName) {
 			continue
 		}
@@ -123,7 +122,6 @@ func (gs *GitRegoStore) GetOPAControlByID(controlID string) (*opapolicy.Control,
 
 func (gs *GitRegoStore) getOPAControlByID(controlID string) (*opapolicy.Control, error) {
 	for _, controlToPin := range gs.Controls {
-		// If backward compatibility is supported, try to find if the controlID sent has a new controlID
 		if !strings.EqualFold(controlToPin.ControlID, controlID) {
 			continue
 		}
@@ -154,7 +152,6 @@ func (gs *GitRegoStore) GetOPAControlByFrameworkNameAndControlName(frameworkName
 	}
 
 	for _, controlToPin := range fw.Controls {
-		// If backward compatibility is supported, extract from patched control name the new name.
 		if !strings.EqualFold(controlToPin.Name, controlName) {
 			continue
 		}
@@ -375,10 +372,8 @@ func (gs *GitRegoStore) GetOPAFrameworkByName(frameworkName string) (*opapolicy.
 }
 
 func (gs *GitRegoStore) getOPAFrameworkByName(frameworkName string) (*opapolicy.Framework, error) {
-	const supportBackwardCompatibilityFramework = true
 
 	for _, frameworkToPin := range gs.Frameworks {
-		// If backward compatibility is supported,try to compare the new CIS name.
 		if !strings.EqualFold(frameworkToPin.Name, frameworkName) {
 			continue
 		}
@@ -492,7 +487,6 @@ func (gs *GitRegoStore) fillControlsAndControlIDsInFramework(fw *opapolicy.Frame
 	// if there are controls, need to populate only the rules.
 	for i := range fw.Controls {
 		if len(fw.Controls[i].Rules) == 0 {
-			// getting the control object using GetOPAControlByID as it handles backward compatibility
 			tmpControl, err := gs.GetOPAControlByID(fw.Controls[i].ControlID)
 			if err != nil {
 				return err
