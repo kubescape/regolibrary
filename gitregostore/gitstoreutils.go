@@ -32,7 +32,8 @@ const (
 	defaultConfigInputsFileName       = "default_config_inputs.json"
 	systemPostureExceptionFileName    = "exceptions.json"
 
-	controlIDRegex = `^(?:[a-z]+|[A-Z]+)(?:[\-][v]?(?:[0-9][\.]?)+)(?:[\-]?[0-9][\.]?)+$`
+	controlIDRegex                    = `^(?:[a-z]+|[A-Z]+)(?:[\-][v]?(?:[0-9][\.]?)+)(?:[\-]?[0-9][\.]?)+$`
+	earliestTagWithSecurityFrameworks = "v1.0.282-rc.0"
 )
 
 var (
@@ -154,19 +155,32 @@ func (gs *GitRegoStore) setFrameworks(respStr string) error {
 	if err := JSONDecoder(respStr).Decode(&frameworks); err != nil {
 		return err
 	}
-	respStr1, err := HttpGetter(gs.httpClient, fmt.Sprintf("%s/%s", gs.URL, gs.stripExtention(securityFrameworksJsonFileName)))
-	if err != nil {
-		return fmt.Errorf("error getting: %s from: '%s' ,error: %s", securityFrameworksJsonFileName, gs.URL, err)
-	}
-	securityFrameworks := []opapolicy.Framework{}
-	if err := JSONDecoder(respStr1).Decode(&securityFrameworks); err != nil {
-		return err
+	// from a certain tag we have security frameworks
+	if gs.versionHasSecurityFrameworks() {
+		respStr1, err := HttpGetter(gs.httpClient, fmt.Sprintf("%s/%s", gs.URL, gs.stripExtention(securityFrameworksJsonFileName)))
+		if err != nil {
+			return fmt.Errorf("error getting: %s from: '%s' ,error: %s", securityFrameworksJsonFileName, gs.URL, err)
+		}
+		securityFrameworks := []opapolicy.Framework{}
+		if err := JSONDecoder(respStr1).Decode(&securityFrameworks); err != nil {
+			return err
+		}
+		frameworks = append(frameworks, securityFrameworks...)
 	}
 	gs.frameworksLock.Lock()
 	defer gs.frameworksLock.Unlock()
 
-	gs.Frameworks = append(frameworks, securityFrameworks...)
+	gs.Frameworks = frameworks
 	return nil
+}
+
+func (gs *GitRegoStore) versionHasSecurityFrameworks() bool {
+	// check if tag contains numbers
+	if !hasNumbers(gs.Tag) {
+		return true
+	}
+	tag := strings.Split(gs.Tag, "/")[1]
+	return tag >= earliestTagWithSecurityFrameworks
 }
 
 func (gs *GitRegoStore) setAttackTracks(respStr string) error {
@@ -311,4 +325,13 @@ func isControlID(c string) bool {
 	})
 
 	return controlIDRegexCompiled.MatchString(c)
+}
+
+func hasNumbers(s string) bool {
+	for _, char := range s {
+		if char >= '0' && char <= '9' {
+			return true
+		}
+	}
+	return false
 }

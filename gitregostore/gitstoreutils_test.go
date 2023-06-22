@@ -255,3 +255,63 @@ func TestSetControl(t *testing.T) {
 		t.Errorf("Expected 1 control, but got: %d", len(store.Controls))
 	}
 }
+
+func TestVersionHasSecurityFrameworks(t *testing.T) {
+	testCases := []struct {
+		tag           string
+		expectedValue bool
+	}{
+		{"download/v1.0.202", false},     // Expected: false, because tag < earliestTagWithSecurityFrameworks
+		{"download/v1.0.283", true},      // Expected: true, because tag > earliestTagWithSecurityFrameworks
+		{"download/v1.0.283-rc.0", true}, // Expected: true, because tag > earliestTagWithSecurityFrameworks
+		{"download/v1.0.283-rc.2", true}, // Expected: true, because tag > earliestTagWithSecurityFrameworks
+		{"download/v1.0.282-rc.0", true}, // Expected: true, because tag = earliestTagWithSecurityFrameworks
+		{"download/v2.0.202", true},      // Expected: true, because tag > earliestTagWithSecurityFrameworks
+		{"download/v2.0.202-rc.0", true}, // Expected: true, because tag > earliestTagWithSecurityFrameworks
+		{"latest/download", true},        // Expected: true, because !hasNumbers(gs.Tag) is true
+		{"/", true},                      // Expected: true, because !hasNumbers(gs.Tag) is true
+		{"", true},                       // Expected: true, because !hasNumbers(gs.Tag) is true
+	}
+
+	for _, tc := range testCases {
+		gs := &GitRegoStore{
+			Tag: tc.tag,
+		}
+
+		actualValue := gs.versionHasSecurityFrameworks()
+
+		if actualValue != tc.expectedValue {
+			t.Errorf("For tag '%s', expected %t, but got %t", tc.tag, tc.expectedValue, actualValue)
+		}
+	}
+}
+
+func TestHasNumbers(t *testing.T) {
+	testCases := []struct {
+		input          string
+		expectedResult bool
+	}{
+		{"download/v1.0.202", true},      // Expected: true, because input contains numbers
+		{"download/v1.0.283-rc.0", true}, // Expected: true, because input contains numbers
+		{"abc", false},                   // Expected: false, because input does not contain numbers
+		{"123", true},                    // Expected: true, because input contains numbers
+		{"!@#$%", false},                 // Expected: false, because input does not contain numbers
+		{"", false},                      // Expected: false, because input is empty
+		{"123abc!@#", true},              // Expected: true, because input contains numbers
+		{"12 34", true},                  // Expected: true, because input contains numbers
+		{" 56 ", true},                   // Expected: true, because input contains numbers
+		{"", false},                      // Expected: false, because input is empty
+		{"/", false},                     // Expected: false, because input does not contain numbers
+		{"", false},                      // Expected: false, because input does not contain numbers
+		{"latest/download", false},       // Expected: false, because input does not contain numbers
+
+	}
+
+	for _, tc := range testCases {
+		actualResult := hasNumbers(tc.input)
+
+		if actualResult != tc.expectedResult {
+			t.Errorf("For input '%s', expected %t, but got %t", tc.input, tc.expectedResult, actualResult)
+		}
+	}
+}
