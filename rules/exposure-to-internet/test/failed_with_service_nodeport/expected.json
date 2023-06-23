@@ -1,0 +1,28 @@
+[
+    {
+	"alertMessage": "workload 'my-app' is exposed through service 'my-service'",
+        "fixPaths": [],
+        "failedPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+		{
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "my-app"
+                    }
+                },
+                {
+                    "apiVersion": "v1",
+                    "kind": "Service",
+                    "metadata": {
+                        "name": "my-service"
+                    }
+                }
+            ]
+        }
+    }
+]

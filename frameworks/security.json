@@ -14,7 +14,13 @@
                 "name": "Immutable container filesystem"
             }
         },
-        {
+	{
+            "controlID": "C-0256",
+            "patch": {
+                "name": "Exposure to Internet"
+            }
+        },
+	{
             "controlID": "C-0259",
             "patch": {
                 "name": "Workload with credential access"
