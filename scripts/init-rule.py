@@ -259,7 +259,7 @@ def define_args():
     parser.add_argument('--test-list',
                     type=str,
                     default=test_list_default,
-                    help='comma separated list of tests you want to provide on the rule. example: succes,failed')
+                    help='comma separated list of tests you want to provide on the rule. example: success,failed')
     args = parser.parse_args()
     return args 
 
