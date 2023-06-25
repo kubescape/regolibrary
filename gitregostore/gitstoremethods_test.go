@@ -13,6 +13,44 @@ import (
 func gs_tests(t *testing.T, gs *GitRegoStore) {
 	index := 0
 
+	t.Run("should retrieve DefaultConfigInput", func(t *testing.T) {
+		t.Parallel()
+
+		customerConfig, err := gs.GetDefaultConfigInputs()
+		assert.NoError(t, err)
+		assert.NotEmpty(t, customerConfig, "failed to get config inputs %v", err)
+	})
+
+	t.Run("should retrieve AttackTracks", func(t *testing.T) {
+		t.Parallel()
+
+		systemPostureExceptionPolicies, err := gs.GetSystemPostureExceptionPolicies()
+		assert.NoError(t, err)
+		assert.NotEmpty(t, systemPostureExceptionPolicies, "failed to get SystemPostureExceptionPolicies %v", err)
+	})
+
+	t.Run("should retrieve AttackTracks", func(t *testing.T) {
+		t.Parallel()
+
+		attachTrack, err := gs.GetAttackTracks()
+		assert.NoError(t, err)
+		assert.NotEmpty(t, attachTrack, "failed to get attack tracks %v", err)
+	})
+
+	t.Run("should retrieve framework by name", func(t *testing.T) {
+		t.Parallel()
+
+		frameworks := gs.GetOpaFrameworkListByControlID("C-0016")
+		assert.NotEmpty(t, frameworks, "failed to get framework by control ID 'C-0016' %v", frameworks)
+	})
+
+	t.Run("should retrieve framework by name", func(t *testing.T) {
+		t.Parallel()
+
+		frameworks := gs.GetOpaFrameworkListByControlName("Allow privilege escalation")
+		assert.NotEmpty(t, frameworks, "failed to get framework by control name 'Allow privilege escalation' %v", frameworks)
+	})
+
 	t.Run("should retrieve OPA rules (policies)", func(t *testing.T) {
 		t.Parallel()
 
@@ -52,6 +90,22 @@ func gs_tests(t *testing.T, gs *GitRegoStore) {
 		assert.NoError(t, err)
 		assert.NotEmptyf(t, controls,
 			"failed to get all controls %v", err,
+		)
+	})
+
+	t.Run("should retrieve OPA control by id or name", func(t *testing.T) {
+		t.Parallel()
+
+		controls, err := gs.GetOPAControl("C-0016")
+		assert.NoError(t, err)
+		assert.NotEmptyf(t, controls,
+			"failed to get control 'C-0016' %v", err,
+		)
+
+		controls, err = gs.GetOPAControl("Allow privilege escalation")
+		assert.NoError(t, err)
+		assert.NotEmptyf(t, controls,
+			"failed to get control 'Allow privilege escalation' %v", err,
 		)
 	})
 
@@ -179,8 +233,8 @@ func TestGetOPAFrameworkByName(t *testing.T) {
 		require.NoError(t, gs.SetRegoObjects())
 	})
 
-	t.Run("shoud retrieve CIS framework", func(t *testing.T) {
-		_, err := gs.GetOPAFrameworkByName("CIS")
+	t.Run("shoud retrieve 'cis-v1.23-t1.0.1'' framework", func(t *testing.T) {
+		_, err := gs.GetOPAFrameworkByName("cis-v1.23-t1.0.1")
 		require.NoErrorf(t, err,
 			"failed to get framework object: %v", err,
 		)
