@@ -1,6 +1,7 @@
 name: Kubescape scanning for misconfigurations
 on: [push, pull_request]
 jobs:
+#test kubescape repo
   kubescape:
     runs-on: ubuntu-latest
     permissions:
@@ -19,4 +20,3 @@ jobs:
       uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: results.sarif
-        
