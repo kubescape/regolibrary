@@ -7,5 +7,5 @@ on:
     types: [ opened, synchronize, reopened, ready_for_review ]    
 jobs:
   test_ks_misconfigurations:
-    uses: kubescape/workflows/.github/workflows/ks-ga-flow@main
+    uses: kubescape/workflows/.github/workflows/ks-ga-flow.yaml@main
     secrets: inherit
