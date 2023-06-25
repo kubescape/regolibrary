@@ -1,14 +1,6 @@
 name: Kubescape scanning for misconfigurations
-
-on:
-  push:
-    branches: [ master, main ]
-  pull_request:
-    types: [ opened, synchronize, reopened, ready_for_review ]    
+on: [push, pull_request]
 jobs:
-  # test_ks_misconfigurations:
-  #   uses: kubescape/workflows/.github/workflows/ks-ga-flow.yaml@main
-  #   secrets: inherit
   kubescape:
     runs-on: ubuntu-latest
     permissions:
@@ -23,10 +15,6 @@ jobs:
         format: sarif
         outputFile: results
         account: ${{secrets.KUBESCAPE_ACCOUNT}}
-        # files: "examples/*.yaml"
-        # frameworks: |
-        #   nsa,mitre
-#         failedThreshold: ${{ inputs.FAILEDTHRESHOLD }}
     - name: Upload Kubescape scan results to Github Code Scanning
       uses: github/codeql-action/upload-sarif@v2
       with:
