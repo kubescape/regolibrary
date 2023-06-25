@@ -6,6 +6,28 @@ on:
   pull_request:
     types: [ opened, synchronize, reopened, ready_for_review ]    
 jobs:
-  test_ks_misconfigurations:
-    uses: kubescape/workflows/.github/workflows/ks-ga-flow.yaml@main
-    secrets: inherit
+  # test_ks_misconfigurations:
+  #   uses: kubescape/workflows/.github/workflows/ks-ga-flow.yaml@main
+  #   secrets: inherit
+  kubescape:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+    - uses: actions/checkout@v3
+    - uses: kubescape/github-action@main
+      continue-on-error: true
+      with:
+        format: sarif
+        outputFile: results
+        account: ${{secrets.KUBESCAPE_ACCOUNT}}
+        # files: "examples/*.yaml"
+        # frameworks: |
+        #   nsa,mitre
+#         failedThreshold: ${{ inputs.FAILEDTHRESHOLD }}
+    - name: Upload Kubescape scan results to Github Code Scanning
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: results.sarif
