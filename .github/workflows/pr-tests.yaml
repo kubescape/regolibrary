@@ -50,6 +50,7 @@ jobs:
     with:
       COVERAGELIMIT: ${{ secrets.COVERAGELIMIT }}
       SHA: ${{ github.sha }}
+    secrets: inherit
 
 
   build-and-rego-test:
