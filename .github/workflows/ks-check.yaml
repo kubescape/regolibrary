@@ -1,10 +1,7 @@
 name: Kubescape scanning for misconfigurations
 
-on:
-  push:
-    branches: [ master, main ]
-  pull_request:
-    types: [ opened, synchronize, reopened, ready_for_review ]    
+on: [push, pull_request]
+
 jobs:
   test_ks_misconfigurations:
     uses: kubescape/workflows/.github/workflows/ks-ga-flow.yaml@main
