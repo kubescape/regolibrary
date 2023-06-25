@@ -6,4 +6,3 @@ jobs:
   test_ks_misconfigurations:
     uses: kubescape/workflows/.github/workflows/ks-ga-flow.yaml@main
     secrets: inherit
-    #test pr
