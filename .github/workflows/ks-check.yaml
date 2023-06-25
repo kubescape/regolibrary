@@ -1,6 +1,6 @@
 name: Kubescape scanning for misconfigurations
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   test_ks_misconfigurations:
