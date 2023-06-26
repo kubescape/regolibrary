@@ -11,6 +11,12 @@
             "patch": {
                 "name": "Immutable container filesystem"
             }
+        },
+        {
+            "controlID": "C-0259",
+            "patch": {
+                "name": "Workload with credential access"
+            }
         }
     ]
 }
