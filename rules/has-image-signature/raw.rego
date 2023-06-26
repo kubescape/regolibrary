@@ -1,5 +1,4 @@
 package armo_builtins
-import data
 
 deny[msga] {
 
@@ -51,7 +50,7 @@ deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	
+
     not cosign.has_signature(container.image)
 
 	failedPath := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)])

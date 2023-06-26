@@ -1,7 +1,4 @@
 package armo_builtins
-# import data.cautils as cautils
-# import data.kubernetes.api.client as client
-import data
 
 # fails if config map has keys with suspicious name
 deny[msga] {
@@ -12,11 +9,11 @@ deny[msga] {
     key_name := sensitive_key_names[_]
     map_secret := configmap.data[map_key]
     map_secret != ""
-    
+
     contains(lower(map_key), lower(key_name))
     # check that value wasn't allowed by user
     not is_allowed_value(map_secret)
-    
+
     path := sprintf("data[%v]", [map_key])
 
 	msga := {
@@ -72,7 +69,7 @@ deny[msga] {
     map_secret != ""
 
     decoded_secret := base64.decode(map_secret)
-    
+
     # check that value wasn't allowed by user
     not is_allowed_value(map_secret)
 

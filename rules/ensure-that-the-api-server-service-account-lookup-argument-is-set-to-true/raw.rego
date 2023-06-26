@@ -26,8 +26,11 @@ is_api_server(obj) {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) = result {
-	result = get_result(cmd[i], i)
+invalid_flag(cmd) := invalid_flags[0] {
+	invalid_flags := [flag |
+		some i, c in cmd
+		flag := get_result(c, i)
+	]
 }
 
 get_result(cmd, i) = result {

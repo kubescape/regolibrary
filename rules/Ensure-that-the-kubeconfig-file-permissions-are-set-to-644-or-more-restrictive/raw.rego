@@ -1,7 +1,8 @@
 package armo_builtins
 
-import data.cautils as cautils
 import future.keywords.in
+
+import data.cautils
 
 deny[msg] {
 	# Filter out irrelevent resources
@@ -11,7 +12,7 @@ deny[msg] {
 	file_obj_path := ["data", "kubeConfigFile"]
 	file := object.get(obj, file_obj_path, false)
 
-	# Actual permissions test. num. configured from Octal (644) to Decimal num.    
+	# Actual permissions test. num. configured from Octal (644) to Decimal num.
 	allowed_perms := 420
 	not cautils.unix_permissions_allow(allowed_perms, file.permissions)
 
@@ -24,7 +25,7 @@ deny[msg] {
 		"metadata"
 	])
 
-	alert := sprintf("The permissions of %s are too permissive. maximum allowed: %o. actual: %o", 
+	alert := sprintf("The permissions of %s are too permissive. maximum allowed: %o. actual: %o",
 	[file.path, allowed_perms, file.permissions])
 
 	msg := {

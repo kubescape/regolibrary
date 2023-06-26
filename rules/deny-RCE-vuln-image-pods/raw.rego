@@ -1,6 +1,7 @@
 package armo_builtins
-import data.cautils as cautils
-    
+
+import data.cautils
+
 # ========= RCE : no service score 5 ================
 deny[msga] {
 	pod := input[_]
@@ -164,7 +165,7 @@ deny[msga] {
 				"vulnerabilities" : [vulnerabilities]
 			}
 		},
-    
+
     }
 }
 # cronjobs

@@ -1,6 +1,6 @@
 package armo_builtins
-import data.cautils as cautils
 
+import data.cautils
 
 # Fails if user can modify all configmaps, or if he can modify the 'coredns' configmap (default for coredns)
 #RoleBinding to Role

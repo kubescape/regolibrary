@@ -1,7 +1,8 @@
 package armo_builtins
 
-import data.cautils as cautils
 import future.keywords.in
+
+import data.cautils
 
 deny[msg] {
 	# Filter out irrelevent resources

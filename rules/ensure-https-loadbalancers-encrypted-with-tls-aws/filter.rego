@@ -1,6 +1,6 @@
 package armo_builtins
-import data.kubernetes.api.client as client
-import data
+
+import data.kubernetes.api.client
 
 deny[msga] {
 	obj := input[_]
@@ -8,4 +8,3 @@ deny[msga] {
 	obj.spec.type == "LoadBalancer"
 	msga := {"alertObject": {"k8sApiObjects": [obj]}}
 }
-

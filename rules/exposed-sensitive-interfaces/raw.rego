@@ -1,6 +1,6 @@
 package armo_builtins
-import data.kubernetes.api.client as client
-import data
+
+import data.kubernetes.api.client
 
 # loadbalancer
 deny[msga] {
@@ -12,7 +12,7 @@ deny[msga] {
 	workload_types = {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "Pod", "CronJob"}
 	workload_types[wl.kind]
 	result := wl_connectedto_service(wl, service)
-    
+
     # see default-config-inputs.json for list values
     services_names := data.postureControlInputs.servicesNames
 	services_names[service.metadata.name]
@@ -39,11 +39,11 @@ deny[msga] {
 	service := 	input[_]
 	service.kind == "Service"
 	service.spec.type == "NodePort"
-    
+
     # see default-config-inputs.json for list values
     services_names := data.postureControlInputs.servicesNames
 	services_names[service.metadata.name]
-    
+
 	pod := input[_]
 	pod.kind == "Pod"
 
@@ -60,7 +60,7 @@ deny[msga] {
 			"k8sApiObjects": [pod, service]
 		}
 	}
-} 
+}
 
 # nodePort
 # get a workload connected to that service, get nodeIP (hostIP?)
@@ -69,11 +69,11 @@ deny[msga] {
 	service := 	input[_]
 	service.kind == "Service"
 	service.spec.type == "NodePort"
-    
+
     # see default-config-inputs.json for list values
     services_names := data.postureControlInputs.servicesNames
 	services_names[service.metadata.name]
-    
+
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "CronJob"}
 	spec_template_spec_patterns[wl.kind]

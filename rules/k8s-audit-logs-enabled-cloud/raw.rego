@@ -1,6 +1,7 @@
 package armo_builtins
 
 import future.keywords.every
+import future.keywords.in
 
 # =============================== GKE ===============================
 # Check if audit logs is enabled for GKE
@@ -76,5 +77,5 @@ all_auditlogs_enabled(logSetups, types) {
 auditlogs_enabled(logSetups, type) {
 	logSetup := logSetups[_]
 	logSetup.Enabled == true
-	logSetup.Types[_] == type
+	type in logSetup.Types
 }

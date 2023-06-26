@@ -1,6 +1,6 @@
 package armo_builtins
-import data.kubernetes.api.client as client
-import data
+
+import data.kubernetes.api.client
 
 # deny LoadBalancer services that are configured for ssl connection (port: 443), but don't have TLS certificate set.
 deny[msga] {
@@ -12,7 +12,7 @@ deny[msga] {
 	# filterring LoadBalancers
 	wl := 	input[_]
 	wl.kind == wl_kind
-	wl.spec.type == wl_type	
+	wl.spec.type == wl_type
 
 	#  filterring loadbalancers with port 443.
 	wl.spec.ports[_].port == 443

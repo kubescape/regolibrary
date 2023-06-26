@@ -1,7 +1,6 @@
 package armo_builtins
-import data
+
 import future.keywords.if
-# import data.kubernetes.api.client as client
 
 untrusted_image_repo[msga] {
 	pod := input[_]
@@ -75,7 +74,7 @@ image_in_allowed_list(image){
 }
 
 
-# docker_host_wrapper - wrap an image without a host with a docker hub host 'docker.io'. 
+# docker_host_wrapper - wrap an image without a host with a docker hub host 'docker.io'.
 # An image that doesn't contain '/' is assumed to not having a host and therefore associated with docker hub.
 docker_host_wrapper(image) := result if {
 	not contains(image, "/")
