@@ -17,12 +17,6 @@
             "patch": {
                 "name": "Workload with configMap access"
             }
-        },
-        {
-            "controlID": "C-0259",
-            "patch": {
-                "name": "Workload with credential access"
-            }
         }
     ]
 }
