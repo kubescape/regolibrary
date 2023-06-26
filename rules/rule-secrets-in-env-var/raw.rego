@@ -1,5 +1,4 @@
 package armo_builtins
-import data
 
 deny[msga] {
 	pod := input[_]
@@ -31,7 +30,7 @@ deny[msga] {
 	env := container.env[j]
 	env.valueFrom.secretKeyRef
 
-	path := sprintf("spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])	
+	path := sprintf("spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
 
 	msga := {
 		"alertMessage": sprintf("%v: %v has secrets in environment variables", [wl.kind, wl.metadata.name]),
@@ -51,7 +50,7 @@ deny[msga] {
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 	env := container.env[j]
 	env.valueFrom.secretKeyRef
-	
+
 	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
 
 	msga := {

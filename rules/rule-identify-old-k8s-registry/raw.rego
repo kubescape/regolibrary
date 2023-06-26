@@ -1,5 +1,4 @@
 package armo_builtins
-import data
 
 deprecatedK8sRepo[msga] {
 	pod := input[_]

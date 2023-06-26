@@ -1,9 +1,8 @@
 package armo_builtins
-import data.cautils as cautils
-import data
 
+import data.cautils
 
-# Fails if container has bash/cmd inside it 
+# Fails if container has bash/cmd inside it
 # Pods
 deny [msga] {
     pod := input[_]
@@ -12,7 +11,7 @@ deny [msga] {
 	scan := res[_]
     is_bash_container(scan)
 	path := sprintf("spec.containers[%v].image", [format_int(i, 10)])
-    
+
     msga := {
 		"alertMessage": sprintf("the following container: %v has bash/cmd inside it.", [container.name]),
 		"alertScore": 6,
@@ -40,7 +39,7 @@ deny [msga] {
 	scan := res[_]
     is_bash_container(scan)
 
-    
+
     msga := {
 		"alertMessage": sprintf("the following container: %v has bash/cmd inside it.", [container.name]),
 		"alertScore": 6,

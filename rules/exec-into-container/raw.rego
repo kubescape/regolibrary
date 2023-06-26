@@ -1,9 +1,9 @@
-
 package armo_builtins
-import data.cautils as cautils
+
+import data.cautils
 
 # input: clusterrolebindings + rolebindings
-# apiversion: rbac.authorization.k8s.io/v1 
+# apiversion: rbac.authorization.k8s.io/v1
 # returns subjects that can exec into container
 
 deny[msga] {
@@ -18,7 +18,7 @@ deny[msga] {
 
 	rolebinding.roleRef.kind == "Role"
 	rolebinding.roleRef.name == role.metadata.name
-	
+
    	subject := rolebinding.subjects[i]
     path := sprintf("subjects[%v]", [format_int(i, 10)])
 
@@ -38,7 +38,7 @@ deny[msga] {
 
 
 # input: clusterrolebindings + rolebindings
-# apiversion: rbac.authorization.k8s.io/v1 
+# apiversion: rbac.authorization.k8s.io/v1
 # returns subjects that can exec into container
 
 deny[msga] {
@@ -53,7 +53,7 @@ deny[msga] {
 
 	rolebinding.roleRef.kind == "ClusterRole"
 	rolebinding.roleRef.name == role.metadata.name
-	
+
     subject := rolebinding.subjects[i]
     path := sprintf("subjects[%v]", [format_int(i, 10)])
 
@@ -72,7 +72,7 @@ deny[msga] {
 }
 
 # input: clusterrolebindings + rolebindings
-# apiversion: rbac.authorization.k8s.io/v1 
+# apiversion: rbac.authorization.k8s.io/v1
 # returns subjects that can exec into container
 
 deny[msga] {
@@ -87,7 +87,7 @@ deny[msga] {
 
 	rolebinding.roleRef.kind == "ClusterRole"
 	rolebinding.roleRef.name == role.metadata.name
-	
+
     subject := rolebinding.subjects[i]
     path := sprintf("subjects[%v]", [format_int(i, 10)])
 
@@ -114,7 +114,7 @@ can_exec_to_pod_verb(rule)  {
 
 can_exec_to_pod_resource(rule)  {
 	cautils.list_contains(rule.resources, "pods/exec")
-	
+
 }
 can_exec_to_pod_resource(rule)  {
 	cautils.list_contains(rule.resources, "pods/*")

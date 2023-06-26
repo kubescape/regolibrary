@@ -1,6 +1,6 @@
 package armo_builtins
-import data
-import data.cautils as cautils
+
+import data.cautils
 
 deny[msga] {
     pod := input[_]

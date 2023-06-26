@@ -1,12 +1,11 @@
 package armo_builtins
-import data
 
 deny[msga] {
 
     pod := input[_]
     pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	
+
     verified_keys := [trusted_key | trusted_key = data.postureControlInputs.trustedCosignPublicKeys[_]; cosign.verify(container.image, trusted_key)]
     count(verified_keys) == 0
 
@@ -49,7 +48,7 @@ deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	
+
     verified_keys := [trusted_key | trusted_key = data.postureControlInputs.trustedCosignPublicKeys[_]; cosign.verify(container.image, trusted_key)]
     count(verified_keys) == 0
 

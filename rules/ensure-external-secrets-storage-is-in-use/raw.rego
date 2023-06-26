@@ -1,8 +1,8 @@
 package armo_builtins
-import data.kubernetes.api.client as client
-import data
+
 import future.keywords.in
 
+import data.kubernetes.api.client
 
 # deny workloads that doesn't support external service provider (secretProviderClass)
 # reference - https://secrets-store-csi-driver.sigs.k8s.io/concepts.html

@@ -1,6 +1,6 @@
 package armo_builtins
 
-import data.cautils as cautils
+import data.cautils
 
 # Check if encryption in etcd is enabled for native k8s
 deny[msga] {

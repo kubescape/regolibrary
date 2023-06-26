@@ -105,7 +105,7 @@ are_audit_file_rules_valid(rules) if {
 	# Policy file must contain every resource
 	some resource, config in seeked_resources_with_audit_level
 
-	# Every seeked resource mu have valid audit levels 
+	# Every seeked resource mu have valid audit levels
 	not test_all_rules_against_one_seeked_resource(resource, config, rules)
 }
 
@@ -117,7 +117,7 @@ test_all_rules_against_one_seeked_resource(seeked_resource, value_of_seeked_reso
 	# Move forward only if there are some
 	rules_count > 0
 
-	# Check if rules concerning seeked resource have valid audit levels 
+	# Check if rules concerning seeked resource have valid audit levels
 	valid_rules := [rule | rule := rules_with_seeked_resource[_]; validate_rule_audit_level(rule, value_of_seeked_resource)]
 	valid_rules_count := count(valid_rules)
 
@@ -129,7 +129,7 @@ test_all_rules_against_one_seeked_resource(seeked_resource, value_of_seeked_reso
 }
 
 is_rule_concering_seeked_resource(rule, seeked_resource) if {
-	rule.resources[_].resources[_] == seeked_resource
+	seeked_resource in rule.resources[_].resources
 }
 
 # Sample single rule:

@@ -1,7 +1,4 @@
 package armo_builtins
-import data
-# import data.cautils as cautils
-# import data.kubernetes.api.client as client
 
 # input: pods
 # apiversion: v1
@@ -17,7 +14,7 @@ deny[msga] {
     wl_name := wl_known_names[_]
     contains(object.metadata.name, wl_name)
 	path := "metadata.name"
-	
+
 	msga := {
 		"alertMessage": sprintf("this %v has a similar name to %v", [object.kind, wl_name]),
 		"alertScore": 9,

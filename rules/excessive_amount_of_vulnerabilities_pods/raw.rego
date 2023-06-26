@@ -1,5 +1,4 @@
 package armo_builtins
-import data
 
 deny[msga] {
   pods    := [ x | x = input[_]; x.kind == "Pod" ]
@@ -8,9 +7,9 @@ deny[msga] {
   pod     := pods[_]
   vuln    := vulns[_]
 
-  # vuln data is relevant 
-  count(vuln.data) > 0 
-  
+  # vuln data is relevant
+  count(vuln.data) > 0
+
   # get container image name
   container := pod.spec.containers[i]
 
@@ -57,7 +56,7 @@ check_num_vulnerabilities(vuln) {
 
 check_num_vulnerabilities(vuln) {
   exists := count([ x | x = vuln.data[_]; x.severity == "High" ])
-  
+
   str_max := data.postureControlInputs.max_high_vulnerabilities[_]
   exists > to_number(str_max)
 }

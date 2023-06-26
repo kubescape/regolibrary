@@ -1,6 +1,7 @@
 
 package armo_builtins
-import data.cautils as cautils
+
+import data.cautils
 
 # ================= create/update ===============================
 
@@ -16,7 +17,7 @@ deny[msga] {
     rule:= role.rules[_]
     can_create_update_to_role_resource(rule)
     can_create_update_to_role_verb(rule)
-  
+
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
     subject := rolebinding.subjects[i]
@@ -143,7 +144,7 @@ deny [msga]{
     rolebinding := rolebindings[_]
 
     rule:= role.rules[_]
-    
+
     can_bind_to_role_resource(rule)
     can_bind_to_role_verb(rule)
 
@@ -183,7 +184,7 @@ can_bind_to_role_resource(rule)
     clusterrolebinding.roleRef.name == role.metadata.name
     subject := clusterrolebinding.subjects[i]
     path := sprintf("subjects[%v]", [format_int(i, 10)])
-    	
+
    msga := {
 		"alertMessage": sprintf("The following %v: %v, can bind roles/clusterroles", [subject.kind, subject.name]),
 		"alertScore": 3,
@@ -214,7 +215,7 @@ deny[msga] {
     rule:= role.rules[_]
     can_escalate_to_role_resource(rule)
     can_escalate_to_role_verb(rule)
-  
+
     rolebinding.roleRef.kind == "Role"
     rolebinding.roleRef.name == role.metadata.name
     subject := rolebinding.subjects[i]
@@ -281,7 +282,7 @@ deny [msga]{
     clusterrolebinding.roleRef.name == role.metadata.name
     subject := clusterrolebinding.subjects[i]
     path := sprintf("subjects[%v]", [format_int(i, 10)])
-    	
+
   	msga := {
 		"alertMessage": sprintf("The following %v: %v, can escalate rolebinding/clusterrolebinding", [subject.kind, subject.name]),
 		"alertScore": 3,

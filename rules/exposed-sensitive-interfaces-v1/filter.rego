@@ -1,6 +1,6 @@
 package armo_builtins
-import data.kubernetes.api.client as client
-import data
+
+import data.kubernetes.api.client
 
 deny[msga] {
 	wl := input[_]

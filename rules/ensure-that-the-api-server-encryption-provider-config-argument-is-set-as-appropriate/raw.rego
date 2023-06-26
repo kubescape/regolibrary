@@ -2,7 +2,7 @@ package armo_builtins
 
 import future.keywords.in
 
-# Encryption config is not set at all 
+# Encryption config is not set at all
 deny[msg] {
 	obj = input[_]
 	is_api_server(obj)
@@ -32,7 +32,7 @@ deny[msg] {
 
 	# Check if the config conver secrets
 	count({true | "secrets" in config_file_content.resources[_].resources}) == 0
-	
+
 	# Add name to the failed object so that
 	# it fit the format of the alert object
 	failed_obj := json.patch(config_file_content, [{
@@ -65,6 +65,6 @@ is_control_plane_info(obj) {
 	obj.kind == "ControlPlaneInfo"
 }
 
-decode_config_file(content) := data {
-	data := yaml.unmarshal(content)
+decode_config_file(content) := parsed {
+	parsed := yaml.unmarshal(content)
 } else := json.unmarshal(content)

@@ -1,17 +1,18 @@
 package armo_builtins
 
-import data.cautils as cautils
 import future.keywords.in
+
+import data.cautils
 
 deny[msg] {
 	# Filter out irrelevent resources
 	obj = input[_]
 	is_control_plane_info(obj)
-	
+
 	file_obj_path := ["data", "APIServerInfo", "specsFile"]
 	file := object.get(obj, file_obj_path, false)
 
-	# Actual permissions test    
+	# Actual permissions test
 	allowed_perms := 384 # == 0o600
 	not cautils.unix_permissions_allow(allowed_perms, file.permissions)
 
@@ -22,7 +23,7 @@ deny[msg] {
 		"apiVersion",
 		"kind",
 		"metadata",
-	]) 
+	])
 
 	alert := sprintf("the permissions of %s are too permissive. maximum allowed: %o. actual: %o", [file.path, allowed_perms, file.permissions])
 	msg := {

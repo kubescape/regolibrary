@@ -1,6 +1,6 @@
 package armo_builtins
-import data.kubernetes.api.client as client
-import data
+
+import data.kubernetes.api.client
 
 # loadbalancer
 deny[msga] {
@@ -18,7 +18,7 @@ deny[msga] {
 	service.spec.type == "LoadBalancer"
 
 	result := wl_connectedto_service(wl, service)
-    
+
     # externalIP := service.spec.externalIPs[_]
 	externalIP := service.status.loadBalancer.ingress[0].ip
 
@@ -47,12 +47,12 @@ deny[msga] {
 deny[msga] {
 	wl := input[_]
 	wl.kind == "Pod"
-    
+
     # see default-config-inputs.json for list values
     wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl_name := wl_names[_]
 	contains(wl.metadata.name, wl_name)
-    
+
 	service := 	input[_]
 	service.kind == "Service"
 	service.spec.type == "NodePort"
@@ -75,7 +75,7 @@ deny[msga] {
             "externalObjects": wlvector
 		}
 	}
-} 
+}
 
 # nodePort
 # get a workload connected to that service, get nodeIP (hostIP?)
@@ -84,12 +84,12 @@ deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "CronJob"}
 	spec_template_spec_patterns[wl.kind]
-    
+
     # see default-config-inputs.json for list values
     wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl_name := wl_names[_]
 	contains(wl.metadata.name, wl_name)
-    
+
 	service := 	input[_]
 	service.kind == "Service"
 	service.spec.type == "NodePort"

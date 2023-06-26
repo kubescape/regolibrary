@@ -1,14 +1,15 @@
 package armo_builtins
 
-import data.cautils as cautils
 import future.keywords.in
+
+import data.cautils
 
 # Fail for every file in data.postureControlInputs.fileObjPath
 # if the permissions of the file are more permissive that 600.
-# Expect (supposed to be fixed per control, not user configurable): 
+# Expect (supposed to be fixed per control, not user configurable):
 # 	(required) data.postureControlInputs.fileObjPath - list of paths strings. The item delimiter is `.`.
-# 	(optional) data.postureControlInputs.kindFilter 
-# 	(optional) data.postureControlInputs.pathGlob 
+# 	(optional) data.postureControlInputs.kindFilter
+# 	(optional) data.postureControlInputs.pathGlob
 deny[msg] {
 	# Filter out irrelevent resources
 	obj = input[_]
@@ -26,7 +27,7 @@ deny[msg] {
 	file = files[file_index]
 	file_path_glob(file.path)
 
-	# Actual permissions test    
+	# Actual permissions test
 	allowed_perms := 384 # 0o600 == 384
 	not cautils.unix_permissions_allow(allowed_perms, file.permissions)
 
