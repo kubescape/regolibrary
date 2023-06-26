@@ -9,3 +9,7 @@ subjects:
 - kind: ServiceAccount  
   name: default
   namespace: default
+roleRef:
+  kind: ClusterRole
+  name: test
+  apiGroup: rbac.authorization.k8s.io
