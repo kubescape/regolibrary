@@ -286,7 +286,7 @@ func RunSingleTest(t *testing.T, dir string, policyRule *reporthandling.PolicyRu
 
 	expectedResponses, err := GetExpectedResults(dir)
 	if err != nil {
-		return err
+		return fmt.Errorf("expected.json doesn't match: %v", err)
 	}
 
 	err = AssertResponses(t, responses, expectedResponses)
