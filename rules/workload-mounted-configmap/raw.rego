@@ -12,8 +12,16 @@ deny[msga] {
 	configMap.metadata.name == volume.configMap.name
 	is_same_namespace(configMap.metadata, resource.metadata)
 
+	containers_path := get_containers_path(resource)
+	containers := object.get(resource, containers_path, [])
+	container := containers[j]
+	container.volumeMounts
 
-	failedPaths := sprintf("%s[%d].configMap", [concat(".", volumes_path), i])
+ 	# check if volume is mounted
+	container.volumeMounts[_].name == volume.name
+
+	failedPaths := sprintf("%s[%d].volumeMounts", [concat(".", containers_path), j])
+	
 
 	msga := {
 		"alertMessage": sprintf("%v: %v has mounted configMap", [resource.kind, resource.metadata.name]),
@@ -24,6 +32,27 @@ deny[msga] {
 			"k8sApiObjects": [resource]
 }
 	}
+}
+
+
+
+# get_containers_path - get resource containers paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+get_containers_path(resource) := result {
+	resource_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	resource_kinds[resource.kind]
+	result = ["spec", "template", "spec", "containers"]
+}
+
+# get_containers_path - get resource containers paths for "Pod"
+get_containers_path(resource) := result {
+	resource.kind == "Pod"
+	result = ["spec", "containers"]
+}
+
+# get_containers_path - get resource containers paths for  "CronJob"
+get_containers_path(resource) := result {
+	resource.kind == "CronJob"
+	result = ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
 }
 
 # get_volume_path - get resource volumes paths for {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
