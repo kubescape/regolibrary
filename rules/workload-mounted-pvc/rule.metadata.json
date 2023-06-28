@@ -1,5 +1,5 @@
 {
-    "name": "workload-mounted-configmap",
+    "name": "workload-mounted-pvc",
     "attributes": {
       "armoBuiltin": true
     },
@@ -44,7 +44,7 @@
         ]
       }
     ],
-    "description": "fails if workload mounts ConfigMaps",
+    "description": "fails if workload mounts PVC",
     "remediation": "",
     "ruleQuery": "armo_builtins"
 }
