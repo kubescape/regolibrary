@@ -15,7 +15,16 @@ deny[msga] {
 	# add related ressource
 	resource_vector := json.patch(resource, [{"op": "add", "path": "relatedObjects", "value": [secret]}])
 
-	failedPaths := sprintf("%s[%d].secret", [concat(".", volumes_path), i])
+
+	containers_path := get_containers_path(resource)
+	containers := object.get(resource, containers_path, [])
+	container := containers[j]
+	container.volumeMounts
+
+ 	# check if volume is mounted
+	container.volumeMounts[_].name == volume.name
+
+	failedPaths := sprintf("%s[%d].volumeMounts", [concat(".", containers_path), j])
 
 	msga := {
 		"alertMessage": sprintf("%v: %v has mounted secret", [resource.kind, resource.metadata.name]),
@@ -34,6 +43,25 @@ get_volumes_path(resource) := result {
 	resource_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	resource_kinds[resource.kind]
 	result = ["spec", "template", "spec", "volumes"]
+}
+
+# get_containers_path - get resource containers paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+get_containers_path(resource) := result {
+	resource_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	resource_kinds[resource.kind]
+	result = ["spec", "template", "spec", "containers"]
+}
+
+# get_containers_path - get resource containers paths for "Pod"
+get_containers_path(resource) := result {
+	resource.kind == "Pod"
+	result = ["spec", "containers"]
+}
+
+# get_containers_path - get resource containers paths for  "CronJob"
+get_containers_path(resource) := result {
+	resource.kind == "CronJob"
+	result = ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
 }
 
 # get_volumes_path - get resource volumes paths for "Pod"

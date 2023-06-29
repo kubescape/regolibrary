@@ -2,7 +2,7 @@
 	{
 		"alertMessage": "Pod: mypod has mounted secret",
 		"failedPaths": [
-			"spec.volumes[0].secret"
+			"spec.containers[0].volumeMounts"
 		],
 		"fixPaths": [],
 		"ruleStatus": "",
