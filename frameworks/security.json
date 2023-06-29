@@ -4,7 +4,9 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "typeTags": ["security"],
+    "typeTags": [
+        "security"
+    ],
     "activeControls": [
         {
             "controlID": "C-0017",
@@ -16,6 +18,24 @@
             "controlID": "C-0259",
             "patch": {
                 "name": "Workload with credential access"
+            }
+        },
+        {
+            "controlID": "C-0258",
+            "patch": {
+                "name": "Workload with configMap access"
+            }
+        },
+        {
+            "controlID": "C-0257",
+            "patch": {
+                "name": "Workload with PVC access"
+            }
+        },
+        {
+            "controlID": "C-0255",
+            "patch": {
+                "name": "Workload with secret access"
             }
         }
     ]
