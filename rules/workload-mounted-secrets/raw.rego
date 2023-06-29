@@ -5,12 +5,16 @@ deny[msga] {
 	volumes_path := get_volumes_path(resource)
 	volumes := object.get(resource, volumes_path, [])
 	volume := volumes[i]
-	volume.configMap
+	volume.secret
 
-	configMap := input[_]
-	configMap.kind == "ConfigMap"
-	configMap.metadata.name == volume.configMap.name
-	is_same_namespace(configMap.metadata, resource.metadata)
+	secret := input[_]
+	secret.kind == "Secret"
+	secret.metadata.name == volume.secret.secretName
+	is_same_namespace(secret.metadata, resource.metadata)
+
+	# add related ressource
+	resource_vector := json.patch(resource, [{"op": "add", "path": "relatedObjects", "value": [secret]}])
+
 
 	containers_path := get_containers_path(resource)
 	containers := object.get(resource, containers_path, [])
@@ -22,19 +26,24 @@ deny[msga] {
 
 	failedPaths := sprintf("%s[%d].volumeMounts", [concat(".", containers_path), j])
 
-
 	msga := {
-		"alertMessage": sprintf("%v: %v has mounted configMap", [resource.kind, resource.metadata.name]),
+		"alertMessage": sprintf("%v: %v has mounted secret", [resource.kind, resource.metadata.name]),
 		"packagename": "armo_builtins",
 		"failedPaths": [failedPaths],
 		"fixPaths":[],
 		"alertObject": {
-			"k8sApiObjects": [resource]
-}
+			"k8sApiObjects": [resource],
+			"externalObjects": resource_vector
+		}
 	}
 }
 
-
+# get_volume_path - get resource volumes paths for {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+get_volumes_path(resource) := result {
+	resource_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	resource_kinds[resource.kind]
+	result = ["spec", "template", "spec", "volumes"]
+}
 
 # get_containers_path - get resource containers paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 get_containers_path(resource) := result {
@@ -53,13 +62,6 @@ get_containers_path(resource) := result {
 get_containers_path(resource) := result {
 	resource.kind == "CronJob"
 	result = ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
-}
-
-# get_volume_path - get resource volumes paths for {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-get_volumes_path(resource) := result {
-	resource_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-	resource_kinds[resource.kind]
-	result = ["spec", "template", "spec", "volumes"]
 }
 
 # get_volumes_path - get resource volumes paths for "Pod"

@@ -5,12 +5,12 @@ deny[msga] {
 	volumes_path := get_volumes_path(resource)
 	volumes := object.get(resource, volumes_path, [])
 	volume := volumes[i]
-	volume.configMap
+	volume.persistentVolumeClaim
 
-	configMap := input[_]
-	configMap.kind == "ConfigMap"
-	configMap.metadata.name == volume.configMap.name
-	is_same_namespace(configMap.metadata, resource.metadata)
+	PVC := input[_]
+	PVC.kind == "PersistentVolumeClaim"
+	PVC.metadata.name == volume.persistentVolumeClaim.claimName
+	is_same_namespace(PVC.metadata, resource.metadata)
 
 	containers_path := get_containers_path(resource)
 	containers := object.get(resource, containers_path, [])
@@ -22,9 +22,8 @@ deny[msga] {
 
 	failedPaths := sprintf("%s[%d].volumeMounts", [concat(".", containers_path), j])
 
-
 	msga := {
-		"alertMessage": sprintf("%v: %v has mounted configMap", [resource.kind, resource.metadata.name]),
+		"alertMessage": sprintf("%v: %v has mounted PVC", [resource.kind, resource.metadata.name]),
 		"packagename": "armo_builtins",
 		"failedPaths": [failedPaths],
 		"fixPaths":[],
@@ -33,7 +32,6 @@ deny[msga] {
 }
 	}
 }
-
 
 
 # get_containers_path - get resource containers paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
