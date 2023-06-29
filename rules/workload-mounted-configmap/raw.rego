@@ -22,6 +22,7 @@ deny[msga] {
 
 	failedPaths := sprintf("%s[%d].volumeMounts", [concat(".", containers_path), j])
 
+
 	msga := {
 		"alertMessage": sprintf("%v: %v has mounted configMap", [resource.kind, resource.metadata.name]),
 		"packagename": "armo_builtins",
