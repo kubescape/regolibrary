@@ -4,7 +4,9 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "typeTags": ["security"],
+    "typeTags": [
+        "security"
+    ],
     "activeControls": [
         {
             "controlID": "C-0017",
@@ -28,6 +30,12 @@
             "controlID": "C-0260",
             "patch": {
                 "name": "Missing network policy"
+            }
+        },
+        {     
+            "controlID": "C-0255",
+            "patch": {
+                "name": "Workload with secret access"
             }
         }
     ]
