@@ -23,6 +23,12 @@
             "patch": {
                 "name": "Workload with PVC access"
             }
+        },
+        {
+            "controlID": "C-0260",
+            "patch": {
+                "name": "Missing network policy"
+            }
         }
     ]
 }

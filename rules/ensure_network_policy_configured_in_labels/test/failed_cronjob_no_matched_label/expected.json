@@ -1,0 +1,23 @@
+[
+	{
+		"alertMessage": "my-cronjob: no networkpolicy configured in labels",
+		"failedPaths": [
+		],
+		"fixPaths": [],
+		"ruleStatus": "",
+		"packagename": "armo_builtins",
+		"alertScore": 0,
+		"alertObject": {
+			"k8sApiObjects": [
+				{
+					"apiVersion": "batch/v1beta1",
+					"kind": "CronJob",
+					"metadata": {
+						"name": "my-cronjob"
+					}
+				}
+			]
+			
+		}
+	}
+]
