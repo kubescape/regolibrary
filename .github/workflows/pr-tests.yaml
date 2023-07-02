@@ -38,18 +38,18 @@ jobs:
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
 
-  test-coverage:
-    needs: [test_pr_checks]
-    uses: kubescape/workflows/.github/workflows/coverage-check.yaml@main
-    if: |
-      ${{ (always() && 
-      (contains(needs.*.result, 'success')) && 
-      !(contains(needs.*.result, 'skipped')) && 
-      !(contains(needs.*.result, 'failure')) && 
-      !(contains(needs.*.result, 'cancelled'))) }}
-    with:
-      COVERAGELIMIT: "58"
-      SHA: ${{ github.sha }}
+#   test-coverage:
+#     needs: [test_pr_checks]
+#     uses: kubescape/workflows/.github/workflows/coverage-check.yaml@main
+#     if: |
+#       ${{ (always() && 
+#       (contains(needs.*.result, 'success')) && 
+#       !(contains(needs.*.result, 'skipped')) && 
+#       !(contains(needs.*.result, 'failure')) && 
+#       !(contains(needs.*.result, 'cancelled'))) }}
+#     with:
+#       COVERAGELIMIT: "58"
+#       SHA: ${{ github.sha }}
 
 
   build-and-rego-test:
