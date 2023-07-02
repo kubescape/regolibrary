@@ -7,9 +7,51 @@
     "typeTags": ["security"],
     "activeControls": [
         {
+            "controlID": "C-0009",
+            "patch": {
+                "name": "Resource limits"
+            }
+        },
+        {
             "controlID": "C-0017",
             "patch": {
                 "name": "Immutable container filesystem"
+            }
+        },
+        {
+            "controlID": "C-0041",
+            "patch": {
+                "name": "HostNetwork access"
+            }
+        },
+        {
+            "controlID": "C-0044",
+            "patch": {
+                "name": "Container hostPort"
+            }
+        },
+        {
+            "controlID": "C-0045",
+            "patch": {
+                "name": "Writable hostPath mount"
+            }
+        },
+        {
+            "controlID": "C-0046",
+            "patch": {
+                "name": "Insecure capabilities"
+            }
+        },
+        {
+            "controlID": "C-0048",
+            "patch": {
+                "name": "HostPath mount"
+            }
+        },
+        {
+            "controlID": "C-0211",
+            "patch": {
+                "name": "Apply Security Context to Your Pods and Containers"
             }
         }
     ]
