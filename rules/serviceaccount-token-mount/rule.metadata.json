@@ -1,0 +1,64 @@
+{
+    "name": "automount-service-account",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "Pod",
+            "ServiceAccount"
+        ]
+      },
+      {
+        "apiGroups": [
+          "rbac.authorization.k8s.io"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "RoleBinding",
+            "ClusterRoleBinding"
+        ]
+      },
+      {
+        "apiGroups": [
+          "apps"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet"
+        ]
+      },
+      {
+        "apiGroups": [
+          "batch"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Job",
+            "CronJob"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "fails if service account and workloads mount service account token by default",
+    "remediation": "Make sure that the automountServiceAccountToken field on the service account spec if set to false",
+    "ruleQuery": "armo_builtins"
+}
