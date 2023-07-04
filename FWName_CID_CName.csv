@@ -55,7 +55,6 @@ AllControls,C-0077,K8s common labels usage
 AllControls,C-0078,Images from allowed registry
 AllControls,C-0079,CVE-2022-0185-linux-kernel-container-escape
 AllControls,C-0081,CVE-2022-24348-argocddirtraversal
-AllControls,C-0083,Workloads with Critical vulnerabilities exposed to external traffic
 AllControls,C-0084,Workloads with RCE vulnerabilities exposed to external traffic
 AllControls,C-0086,CVE-2022-0492-cgroups-container-escape
 AllControls,C-0087,CVE-2022-23648-containerd-fs-escape
@@ -95,7 +94,6 @@ ArmoBest,C-0070,Enforce Kubelet client TLS authentication
 ArmoBest,C-0078,Images from allowed registry
 ArmoBest,C-0079,CVE-2022-0185-linux-kernel-container-escape
 ArmoBest,C-0081,CVE-2022-24348-argocddirtraversal
-ArmoBest,C-0083,Workloads with Critical vulnerabilities exposed to external traffic
 ArmoBest,C-0084,Workloads with RCE vulnerabilities exposed to external traffic
 ArmoBest,C-0086,CVE-2022-0492-cgroups-container-escape
 ArmoBest,C-0087,CVE-2022-23648-containerd-fs-escape

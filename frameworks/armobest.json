@@ -205,12 +205,6 @@
             }
         },
         {
-            "controlID": "C-0083",
-            "patch": {
-                "name": "Workloads with Critical vulnerabilities exposed to external traffic"
-            }
-        },
-        {
             "controlID": "C-0084",
             "patch": {
                 "name": "Workloads with RCE vulnerabilities exposed to external traffic"
