@@ -44,6 +44,12 @@
                 "name": "Missing network policy"
             }
         },
+        {
+            "controlID": "C-0261",
+            "patch": {
+                "name": "ServiceAccount token mounted"
+            }
+        },
         {     
             "controlID": "C-0255",
             "patch": {

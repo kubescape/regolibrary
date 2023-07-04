@@ -1,5 +1,5 @@
 {
-    "name": "SA token mounted",
+    "name": "ServiceAccount token mounted",
     "attributes": {
         "armoBuiltin": true,
         "controlTypeTags": [
@@ -14,10 +14,10 @@
             }
         ]
     },
-    "description": "",
+    "description": "Potential attacker may gain access to a workload and steal its ServiceAccount token. Therefore, it is recommended to disable automatic mapping of the ServiceAccount tokens in ServiceAccount configuration, enable it only for workloads that need to use them and ensure that these ServiceAccount is not bound with a ClusterRoleBinding or a RoleBinding.",
     "remediation": "",
-    "rulesNames": [],
-    "test": "",
+    "rulesNames": ["automount-service-account"],
+    "test": "test if ServiceAccount token is mounted on workload and it has at least one binding.",
     "controlID": "C-0261",
-    "baseScore": 6.0
+    "baseScore": 7.0
 }
