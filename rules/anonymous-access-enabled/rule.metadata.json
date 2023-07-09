@@ -1,0 +1,40 @@
+{
+    "name": "anonymous-user-has-privileges",
+    "attributes": {
+        "armoBuiltin": true,
+        "resourcesAggregator": "apiserver-pod",
+        "useFromKubescapeVersion": "v1.0.133"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        },
+        {
+            "apiGroups": [
+                "rbac.authorization.k8s.io"
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "RoleBinding",
+                "ClusterRoleBinding",
+                "Role",
+                "ClusterRole"
+            ]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "Fails in case anonymous access is enabled on the cluster",
+    "remediation": "Disable anonymous access by passing the --anonymous-auth=false flag to the kube-apiserver component, or if it's a managed cluster, you can remove any RBAC rules which allow anonymous users to perform actions",
+    "ruleQuery": "armo_builtins"
+}

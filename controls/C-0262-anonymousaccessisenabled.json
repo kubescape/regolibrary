@@ -1,0 +1,19 @@
+{
+    "controlID": "C-0262",
+    "name": "Anonymous access enabled",
+    "description": "",
+    "remediation": "",
+    "manual_test": "",
+    "references": [],
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "rulesNames": [
+        "ensure-that-the-api-server-anonymous-auth-argument-is-set-to-false",
+        "anonymous-access-enabled"
+    ],
+    "baseScore": 5,
+    "impact_statement": "",
+    "default_value": ""
+}
+
