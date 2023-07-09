@@ -299,14 +299,6 @@ The following rules are not supported in the OPA bundles:
 - exposed-critical-pods
 <!-- End of OPA bundles removed rules -->
 
-#### Controls
-The following controls are not supported in the OPA bundles:
-<!-- Start of OPA bundles removed controls -->
-- C-0085 - Workloads with excessive amount of vulnerabilities
-- C-0084 - Workloads with RCE vulnerabilities exposed to external traffic
-- C-0083 - Workloads with critical vulnerabilities exposed to external traffic
-<!-- End of OPA bundles removed controls -->
-
 ## Support & Communication
 Reach out if you have any questions:
 
