@@ -4,12 +4,12 @@ metadata:
   name: my-service
 spec:
   selector:
-    app.kubernetes.io/name: MyApp
+    app: argo-server
   ports:
     - protocol: TCP
       port: 80
       targetPort: 9376
-  clusterIP: 10.0.171.239
+  clusterIP: 10.96.0.11
   type: LoadBalancer
 status:
   loadBalancer:

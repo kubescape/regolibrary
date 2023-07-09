@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: my-service
 spec:
+  selector:
+    app: argo-server
   type: NodePort
   ports:
     - port: 80

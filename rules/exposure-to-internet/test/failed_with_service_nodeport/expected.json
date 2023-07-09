@@ -1,28 +1,49 @@
 [
     {
-	"alertMessage": "workload 'my-app' is exposed through service 'my-service'",
-        "fixPaths": [],
+        "alertMessage": "workload 'my-app' is exposed through service 'my-service'",
         "failedPaths": [],
+        "fixPaths": [],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,
         "alertObject": {
             "k8sApiObjects": [
-		{
+                {
                     "apiVersion": "apps/v1",
                     "kind": "Deployment",
                     "metadata": {
                         "name": "my-app"
                     }
-                },
-                {
+                }
+            ]
+        },
+        "relatedObjects": [
+            {
+                "object": {
                     "apiVersion": "v1",
                     "kind": "Service",
                     "metadata": {
                         "name": "my-service"
+                    },
+                    "spec": {
+                        "ports": [
+                            {
+                                "nodePort": 30007,
+                                "port": 80,
+                                "targetPort": 80
+                            }
+                        ],
+                        "selector": {
+                            "app": "argo-server"
+                        },
+                        "type": "NodePort"
                     }
-                }
-            ]
-        }
+                },
+                "failedPaths": [
+                    "spec.type"
+                ],
+                "fixPaths": null
+            }
+        ]
     }
 ]
