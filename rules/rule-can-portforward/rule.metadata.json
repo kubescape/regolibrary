@@ -8,10 +8,10 @@
     "match": [
       {
         "apiGroups": [
-          "*"
+          "rbac.authorization.k8s.io"
         ],
         "apiVersions": [
-          "*"
+          "v1"
         ],
         "resources": [
             "Role",
