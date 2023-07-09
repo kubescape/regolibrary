@@ -1,0 +1,21 @@
+rules:
+  idiomatic:
+    custom-has-key-construct:
+      # This should be enabled, but the version of OPA used here is
+      # too old to recognize the object.keys built-in function
+      level: ignore
+  style:
+    avoid-get-and-list-prefix:
+      level: ignore
+    external-reference:
+      level: ignore
+    line-length:
+      level: ignore
+    opa-fmt:
+      level: ignore
+    prefer-snake-case:
+      level: ignore
+    todo-comment:
+      level: ignore
+    use-assignment-operator:
+      level: ignore

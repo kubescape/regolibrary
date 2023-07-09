@@ -46,8 +46,8 @@ is_control_plane_info(obj) {
 	obj.kind == "ControlPlaneInfo"
 }
 
-decode_config_file(content) := data {
-	data := yaml.unmarshal(content)
+decode_config_file(content) := parsed {
+	parsed := yaml.unmarshal(content)
 } else := json.unmarshal(content)
 
 has_key(x, k) {

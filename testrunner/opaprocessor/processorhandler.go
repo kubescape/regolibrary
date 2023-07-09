@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/open-policy-agent/opa/topdown"
 	"os"
 	"strings"
 
@@ -117,7 +118,9 @@ func RunSingleRego(rule *reporthandling.PolicyRule, inputObj []map[string]interf
 		return nil, err
 	}
 	modules[rule.Name] = rule.Rule
-	compiled, err := ast.CompileModules(modules)
+	compiled, err := ast.CompileModulesWithOpt(modules, ast.CompileOpts{
+		EnablePrintStatements: true,
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -162,6 +165,8 @@ func (opap *OPAProcessor) regoEval(inputObj []map[string]interface{}, compiledRe
 		rego.Compiler(compiledRego),
 		rego.Input(inputObj),
 		rego.Store(store),
+		rego.EnablePrintStatements(true),
+		rego.PrintHook(topdown.NewPrintHook(os.Stdout)),
 	)
 
 	// Run evaluation

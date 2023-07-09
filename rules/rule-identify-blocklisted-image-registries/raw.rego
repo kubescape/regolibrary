@@ -1,5 +1,5 @@
 package armo_builtins
-import data
+
 # Check for images from blocklisted repos
 
 untrustedImageRepo[msga] {

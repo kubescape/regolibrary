@@ -1,8 +1,8 @@
 package armo_builtins
-import data.cautils as cautils
 
+import data.cautils
 
-# fails if user can list/get secrets 
+# fails if user can list/get secrets
 #RoleBinding to Role
 deny[msga] {
     roles := [role |  role= input[_]; role.kind == "Role"]
@@ -35,7 +35,7 @@ deny[msga] {
 }
 
 
-# fails if user can list/get secrets 
+# fails if user can list/get secrets
 #RoleBinding to ClusterRole
 deny[msga] {
     roles := [role |  role= input[_]; role.kind == "ClusterRole"]
@@ -68,7 +68,7 @@ deny[msga] {
     }
 }
 
-# fails if user can list/get secrets 
+# fails if user can list/get secrets
 # ClusterRoleBinding to ClusterRole
 deny[msga] {
     roles := [role |  role= input[_]; role.kind == "ClusterRole"]

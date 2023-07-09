@@ -1,7 +1,8 @@
 package armo_builtins
 
-import data.cautils as cautils
 import future.keywords.in
+
+import data.cautils
 
 deny[msg] {
 	# Filter out irrelevent resources
@@ -11,7 +12,7 @@ deny[msg] {
 	file_obj_path := ["data", "kubeConfigFile"]
 	file := object.get(obj, file_obj_path, false)
 
-	# Actual permissions test    
+	# Actual permissions test
 	allowed_perms := 384 # == 0o600
 	not cautils.unix_permissions_allow(allowed_perms, file.permissions)
 

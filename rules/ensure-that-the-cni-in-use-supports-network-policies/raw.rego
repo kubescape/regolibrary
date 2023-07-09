@@ -1,5 +1,6 @@
 package armo_builtins
 
+import future.keywords.in
 
 # Deny CNIs that don't support Network Policies.
 
@@ -13,7 +14,7 @@ deny[msg] {
 
 	# filter out irrelevant host-sensor data
     obj_filtered := json.filter(obj, ["apiVersion", "kind", "metadata", "data/CNINames"])
-    
+
     msg := {
 		"alertMessage": "CNI doesn't support Network Policies.",
 		"alertScore": 2,
@@ -34,17 +35,12 @@ is_CNIInfo(obj) {
 
 # deny if Flannel is running without calico
 network_policy_not_supported(CNIs) {
-	contains(CNIs, "Flannel")
-	not contains(CNIs, "Calico")
+	"Flannel" in CNIs
+	not "Calico" in CNIs
 }
 
 # deny if aws is running without any other CNI
 network_policy_not_supported(CNIs) {
-	contains(CNIs, "aws")
+	"aws" in CNIs
 	count(CNIs) < 2
-}
-
-
-contains(ls, elem) {
-  ls[_] = elem
 }

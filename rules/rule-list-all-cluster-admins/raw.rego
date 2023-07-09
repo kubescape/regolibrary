@@ -1,5 +1,6 @@
 package armo_builtins
-import data.cautils as cautils
+
+import data.cautils
 
 # input: roles
 # apiversion: v1
@@ -51,7 +52,7 @@ deny[msga] {
 
 	rolebinding.roleRef.kind == "ClusterRole"
 	rolebinding.roleRef.name == role.metadata.name
-    
+
     subject := rolebinding.subjects[i]
     path := sprintf("subjects[%v]", [format_int(i, 10)])
 
@@ -86,7 +87,7 @@ deny[msga] {
 
 	rolebinding.roleRef.kind == "ClusterRole"
 	rolebinding.roleRef.name == role.metadata.name
-	
+
     subject := rolebinding.subjects[i]
     path := sprintf("subjects[%v]", [format_int(i, 10)])
 

@@ -1,8 +1,6 @@
-
 package armo_builtins
-import data.cautils as cautils
 
-
+import data.cautils
 
 # fails if user has create/delete access to services
 # RoleBinding to Role

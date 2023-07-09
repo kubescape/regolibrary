@@ -1,5 +1,6 @@
 package armo_builtins
 
+import future.keywords.in
 
 # EKS supports Calico and Cilium add-ons, both supports Network Policy.
 # Deny if at least on of them is not in the list of CNINames.
@@ -10,13 +11,12 @@ deny[msg] {
 
     is_CNIInfos(obj)
 
-	not contains(obj.data.CNINames, "Calico")
-	not contains(obj.data.CNINames, "Cilium")
-
+	not "Calico" in obj.data.CNINames
+	not "Cilium" in obj.data.CNINames
 
 	# filter out irrelevant host-sensor data
     obj_filtered := json.filter(obj, ["apiVersion", "kind", "metadata", "data/CNINames"])
-    
+
     msg := {
 		"alertMessage": "CNI doesn't support Network Policies.",
 		"alertScore": 2,
@@ -32,8 +32,4 @@ deny[msg] {
 is_CNIInfos(obj) {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "CNIInfo"
-}
-
-contains(ls, elem) {
-  ls[_] = elem
 }

@@ -1,14 +1,15 @@
 package armo_builtins
 
-import data.cautils as cautils
 import future.keywords.in
+
+import data.cautils
 
 # Fail for every file in data.postureControlInputs.fileObjPath
 # if the owners of the file are not `root:root`.
-# Expect (supposed to be fixed per control, not user configurable): 
+# Expect (supposed to be fixed per control, not user configurable):
 # 	(required) data.postureControlInputs.fileObjPath - list of paths strings. The item delimiter is `.`.
-# 	(optional) data.postureControlInputs.kindFilter 
-# 	(optional) data.postureControlInputs.pathGlob 
+# 	(optional) data.postureControlInputs.kindFilter
+# 	(optional) data.postureControlInputs.pathGlob
 deny[msg] {
 	# Filter out irrelevent resources
 	obj = input[_]
@@ -26,7 +27,7 @@ deny[msg] {
 	file = files[file_index]
 	file_path_glob(file.path)
 
-	# Actual ownership test    
+	# Actual ownership test
 	cautils.is_not_strict_conf_ownership(file.ownership)
 
 	# Filter out irrelevant data from the alert object

@@ -1,6 +1,7 @@
 package armo_builtins
-import data.cautils as cautils
-    
+
+import data.cautils
+
 deny[msga] {
 	pod := input[_]
 	pod.kind == "Pod"
@@ -97,7 +98,7 @@ deny[msga] {
 	np_or_lb := {"NodePort", "LoadBalancer"}
 	np_or_lb[service.spec.type]
 	cautils.is_subobject(service.spec.selector,labels)
-	
+
 
     msga := {
         "alertMessage": sprintf("%v: %v/%v has vulnerabilities", [wl.kind, wl.metadata.namespace, wl.metadata.name]),

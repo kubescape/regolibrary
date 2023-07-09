@@ -1,7 +1,4 @@
 	package armo_builtins
-	# import data.cautils as cautils
-	# import data.kubernetes.api.client as client
-	import data
 
 	deny[msga] {
 		pod := input[_]
@@ -15,7 +12,7 @@
 		contains(lower(env.name), key_name)
 		env.value != ""
 		# check that value wasn't allowed by user
-		not is_allowed_value(env.value) 
+		not is_allowed_value(env.value)
 
 		is_not_reference(env)
 
@@ -47,11 +44,11 @@
 		contains(lower(env.name), key_name)
 		env.value != ""
 		# check that value wasn't allowed by user
-		not is_allowed_value(env.value) 
+		not is_allowed_value(env.value)
 
 		is_not_reference(env)
 
-		path := sprintf("spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])	
+		path := sprintf("spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
 
 		msga := {
 			"alertMessage": sprintf("%v: %v has sensitive information in environment variables", [wl.kind, wl.metadata.name]),
@@ -78,10 +75,10 @@
 
 		env.value != ""
 		# check that value wasn't allowed by user
-		not is_allowed_value(env.value) 
-		
+		not is_allowed_value(env.value)
+
 		is_not_reference(env)
-		
+
 		path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
 
 		msga := {

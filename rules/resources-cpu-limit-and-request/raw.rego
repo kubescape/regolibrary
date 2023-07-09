@@ -1,5 +1,4 @@
 package armo_builtins
-import data
 
 # Fails if pod does not have container with CPU-limit or request
 deny[msga] {
@@ -8,7 +7,7 @@ deny[msga] {
     container := pod.spec.containers[i]
 	not request_or_limit_cpu(container)
 
-	fixPaths := [{"path": sprintf("spec.containers[%v].resources.limits.cpu", [format_int(i, 10)]), "value": "YOUR_VALUE"}, 
+	fixPaths := [{"path": sprintf("spec.containers[%v].resources.limits.cpu", [format_int(i, 10)]), "value": "YOUR_VALUE"},
 				{"path": sprintf("spec.containers[%v].resources.requests.cpu", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
 	msga := {
@@ -31,7 +30,7 @@ deny[msga] {
     container := wl.spec.template.spec.containers[i]
     not request_or_limit_cpu(container)
 
-	fixPaths := [{"path": sprintf("spec.template.spec.containers[%v].resources.limits.cpu", [format_int(i, 10)]), "value": "YOUR_VALUE"}, 
+	fixPaths := [{"path": sprintf("spec.template.spec.containers[%v].resources.limits.cpu", [format_int(i, 10)]), "value": "YOUR_VALUE"},
 				{"path": sprintf("spec.template.spec.containers[%v].resources.requests.cpu", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
 	msga := {
@@ -53,9 +52,9 @@ deny[msga] {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
     not request_or_limit_cpu(container)
 
-	fixPaths := [{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources.limits.cpu", [format_int(i, 10)]), "value": "YOUR_VALUE"}, 
+	fixPaths := [{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources.limits.cpu", [format_int(i, 10)]), "value": "YOUR_VALUE"},
 				{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources.requests.cpu", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
-	
+
     msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -132,7 +131,7 @@ deny[msga] {
 	resource != ""
 
 	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
-	
+
     msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -188,7 +187,7 @@ is_max_limit_exceeded_cpu(cpu_limit) {
 
 is_min_limit_exceeded_cpu(cpu_limit) {
 	cpu_limit_min :=  data.postureControlInputs.cpu_limit_min[_]
-	compare_min(cpu_limit_min, cpu_limit) 
+	compare_min(cpu_limit_min, cpu_limit)
 }
 
 is_max_request_exceeded_cpu(cpu_req) {
@@ -198,7 +197,7 @@ is_max_request_exceeded_cpu(cpu_req) {
 
 is_min_request_exceeded_cpu(cpu_req) {
 	cpu_req_min := data.postureControlInputs.cpu_request_min[_]
-	compare_min(cpu_req_min, cpu_req) 
+	compare_min(cpu_req_min, cpu_req)
 }
 
 ##############

@@ -1,10 +1,8 @@
-
 package armo_builtins
-import data.cautils as cautils
 
+import data.cautils
 
-
-# fails if user has create/modify access to pods 
+# fails if user has create/modify access to pods
 # RoleBinding to Role
 deny [msga] {
     roles := [role |  role= input[_]; role.kind == "Role"]
@@ -36,7 +34,7 @@ deny [msga] {
      }
 }
 
-# fails if user has create/modify access to pods 
+# fails if user has create/modify access to pods
 # RoleBinding to ClusterRole
 deny [msga]{
     roles := [role |  role= input[_]; role.kind == "ClusterRole"]
@@ -67,7 +65,7 @@ deny [msga]{
      }
 }
 
-# fails if user has create/modify access to pods 
+# fails if user has create/modify access to pods
 # ClusterRoleBinding to ClusterRole
 deny [msga]{
     roles := [role |  role= input[_]; role.kind == "ClusterRole"]

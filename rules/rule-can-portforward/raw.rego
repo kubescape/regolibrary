@@ -1,10 +1,9 @@
-
 package armo_builtins
-import data.cautils as cautils
 
+import data.cautils
 
 deny[msga] {
-	 roles := [role |  role= input[_]; role.kind == "Role"]
+	roles := [role |  role= input[_]; role.kind == "Role"]
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
     role:= roles[_]
     rolebinding := rolebindings[_]
@@ -15,7 +14,7 @@ deny[msga] {
 
 	rolebinding.roleRef.kind == "Role"
 	rolebinding.roleRef.name == role.metadata.name
-	
+
     subject := rolebinding.subjects[i]
     path := sprintf("subjects[%v]", [format_int(i, 10)])
 
@@ -46,7 +45,7 @@ deny[msga] {
 
 	rolebinding.roleRef.kind == "ClusterRole"
 	rolebinding.roleRef.name == role.metadata.name
-	
+
     subject := rolebinding.subjects[i]
     path := sprintf("subjects[%v]", [format_int(i, 10)])
 
@@ -78,7 +77,7 @@ deny[msga] {
 
 	rolebinding.roleRef.kind == "ClusterRole"
 	rolebinding.roleRef.name == role.metadata.name
-	
+
     subject := rolebinding.subjects[i]
     path := sprintf("subjects[%v]", [format_int(i, 10)])
 

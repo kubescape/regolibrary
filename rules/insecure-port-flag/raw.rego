@@ -1,5 +1,6 @@
 package armo_builtins
-import data.cautils as cautils
+
+import data.cautils
 
 # Fails if pod has insecure-port flag enabled
 deny[msga] {
@@ -19,7 +20,7 @@ deny[msga] {
 		}
 	}
 }
-	
+
 is_insecure_port_flag(container, i) = path {
 	command := container.command[j]
 	contains(command, "--insecure-port=1")
