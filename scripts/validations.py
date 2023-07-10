@@ -5,7 +5,7 @@ import re
 FRAMEWORK_DIR = "frameworks"
 CONTROLS_DIR = "controls"
 RULES_DIR = "rules"
-RULES_CHECKED = []
+RULES_CHECKED = set()
 CONTROLID_TO_FILENAME = {}
 RULENAME_TO_RULE_DIR = {}
 
@@ -51,7 +51,7 @@ def validate_controls():
                         # If there is another rule with same name as this rule with "-v1" at the end - don't validate it
                         if not os.path.exists(os.path.join(RULES_DIR, rule_dir + "-v1")):
                             validate_tests_dir_for_rule(rule_dir)
-                        RULES_CHECKED.append(rule_name)
+                        RULES_CHECKED.add(rule_name)
 
 
 # Test that each rule directory in the "rules" directory has a non-empty "tests" subdirectory
@@ -81,6 +81,17 @@ def fill_rulename_to_rule_dir():
                 rule = json.load(f1)
                 RULENAME_TO_RULE_DIR[rule['name']] = rule_dir
 
+def validate_rules():
+    for rule_dir_name in os.listdir(RULES_DIR):
+        rule_dir = os.path.join(RULES_DIR, rule_dir_name)
+        if not os.path.isdir(rule_dir) or rule_dir_name.startswith("."):
+            continue
+        
+        rule_file_path = os.path.join(RULES_DIR, rule_dir_name, "rule.metadata.json")
+        assert os.path.exists(rule_file_path), f"No rule.metadata.json file in {rule_dir_name}"
+        with open(rule_file_path) as rule_file:
+            data = json.load(rule_file)
+            assert data["name"] in RULES_CHECKED, f"rule {data['name']} is not used by any control"
 
 
 if __name__ == "__main__":
@@ -88,3 +99,4 @@ if __name__ == "__main__":
     fill_controlID_to_filename_map()
     validate_controls_in_framework()
     validate_controls()
+    validate_rules()
