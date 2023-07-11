@@ -1,10 +1,9 @@
 {
     "controlID": "C-0262",
     "name": "Anonymous access enabled",
-    "description": "",
-    "remediation": "",
-    "manual_test": "",
-    "references": [],
+    "description": "Granting permissions to the system:unauthenticated or system:anonymous user is generally not recommended and can introduce security risks. Allowing unauthenticated access to your Kubernetes cluster can lead to unauthorized access, potential data breaches, and abuse of cluster resources.",
+    "remediation": "Review and modify your cluster's RBAC configuration to ensure that only authenticated and authorized users have appropriate permissions based on their roles and responsibilities within your system.",
+    "test": "",
     "attributes": {
         "armoBuiltin": true
     },
@@ -12,8 +11,5 @@
         "ensure-that-the-api-server-anonymous-auth-argument-is-set-to-false",
         "anonymous-access-enabled"
     ],
-    "baseScore": 5,
-    "impact_statement": "",
-    "default_value": ""
+    "baseScore": 5
 }
-
