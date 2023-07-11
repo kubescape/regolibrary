@@ -3,7 +3,7 @@
     "name": "Anonymous access enabled",
     "description": "Granting permissions to the system:unauthenticated or system:anonymous user is generally not recommended and can introduce security risks. Allowing unauthenticated access to your Kubernetes cluster can lead to unauthorized access, potential data breaches, and abuse of cluster resources.",
     "remediation": "Review and modify your cluster's RBAC configuration to ensure that only authenticated and authorized users have appropriate permissions based on their roles and responsibilities within your system.",
-    "test": "",
+    "test": "Checks if ClusterRoleBinding/RoleBinding resources give permissions to anonsymous user.",
     "attributes": {
         "armoBuiltin": true
     },
