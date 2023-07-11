@@ -53,6 +53,12 @@
             "patch": {
                 "name": "Apply Security Context to Your Pods and Containers"
             }
+        },
+        {   
+            "controlID": "C-0262",
+            "patch": {
+                "name": "Anonymous access enabled"
+            }
         }
     ]
 }
