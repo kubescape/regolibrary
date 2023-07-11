@@ -1,5 +1,5 @@
 {
-    "name": "Malicious admission controller (validating)",
+    "name": "Validate admission controller (validating)",
     "attributes": {
         "armoBuiltin": true,
         "microsoftMitreColumns": [

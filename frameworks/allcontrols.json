@@ -129,7 +129,7 @@
         {
             "controlID": "C-0036",
             "patch": {
-                "name": "Malicious admission controller (validating)"
+                "name": "Validate admission controller (validating)"
             }
         },
         {
@@ -141,7 +141,7 @@
         {
             "controlID": "C-0039",
             "patch": {
-                "name": "Malicious admission controller (mutating)"
+                "name": "Validate admission controller (mutating)"
             }
         },
         {
