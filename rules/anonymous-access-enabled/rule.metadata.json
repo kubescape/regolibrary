@@ -1,23 +1,10 @@
 {
-    "name": "anonymous-user-has-privileges",
+    "name": "anonymous-access-enabled",
     "attributes": {
-        "armoBuiltin": true,
-        "resourcesAggregator": "apiserver-pod",
-        "useFromKubescapeVersion": "v1.0.133"
+        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [
-        {
-            "apiGroups": [
-                ""
-            ],
-            "apiVersions": [
-                "v1"
-            ],
-            "resources": [
-                "Pod"
-            ]
-        },
         {
             "apiGroups": [
                 "rbac.authorization.k8s.io"
@@ -27,9 +14,7 @@
             ],
             "resources": [
                 "RoleBinding",
-                "ClusterRoleBinding",
-                "Role",
-                "ClusterRole"
+                "ClusterRoleBinding"
             ]
         }
     ],
