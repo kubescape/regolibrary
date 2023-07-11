@@ -303,7 +303,7 @@
         {
             "controlID": "C-0074",
             "patch": {
-                "name": "Containers mounting Docker socket"
+                "name": "Container runtime socket mounted"
             }
         },
         {
