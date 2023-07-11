@@ -16,5 +16,8 @@
     ],
     "baseScore": 4,
     "impact_statement": "None",
-    "default_value": "By default, `NodeRestriction` is not set."
+    "default_value": "By default, `NodeRestriction` is not set.",
+    "categories": [
+        "Control plane"
+    ]
 }

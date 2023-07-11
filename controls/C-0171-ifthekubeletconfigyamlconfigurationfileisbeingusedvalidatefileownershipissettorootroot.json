@@ -16,5 +16,8 @@
     },
     "baseScore": 7,
     "impact_statement": "None",
-    "default_value": "By default, `/var/lib/kubelet/config.yaml` file as set up by `kubeadm` is owned by `root:root`."
+    "default_value": "By default, `/var/lib/kubelet/config.yaml` file as set up by `kubeadm` is owned by `root:root`.",
+    "categories": [
+        "Control plane"
+    ]
 }

@@ -25,5 +25,8 @@
     "test": "This control enumerates external facing workloads, that have LoadBalancer or NodePort service and checks the image vulnerability information for the RCE vulnerability.",
     "controlID": "C-0084",
     "baseScore": 8.0,
-    "example": "@controls/examples/c84.yaml"
+    "example": "@controls/examples/c84.yaml",
+    "categories": [
+        "Workload"
+    ]
 }

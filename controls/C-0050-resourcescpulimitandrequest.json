@@ -14,5 +14,8 @@
         "resources-cpu-limit-and-request"
     ],
     "controlID": "C-0050",
-    "baseScore": 8.0
+    "baseScore": 8.0,
+    "categories": [
+        "Workload"
+    ]
 }

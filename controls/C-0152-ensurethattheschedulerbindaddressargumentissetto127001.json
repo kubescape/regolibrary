@@ -16,5 +16,8 @@
     ],
     "baseScore": 5,
     "impact_statement": "None",
-    "default_value": "By default, the `--bind-address` parameter is set to 0.0.0.0"
+    "default_value": "By default, the `--bind-address` parameter is set to 0.0.0.0",
+    "categories": [
+        "Control plane"
+    ]
 }

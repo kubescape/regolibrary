@@ -16,5 +16,8 @@
     ],
     "baseScore": 8,
     "impact_statement": "All clients attempting to access the etcd server will require a valid client certificate.",
-    "default_value": "By default, the etcd service can be queried by unauthenticated clients."
+    "default_value": "By default, the etcd service can be queried by unauthenticated clients.",
+    "categories": [
+        "Control plane"
+    ]
 }

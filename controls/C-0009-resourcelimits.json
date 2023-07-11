@@ -23,5 +23,8 @@
     "test": " Check for each container if there is a \u2018limits\u2019 field defined for both cpu and memory",
     "controlID": "C-0009",
     "baseScore": 7.0,
-    "example": "@controls/examples/c009.yaml"
+    "example": "@controls/examples/c009.yaml",
+    "categories": [
+        "Workload"
+    ]
 }

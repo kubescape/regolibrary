@@ -16,5 +16,8 @@
     ],
     "baseScore": 4,
     "impact_statement": "This admission controller should only be used where Pod Security Policies cannot be used on the cluster, as it can interact poorly with certain Pod Security Policies",
-    "default_value": "By default, `SecurityContextDeny` is not set."
+    "default_value": "By default, `SecurityContextDeny` is not set.",
+    "categories": [
+        "Control plane"
+    ]
 }

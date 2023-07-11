@@ -16,5 +16,8 @@
     ],
     "baseScore": 2,
     "impact_statement": "Setting this parameter to `0` could result in a denial of service condition due to excessive events being created. The cluster's event processing and storage systems should be scaled to handle expected event loads.",
-    "default_value": "By default, `--event-qps` argument is set to `5`."
+    "default_value": "By default, `--event-qps` argument is set to `5`.",
+    "categories": [
+        "Control plane"
+    ]
 }

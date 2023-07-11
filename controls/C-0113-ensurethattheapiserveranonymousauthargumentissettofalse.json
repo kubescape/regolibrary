@@ -16,5 +16,8 @@
     ],
     "baseScore": 8,
     "impact_statement": "Anonymous requests will be rejected.",
-    "default_value": "By default, anonymous access is enabled."
+    "default_value": "By default, anonymous access is enabled.",
+    "categories": [
+        "Control plane"
+    ]
 }

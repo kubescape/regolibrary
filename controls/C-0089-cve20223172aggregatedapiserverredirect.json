@@ -16,5 +16,8 @@
     "test": "List the aggregated-API-server services that could potentially be used to redirect client traffic to any URL, if the API server version is vulnerable to CVE-2022-3172",
     "controlID": "C-0089",
     "baseScore": 3.0,
-    "example": ""
+    "example": "",
+    "categories": [
+        "Workload"
+    ]
 }

@@ -24,5 +24,8 @@
     ],
     "baseScore": 4,
     "impact_statement": "None",
-    "default_value": "Unless a namespace is specific on object creation, the `default` namespace will be used"
+    "default_value": "Unless a namespace is specific on object creation, the `default` namespace will be used",
+    "categories": [
+        "Workload"
+    ]
 }

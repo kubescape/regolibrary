@@ -16,5 +16,8 @@
     },
     "baseScore": 7,
     "impact_statement": "None",
-    "default_value": "By default no `--client-ca-file` is specified."
+    "default_value": "By default no `--client-ca-file` is specified.",
+    "categories": [
+        "Control plane"
+    ]
 }

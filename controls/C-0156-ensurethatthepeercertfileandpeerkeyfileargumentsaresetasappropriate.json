@@ -16,5 +16,8 @@
     ],
     "baseScore": 7,
     "impact_statement": "etcd cluster peers would need to set up TLS for their communication.",
-    "default_value": "**Note:** This recommendation is applicable only for etcd clusters. If you are using only one etcd server in your environment then this recommendation is not applicable.\n\n By default, peer communication over TLS is not configured."
+    "default_value": "**Note:** This recommendation is applicable only for etcd clusters. If you are using only one etcd server in your environment then this recommendation is not applicable.\n\n By default, peer communication over TLS is not configured.",
+    "categories": [
+        "Control plane"
+    ]
 }

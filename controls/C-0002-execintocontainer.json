@@ -21,5 +21,8 @@
     "test": "Check which subjects have RBAC permissions to exec into pods\u2013 if they have the \u201cpods/exec\u201d verb.",
     "controlID": "C-0002",
     "baseScore": 5.0,
-    "example": "@controls/examples/c002.yaml"
+    "example": "@controls/examples/c002.yaml",
+    "categories": [
+        "Access control"
+    ]
 }

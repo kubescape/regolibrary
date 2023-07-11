@@ -29,5 +29,8 @@
     "test": "List who has delete/deletecollection RBAC permissions on events.",
     "controlID": "C-0031",
     "baseScore": 4.0,
-    "example": "@controls/examples/c031.yaml"
+    "example": "@controls/examples/c031.yaml",
+    "categories": [
+        "Access control"
+    ]
 }

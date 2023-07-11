@@ -16,5 +16,8 @@
     ],
     "baseScore": 7,
     "impact_statement": "None",
-    "default_value": "By default, `--encryption-provider-config` is not set."
+    "default_value": "By default, `--encryption-provider-config` is not set.",
+    "categories": [
+        "Control plane"
+    ]
 }

@@ -16,5 +16,8 @@
     ],
     "baseScore": 3,
     "impact_statement": "Profiling information would not be available.",
-    "default_value": "By default, profiling is enabled."
+    "default_value": "By default, profiling is enabled.",
+    "categories": [
+        "Control plane"
+    ]
 }

@@ -16,5 +16,8 @@
     ],
     "baseScore": 7,
     "impact_statement": "None",
-    "default_value": "By default, etcd data directory ownership is set to `etcd:etcd`."
+    "default_value": "By default, etcd data directory ownership is set to `etcd:etcd`.",
+    "categories": [
+        "Control plane"
+    ]
 }

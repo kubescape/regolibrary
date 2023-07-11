@@ -16,5 +16,8 @@
     ],
     "baseScore": 4,
     "impact_statement": "Removal of the read-only port will require that any service which made use of it will need to be re-configured to use the main Kubelet API.",
-    "default_value": "By default, `--read-only-port` is set to `10255/TCP`. However, if a config file is specified by `--config` the default value for `readOnlyPort` is 0."
+    "default_value": "By default, `--read-only-port` is set to `10255/TCP`. However, if a config file is specified by `--config` the default value for `readOnlyPort` is 0.",
+    "categories": [
+        "Control plane"
+    ]
 }

@@ -16,5 +16,8 @@
     ],
     "baseScore": 3,
     "impact_statement": "Some cloud providers may require this flag to ensure that hostname matches names issued by the cloud provider. In these environments, this recommendation should not apply.",
-    "default_value": "By default, `--hostname-override` argument is not set."
+    "default_value": "By default, `--hostname-override` argument is not set.",
+    "categories": [
+        "Control plane"
+    ]
 }

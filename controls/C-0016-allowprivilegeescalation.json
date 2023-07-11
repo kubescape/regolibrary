@@ -23,5 +23,8 @@
     "test": " Check that the allowPrivilegeEscalation field in securityContext of container is set to false.   ",
     "controlID": "C-0016",
     "baseScore": 6.0,
-    "example": "@controls/examples/allowprivilegeescalation.yaml"
+    "example": "@controls/examples/allowprivilegeescalation.yaml",
+    "categories": [
+        "Workload"
+    ]
 }

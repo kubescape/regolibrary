@@ -16,5 +16,8 @@
     ],
     "baseScore": 4,
     "impact_statement": "None",
-    "default_value": "This will depend on the CNI plugin in use."
+    "default_value": "This will depend on the CNI plugin in use.",
+    "categories": [
+        "Network"
+    ]
 }

@@ -16,5 +16,8 @@
     ],
     "baseScore": 4,
     "impact_statement": "None",
-    "default_value": "By default, `--terminated-pod-gc-threshold` is set to `12500`."
+    "default_value": "By default, `--terminated-pod-gc-threshold` is set to `12500`.",
+    "categories": [
+        "Control plane"
+    ]
 }

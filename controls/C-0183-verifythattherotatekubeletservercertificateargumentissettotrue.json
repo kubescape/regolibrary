@@ -16,5 +16,8 @@
     ],
     "baseScore": 6,
     "impact_statement": "None",
-    "default_value": "By default, kubelet server certificate rotation is enabled."
+    "default_value": "By default, kubelet server certificate rotation is enabled.",
+    "categories": [
+        "Control plane"
+    ]
 }
