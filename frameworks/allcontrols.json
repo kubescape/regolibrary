@@ -371,6 +371,12 @@
             "patch": {
                 "name": "CVE-2022-47633-kyverno-signature-bypass"
             }
+        },
+        {   
+            "controlID": "C-0262",
+            "patch": {
+                "name": "Anonymous access enabled"
+            }
         }
     ]
 }
