@@ -11,6 +11,7 @@
             "subSteps": [
                 {
                     "name": "Vulnerable Image",
+                    "checksVulnerabilities": true,
                     "subSteps": [
                         {
                             "name": "Data Access"
