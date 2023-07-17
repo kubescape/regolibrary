@@ -12,10 +12,6 @@ deny[msga] {
 	secret.metadata.name == volume.secret.secretName
 	is_same_namespace(secret.metadata, resource.metadata)
 
-	# add related ressource
-	resource_vector := json.patch(resource, [{"op": "add", "path": "relatedObjects", "value": [secret]}])
-
-
 	containers_path := get_containers_path(resource)
 	containers := object.get(resource, containers_path, [])
 	container := containers[j]
@@ -32,9 +28,11 @@ deny[msga] {
 		"failedPaths": [failedPaths],
 		"fixPaths":[],
 		"alertObject": {
-			"k8sApiObjects": [resource],
-			"externalObjects": resource_vector
-		}
+			"k8sApiObjects": [resource]
+		},
+        "relatedObjects": [{
+            "object": secret
+        }]
 	}
 }
 

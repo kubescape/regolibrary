@@ -17,53 +17,7 @@
 						"name": "mypod"
 					}
 				}
-			],
-			"externalObjects": {
-				"apiVersion": "v1",
-				"kind": "Pod",
-				"metadata": {
-					"name": "mypod",
-					"namespace": "default"
-				},
-				"relatedObjects": [
-					{
-						"apiVersion": "v1",
-						"data": {
-							"password": "MWYyZDFlMmU2N2Rm",
-							"username": "YWRtaW4="
-						},
-						"kind": "Secret",
-						"metadata": {
-							"name": "mysecret"
-						},
-						"type": "Opaque"
-					}
-				],
-				"spec": {
-					"containers": [
-						{
-							"image": "redis",
-							"name": "mypod",
-							"volumeMounts": [
-								{
-									"mountPath": "/etc/foo",
-									"name": "foo",
-									"readOnly": true
-								}
-							]
-						}
-					],
-					"volumes": [
-						{
-							"name": "foo",
-							"secret": {
-								"optional": true,
-								"secretName": "mysecret"
-							}
-						}
-					]
-				}
-			}
+			]
 		}
 	}
 ]

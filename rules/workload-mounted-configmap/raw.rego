@@ -30,7 +30,10 @@ deny[msga] {
 		"fixPaths":[],
 		"alertObject": {
 			"k8sApiObjects": [resource]
-}
+		},
+        "relatedObjects": [{
+            "object": configMap
+        }]
 	}
 }
 
