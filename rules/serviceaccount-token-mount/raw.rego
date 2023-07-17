@@ -19,7 +19,7 @@ deny[msga] {
     msga := {
         "alertMessage": sprintf("%v: %v in the following namespace: %v mounts service account tokens by default", [wl.kind, wl.metadata.name, wl.metadata.namespace]),
         "packagename": "armo_builtins",
-        "alertScore": 7,
+        "alertScore": 9,
         "fixPaths": fixed_path,
         "failedPaths": failed_path,
         "alertObject": {
@@ -55,7 +55,7 @@ is_sa_auto_mounted(spec, beggining_of_path, wl_namespace) = [failed_path, fix_pa
     not spec.automountServiceAccountToken == false
     not spec.automountServiceAccountToken == true
 
-    fix_path = { "path": sprintf("%v.automountServiceAccountToken", [concat(".", containers_path)]), "value": "false"}
+    fix_path = { "path": sprintf("%v.automountServiceAccountToken", [concat(".", beggining_of_path)]), "value": "false"}
     failed_path = ""
 }
 
@@ -63,7 +63,7 @@ is_sa_auto_mounted(spec, beggining_of_path, wl_namespace) =  [failed_path, fix_p
     # automountServiceAccountToken set to true in pod spec
     spec.automountServiceAccountToken == true
 
-    failed_path = sprintf("%v.automountServiceAccountToken", [concat(".", containers_path)])
+    failed_path = sprintf("%v.automountServiceAccountToken", [concat(".", beggining_of_path)])
     fix_path = ""
 }
 
