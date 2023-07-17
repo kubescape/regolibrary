@@ -3,9 +3,10 @@ package armo_builtins
 deny[msga] {
     wl := input[_]
     beggining_of_path := get_beginning_of_path(wl)
+    spec := object.get(wl, beggining_of_path, [])
 
     wl_namespace := wl.metadata.namespace
-    result := is_sa_auto_mounted(wl.spec.jobTemplate.spec.template.spec, beggining_of_path, wl_namespace)
+    result := is_sa_auto_mounted(spec, beggining_of_path, wl_namespace)
     
     sa := input[_]
     is_same_sa(spec, sa.metadata.name)
@@ -34,17 +35,17 @@ deny[msga] {
 get_beginning_of_path(workload) = beggining_of_path {
     spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
     spec_template_spec_patterns[workload.kind]
-    beggining_of_path := "spec.template.spec."
+    beggining_of_path := ["spec", "template", "spec"]
 }
 
 get_beginning_of_path(workload) = beggining_of_path {
     workload.kind == "Pod"
-    beggining_of_path := "spec."
+    beggining_of_path := ["spec"]
 }
 
 get_beginning_of_path(workload) = beggining_of_path {
     workload.kind == "CronJob"
-    beggining_of_path := "spec.jobTemplate.spec.template.spec."
+    beggining_of_path := ["spec", "jobTemplate", "spec", "template", "spec"]
 }
 
 
@@ -54,7 +55,7 @@ is_sa_auto_mounted(spec, beggining_of_path, wl_namespace) = [failed_path, fix_pa
     not spec.automountServiceAccountToken == false
     not spec.automountServiceAccountToken == true
 
-    fix_path = { "path": sprintf("%vautomountServiceAccountToken", [beggining_of_path]), "value": "false"}
+    fix_path = { "path": sprintf("%v.automountServiceAccountToken", [concat(".", containers_path)]), "value": "false"}
     failed_path = ""
 }
 
@@ -62,7 +63,7 @@ is_sa_auto_mounted(spec, beggining_of_path, wl_namespace) =  [failed_path, fix_p
     # automountServiceAccountToken set to true in pod spec
     spec.automountServiceAccountToken == true
 
-    failed_path = sprintf("%vautomountServiceAccountToken", [beggining_of_path])
+    failed_path = sprintf("%v.automountServiceAccountToken", [concat(".", containers_path)])
     fix_path = ""
 }
 
