@@ -34,6 +34,8 @@ deny[msga] {
     
     svc := input[_]
     svc.kind == "Service"
+    # avoid duplicate alerts
+    # if service is already exposed through NodePort or LoadBalancer workload will fail on that
     not is_exposed_service(svc)
 
     wl := input[_]
