@@ -4,10 +4,10 @@ package armo_builtins
 deny[msga] {
     service := input[_]
     service.kind == "Service"
-    is_unsafe_service(service)
+    is_exposed_service(service)
     
     wl := input[_]
-    spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job"}
+    spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
     spec_template_spec_patterns[wl.kind]
     wl_connected_to_service(wl, service)
     failPath := ["spec.type"]
@@ -34,10 +34,10 @@ deny[msga] {
     
     svc := input[_]
     svc.kind == "Service"
-    not is_unsafe_service(svc)
+    not is_exposed_service(svc)
 
     wl := input[_]
-    spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job"}
+    spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
     spec_template_spec_patterns[wl.kind]
     wl_connected_to_service(wl, svc)
 
@@ -61,11 +61,11 @@ deny[msga] {
 
 # ====================================================================================
 
-is_unsafe_service(svc) {
+is_exposed_service(svc) {
     svc.spec.type == "NodePort"
 }
 
-is_unsafe_service(svc) {
+is_exposed_service(svc) {
     svc.spec.type == "LoadBalancer"
 }
 
@@ -81,7 +81,7 @@ wl_connected_to_service(wl, svc) {
 svc_connected_to_ingress(svc, ingress) = result {
     rule := ingress.spec.rules[i]
     paths := rule.http.paths[j]
-    svc.metadata.name == paths.backend.serviceName
-    result := [sprintf("ingress.spec.rules[%d].http.paths[%d].backend.serviceName", [i,j])]
+    svc.metadata.name == paths.backend.service.name
+    result := [sprintf("ingress.spec.rules[%d].http.paths[%d].backend.service.name", [i,j])]
 }
 

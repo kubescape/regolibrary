@@ -34,7 +34,9 @@
                                     "paths": [
                                         {
                                             "backend": {
-                                                "serviceName": "my-service"
+                                                "service": {
+                                                    "name": "my-service"
+                                                }
                                             },
                                             "path": "/"
                                         }
@@ -45,7 +47,7 @@
                     }
                 },
                 "failedPaths": [
-                    "ingress.spec.rules[0].http.paths[0].backend.serviceName"
+                    "ingress.spec.rules[0].http.paths[0].backend.service.name"
                 ],
                 "fixPaths": null
             }
