@@ -1,29 +1,39 @@
 {
-    "name": "Insecure capabilities",
-    "attributes": {
-        "actionRequired": "configuration",
-        "armoBuiltin": true,
-        "controlTypeTags": [
-            "security",
-            "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Privilege escalation"
-                ]
-            }
-        ]
-    },
-    "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the PODs with dangerous capabilities (see documentation pages for details).",
-    "remediation": "Remove all insecure capabilities which are not necessary for the container.",
-    "rulesNames": [
-        "insecure-capabilities"
+  "name": "Insecure capabilities",
+  "attributes": {
+    "actionRequired": "configuration",
+    "armoBuiltin": true,
+    "controlTypeTags": [
+      "security",
+      "compliance"
     ],
-    "long_description": "Giving  insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
-    "test": "Check capabilities given against a configurable blacklist of insecure capabilities (https://man7.org/linux/man-pages/man7/capabilities.7.html). ",
-    "controlID": "C-0046",
-    "baseScore": 7.0,
-    "example": "@controls/examples/c046.yaml"
+    "attackTracks": [
+      {
+        "attackTrack": "container",
+        "categories": [
+          "Privilege escalation"
+        ]
+      }
+    ]
+  },
+  "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the PODs with dangerous capabilities (see documentation pages for details).",
+  "remediation": "Remove all insecure capabilities which are not necessary for the container.",
+  "rulesNames": [
+    "insecure-capabilities"
+  ],
+  "long_description": "Giving  insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
+  "test": "Check capabilities given against a configurable blacklist of insecure capabilities (https://man7.org/linux/man-pages/man7/capabilities.7.html). ",
+  "controlID": "C-0046",
+  "baseScore": 7,
+  "example": "@controls/examples/c046.yaml",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

@@ -1,20 +1,28 @@
 {
-    "controlID": "C-0180",
-    "name": "Ensure that the --event-qps argument is set to 0 or a level which ensures appropriate event capture",
-    "description": "Security relevant information should be captured. The `--event-qps` flag on the Kubelet can be used to limit the rate at which events are gathered. Setting this too low could result in relevant events not being logged, however the unlimited setting of `0` could result in a denial of service on the kubelet.",
-    "long_description": "It is important to capture all events and not restrict event creation. Events are an important source of security information and analytics that ensure that your environment is consistently monitored using the event data.",
-    "remediation": "If using a Kubelet config file, edit the file to set `eventRecordQPS:` to an appropriate level.\n\n If using command line arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubeadm.conf` on each worker node and set the below parameter in `KUBELET_SYSTEM_PODS_ARGS` variable.\n\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```",
-    "manual_test": "Run the following command on each node:\n\n \n```\nps -ef | grep kubelet\n\n```\n Review the value set for the `--event-qps` argument and determine whether this has been set to an appropriate level for the cluster. The value of `0` can be used to ensure that all events are captured.\n\n If the `--event-qps` argument does not exist, check that there is a Kubelet config file specified by `--config` and review the value in this location.",
-    "references": [
-        "https://workbench.cisecurity.org/sections/1126668/recommendations/1838656"
-    ],
-    "attributes": {
-        "armoBuiltin": true
-    },
-    "rulesNames": [
-        "kubelet-event-qps"
-    ],
-    "baseScore": 2,
-    "impact_statement": "Setting this parameter to `0` could result in a denial of service condition due to excessive events being created. The cluster's event processing and storage systems should be scaled to handle expected event loads.",
-    "default_value": "By default, `--event-qps` argument is set to `5`."
+  "controlID": "C-0180",
+  "name": "Ensure that the --event-qps argument is set to 0 or a level which ensures appropriate event capture",
+  "description": "Security relevant information should be captured. The `--event-qps` flag on the Kubelet can be used to limit the rate at which events are gathered. Setting this too low could result in relevant events not being logged, however the unlimited setting of `0` could result in a denial of service on the kubelet.",
+  "long_description": "It is important to capture all events and not restrict event creation. Events are an important source of security information and analytics that ensure that your environment is consistently monitored using the event data.",
+  "remediation": "If using a Kubelet config file, edit the file to set `eventRecordQPS:` to an appropriate level. If using command line arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubeadm.conf` on each worker node and set the below parameter in `KUBELET_SYSTEM_PODS_ARGS` variable. Based on your system, restart the `kubelet` service. For example: ```systemctl daemon-reloadsystemctl restart kubelet.service```",
+  "manual_test": "Run the following command on each node: ```ps -ef | grep kubelet``` Review the value set for the `--event-qps` argument and determine whether this has been set to an appropriate level for the cluster. The value of `0` can be used to ensure that all events are captured. If the `--event-qps` argument does not exist, check that there is a Kubelet config file specified by `--config` and review the value in this location.",
+  "references": [
+    "https://workbench.cisecurity.org/sections/1126668/recommendations/1838656"
+  ],
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "rulesNames": [
+    "kubelet-event-qps"
+  ],
+  "baseScore": 2,
+  "impact_statement": "Setting this parameter to `0` could result in a denial of service condition due to excessive events being created. The cluster's event processing and storage systems should be scaled to handle expected event loads.",
+  "default_value": "By default, `--event-qps` argument is set to `5`.",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster",
+        "cloud"
+      ]
+    ]
+  }
 }

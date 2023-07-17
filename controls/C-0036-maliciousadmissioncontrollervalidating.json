@@ -1,29 +1,36 @@
 {
-    "name": "Malicious admission controller (validating)",
-    "attributes": {
-        "armoBuiltin": true,
-        "microsoftMitreColumns": [
-            "Credential access"
-        ],
-        "controlTypeTags": [
-            "security",
-            "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "kubeapi",
-                "categories": [
-                    "Impact - data destruction",
-                    "Impact - service injection"
-                ]
-            }
-        ]
-    },
-    "description": "Attackers can use validating webhooks to intercept and discover all the resources in the cluster. This control lists all the validating webhook configurations that must be verified.",
-    "remediation": "Ensure all the webhooks are necessary. Use exception mechanism to prevent repititive notifications.",
-    "rulesNames": [
-        "list-all-validating-webhooks"
+  "name": "Malicious admission controller (validating)",
+  "attributes": {
+    "armoBuiltin": true,
+    "microsoftMitreColumns": [
+      "Credential access"
     ],
-    "controlID": "C-0036",
-    "baseScore": 3.0
+    "controlTypeTags": [
+      "security",
+      "compliance"
+    ],
+    "attackTracks": [
+      {
+        "attackTrack": "kubeapi",
+        "categories": [
+          "Impact - data destruction",
+          "Impact - service injection"
+        ]
+      }
+    ]
+  },
+  "description": "Attackers can use validating webhooks to intercept and discover all the resources in the cluster. This control lists all the validating webhook configurations that must be verified.",
+  "remediation": "Ensure all the webhooks are necessary. Use exception mechanism to prevent repititive notifications.",
+  "rulesNames": [
+    "list-all-validating-webhooks"
+  ],
+  "controlID": "C-0036",
+  "baseScore": 3,
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ]
+    ]
+  }
 }

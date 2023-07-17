@@ -3,7 +3,6 @@ module github.com/kubescape/regolibrary
 go 1.19
 
 require (
-	github.com/alecthomas/assert/v2 v2.2.1
 	github.com/armosec/armoapi-go v0.0.173
 	github.com/go-gota/gota v0.12.0
 	github.com/kubescape/opa-utils v0.0.250
@@ -29,7 +28,6 @@ require (
 	github.com/AzureAD/microsoft-authentication-library-for-go v0.7.0 // indirect
 	github.com/OneOfOne/xxhash v1.2.8 // indirect
 	github.com/agnivade/levenshtein v1.1.1 // indirect
-	github.com/alecthomas/repr v0.2.0 // indirect
 	github.com/armosec/utils-go v0.0.12 // indirect
 	github.com/armosec/utils-k8s-go v0.0.12 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.17.3 // indirect
@@ -70,7 +68,6 @@ require (
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.0.0-20220520183353-fd19c99a87aa // indirect
 	github.com/googleapis/gax-go/v2 v2.4.0 // indirect
-	github.com/hexops/gotextdiff v1.0.3 // indirect
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
@@ -103,8 +100,8 @@ require (
 	go.opencensus.io v0.23.0 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
-	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect
-	golang.org/x/exp v0.0.0-20230519143937-03e91628a987 // indirect
+	golang.org/x/crypto v0.0.0-20221005025214-4161e89ecf1b // indirect
+	golang.org/x/exp v0.0.0-20230711023510-fffb14384f22 // indirect
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20220630143837-2104d58473e0 // indirect
 	golang.org/x/sys v0.5.0 // indirect

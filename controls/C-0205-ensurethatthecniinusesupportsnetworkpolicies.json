@@ -1,20 +1,28 @@
 {
-    "controlID": "C-0205",
-    "name": "Ensure that the CNI in use supports Network Policies",
-    "description": "There are a variety of CNI plugins available for Kubernetes. If the CNI in use does not support Network Policies it may not be possible to effectively restrict traffic in the cluster.",
-    "long_description": "Kubernetes network policies are enforced by the CNI plugin in use. As such it is important to ensure that the CNI plugin supports both Ingress and Egress network policies.",
-    "remediation": "If the CNI plugin in use does not support network policies, consideration should be given to making use of a different plugin, or finding an alternate mechanism for restricting traffic in the Kubernetes cluster.",
-    "manual_test": "Review the documentation of CNI plugin in use by the cluster, and confirm that it supports Ingress and Egress network policies.",
-    "references": [
-        "https://workbench.cisecurity.org/sections/1126664/recommendations/1838627"
-    ],
-    "attributes": {
-        "armoBuiltin": true
-    },
-    "rulesNames": [
-        "ensure-that-the-cni-in-use-supports-network-policies"
-    ],
-    "baseScore": 4,
-    "impact_statement": "None",
-    "default_value": "This will depend on the CNI plugin in use."
+  "controlID": "C-0205",
+  "name": "Ensure that the CNI in use supports Network Policies",
+  "description": "There are a variety of CNI plugins available for Kubernetes. If the CNI in use does not support Network Policies it may not be possible to effectively restrict traffic in the cluster.",
+  "long_description": "Kubernetes network policies are enforced by the CNI plugin in use. As such it is important to ensure that the CNI plugin supports both Ingress and Egress network policies.",
+  "remediation": "If the CNI plugin in use does not support network policies, consideration should be given to making use of a different plugin, or finding an alternate mechanism for restricting traffic in the Kubernetes cluster.",
+  "manual_test": "Review the documentation of CNI plugin in use by the cluster, and confirm that it supports Ingress and Egress network policies.",
+  "references": [
+    "https://workbench.cisecurity.org/sections/1126664/recommendations/1838627"
+  ],
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "rulesNames": [
+    "ensure-that-the-cni-in-use-supports-network-policies"
+  ],
+  "baseScore": 4,
+  "impact_statement": "None",
+  "default_value": "This will depend on the CNI plugin in use.",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster",
+        "cloud"
+      ]
+    ]
+  }
 }

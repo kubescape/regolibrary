@@ -1,20 +1,28 @@
 {
-    "controlID": "C-0109",
-    "name": "Ensure that the controller-manager.conf file ownership is set to root:root",
-    "description": "Ensure that the `controller-manager.conf` file ownership is set to `root:root`.",
-    "long_description": "The `controller-manager.conf` file is the kubeconfig file for the Controller Manager. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`.",
-    "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchown root:root /etc/kubernetes/controller-manager.conf\n\n```",
-    "manual_test": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nstat -c %U:%G /etc/kubernetes/controller-manager.conf\n\n```\n Verify that the ownership is set to `root:root`.",
-    "references": [
-        "https://workbench.cisecurity.org/sections/1126653/recommendations/1838599"
-    ],
-    "rulesNames": [
-        "ensure-that-the-controller-manager.conf-file-ownership-is-set-to-root-root"
-    ],
-    "attributes": {
-        "armoBuiltin": true
-    },
-    "baseScore": 6,
-    "impact_statement": "None",
-    "default_value": "By default, `controller-manager.conf` file ownership is set to `root:root`."
+  "controlID": "C-0109",
+  "name": "Ensure that the controller-manager.conf file ownership is set to root:root",
+  "description": "Ensure that the `controller-manager.conf` file ownership is set to `root:root`.",
+  "long_description": "The `controller-manager.conf` file is the kubeconfig file for the Controller Manager. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`.",
+  "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example, ```chown root:root /etc/kubernetes/controller-manager.conf```",
+  "manual_test": "Run the below command (based on the file location on your system) on the Control Plane node. For example, ```stat -c %U:%G /etc/kubernetes/controller-manager.conf``` Verify that the ownership is set to `root:root`.",
+  "references": [
+    "https://workbench.cisecurity.org/sections/1126653/recommendations/1838599"
+  ],
+  "rulesNames": [
+    "ensure-that-the-controller-manager.conf-file-ownership-is-set-to-root-root"
+  ],
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "baseScore": 6,
+  "impact_statement": "None",
+  "default_value": "By default, `controller-manager.conf` file ownership is set to `root:root`.",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster",
+        "cloud"
+      ]
+    ]
+  }
 }

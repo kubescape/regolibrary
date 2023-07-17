@@ -1,20 +1,28 @@
 {
-    "controlID": "C-0117",
-    "name": "Ensure that the API Server --kubelet-certificate-authority argument is set as appropriate",
-    "description": "Verify kubelet's certificate before establishing connection.",
-    "long_description": "The connections from the apiserver to the kubelet are used for fetching logs for pods, attaching (through kubectl) to running pods, and using the kubelet\u2019s port-forwarding functionality. These connections terminate at the kubelet\u2019s HTTPS endpoint. By default, the apiserver does not verify the kubelet\u2019s serving certificate, which makes the connection subject to man-in-the-middle attacks, and unsafe to run over untrusted and/or public networks.",
-    "remediation": "Follow the Kubernetes documentation and setup the TLS connection between the apiserver and kubelets. Then, edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--kubelet-certificate-authority` parameter to the path to the cert file for the certificate authority.\n\n \n```\n--kubelet-certificate-authority=<ca-string>\n\n```",
-    "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--kubelet-certificate-authority` argument exists and is set as appropriate.",
-    "references": [
-        "https://workbench.cisecurity.org/sections/1126663/recommendations/1838634"
-    ],
-    "attributes": {
-        "armoBuiltin": true
-    },
-    "rulesNames": [
-        "ensure-that-the-api-server-kubelet-certificate-authority-argument-is-set-as-appropriate"
-    ],
-    "baseScore": 8,
-    "impact_statement": "You require TLS to be configured on apiserver as well as kubelets.",
-    "default_value": "By default, `--kubelet-certificate-authority` argument is not set."
+  "controlID": "C-0117",
+  "name": "Ensure that the API Server --kubelet-certificate-authority argument is set as appropriate",
+  "description": "Verify kubelet's certificate before establishing connection.",
+  "long_description": "The connections from the apiserver to the kubelet are used for fetching logs for pods, attaching (through kubectl) to running pods, and using the kubelet’s port-forwarding functionality. These connections terminate at the kubelet’s HTTPS endpoint. By default, the apiserver does not verify the kubelet’s serving certificate, which makes the connection subject to man-in-the-middle attacks, and unsafe to run over untrusted and/or public networks.",
+  "remediation": "Follow the Kubernetes documentation and setup the TLS connection between the apiserver and kubelets. Then, edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the `--kubelet-certificate-authority` parameter to the path to the cert file for the certificate authority. ```--kubelet-certificate-authority=<ca-string>```",
+  "manual_test": "Run the following command on the Control Plane node: ```ps -ef | grep kube-apiserver``` Verify that the `--kubelet-certificate-authority` argument exists and is set as appropriate.",
+  "references": [
+    "https://workbench.cisecurity.org/sections/1126663/recommendations/1838634"
+  ],
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "rulesNames": [
+    "ensure-that-the-api-server-kubelet-certificate-authority-argument-is-set-as-appropriate"
+  ],
+  "baseScore": 8,
+  "impact_statement": "You require TLS to be configured on apiserver as well as kubelets.",
+  "default_value": "By default, `--kubelet-certificate-authority` argument is not set.",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster",
+        "cloud"
+      ]
+    ]
+  }
 }

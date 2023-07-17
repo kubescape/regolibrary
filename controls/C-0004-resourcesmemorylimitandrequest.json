@@ -1,27 +1,37 @@
 {
-    "name": "Resources memory limit and request",
-    "attributes": {
-        "armoBuiltin": true,
-        "controlTypeTags": [
-            "compliance",
-            "devops"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Impact - service destruction"
-                ]
-            }
-        ],
-        "actionRequired": "configuration"
-    },
-    "description": "This control identifies all Pods for which the memory limit is not set.",
-    "remediation": "Set the memory limit or use exception mechanism to avoid unnecessary notifications.",
-    "rulesNames": [
-        "resources-memory-limit-and-request"
+  "name": "Resources memory limit and request",
+  "attributes": {
+    "armoBuiltin": true,
+    "controlTypeTags": [
+      "compliance",
+      "devops"
     ],
-    "controlID": "C-0004",
-    "example": "@controls/examples/c004.yaml",
-    "baseScore": 8.0
+    "attackTracks": [
+      {
+        "attackTrack": "container",
+        "categories": [
+          "Impact - service destruction"
+        ]
+      }
+    ],
+    "actionRequired": "configuration"
+  },
+  "description": "This control identifies all Pods for which the memory limit is not set.",
+  "remediation": "Set the memory limit or use exception mechanism to avoid unnecessary notifications.",
+  "rulesNames": [
+    "resources-memory-limit-and-request"
+  ],
+  "controlID": "C-0004",
+  "example": "@controls/examples/c004.yaml",
+  "baseScore": 8,
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

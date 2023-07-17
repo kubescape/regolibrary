@@ -1,21 +1,31 @@
 {
-    "controlID": "C-0219",
-    "name": "Minimize the admission of containers with added capabilities",
-    "description": "Do not generally permit containers with capabilities assigned beyond the default set.",
-    "long_description": "Containers run with a default set of capabilities as assigned by the Container Runtime. Capabilities outside this set can be added to containers which could expose them to risks of container breakout attacks.\n\n There should be at least one PodSecurityPolicy (PSP) defined which prevents containers with capabilities beyond the default set from launching.\n\n If you need to run containers with additional capabilities, this should be defined in a separate PSP and you should carefully check RBAC controls to ensure that only limited service accounts and users are given permission to access that PSP.",
-    "remediation": "Ensure that `allowedCapabilities` is not present in PSPs for the cluster unless it is set to an empty array.",
-    "manual_test": "Get the set of PSPs with the following command:\n\n \n```\nkubectl get psp\n\n```\n Verify that there are no PSPs present which have `allowedCapabilities` set to anything other than an empty array.",
-    "references": [
-        "https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies",
-        "https://www.nccgroup.trust/uk/our-research/abusing-privileged-and-unprivileged-linux-containers/"
-    ],
-    "attributes": {
-        "armoBuiltin": true
-    },
-    "rulesNames": [
-        "psp-deny-allowed-capabilities"
-    ],
-    "baseScore": 5.0,
-    "impact_statement": "Pods with containers which require capabilities outwith the default set will not be permitted.",
-    "default_value": "By default, PodSecurityPolicies are not defined. If a PSP is created 'allowedCapabilities' is set by default."
+  "controlID": "C-0219",
+  "name": "Minimize the admission of containers with added capabilities",
+  "description": "Do not generally permit containers with capabilities assigned beyond the default set.",
+  "long_description": "Containers run with a default set of capabilities as assigned by the Container Runtime. Capabilities outside this set can be added to containers which could expose them to risks of container breakout attacks. There should be at least one PodSecurityPolicy (PSP) defined which prevents containers with capabilities beyond the default set from launching. If you need to run containers with additional capabilities, this should be defined in a separate PSP and you should carefully check RBAC controls to ensure that only limited service accounts and users are given permission to access that PSP.",
+  "remediation": "Ensure that `allowedCapabilities` is not present in PSPs for the cluster unless it is set to an empty array.",
+  "manual_test": "Get the set of PSPs with the following command: ```kubectl get psp``` Verify that there are no PSPs present which have `allowedCapabilities` set to anything other than an empty array.",
+  "references": [
+    "https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies",
+    "https://www.nccgroup.trust/uk/our-research/abusing-privileged-and-unprivileged-linux-containers/"
+  ],
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "rulesNames": [
+    "psp-deny-allowed-capabilities"
+  ],
+  "baseScore": 5.0,
+  "impact_statement": "Pods with containers which require capabilities outwith the default set will not be permitted.",
+  "default_value": "By default, PodSecurityPolicies are not defined. If a PSP is created 'allowedCapabilities' is set by default.",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

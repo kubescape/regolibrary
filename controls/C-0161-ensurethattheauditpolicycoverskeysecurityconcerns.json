@@ -1,20 +1,28 @@
 {
-    "controlID": "C-0161",
-    "name": "Ensure that the audit policy covers key security concerns",
-    "description": "Ensure that the audit policy created for the cluster covers key security concerns.",
-    "long_description": "Security audit logs should cover access and modification of key resources in the cluster, to enable them to form an effective part of a security environment.",
-    "remediation": "Consider modification of the audit policy in use on the cluster to include these items, at a minimum.",
-    "manual_test": "Review the audit policy provided for the cluster and ensure that it covers at least the following areas :-\n\n * Access to Secrets managed by the cluster. Care should be taken to only log Metadata for requests to Secrets, ConfigMaps, and TokenReviews, in order to avoid the risk of logging sensitive data.\n* Modification of `pod` and `deployment` objects.\n* Use of `pods/exec`, `pods/portforward`, `pods/proxy` and `services/proxy`.\n\n For most requests, minimally logging at the Metadata level is recommended (the most basic level of logging).",
-    "references": [
-        "https://workbench.cisecurity.org/sections/1126657/recommendations/1838583"
-    ],
-    "attributes": {
-        "armoBuiltin": true
-    },
-    "rulesNames": [
-        "audit-policy-content"
-    ],
-    "baseScore": 5,
-    "impact_statement": "Increasing audit logging will consume resources on the nodes or other log destination.",
-    "default_value": "By default Kubernetes clusters do not log audit information."
+  "controlID": "C-0161",
+  "name": "Ensure that the audit policy covers key security concerns",
+  "description": "Ensure that the audit policy created for the cluster covers key security concerns.",
+  "long_description": "Security audit logs should cover access and modification of key resources in the cluster, to enable them to form an effective part of a security environment.",
+  "remediation": "Consider modification of the audit policy in use on the cluster to include these items, at a minimum.",
+  "manual_test": "Review the audit policy provided for the cluster and ensure that it covers at least the following areas :- * Access to Secrets managed by the cluster. Care should be taken to only log Metadata for requests to Secrets, ConfigMaps, and TokenReviews, in order to avoid the risk of logging sensitive data.* Modification of `pod` and `deployment` objects.* Use of `pods/exec`, `pods/portforward`, `pods/proxy` and `services/proxy`. For most requests, minimally logging at the Metadata level is recommended (the most basic level of logging).",
+  "references": [
+    "https://workbench.cisecurity.org/sections/1126657/recommendations/1838583"
+  ],
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "rulesNames": [
+    "audit-policy-content"
+  ],
+  "baseScore": 5,
+  "impact_statement": "Increasing audit logging will consume resources on the nodes or other log destination.",
+  "default_value": "By default Kubernetes clusters do not log audit information.",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster",
+        "cloud"
+      ]
+    ]
+  }
 }

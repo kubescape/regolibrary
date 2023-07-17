@@ -1,25 +1,35 @@
 {
-    "name": "Exec into container",
-    "attributes": {
-        "armoBuiltin": true,
-        "microsoftMitreColumns": [
-            "Execution"
-        ],
-        "rbacQuery": "Show who can access into pods",
-        "controlTypeTags": [
-            "compliance",
-            "security-impact"
-        ]
-    },
-    "description": "Attackers with relevant permissions can run malicious commands in the context of legitimate containers in the cluster using \u201ckubectl exec\u201d command. This control determines which subjects have permissions to use this command.",
-    "remediation": "It is recommended to prohibit \u201ckubectl exec\u201d command in production environments. It is also recommended not to use subjects with this permission for daily cluster operations.",
-    "rulesNames": [
-        "exec-into-container",
-        "exec-into-container-v1"
+  "name": "Exec into container",
+  "attributes": {
+    "armoBuiltin": true,
+    "microsoftMitreColumns": [
+      "Execution"
     ],
-    "long_description": "Attackers who have permissions, can run malicious commands in containers in the cluster using exec command (\u201ckubectl exec\u201d). In this method, attackers can use legitimate images, such as an OS image (e.g., Ubuntu) as a backdoor container, and run their malicious code remotely by using \u201ckubectl exec\u201d.",
-    "test": "Check which subjects have RBAC permissions to exec into pods\u2013 if they have the \u201cpods/exec\u201d verb.",
-    "controlID": "C-0002",
-    "baseScore": 5.0,
-    "example": "@controls/examples/c002.yaml"
+    "rbacQuery": "Show who can access into pods",
+    "controlTypeTags": [
+      "compliance",
+      "security-impact"
+    ]
+  },
+  "description": "Attackers with relevant permissions can run malicious commands in the context of legitimate containers in the cluster using “kubectl exec” command. This control determines which subjects have permissions to use this command.",
+  "remediation": "It is recommended to prohibit “kubectl exec” command in production environments. It is also recommended not to use subjects with this permission for daily cluster operations.",
+  "rulesNames": [
+    "exec-into-container",
+    "exec-into-container-v1"
+  ],
+  "long_description": "Attackers who have permissions, can run malicious commands in containers in the cluster using exec command (“kubectl exec”). In this method, attackers can use legitimate images, such as an OS image (e.g., Ubuntu) as a backdoor container, and run their malicious code remotely by using “kubectl exec”.",
+  "test": "Check which subjects have RBAC permissions to exec into pods– if they have the “pods/exec” verb.",
+  "controlID": "C-0002",
+  "baseScore": 5,
+  "example": "@controls/examples/c002.yaml",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

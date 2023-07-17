@@ -1,33 +1,43 @@
 {
-    "name": "Cluster-admin binding",
-    "attributes": {
-        "armoBuiltin": true,
-        "microsoftMitreColumns": [
-            "Privilege escalation"
-        ],
-        "rbacQuery": "Show cluster_admin",
-        "controlTypeTags": [
-            "security",
-            "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "kubeapi",
-                "categories": [
-                    "Impact - data destruction",
-                    "Impact - service injection"
-                ]
-            }
-        ]
-    },
-    "description": "Attackers who have cluster admin permissions (can perform any action on any resource), can take advantage of their privileges for malicious activities. This control determines which subjects have cluster admin permissions.",
-    "remediation": "You should apply least privilege principle. Make sure cluster admin permissions are granted only when it is absolutely necessary. Don't use subjects with such high permissions for daily operations.",
-    "rulesNames": [
-        "rule-list-all-cluster-admins",
-        "rule-list-all-cluster-admins-v1"
+  "name": "Cluster-admin binding",
+  "attributes": {
+    "armoBuiltin": true,
+    "microsoftMitreColumns": [
+      "Privilege escalation"
     ],
-    "long_description": "Role-based access control (RBAC) is a key security feature in Kubernetes. RBAC can restrict the allowed actions of the various identities in the cluster. Cluster-admin is a built-in high privileged role in Kubernetes. Attackers who have permissions to create bindings and cluster-bindings in the cluster can create a binding to the cluster-admin ClusterRole or to other high privileges roles.",
-    "test": "Check which subjects have cluster-admin RBAC permissions \u2013 either by being bound to the cluster-admin clusterrole, or by having equivalent high privileges.  ",
-    "controlID": "C-0035",
-    "baseScore": 6.0
+    "rbacQuery": "Show cluster_admin",
+    "controlTypeTags": [
+      "security",
+      "compliance"
+    ],
+    "attackTracks": [
+      {
+        "attackTrack": "kubeapi",
+        "categories": [
+          "Impact - data destruction",
+          "Impact - service injection"
+        ]
+      }
+    ]
+  },
+  "description": "Attackers who have cluster admin permissions (can perform any action on any resource), can take advantage of their privileges for malicious activities. This control determines which subjects have cluster admin permissions.",
+  "remediation": "You should apply least privilege principle. Make sure cluster admin permissions are granted only when it is absolutely necessary. Don't use subjects with such high permissions for daily operations.",
+  "rulesNames": [
+    "rule-list-all-cluster-admins",
+    "rule-list-all-cluster-admins-v1"
+  ],
+  "long_description": "Role-based access control (RBAC) is a key security feature in Kubernetes. RBAC can restrict the allowed actions of the various identities in the cluster. Cluster-admin is a built-in high privileged role in Kubernetes. Attackers who have permissions to create bindings and cluster-bindings in the cluster can create a binding to the cluster-admin ClusterRole or to other high privileges roles.",
+  "test": "Check which subjects have cluster-admin RBAC permissions – either by being bound to the cluster-admin clusterrole, or by having equivalent high privileges.  ",
+  "controlID": "C-0035",
+  "baseScore": 6,
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

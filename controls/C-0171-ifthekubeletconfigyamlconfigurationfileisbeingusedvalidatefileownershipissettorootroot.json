@@ -1,20 +1,28 @@
 {
-    "controlID": "C-0171",
-    "name": "If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root",
-    "description": "Ensure that if the kubelet refers to a configuration file with the `--config` argument, that file is owned by root:root.",
-    "long_description": "The kubelet reads various parameters, including security settings, from a config file specified by the `--config` argument. If this file is specified you should restrict its file permissions to maintain the integrity of the file. The file should be owned by root:root.",
-    "remediation": "Run the following command (using the config file location identied in the Audit step)\n\n \n```\nchown root:root /etc/kubernetes/kubelet.conf\n\n```",
-    "manual_test": "Run the below command (based on the file location on your system) on the each worker node. For example,\n\n \n```\nstat -c %a /var/lib/kubelet/config.yaml\n```Verify that the ownership is set to `root:root`.\n\n```",
-    "references": [
-        "https://workbench.cisecurity.org/sections/1126659/recommendations/1838629"
-    ],
-    "rulesNames": [
-        "ensure-that-the-kubelet-configuration-file-ownership-is-set-to-root-root"
-    ],
-    "attributes": {
-        "armoBuiltin": true
-    },
-    "baseScore": 7,
-    "impact_statement": "None",
-    "default_value": "By default, `/var/lib/kubelet/config.yaml` file as set up by `kubeadm` is owned by `root:root`."
+  "controlID": "C-0171",
+  "name": "If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root",
+  "description": "Ensure that if the kubelet refers to a configuration file with the `--config` argument, that file is owned by root:root.",
+  "long_description": "The kubelet reads various parameters, including security settings, from a config file specified by the `--config` argument. If this file is specified you should restrict its file permissions to maintain the integrity of the file. The file should be owned by root:root.",
+  "remediation": "Run the following command (using the config file location identied in the Audit step) ```chown root:root /etc/kubernetes/kubelet.conf```",
+  "manual_test": "Run the below command (based on the file location on your system) on the each worker node. For example, ```stat -c %a /var/lib/kubelet/config.yaml```Verify that the ownership is set to `root:root`.```",
+  "references": [
+    "https://workbench.cisecurity.org/sections/1126659/recommendations/1838629"
+  ],
+  "rulesNames": [
+    "ensure-that-the-kubelet-configuration-file-ownership-is-set-to-root-root"
+  ],
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "baseScore": 7,
+  "impact_statement": "None",
+  "default_value": "By default, `/var/lib/kubelet/config.yaml` file as set up by `kubeadm` is owned by `root:root`.",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster",
+        "cloud"
+      ]
+    ]
+  }
 }

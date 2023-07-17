@@ -1,18 +1,28 @@
 {
-    "name": "Containers mounting Docker socket",
-    "attributes": {
-        "armoBuiltin": true,
-        "controlTypeTags": [
-            "devops"
-        ]
-    },
-    "description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies PODs that attempt to mount Docker socket for accessing Docker runtime.",
-    "remediation": "Remove docker socket mount request or define an exception.",
-    "rulesNames": [
-        "containers-mounting-docker-socket"
-    ],
-    "long_description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies PODs that attempt to mount Docker socket for accessing Docker runtime.",
-    "test": "Check hostpath. If the path is set to /var/run/docker.sock or /var/lib/docker , the container has access to Docker internals - fail.",
-    "controlID": "C-0074",
-    "baseScore": 5
+  "name": "Containers mounting Docker socket",
+  "attributes": {
+    "armoBuiltin": true,
+    "controlTypeTags": [
+      "devops"
+    ]
+  },
+  "description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies PODs that attempt to mount Docker socket for accessing Docker runtime.",
+  "remediation": "Remove docker socket mount request or define an exception.",
+  "rulesNames": [
+    "containers-mounting-docker-socket"
+  ],
+  "long_description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies PODs that attempt to mount Docker socket for accessing Docker runtime.",
+  "test": "Check hostpath. If the path is set to /var/run/docker.sock or /var/lib/docker , the container has access to Docker internals - fail.",
+  "controlID": "C-0074",
+  "baseScore": 5,
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

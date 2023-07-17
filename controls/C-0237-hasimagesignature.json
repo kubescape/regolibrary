@@ -1,19 +1,28 @@
 {
-    "controlID": "C-0237",
-    "name": "Check if signature exists",
-    "description": "Ensures that all images contain some signature",
-    "long_description": "Verifies that each image is signed",
-    "remediation": "Replace the image with a signed image",
-    "manual_test": "",
-    "references": [
-    ],
-    "attributes": {
-        "armoBuiltin": true
-    },
-    "rulesNames": [
-        "has-image-signature"
-    ],
-    "baseScore": 7,
-    "impact_statement": "",
-    "default_value": ""
+  "controlID": "C-0237",
+  "name": "Check if signature exists",
+  "description": "Ensures that all images contain some signature",
+  "long_description": "Verifies that each image is signed",
+  "remediation": "Replace the image with a signed image",
+  "manual_test": "",
+  "references": [],
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "rulesNames": [
+    "has-image-signature"
+  ],
+  "baseScore": 7,
+  "impact_statement": "",
+  "default_value": "",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

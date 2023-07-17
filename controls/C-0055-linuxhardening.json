@@ -1,27 +1,37 @@
 {
-    "name": "Linux hardening",
-    "attributes": {
-        "armoBuiltin": true,
-        "controlTypeTags": [
-            "security",
-            "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Privilege escalation"
-                ]
-            }
-        ]
-    },
-    "description": "Containers may be given more privileges than they actually need. This can increase the potential impact of a container compromise.",
-    "remediation": "You can use AppArmor, Seccomp, SELinux and Linux Capabilities mechanisms to restrict containers abilities to utilize unwanted privileges.",
-    "rulesNames": [
-        "linux-hardening"
+  "name": "Linux hardening",
+  "attributes": {
+    "armoBuiltin": true,
+    "controlTypeTags": [
+      "security",
+      "compliance"
     ],
-    "long_description": "In order to reduce the attack surface, it is recommend, when it is possible, to harden your application using security services such as SELinux\u00ae, AppArmor\u00ae, and seccomp. Starting from Kubernetes version 22, SELinux is enabled by default. ",
-    "test": "Check if there is AppArmor or Seccomp or SELinux or Capabilities are defined in the securityContext of container and pod. If none of these fields are defined for both the container and pod, alert.",
-    "controlID": "C-0055",
-    "baseScore": 4.0
+    "attackTracks": [
+      {
+        "attackTrack": "container",
+        "categories": [
+          "Privilege escalation"
+        ]
+      }
+    ]
+  },
+  "description": "Containers may be given more privileges than they actually need. This can increase the potential impact of a container compromise.",
+  "remediation": "You can use AppArmor, Seccomp, SELinux and Linux Capabilities mechanisms to restrict containers abilities to utilize unwanted privileges.",
+  "rulesNames": [
+    "linux-hardening"
+  ],
+  "long_description": "In order to reduce the attack surface, it is recommend, when it is possible, to harden your application using security services such as SELinux®, AppArmor®, and seccomp. Starting from Kubernetes version 22, SELinux is enabled by default. ",
+  "test": "Check if there is AppArmor or Seccomp or SELinux or Capabilities are defined in the securityContext of container and pod. If none of these fields are defined for both the container and pod, alert.",
+  "controlID": "C-0055",
+  "baseScore": 4,
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

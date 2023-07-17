@@ -1,19 +1,29 @@
 {
-    "name": "K8s common labels usage",
-    "attributes": {
-        "actionRequired": "configuration",
-        "armoBuiltin": true,
-        "controlTypeTags": [
-            "devops"
-        ]
-    },
-    "description": "Kubernetes common labels help manage and monitor Kubernetes cluster using different tools such as kubectl, dashboard and others in an interoperable way. Refer to https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/ for more information. This control helps you find objects that don't have any of these labels defined.",
-    "remediation": "Define applicable labels or use the exception mechanism to prevent further notifications.",
-    "rulesNames": [
-        "K8s common labels usage"
-    ],
-    "long_description": "Kubernetes common labels help manage and monitor Kubernetes cluster using different tools such as kubectl, dashboard and others in an interoperable way. Refer to https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/ for more information. This control helps you find objects that don't have any of these labels defined.",
-    "test": "Test will check if the list of label that start with app.kubernetes.io/ are defined.",
-    "controlID": "C-0077",
-    "baseScore": 2.0
+  "name": "K8s common labels usage",
+  "attributes": {
+    "actionRequired": "configuration",
+    "armoBuiltin": true,
+    "controlTypeTags": [
+      "devops"
+    ]
+  },
+  "description": "Kubernetes common labels help manage and monitor Kubernetes cluster using different tools such as kubectl, dashboard and others in an interoperable way. Refer to https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/ for more information. This control helps you find objects that don't have any of these labels defined.",
+  "remediation": "Define applicable labels or use the exception mechanism to prevent further notifications.",
+  "rulesNames": [
+    "K8s common labels usage"
+  ],
+  "long_description": "Kubernetes common labels help manage and monitor Kubernetes cluster using different tools such as kubectl, dashboard and others in an interoperable way. Refer to https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/ for more information. This control helps you find objects that don't have any of these labels defined.",
+  "test": "Test will check if the list of label that start with app.kubernetes.io/ are defined.",
+  "controlID": "C-0077",
+  "baseScore": 2,
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

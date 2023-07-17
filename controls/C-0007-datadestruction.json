@@ -1,24 +1,34 @@
 {
-    "name": "Data Destruction",
-    "attributes": {
-        "armoBuiltin": true,
-        "microsoftMitreColumns": [
-            "Impact"
-        ],
-        "rbacQuery": "Data destruction",
-        "controlTypeTags": [
-            "compliance"
-        ]
-    },
-    "description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources. This control identifies all subjects that can delete resources.",
-    "remediation": "You should follow the least privilege principle and minimize the number of subjects that can delete resources.",
-    "rulesNames": [
-        "rule-excessive-delete-rights",
-        "rule-excessive-delete-rights-v1"
+  "name": "Data Destruction",
+  "attributes": {
+    "armoBuiltin": true,
+    "microsoftMitreColumns": [
+      "Impact"
     ],
-    "long_description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources.",
-    "test": "Check which subjects have delete/deletecollection RBAC permissions on workloads.",
-    "controlID": "C-0007",
-    "baseScore": 5.0,
-    "example": "@controls/examples/c007.yaml"
+    "rbacQuery": "Data destruction",
+    "controlTypeTags": [
+      "compliance"
+    ]
+  },
+  "description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources. This control identifies all subjects that can delete resources.",
+  "remediation": "You should follow the least privilege principle and minimize the number of subjects that can delete resources.",
+  "rulesNames": [
+    "rule-excessive-delete-rights",
+    "rule-excessive-delete-rights-v1"
+  ],
+  "long_description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources.",
+  "test": "Check which subjects have delete/deletecollection RBAC permissions on workloads.",
+  "controlID": "C-0007",
+  "baseScore": 5,
+  "example": "@controls/examples/c007.yaml",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

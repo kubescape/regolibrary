@@ -1,28 +1,35 @@
 {
-    "name": "Malicious admission controller (mutating)",
-    "attributes": {
-        "armoBuiltin": true,
-        "microsoftMitreColumns": [
-            "Persistence"
-        ],
-        "controlTypeTags": [
-            "security",
-            "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "kubeapi",
-                "categories": [
-                    "Impact - service injection"
-                ]
-            }
-        ]
-    },
-    "description": "Attackers may use mutating webhooks to intercept and modify all the resources in the cluster. This control lists all mutating webhook configurations that must be verified.",
-    "remediation": "Ensure all the webhooks are necessary. Use exception mechanism to prevent repititive notifications.",
-    "rulesNames": [
-        "list-all-mutating-webhooks"
+  "name": "Malicious admission controller (mutating)",
+  "attributes": {
+    "armoBuiltin": true,
+    "microsoftMitreColumns": [
+      "Persistence"
     ],
-    "controlID": "C-0039",
-    "baseScore": 4.0
+    "controlTypeTags": [
+      "security",
+      "compliance"
+    ],
+    "attackTracks": [
+      {
+        "attackTrack": "kubeapi",
+        "categories": [
+          "Impact - service injection"
+        ]
+      }
+    ]
+  },
+  "description": "Attackers may use mutating webhooks to intercept and modify all the resources in the cluster. This control lists all mutating webhook configurations that must be verified.",
+  "remediation": "Ensure all the webhooks are necessary. Use exception mechanism to prevent repititive notifications.",
+  "rulesNames": [
+    "list-all-mutating-webhooks"
+  ],
+  "controlID": "C-0039",
+  "baseScore": 4,
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ]
+    ]
+  }
 }

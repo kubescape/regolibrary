@@ -16,5 +16,14 @@
     ],
     "baseScore": 6,
     "impact_statement": "Care should be taken not to remove access to Amazon ECR for accounts that require this for their operation.",
-    "default_value": ""
+    "default_value": "",
+    "scanningScope": {
+        "matches": [
+          [
+            "cluster",
+            "cloud",
+            "EKS"
+          ]
+        ]
+      }
 }

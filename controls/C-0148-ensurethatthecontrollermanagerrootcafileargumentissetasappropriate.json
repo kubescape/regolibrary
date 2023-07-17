@@ -1,20 +1,28 @@
 {
-    "controlID": "C-0148",
-    "name": "Ensure that the Controller Manager --root-ca-file argument is set as appropriate",
-    "description": "Allow pods to verify the API server's serving certificate before establishing connections.",
-    "long_description": "Processes running within pods that need to contact the API server must verify the API server's serving certificate. Failing to do so could be a subject to man-in-the-middle attacks.\n\n Providing the root certificate for the API server's serving certificate to the controller manager with the `--root-ca-file` argument allows the controller manager to inject the trusted bundle into pods so that they can verify TLS connections to the API server.",
-    "remediation": "Edit the Controller Manager pod specification file `/etc/kubernetes/manifests/kube-controller-manager.yaml` on the Control Plane node and set the `--root-ca-file` parameter to the certificate bundle file`.\n\n \n```\n--root-ca-file=<path/to/file>\n\n```",
-    "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-controller-manager\n\n```\n Verify that the `--root-ca-file` argument exists and is set to a certificate bundle file containing the root certificate for the API server's serving certificate.",
-    "references": [
-        "https://workbench.cisecurity.org/sections/1126669/recommendations/1838681"
-    ],
-    "attributes": {
-        "armoBuiltin": true
-    },
-    "rulesNames": [
-        "ensure-that-the-controller-manager-root-ca-file-argument-is-set-as-appropriate"
-    ],
-    "baseScore": 7,
-    "impact_statement": "You need to setup and maintain root certificate authority file.",
-    "default_value": "By default, `--root-ca-file` is not set."
+  "controlID": "C-0148",
+  "name": "Ensure that the Controller Manager --root-ca-file argument is set as appropriate",
+  "description": "Allow pods to verify the API server's serving certificate before establishing connections.",
+  "long_description": "Processes running within pods that need to contact the API server must verify the API server's serving certificate. Failing to do so could be a subject to man-in-the-middle attacks. Providing the root certificate for the API server's serving certificate to the controller manager with the `--root-ca-file` argument allows the controller manager to inject the trusted bundle into pods so that they can verify TLS connections to the API server.",
+  "remediation": "Edit the Controller Manager pod specification file `/etc/kubernetes/manifests/kube-controller-manager.yaml` on the Control Plane node and set the `--root-ca-file` parameter to the certificate bundle file`. ```--root-ca-file=<path/to/file>```",
+  "manual_test": "Run the following command on the Control Plane node: ```ps -ef | grep kube-controller-manager``` Verify that the `--root-ca-file` argument exists and is set to a certificate bundle file containing the root certificate for the API server's serving certificate.",
+  "references": [
+    "https://workbench.cisecurity.org/sections/1126669/recommendations/1838681"
+  ],
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "rulesNames": [
+    "ensure-that-the-controller-manager-root-ca-file-argument-is-set-as-appropriate"
+  ],
+  "baseScore": 7,
+  "impact_statement": "You need to setup and maintain root certificate authority file.",
+  "default_value": "By default, `--root-ca-file` is not set.",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster",
+        "cloud"
+      ]
+    ]
+  }
 }

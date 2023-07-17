@@ -1,30 +1,40 @@
 {
-    "name": "HostNetwork access",
-    "attributes": {
-        "armoBuiltin": true,
-        "controlTypeTags": [
-            "security",
-            "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Discovery",
-                    "Lateral movement",
-                    "Impact - service access"
-                ]
-            }
-        ]
-    },
-    "description": "Potential attackers may gain access to a POD and inherit access to the entire host network. For example, in AWS case, they will have access to the entire VPC. This control identifies all the PODs with host network access enabled.",
-    "remediation": "Only connect PODs to host network when it is necessary. If not, set the hostNetwork field of the pod spec to false, or completely remove it (false is the default). Whitelist only those PODs that must have access to host network by design.",
-    "rulesNames": [
-        "host-network-access"
+  "name": "HostNetwork access",
+  "attributes": {
+    "armoBuiltin": true,
+    "controlTypeTags": [
+      "security",
+      "compliance"
     ],
-    "long_description": "We have it in ArmoBest",
-    "test": "",
-    "controlID": "C-0041",
-    "baseScore": 7.0,
-    "example": "@controls/examples/c041.yaml"
+    "attackTracks": [
+      {
+        "attackTrack": "container",
+        "categories": [
+          "Discovery",
+          "Lateral movement",
+          "Impact - service access"
+        ]
+      }
+    ]
+  },
+  "description": "Potential attackers may gain access to a POD and inherit access to the entire host network. For example, in AWS case, they will have access to the entire VPC. This control identifies all the PODs with host network access enabled.",
+  "remediation": "Only connect PODs to host network when it is necessary. If not, set the hostNetwork field of the pod spec to false, or completely remove it (false is the default). Whitelist only those PODs that must have access to host network by design.",
+  "rulesNames": [
+    "host-network-access"
+  ],
+  "long_description": "We have it in ArmoBest",
+  "test": "",
+  "controlID": "C-0041",
+  "baseScore": 7,
+  "example": "@controls/examples/c041.yaml",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

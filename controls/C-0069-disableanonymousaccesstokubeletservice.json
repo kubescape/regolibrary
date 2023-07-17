@@ -1,27 +1,34 @@
 {
-    "name": "Disable anonymous access to Kubelet service",
-    "attributes": {
-        "armoBuiltin": true,
-        "controlTypeTags": [
-            "security",
-            "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "kubeapi",
-                "categories": [
-                    "Initial access"
-                ]
-            }
-        ]
-    },
-    "description": "By default, requests to the kubelet's HTTPS endpoint that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of system:anonymous and a group of system:unauthenticated.",
-    "remediation": "Start the kubelet with the --anonymous-auth=false flag.",
-    "rulesNames": [
-        "anonymous-requests-to-kubelet-service-updated"
+  "name": "Disable anonymous access to Kubelet service",
+  "attributes": {
+    "armoBuiltin": true,
+    "controlTypeTags": [
+      "security",
+      "compliance"
     ],
-    "long_description": "By default, requests to the kubelet's HTTPS endpoint that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of system:anonymous and a group of system:unauthenticated.",
-    "test": "Reading the kubelet command lines and configuration file looking for anonymous-auth configuration. If this configuration is set on both, the command line values take precedence over it.",
-    "controlID": "C-0069",
-    "baseScore": 10
+    "attackTracks": [
+      {
+        "attackTrack": "kubeapi",
+        "categories": [
+          "Initial access"
+        ]
+      }
+    ]
+  },
+  "description": "By default, requests to the kubelet's HTTPS endpoint that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of system:anonymous and a group of system:unauthenticated.",
+  "remediation": "Start the kubelet with the --anonymous-auth=false flag.",
+  "rulesNames": [
+    "anonymous-requests-to-kubelet-service-updated"
+  ],
+  "long_description": "By default, requests to the kubelet's HTTPS endpoint that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of system:anonymous and a group of system:unauthenticated.",
+  "test": "Reading the kubelet command lines and configuration file looking for anonymous-auth configuration. If this configuration is set on both, the command line values take precedence over it.",
+  "controlID": "C-0069",
+  "baseScore": 10,
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ]
+    ]
+  }
 }

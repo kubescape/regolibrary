@@ -1,18 +1,28 @@
 {
-    "name": "Naked PODs",
-    "attributes": {
-        "armoBuiltin": true,
-        "controlTypeTags": [
-            "devops"
-        ]
-    },
-    "description": "It is not recommended to create PODs without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if PODs may lead to a configuration drifts and other untracked changes in the system. Such PODs won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every POD that does not have corresponding parental object.",
-    "remediation": "Create necessary Deployment object for every POD making any POD a first class citizen in your IaC architecture.",
-    "rulesNames": [
-        "naked-pods"
-    ],
-    "long_description": "It is not recommended to create PODs without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if PODs may lead to a configuration drifts and other untracked changes in the system. Such PODs won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every POD that does not have corresponding parental object.",
-    "test": "Test if PODs are not associated with Deployment, ReplicaSet etc. If not, fail.",
-    "controlID": "C-0073",
-    "baseScore": 3
+  "name": "Naked PODs",
+  "attributes": {
+    "armoBuiltin": true,
+    "controlTypeTags": [
+      "devops"
+    ]
+  },
+  "description": "It is not recommended to create PODs without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if PODs may lead to a configuration drifts and other untracked changes in the system. Such PODs won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every POD that does not have corresponding parental object.",
+  "remediation": "Create necessary Deployment object for every POD making any POD a first class citizen in your IaC architecture.",
+  "rulesNames": [
+    "naked-pods"
+  ],
+  "long_description": "It is not recommended to create PODs without parental Deployment, ReplicaSet, StatefulSet etc.Manual creation if PODs may lead to a configuration drifts and other untracked changes in the system. Such PODs won't be automatically rescheduled by Kubernetes in case of a crash or infrastructure failure. This control identifies every POD that does not have corresponding parental object.",
+  "test": "Test if PODs are not associated with Deployment, ReplicaSet etc. If not, fail.",
+  "controlID": "C-0073",
+  "baseScore": 3,
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

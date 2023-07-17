@@ -1,18 +1,28 @@
 {
-    "name": "Resources CPU limit and request",
-    "attributes": {
-        "actionRequired": "configuration",
-        "armoBuiltin": true,
-        "controlTypeTags": [
-            "compliance",
-            "devops"
-        ]
-    },
-    "description": "This control identifies all Pods for which the CPU limit is not set.",
-    "remediation": "Set the CPU limit or use exception mechanism to avoid unnecessary notifications.",
-    "rulesNames": [
-        "resources-cpu-limit-and-request"
-    ],
-    "controlID": "C-0050",
-    "baseScore": 8.0
+  "name": "Resources CPU limit and request",
+  "attributes": {
+    "actionRequired": "configuration",
+    "armoBuiltin": true,
+    "controlTypeTags": [
+      "compliance",
+      "devops"
+    ]
+  },
+  "description": "This control identifies all Pods for which the CPU limit is not set.",
+  "remediation": "Set the CPU limit or use exception mechanism to avoid unnecessary notifications.",
+  "rulesNames": [
+    "resources-cpu-limit-and-request"
+  ],
+  "controlID": "C-0050",
+  "baseScore": 8,
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }

@@ -1,20 +1,30 @@
 {
-    "controlID": "C-0218",
-    "name": "Minimize the admission of root containers",
-    "description": "Do not generally permit containers to be run as the root user.",
-    "long_description": "Containers may run as any Linux user. Containers which run as the root user, whilst constrained by Container Runtime security features still have a escalated likelihood of container breakout.\n\n Ideally, all containers should run as a defined non-UID 0 user.\n\n There should be at least one PodSecurityPolicy (PSP) defined which does not permit root users in a container.\n\n If you need to run root containers, this should be defined in a separate PSP and you should carefully check RBAC controls to ensure that only limited service accounts and users are given permission to access that PSP.",
-    "remediation": "Create a PSP as described in the Kubernetes documentation, ensuring that the `.spec.runAsUser.rule` is set to either `MustRunAsNonRoot` or `MustRunAs` with the range of UIDs not including 0.",
-    "manual_test": "Get the set of PSPs with the following command:\n\n \n```\nkubectl get psp\n\n```\n For each PSP, check whether running containers as root is enabled:\n\n \n```\nkubectl get psp <name> -o=jsonpath='{.spec.runAsUser.rule}'\n\n```\n Verify that there is at least one PSP which returns `MustRunAsNonRoot` or `MustRunAs` with the range of UIDs not including 0.",
-    "references": [
-        "https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies"
-    ],
-    "attributes": {
-        "armoBuiltin": true
-    },
-    "rulesNames": [
-        "psp-deny-root-container"
-    ],
-    "baseScore": 6.0,
-    "impact_statement": "Pods with containers which run as the root user will not be permitted.",
-    "default_value": "By default, PodSecurityPolicies are not defined."
+  "controlID": "C-0218",
+  "name": "Minimize the admission of root containers",
+  "description": "Do not generally permit containers to be run as the root user.",
+  "long_description": "Containers may run as any Linux user. Containers which run as the root user, whilst constrained by Container Runtime security features still have a escalated likelihood of container breakout. Ideally, all containers should run as a defined non-UID 0 user. There should be at least one PodSecurityPolicy (PSP) defined which does not permit root users in a container. If you need to run root containers, this should be defined in a separate PSP and you should carefully check RBAC controls to ensure that only limited service accounts and users are given permission to access that PSP.",
+  "remediation": "Create a PSP as described in the Kubernetes documentation, ensuring that the `.spec.runAsUser.rule` is set to either `MustRunAsNonRoot` or `MustRunAs` with the range of UIDs not including 0.",
+  "manual_test": "Get the set of PSPs with the following command: ```kubectl get psp``` For each PSP, check whether running containers as root is enabled: ```kubectl get psp <name> -o=jsonpath='{.spec.runAsUser.rule}'``` Verify that there is at least one PSP which returns `MustRunAsNonRoot` or `MustRunAs` with the range of UIDs not including 0.",
+  "references": [
+    "https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies"
+  ],
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "rulesNames": [
+    "psp-deny-root-container"
+  ],
+  "baseScore": 6,
+  "impact_statement": "Pods with containers which run as the root user will not be permitted.",
+  "default_value": "By default, PodSecurityPolicies are not defined.",
+  "scanningScope": {
+    "matches": [
+      [
+        "cluster"
+      ],
+      [
+        "file"
+      ]
+    ]
+  }
 }
