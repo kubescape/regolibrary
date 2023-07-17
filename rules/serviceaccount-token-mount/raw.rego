@@ -1,9 +1,7 @@
 package armo_builtins
 
-#  -- ----     For workloads     -- ----   
-# Fails if pod mount tokens  by default (either by its config or by its SA config)
 
- # POD  
+# POD  
 deny [msga]{
     pod := input[_]
     pod.kind == "Pod"
@@ -80,15 +78,28 @@ is_sa_auto_mounted(spec, beggining_of_path, wl_namespace) = [failed_path, fix_pa
     not spec.automountServiceAccountToken == false
     not spec.automountServiceAccountToken == true
 
-    # check if SA  automount by default
     sa := input[_]
     is_same_sa(spec, sa.metadata.name)
     is_same_namespace(sa.metadata.namespace , wl_namespace)
     has_service_account_binding(sa)
 
-    # path is pod spec
     fix_path = { "path": sprintf("%vautomountServiceAccountToken", [beggining_of_path]), "value": "false"}
     failed_path = ""
+}
+
+is_sa_auto_mounted(spec, beggining_of_path, wl_namespace) =  [failed_path, fix_path]  {
+    # automountServiceAccountToken set to true in pod spec
+    spec.automountServiceAccountToken == true
+    
+    service_accounts := [service_account | service_account = input[_]; service_account.kind == "ServiceAccount"]
+    count(service_accounts) > 0
+    sa := service_accounts[_]
+    is_same_sa(spec, sa.metadata.name)
+    is_same_namespace(sa.metadata.namespace , wl_namespace)
+    has_service_account_binding(sa)
+
+    failed_path = sprintf("%vautomountServiceAccountToken", [beggining_of_path])
+    fix_path = ""
 }
 
 get_failed_path(paths) = [paths[0]] {
@@ -100,21 +111,6 @@ get_fixed_path(paths) = [paths[1]] {
     paths[1] != ""
 } else = []
 
-is_sa_auto_mounted(spec, beggining_of_path, wl_namespace) =  [failed_path, fix_path]  {
-    # automountServiceAccountToken set to true in pod spec
-    spec.automountServiceAccountToken == true
-    
-    # SA automount by default
-    service_accounts := [service_account | service_account = input[_]; service_account.kind == "ServiceAccount"]
-    count(service_accounts) > 0
-    sa := service_accounts[_]
-    is_same_sa(spec, sa.metadata.name)
-    is_same_namespace(sa.metadata.namespace , wl_namespace)
-    has_service_account_binding(sa)
-
-    failed_path = sprintf("%vautomountServiceAccountToken", [beggining_of_path])
-    fix_path = ""
-}
 
 is_same_sa(spec, serviceAccountName) {
     spec.serviceAccountName == serviceAccountName
@@ -144,20 +140,27 @@ is_same_namespace(metadata1, metadata2) {
     metadata2.namespace == "default"
 }
 
-# checks if RoleBinding has a bind with the given ServiceAccount
+# checks if RoleBinding/ClusterRoleBinding has a bind with the given ServiceAccount
 has_service_account_binding(service_account) {
-    role_bindings := [role_binding | role_binding = input[_]; role_binding.kind == "RoleBinding"]
+    role_bindings := [role_binding | role_binding = input[_]; endswith(role_binding.kind, "Binding")]
     role_binding := role_bindings[_]
     role_binding.subjects[_].name == service_account.metadata.name
     role_binding.subjects[_].namespace == service_account.metadata.namespace
     role_binding.subjects[_].kind == "ServiceAccount"
 }
 
-# checks if ClusterRoleBinding has a bind with the given ServiceAccount
+# checks if RoleBinding/ClusterRoleBinding has a bind with the system:authenticated group
+# which gives access to all authenticated users, including service accounts
 has_service_account_binding(service_account) {
-    cluster_role_bindings := [cluster_role_binding | cluster_role_binding = input[_]; cluster_role_binding.kind == "ClusterRoleBinding"]
-    cluster_role_binding := cluster_role_bindings[_]
-    cluster_role_binding.subjects[_].name == service_account.metadata.name
-    cluster_role_binding.subjects[_].namespace == service_account.metadata.namespace
-    cluster_role_binding.subjects[_].kind == "ServiceAccount"
+    role_bindings := [role_binding | role_binding = input[_]; endswith(role_binding.kind, "Binding")]
+    role_binding := role_bindings[_]
+    role_binding.subjects[_].name == "system:authenticated"
+}
+
+# checks if RoleBinding/ClusterRoleBinding has a bind with the "system:serviceaccounts" group
+# which gives access to all service accounts
+has_service_account_binding(service_account) {
+    role_bindings := [role_binding | role_binding = input[_]; endswith(role_binding.kind, "Binding")]
+    role_binding := role_bindings[_]
+    role_binding.subjects[_].name == "system:serviceaccounts"
 }
