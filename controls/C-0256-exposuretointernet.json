@@ -1,0 +1,29 @@
+{
+    "name": "Exposure to internet",
+    "attributes": {
+        "armoBuiltin": true,
+        "controlTypeTags": [
+            "security"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "workload-external-track",
+                "categories": [
+                    "Workload Exposure"
+                ]
+            },
+            {
+                "attackTrack": "",
+                "categories": [
+                    ""
+                ]
+            }
+        ]
+    },
+    "description": "This control detect workloads that are exposed on Internet through a Service (NodePort or LoadBalancer) or Ingress. It fails in case it find workloads connected with these resources.",
+    "remediation": "The user can evaluate its exposed resources and apply relevant changes wherever needed.",
+    "rulesNames": ["exposure-to-internet"],
+    "test": "Checks if workloads are exposed through the use of NodePort, LoadBalancer or Ingress",
+    "controlID": "C-0256",
+    "baseScore": 7.0
+}

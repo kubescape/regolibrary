@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    deployment: my-deployment  # label for the Deployment itself
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app  # Used to select the Pods the Deployment should manage
+  template:
+    metadata:
+      labels:
+        app: my-app  # Labels for the Pods created by the Deployment
+    spec:
+      containers:
+      - name: my-app
+        image: my-app:1.0.0

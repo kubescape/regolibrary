@@ -1,0 +1,18 @@
+{
+    "apiVersion": "regolibrary.kubescape/v1alpha1",
+    "kind": "AttackTrack",
+    "metadata": {
+        "name": "service-destruction"
+    },
+    "spec": {
+        "version": "1.0",
+        "data": {
+            "name": "Workload Exposure",
+            "subSteps": [
+                {
+                    "name": "Service Destruction"
+                }
+            ]
+        }
+    }
+}

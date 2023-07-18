@@ -1,0 +1,39 @@
+{
+    "apiVersion": "regolibrary.kubescape/v1alpha1",
+    "kind": "AttackTrack",
+    "metadata": {
+        "name": "workload-external-track"
+    },
+    "spec": {
+        "version": "1.0",
+        "data": {
+            "name": "Workload Exposure",
+            "subSteps": [
+                {
+                    "name": "Vulnerable Image",
+                    "checksVulnerabilities": true,
+                    "subSteps": [
+                        {
+                            "name": "Data Access"
+                        },
+                        {
+                            "name": "Secret Access"
+                        },
+                        {
+                            "name": "Credential access"
+                        },
+                        {
+                            "name": "Potential Node exposure"
+                        },
+                        {
+                            "name": "Persistence"
+                        },
+                        {
+                            "name": "Network"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

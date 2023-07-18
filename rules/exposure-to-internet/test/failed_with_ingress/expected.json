@@ -1,0 +1,56 @@
+[
+    {
+        "alertMessage": "workload 'my-app' is exposed through ingress 'my-ingress'",
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "my-app"
+                    }
+                }
+            ]
+        },
+        "relatedObjects": [
+            {
+                "object": {
+                    "apiVersion": "networking.k8s.io/v1beta1",
+                    "kind": "Ingress",
+                    "metadata": {
+                        "name": "my-ingress"
+                    },
+                    "spec": {
+                        "ingressClassName": "nginx",
+                        "rules": [
+                            {
+                                "host": "myservicea.foo.org",
+                                "http": {
+                                    "paths": [
+                                        {
+                                            "backend": {
+                                                "service": {
+                                                    "name": "my-service"
+                                                }
+                                            },
+                                            "path": "/"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                "failedPaths": [
+                    "ingress.spec.rules[0].http.paths[0].backend.service.name"
+                ],
+                "fixPaths": null
+            }
+        ]
+    }
+]

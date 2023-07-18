@@ -4,7 +4,9 @@
     "attributes": {
         "armoBuiltin": true
     },
-    "typeTags": ["security"],
+    "typeTags": [
+        "security"
+    ],
     "activeControls": [
         {
             "controlID": "C-0009",
@@ -16,6 +18,48 @@
             "controlID": "C-0017",
             "patch": {
                 "name": "Immutable container filesystem"
+            }
+        },
+	    {   
+            "controlID": "C-0256",
+            "patch": {
+                "name": "Exposure to Internet"
+            }
+        },
+	    {
+            "controlID": "C-0259",
+            "patch": {
+                "name": "Workload with credential access"
+            }
+        },
+        {
+            "controlID": "C-0258",
+            "patch": {
+                "name": "Workload with configMap access"
+            }
+        },
+        {
+            "controlID": "C-0257",
+            "patch": {
+                "name": "Workload with PVC access"
+            }
+        },
+        {
+            "controlID": "C-0260",
+            "patch": {
+                "name": "Missing network policy"
+            }
+        },
+        {
+            "controlID": "C-0261",
+            "patch": {
+                "name": "ServiceAccount token mounted"
+            }
+        },
+        {     
+            "controlID": "C-0255",
+            "patch": {
+                "name": "Workload with secret access"
             }
         },
         {
