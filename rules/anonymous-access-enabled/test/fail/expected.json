@@ -1,0 +1,24 @@
+[
+    {
+        "alertMessage": "the following RoleBinding: system:public-info-viewer gives permissions to anonymous users",
+        "failedPaths": null,
+        "fixPaths": null,
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "rbac.authorization.k8s.io/v1",
+                    "kind": "ClusterRoleBinding",
+                    "metadata": {
+                        "labels": {
+                            "kubernetes.io/bootstrapping": "rbac-defaults"
+                        },
+                        "name": "system:public-info-viewer"
+                    }
+                }
+            ]
+        }
+    }
+]
