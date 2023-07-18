@@ -1,0 +1,26 @@
+[
+	{
+		"alertMessage": "my-pod: no networkpolicy configured in labels",
+		"failedPaths": [
+		],
+		"fixPaths": [],
+		"ruleStatus": "",
+		"packagename": "armo_builtins",
+		"alertScore": 0,
+		"alertObject": {
+			"k8sApiObjects": [
+				{
+					"apiVersion": "v1",
+					"kind": "Pod",
+					"metadata": {
+						"name": "my-pod",
+                        "labels": {
+                            "app": "my-pod"
+                        }
+					}
+				}
+			]
+			
+		}
+	}
+]

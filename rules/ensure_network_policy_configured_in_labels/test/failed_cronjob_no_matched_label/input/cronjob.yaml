@@ -1,0 +1,17 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: my-cronjob
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            job: my-cronjob
+        spec:
+          containers:
+          - name: my-cronjob-container
+            image: my-cronjob-image
+          restartPolicy: OnFailure

@@ -1,0 +1,63 @@
+{
+  "name": "exposure-to-internet",
+  "attributes": {
+    "armoBuiltin": true
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod",
+        "Service"
+      ]
+    },
+    {
+      "apiGroups": [
+        "apps"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet"
+      ]
+    },
+    {
+      "apiGroups": [
+        "batch"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+          "Job",
+          "CronJob"
+      ]
+    },
+    {
+        "apiGroups": [
+          "extensions",
+          "networking.k8s.io"
+        ],
+        "apiVersions": [
+          "v1beta1",
+          "v1"
+        ],
+        "resources": [
+          "Ingress"
+        ]
+    }
+  ],
+  "description": "fails in case the running workload has binded Service or Ingress that are exposing it on Internet.",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

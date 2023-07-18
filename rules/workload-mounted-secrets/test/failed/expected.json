@@ -1,0 +1,23 @@
+[
+	{
+		"alertMessage": "Pod: mypod has mounted secret",
+		"failedPaths": [
+			"spec.containers[0].volumeMounts"
+		],
+		"fixPaths": [],
+		"ruleStatus": "",
+		"packagename": "armo_builtins",
+		"alertScore": 0,
+		"alertObject": {
+			"k8sApiObjects": [
+				{
+					"apiVersion": "v1",
+					"kind": "Pod",
+					"metadata": {
+						"name": "mypod"
+					}
+				}
+			]
+		}
+	}
+]
