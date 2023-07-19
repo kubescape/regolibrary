@@ -16,5 +16,10 @@
     ],
     "baseScore": 6,
     "impact_statement": "Clients will not be able to use self-signed certificates for TLS.",
-    "default_value": "By default, `--auto-tls` is set to `false`."
+    "default_value": "By default, `--auto-tls` is set to `false`.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

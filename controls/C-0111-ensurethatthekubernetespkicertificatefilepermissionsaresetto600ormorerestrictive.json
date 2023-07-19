@@ -16,5 +16,10 @@
     },
     "baseScore": 8,
     "impact_statement": "None",
-    "default_value": "By default, the certificates used by Kubernetes are set to have permissions of `644`"
+    "default_value": "By default, the certificates used by Kubernetes are set to have permissions of `644`",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

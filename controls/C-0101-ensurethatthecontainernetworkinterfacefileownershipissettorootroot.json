@@ -16,5 +16,10 @@
     ],
     "baseScore": 6,
     "impact_statement": "None",
-    "default_value": "NA"
+    "default_value": "NA",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

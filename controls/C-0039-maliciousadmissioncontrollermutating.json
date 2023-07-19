@@ -24,5 +24,10 @@
         "list-all-mutating-webhooks"
     ],
     "controlID": "C-0039",
-    "baseScore": 4.0
+    "baseScore": 4.0,
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
 }

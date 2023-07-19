@@ -16,5 +16,10 @@
     ],
     "baseScore": 4,
     "impact_statement": "None",
-    "default_value": "By default, auditing is not enabled."
+    "default_value": "By default, auditing is not enabled.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

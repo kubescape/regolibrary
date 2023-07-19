@@ -14,5 +14,11 @@
     "long_description": "Readiness probe is intended to ensure that workload is ready to process network traffic. It is highly recommended to define readiness probe for every worker container. This control finds all the PODs where the readiness probe is not configured.",
     "controlID": "C-0018",
     "example": "@controls/examples/c018.yaml",
-    "baseScore": 3
+    "baseScore": 3.0,
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

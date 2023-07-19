@@ -16,5 +16,10 @@
     },
     "baseScore": 6,
     "impact_statement": "None",
-    "default_value": "By default, `scheduler.conf` file ownership is set to `root:root`."
+    "default_value": "By default, `scheduler.conf` file ownership is set to `root:root`.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

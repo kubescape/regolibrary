@@ -31,5 +31,11 @@
     "test": "Checking in POD spec if there is a hostPath volume, if it has the section mount.readOnly == false (or doesn\u2019t exist) we raise an alert.",
     "controlID": "C-0045",
     "baseScore": 8.0,
-    "example": "@controls/examples/c045.yaml"
+    "example": "@controls/examples/c045.yaml",
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

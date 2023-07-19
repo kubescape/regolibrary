@@ -12,5 +12,10 @@
     "rulesNames": ["ensure-network-policy-is-enabled-eks"],
     "baseScore": 6.0,
     "impact_statement": "Network Policy requires the Network Policy add-on. This add-on is included automatically when a cluster with Network Policy is created, but for an existing cluster, needs to be added prior to enabling Network Policy.\n\n Enabling/Disabling Network Policy causes a rolling update of all cluster nodes, similar to performing a cluster upgrade. This operation is long-running and will block other operations on the cluster (including delete) until it has run to completion.\n\n Enabling Network Policy enforcement consumes additional resources in nodes. Specifically, it increases the memory footprint of the kube-system process by approximately 128MB, and requires approximately 300 millicores of CPU.",
-    "default_value": "By default, Network Policy is disabled."
+    "default_value": "By default, Network Policy is disabled.",
+    "scanningScope": {
+        "matches": [
+            "EKS"
+        ]
+    }
 }

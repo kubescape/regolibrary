@@ -16,5 +16,10 @@
     ],
     "baseScore": 6,
     "impact_statement": "A separate dedicated service account may be required for use by build servers and other robot users pushing or managing container images.",
-    "default_value": "If you used eksctl or the AWS CloudFormation templates in Getting Started with Amazon EKS to create your cluster and worker node groups, these IAM permissions are applied to your worker node IAM role by default."
+    "default_value": "If you used eksctl or the AWS CloudFormation templates in Getting Started with Amazon EKS to create your cluster and worker node groups, these IAM permissions are applied to your worker node IAM role by default.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

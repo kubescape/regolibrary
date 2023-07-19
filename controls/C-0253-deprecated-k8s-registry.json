@@ -12,5 +12,11 @@
     "test": "Checking images in kube-system namespace, if the registry of the image is from the old registry we raise an alert.",
     "controlID": "C-0253",
     "baseScore": 5.0,
-    "example": "@controls/examples/c239.yaml"
+    "example": "@controls/examples/c239.yaml",
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

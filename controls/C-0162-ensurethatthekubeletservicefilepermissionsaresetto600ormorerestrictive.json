@@ -16,5 +16,10 @@
     ],
     "baseScore": 6,
     "impact_statement": "None",
-    "default_value": "By default, the `kubelet` service file has permissions of `640`."
+    "default_value": "By default, the `kubelet` service file has permissions of `640`.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

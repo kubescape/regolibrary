@@ -24,5 +24,11 @@
     "test": "Verify if runAsUser  and runAsGroup are set to a user id greater than 999. Check that the allowPrivilegeEscalation field is set to false. Check all the combinations with PodSecurityContext and SecurityContext (for containers).",
     "controlID": "C-0013",
     "baseScore": 6.0,
-    "example": "@controls/examples/c013.yaml"
+    "example": "@controls/examples/c013.yaml",
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

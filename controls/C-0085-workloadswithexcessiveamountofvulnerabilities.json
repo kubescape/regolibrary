@@ -26,5 +26,11 @@
     "test": "This control enumerates workloads and checks if they have excessive amount of vulnerabilities in their container images. The threshold of \u201cexcessive number\u201d is configurable.",
     "controlID": "C-0085",
     "baseScore": 6.0,
-    "example": "@controls/examples/c85.yaml"
+    "example": "@controls/examples/c85.yaml",
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }
