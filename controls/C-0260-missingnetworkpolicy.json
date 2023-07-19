@@ -1,0 +1,23 @@
+{
+    "name": "Missing network policy",
+    "attributes": {
+        "armoBuiltin": true,
+        "controlTypeTags": [
+            "security"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "workload-external-track",
+                "categories": [
+                    "Network"
+                ]
+            }
+        ]
+    },
+    "description": "This control detects workloads that has no NetworkPolicy configured in labels. If a network policy is not configured, it means that your applications might not have necessary control over the traffic to and from the pods, possibly leading to a security vulnerability.",
+    "remediation": "Review the workloads identified by this control and assess whether it's necessary to configure a network policy for them.",
+    "rulesNames": ["ensure_network_policy_configured_in_labels"],
+    "test": "Check that all workloads has a network policy configured in labels.",
+    "controlID": "C-0260",
+    "baseScore": 5.0
+}

@@ -1,0 +1,23 @@
+{
+    "name": "Workload with ConfigMap access",
+    "attributes": {
+        "armoBuiltin": true,
+        "controlTypeTags": [
+            "security"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "workload-external-track",
+                "categories": [
+                    "Data Access"
+                ]
+            }
+        ]
+    },
+    "description": "This control detects workloads that have mounted ConfigMaps. Workloads with ConfigMap access can potentially expose sensitive information and elevate the risk of unauthorized access to critical resources.",
+    "remediation": "Review the workloads identified by this control and assess whether it's necessary to mount these configMaps. Remove configMaps access from workloads that don't require it or ensure appropriate access controls are in place to protect sensitive information.",
+    "rulesNames": ["workload-mounted-configmap"],
+    "test": "Check if any workload has mounted secrets by inspecting their specifications and verifying if secret volumes are defined",
+    "controlID": "C-0258",
+    "baseScore": 5.0
+}
