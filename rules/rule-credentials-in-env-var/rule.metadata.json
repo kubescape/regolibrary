@@ -25,10 +25,10 @@
         "v1"
       ],
       "resources": [
-          "Deployment",
-          "ReplicaSet",
-          "DaemonSet",
-          "StatefulSet"
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet"
       ]
     },
     {
@@ -39,17 +39,23 @@
         "*"
       ],
       "resources": [
-          "Job",
-          "CronJob"
+        "Job",
+        "CronJob"
       ]
     }
   ],
   "ruleDependencies": [],
   "configInputs": [
+    "settings.postureControlInputs.sensitiveValues",
     "settings.postureControlInputs.sensitiveKeyNames",
     "settings.postureControlInputs.sensitiveValuesAllowed"
   ],
   "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.sensitiveValues",
+      "name": "Values",
+      "description": "Secrets are stored as a key/value pair. The names of the keys/values may change from one company to the other. Below you can find some examples of popular value phrases that Kubescape is searching for"
+    },
     {
       "path": "settings.postureControlInputs.sensitiveKeyNames",
       "name": "Keys",
