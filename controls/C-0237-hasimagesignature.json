@@ -16,9 +16,9 @@
     "impact_statement": "",
     "default_value": "",
     "category": {
-        "name" : "Workload",
+        "name": "Workload",
         "subCategory": {
-  "name": "Supply chain"
-}
-   }
+            "name": "Supply chain"
+        }
+    }
 }
