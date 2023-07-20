@@ -122,25 +122,26 @@ def load_controls(loaded_rules: dict):
             logging.error(f"failed to open control: '{path_in_str}'")
             raise TypeError(e)
         
-        categoryFieldName = "category"
-        subCategoryFieldName = "subCategory"
+        category_field_name = "category"
+        sub_category_field_name = "subCategory"
+
+        name_field = "name"
+        id_field = "id"
         
         # insert category ID into control obj
-        if categoryFieldName in new_control:
-                    categoryName = new_control[categoryFieldName]['name']
-                    if categoryName in map_category_name_to_id:
-                        new_control[categoryFieldName]['id'] = map_category_name_to_id[categoryName]
+        if category_field_name in new_control:
+                    category_name = new_control[category_field_name][name_field]
+                    if category_name in map_category_name_to_id:
+                        new_control[category_field_name][id_field] = map_category_name_to_id[category_name]
                     else:
-                        raise TypeError(f"Failed to find category name '{categoryName}' in mapCategoryNameToID.json")
+                        raise TypeError(f"Failed to find category name '{category_name}' in mapCategoryNameToID.json")
 
-                    if subCategoryFieldName in new_control[categoryFieldName]:
-                       subCategoryName = new_control[categoryFieldName][subCategoryFieldName]['name'] 
-                       if subCategoryName in map_category_name_to_id:
-                            new_control[categoryFieldName][subCategoryFieldName]['id'] = map_category_name_to_id[subCategoryName]
+                    if sub_category_field_name in new_control[category_field_name]:
+                       sub_category_name = new_control[category_field_name][sub_category_field_name][name_field] 
+                       if sub_category_name in map_category_name_to_id:
+                            new_control[category_field_name][sub_category_field_name][id_field] = map_category_name_to_id[sub_category_name]
                        else:
-                            if subCategoryName == "":
-                                continue
-                            raise TypeError(f"Failed to find subcategory name '{subCategoryName}' in mapCategoryNameToID.json")
+                            raise TypeError(f"Failed to find subcategory name '{sub_category_name}' in mapCategoryNameToID.json")
        
         new_control["rules"] = []
         new_control_copy = copy.deepcopy(new_control)
