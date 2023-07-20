@@ -1,0 +1,59 @@
+[
+    {
+        "apiVersion": "regolibrary.kubescape/v1alpha1",
+        "kind": "AttackTrack",
+        "metadata": {
+            "name": "workload-external-track"
+        },
+        "spec": {
+            "version": null,
+            "data": {
+                "name": "Workload Exposure",
+                "subSteps": [
+                    {
+                        "name": "Vulnerable Image",
+                        "checksVulnerabilities": true,
+                        "subSteps": [
+                            {
+                                "name": "Data Access"
+                            },
+                            {
+                                "name": "Secret Access"
+                            },
+                            {
+                                "name": "Credential access"
+                            },
+                            {
+                                "name": "Potential Node exposure"
+                            },
+                            {
+                                "name": "Persistence"
+                            },
+                            {
+                                "name": "Network"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "apiVersion": "regolibrary.kubescape/v1alpha1",
+        "kind": "AttackTrack",
+        "metadata": {
+            "name": "service-destruction"
+        },
+        "spec": {
+            "version": null,
+            "data": {
+                "name": "Workload Exposure",
+                "subSteps": [
+                    {
+                        "name": "Service Destruction"
+                    }
+                ]
+            }
+        }
+    }
+]
