@@ -1,8 +1,8 @@
 [
     {
-        "alertMessage": "Pod: audit-pod has sensitive information in environment variables",
+        "alertMessage": "Deployment: test2 has sensitive information in environment variables",
         "failedPaths": [
-            "spec.containers[0].env[1].name"
+            "spec.template.spec.containers[1].env[1].name"
         ],
         "fixPaths": [],
         "ruleStatus": "",
@@ -11,13 +11,13 @@
         "alertObject": {
             "k8sApiObjects": [
                 {
-                    "apiVersion": "v1",
-                    "kind": "Pod",
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
                     "metadata": {
                         "labels": {
                             "app": "audit-pod"
                         },
-                        "name": "audit-pod"
+                        "name": "test2"
                     }
                 }
             ]
