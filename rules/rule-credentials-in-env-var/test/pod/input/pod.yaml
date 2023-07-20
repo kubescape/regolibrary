@@ -8,8 +8,10 @@ spec:
   containers:
   - name: test-container
     env :
-      - name : azure_batch_key
+      - name : random
         value : "Hello from the environment"
+      - name: some-name
+        value: my_key_value
     image: hashicorp/http-echo:0.2.3
     securityContext:
       allowPrivilegeEscalation: true
