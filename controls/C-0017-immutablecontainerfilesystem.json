@@ -26,7 +26,10 @@
     "controlID": "C-0017",
     "baseScore": 3.0,
     "example": "@controls/examples/c017.yaml",
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Node escape"
+        }
+    }
 }

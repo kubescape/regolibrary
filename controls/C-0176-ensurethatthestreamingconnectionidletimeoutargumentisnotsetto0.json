@@ -17,7 +17,7 @@
     "baseScore": 3,
     "impact_statement": "Long-lived connections could be interrupted.",
     "default_value": "By default, `--streaming-connection-idle-timeout` is set to 4 hours.",
-    "categories": [
-        "Control plane"
-    ]
+    "category": {
+        "name" : "Control plane"
+   }
 }

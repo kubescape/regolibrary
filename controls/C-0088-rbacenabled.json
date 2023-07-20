@@ -26,7 +26,7 @@
     "test": "Testing API server or managed Kubernetes vendor API to determine if RBAC is enabled",
     "controlID": "C-0088",
     "baseScore": 7.0,
-    "categories": [
-        "Control plane"
-    ]
+    "category": {
+        "name" : "Control plane"
+   }
 }

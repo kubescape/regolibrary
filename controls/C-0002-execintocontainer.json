@@ -22,7 +22,7 @@
     "controlID": "C-0002",
     "baseScore": 5.0,
     "example": "@controls/examples/c002.yaml",
-    "categories": [
-        "Access control"
-    ]
+    "category": {
+        "name" : "Access control"
+   }
 }

@@ -17,7 +17,7 @@
     "baseScore": 7,
     "impact_statement": "You require TLS to be configured on apiserver as well as kubelets.",
     "default_value": "By default, certificate-based kubelet authentication is not set.",
-    "categories": [
-        "Control plane"
-    ]
+    "category": {
+        "name" : "Control plane"
+   }
 }

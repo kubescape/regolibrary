@@ -24,7 +24,10 @@
     "controlID": "C-0016",
     "baseScore": 6.0,
     "example": "@controls/examples/allowprivilegeescalation.yaml",
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Node escape"
+        }
+    }
 }

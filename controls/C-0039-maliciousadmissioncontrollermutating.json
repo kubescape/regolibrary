@@ -25,7 +25,7 @@
     ],
     "controlID": "C-0039",
     "baseScore": 4.0,
-    "categories": [
-        "Access control"
-    ]
+    "category": {
+        "name" : "Access control"
+   }
 }

@@ -100,6 +100,9 @@ def load_rules():
 """
 def load_controls(loaded_rules: dict):
 
+    with open(os.path.join(__CWD__, 'categories', 'mapCategoryNameToID.json'), "r") as f:
+        map_category_name_to_id = json.load(f)
+
     p2 = os.path.join(__CWD__, 'controls')
     logging.info(f"Loading controls from folder '{p2}'")
 
@@ -119,6 +122,26 @@ def load_controls(loaded_rules: dict):
             logging.error(f"failed to open control: '{path_in_str}'")
             raise TypeError(e)
         
+        categoryFieldName = "category"
+        subCategoryFieldName = "subCategory"
+        
+        # insert category ID into control obj
+        if categoryFieldName in new_control:
+                    categoryName = new_control[categoryFieldName]['name']
+                    if categoryName in map_category_name_to_id:
+                        new_control[categoryFieldName]['id'] = map_category_name_to_id[categoryName]
+                    else:
+                        raise TypeError(f"Failed to find category name '{categoryName}' in mapCategoryNameToID.json")
+
+                    if subCategoryFieldName in new_control[categoryFieldName]:
+                       subCategoryName = new_control[categoryFieldName][subCategoryFieldName]['name'] 
+                       if subCategoryName in map_category_name_to_id:
+                            new_control[categoryFieldName][subCategoryFieldName]['id'] = map_category_name_to_id[subCategoryName]
+                       else:
+                            if subCategoryName == "":
+                                continue
+                            raise TypeError(f"Failed to find subcategory name '{subCategoryName}' in mapCategoryNameToID.json")
+       
         new_control["rules"] = []
         new_control_copy = copy.deepcopy(new_control)
         controls_list.append(new_control_copy)

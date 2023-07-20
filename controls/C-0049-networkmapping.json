@@ -28,7 +28,7 @@
     "controlID": "C-0049",
     "baseScore": 3.0,
     "example": "@controls/examples/c049.yaml",
-    "categories": [
-        "Network"
-    ]
+    "category": {
+        "name" : "Network"
+   }
 }

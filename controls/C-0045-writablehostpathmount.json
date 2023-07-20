@@ -32,7 +32,10 @@
     "controlID": "C-0045",
     "baseScore": 8.0,
     "example": "@controls/examples/c045.yaml",
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name" : "Workload",
+        "subCategory": {
+        "name": "Storage"
+        }
+   }
 }

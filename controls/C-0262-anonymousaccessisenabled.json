@@ -11,5 +11,11 @@
         "ensure-that-the-api-server-anonymous-auth-argument-is-set-to-false",
         "anonymous-access-enabled"
     ],
-    "baseScore": 5
+    "baseScore": 5,
+    "category": {
+        "name" : "Control plane",
+        "subCategory": {
+  "name": "Supply chain"
+}
+   }
 }

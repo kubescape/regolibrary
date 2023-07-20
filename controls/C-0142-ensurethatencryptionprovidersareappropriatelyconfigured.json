@@ -17,7 +17,7 @@
     "baseScore": 7,
     "impact_statement": "None",
     "default_value": "By default, no encryption provider is set.",
-    "categories": [
-        "Control plane"
-    ]
+    "category": {
+        "name" : "Control plane"
+   }
 }

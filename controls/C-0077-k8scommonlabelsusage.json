@@ -16,7 +16,7 @@
     "test": "Test will check if the list of label that start with app.kubernetes.io/ are defined.",
     "controlID": "C-0077",
     "baseScore": 2.0,
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name" : "Workload"
+   }
 }

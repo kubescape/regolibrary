@@ -15,7 +15,10 @@
     ],
     "controlID": "C-0050",
     "baseScore": 8.0,
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Resource management"
+        }
+    }
 }

@@ -19,7 +19,7 @@
     "test": "Check if service connected to some workload has an SSH port (22/2222). If so we raise an alert. ",
     "controlID": "C-0042",
     "baseScore": 3.0,
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name" : "Workload"
+   }
 }

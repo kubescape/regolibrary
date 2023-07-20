@@ -18,7 +18,7 @@
     "baseScore": 5,
     "impact_statement": "You need to switch between namespaces for administration.",
     "default_value": "By default, Kubernetes starts with two initial namespaces:\n\n 1. `default` - The default namespace for objects with no other namespace\n2. `kube-system` - The namespace for objects created by the Kubernetes system\n3. `kube-node-lease` - Namespace used for node heartbeats\n4. `kube-public` - Namespace used for public information in a cluster",
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name" : "Workload"
+   }
 }

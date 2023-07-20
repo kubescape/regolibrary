@@ -25,7 +25,7 @@
     "controlID": "C-0087",
     "baseScore": 7.0,
     "example": "",
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name" : "Workload"
+   }
 }

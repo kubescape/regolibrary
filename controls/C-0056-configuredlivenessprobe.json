@@ -14,7 +14,7 @@
     "long_description": "Liveness probe is intended to ensure that workload remains healthy during its entire execution lifecycle, or otherwise restrat the container. It is highly recommended to define liveness probe for every worker container. This control finds all the PODs where the Liveness probe is not configured.",
     "controlID": "C-0056",
     "baseScore": 4,
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name" : "Workload"
+   }
 }

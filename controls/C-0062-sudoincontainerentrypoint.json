@@ -24,7 +24,7 @@
     "controlID": "C-0062",
     "baseScore": 5.0,
     "example": "@controls/examples/c062.yaml",
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name" : "Workload"
+   }
 }

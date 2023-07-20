@@ -17,7 +17,7 @@
     "baseScore": 6,
     "impact_statement": "Unauthorized requests will be denied.",
     "default_value": "By default, `--authorization-mode` argument is set to `AlwaysAllow`.",
-    "categories": [
-        "Control plane"
-    ]
+    "category": {
+        "name" : "Control plane"
+   }
 }

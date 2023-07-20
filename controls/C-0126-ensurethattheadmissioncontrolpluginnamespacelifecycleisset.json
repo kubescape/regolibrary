@@ -17,7 +17,7 @@
     "baseScore": 3,
     "impact_statement": "None",
     "default_value": "By default, `NamespaceLifecycle` is set.",
-    "categories": [
-        "Control plane"
-    ]
+    "category": {
+        "name" : "Control plane"
+   }
 }

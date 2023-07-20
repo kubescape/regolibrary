@@ -34,7 +34,7 @@ Example of a framework:
     },
     "controlsNames": [
         "Naked PODs",
-        "Containers mounting Docker socket",
+        "Container runtime socket mounted",
         "Image pull policy on latest tag",
         "Label usage for resources",
         "K8s common labels usage",

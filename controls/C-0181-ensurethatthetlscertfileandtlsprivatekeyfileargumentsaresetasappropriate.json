@@ -17,7 +17,7 @@
     "baseScore": 7,
     "impact_statement": "",
     "default_value": "",
-    "categories": [
-        "Control plane"
-    ]
+    "category": {
+        "name" : "Control plane"
+   }
 }

@@ -18,7 +18,7 @@
     "baseScore": 4,
     "impact_statement": "If the `docker/default` seccomp profile is too restrictive for you, you would have to create/manage your own seccomp profiles.",
     "default_value": "By default, seccomp profile is set to `unconfined` which means that no seccomp profiles are enabled.",
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name" : "Workload"
+   }
 }

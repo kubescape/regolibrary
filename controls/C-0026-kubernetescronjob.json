@@ -18,7 +18,7 @@
     "test": "We list all CronJobs that exist in cluster for the user to approve.",
     "controlID": "C-0026",
     "baseScore": 1.0,
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name" : "Workload"
+   }
 }

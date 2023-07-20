@@ -17,7 +17,7 @@
     "baseScore": 5,
     "impact_statement": "Kubelet clients that cannot support modern cryptographic ciphers will not be able to make connections to the Kubelet API.",
     "default_value": "By default the Kubernetes API server supports a wide range of TLS ciphers",
-    "categories": [
-        "Control plane"
-    ]
+    "category": {
+        "name" : "Control plane"
+   }
 }

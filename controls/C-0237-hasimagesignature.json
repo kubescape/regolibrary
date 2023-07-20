@@ -15,7 +15,10 @@
     "baseScore": 7,
     "impact_statement": "",
     "default_value": "",
-    "categories": [
-        "Workload"
-    ]
+    "category": {
+        "name" : "Workload",
+        "subCategory": {
+  "name": "Supply chain"
+}
+   }
 }

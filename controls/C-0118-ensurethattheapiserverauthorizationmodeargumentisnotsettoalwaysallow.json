@@ -17,7 +17,7 @@
     "baseScore": 7,
     "impact_statement": "Only authorized requests will be served.",
     "default_value": "By default, `AlwaysAllow` is not enabled.",
-    "categories": [
-        "Control plane"
-    ]
+    "category": {
+        "name" : "Control plane"
+   }
 }

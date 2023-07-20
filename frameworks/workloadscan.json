@@ -1,0 +1,139 @@
+{
+    "name": "WorkloadScan",
+    "description": "Framework for scanning a workload",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "typeTags": [
+        "security"
+    ],
+    "activeControls": [
+        {
+            "controlID": "C-0078",
+            "patch": {
+                "name": "Images from allowed registry"
+            }
+        },
+        {
+            "controlID": "C-0236",
+            "patch": {
+                "name": "Verify image signature"
+            }
+        },
+        {
+            "controlID": "C-0237",
+            "patch": {
+                "name": "Check if signature exists"
+            }
+        },
+        {
+            "controlID": "C-0004",
+            "patch": {
+                "name": "Resources memory limit and request"
+            }
+        },
+        {
+            "controlID": "C-0050",
+            "patch": {
+                "name": "Resources CPU limit and request"
+            }
+        },
+        {
+            "controlID": "C-0045",
+            "patch": {
+                "name": "Writable hostPath mount"
+            }
+        },
+        {
+            "controlID": "C-0048",
+            "patch": {
+                "name": "HostPath mount"
+            }
+        },
+        {
+            "controlID": "C-0257",
+            "patch": {
+                "name": "Workload with PVC access"
+            }
+        },
+        {
+            "controlID": "C-0207",
+            "patch": {
+                "name": "Prefer using secrets as files over secrets as environment variables"
+            }
+        },
+        {
+            "controlID": "C-0034",
+            "patch": {
+                "name": "Automatic mapping of service account"
+            }
+        },
+        {
+            "controlID": "C-0012",
+            "patch": {
+                "name": "Applications credentials in configuration files"
+            }
+        },
+
+        {
+            "controlID": "C-0041",
+            "patch": {
+                "name": "HostNetwork access"
+            }
+        },
+        {
+            "controlID": "C-0260",
+            "patch": {
+                "name": "Missing network policy"
+            }
+        },
+        {
+            "controlID": "C-0044",
+            "patch": {
+                "name": "Container hostPort"
+            }
+        },
+        {
+            "controlID": "C-0038",
+            "patch": {
+                "name": "Host PID/IPC privileges"
+            }
+        },
+        {
+            "controlID": "C-0046",
+            "patch": {
+                "name": "Insecure capabilities"
+            }
+        },
+        {
+            "controlID": "C-0013",
+            "patch": {
+                "name": "Non-root containers"
+            }
+        },
+        {
+            "controlID": "C-0016",
+            "patch": {
+                "name": "Allow privilege escalation"
+            }
+        },
+        {
+            "controlID": "C-0017",
+            "patch": {
+                "name": "Immutable container filesystem"
+            }
+        },
+        {
+            "controlID": "C-0055",
+            "patch": {
+                "name": "Linux hardening"
+            }
+        },
+        {
+            "controlID": "C-0057",
+            "patch": {
+                "name": "Privileged container"
+            }
+        }
+    ]
+}

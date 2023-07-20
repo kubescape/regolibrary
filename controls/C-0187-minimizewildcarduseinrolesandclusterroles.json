@@ -18,7 +18,7 @@
     "baseScore": 7,
     "impact_statement": "",
     "default_value": "",
-    "categories": [
-        "Access control"
-    ]
+    "category": {
+        "name" : "Access control"
+   }
 }

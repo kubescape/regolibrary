@@ -17,7 +17,7 @@
     "baseScore": 7,
     "impact_statement": "None",
     "default_value": "By default, etcd data directory has permissions of `755`.",
-    "categories": [
-        "Control plane"
-    ]
+    "category": {
+        "name" : "Control plane"
+   }
 }

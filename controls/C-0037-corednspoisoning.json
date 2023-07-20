@@ -27,7 +27,7 @@
     "test": "Check who has update/patch RBAC permissions on \u2018coredns\u2019 configmaps, or to all configmaps.",
     "controlID": "C-0037",
     "baseScore": 4.0,
-    "categories": [
-        "Access control"
-    ]
+    "category": {
+        "name" : "Access control"
+   }
 }

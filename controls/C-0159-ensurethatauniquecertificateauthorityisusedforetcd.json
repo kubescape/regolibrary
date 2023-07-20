@@ -17,7 +17,7 @@
     "baseScore": 8,
     "impact_statement": "Additional management of the certificates and keys for the dedicated certificate authority will be required.",
     "default_value": "By default, no etcd certificate is created and used.",
-    "categories": [
-        "Control plane"
-    ]
+    "category": {
+        "name" : "Control plane"
+   }
 }

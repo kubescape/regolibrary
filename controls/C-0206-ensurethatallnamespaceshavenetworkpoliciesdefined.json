@@ -18,7 +18,7 @@
     "baseScore": 4,
     "impact_statement": "Once network policies are in use within a given namespace, traffic not explicitly allowed by a network policy will be denied. As such it is important to ensure that, when introducing network policies, legitimate traffic is not blocked.",
     "default_value": "By default, network policies are not created.",
-    "categories": [
-        "Network"
-    ]
+    "category": {
+        "name" : "Network"
+   }
 }

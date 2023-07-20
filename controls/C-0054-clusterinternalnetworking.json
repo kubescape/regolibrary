@@ -28,7 +28,7 @@
     "test": "Check for each namespace if there is a network policy defined.",
     "controlID": "C-0054",
     "baseScore": 4.0,
-    "categories": [
-        "Network"
-    ]
+    "category": {
+        "name" : "Network"
+   }
 }
