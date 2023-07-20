@@ -26,6 +26,7 @@ def validate_controls_in_framework():
                 # validate control exists and name is according to convention
                 assert control_id in CONTROLID_TO_FILENAME, f"No file found for Control ID {control_id}."
 
+# validate if each control has scanning scope and allowed one
 def validate_control_scanning_scope(control):
     allowed_scopes = [["cluster", "file"], ["cluster"], ["cloud"], ["GKE"], ["EKS"], ["AKS"]]
     controlID=control["controlID"]
@@ -87,7 +88,6 @@ def fill_controlID_to_filename_map():
         # Load the JSON files
         if filename.endswith('.json'):
             with open(os.path.join(CONTROLS_DIR, filename)) as f1:
-                print(filename)
                 cntl = json.load(f1)
                 CONTROLID_TO_FILENAME[cntl['controlID']] = filename
 
