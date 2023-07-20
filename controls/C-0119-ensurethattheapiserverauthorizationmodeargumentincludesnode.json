@@ -16,5 +16,10 @@
     ],
     "baseScore": 5,
     "impact_statement": "None",
-    "default_value": "By default, `Node` authorization is not enabled."
+    "default_value": "By default, `Node` authorization is not enabled.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

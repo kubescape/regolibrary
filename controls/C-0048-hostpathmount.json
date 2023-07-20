@@ -25,5 +25,11 @@
         "alert-any-hostpath"
     ],
     "controlID": "C-0048",
-    "baseScore": 7.0
+    "baseScore": 7.0,
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

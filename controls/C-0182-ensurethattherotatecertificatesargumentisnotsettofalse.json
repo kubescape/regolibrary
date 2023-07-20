@@ -16,5 +16,10 @@
     ],
     "baseScore": 6,
     "impact_statement": "None",
-    "default_value": "By default, kubelet client certificate rotation is enabled."
+    "default_value": "By default, kubelet client certificate rotation is enabled.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

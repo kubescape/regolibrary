@@ -19,5 +19,11 @@
     "rulesNames": ["ensure_network_policy_configured_in_labels"],
     "test": "Check that all workloads has a network policy configured in labels.",
     "controlID": "C-0260",
-    "baseScore": 5.0
+    "baseScore": 5.0,
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

@@ -16,5 +16,10 @@
     ],
     "baseScore": 8,
     "impact_statement": "Only requests explicitly allowed by the admissions control plugins would be served.",
-    "default_value": "`AlwaysAdmit` is not in the list of default admission plugins."
+    "default_value": "`AlwaysAdmit` is not in the list of default admission plugins.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

@@ -16,5 +16,10 @@
     ],
     "baseScore": 8,
     "impact_statement": "When RBAC is enabled you will need to ensure that appropriate RBAC settings (including Roles, RoleBindings and ClusterRoleBindings) are configured to allow appropriate access.",
-    "default_value": "By default, `RBAC` authorization is not enabled."
+    "default_value": "By default, `RBAC` authorization is not enabled.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

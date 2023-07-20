@@ -16,5 +16,10 @@
     ],
     "baseScore": 5,
     "impact_statement": "",
-    "default_value": ""
+    "default_value": "",
+    "scanningScope": {
+        "matches": [
+            "AKS"
+        ]
+    }
 }

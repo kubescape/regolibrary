@@ -16,5 +16,10 @@
     ],
     "baseScore": 8,
     "impact_statement": "TLS and client certificate authentication must be configured for your Kubernetes cluster deployment.",
-    "default_value": "By default, `--client-ca-file` argument is not set."
+    "default_value": "By default, `--client-ca-file` argument is not set.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

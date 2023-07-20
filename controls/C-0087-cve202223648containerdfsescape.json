@@ -24,5 +24,10 @@
     "test": "Checking containerd version to see if it is a vulnerable version (where the container runtime is containerd)",
     "controlID": "C-0087",
     "baseScore": 7.0,
-    "example": ""
+    "example": "",
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
 }

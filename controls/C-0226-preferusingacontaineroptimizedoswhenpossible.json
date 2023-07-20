@@ -17,5 +17,10 @@
     ],
     "baseScore": 3,
     "impact_statement": "A container-optimized OS may have limited or no support for package managers, execution of non-containerized applications, or ability to install third-party drivers or kernel modules. Conventional remote access to the host (i.e. ssh) may not be possible, with access and debugging being intended via a management tool.",
-    "default_value": "A container-optimized OS is not the default."
+    "default_value": "A container-optimized OS is not the default.",
+    "scanningScope": {
+        "matches": [
+            "EKS"
+        ]
+    }
 }

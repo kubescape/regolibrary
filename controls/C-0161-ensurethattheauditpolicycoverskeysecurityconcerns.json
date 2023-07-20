@@ -16,5 +16,10 @@
     ],
     "baseScore": 5,
     "impact_statement": "Increasing audit logging will consume resources on the nodes or other log destination.",
-    "default_value": "By default Kubernetes clusters do not log audit information."
+    "default_value": "By default Kubernetes clusters do not log audit information.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

@@ -16,5 +16,10 @@
     ],
     "baseScore": 4,
     "impact_statement": "You need to carefully tune in limits as per your environment.",
-    "default_value": "By default, `EventRateLimit` is not set."
+    "default_value": "By default, `EventRateLimit` is not set.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

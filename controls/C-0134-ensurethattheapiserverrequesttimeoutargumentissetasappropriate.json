@@ -16,5 +16,10 @@
     ],
     "baseScore": 4,
     "impact_statement": "None",
-    "default_value": "By default, `--request-timeout` is set to 60 seconds."
+    "default_value": "By default, `--request-timeout` is set to 60 seconds.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

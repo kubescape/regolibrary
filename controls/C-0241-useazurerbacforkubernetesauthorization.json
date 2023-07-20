@@ -14,5 +14,10 @@
     "rulesNames": ["ensure-azure-rbac-is-set"],
     "baseScore": 7,
     "impact_statement": "",
-    "default_value": ""
+    "default_value": "",
+    "scanningScope": {
+        "matches": [
+            "AKS"
+        ]
+    }
 }

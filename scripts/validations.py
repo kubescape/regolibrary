@@ -26,6 +26,24 @@ def validate_controls_in_framework():
                 # validate control exists and name is according to convention
                 assert control_id in CONTROLID_TO_FILENAME, f"No file found for Control ID {control_id}."
 
+# validate if each control has scanning scope and allowed one
+def validate_control_scanning_scope(control):
+    allowed_scopes = [["cluster", "file"], ["cluster"], ["cloud"], ["GKE"], ["EKS"], ["AKS"]]
+    controlID=control["controlID"]
+
+    scanning_scopes = control["scanningScope"]
+    assert scanning_scopes != None, f"control {controlID} has no [\"scanningScope\"] field"
+
+    scanning_scopes_match = scanning_scopes["matches"]
+    assert scanning_scopes != None, f"control {controlID} has no [\"scanningScope\"][\"matches\"] fields"
+
+    scope_allowed_check = False
+    for allowed_scope in allowed_scopes:
+        if scanning_scopes_match == allowed_scope:
+            scope_allowed_check = True
+            break
+    assert scope_allowed_check == True, f"control {controlID} has no allowed scope"
+
 
 # Test that each rule name in a control file has a corresponding rule file in the "rules" directory
 def validate_controls():
@@ -52,6 +70,7 @@ def validate_controls():
                         if not os.path.exists(os.path.join(RULES_DIR, rule_dir + "-v1")):
                             validate_tests_dir_for_rule(rule_dir)
                         RULES_CHECKED.add(rule_name)
+                validate_control_scanning_scope(control=control)
 
 
 # Test that each rule directory in the "rules" directory has a non-empty "tests" subdirectory

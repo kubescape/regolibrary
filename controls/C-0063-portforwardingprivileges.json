@@ -28,5 +28,11 @@
     "test": "Check which subjects have RBAC permissions to portforward into pods\u2013 if they have the \u201cpods/portforward\u201d resource.",
     "controlID": "C-0063",
     "baseScore": 5.0,
-    "example": "@controls/examples/c063.yaml"
+    "example": "@controls/examples/c063.yaml",
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

@@ -19,5 +19,11 @@
     "rulesNames": ["serviceaccount-token-mount"],
     "test": "test if ServiceAccount token is mounted on workload and it has at least one binding.",
     "controlID": "C-0261",
-    "baseScore": 7.0
+    "baseScore": 7.0,
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

@@ -15,5 +15,11 @@
     "long_description": "It is recommended to set labels that identify semantic attributes of your application or deployment. For example, { app: myapp, tier: frontend, phase: test, deployment: v3 }. These labels can used to assign policies to logical groups of the deployments as well as for presentation and tracking purposes. This control helps you find deployments without any of the expected labels.",
     "test": "Test will check if a certain set of labels is defined, this is a configurable control. Initial list: app, tier, phase, version, owner, env.",
     "controlID": "C-0076",
-    "baseScore": 2
+    "baseScore": 2.0,
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

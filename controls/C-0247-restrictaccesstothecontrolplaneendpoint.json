@@ -16,5 +16,10 @@
     ],
     "baseScore": 8,
     "impact_statement": "When implementing Endpoint Private Access, be careful to ensure all desired networks are on the allowlist (whitelist) to prevent inadvertently blocking external access to your cluster's control plane.\n\n Limitations\nIP authorized ranges can't be applied to the private api server endpoint, they only apply to the public API server\nAvailability Zones are currently supported for certain regions.\nAzure Private Link service limitations apply to private clusters.\nNo support for Azure DevOps Microsoft-hosted Agents with private clusters. Consider to use Self-hosted Agents.\nFor customers that need to enable Azure Container Registry to work with private AKS, the Container Registry virtual network must be peered with the agent cluster virtual network.",
-    "default_value": "By default, Endpoint Private Access is disabled."
+    "default_value": "By default, Endpoint Private Access is disabled.",
+    "scanningScope": {
+        "matches": [
+            "AKS"
+        ]
+    }
 }

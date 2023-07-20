@@ -17,5 +17,11 @@
     ],
     "baseScore": 7,
     "impact_statement": "",
-    "default_value": ""
+    "default_value": "",
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

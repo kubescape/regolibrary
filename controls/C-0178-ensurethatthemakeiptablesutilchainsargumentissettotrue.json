@@ -16,5 +16,10 @@
     ],
     "baseScore": 3,
     "impact_statement": "Kubelet would manage the iptables on the system and keep it in sync. If you are using any other iptables management solution, then there might be some conflicts.",
-    "default_value": "By default, `--make-iptables-util-chains` argument is set to `true`."
+    "default_value": "By default, `--make-iptables-util-chains` argument is set to `true`.",
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

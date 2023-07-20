@@ -70,11 +70,19 @@ Example of a control:
     "test": "Check that there are no pods in the 'default' namespace",
     "id": "C-0061",
     "controlID": "C-0061",
-    "baseScore": 3
+    "baseScore": 3, 
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }
 ```
 * Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
 * `rulesNames` -  List of rules to run, must be exact name. Use copy-paste to be sure.
+* `scanningScope` - this control will run just if kubescape scan process match to the scope in the list.(for example the control above will run if the running kubescape scan is for scanning cluster or file) - list of allowed scanning scope ``` [["cluster", "file"], ["cluster"], ["cloud"], ["GKE"], ["EKS"], ["AKS"]] ```
+
 
 * `long_description`, `test` and other control fields are used mainly in the [documentation](https://hub.armosec.io/docs)
 
