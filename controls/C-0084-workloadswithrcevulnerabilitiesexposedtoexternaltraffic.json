@@ -5,15 +5,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Initial access",
-                    "Execution"
-                ]
-            }
         ]
     },
     "description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their POD has either LoadBalancer or NodePort service.",

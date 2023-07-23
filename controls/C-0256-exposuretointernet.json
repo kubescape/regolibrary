@@ -13,9 +13,9 @@
                 ]
             },
             {
-                "attackTrack": "",
+                "attackTrack": "service-destruction",
                 "categories": [
-                    ""
+                    "Workload Exposure"
                 ]
             }
         ]

@@ -4,15 +4,6 @@
         "armoBuiltin": true,
         "controlTypeTags": [
             "security"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Initial access",
-                    "Execution"
-                ]
-            }
         ]
     },
     "description": "Container images with known critical vulnerabilities pose elevated risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if either LoadBalancer or NodePort service is assigned to them.",

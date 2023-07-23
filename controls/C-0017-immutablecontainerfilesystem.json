@@ -8,9 +8,8 @@
         ],
         "attackTracks": [
             {
-                "attackTrack": "container",
+                "attackTrack": "workload-external-track",
                 "categories": [
-                    "Execution",
                     "Persistence"
                 ]
             }

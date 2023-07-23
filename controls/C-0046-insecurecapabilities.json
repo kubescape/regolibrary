@@ -9,9 +9,9 @@
         ],
         "attackTracks": [
             {
-                "attackTrack": "container",
+                "attackTrack": "workload-external-track",
                 "categories": [
-                    "Privilege escalation"
+                    "Potential Node exposure"
                 ]
             }
         ]
