@@ -4,14 +4,6 @@
         "armoBuiltin": true,
         "controlTypeTags": [
             "security"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Privilege escalation"
-                ]
-            }
         ]
     },
     "description": "Adding sudo to a container entry point command may escalate process privileges and allow access to forbidden resources. This control checks all the entry point commands in all containers in the POD to find those that have sudo command.",

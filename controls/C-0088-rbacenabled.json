@@ -5,15 +5,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "kubeapi",
-                "categories": [
-                    "Initial access",
-                    "Privilege escalation"
-                ]
-            }
         ]
     },
     "description": "RBAC is the most advanced and well accepted mode of authorizing users of the Kubernetes API",

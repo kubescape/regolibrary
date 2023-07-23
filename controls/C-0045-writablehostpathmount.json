@@ -11,15 +11,6 @@
             "compliance",
             "devops",
             "security-impact"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Persistence",
-                    "Impact - Data access in container"
-                ]
-            }
         ]
     },
     "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host and gain persistence.",

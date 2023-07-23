@@ -5,15 +5,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Execution",
-                    "Persistence"
-                ]
-            }
         ]
     },
     "description": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks.",

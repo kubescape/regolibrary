@@ -5,14 +5,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Privilege escalation"
-                ]
-            }
         ]
     },
     "description": "Containers may be given more privileges than they actually need. This can increase the potential impact of a container compromise.",

@@ -5,16 +5,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Discovery",
-                    "Lateral movement",
-                    "Impact - service access"
-                ]
-            }
         ]
     },
     "description": "Potential attackers may gain access to a POD and inherit access to the entire host network. For example, in AWS case, they will have access to the entire VPC. This control identifies all the PODs with host network access enabled.",

@@ -6,15 +6,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Initial access",
-                    "Execution"
-                ]
-            }
         ]
     },
     "description": "Container images with multiple Critical and High sevirity vulnerabilities increase the risk of potential exploit. This control lists all such images according to the threashold provided by the customer.",

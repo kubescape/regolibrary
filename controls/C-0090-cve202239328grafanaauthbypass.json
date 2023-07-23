@@ -4,15 +4,6 @@
         "armoBuiltin": true,
         "controlTypeTags": [
             "security"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Initial access",
-                    "Execution"
-                ]
-            }
         ]
     },
     "description": "CVE-2022-39328 is a critical vulnerability in Grafana, it might enable attacker to access unauthorized endpoints under heavy load.",

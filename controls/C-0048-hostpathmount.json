@@ -8,14 +8,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Impact - Data access in container"
-                ]
-            }
         ]
     },
     "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host. This control identifies all the PODs using hostPath mount.",

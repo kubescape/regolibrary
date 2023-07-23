@@ -4,15 +4,6 @@
         "armoBuiltin": true,
         "controlTypeTags": [
             "security"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Privilege escalation",
-                    "Impact - Data access in container"
-                ]
-            }
         ]
     },
     "description": "CVE-2022-23648 is a vulnerability of containerd enabling attacker to gain access to read-only copies of arbitrary files from the host using aspecially-crafted POD configuration yamls",
