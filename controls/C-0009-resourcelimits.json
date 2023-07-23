@@ -4,6 +4,14 @@
         "armoBuiltin": true,
         "controlTypeTags": [
             "security"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "service-destruction",
+                "categories": [
+                    "Service Destruction "
+                ]
+            }
         ]
     },
     "description": "CPU and memory resources should have a limit set for every container or a namespace to prevent resource exhaustion. This control identifies all the Pods without resource limit definitions by checking their yaml definition file as well as their namespace LimitRange objects. It is also recommended to use ResourceQuota object to restrict overall namespace resources, but this is not verified by this control.",

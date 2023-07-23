@@ -11,6 +11,14 @@
             "compliance",
             "devops",
             "security-impact"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "workload-external-track",
+                "categories": [
+                    "Potential Node exposure"
+                ]
+            }
         ]
     },
     "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host and gain persistence.",

@@ -6,6 +6,14 @@
         "controlTypeTags": [
             "security",
             "compliance"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "workload-external-track",
+                "categories": [
+                    "Potential Node exposure"
+                ]
+            }
         ]
     },
     "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the PODs with dangerous capabilities (see documentation pages for details).",

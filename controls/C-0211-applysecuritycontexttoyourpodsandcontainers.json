@@ -10,7 +10,19 @@
         "https://workbench.cisecurity.org/sections/1126667/recommendations/1838636"
     ],
     "attributes": {
-        "armoBuiltin": true
+        "armoBuiltin": true,
+        "controlTypeTags": [
+            "security",
+            "compliance"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "workload-external-track",
+                "categories": [
+                    "Potential Node exposure"
+                ]
+            }
+        ]
     },
     "rulesNames": [
         "rule-privilege-escalation",
