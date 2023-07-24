@@ -9,15 +9,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Initial access",
-                    "Execution"
-                ]
-            }
         ]
     },
     "description": "This control is intended to ensure that all the used container images are taken from the authorized repositories. It allows user to list all the approved repositories and will fail all the images taken from any repository outside of this list.",
@@ -34,5 +25,11 @@
         "subCategory": {
             "name": "Supply chain"
             }
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

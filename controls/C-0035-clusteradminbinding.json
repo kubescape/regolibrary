@@ -9,15 +9,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "kubeapi",
-                "categories": [
-                    "Impact - data destruction",
-                    "Impact - service injection"
-                ]
-            }
         ]
     },
     "description": "Attackers who have cluster admin permissions (can perform any action on any resource), can take advantage of their privileges for malicious activities. This control determines which subjects have cluster admin permissions.",
@@ -32,5 +23,11 @@
     "baseScore": 6.0,
     "category": {
         "name" : "Access control"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

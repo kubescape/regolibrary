@@ -5,14 +5,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Privilege escalation"
-                ]
-            }
         ]
     },
     "description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all PODs using hostPID or hostIPC privileges.",
@@ -29,5 +21,11 @@
         "subCategory": {
             "name": "Node escape"
         }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
     }
 }

@@ -19,5 +19,11 @@
     "rulesNames": ["workload-mounted-pvc"],
     "test": "Check if any workload has mounted PVCs by inspecting their specifications and verifying if PVC volumes are defined",
     "controlID": "C-0257",
-    "baseScore": 4.0
+    "baseScore": 4.0,
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

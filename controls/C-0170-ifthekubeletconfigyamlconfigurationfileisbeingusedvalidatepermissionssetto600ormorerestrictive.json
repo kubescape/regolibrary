@@ -19,5 +19,10 @@
     "default_value": "By default, the /var/lib/kubelet/config.yaml file as set up by `kubeadm` has permissions of 600.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

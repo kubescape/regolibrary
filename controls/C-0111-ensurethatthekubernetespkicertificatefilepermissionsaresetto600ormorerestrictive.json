@@ -19,5 +19,10 @@
     "default_value": "By default, the certificates used by Kubernetes are set to have permissions of `644`",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

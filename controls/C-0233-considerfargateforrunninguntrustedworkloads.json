@@ -14,7 +14,12 @@
     "rulesNames": [
         "alert-fargate-not-in-use"
     ],
-    "baseScore": 3.0,
+    "baseScore": 3,
     "impact_statement": "",
-    "default_value": "By default, AWS Fargate is not utilized."
+    "default_value": "By default, AWS Fargate is not utilized.",
+    "scanningScope": {
+        "matches": [
+            "EKS"
+        ]
+    }
 }

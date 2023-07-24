@@ -19,5 +19,10 @@
     "default_value": "`AlwaysAdmit` is not in the list of default admission plugins.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

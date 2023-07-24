@@ -17,5 +17,10 @@
     ],
     "baseScore": 7,
     "impact_statement": "Users must now be assigned to the IAM group created to use this namespace and deploy applications. If they are not they will not be able to access the namespace or deploy.",
-    "default_value": "For role-based access control (RBAC), system:masters permissions are configured in the Amazon EKS control plane"
+    "default_value": "For role-based access control (RBAC), system:masters permissions are configured in the Amazon EKS control plane",
+    "scanningScope": {
+        "matches": [
+            "EKS"
+        ]
+    }
 }

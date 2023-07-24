@@ -19,5 +19,10 @@
     "default_value": "By default, `Node` authorization is not enabled.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

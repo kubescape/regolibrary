@@ -19,5 +19,10 @@
     "example": "",
     "category": {
         "name" : "Workload"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
 }

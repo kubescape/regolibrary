@@ -9,9 +9,15 @@
         ],
         "attackTracks": [
             {
-                "attackTrack": "container",
+                "attackTrack": "workload-external-track",
                 "categories": [
-                    "Initial access"
+                    "Workload Exposure"
+                ]
+            },
+            {
+                "attackTrack": "service-destruction",
+                "categories": [
+                    "Workload Exposure"
                 ]
             }
         ]
@@ -28,5 +34,11 @@
     "example": "@controls/examples/c044.yaml",
     "category": {
         "name" : "Network"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

@@ -20,5 +20,10 @@
     "baseScore": 1.0,
     "category": {
         "name" : "Workload"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
 }

@@ -19,5 +19,10 @@
     "default_value": "By default, TLS encryption is not set.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

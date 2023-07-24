@@ -20,5 +20,10 @@
     "default_value": "By default, network policies are not created.",
     "category": {
         "name" : "Network"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

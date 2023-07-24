@@ -19,5 +19,10 @@
     "default_value": "By default, the `kubelet` service file has permissions of `640`.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

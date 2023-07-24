@@ -24,5 +24,11 @@
     "baseScore": 2.0,
     "category": {
         "name" : "Access control"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

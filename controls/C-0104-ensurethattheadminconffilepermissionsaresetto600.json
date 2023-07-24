@@ -19,5 +19,10 @@
     "default_value": "By default, admin.conf has permissions of `600`.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

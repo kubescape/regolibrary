@@ -5,14 +5,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Privilege escalation"
-                ]
-            }
         ]
     },
     "description": "Attackers may gain access to a container and uplift its privilege to enable excessive capabilities.",
@@ -29,5 +21,11 @@
         "subCategory": {
             "name": "Node escape"
         }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
     }
 }

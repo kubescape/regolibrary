@@ -18,5 +18,11 @@
     "example": "@controls/examples/c030.yaml",
     "category": {
         "name" : "Network"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

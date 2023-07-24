@@ -21,5 +21,11 @@
     "baseScore": 4.0,
     "category": {
         "name" : "Workload"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

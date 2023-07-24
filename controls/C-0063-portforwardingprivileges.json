@@ -6,16 +6,6 @@
         "controlTypeTags": [
             "security-impact",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "kubeapi",
-                "categories": [
-                    "Impact - data destruction",
-                    "Discovery",
-                    "Lateral movement"
-                ]
-            }
         ]
     },
     "description": "Attackers with relevant RBAC permission can use \u201ckubectl portforward\u201d command to establish direct communication with PODs from within the cluster or even remotely. Such communication will most likely bypass existing security measures in the cluster. This control determines which subjects have permissions to use this command.",
@@ -31,5 +21,11 @@
     "example": "@controls/examples/c063.yaml",
     "category": {
         "name" : "Access control"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

@@ -8,11 +8,9 @@
         ],
         "attackTracks": [
             {
-                "attackTrack": "container",
+                "attackTrack": "workload-external-track",
                 "categories": [
-                    "Discovery",
-                    "Lateral movement",
-                    "Impact - service access"
+                    "Network"
                 ]
             }
         ]
@@ -29,5 +27,11 @@
     "example": "@controls/examples/c041.yaml",
     "category": {
         "name" : "Network"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

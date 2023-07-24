@@ -19,5 +19,10 @@
     "default_value": "By default, `--event-qps` argument is set to `5`.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

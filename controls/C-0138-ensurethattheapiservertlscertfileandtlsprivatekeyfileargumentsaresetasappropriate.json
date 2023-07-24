@@ -19,5 +19,10 @@
     "default_value": "By default, `--tls-cert-file` and `--tls-private-key-file` arguments are not set.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

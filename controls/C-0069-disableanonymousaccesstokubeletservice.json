@@ -5,14 +5,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "kubeapi",
-                "categories": [
-                    "Initial access"
-                ]
-            }
         ]
     },
     "description": "By default, requests to the kubelet's HTTPS endpoint that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of system:anonymous and a group of system:unauthenticated.",
@@ -23,8 +15,13 @@
     "long_description": "By default, requests to the kubelet's HTTPS endpoint that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of system:anonymous and a group of system:unauthenticated.",
     "test": "Reading the kubelet command lines and configuration file looking for anonymous-auth configuration. If this configuration is set on both, the command line values take precedence over it.",
     "controlID": "C-0069",
-    "baseScore": 10,
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "baseScore": 10.0,
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
 }

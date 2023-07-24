@@ -19,5 +19,10 @@
     "default_value": "By default, anonymous access is enabled.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

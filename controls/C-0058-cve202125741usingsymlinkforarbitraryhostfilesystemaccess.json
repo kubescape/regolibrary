@@ -5,15 +5,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Persistence",
-                    "Impact - Data access in container"
-                ]
-            }
         ]
     },
     "description": "A user may be able to create a container with subPath or subPathExpr volume mounts to access files & directories anywhere on the host filesystem. Following Kubernetes versions are affected: v1.22.0 - v1.22.1, v1.21.0 - v1.21.4, v1.20.0 - v1.20.10, version v1.19.14 and lower. This control checks the vulnerable versions and the actual usage of the subPath feature in all Pods in the cluster. If you want to learn more about the CVE, please refer to the CVE link: https://nvd.nist.gov/vuln/detail/CVE-2021-25741",
@@ -25,5 +16,10 @@
     "baseScore": 6.0,
     "category": {
         "name" : "Workload"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
 }

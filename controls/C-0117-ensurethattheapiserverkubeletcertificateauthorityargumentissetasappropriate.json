@@ -19,5 +19,10 @@
     "default_value": "By default, `--kubelet-certificate-authority` argument is not set.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

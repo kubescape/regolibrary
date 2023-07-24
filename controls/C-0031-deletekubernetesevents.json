@@ -9,14 +9,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "kubeapi",
-                "categories": [
-                    "Defense evasion"
-                ]
-            }
         ]
     },
     "description": "Attackers may delete Kubernetes events to avoid detection of their activity in the cluster. This control identifies all the subjects that can delete Kubernetes events.",
@@ -32,5 +24,11 @@
     "example": "@controls/examples/c031.yaml",
     "category": {
         "name" : "Access control"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

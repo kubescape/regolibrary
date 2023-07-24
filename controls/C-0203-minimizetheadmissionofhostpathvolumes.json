@@ -19,5 +19,10 @@
     "default_value": "By default, there are no restrictions on the creation of `hostPath` volumes.",
     "category": {
         "name" : "Workload"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

@@ -27,5 +27,10 @@
     "default_value": "Unless a namespace is specific on object creation, the `default` namespace will be used",
     "category": {
         "name" : "Workload"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

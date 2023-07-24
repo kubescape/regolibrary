@@ -21,5 +21,11 @@
         "subCategory": {
             "name": "Supply chain"
         }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
     }
 }

@@ -20,5 +20,11 @@
     "default_value": "",
     "category": {
         "name" : "Access control"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

@@ -19,5 +19,10 @@
     "default_value": "By default, no etcd certificate is created and used.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

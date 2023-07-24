@@ -8,15 +8,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Discovery",
-                    "Lateral movement"
-                ]
-            }
         ]
     },
     "description": "If no network policy is defined, attackers who gain access to a container may use it to move laterally in the cluster. This control lists namespaces in which no network policy is defined.",
@@ -30,5 +21,11 @@
     "baseScore": 4.0,
     "category": {
         "name" : "Network"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

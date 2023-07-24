@@ -19,5 +19,10 @@
     "default_value": "By default, `AlwaysAllow` is not enabled.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

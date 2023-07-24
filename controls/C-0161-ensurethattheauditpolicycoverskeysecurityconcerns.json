@@ -19,5 +19,10 @@
     "default_value": "By default Kubernetes clusters do not log audit information.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

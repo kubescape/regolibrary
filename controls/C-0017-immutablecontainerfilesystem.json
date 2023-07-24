@@ -8,9 +8,8 @@
         ],
         "attackTracks": [
             {
-                "attackTrack": "container",
+                "attackTrack": "workload-external-track",
                 "categories": [
-                    "Execution",
                     "Persistence"
                 ]
             }
@@ -31,5 +30,11 @@
         "subCategory": {
             "name": "Node escape"
         }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
     }
 }

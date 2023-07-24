@@ -19,5 +19,10 @@
     "default_value": "By default, auditing is not enabled.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

@@ -5,14 +5,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Defense evasion - KubeAPI"
-                ]
-            }
         ]
     },
     "description": "Audit logging is an important security feature in Kubernetes, it enables the operator to track requests to the cluster. It is important to use it so the operator has a record of events happened in Kubernetes",
@@ -27,5 +19,10 @@
     "baseScore": 5.0,
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
 }

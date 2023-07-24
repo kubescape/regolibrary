@@ -19,5 +19,10 @@
     "default_value": "By default, `--root-ca-file` is not set.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

@@ -19,5 +19,10 @@
     "default_value": "By default, `kube-controller-manager.yaml` file ownership is set to `root:root`.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

@@ -19,5 +19,10 @@
     "default_value": "By default, `--etcd-certfile` and `--etcd-keyfile` arguments are not set",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

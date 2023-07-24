@@ -19,5 +19,10 @@
     "default_value": "By default, `--request-timeout` is set to 60 seconds.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

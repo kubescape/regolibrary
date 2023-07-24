@@ -19,5 +19,10 @@
     "default_value": "By default, no encryption provider is set.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

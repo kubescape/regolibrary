@@ -19,5 +19,10 @@
     "default_value": "Unless the `--audit-policy-file` flag is specified, no auditing will be carried out.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

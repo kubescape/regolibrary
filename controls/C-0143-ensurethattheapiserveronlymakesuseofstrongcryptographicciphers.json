@@ -19,5 +19,10 @@
     "default_value": "By default the Kubernetes API server supports a wide range of TLS ciphers",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

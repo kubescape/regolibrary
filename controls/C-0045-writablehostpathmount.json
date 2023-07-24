@@ -14,10 +14,9 @@
         ],
         "attackTracks": [
             {
-                "attackTrack": "container",
+                "attackTrack": "workload-external-track",
                 "categories": [
-                    "Persistence",
-                    "Impact - Data access in container"
+                    "Potential Node exposure"
                 ]
             }
         ]
@@ -37,5 +36,11 @@
         "subCategory": {
         "name": "Storage"
         }
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

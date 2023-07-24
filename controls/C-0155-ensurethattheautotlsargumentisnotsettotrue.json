@@ -19,5 +19,10 @@
     "default_value": "By default, `--auto-tls` is set to `false`.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

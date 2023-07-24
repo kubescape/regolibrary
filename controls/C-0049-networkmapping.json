@@ -8,14 +8,6 @@
         "controlTypeTags": [
             "security",
             "compliance"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Discovery"
-                ]
-            }
         ]
     },
     "description": "If no network policy is defined, attackers who gain access to a single container may use it to probe the network. This control lists all namespaces in which no network policies are defined.",
@@ -30,5 +22,11 @@
     "example": "@controls/examples/c049.yaml",
     "category": {
         "name" : "Network"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

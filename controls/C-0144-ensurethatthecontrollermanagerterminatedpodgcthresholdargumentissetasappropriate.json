@@ -19,5 +19,10 @@
     "default_value": "By default, `--terminated-pod-gc-threshold` is set to `12500`.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

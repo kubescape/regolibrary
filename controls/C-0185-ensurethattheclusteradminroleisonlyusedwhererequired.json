@@ -20,5 +20,10 @@
     "default_value": "By default a single `clusterrolebinding` called `cluster-admin` is provided with the `system:masters` group as its principal.",
     "category": {
         "name" : "Access control"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

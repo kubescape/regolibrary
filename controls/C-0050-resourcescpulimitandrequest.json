@@ -20,5 +20,11 @@
         "subCategory": {
             "name": "Resource management"
         }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
     }
 }

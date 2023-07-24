@@ -13,9 +13,9 @@
                 ]
             },
             {
-                "attackTrack": "",
+                "attackTrack": "service-destruction",
                 "categories": [
-                    ""
+                    "Workload Exposure"
                 ]
             }
         ]
@@ -25,5 +25,11 @@
     "rulesNames": ["exposure-to-internet"],
     "test": "Checks if workloads are exposed through the use of NodePort, LoadBalancer or Ingress",
     "controlID": "C-0256",
-    "baseScore": 7.0
+    "baseScore": 7.0,
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

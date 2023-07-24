@@ -10,12 +10,17 @@
     ],
     "attributes": {
         "armoBuiltin": true,
-	"actionRequired": "manual review"
+        "actionRequired": "manual review"
     },
     "rulesNames": [
         "rule-manual"
     ],
     "baseScore": 5,
     "impact_statement": "",
-    "default_value": "ACI is not a default component of the AKS"
+    "default_value": "ACI is not a default component of the AKS",
+    "scanningScope": {
+        "matches": [
+            "AKS"
+        ]
+    }
 }

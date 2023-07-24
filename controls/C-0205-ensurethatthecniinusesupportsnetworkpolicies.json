@@ -19,5 +19,10 @@
     "default_value": "This will depend on the CNI plugin in use.",
     "category": {
         "name" : "Network"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

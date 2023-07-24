@@ -14,5 +14,10 @@
     "rulesNames": ["ensure-https-loadbalancers-encrypted-with-tls-aws"],
     "baseScore": 5.0,
     "impact_statement": "",
-    "default_value": ""
+    "default_value": "",
+    "scanningScope": {
+        "matches": [
+            "EKS"
+        ]
+    }
 }

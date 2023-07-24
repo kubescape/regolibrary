@@ -19,5 +19,10 @@
     "default_value": "By default, the etcd service can be queried by unauthenticated clients.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

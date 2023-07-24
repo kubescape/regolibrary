@@ -20,5 +20,10 @@
     "default_value": "By default, seccomp profile is set to `unconfined` which means that no seccomp profiles are enabled.",
     "category": {
         "name" : "Workload"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

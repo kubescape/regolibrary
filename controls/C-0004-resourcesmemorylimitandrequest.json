@@ -6,14 +6,6 @@
             "compliance",
             "devops"
         ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Impact - service destruction"
-                ]
-            }
-        ],
         "actionRequired": "configuration"
     },
     "description": "This control identifies all Pods for which the memory limit is not set.",
@@ -29,5 +21,11 @@
         "subCategory": {
             "name": "Resource management"
         }
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

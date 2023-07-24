@@ -7,9 +7,9 @@
         ],
         "attackTracks": [
             {
-                "attackTrack": "container",
+                "attackTrack": "service-destruction",
                 "categories": [
-                    "Impact - service destruction"
+                    "Service Destruction "
                 ]
             }
         ]
@@ -26,5 +26,11 @@
     "example": "@controls/examples/c009.yaml",
     "category": {
         "name" : "Workload"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

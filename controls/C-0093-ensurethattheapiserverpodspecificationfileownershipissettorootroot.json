@@ -19,5 +19,10 @@
     "default_value": "By default, the `kube-apiserver.yaml` file ownership is set to `root:root`.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }

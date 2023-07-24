@@ -4,14 +4,6 @@
         "armoBuiltin": true,
         "controlTypeTags": [
             "security"
-        ],
-        "attackTracks": [
-            {
-                "attackTrack": "container",
-                "categories": [
-                    "Privilege escalation"
-                ]
-            }
         ]
     },
     "description": "CVE-2022-24348 is a major software supply chain 0-day vulnerability in the popular open source CD platform Argo CD which can lead to privilege escalation and information disclosure.",
@@ -26,5 +18,11 @@
     "example": "",
     "category": {
         "name" : "Workload"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
 }

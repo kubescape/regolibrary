@@ -19,5 +19,10 @@
     "default_value": "By default, `--streaming-connection-idle-timeout` is set to 4 hours.",
     "category": {
         "name" : "Control plane"
-   }
+   },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    }
 }
