@@ -45,11 +45,9 @@
     },
     {
         "apiGroups": [
-          "extensions",
           "networking.k8s.io"
         ],
         "apiVersions": [
-          "v1beta1",
           "v1"
         ],
         "resources": [
