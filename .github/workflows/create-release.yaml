@@ -26,7 +26,7 @@ jobs:
         with:
           use-verbose-mode: 'yes'
 
-  # main job of testing and building the env. 
+  # main job of testing and building the env.
   test_pr_checks:
     needs: [markdown-link-check]
     permissions:
@@ -37,7 +37,7 @@ jobs:
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
 
-  # build regolibrary artifacts / test rego dependencies / test rego unit-tests 
+  # build regolibrary artifacts / test rego dependencies / test rego unit-tests
   build-and-rego-test:
     needs: [test_pr_checks]
     name: Build and test rego artifacts
@@ -51,10 +51,10 @@ jobs:
         name: checkout repo content
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-        
+
       - id: tag-calculator
         uses: kubescape/workflows/.github/actions/tag-action@main
-        with: 
+        with:
           ORIGINAL_TAG: ${{ inputs.TAG }}
           SUB_STRING: "-rc"
 
@@ -79,13 +79,13 @@ jobs:
       - name: Update frameworks subsections
         run: bash ./scripts/generate_subsections_ids.sh
 
-      # validate control-ID duplications 
+      # validate control-ID duplications
       - run: python ./scripts/validations.py
 
-      # run export script to generate regolibrary artifacts 
+      # run export script to generate regolibrary artifacts
       - run: python ./scripts/export.py
 
-      # removing release artifacts file extensions 
+      # removing release artifacts file extensions
       - name: Strip Metadata Files Extensions
         run: |
           cd release
@@ -107,28 +107,23 @@ jobs:
           path: ${{ env.REGO_ARTIFACT_PATH }}/
           if-no-files-found: error
 
-  # test kubescape e2e flow with tested artifacts 
+  # test kubescape e2e flow with tested artifacts
   ks-and-rego-test:
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     needs: [build-and-rego-test]
-    if: | 
-      ${{ (always() &&
-      (contains(needs.*.result, 'success')) &&
-      !(contains(needs.*.result, 'skipped')) &&
-      !(contains(needs.*.result, 'failure')) &&
-      !(contains(needs.*.result, 'cancelled'))) }}
+    if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
     with:
       DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
-      BINARY_TESTS: '[  "scan_nsa", 
-                        "scan_mitre", 
-                        "scan_with_exceptions", 
-                        "scan_repository", 
-                        "scan_local_file", 
-                        "scan_local_glob_files", 
-                        "scan_nsa_and_submit_to_backend", 
-                        "scan_mitre_and_submit_to_backend", 
-                        "scan_local_repository_and_submit_to_backend", 
-                        "scan_repository_from_url_and_submit_to_backend", 
+      BINARY_TESTS: '[  "scan_nsa",
+                        "scan_mitre",
+                        "scan_with_exceptions",
+                        "scan_repository",
+                        "scan_local_file",
+                        "scan_local_glob_files",
+                        "scan_nsa_and_submit_to_backend",
+                        "scan_mitre_and_submit_to_backend",
+                        "scan_local_repository_and_submit_to_backend",
+                        "scan_repository_from_url_and_submit_to_backend",
                         "host_scanner",
                         "scan_local_list_of_files",
                         "scan_compliance_score"
@@ -136,15 +131,10 @@ jobs:
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
     secrets: inherit
 
-  # start release process 
+  # start release process
   release:
     needs: [ks-and-rego-test]
-    if: | 
-      ${{ (always() && 
-      (contains(needs.*.result, 'success')) && 
-      !(contains(needs.*.result, 'skipped')) && 
-      !(contains(needs.*.result, 'failure')) && 
-      !(contains(needs.*.result, 'cancelled'))) }}
+    if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
     name: create release and upload assets
     runs-on: ubuntu-latest
     steps:
@@ -167,7 +157,7 @@ jobs:
           prerelease: false
           files: '${{ env.REGO_ARTIFACT_PATH }}/*'
 
-  # Update regolibrary documentation with latest controls and rules. 
+  # Update regolibrary documentation with latest controls and rules.
   update-documentation:
     needs: [release]
     runs-on: ubuntu-latest
