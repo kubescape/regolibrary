@@ -3,6 +3,8 @@ name: Kubescape scanning for misconfigurations
 on: [push]
 
 jobs:
-  test_ks_misconfigurations:
+ test_ks_misconfigurations:  
     uses: kubescape/workflows/.github/workflows/ks-ga-flow.yaml@main
+    with:
+      FRAMEWORKS: "nsa,mitre,cis-eks-t1.2.0,cis-v1.23-t1.0.1"
     secrets: inherit
