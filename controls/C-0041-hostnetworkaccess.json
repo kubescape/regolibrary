@@ -26,7 +26,10 @@
     "baseScore": 7.0,
     "example": "@controls/examples/c041.yaml",
     "category": {
-        "name" : "Network"
+        "name" : "Workload",
+        "subCategory": {
+        "name": "Network"
+        }
    },
     "scanningScope": {
         "matches": [
