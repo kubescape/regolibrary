@@ -17,6 +17,9 @@
     "baseScore": 8,
     "impact_statement": "You need to set the API Server up with the right TLS certificates.",
     "default_value": "By default, port 6443 is used as the secure port.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

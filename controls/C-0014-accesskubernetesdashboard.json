@@ -22,6 +22,9 @@
     "test": "Check who is associated with the dashboard service account or bound to dashboard role/clusterrole.",
     "controlID": "C-0014",
     "baseScore": 2.0,
+    "category": {
+        "name" : "Access control"
+   },
     "scanningScope": {
         "matches": [
             "cluster",

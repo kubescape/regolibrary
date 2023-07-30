@@ -12,6 +12,12 @@
         "anonymous-access-enabled"
     ],
     "baseScore": 5,
+    "category": {
+        "name": "Control plane",
+        "subCategory": {
+            "name": "Supply chain"
+        }
+    },
     "scanningScope": {
         "matches": [
             "cluster",

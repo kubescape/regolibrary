@@ -17,6 +17,9 @@
     "baseScore": 8,
     "impact_statement": "Client connections only over TLS would be served.",
     "default_value": "By default, TLS encryption is not set.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

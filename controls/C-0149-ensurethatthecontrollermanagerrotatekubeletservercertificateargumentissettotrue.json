@@ -17,6 +17,9 @@
     "baseScore": 6,
     "impact_statement": "None",
     "default_value": "By default, `RotateKubeletServerCertificate` is set to \"true\" this recommendation verifies that it has not been disabled.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
           "cloud"

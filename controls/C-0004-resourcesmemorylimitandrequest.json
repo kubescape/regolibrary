@@ -16,6 +16,12 @@
     "controlID": "C-0004",
     "example": "@controls/examples/c004.yaml",
     "baseScore": 8.0,
+    "category": {
+        "name" : "Workload",
+        "subCategory": {
+            "name": "Resource management"
+        }
+   },
     "scanningScope": {
         "matches": [
             "cluster",

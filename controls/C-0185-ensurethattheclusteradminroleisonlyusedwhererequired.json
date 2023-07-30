@@ -18,6 +18,9 @@
     "baseScore": 8,
     "impact_statement": "Care should be taken before removing any `clusterrolebindings` from the environment to ensure they were not required for operation of the cluster. Specifically, modifications should not be made to `clusterrolebindings` with the `system:` prefix as they are required for the operation of system components.",
     "default_value": "By default a single `clusterrolebinding` called `cluster-admin` is provided with the `system:masters` group as its principal.",
+    "category": {
+        "name" : "Access control"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

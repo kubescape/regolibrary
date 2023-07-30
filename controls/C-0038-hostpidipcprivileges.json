@@ -16,6 +16,12 @@
     "controlID": "C-0038",
     "baseScore": 7.0,
     "example": "@controls/examples/c038.yaml",
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Node escape"
+        }
+    },
     "scanningScope": {
         "matches": [
             "cluster",

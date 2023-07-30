@@ -1,0 +1,11 @@
+{
+    "Control plane": "Cat-1",
+    "Access control": "Cat-2",
+    "Secrets": "Cat-3",
+    "Network": "Cat-4",
+    "Workload": "Cat-5",
+    "Supply chain": "Cat-6",
+    "Resource management": "Cat-7",
+    "Storage": "Cat-8",
+    "Node escape": "Cat-9"
+}

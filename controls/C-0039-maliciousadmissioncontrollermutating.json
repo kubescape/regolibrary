@@ -1,5 +1,5 @@
 {
-    "name": "Malicious admission controller (mutating)",
+    "name": "Validate admission controller (mutating)",
     "attributes": {
         "armoBuiltin": true,
         "microsoftMitreColumns": [
@@ -17,6 +17,9 @@
     ],
     "controlID": "C-0039",
     "baseScore": 4.0,
+    "category": {
+        "name" : "Access control"
+   },
     "scanningScope": {
         "matches": [
             "cluster"

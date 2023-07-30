@@ -17,6 +17,9 @@
     "baseScore": 7,
     "impact_statement": "None",
     "default_value": "By default, `--encryption-provider-config` is not set.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

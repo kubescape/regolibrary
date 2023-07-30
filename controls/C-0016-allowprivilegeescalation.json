@@ -16,6 +16,12 @@
     "controlID": "C-0016",
     "baseScore": 6.0,
     "example": "@controls/examples/allowprivilegeescalation.yaml",
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Node escape"
+        }
+    },
     "scanningScope": {
         "matches": [
             "cluster",

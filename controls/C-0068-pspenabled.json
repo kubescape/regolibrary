@@ -17,6 +17,9 @@
     "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if PSP is enabled",
     "controlID": "C-0068",
     "baseScore": 1.0,
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cluster",

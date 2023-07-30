@@ -17,6 +17,9 @@
     "baseScore": 7,
     "impact_statement": "None",
     "default_value": "By default no `--client-ca-file` is specified.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

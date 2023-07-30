@@ -17,6 +17,9 @@
     "baseScore": 8,
     "impact_statement": "None",
     "default_value": "By default, the keys used by Kubernetes are set to have permissions of `600`",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

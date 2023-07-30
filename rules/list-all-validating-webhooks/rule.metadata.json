@@ -1,7 +1,7 @@
 {
     "name": "list-all-validating-webhooks",
     "attributes": {
-      "m$K8sThreatMatrix": "Credential Access::Malicious admission controller",
+      "m$K8sThreatMatrix": "Credential Access::Validate admission controller",
       "armoBuiltin": true
     },
     "ruleLanguage": "Rego",

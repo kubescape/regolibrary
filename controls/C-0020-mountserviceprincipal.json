@@ -19,6 +19,9 @@
     "test": "Check which workloads have volumes with potential access to known cloud credentials folders or files in node, like \u201c/etc/kubernetes/azure.json\u201d for Azure.",
     "controlID": "C-0020",
     "baseScore": 4.0,
+    "category": {
+        "name" : "Workload"
+   },
     "scanningScope": {
         "matches": [
             "cluster",

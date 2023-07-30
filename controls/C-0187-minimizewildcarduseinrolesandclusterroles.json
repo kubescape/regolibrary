@@ -18,6 +18,9 @@
     "baseScore": 7,
     "impact_statement": "",
     "default_value": "",
+    "category": {
+        "name" : "Access control"
+   },
     "scanningScope": {
         "matches": [
             "cluster",

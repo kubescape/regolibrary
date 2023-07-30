@@ -34,7 +34,7 @@ Example of a framework:
     },
     "controlsNames": [
         "Naked PODs",
-        "Containers mounting Docker socket",
+        "Container runtime socket mounted",
         "Image pull policy on latest tag",
         "Label usage for resources",
         "K8s common labels usage",
@@ -76,12 +76,20 @@ Example of a control:
             "cluster",
             "file"
         ]
-    }
+    },
+     "category": {
+        "name" : "Workload",
+        "subCategory": {
+            "name": "Resource management"
+        }
+   }
 }
 ```
 * Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
 * `rulesNames` -  List of rules to run, must be exact name. Use copy-paste to be sure.
 * `scanningScope` - this control will run just if kubescape scan process match to the scope in the list.(for example the control above will run if the running kubescape scan is for scanning cluster or file) - list of allowed scanning scope ``` [["cluster", "file"], ["cluster"], ["cloud"], ["GKE"], ["EKS"], ["AKS"]] ```
+* `category` - The category the control belongs to. Some controls may also define a `subCategory`. The available categories/sub categories are listed under the `mapCategoryNameToID.json` file, mapped to their respective IDs
+* `subCategory` - A sub category for a `category` (optional). Must be listed under the  `mapCategoryNameToID.json` file
 
 
 * `long_description`, `test` and other control fields are used mainly in the [documentation](https://hub.armosec.io/docs)

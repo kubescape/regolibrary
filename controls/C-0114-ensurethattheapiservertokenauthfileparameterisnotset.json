@@ -17,6 +17,9 @@
     "baseScore": 8,
     "impact_statement": "You will have to configure and use alternate authentication mechanisms such as certificates. Static token based authentication could not be used.",
     "default_value": "By default, `--token-auth-file` argument is not set.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

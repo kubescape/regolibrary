@@ -17,6 +17,9 @@
     "baseScore": 4,
     "impact_statement": "When enabled, users of the cluster may not create new Services which use externalIPs and may not add new values to externalIPs on existing Service objects.",
     "default_value": "By default, `--token-auth-file` argument is not set.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

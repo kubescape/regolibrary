@@ -5,8 +5,7 @@
     "long_description": "Verifies the signature of each image with given public keys",
     "remediation": "Replace the image with an image that is signed correctly",
     "manual_test": "",
-    "references": [
-    ],
+    "references": [],
     "attributes": {
         "actionRequired": "configuration",
         "armoBuiltin": true
@@ -17,6 +16,12 @@
     "baseScore": 7,
     "impact_statement": "",
     "default_value": "",
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Supply chain"
+        }
+    },
     "scanningScope": {
         "matches": [
             "cluster",

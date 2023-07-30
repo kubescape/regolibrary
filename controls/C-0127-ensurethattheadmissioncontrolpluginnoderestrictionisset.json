@@ -17,6 +17,9 @@
     "baseScore": 4,
     "impact_statement": "None",
     "default_value": "By default, `NodeRestriction` is not set.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

@@ -20,6 +20,12 @@
     "test": "Checks if image is from allowed listed registry.",
     "controlID": "C-0078",
     "baseScore": 5.0,
+    "category": {
+        "name" : "Workload",
+        "subCategory": {
+            "name": "Supply chain"
+            }
+   },
     "scanningScope": {
         "matches": [
             "cluster",

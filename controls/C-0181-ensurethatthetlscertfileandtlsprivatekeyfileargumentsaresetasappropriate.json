@@ -17,6 +17,9 @@
     "baseScore": 7,
     "impact_statement": "",
     "default_value": "",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

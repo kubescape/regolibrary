@@ -32,6 +32,9 @@
     "controlID": "C-0044",
     "baseScore": 4.0,
     "example": "@controls/examples/c044.yaml",
+    "category": {
+        "name" : "Network"
+   },
     "scanningScope": {
         "matches": [
             "cluster",

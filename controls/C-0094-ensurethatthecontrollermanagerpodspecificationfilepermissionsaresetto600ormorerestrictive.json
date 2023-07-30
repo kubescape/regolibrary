@@ -17,6 +17,9 @@
     "baseScore": 6,
     "impact_statement": "None",
     "default_value": "By default, the `kube-controller-manager.yaml` file has permissions of `640`.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

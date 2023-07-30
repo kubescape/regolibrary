@@ -17,6 +17,9 @@
     "baseScore": 5,
     "impact_statement": "API server clients that cannot support modern cryptographic ciphers will not be able to make connections to the API server.",
     "default_value": "By default the Kubernetes API server supports a wide range of TLS ciphers",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

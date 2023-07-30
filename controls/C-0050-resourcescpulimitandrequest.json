@@ -15,6 +15,12 @@
     ],
     "controlID": "C-0050",
     "baseScore": 8.0,
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Resource management"
+        }
+    },
     "scanningScope": {
         "matches": [
             "cluster",

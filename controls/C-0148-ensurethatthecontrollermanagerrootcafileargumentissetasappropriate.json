@@ -17,6 +17,9 @@
     "baseScore": 7,
     "impact_statement": "You need to setup and maintain root certificate authority file.",
     "default_value": "By default, `--root-ca-file` is not set.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

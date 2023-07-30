@@ -17,6 +17,9 @@
     "baseScore": 8,
     "impact_statement": "You require TLS to be configured on apiserver as well as kubelets.",
     "default_value": "By default, `--kubelet-certificate-authority` argument is not set.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

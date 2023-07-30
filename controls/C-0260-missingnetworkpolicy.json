@@ -20,6 +20,9 @@
     "test": "Check that all workloads has a network policy configured in labels.",
     "controlID": "C-0260",
     "baseScore": 5.0,
+    "category": {
+        "name" : "Network"
+   },
     "scanningScope": {
         "matches": [
             "cluster",

@@ -18,6 +18,9 @@
     "controlID": "C-0085",
     "baseScore": 6.0,
     "example": "@controls/examples/c85.yaml",
+    "category": {
+        "name" : "Workload"
+   },
     "scanningScope": {
         "matches": [
             "cluster",

@@ -5,8 +5,7 @@
     "long_description": "Verifies that each image is signed",
     "remediation": "Replace the image with a signed image",
     "manual_test": "",
-    "references": [
-    ],
+    "references": [],
     "attributes": {
         "armoBuiltin": true
     },
@@ -16,6 +15,12 @@
     "baseScore": 7,
     "impact_statement": "",
     "default_value": "",
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Supply chain"
+        }
+    },
     "scanningScope": {
         "matches": [
             "cluster",

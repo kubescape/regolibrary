@@ -17,6 +17,9 @@
     "baseScore": 7,
     "impact_statement": "Anonymous requests will be rejected.",
     "default_value": "By default, anonymous access is enabled.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

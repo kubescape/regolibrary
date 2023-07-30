@@ -17,6 +17,9 @@
     "baseScore": 8,
     "impact_statement": "TLS and client certificate authentication must be configured for etcd.",
     "default_value": "By default, `--etcd-cafile` is not set.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

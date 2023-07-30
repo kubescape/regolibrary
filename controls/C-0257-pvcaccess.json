@@ -25,5 +25,11 @@
             "cluster",
             "file"
         ]
-    }
+    },
+    "category": {
+        "name" : "Workload",
+        "subCategory": {
+        "name": "Storage"
+        }
+   }
 }

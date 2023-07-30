@@ -26,6 +26,12 @@
     ],
     "controlID": "C-0048",
     "baseScore": 7.0,
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Storage"
+        }
+    },
     "scanningScope": {
         "matches": [
             "cluster",

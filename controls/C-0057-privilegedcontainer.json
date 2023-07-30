@@ -19,6 +19,12 @@
     "test": "Check in POD spec if securityContext.privileged == true, if so raise an alert.",
     "controlID": "C-0057",
     "baseScore": 8.0,
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Node escape"
+        }
+    },
     "scanningScope": {
         "matches": [
             "cluster",

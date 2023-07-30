@@ -19,6 +19,9 @@
     "controlID": "C-0063",
     "baseScore": 5.0,
     "example": "@controls/examples/c063.yaml",
+    "category": {
+        "name" : "Access control"
+   },
     "scanningScope": {
         "matches": [
             "cluster",

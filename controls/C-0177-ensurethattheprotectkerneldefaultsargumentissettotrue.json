@@ -17,6 +17,9 @@
     "baseScore": 2,
     "impact_statement": "You would have to re-tune kernel parameters to match kubelet parameters.",
     "default_value": "By default, `--protect-kernel-defaults` is not set.",
+    "category": {
+        "name" : "Control plane"
+   },
     "scanningScope": {
         "matches": [
             "cloud"

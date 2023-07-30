@@ -17,6 +17,9 @@
     "controlID": "C-0089",
     "baseScore": 3.0,
     "example": "",
+    "category": {
+        "name" : "Workload"
+   },
     "scanningScope": {
         "matches": [
             "cluster"

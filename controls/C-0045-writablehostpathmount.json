@@ -31,6 +31,12 @@
     "controlID": "C-0045",
     "baseScore": 8.0,
     "example": "@controls/examples/c045.yaml",
+    "category": {
+        "name" : "Workload",
+        "subCategory": {
+        "name": "Storage"
+        }
+   },
     "scanningScope": {
         "matches": [
             "cluster",
