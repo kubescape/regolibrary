@@ -7,6 +7,12 @@
     "typeTags": [
         "security"
     ],
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    },
     "activeControls": [
         {
             "controlID": "C-0009",

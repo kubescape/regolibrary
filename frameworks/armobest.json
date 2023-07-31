@@ -4,6 +4,12 @@
     "attributes": {
         "armoBuiltin": true
     },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    },
     "typeTags": ["compliance"],
     "activeControls": [
         {

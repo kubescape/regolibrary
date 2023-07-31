@@ -5,6 +5,11 @@
         "version": "v1.2.0",
         "armoBuiltin": true
     },
+    "scanningScope": {
+        "matches": [
+            "AKS"
+        ]
+    },
     "typeTags": ["compliance"],
     "activeControls": [
         {
