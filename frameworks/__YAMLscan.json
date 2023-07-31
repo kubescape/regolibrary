@@ -4,6 +4,11 @@
     "attributes": {
         "armoBuiltin": true
     },
+    "scanningScope": {
+        "matches": [
+            "file"
+        ]
+    },
     "controlsNames": [
         "Forbidden Container Registries",
         "Exec into container",

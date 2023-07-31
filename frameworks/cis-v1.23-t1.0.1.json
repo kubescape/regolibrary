@@ -5,6 +5,11 @@
         "version": "v1.0.1",
         "armoBuiltin": true
     },
+    "scanningScope": {
+        "matches": [
+            "cloud"
+        ]
+    },
     "typeTags": ["compliance"],
     "subSections": {
         "1": {
