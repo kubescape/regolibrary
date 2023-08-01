@@ -28,7 +28,10 @@
         "endpointslice-in-default-namespace",
         "horizontalpodautoscaler-in-default-namespace",
         "lease-in-default-namespace",
-        "resources-other2-in-default-namespace",
+        "csistoragecapacity-in-default-namespace",
+        "ingress-in-default-namespace",
+        "networkpolicy-in-default-namespace",
+        "poddisruptionbudget-in-default-namespace",
         "resources-secret-in-default-namespace",
         "resources-event-in-default-namespace"
     ],
