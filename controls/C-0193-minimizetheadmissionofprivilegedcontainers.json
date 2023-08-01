@@ -12,7 +12,8 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "pod-security-admission-baseline-applied"
+        "pod-security-admission-baseline-applied-1",
+        "pod-security-admission-baseline-applied-2"
     ],
     "baseScore": 8,
     "impact_statement": "Pods defined with `spec.containers[].securityContext.privileged: true`, `spec.initContainers[].securityContext.privileged: true` and `spec.ephemeralContainers[].securityContext.privileged: true` will not be permitted.",
