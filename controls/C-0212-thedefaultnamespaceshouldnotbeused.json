@@ -14,7 +14,8 @@
     },
     "rulesNames": [
         "pods-in-default-namespace",
-        "resources-rbac-in-default-namespace",
+        "rolebinding-in-default-namespace",
+        "role-in-default-namespace",
         "configmap-in-default-namespace",
         "endpoints-in-default-namespace",
         "limitrange-in-default-namespace",

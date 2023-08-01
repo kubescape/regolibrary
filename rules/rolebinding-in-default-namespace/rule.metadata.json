@@ -1,5 +1,5 @@
 {
-    "name": "resources-rbac-in-default-namespace",
+    "name": "rolebinding-in-default-namespace",
     "attributes": {
       "armoBuiltin": true
     },
@@ -13,8 +13,7 @@
           "v1"
         ],
         "resources": [
-            "RoleBinding",
-            "Role"
+            "RoleBinding"
         ]
       }
     ],
