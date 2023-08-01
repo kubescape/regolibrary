@@ -190,7 +190,8 @@ CIS-5.2.10,pod-security-admission-restricted-applied
 CIS-5.2.11,pod-security-admission-baseline-applied
 CIS-5.2.12,pod-security-admission-baseline-applied
 CIS-5.2.13,pod-security-admission-baseline-applied
-CIS-5.2.1,pod-security-admission-applied
+CIS-5.2.1,pod-security-admission-applied-1
+CIS-5.2.1,pod-security-admission-applied-2
 CIS-5.2.2,pod-security-admission-baseline-applied
 CIS-5.2.3,pod-security-admission-baseline-applied
 CIS-5.2.4,pod-security-admission-baseline-applied
