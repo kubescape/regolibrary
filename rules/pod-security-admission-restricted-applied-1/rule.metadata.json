@@ -1,5 +1,5 @@
 {
-    "name": "pod-security-admission-restricted-applied",
+    "name": "pod-security-admission-restricted-applied-1",
     "attributes": {
         "armoBuiltin": true
     },
@@ -24,7 +24,6 @@
                 "*"
             ],
             "resources": [
-                "ValidatingWebhookConfiguration",
                 "MutatingWebhookConfiguration"
             ]
         }

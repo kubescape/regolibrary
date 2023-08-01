@@ -186,7 +186,8 @@ CIS-5.1.5,namespace-without-service-account
 CIS-5.1.6,automount-service-account
 CIS-5.1.8,rule-can-bind-escalate
 CIS-5.1.8,rule-can-impersonate-users-groups-v1
-CIS-5.2.10,pod-security-admission-restricted-applied
+CIS-5.2.10,pod-security-admission-restricted-applied-1
+CIS-5.2.10,pod-security-admission-restricted-applied-2
 CIS-5.2.11,pod-security-admission-baseline-applied-1
 CIS-5.2.11,pod-security-admission-baseline-applied-2
 CIS-5.2.12,pod-security-admission-baseline-applied-1
@@ -203,11 +204,14 @@ CIS-5.2.4,pod-security-admission-baseline-applied-1
 CIS-5.2.4,pod-security-admission-baseline-applied-2
 CIS-5.2.5,pod-security-admission-baseline-applied-1
 CIS-5.2.5,pod-security-admission-baseline-applied-2
-CIS-5.2.6,pod-security-admission-restricted-applied
-CIS-5.2.7,pod-security-admission-restricted-applied
+CIS-5.2.6,pod-security-admission-restricted-applied-1
+CIS-5.2.6,pod-security-admission-restricted-applied-2
+CIS-5.2.7,pod-security-admission-restricted-applied-1
+CIS-5.2.7,pod-security-admission-restricted-applied-2
 CIS-5.2.8,pod-security-admission-baseline-applied-1
 CIS-5.2.8,pod-security-admission-baseline-applied-2
-CIS-5.2.9,pod-security-admission-restricted-applied
+CIS-5.2.9,pod-security-admission-restricted-applied-1
+CIS-5.2.9,pod-security-admission-restricted-applied-2
 CIS-5.3.1,ensure-that-the-cni-in-use-supports-network-policies
 CIS-5.3.2,internal-networking
 CIS-5.4.1,rule-secrets-in-env-var
