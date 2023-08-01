@@ -1,0 +1,25 @@
+{
+    "name": "resources-event-2-in-default-namespace",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "events.k8s.io"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "Event"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}

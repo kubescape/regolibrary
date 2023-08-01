@@ -34,7 +34,8 @@
         "networkpolicy-in-default-namespace",
         "poddisruptionbudget-in-default-namespace",
         "resources-secret-in-default-namespace",
-        "resources-event-in-default-namespace"
+        "resources-event-1-in-default-namespace",
+        "resources-event-2-in-default-namespace"
     ],
     "baseScore": 4,
     "impact_statement": "None",

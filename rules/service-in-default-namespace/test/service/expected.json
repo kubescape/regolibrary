@@ -1,6 +1,6 @@
 [
     {
-        "alertMessage": "ConfigMap: kubescape is in the 'default' namespace",
+        "alertMessage": "Service: kubescape is in the 'default' namespace",
         "failedPaths": [
             "metadata.namespace"
         ],
@@ -12,7 +12,7 @@
             "k8sApiObjects": [
                 {
                     "apiVersion": "v1",
-                    "kind": "ConfigMap",
+                    "kind": "Service",
                     "metadata": {
                         "name": "kubescape"
                     }
