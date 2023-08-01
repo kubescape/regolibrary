@@ -24,7 +24,10 @@
         "resourcequota-in-default-namespace",
         "service-in-default-namespace",
         "serviceaccount-in-default-namespace",
-        "resources-other1-in-default-namespace",
+        "controllerrevision-in-default-namespace",
+        "endpointslice-in-default-namespace",
+        "horizontalpodautoscaler-in-default-namespace",
+        "lease-in-default-namespace",
         "resources-other2-in-default-namespace",
         "resources-secret-in-default-namespace",
         "resources-event-in-default-namespace"

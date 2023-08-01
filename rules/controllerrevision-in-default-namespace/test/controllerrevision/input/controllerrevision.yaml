@@ -1,0 +1,8 @@
+apiVersion: apps/v1
+kind: ControllerRevision
+metadata:
+  name: kubescape
+  namespace: default
+revision: 1
+data:
+  raw: Serialized-Object
