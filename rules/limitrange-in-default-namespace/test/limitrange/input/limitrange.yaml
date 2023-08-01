@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: kubescape
+  namespace: default
+spec:
+  limits:
+  - default:
+      memory: 512Mi
+      cpu: 500m
+    defaultRequest:
+      memory: 256Mi
+      cpu: 250m
+    type: Container
+  - min:
+      memory: 256Mi
+      cpu: 200m
+    max:
+      memory: 1Gi
+      cpu: 1
+    type: Pod

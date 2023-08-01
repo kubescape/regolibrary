@@ -1,5 +1,5 @@
 {
-    "name": "resources-core1-in-default-namespace",
+    "name": "configmap-in-default-namespace",
     "attributes": {
       "armoBuiltin": true
     },
@@ -13,11 +13,7 @@
           "v1"
         ],
         "resources": [
-          "ConfigMap",
-          "Endpoints",
-          "LimitRange",
-          "PersistentVolumeClaim",
-          "PodTemplate"
+          "ConfigMap"
         ]
       }
     ],
