@@ -8,7 +8,7 @@
     "scanningScope": {
         "matches": [
             "cluster",
-            "files"
+            "file"
         ]
     },
     "typeTags": ["compliance"],
