@@ -1,0 +1,25 @@
+{
+    "name": "resources-event-1-in-default-namespace",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "Event"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}

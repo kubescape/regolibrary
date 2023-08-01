@@ -1,0 +1,25 @@
+{
+    "name": "resourcequota-in-default-namespace",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "ResourceQuota"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}
