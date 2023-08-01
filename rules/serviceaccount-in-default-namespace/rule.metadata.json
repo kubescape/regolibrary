@@ -1,5 +1,5 @@
 {
-    "name": "resources-core2-in-default-namespace",
+    "name": "serviceaccount-in-default-namespace",
     "attributes": {
       "armoBuiltin": true
     },
@@ -13,10 +13,7 @@
           "v1"
         ],
         "resources": [
-          "ReplicationController",
-          "ResourceQuota",
-          "ServiceAccount",
-          "Service"
+          "ServiceAccount"
         ]
       }
     ],

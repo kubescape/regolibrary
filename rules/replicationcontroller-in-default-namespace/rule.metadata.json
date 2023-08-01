@@ -1,0 +1,25 @@
+{
+    "name": "replicationcontroller-in-default-namespace",
+    "attributes": {
+      "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "ReplicationController"
+        ]
+      }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}
