@@ -79,12 +79,9 @@ def fill_attack_track_name_to_categories_map():
 def validate_attack_track_attributes(control):
      if "attributes" in control and "attackTracks" in control["attributes"]:
         for track in control["attributes"]["attackTracks"]:
-            if track["attackTrack"] not in ATTACK_TRACKS_DICT:
-                print(f'Invalid attackTrack "{track["attackTrack"]}" in {control.get("controlID")}')
-            else:
-                for category in track.get("categories", []):
-                    if category not in ATTACK_TRACKS_DICT[track["attackTrack"]]:
-                        print(f'Invalid category "{category}" for attackTrack "{track["attackTrack"]}" in {control.get("controlID")}')
+            assert track["attackTrack"] in ATTACK_TRACKS_DICT, f'Invalid attackTrack "{track["attackTrack"]}" in {control.get("controlID")}'
+            for category in track.get("categories", []):
+                assert category in ATTACK_TRACKS_DICT[track["attackTrack"]], f'Invalid category "{category}" for attackTrack "{track["attackTrack"]}" in {control.get("controlID")}'
 
 
 # Test that each rule name in a control file has a corresponding rule file in the "rules" directory
