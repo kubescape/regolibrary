@@ -79,7 +79,7 @@ deny[msga] {
 	beggining_of_path := "spec.jobTemplate.spec.template.spec."
    
 	wl_namespace := wl.metadata.namespace
-	result := is_sa_auto_mounted(wl.spec.jobTemplate.spec.template.spec, beggining_of_path, wl_namespace)
+	result := is_sa_auto_mounted(wl.spec.jobTemplate.spec.template.spec, beggining_of_path, wl.metadata)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
 
@@ -98,7 +98,7 @@ deny[msga] {
 
 
  #  -- ----     For workloads     -- ----     
-is_sa_auto_mounted(spec, beggining_of_path, wl_namespace) = [failed_path, fix_path]   {
+is_sa_auto_mounted(spec, beggining_of_path, wl_metadata) = [failed_path, fix_path]   {
 	# automountServiceAccountToken not in pod spec
 	not spec.automountServiceAccountToken == false
 	not spec.automountServiceAccountToken == true
@@ -106,7 +106,7 @@ is_sa_auto_mounted(spec, beggining_of_path, wl_namespace) = [failed_path, fix_pa
 	# check if SA  automount by default
 	sa := input[_]
 	is_same_sa(spec, sa.metadata.name)
-	is_same_namespace(sa.metadata.namespace , wl_namespace)
+	is_same_namespace(sa.metadata , wl_metadata)
 	not sa.automountServiceAccountToken == false
 
 	# path is pod spec
@@ -132,7 +132,7 @@ is_sa_auto_mounted(spec, beggining_of_path, wl_namespace) =  [failed_path, fix_p
 	count(service_accounts) > 0
 	sa := service_accounts[_]
 	is_same_sa(spec, sa.metadata.name)
-	is_same_namespace(sa.metadata.namespace , wl_namespace)
+	is_same_namespace(sa.metadata , wl_namespace)
 	not sa.automountServiceAccountToken == false
 
 	failed_path = sprintf("%vautomountServiceAccountToken", [beggining_of_path])
