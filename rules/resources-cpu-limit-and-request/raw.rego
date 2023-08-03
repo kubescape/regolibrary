@@ -158,7 +158,7 @@ request_or_limit_cpu(container) {
 is_min_max_exceeded_cpu(container)  = "resources.limits.cpu" {
 	cpu_limit := container.resources.limits.cpu
 	is_limit_exceeded_cpu(cpu_limit)
-} else = "resouces.requests.cpu" {
+} else = "resources.requests.cpu" {
 	cpu_req := container.resources.requests.cpu
 	is_req_exceeded_cpu(cpu_req)
 } else = ""
