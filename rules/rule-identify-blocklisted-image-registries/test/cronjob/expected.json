@@ -1,1 +1,23 @@
-[]
+[
+    {
+        "alertMessage": "image 'quay.io/hi:latest' in container 'hello' comes from untrusted registry",
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.containers[0].image"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]

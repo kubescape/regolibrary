@@ -67,13 +67,29 @@ untrustedImageRepo[msga] {
 untrusted_or_public_registries(image){
 	# see default-config-inputs.json for list values
 	untrusted_registries := data.postureControlInputs.untrustedRegistries
-	repo_prefix := untrusted_registries[_]
-	startswith(image, repo_prefix)
+	registry := untrusted_registries[_]
+	regex.match(regexify(registry), docker_host_wrapper(image))
 }
 
 untrusted_or_public_registries(image){
 	# see default-config-inputs.json for list values
 	public_registries := data.postureControlInputs.publicRegistries
-	repo_prefix := public_registries[_]
-	startswith(image, repo_prefix)
+	registry := public_registries[_]
+	regex.match(regexify(registry), docker_host_wrapper(image))
 }
+
+
+# docker_host_wrapper - wrap an image without a host with a docker hub host 'docker.io'.
+# An image that doesn't contain '/' is assumed to not having a host and therefore associated with docker hub.
+docker_host_wrapper(image) = result {
+    not contains(image, "/")
+    result := sprintf("docker.io/%s", [image])
+} else := image
+
+
+
+# regexify - returns a registry regex to be searched only for the image host.
+regexify(registry) := result {
+	endswith(registry, "/")
+	result = sprintf("^%s.*$", [registry])
+} else := sprintf("^%s\/.*$", [registry])
