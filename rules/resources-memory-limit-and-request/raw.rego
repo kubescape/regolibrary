@@ -142,7 +142,7 @@ deny[msga] {
 is_min_max_exceeded_memory(container) = "resources.limits.memory" {
 	memory_limit := container.resources.limits.memory
 	is_limit_exceeded_memory(memory_limit)
-} else = "resouces.requests.memory" {
+} else = "resources.requests.memory" {
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
 } else = "" {

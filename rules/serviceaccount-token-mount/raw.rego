@@ -5,13 +5,11 @@ deny[msga] {
     beggining_of_path := get_beginning_of_path(wl)
     spec := object.get(wl, beggining_of_path, [])
 
-    wl_namespace := wl.metadata.namespace
-    result := is_sa_auto_mounted(spec, beggining_of_path, wl_namespace)
-    
     sa := input[_]
     is_same_sa(spec, sa.metadata.name)
-    is_same_namespace(sa.metadata.namespace , wl_namespace)
+    is_same_namespace(sa.metadata , wl.metadata)
     has_service_account_binding(sa)
+    result := is_sa_auto_mounted_and_bound(spec, beggining_of_path, sa)
 
     failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
@@ -50,16 +48,18 @@ get_beginning_of_path(workload) = beggining_of_path {
 
 
  #  -- ----     For workloads     -- ----     
-is_sa_auto_mounted(spec, beggining_of_path, wl_namespace) = [failed_path, fix_path]   {
+is_sa_auto_mounted_and_bound(spec, beggining_of_path, sa) = [failed_path, fix_path]   {
     # automountServiceAccountToken not in pod spec
     not spec.automountServiceAccountToken == false
     not spec.automountServiceAccountToken == true
+
+    not sa.automountServiceAccountToken == false
 
     fix_path = { "path": sprintf("%v.automountServiceAccountToken", [concat(".", beggining_of_path)]), "value": "false"}
     failed_path = ""
 }
 
-is_sa_auto_mounted(spec, beggining_of_path, wl_namespace) =  [failed_path, fix_path]  {
+is_sa_auto_mounted_and_bound(spec, beggining_of_path, sa) =  [failed_path, fix_path]  {
     # automountServiceAccountToken set to true in pod spec
     spec.automountServiceAccountToken == true
 
