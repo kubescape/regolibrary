@@ -1,0 +1,21 @@
+[
+    {
+        "alertMessage": "Review webhook: test-webhook ensure that it defines the required policy",
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "admissionregistration.k8s.io/v1",
+                    "kind": "MutatingWebhookConfiguration",
+                    "metadata": {
+                        "name": "test-webhook"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -12,7 +12,8 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "pod-security-admission-baseline-applied"
+        "pod-security-admission-baseline-applied-1",
+        "pod-security-admission-baseline-applied-2"
     ],
     "baseScore": 5,
     "impact_statement": "Pods defined with `spec.hostIPC: true` will not be permitted unless they are run under a specific policy.",

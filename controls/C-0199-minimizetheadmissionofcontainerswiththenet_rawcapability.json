@@ -12,7 +12,8 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "pod-security-admission-baseline-applied"
+        "pod-security-admission-baseline-applied-1",
+        "pod-security-admission-baseline-applied-2"
     ],
     "baseScore": 6,
     "impact_statement": "Pods with containers which run with the NET\\_RAW capability will not be permitted.",

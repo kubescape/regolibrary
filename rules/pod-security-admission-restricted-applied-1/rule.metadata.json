@@ -1,5 +1,5 @@
 {
-    "name": "pod-security-admission-applied",
+    "name": "pod-security-admission-restricted-applied-1",
     "attributes": {
         "armoBuiltin": true
     },
@@ -24,13 +24,12 @@
                 "*"
             ],
             "resources": [
-                "ValidatingWebhookConfiguration",
                 "MutatingWebhookConfiguration"
             ]
         }
     ],
     "ruleDependencies": [],
-    "description": "Checks that every namespace enabled pod security admission, or if there are external policies applied for namespaced resources (validating/mutating webhooks)",
+    "description": "Checks that every namespace enabled restricted pod security admission, or if there are external policies applied for namespaced resources (validating/mutating webhooks) - returns them to be reviewed",
     "remediation": "Ensure that either Pod Security Admission or an external policy control system is in place for every namespace which contains user workloads.\n\n#### Impact Statement\nWhere policy control systems are in place, there is a risk that workloads required for the operation of the cluster may be stopped from running. Care is required when implementing admission control policies to ensure that this does not occur.\n\n#### Default Value\nBy default, Pod Security Admission is enabled but no policies are in place.",
     "ruleQuery": "armo_builtins"
 }
