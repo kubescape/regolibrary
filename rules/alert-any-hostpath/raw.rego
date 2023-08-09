@@ -68,5 +68,5 @@ deny[msga] {
 
 is_dangerous_volume(volume, beggining_of_path, i) = path {
     volume.hostPath.path
-    path = volume.hostPath.path != null ? sprintf("%vvolumes[%v].hostPath.path", [beggining_of_path, format_int(i, 10)]) : null
+    path = sprintf("%vvolumes[%v].hostPath.path", [beggining_of_path, format_int(i, 10)]) : null
 }
