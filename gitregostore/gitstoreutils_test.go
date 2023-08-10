@@ -317,3 +317,67 @@ func TestHasNumbers(t *testing.T) {
 		}
 	}
 }
+
+func TestSetControls(t *testing.T) {
+	store := &GitRegoStore{}
+	// Successful test case
+	respStr := `[{"name": "control1"}, {"name": "control2"}]`
+	err := store.setControls(respStr)
+	if err != nil {
+		t.Errorf("Error setting controls: %v", err)
+	}
+	if len(store.Controls) != 2 {
+		t.Errorf("Controls not added to store")
+	}
+	if len(store.AttackTrackControls) != 0 {
+		t.Errorf("Attack track controls not added to store")
+	}
+
+	// Error test case
+	respStr = `invalid JSON`
+	expectedErr := errors.New("invalid character 'i' looking for beginning of value")
+	err = store.setControls(respStr)
+	if err == nil || err.Error() != expectedErr.Error() {
+		t.Errorf("Expected error '%v', but got: %v", expectedErr, err)
+	}
+	if len(store.Controls) != 2 {
+		t.Errorf("Expected 2 controls, but got: %d", len(store.Controls))
+	}
+
+	//
+	respStr = `[{"name":"TEST","attributes":{"armoBuiltin":true,"controlTypeTags":["security","compliance"],"attackTracks":[{"attackTrack": "container","categories": ["Execution","Initial access"]},{"attackTrack": "network","categories": ["Eavesdropping","Spoofing"]}]},"description":"","remediation":"","rulesNames":["CVE-2022-0185"],"id":"C-0079","long_description":"","test":"","controlID":"C-0079","baseScore":4,"example":""}]`
+	err = store.setControls(respStr)
+	if err != nil {
+		t.Errorf("Error setting controls: %v", err)
+	}
+	if len(store.Controls) != 1 {
+		t.Errorf("Controls not added to store")
+	}
+	if len(store.AttackTrackControls) != 1 {
+		t.Errorf("Attack track controls not added to store")
+	}
+}
+
+func TestSetAttackTracks(t *testing.T) {
+	store := &GitRegoStore{}
+	// Successful test case
+	respStr := `[{"name": "attack_track1"}, {"name": "attack_track2"}]`
+	err := store.setAttackTracks(respStr)
+	if err != nil {
+		t.Errorf("Error setting attack tracks: %v", err)
+	}
+	if len(store.AttackTracks) != 2 {
+		t.Errorf("Attack tracks added to store")
+	}
+
+	// Error test case
+	respStr = `invalid JSON`
+	expectedErr := errors.New("invalid character 'i' looking for beginning of value")
+	err = store.setAttackTracks(respStr)
+	if err == nil || err.Error() != expectedErr.Error() {
+		t.Errorf("Expected error '%v', but got: %v", expectedErr, err)
+	}
+	if len(store.AttackTracks) != 2 {
+		t.Errorf("Expected 2 attack tracks, but got: %d", len(store.AttackTracks))
+	}
+}

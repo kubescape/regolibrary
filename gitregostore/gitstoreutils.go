@@ -195,6 +195,7 @@ func (gs *GitRegoStore) setAttackTracks(respStr string) error {
 	return nil
 }
 
+// Set controls set the controls list and attackTrackControls in gitRegoStore
 func (gs *GitRegoStore) setControls(respStr string) error {
 	controls := []opapolicy.Control{}
 	if err := JSONDecoder(respStr).Decode(&controls); err != nil {
@@ -204,6 +205,24 @@ func (gs *GitRegoStore) setControls(respStr string) error {
 	defer gs.controlsLock.Unlock()
 
 	gs.Controls = controls
+	gs.setAttackTracksControls()
+	return nil
+}
+
+// GetAttackTracksControls sets controls that are related to attack tracks
+func (gs *GitRegoStore) setAttackTracksControls() error {
+	allAttackTrackControls := []opapolicy.Control{}
+
+	for i, control := range gs.Controls {
+		controlCategories := control.GetAllAttackTrackCategories()
+		if controlCategories != nil && len(controlCategories) > 0 {
+			allAttackTrackControls = append(allAttackTrackControls, gs.Controls[i])
+		}
+	}
+	gs.attackTrackControlsLock.Lock()
+	defer gs.attackTrackControlsLock.Unlock()
+	gs.AttackTrackControls = allAttackTrackControls
+
 	return nil
 }
 
