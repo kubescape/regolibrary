@@ -18,7 +18,24 @@
 					}
 				}
 			]
-			
-		}
+		},
+		"relatedObjects": [
+			{
+				"object": {
+					"apiVersion": "v1",
+					"data": {
+						"key1": "value1",
+						"key2": "value2"
+					},
+					"kind": "ConfigMap",
+					"metadata": {
+						"name": "myconfigmap",
+						"namespace": "mynamespace"
+					}
+				},
+				"failedPaths": null,
+				"fixPaths": null
+			}
+		]
 	}
 ]

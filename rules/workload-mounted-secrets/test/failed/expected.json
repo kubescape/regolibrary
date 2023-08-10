@@ -18,6 +18,24 @@
 					}
 				}
 			]
-		}
+		},
+		"relatedObjects": [
+			{
+				"object": {
+					"apiVersion": "v1",
+					"data": {
+						"password": "MWYyZDFlMmU2N2Rm",
+						"username": "YWRtaW4="
+					},
+					"kind": "Secret",
+					"metadata": {
+						"name": "mysecret"
+					},
+					"type": "Opaque"
+				},
+				"failedPaths": null,
+				"fixPaths": null
+			}
+		]
 	}
 ]
