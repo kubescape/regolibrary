@@ -93,6 +93,16 @@ func gs_tests(t *testing.T, gs *GitRegoStore) {
 		)
 	})
 
+	t.Run("should retrieve OPA Attack Track controls", func(t *testing.T) {
+		t.Parallel()
+
+		controls, err := gs.GetOPAAttackTrackControls()
+		assert.NoError(t, err)
+		assert.NotEmptyf(t, controls,
+			"failed to get attack track controls %v", err,
+		)
+	})
+
 	t.Run("should retrieve OPA control by id or name", func(t *testing.T) {
 		t.Parallel()
 

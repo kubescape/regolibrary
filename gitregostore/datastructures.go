@@ -18,6 +18,7 @@ type GitRegoStore struct {
 	DefaultConfigInputsLock            sync.RWMutex
 	rulesLock                          sync.RWMutex
 	controlsLock                       sync.RWMutex
+	attackTrackControlsLock            sync.RWMutex
 	attackTracksLock                   sync.RWMutex
 	systemPostureExceptionPoliciesLock sync.RWMutex
 	controlRelationsLock               sync.RWMutex
@@ -39,6 +40,7 @@ type GitRegoStore struct {
 	AttackTracks                       []v1alpha1.AttackTrack
 	Frameworks                         []opapolicy.Framework
 	Controls                           []opapolicy.Control
+	AttackTrackControls                []opapolicy.Control
 	Rules                              []opapolicy.PolicyRule
 	SystemPostureExceptionPolicies     []armotypes.PostureExceptionPolicy
 	FrequencyPullFromGitMinutes        int
