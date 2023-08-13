@@ -44,7 +44,7 @@
       }
     ],
     "ruleDependencies": [],
-    "description": "Check hostpath. If the path is set to /var/run/docker.sock or /var/lib/docker , the container has access to Docker internals - fail.",
+    "description": "Check hostpath. If the path is set to one of the container runtime socket, the container has access to container runtime - fail.",
     "remediation": "",
     "ruleQuery": "armo_builtins"
   }

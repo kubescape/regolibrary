@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "volume: test-volume2 in Deployment: my-deployment has mounting to Docker internals.",
+        "failedPaths": [
+            "spec.template.spec.volumes[1].hostPath.path"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 5,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-command"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]
