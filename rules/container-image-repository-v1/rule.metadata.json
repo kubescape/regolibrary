@@ -3,7 +3,7 @@
   "attributes": {
     "m$K8sThreatMatrix": "Collection::Images from private registry",
     "armoBuiltin": true,
-    "useFromKubescapeVersion": "v2.3.9"
+    "useFromKubescapeVersion": "v2.9.0"
   },
   "ruleLanguage": "Rego",
   "match": [
