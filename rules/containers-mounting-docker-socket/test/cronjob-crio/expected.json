@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "volume: test-volume in CronJob: hello has mounting to Docker internals.",
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.volumes[0].hostPath.path"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 5,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    }
+]
