@@ -203,6 +203,28 @@ func (gs *GitRegoStore) GetOPAControls() ([]opapolicy.Control, error) {
 	return controlsList, nil
 }
 
+func (gs *GitRegoStore) GetOPAAttackTrackControls() ([]opapolicy.Control, error) {
+	gs.attackTrackControlsLock.RLock()
+	defer gs.attackTrackControlsLock.RUnlock()
+
+	if gs.AttackTrackControls == nil {
+		return nil, fmt.Errorf("no controls found in GitRegoStore")
+	}
+
+	attackTrackControlsList := make([]opapolicy.Control, 0, len(gs.AttackTrackControls))
+	for _, controlToPin := range gs.AttackTrackControls {
+		control := controlToPin
+
+		if err := gs.fillRulesAndRulesIDsInControl(&control); err != nil {
+			return nil, err
+		}
+
+		attackTrackControlsList = append(attackTrackControlsList, control)
+	}
+
+	return attackTrackControlsList, nil
+}
+
 func (gs *GitRegoStore) GetOPAControlsNamesList() ([]string, error) {
 	gs.controlsLock.RLock()
 	defer gs.controlsLock.RUnlock()

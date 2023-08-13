@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    purpose: demonstrate-command
+spec:
+  selector:
+    matchLabels:
+      purpose: demonstrate-command
+  template:
+    metadata:
+      labels:
+        purpose: demonstrate-command
+    spec:
+      containers :
+        - name : test-container
+          image : k8s.gcr.io/test-webserver
+          securityContext:
+            readOnlyRootFilesystem: false
+          volumeMounts :
+            - mountPath : /test-pd
+              readOnly: true
+              name : test-volume
+            - mountPath : /test-pd2
+              readOnly: false
+              name : test-volume
+        - name : test-container2
+          image : k8s.gcr.io/test-webserver
+          securityContext:
+              privileged : true
+        - name : test-container3
+          image : k8s.gcr.io/test-webserver
+      volumes :
+        - name : test-volume
+          hostPath :
+            path : /var
+        - name : test-volume2
+          hostPath :
+            path : /var/run/crio/crio.sock #we are looking for this 
