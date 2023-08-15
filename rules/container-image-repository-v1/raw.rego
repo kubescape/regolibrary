@@ -1,74 +1,47 @@
 package armo_builtins
 
-import future.keywords.if
-
-untrusted_image_repo[msga] {
-	pod := input[_]
-	pod.kind == "Pod"
-	container := pod.spec.containers[i]
-	image := container.image
-	not image_in_allowed_list(image)
-	path := sprintf("spec.containers[%v].image", [format_int(i, 10)])
-
-	msga := {
-		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [image, container.name]),
-		"alertScore": 2,
-        "packagename": "armo_builtins",
-		"failedPaths": [path],
-		"fixPaths":[],
-		"alertObject": {
-			"k8sApiObjects": [pod]
-		}
-	}
-}
-
-untrusted_image_repo[msga] {
+untrustedImageRepo[msga] {
 	wl := input[_]
-	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[i]
-	image := container.image
-    not image_in_allowed_list(image)
+	containers_path := get_containers_path(wl)
+	containers := object.get(wl, containers_path, [])
+	container := containers[i]
+	name := image.parse_normalized_name(container.image)
+	not image_in_allowed_list(name)
+	path := sprintf("%s[%d].image", [concat(".", containers_path), i])
 
-	path := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
 	msga := {
-		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [image, container.name]),
+		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [name, container.name]),
+		"packagename": "armo_builtins",
 		"alertScore": 2,
-        "packagename": "armo_builtins",
+		"fixPaths": [],
 		"failedPaths": [path],
-		"fixPaths":[],
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
-	}
-}
-
-untrusted_image_repo[msga] {
-	wl := input[_]
-	wl.kind == "CronJob"
-	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
-	image := container.image
-    not image_in_allowed_list(image)
-
-	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)])
-	msga := {
-		"alertMessage": sprintf("image '%v' in container '%s' comes from untrusted registry", [image, container.name]),
-		"alertScore": 2,
-        "packagename": "armo_builtins",
-		"failedPaths": [path],
-		"fixPaths":[],
-			"alertObject": {
-			"k8sApiObjects": [wl]
-		}
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
 # image_in_allowed_list - rule to check if an image complies with imageRepositoryAllowList.
 image_in_allowed_list(image){
-
 	# see default-config-inputs.json for list values
 	allowedlist := data.postureControlInputs.imageRepositoryAllowList
 	registry := allowedlist[_]
+	startswith(image, registry)
+}
 
-	startswith(image.parse_normalized_name(image), registry)
+# get_containers_path - get resource containers paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+get_containers_path(resource) := result {
+	resource_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	resource_kinds[resource.kind]
+	result = ["spec", "template", "spec", "containers"]
+}
+
+# get_containers_path - get resource containers paths for "Pod"
+get_containers_path(resource) := result {
+	resource.kind == "Pod"
+	result = ["spec", "containers"]
+}
+
+# get_containers_path - get resource containers paths for  "CronJob"
+get_containers_path(resource) := result {
+	resource.kind == "CronJob"
+	result = ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
 }
