@@ -6,6 +6,7 @@ deny[msga] {
     spec := object.get(wl, beggining_of_path, [])
 
     sa := input[_]
+    sa.kind == "ServiceAccount"
     is_same_sa(spec, sa.metadata.name)
     is_same_namespace(sa.metadata , wl.metadata)
     has_service_account_binding(sa)
