@@ -34,7 +34,7 @@
         "set-procmount-default",
         "set-fsgroup-value",
         "set-fsgroupchangepolicy-value",
-        "set-systctls-params",
+        "set-sysctls-params",
         "set-supplementalgroups-values"
     ],
     "baseScore": 8,
