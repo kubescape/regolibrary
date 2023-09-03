@@ -1,0 +1,24 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - image: k8s.gcr.io/test-webserver
+            name: test-container
+            volumeMounts:
+            - mountPath: /test-pd
+              name: test-volume
+          volumes:
+          - name: test-volume
+            hostPath:   
+              path: /var/run/crio/crio.sock #we are looking for this
+          - name : test-volume2
+            hostPath :
+              path : /var 
+          restartPolicy: OnFailure

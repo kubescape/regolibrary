@@ -284,6 +284,10 @@ func RunSingleTest(t *testing.T, dir string, policyRule *reporthandling.PolicyRu
 		return err
 	}
 
+	// useful for debugging, uncomment to print responses but don't commit uncommented
+	// res2B, _ := json.Marshal(responses)
+	// fmt.Printf("result:\n%s\n", string(res2B))
+
 	expectedResponses, err := GetExpectedResults(dir)
 	if err != nil {
 		return fmt.Errorf("expected.json doesn't match: %v", err)

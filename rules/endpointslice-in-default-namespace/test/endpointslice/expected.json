@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "EndpointSlice: kubescape is in the 'default' namespace",
+        "failedPaths": [
+            "metadata.namespace"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "discovery.k8s.io/v1",
+                    "kind": "EndpointSlice",
+                    "metadata": {
+                        "name": "kubescape"
+                    }
+                }
+            ]
+        }
+    }
+]

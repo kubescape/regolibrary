@@ -19,3 +19,4 @@ release
 pre-release
 *.py[cod]
 .idea
+go.work.*

@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "Service: kubescape is in the 'default' namespace",
+        "failedPaths": [
+            "metadata.namespace"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Service",
+                    "metadata": {
+                        "name": "kubescape"
+                    }
+                }
+            ]
+        }
+    }
+]

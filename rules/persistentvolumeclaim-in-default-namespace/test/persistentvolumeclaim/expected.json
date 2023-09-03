@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "PersistentVolumeClaim: kubescape is in the 'default' namespace",
+        "failedPaths": [
+            "metadata.namespace"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "PersistentVolumeClaim",
+                    "metadata": {
+                        "name": "kubescape"
+                    }
+                }
+            ]
+        }
+    }
+]

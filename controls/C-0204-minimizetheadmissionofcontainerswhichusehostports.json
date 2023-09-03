@@ -12,7 +12,8 @@
         "armoBuiltin": true
     },
     "rulesNames": [
-        "pod-security-admission-baseline-applied"
+        "pod-security-admission-baseline-applied-1",
+        "pod-security-admission-baseline-applied-2"
     ],
     "baseScore": 4,
     "impact_statement": "Pods defined with `hostPort` settings in either the container, initContainer or ephemeralContainer sections will not be permitted unless they are run under a specific policy.",

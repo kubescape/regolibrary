@@ -1,0 +1,7 @@
+{
+    "postureControlInputs": {
+        "publicRegistries": [
+            "registry.hub.docker.com"
+        ]
+    }
+}

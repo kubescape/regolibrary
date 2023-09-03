@@ -1,0 +1,35 @@
+{
+    "name": "pod-security-admission-baseline-applied-1",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Namespace"
+            ]
+        },
+        {
+            "apiGroups": [
+                "admissionregistration.k8s.io"
+            ],
+            "apiVersions": [
+                "*"
+            ],
+            "resources": [
+                "ValidatingWebhookConfiguration"
+            ]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "Checks that every namespace enabled baseline pod security admission, or if there are external policies applied for namespaced resources (validating/mutating webhooks) - returns them to be reviewed",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}

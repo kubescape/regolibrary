@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "volume: test-volume in pod: test-pd has mounting to Docker internals.",
+        "failedPaths": [
+            "spec.volumes[0].hostPath.path"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 5,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test-pd"
+                    }
+                }
+            ]
+        }
+    }
+]
