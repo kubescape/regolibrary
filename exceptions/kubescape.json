@@ -1,5 +1,50 @@
 [
     {
+        "name": "kubescape-ignore",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kubescape.io/ignore": "true"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kubescape.io/ignore": "yes"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kubescape.io/ignore": "1"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kubescape.io/ignore": "enable"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kubescape.io/ignore": "enabled"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    },
+    {
         "name": "exclude-kubescape-deployment-security-context",
         "policyType": "postureExceptionPolicy",
         "actions": [
@@ -89,6 +134,9 @@
             },
             {
                 "controlID": "c-0058"
+            },
+            {
+                "controlID": "c-0078"
             }
         ]
     },
@@ -396,6 +444,22 @@
                 "designatorType": "Attributes",
                 "attributes": {
                     "kind": "ServiceAccount",
+                    "name": "storage",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "kubevuln",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
                     "name": "node-agent-service-account",
                     "namespace": "kubescape"
                 }
@@ -520,11 +584,22 @@
                     "name": "kubescape-scheduler",
                     "namespace": "kubescape"
                 }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "storage",
+                    "namespace": "kubescape"
+                }
             }
         ],
         "posturePolicies": [
             {
                 "controlID": "c-0030"
+            },
+            {
+                "controlID": "c-0034"
             },
             {
                 "controlID": "c-0055"
@@ -545,10 +620,16 @@
                 "controlID": "c-0077"
             },
             {
+                "controlID": "c-0078"
+            },
+            {
                 "controlID": "c-0210"
             },
             {
                 "controlID": "c-0211"
+            },
+            {
+                "controlID": "c-0078"
             }
         ]
     },
