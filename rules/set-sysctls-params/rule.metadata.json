@@ -1,5 +1,5 @@
 {
-    "name": "set-systctls-params",
+    "name": "set-sysctls-params",
     "attributes": {
       "armoBuiltin": true
     },
@@ -45,7 +45,7 @@
     ],
     "ruleDependencies": [
     ],
-    "description": "Fails if securityContext.systctls is not set.",
-    "remediation": "Set securityContext.systctls params",
+    "description": "Fails if securityContext.sysctls is not set.",
+    "remediation": "Set securityContext.sysctls params",
     "ruleQuery": "armo_builtins"
 }
