@@ -1,10 +1,10 @@
 [
     {
-        "alertMessage": "Workload: my-deployment does not set 'securityContext.systctls'",
+        "alertMessage": "Workload: my-deployment does not set 'securityContext.sysctls'",
         "packagename": "armo_builtins",
         "alertScore": 7,
         "failedPaths": [],
-	"fixPaths": [{"path": "spec.template.spec.securityContext.systctls", "name": "net.ipv4.tcp_syncookie", "value": "1"}],
+	"fixPaths": [{"path": "spec.template.spec.securityContext.sysctls", "name": "net.ipv4.tcp_syncookie", "value": "1"}],
         "ruleStatus": "",
         "alertObject": {
             "k8sApiObjects": [
