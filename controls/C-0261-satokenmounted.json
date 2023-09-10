@@ -9,7 +9,7 @@
             {
                 "attackTrack": "workload-external-track",
                 "categories": [
-                    "Credential access"
+                    "Credential Exposure"
                 ]
             }
         ]

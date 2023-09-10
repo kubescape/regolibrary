@@ -16,7 +16,7 @@
             {
                 "attackTrack": "workload-external-track",
                 "categories": [
-                    "Potential Node exposure"
+                    "Vulnerable node"
                 ]
             }
         ]

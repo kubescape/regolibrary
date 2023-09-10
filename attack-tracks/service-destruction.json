@@ -7,10 +7,10 @@
     "spec": {
         "version": "1.0",
         "data": {
-            "name": "Workload Exposure",
+            "name": "Exposed Workload",
             "subSteps": [
                 {
-                    "name": "Service Destruction"
+                    "name": "Denial of service"
                 }
             ]
         }
