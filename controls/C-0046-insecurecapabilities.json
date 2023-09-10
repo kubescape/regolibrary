@@ -11,7 +11,7 @@
             {
                 "attackTrack": "workload-external-track",
                 "categories": [
-                    "Potential Node exposure"
+                    "Privilege Escalation (Node)"
                 ]
             }
         ]

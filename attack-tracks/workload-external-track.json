@@ -7,29 +7,37 @@
     "spec": {
         "version": "1.0",
         "data": {
-            "name": "Workload Exposure",
+            "name": "Initial Access",
+            "description": "An attacker can access the Kubernetes environment.",
             "subSteps": [
                 {
-                    "name": "Vulnerable Image",
+                    "name": "Execution (Vulnerable Image)",
+                    "description": "An attacker can execute malicious code by exploiting vulnerable images.",
                     "checksVulnerabilities": true,
                     "subSteps": [
                         {
-                            "name": "Data Access"
+                            "name": "Data Collection",
+                            "description": "An attacker can gather data."
                         },
                         {
-                            "name": "Secret Access"
+                            "name": "Secret Access",
+                            "description": "An attacker can steal secrets."
                         },
                         {
-                            "name": "Credential access"
+                            "name": "Credential access",
+                            "description": "An attacker can steal account names and passwords."
                         },
                         {
-                            "name": "Potential Node exposure"
+                            "name": "Privilege Escalation (Node)",
+                            "description": "An attacker can gain permissions and access node resources."
                         },
                         {
-                            "name": "Persistence"
+                            "name": "Persistence",
+                            "description": "An attacker can create a foothold."
                         },
                         {
-                            "name": "Network"
+                            "name": "Lateral Movement (Network)",
+                            "description": "An attacker can move through the network."
                         }
                     ]
                 }

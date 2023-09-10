@@ -9,13 +9,13 @@
             {
                 "attackTrack": "workload-external-track",
                 "categories": [
-                    "Workload Exposure"
+                    "Initial Access"
                 ]
             },
             {
                 "attackTrack": "service-destruction",
                 "categories": [
-                    "Workload Exposure"
+                    "Initial Access"
                 ]
             }
         ]
