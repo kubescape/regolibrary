@@ -84,6 +84,6 @@ svc_connected_to_ingress(svc, ingress) = result {
     rule := ingress.spec.rules[i]
     paths := rule.http.paths[j]
     svc.metadata.name == paths.backend.service.name
-    result := [sprintf("ingress.spec.rules[%d].http.paths[%d].backend.service.name", [i,j])]
+    result := [sprintf("spec.rules[%d].http.paths[%d].backend.service.name", [i,j])]
 }
 
