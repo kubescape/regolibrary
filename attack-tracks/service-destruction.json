@@ -7,10 +7,12 @@
     "spec": {
         "version": "1.0",
         "data": {
-            "name": "Workload Exposure",
+            "name": "Initial Access",
+            "description": "An attacker can access the Kubernetes environment.",
             "subSteps": [
                 {
-                    "name": "Service Destruction"
+                    "name": "Denial of service",
+                    "description": "An attacker can overload the workload, making it unavailable."
                 }
             ]
         }

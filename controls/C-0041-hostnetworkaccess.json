@@ -10,7 +10,7 @@
             {
                 "attackTrack": "workload-external-track",
                 "categories": [
-                    "Network"
+                    "Lateral Movement (Network)"
                 ]
             }
         ]
