@@ -51,7 +51,7 @@
                     }
                 },
                 "failedPaths": [
-                    "ingress.spec.rules[0].http.paths[0].backend.service.name"
+                    "spec.rules[0].http.paths[0].backend.service.name"
                 ],
                 "fixPaths": null
             }
