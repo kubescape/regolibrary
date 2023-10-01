@@ -12,6 +12,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v has Host-port", [ container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 4,
+		"deletePaths": path,
 		"failedPaths": path,
 		"fixPaths":[],
 		"alertObject": {
@@ -32,6 +33,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v in %v: %v   has Host-port", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 4,
+		"deletePaths": path,
 		"failedPaths": path,
 		"fixPaths":[],
 		"alertObject": {
@@ -51,6 +53,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v in %v: %v   has Host-port", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 4,
+		"deletePaths": path,
 		"failedPaths": path,
 		"fixPaths":[],
 		"alertObject": {

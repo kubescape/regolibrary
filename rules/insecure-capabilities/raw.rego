@@ -12,6 +12,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in pod: %v  have dangerous capabilities", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"deletePaths": result,
 		"failedPaths": result,
 		"fixPaths": [],
 		"alertObject": {
@@ -31,6 +32,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in workload: %v  have dangerous capabilities", [container.name, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"deletePaths": result,
 		"failedPaths": result,
 		"fixPaths": [],
 		"alertObject": {
@@ -49,6 +51,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in cronjob: %v  have dangerous capabilities", [container.name, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"deletePaths": result,
 		"failedPaths": result,
 		"fixPaths": [],
 		"alertObject": {

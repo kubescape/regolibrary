@@ -14,6 +14,7 @@ deny [msga]{
 		"alertScore": 9,
 		"packagename": "armo_builtins",
 		"fixPaths": fixed_path,
+		"deletePaths": failed_path,
 		"failedPaths": failed_path,
 		"alertObject": {
 			"k8sApiObjects": [service_account]
