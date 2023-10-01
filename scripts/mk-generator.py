@@ -9,8 +9,8 @@ def ignore_framework(framework_name: str):
 
 def get_frameworks_for_control(control):
     r = []
-    for frameworks_json_file_name in filter(lambda fn: fn.endswith('.json'),os.listdir('../frameworks')):
-        framework = json.load(open(os.path.join('../frameworks',frameworks_json_file_name)))
+    for frameworks_json_file_name in filter(lambda fn: fn.endswith('.json'),os.listdir('frameworks')):
+        framework = json.load(open(os.path.join('frameworks',frameworks_json_file_name)))
         if ignore_framework(framework['name']):
             continue
     
@@ -19,14 +19,38 @@ def get_frameworks_for_control(control):
                 if control['controlID'].lower() == activeControl["controlID"].lower():
                     r.append(framework['name'])
     return r
-   
+
+def get_configuration_parameters_info():
+    default_config_inputs = None
+    with open('default-config-inputs.json','r') as f:
+        default_config_inputs = json.load(f)['settings']['postureControlInputs']
+
+    config_parameters = {}
+    for control_json_file_name in filter(lambda fn: fn.endswith('.json'),os.listdir('controls')):
+        try:
+            control_obj = json.load(open(os.path.join('controls',control_json_file_name)))
+            control_obj['rules'] = []
+            for rule_directory_name in os.listdir('rules'):
+                rule_metadata_file_name = os.path.join('rules',rule_directory_name,'rule.metadata.json')
+                if os.path.isfile(rule_metadata_file_name):
+                    rule_obj = json.load(open(rule_metadata_file_name))
+                    if rule_obj['name'] in control_obj['rulesNames']:
+                        control_obj['rules'].append(rule_obj)  
+                        if 'controlConfigInputs' in rule_obj:
+                            for config in rule_obj['controlConfigInputs']:
+                                name = config['path'].split('.')[-1]
+                                config_parameters[name] = config
+        except Exception as e:
+            print('error processing %s: %s'%(control_json_file_name,e))
+        
+    return config_parameters, default_config_inputs
 
 def create_md_for_control(control):
     related_resources = set()
     control_config_input = {}
     host_sensor = False
     cloud_control = False
-    for rule_obj in control['rulesNames']:
+    for rule_obj in control['rules']:
         if 'match' in rule_obj:
             for match_obj in rule_obj['match']:
                 if 'resources' in match_obj:
@@ -58,7 +82,7 @@ def create_md_for_control(control):
     md_text += description + '\n \n'
     md_text += '## Related resources\n'
 
-    md_text += ', '.join(sorted(list(related_resources))) + '\n'
+    md_text += ', '.join(sorted(list(related_resources))) + '\n \n'
     md_text += '## What does this control test\n'
     test = control['test'] if 'test' in control else control['description']
     md_text += test + '\n \n'
@@ -76,13 +100,13 @@ def create_md_for_control(control):
         md_text += '### Default Value\n' + control['default_value'] + '\n'
 
     if len(control_config_input):
-        configuration_text = '## Configuration\nThis control can be configured using the following parameters. Read CLI/UI documentation about how to change parameters.\n'
+        configuration_text = '## Configuration\n This control can be configured using the following parameters. Read CLI/UI documentation about how to change parameters.\n \n'
         for control_config_name in control_config_input:
             control_config = control_config_input[control_config_name]
             configuration_text += '### ' + control_config['name'] + '\n'
             config_name = control_config['path'].split('.')[-1]
             configuration_text += '[' + config_name + '](doc:configuration_parameter_%s)'%config_name.lower() + '\n'
-            configuration_text += control_config['description'] + '\n'
+            configuration_text += control_config['description'] + '\n \n'
         md_text += configuration_text
 
     md_text += '## Example\n'
@@ -224,13 +248,40 @@ def find_inactive_controls_in_docs(list_docs : list, list_active: list) -> list:
 
 def main():
     # Define the directory where the Markdown files should be created.
-    docs_dir = '../docs'
+    docs_dir = 'docs'
+
+    # Fetches the Configuration parameters and related resources per control
+    config_parameters, default_config_inputs = get_configuration_parameters_info()
+
+    # Processing and obtaining the parameters for each control
+    i = 0
+    for config_parameters_path in sorted(list(config_parameters.keys())):
+        print('Processing ',config_parameters_path)
+        # Create md
+        md = '# %s\n' % config_parameters_path
+        md += '## Description\n'
+        md += config_parameters[config_parameters_path]['description'] + '\n'
+        md += '## Default values\n'
+        for dvalue in default_config_inputs[config_parameters_path]:
+            md += '* %s\n' % dvalue
+
+        title = 'Parameter: %s' % config_parameters_path
+        config_parameter_slug = 'configuration_parameter_' + config_parameters_path.lower()
+        i = i + 1
 
     # Process controls.
-    for control_json_file_name in filter(lambda fn: fn.endswith('.json'), os.listdir('../controls')):
+    for control_json_file_name in filter(lambda fn: fn.endswith('.json'), os.listdir('controls')):
         print('processing %s' % control_json_file_name)
-        control_obj = json.load(open(os.path.join('../controls', control_json_file_name)))
+        control_obj = json.load(open(os.path.join('controls', control_json_file_name)))
 
+        control_obj['rules'] = []
+        for rule_directory_name in os.listdir('rules'):
+            rule_metadata_file_name = os.path.join('rules',rule_directory_name,'rule.metadata.json')
+            if os.path.isfile(rule_metadata_file_name):
+                rule_obj = json.load(open(rule_metadata_file_name))
+                if rule_obj['name'] in control_obj['rulesNames']:
+                    control_obj['rules'].append(rule_obj)
+                        
         # Generate a Markdown document for the control.
         md = create_md_for_control(control_obj)
 
