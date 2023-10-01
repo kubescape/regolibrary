@@ -15,6 +15,7 @@ deny[msga] {
 		"alertMessage": sprintf("pod: %v has: %v as hostPath volume", [podname, volume.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"deletePaths": [result],
 		"failedPaths": [result],
 		"fixPaths":[],
 		"alertObject": {
@@ -38,6 +39,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"deletePaths": [result],
 		"failedPaths": [result],
 		"fixPaths":[],
 		"alertObject": {
@@ -58,6 +60,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"deletePaths": [result],
 		"failedPaths": [result],
 		"fixPaths":[],
 		"alertObject": {

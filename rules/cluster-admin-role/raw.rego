@@ -45,6 +45,7 @@ deny[msga] {
 		"alertMessage": sprintf("Subject: %s-%s is bound to cluster-admin role", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
 		"fixPaths": [],
+		"deletePaths": finalpath,
 		"failedPaths": finalpath,
 		"packagename": "armo_builtins",
 		"alertObject": {
