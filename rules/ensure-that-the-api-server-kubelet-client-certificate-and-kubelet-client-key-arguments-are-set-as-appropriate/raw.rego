@@ -9,6 +9,7 @@ deny[msg] {
 	msg := {
 		"alertMessage": "certificate based kubelet authentication is not enabled",
 		"alertScore": 2,
+		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
 		"packagename": "armo_builtins",
