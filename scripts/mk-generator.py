@@ -274,6 +274,23 @@ def main():
         print('processing %s' % control_json_file_name)
         control_obj = json.load(open(os.path.join('controls', control_json_file_name)))
 
+        base_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+        if 'controlID' in control_obj:
+            controlID = control_obj['controlID']
+            example_file_name = controlID.replace('C-00','c0') + '.yaml'
+            example_file_name = os.path.join('controls','examples',example_file_name)
+            if os.path.isfile(example_file_name):
+                with open(example_file_name) as f:
+                    control_obj['example'] = f.read()
+                   
+        if 'example' in control_obj and len(control_obj['example']) > 0 and control_obj['example'][0] == '@':
+            example_file_name = os.path.join(base_dir,control_obj['example'][1:])
+            if os.path.isfile(example_file_name):
+                with open(example_file_name) as f:
+                    control_obj['example'] = f.read()
+            else:
+                print('warning: %s is not a file' % example_file_name)
+
         control_obj['rules'] = []
         for rule_directory_name in os.listdir('rules'):
             rule_metadata_file_name = os.path.join('rules',rule_directory_name,'rule.metadata.json')
