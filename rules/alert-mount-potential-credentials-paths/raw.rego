@@ -16,6 +16,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has: %v as volume with potential credentials access.", [resources.kind, resources.metadata.name, volume.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"deletePaths": [result],
 		"failedPaths": [result],
 		"fixPaths":[],
 		"alertObject": {

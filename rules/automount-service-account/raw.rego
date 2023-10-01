@@ -13,6 +13,7 @@ deny [msga]{
 		"alertScore": 9,
 		"packagename": "armo_builtins",
 		"fixPaths": fixed_path,
+		"deletePaths": failed_path,
 		"failedPaths": failed_path,
 		"alertObject": {
 			"k8sApiObjects": [service_account]
@@ -40,6 +41,7 @@ deny [msga]{
 		"alertScore": 9,
 		"packagename": "armo_builtins",
 		"fixPaths": fixed_path,
+		"deletePaths": failed_path,
 		"failedPaths": failed_path,
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -64,6 +66,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"fixPaths": fixed_path,
+		"deletePaths": failed_path,
 		"failedPaths": failed_path,
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -88,6 +91,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"fixPaths": fixed_path,
+		"deletePaths": failed_path,
 		"failedPaths": failed_path,
 		"alertObject": {
 			"k8sApiObjects": [wl]
