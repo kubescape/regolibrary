@@ -20,31 +20,6 @@ def get_frameworks_for_control(control):
                     r.append(framework['name'])
     return r
 
-def get_configuration_parameters_info():
-    default_config_inputs = None
-    with open('default-config-inputs.json','r') as f:
-        default_config_inputs = json.load(f)['settings']['postureControlInputs']
-
-    config_parameters = {}
-    for control_json_file_name in filter(lambda fn: fn.endswith('.json'),os.listdir('controls')):
-        try:
-            control_obj = json.load(open(os.path.join('controls',control_json_file_name)))
-            control_obj['rules'] = []
-            for rule_directory_name in os.listdir('rules'):
-                rule_metadata_file_name = os.path.join('rules',rule_directory_name,'rule.metadata.json')
-                if os.path.isfile(rule_metadata_file_name):
-                    rule_obj = json.load(open(rule_metadata_file_name))
-                    if rule_obj['name'] in control_obj['rulesNames']:
-                        control_obj['rules'].append(rule_obj)  
-                        if 'controlConfigInputs' in rule_obj:
-                            for config in rule_obj['controlConfigInputs']:
-                                name = config['path'].split('.')[-1]
-                                config_parameters[name] = config
-        except Exception as e:
-            print('error processing %s: %s'%(control_json_file_name,e))
-        
-    return config_parameters, default_config_inputs
-
 def create_md_for_control(control):
     related_resources = set()
     control_config_input = {}
@@ -248,7 +223,7 @@ def find_inactive_controls_in_docs(list_docs : list, list_active: list) -> list:
 
 def main():
     # Define the directory where the Markdown files should be created.
-    docs_dir = 'docs'
+    docs_dir = 'docs/controls'
 
     # Fetches the Configuration parameters and related resources per control
     config_parameters, default_config_inputs = get_configuration_parameters_info()
