@@ -11,6 +11,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has pods running in the 'default' namespace", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 3,
+		"reviewPaths": failed_path,
 		"failedPaths": failed_path,
 		"fixPaths": fixed_path,
 		"alertObject": {

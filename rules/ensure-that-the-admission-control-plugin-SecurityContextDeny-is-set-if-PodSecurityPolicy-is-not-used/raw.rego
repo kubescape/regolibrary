@@ -9,6 +9,7 @@ deny[msg] {
 	msg := {
 		"alertMessage":"The SecurityContextDeny addmission controller is not enabled. This could allow for privilege escalation in the cluster", 
 		"alertScore": 2,
+		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
 		"packagename": "armo_builtins",

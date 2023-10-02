@@ -48,6 +48,7 @@ deny[msga] {
     "alertMessage": sprintf("pod '%v' exposed with critical vulnerabilities", [pod.metadata.name]),
     "packagename": "armo_builtins",
     "alertScore": 7,
+		"reviewPaths": [path],
    "failedPaths": [path],
     "fixPaths": [],
     "alertObject": {

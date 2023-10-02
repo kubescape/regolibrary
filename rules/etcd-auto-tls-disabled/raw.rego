@@ -12,6 +12,7 @@ deny[msga] {
 		"alertMessage": "Auto tls is enabled. Clients are able to use self-signed certificates for TLS.",
 		"alertScore": 6,
 		"packagename": "armo_builtins",
+		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
 		"alertObject": {"k8sApiObjects": [obj]},

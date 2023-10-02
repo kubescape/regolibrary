@@ -10,6 +10,7 @@ deny[msg] {
 	msg := {
 		"alertMessage": "the kube scheduler is not bound to a localhost interface only",
 		"alertScore": 2,
+		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
 		"packagename": "armo_builtins",

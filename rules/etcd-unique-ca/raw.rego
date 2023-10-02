@@ -16,6 +16,7 @@ deny[msga] {
 		"alertMessage": "Cert file is the same both for the api server and the etcd",
 		"alertScore": 8,
 		"packagename": "armo_builtins",
+		"reviewPaths": [etcdCheckResult.path, apiserverCheckResult.path],
 		"failedPaths": [etcdCheckResult.path, apiserverCheckResult.path],
 		"fixPaths": [etcdCheckResult.fix_paths, apiserverCheckResult.fix_paths],
 		"alertObject": {"k8sApiObjects": [etcdPod[0], apiserverPod[0]]},

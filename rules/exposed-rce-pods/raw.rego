@@ -47,6 +47,7 @@ deny[msga] {
     "alertMessage": sprintf("pod '%v' exposed with rce vulnerability", [pod.metadata.name]),
     "packagename": "armo_builtins",
     "alertScore": 8,
+		"reviewPaths": [path],
    "failedPaths": [path],
     "fixPaths": [],
     "alertObject": {
