@@ -1,44 +1,60 @@
-# Description: 
-# This script is used to generate a markdown file for each control in the `controls` folder and the generated markdown files are placed into the `docs/` directory. 
+"""
+This script is used to generate a markdown file for each control in the `controls` folder. 
+The generated markdown files are placed into the `docs/controls` directory. 
+Each markdown file contains detailed information about a control, 
+such as its severity, description, related resources, test, remediation, and example. 
+"""
 
 import os
 import json
 
+# Function to ignore certain frameworks based on their names
 def ignore_framework(framework_name: str):
     return framework_name == 'YAML-scanning' or framework_name.startswith('developer')
 
+# Function to get the frameworks a given control conforms to
 def get_frameworks_for_control(control):
     r = []
+    # Loop through all the json files in the 'frameworks' directory
     for frameworks_json_file_name in filter(lambda fn: fn.endswith('.json'),os.listdir('frameworks')):
         framework = json.load(open(os.path.join('frameworks',frameworks_json_file_name)))
         if ignore_framework(framework['name']):
             continue
     
+        # Under the active controls the framework has, check if the given control is one of them
         if "activeControls" in framework:
             for activeControl in framework["activeControls"]:
                 if control['controlID'].lower() == activeControl["controlID"].lower():
                     r.append(framework['name'])
     return r
 
+# Function to create a markdown text for a given control
 def create_md_for_control(control):
     related_resources = set()
     control_config_input = {}
     host_sensor = False
     cloud_control = False
+
+    # Loop through all the rules of the control
     for rule_obj in control['rules']:
+        # If the rule has a 'match' field, add its resources to the related resources
         if 'match' in rule_obj:
             for match_obj in rule_obj['match']:
                 if 'resources' in match_obj:
                     related_resources.update(set(match_obj['resources']))
+        # If the rule has a 'controlConfigInputs' field, add its configuration to the control configuration input
         if 'controlConfigInputs' in rule_obj:
             for control_config in rule_obj['controlConfigInputs']:
                 control_config_input[control_config['path']] = control_config
+        # If the rule has a 'attributes' field and it contains 'hostSensorRule', set host_sensor to True
         if 'attributes' in rule_obj:
             if 'hostSensorRule' in rule_obj['attributes']:
                 host_sensor = True
+        # If the rule has a 'relevantCloudProviders' field and it is not empty, set cloud_control to True
         if 'relevantCloudProviders' in rule_obj:
             cloud_control = len(rule_obj['relevantCloudProviders']) > 0
 
+    # Start creating the markdown text
     md_text = ''
     if host_sensor:
         md_text += '## Prerequisites\n *Run Kubescape with host sensor (see [here](https://hub.armo.cloud/docs/host-sensor))*\n \n'
@@ -91,9 +107,11 @@ def create_md_for_control(control):
         md_text += 'No example\n'
     return md_text
 
+# Function to generate a slug for a given control
 def generate_slug(control):
     return control['controlID'].lower().replace(".", "-")
 
+# Function to fetch and obtain the control's configuration parameters information
 def get_configuration_parameters_info():
     default_config_inputs = None
     with open('default-config-inputs.json','r') as f:
@@ -119,6 +137,7 @@ def get_configuration_parameters_info():
         
     return config_parameters, default_config_inputs
 
+# Function to convert a control id to a doc order
 def convert_control_id_to_doc_order(control_id: str) -> int:
     """get a control_id and returns it's expected order in docs.
     control_id is expected to either have "c-" or "cis-" prefix, otherwise raises an error.
@@ -144,8 +163,7 @@ def convert_control_id_to_doc_order(control_id: str) -> int:
 
     raise Exception(f"control_id structure unknown {control_id}")
 
-
-
+# Function to convert a dotted section to an int
 def convert_dotted_section_to_int(subsection_id : str, 
                                   subsection_digits : int = 2, 
                                   n_subsections : int = 3) -> int:
@@ -201,7 +219,7 @@ def convert_dotted_section_to_int(subsection_id : str,
         
     return int(res)
 
-            
+# Function to find inactive controls in docs
 def find_inactive_controls_in_docs(list_docs : list, list_active: list) -> list:
     """returns a list of controls that doesn't exist in rego but exit in docs.
 
@@ -289,5 +307,6 @@ def main():
 
         print('created or updated %s' % md_file_path)
 
+# Run the main function if the script is run as a standalone program
 if __name__ == '__main__':
     main()
