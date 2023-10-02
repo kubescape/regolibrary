@@ -9,6 +9,7 @@ deny[msg] {
 	msg := {
 		"alertMessage": "--use-service-account-credentials is set to false in the controller manager",
 		"alertScore": 2,
+		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
 		"packagename": "armo_builtins",

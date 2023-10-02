@@ -9,6 +9,7 @@ deny[msg] {
 	msg := {
 		"alertMessage": "profiling is enabled. This could potentially be exploited to uncover system and program details.",
 		"alertScore": 2,
+		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
 		"packagename": "armo_builtins",

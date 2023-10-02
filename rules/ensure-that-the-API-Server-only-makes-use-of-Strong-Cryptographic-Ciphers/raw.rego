@@ -32,6 +32,7 @@ deny[msg] {
 	msg := {
 		"alertMessage": "The API server is not configured to use strong cryptographic ciphers",
 		"alertScore": 2,
+		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
 		"packagename": "armo_builtins",
