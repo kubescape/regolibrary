@@ -58,7 +58,7 @@
     {
       "path": "settings.postureControlInputs.servicesNames",
       "name": "Service names",
-      "description": "Kubescape will look for the following services that exposes sensitive interfaces of common K8s projects/applications"
+      "description": "List of services relating to known software interfaces that should not generally be exposed to the Internet."
     }
   ],
   "description": "fails if known interfaces have exposed services",

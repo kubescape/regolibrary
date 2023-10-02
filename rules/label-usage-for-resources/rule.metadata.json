@@ -51,7 +51,7 @@
       {
         "path": "settings.postureControlInputs.recommendedLabels",
         "name": "Recommended Labels",
-        "description": "Kubescape checks that workloads have at least one of the following labels."
+        "description": "Kubescape checks that workloads have at least one label that identifies semantic attributes."
       }
     ],
     "description": "check if a certain set of labels is defined, this is a configurable control. Initial list: app, tier, phase, version, owner, env.",

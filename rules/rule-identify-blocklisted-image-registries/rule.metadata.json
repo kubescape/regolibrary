@@ -54,12 +54,12 @@
     {
       "path": "settings.postureControlInputs.publicRegistries",
       "name": "Public registries",
-      "description": "Kubescape checks none of these public registries are in use."
+      "description": "Kubescape checks none of these public container registries are in use."
     },
     {
       "path": "settings.postureControlInputs.untrustedRegistries",
       "name": "Registries block list",
-      "description": "Kubescape checks none of the following registries are in use."
+      "description": "Kubescape checks none of these user-provided container registries are in use."
     }
   ],
   "description": "Identifying if pod container images are from unallowed registries",
