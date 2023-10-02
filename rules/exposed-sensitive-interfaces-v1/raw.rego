@@ -31,6 +31,7 @@ deny[msga] {
 		"alertMessage": sprintf("service: %v is exposed", [service.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": result,
 		"failedPaths": result,
 		"fixPaths":[],
 		"alertObject": {
@@ -68,6 +69,7 @@ deny[msga] {
 		"alertMessage": sprintf("service: %v is exposed", [service.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": result,
 		"failedPaths": result,
 		"fixPaths":[],
 		"alertObject": {
@@ -105,6 +107,7 @@ deny[msga] {
 		"alertMessage": sprintf("service: %v is exposed", [service.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": result,
 		"failedPaths": result,
 		"fixPaths":[],
 		"alertObject": {

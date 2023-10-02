@@ -9,6 +9,7 @@ deny[msg] {
 	msg := {
 		"alertMessage": "the secure port is disabled",
 		"alertScore": 2,
+		"reviewPaths": [sprintf("spec.containers[0].command[%v]", [i])],
 		"failedPaths": [sprintf("spec.containers[0].command[%v]", [i])],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

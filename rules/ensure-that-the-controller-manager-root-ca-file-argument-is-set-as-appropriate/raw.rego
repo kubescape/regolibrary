@@ -9,6 +9,7 @@ deny[msg] {
 	msg := {
 		"alertMessage": "the controller manager is not configured to inject the trusted ca.crt file into pods so that they can verify TLS connections to the API server",
 		"alertScore": 2,
+		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
 		"packagename": "armo_builtins",

@@ -73,6 +73,7 @@ deny[msga] {
     	"alertMessage": "Ingress object has 'spec.tls' value not set.",
     	"packagename": "armo_builtins",
     	"alertScore": 7,
+		"reviewPaths": ["spec.tls"],
     	"failedPaths": ["spec.tls"],
     	"fixPaths":[],
     	"alertObject": {

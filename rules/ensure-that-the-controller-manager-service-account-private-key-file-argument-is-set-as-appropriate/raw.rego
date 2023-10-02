@@ -9,6 +9,7 @@ deny[msg] {
 	msg := {
 		"alertMessage": "service account token can not be rotated as needed",
 		"alertScore": 2,
+		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
 		"packagename": "armo_builtins",
