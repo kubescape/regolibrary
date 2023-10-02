@@ -9,7 +9,7 @@
             "compliance"
         ]
     },
-    "description": "Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a POD in the cluster. This control lists all the CronJobs that exist in the cluster for the user to approve.",
+    "description": "Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a pod in the cluster. This control lists all the CronJobs that exist in the cluster for the user to approve.",
     "remediation": "Watch Kubernetes CronJobs and make sure they are legitimate.",
     "rulesNames": [
         "rule-deny-cronjobs"

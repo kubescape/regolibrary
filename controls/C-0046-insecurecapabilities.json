@@ -16,7 +16,7 @@
             }
         ]
     },
-    "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the PODs with dangerous capabilities (see documentation pages for details).",
+    "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the pods with dangerous capabilities (see documentation pages for details).",
     "remediation": "Remove all insecure capabilities which are not necessary for the container.",
     "rulesNames": [
         "insecure-capabilities"

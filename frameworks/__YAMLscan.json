@@ -51,7 +51,7 @@
         "Sudo in container entrypoint",
         "Portforwarding privileges",
         "No impersonation",
-        "Naked PODs",
+        "Naked pods",
         "Container runtime socket mounted",
         "Image pull policy on latest tag",
         "Label usage for resources",
