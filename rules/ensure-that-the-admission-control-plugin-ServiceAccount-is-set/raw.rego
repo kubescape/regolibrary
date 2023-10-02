@@ -9,6 +9,7 @@ deny[msg] {
 	msg := {
 		"alertMessage": "admission control plugin AlwaysAdmit is enabled. This is equal to turning off all admission controllers",
 		"alertScore": 2,
+		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
 		"packagename": "armo_builtins",

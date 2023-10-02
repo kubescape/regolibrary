@@ -9,6 +9,7 @@ deny[msg] {
 	msg := {
 		"alertMessage": "anonymous requests is enabled",
 		"alertScore": 2,
+		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
 		"packagename": "armo_builtins",
