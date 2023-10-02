@@ -10,6 +10,7 @@ deny[msga] {
 		"alertMessage": "Etcd server is not requiring a valid client certificate.",
 		"alertScore": 7,
 		"packagename": "armo_builtins",
+		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
 		"alertObject": {"k8sApiObjects": [obj]},
