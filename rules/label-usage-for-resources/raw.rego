@@ -84,19 +84,19 @@ no_label_usage(wl, podSpec, beggining_of_pod_path) = path{
 
 no_label_or_no_label_usage(wl, beggining_of_path) = path{
 	not wl.metadata
-	path = [{"path": sprintf("%vmetadata.labels", [beggining_of_path]), "value": "YOUR_VALUE"}]
+	path = [{"path": sprintf("%vmetadata.labels.YOUR_KEY", [beggining_of_path]), "value": "YOUR_VALUE"}]
 }
 
 no_label_or_no_label_usage(wl, beggining_of_path) = path{
 	metadata := wl.metadata
 	not metadata.labels
-	path = [{"path": sprintf("%vmetadata.labels", [beggining_of_path]), "value": "YOUR_VALUE"}]
+	path = [{"path": sprintf("%vmetadata.labels.YOUR_KEY", [beggining_of_path]), "value": "YOUR_VALUE"}]
 }
 
 no_label_or_no_label_usage(wl, beggining_of_path) = path{
 	labels := wl.metadata.labels
 	not is_desired_label(labels)
-	path = [{"path": sprintf("%vmetadata.labels", [beggining_of_path]), "value": "YOUR_VALUE"}]
+	path = [{"path": sprintf("%vmetadata.labels.YOUR_KEY", [beggining_of_path]), "value": "YOUR_VALUE"}]
 }
 
 is_desired_label(labels) {
