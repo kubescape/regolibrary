@@ -2,10 +2,10 @@
     "alertMessage": "the following cronjobs a certain set of labels is not defined: hello",
     "failedPaths": [],
     "fixPaths": [{
-        "path": "metadata.labels",
+        "path": "metadata.labels.YOUR_KEY",
         "value": "YOUR_VALUE"
     }, {
-        "path": "spec.jobTemplate.spec.template.metadata.labels",
+        "path": "spec.jobTemplate.spec.template.metadata.labels.YOUR_KEY",
         "value": "YOUR_VALUE"
     }],
     "ruleStatus": "",

@@ -2,7 +2,7 @@
     "alertMessage": "in the following pods a certain set of labels is not defined: command-demo",
     "failedPaths": [],
     "fixPaths": [{
-        "path": "metadata.labels",
+        "path": "metadata.labels.YOUR_KEY",
         "value": "YOUR_VALUE"
     }],
     "ruleStatus": "",
