@@ -72,27 +72,27 @@ def create_md_for_control(control):
     md_text += '## Description of the the issue\n'
     description = control['long_description'] if 'long_description' in control else control['description']
     if len(control_config_input):
-        description += 'Note, this control is configurable. See below the details.'
+        description += ' Note, [this control is configurable](##configuration).'
     md_text += description + '\n \n'
     if related_resources:
         md_text += '## Related resources\n'
         md_text += ', '.join(sorted(list(related_resources))) + '\n \n'
         
-    md_text += '## What does this control test\n'
+    md_text += '## What this control tests \n'
     test = control['test'] if 'test' in control else control['description']
     md_text += test + '\n \n'
 
     if 'manual_test' in control:
-        md_text += '## How to check it manually\n'
+        md_text += '## How to check it manually \n'
         manual_test = control['manual_test'] 
-        md_text += manual_test + '\n'
+        md_text += manual_test + '\n \n'
 
     md_text += '## Remediation\n'
     md_text += control['remediation'] + '\n \n'
     if 'impact_statement' in control:
-        md_text += '### Impact Statement\n' + control['impact_statement'] + '\n'
+        md_text += '### Impact Statement\n' + control['impact_statement'] + '\n \n'
     if 'default_value' in control:
-        md_text += '### Default Value\n' + control['default_value'] + '\n'
+        md_text += '### Default Value\n' + control['default_value'] + '\n \n'
 
     if len(control_config_input):
         configuration_text = '## Configuration\n This control can be configured using the following parameters. Read CLI/UI documentation about how to change parameters.\n \n'
