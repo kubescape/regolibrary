@@ -54,7 +54,7 @@
         {
       "path": "settings.postureControlInputs.trustedCosignPublicKeys",
       "name": "Trusted Cosign public keys",
-      "description": "Trusted Cosign public keys"
+      "description": "A list of trusted Cosign public keys that are used for validating container image signatures."
     }
       ]
   }

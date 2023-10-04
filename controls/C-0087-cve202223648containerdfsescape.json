@@ -6,7 +6,7 @@
             "security"
         ]
     },
-    "description": "CVE-2022-23648 is a vulnerability of containerd enabling attacker to gain access to read-only copies of arbitrary files from the host using aspecially-crafted POD configuration yamls",
+    "description": "CVE-2022-23648 is a vulnerability of containerd enabling attacker to gain access to read-only copies of arbitrary files from the host using specially-crafted manifests",
     "remediation": "Patch containerd to 1.6.1, 1.5.10, 1.4.12  or above",
     "rulesNames": [
         "CVE-2022-23648"

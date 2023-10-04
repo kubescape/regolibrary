@@ -51,7 +51,7 @@
     {
       "path": "settings.postureControlInputs.insecureCapabilities",
       "name": "Insecure capabilities",
-      "description": "You can see the list of capabilities in https://man7.org/linux/man-pages/man7/capabilities.7.html. Kubescape looks for the following capabilities in containers which might lead to attackers getting high privileges in your system."
+      "description": "Kubescape looks for these capabilities in containers, which might lead to attackers getting elevated privileges in your cluster. You can see the full list of possible capabilities at https://man7.org/linux/man-pages/man7/capabilities.7.html."
     }
   ],
   "description": "fails if container has insecure capabilities",

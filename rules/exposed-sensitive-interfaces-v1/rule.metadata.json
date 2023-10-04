@@ -58,7 +58,7 @@
     {
       "path": "settings.postureControlInputs.sensitiveInterfaces",
       "name": "Sensitive interfaces",
-      "description": "The following interfaces were seen exploited. Kubescape checks it they are externally exposed."
+      "description": "List of known software interfaces that should not generally be exposed to the Internet."
     }
   ],
   "description": "fails if known interfaces have exposed services",
