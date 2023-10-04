@@ -53,7 +53,7 @@
     {
       "path": "settings.postureControlInputs.imageRepositoryAllowList",
       "name": "Allowed image repositories",
-      "description": "Kubescape checks that all the containers are using images from the allowed repositories provided in the following list."
+      "description": "Kubescape checks that all container images are from repositories explicitly allowed in this list."
     }
   ],
   "description": "Fails if image is not from allowed repository",

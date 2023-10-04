@@ -54,17 +54,17 @@
     {
       "path": "settings.postureControlInputs.sensitiveValues",
       "name": "Values",
-      "description": "Secrets are stored as a key/value pair. The names of the keys/values may change from one company to the other. Below you can find some examples of popular value phrases that Kubescape is searching for"
+      "description": "Strings that identify a value that Kubescape believes should be stored in a Secret, and not in a ConfigMap or an environment variable."
     },
     {
       "path": "settings.postureControlInputs.sensitiveKeyNames",
       "name": "Keys",
-      "description": "Secrets are stored as a key/value pair. The names of the keys/values may change from one company to the other. Here you can find some examples of popular key phrases that Kubescape is searching for"
+      "description": "Key names that identify a potential value that should be stored in a Secret, and not in a ConfigMap or an environment variable."
     },
     {
       "path":  "settings.postureControlInputs.sensitiveValuesAllowed",
       "name": "AllowedValues",
-      "description": "Allowed values"
+      "description": "Explicitly allowed values, which will override sensitiveValues."
     }
   ],
   "description": "fails if Pods have sensitive information in configuration",
