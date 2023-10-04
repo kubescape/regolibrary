@@ -103,11 +103,9 @@ def create_md_for_control(control):
             configuration_text += control_config['description'] + '\n \n'
         md_text += configuration_text
 
-    md_text += '## Example\n'
-    if 'example' in control:
+    if 'example' in control and control['example'].strip():
+        md_text += '## Example\n'
         md_text += '```\n' + control['example'] + '\n```' + '\n'
-    else:
-        md_text += 'No example\n'
     return md_text
 
 # Function to generate a slug for a given control
