@@ -55,22 +55,22 @@
     {
       "path": "settings.postureControlInputs.memory_request_max",
       "name": "memory_request_max",
-      "description": "Ensure memory max requests are set"
+      "description": "Ensure a memory resource request is set and is under this defined maximum value."
     },
     {
       "path": "settings.postureControlInputs.memory_request_min",
       "name": "memory_request_min",
-      "description": "Ensure memory min requests are set"
+      "description": "Ensure a memory resource request is set and is above this defined minimum value."
     },
     {
       "path": "settings.postureControlInputs.memory_limit_max",
       "name": "memory_limit_max",
-      "description": "Ensure memory max limits are set"
+      "description": "Ensure a memory resource limit is set and is under this defined maximum value."
     },
     {
       "path": "settings.postureControlInputs.memory_limit_min",
       "name": "memory_limit_min",
-      "description": "Ensure memory min limits are set"
+      "description": "Ensure a memory resource limit is set and is under this defined maximum value."
     }
   ],
   "description": "memory limits and requests are not set.",
