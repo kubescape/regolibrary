@@ -73,9 +73,10 @@ def create_md_for_control(control):
     if len(control_config_input):
         description += 'Note, this control is configurable. See below the details.'
     md_text += description + '\n \n'
-    md_text += '## Related resources\n'
-
-    md_text += ', '.join(sorted(list(related_resources))) + '\n \n'
+    if related_resources:
+        md_text += '## Related resources\n'
+        md_text += ', '.join(sorted(list(related_resources))) + '\n \n'
+        
     md_text += '## What does this control test\n'
     test = control['test'] if 'test' in control else control['description']
     md_text += test + '\n \n'
