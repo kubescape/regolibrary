@@ -6,12 +6,12 @@
             "devops"
         ]
     },
-    "description": "Mounting Container runtime socket (Unix socket) enables container to access Container runtime, retrieve sensitive information and execute commands, if Container runtime is available. This control identifies PODs that attempt to mount Container runtime socket for accessing Container runtime.",
+    "description": "Mounting Container runtime socket (Unix socket) enables container to access Container runtime, retrieve sensitive information and execute commands, if Container runtime is available. This control identifies pods that attempt to mount Container runtime socket for accessing Container runtime.",
     "remediation": "Remove container runtime socket mount request or define an exception.",
     "rulesNames": [
         "containers-mounting-docker-socket"
     ],
-    "long_description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies PODs that attempt to mount Docker socket for accessing Docker runtime.",
+    "long_description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies pods that attempt to mount Docker socket for accessing Docker runtime.",
     "test": "Check hostpath. If the path is set to one of the container runtime socket, the container has access to container runtime - fail.",
     "controlID": "C-0074",
     "baseScore": 5.0,

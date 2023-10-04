@@ -6,7 +6,7 @@
             "compliance"
         ]
     },
-    "description": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new PODs, and then enable sources/destinations that this POD must communicate with.",
+    "description": "Disable Ingress and Egress traffic on all pods wherever possible. It is recommended to define restrictive network policy on all new pods, and then enable sources/destinations that this pod must communicate with.",
     "remediation": "Define a network policy that restricts ingress and egress connections.",
     "rulesNames": [
         "ingress-and-egress-blocked"

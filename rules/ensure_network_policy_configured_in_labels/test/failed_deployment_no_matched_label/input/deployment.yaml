@@ -8,11 +8,11 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: my-app  # Used to select the Pods the Deployment should manage
+      app: my-app  # Used to select the pods the Deployment should manage
   template:
     metadata:
       labels:
-        app: my-app  # Labels for the Pods created by the Deployment
+        app: my-app  # Labels for the pods created by the Deployment
     spec:
       containers:
       - name: my-app

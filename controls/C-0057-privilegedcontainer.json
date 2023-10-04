@@ -16,7 +16,7 @@
         "rule-privilege-escalation"
     ],
     "long_description": "A privileged container is a container that has all the capabilities of the host machine, which lifts all the limitations regular containers have. Practically, this means that privileged containers can do almost every action that can be performed directly on the host. Attackers who gain access to a privileged container or have permissions to create a new privileged container (by using the compromised pod\u2019s service account, for example), can get access to the host\u2019s resources.",
-    "test": "Check in POD spec if securityContext.privileged == true, if so raise an alert.",
+    "test": "Check in Pod spec if securityContext.privileged == true, if so raise an alert.",
     "controlID": "C-0057",
     "baseScore": 8.0,
     "category": {
