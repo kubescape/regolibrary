@@ -7,7 +7,7 @@
         ]
     },
     "description": "Container images with known critical vulnerabilities pose elevated risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if either LoadBalancer or NodePort service is assigned to them.",
-    "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the POD to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
+    "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the pod to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
     "rulesNames": [
         "exposed-critical-pods"
     ],

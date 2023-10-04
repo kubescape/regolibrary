@@ -7,12 +7,12 @@
             "compliance"
         ]
     },
-    "description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their POD has either LoadBalancer or NodePort service.",
-    "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the POD to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
+    "description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their pod has either LoadBalancer or NodePort service.",
+    "remediation": "Either update the container image to fix the vulnerabilities (if such fix is available) or reassess if this workload must be exposed to the outseide traffic. If no fix is available, consider periodic restart of the pod to minimize the risk of persistant intrusion. Use exception mechanism if you don't want to see this report again.",
     "rulesNames": [
         "exposed-rce-pods"
     ],
-    "long_description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their POD has either LoadBalancer or NodePort service.",
+    "long_description": "Container images with known Remote Code Execution (RCE) vulnerabilities pose significantly higher risk if they are exposed to the external traffic. This control lists all images with such vulnerabilities if their pod has either LoadBalancer or NodePort service.",
     "test": "This control enumerates external facing workloads, that have LoadBalancer or NodePort service and checks the image vulnerability information for the RCE vulnerability.",
     "controlID": "C-0084",
     "baseScore": 8.0,
