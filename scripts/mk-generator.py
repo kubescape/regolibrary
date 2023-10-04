@@ -62,8 +62,9 @@ def create_md_for_control(control):
         md_text += '## Prerequisites\n *Run Kubescape with host sensor (see [here](https://hub.armo.cloud/docs/host-sensor))*\n \n'
     if cloud_control:
         md_text += '## Prerequisites\n *Integrate with cloud provider (see [here](https://hub.armosec.io/docs/kubescape-integration-with-cloud-providers))*\n \n'
-    md_text += '## Framework\n'
-    md_text += ', '.join(get_frameworks_for_control(control)) + '\n \n'
+    frameworks = get_frameworks_for_control(control)
+    md_text += '## Framework%s\n' % ('s' if len(frameworks) > 1 else '')
+    md_text += '\n'.join(['* ' + framework for framework in frameworks]) + '\n \n'
     md_text += '## Severity\n'
     # severity map: https://github.com/kubescape/opa-utils/blob/master/reporthandling/apis/severity.go#L34
     severity_map = {1:'Low',2:'Low',3:'Low',4:'Medium',5:'Medium',6:'Medium',7:'High',8:'High',9:'Critical',10:'Critical'}
