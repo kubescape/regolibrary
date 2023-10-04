@@ -56,6 +56,8 @@ def create_md_for_control(control):
 
     # Start creating the markdown text
     md_text = ''
+    md_text += '# %s - %s\n' % (control['controlID'], control['name']) + '\n'
+    
     if host_sensor:
         md_text += '## Prerequisites\n *Run Kubescape with host sensor (see [here](https://hub.armo.cloud/docs/host-sensor))*\n \n'
     if cloud_control:
