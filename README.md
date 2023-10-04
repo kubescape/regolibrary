@@ -137,7 +137,7 @@ Example of rule.metadata.json:
       {
         "path": "settings.postureControlInputs.cpu_request_max",
         "name": "cpu_request_max",
-        "description": "Ensure CPU max requests are set"
+        "description": "Ensure a CPU resource request is set and is under this defined maximum value."
       }
     ],
     "description": "CPU limits and requests are not set.",
