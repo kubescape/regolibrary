@@ -1,5 +1,6 @@
 package armo_builtins
 
+# regal ignore:rule-length
 deny[msga] {
   services := [ x | x = input[_]; x.kind == "Service" ]
   pods     := [ x | x = input[_]; x.kind == "Pod" ]
@@ -9,8 +10,8 @@ deny[msga] {
   service := services[_]
   vuln    := vulns[_]
 
-  # vuln data is relevant 
-  count(vuln.data) > 0 
+  # vuln data is relevant
+  count(vuln.data) > 0
 
   # service is external-facing
   filter_external_access(service)
@@ -22,7 +23,7 @@ deny[msga] {
   container := pod.spec.containers[i]
 
   # image has vulnerabilities
-  
+
   container.image == vuln.metadata.name
 
   # At least one critical vulnerabilities
@@ -37,7 +38,7 @@ deny[msga] {
     "namespace": pod.metadata.namespace
   }
 
-  external_objects = { 
+  external_objects = {
     "apiVersion": "result.vulnscan.com/v1",
     "kind": pod.kind,
     "metadata": metadata,

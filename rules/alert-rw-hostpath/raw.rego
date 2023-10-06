@@ -31,7 +31,7 @@ deny[msga] {
 	}
 }
 
-#handles majority of workload resources
+# handles majority of workload resources
 deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
@@ -57,11 +57,11 @@ deny[msga] {
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
-	
+
 	}
 }
 
-#handles CronJobs
+# handles CronJobs
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
@@ -73,7 +73,7 @@ deny[msga] {
 	volume_mount := container.volumeMounts[k]
 	volume_mount.name == volume.name
 	beggining_of_path := "spec.jobTemplate.spec.template.spec."
-	result := is_rw_mount(volume_mount, beggining_of_path,  i, k) 
+	result := is_rw_mount(volume_mount, beggining_of_path,  i, k)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
 
@@ -112,4 +112,4 @@ is_rw_mount(mount, beggining_of_path,  i, k) =  [failed_path, fix_path] {
   	mount.readOnly == false
   	failed_path = sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [beggining_of_path, format_int(i, 10), format_int(k, 10)])
     fix_path = ""
-} 
+}

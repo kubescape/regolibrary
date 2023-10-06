@@ -3,6 +3,7 @@ package armo_builtins
 import future.keywords.in
 
 # returns subjects with cluster admin role
+# regal ignore:rule-length
 deny[msga] {
 	subjectVector := input[_]
 
