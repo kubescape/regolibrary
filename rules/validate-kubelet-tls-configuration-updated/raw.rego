@@ -1,6 +1,6 @@
 package armo_builtins
 
-#CIS 4.2.10 https://workbench.cisecurity.org/sections/1126668/recommendations/1838657
+# CIS 4.2.10 https://workbench.cisecurity.org/sections/1126668/recommendations/1838657
 
 deny[msga] {
 	obj := input[_]
@@ -73,7 +73,7 @@ deny[msga] {
 	res := not_set_arguments(command)
 	count(res) == 1
 
-	#get yaml config equivalent
+	# get yaml config equivalent
 	not_set_prop := res[0].configProp
 
 	failed_args := extract_failed_object(res, "cliArg")

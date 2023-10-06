@@ -2,7 +2,7 @@ package armo_builtins
 
 import future.keywords.in
 
-#CIS 4.2.9 https://workbench.cisecurity.org/sections/1126668/recommendations/1838656
+# CIS 4.2.9 https://workbench.cisecurity.org/sections/1126668/recommendations/1838656
 
 # if --event-qps is present rule should pass
 deny[msga] {

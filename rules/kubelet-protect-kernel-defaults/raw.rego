@@ -2,7 +2,7 @@ package armo_builtins
 
 import future.keywords.in
 
-#CIS 4.2.6 https://workbench.cisecurity.org/sections/1126668/recommendations/1838648
+# CIS 4.2.6 https://workbench.cisecurity.org/sections/1126668/recommendations/1838648
 
 deny[msga] {
 	obj := input[_]
