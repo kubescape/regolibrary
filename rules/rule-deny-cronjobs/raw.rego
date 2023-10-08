@@ -2,7 +2,7 @@ package armo_builtins
 
 # alert cronjobs
 
-#handles cronjob
+# handles cronjob
 deny[msga] {
 
 	wl := input[_]

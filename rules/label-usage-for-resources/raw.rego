@@ -42,7 +42,7 @@ deny[msga] {
      }
 }
 
-#handles cronjob
+# handles cronjob
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
@@ -69,7 +69,7 @@ no_label_usage(wl, podSpec, beggining_of_pod_path) = path{
 	path2 := no_label_or_no_label_usage(podSpec, beggining_of_pod_path)
 	path = array.concat(path1, path2)
 }
- 
+
 # There is label-usage for WL but not for his Pod
 no_label_usage(wl, podSpec, beggining_of_pod_path) = path{
 	not no_label_or_no_label_usage(wl, "")

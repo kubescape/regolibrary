@@ -27,7 +27,7 @@ jobs:
         with:
           use-verbose-mode: 'yes'
 
-  # main job of testing and building the env. 
+  # main job of testing and building the env.
   test_pr_checks:
     # needs: [markdown-link-check]
     permissions:
@@ -42,10 +42,10 @@ jobs:
 #     needs: [test_pr_checks]
 #     uses: kubescape/workflows/.github/workflows/coverage-check.yaml@main
 #     if: |
-#       ${{ (always() && 
-#       (contains(needs.*.result, 'success')) && 
-#       !(contains(needs.*.result, 'skipped')) && 
-#       !(contains(needs.*.result, 'failure')) && 
+#       ${{ (always() &&
+#       (contains(needs.*.result, 'success')) &&
+#       !(contains(needs.*.result, 'skipped')) &&
+#       !(contains(needs.*.result, 'failure')) &&
 #       !(contains(needs.*.result, 'cancelled'))) }}
 #     with:
 #       COVERAGELIMIT: "58"
@@ -70,7 +70,7 @@ jobs:
         name: checkout repo content
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-        
+
       # Test using Golang OPA hot rule compilation
       - name: Set up Go
         uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568
@@ -84,12 +84,20 @@ jobs:
           apt update && apt install -y cmake
           GOPATH=$(go env GOPATH) make
 
+      - name: Set up Regal
+        uses: StyraInc/setup-regal@v0.1.0
+        with:
+          version: v0.10.1
+
+      - name: Lint Rego
+        run: regal lint --format github rules
+
       - name: setup python
         uses: actions/setup-python@v4
         with:
           python-version: 3.10.6
 
-      # validate control-ID duplications 
+      # validate control-ID duplications
       - run: python ./scripts/validations.py
 
       # generating subsections ids
@@ -117,7 +125,7 @@ jobs:
           path: ${{ env.REGO_ARTIFACT_PATH }}/
           if-no-files-found: error
 
-  # test kubescape with regolibrary artifacts 
+  # test kubescape with regolibrary artifacts
   ks-and-rego-test:
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     if: |
@@ -145,7 +153,7 @@ jobs:
                       ]'
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
     secrets: inherit
-  
+
   clean-up:
     name: Remove pre-release folder and clean up
     runs-on: ubuntu-latest
