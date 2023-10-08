@@ -19,6 +19,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("PodSecurityPolicy: '%v' permits containers to run as the root user.", [psp.metadata.name]),
 		"packagename": "armo_builtins",
+		"deletePaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [psp]},

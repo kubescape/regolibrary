@@ -15,6 +15,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in pod: %v  allow privilege escalation", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": failed_path,
 		"failedPaths": failed_path,
 		"fixPaths": fixed_path,
 		"alertObject": {
@@ -39,6 +40,7 @@ deny[msga] {
 		"alertMessage": sprintf("container :%v in %v: %v  allow privilege escalation", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": failed_path,
 		"failedPaths": failed_path,
 		"fixPaths": fixed_path,
 		"alertObject": {
@@ -62,6 +64,7 @@ deny[msga] {
 		"alertMessage": sprintf("container :%v in %v: %v allow privilege escalation", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": failed_path,
 		"failedPaths": failed_path,
 		"fixPaths": fixed_path,
 		"alertObject": {

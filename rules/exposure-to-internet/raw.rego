@@ -22,6 +22,7 @@ deny[msga] {
         },
         "relatedObjects": [{
             "object": service,
+		    "reviewPaths": failPath,
             "failedPaths": failPath,
         }]
     }
@@ -56,6 +57,7 @@ deny[msga] {
         },
         "relatedObjects": [{
             "object": ingress,
+		    "reviewPaths": result,
             "failedPaths": result,
         }]
     }

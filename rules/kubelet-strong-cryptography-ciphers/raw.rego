@@ -44,6 +44,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Kubelet is not configured to only use strong cryptographic ciphers",
 		"alertScore": 5,
+		"reviewPaths": ["TLSCipherSuites"],
 		"failedPaths": ["TLSCipherSuites"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

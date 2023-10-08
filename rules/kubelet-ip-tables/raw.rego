@@ -41,6 +41,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Property makeIPTablesUtilChains is not set to true",
 		"alertScore": 3,
+		"reviewPaths": ["makeIPTablesUtilChains"],
 		"failedPaths": ["makeIPTablesUtilChains"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

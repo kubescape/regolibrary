@@ -17,6 +17,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in pod: %v  may run as root", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": failed_path,
 		"failedPaths": failed_path,
         "fixPaths": fixPath,
 		"alertObject": {
@@ -40,6 +41,7 @@ deny[msga] {
 		"alertMessage": sprintf("container :%v in %v: %v may run as root", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": failed_path,
 		"failedPaths": failed_path,
         "fixPaths": fixPath,
 		"alertObject": {
@@ -64,6 +66,7 @@ deny[msga] {
 		"alertMessage": sprintf("container :%v in %v: %v  may run as root", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": failed_path,
 		"failedPaths": failed_path,
         "fixPaths": fixPath,
 		"alertObject": {

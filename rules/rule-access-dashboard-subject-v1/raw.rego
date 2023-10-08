@@ -19,6 +19,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("Subject: %v-%v is bound to dashboard role/clusterrole", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 9,
+		"reviewPaths": finalpath,
 		"failedPaths": finalpath,
 		"fixPaths": [],
 		"packagename": "armo_builtins",

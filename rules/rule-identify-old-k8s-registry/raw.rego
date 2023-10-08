@@ -15,6 +15,7 @@ deprecatedK8sRepo[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 2,
 		"fixPaths": [],
+		"reviewPaths": [path],
 		"failedPaths": [path],
          "alertObject": {
 			"k8sApiObjects": [pod]
@@ -37,6 +38,7 @@ deprecatedK8sRepo[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 2,
 		"fixPaths": [],
+		"reviewPaths": [path],
 		"failedPaths": [path],
          "alertObject": {
 			"k8sApiObjects": [wl]
@@ -58,6 +60,7 @@ deprecatedK8sRepo[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 2,
 		"fixPaths": [],
+		"reviewPaths": [path],
 		"failedPaths": [path],
         "alertObject": {
 			"k8sApiObjects": [wl]

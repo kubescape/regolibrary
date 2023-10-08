@@ -41,6 +41,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Kubelet client certificates rotation is disabled",
 		"alertScore": 6,
+		"reviewPaths": ["rotateCertificates"],
 		"failedPaths": ["rotateCertificates"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
