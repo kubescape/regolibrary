@@ -3,7 +3,7 @@ package armo_builtins
 import data.cautils
 
 # fails if user can delete events
-#RoleBinding to Role
+# RoleBinding to Role
 deny [msga] {
     roles := [role |  role= input[_]; role.kind == "Role"]
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
@@ -36,7 +36,7 @@ deny [msga] {
 
 
 # fails if user can delete events
-#RoleBinding to ClusterRole
+# RoleBinding to ClusterRole
 deny[msga] {
     roles := [role |  role= input[_]; role.kind == "ClusterRole"]
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]

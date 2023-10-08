@@ -129,7 +129,7 @@
         {
             "controlID": "C-0066",
             "patch": {
-                "name": "Secret/ETCD encryption enabled"
+                "name": "Secret/etcd encryption enabled"
             }
         },
         {

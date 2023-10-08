@@ -13,7 +13,7 @@
         "psp-enabled-cloud",
         "psp-enabled-native"
     ],
-    "long_description": "Pod Security Policies enable fine-grained authorization of pod creation and updates and it extends authorization  beyond RBAC. It is an important to use PSP to control the creation of sensitive PODs in your cluster.",
+    "long_description": "Pod Security Policies enable fine-grained authorization of pod creation and updates and it extends authorization  beyond RBAC. It is an important to use PSP to control the creation of sensitive pods in your cluster.",
     "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if PSP is enabled",
     "controlID": "C-0068",
     "baseScore": 1.0,

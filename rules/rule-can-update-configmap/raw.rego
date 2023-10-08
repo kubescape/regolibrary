@@ -3,7 +3,7 @@ package armo_builtins
 import data.cautils
 
 # Fails if user can modify all configmaps, or if he can modify the 'coredns' configmap (default for coredns)
-#RoleBinding to Role
+# RoleBinding to Role
 deny [msga] {
      configmaps := [configmap | configmap = input[_]; configmap.kind == "ConfigMap"]
      configmap := configmaps[_]

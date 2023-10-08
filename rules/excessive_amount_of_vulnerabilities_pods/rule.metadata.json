@@ -41,13 +41,13 @@
   "controlConfigInputs": [
     {
       "path": "settings.postureControlInputs.max_critical_vulnerabilities",
-      "name": "Max critical vulnerabilities",
-      "description": "Maximum amount of allowed critical risk vulnerabilities"
+      "name": "Max Critical vulnerabilities",
+      "description": "The maximum number of Critical severity vulnerabilities permitted."
     },
     {
       "path": "settings.postureControlInputs.max_high_vulnerabilities",
-      "name": "Max high vulnerabilities",
-      "description": "Maximum amount of allowed high risk vulnerabilities"
+      "name": "Max High vulnerabilities",
+      "description": "The maximum number of High severity vulnerabilities permitted."
     }
   ],
   "ruleDependencies": [

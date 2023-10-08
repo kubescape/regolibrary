@@ -8,7 +8,7 @@
             "compliance"
         ]
     },
-    "description": "Attackers with relevant RBAC permission can use \u201ckubectl portforward\u201d command to establish direct communication with PODs from within the cluster or even remotely. Such communication will most likely bypass existing security measures in the cluster. This control determines which subjects have permissions to use this command.",
+    "description": "Attackers with relevant RBAC permission can use \u201ckubectl portforward\u201d command to establish direct communication with pods from within the cluster or even remotely. Such communication will most likely bypass existing security measures in the cluster. This control determines which subjects have permissions to use this command.",
     "remediation": "It is recommended to prohibit \u201ckubectl portforward\u201d command in production environments. It is also recommended not to use subjects with this permission for daily cluster operations.",
     "rulesNames": [
         "rule-can-portforward",

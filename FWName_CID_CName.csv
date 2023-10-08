@@ -42,12 +42,12 @@ AllControls,C-0061,Pods in default namespace
 AllControls,C-0062,Sudo in container entrypoint
 AllControls,C-0063,Portforwarding privileges
 AllControls,C-0065,No impersonation
-AllControls,C-0066,Secret/ETCD encryption enabled
+AllControls,C-0066,Secret/etcd encryption enabled
 AllControls,C-0067,Audit logs enabled
 AllControls,C-0068,PSP enabled
 AllControls,C-0069,Disable anonymous access to Kubelet service
 AllControls,C-0070,Enforce Kubelet client TLS authentication
-AllControls,C-0073,Naked PODs
+AllControls,C-0073,Naked pods
 AllControls,C-0074,Containers mounting Docker socket
 AllControls,C-0075,Image pull policy on latest tag
 AllControls,C-0076,Label usage for resources
@@ -85,7 +85,7 @@ ArmoBest,C-0061,Pods in default namespace
 ArmoBest,C-0062,Sudo in container entrypoint
 ArmoBest,C-0063,Portforwarding privileges
 ArmoBest,C-0065,No impersonation
-ArmoBest,C-0066,Secret/ETCD encryption enabled
+ArmoBest,C-0066,Secret/etcd encryption enabled
 ArmoBest,C-0067,Audit logs enabled
 ArmoBest,C-0068,PSP enabled
 ArmoBest,C-0069,Disable anonymous access to Kubelet service
@@ -103,7 +103,7 @@ DevOpsBest,C-0044,Container hostPort
 DevOpsBest,C-0050,Resources CPU limit and request
 DevOpsBest,C-0056,Configured liveness probe
 DevOpsBest,C-0061,Pods in default namespace
-DevOpsBest,C-0073,Naked PODs
+DevOpsBest,C-0073,Naked pods
 DevOpsBest,C-0074,Containers mounting Docker socket
 DevOpsBest,C-0075,Image pull policy on latest tag
 DevOpsBest,C-0076,Label usage for resources
@@ -130,7 +130,7 @@ MITRE,C-0054,Cluster internal networking
 MITRE,C-0057,Privileged container
 MITRE,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
 MITRE,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-MITRE,C-0066,Secret/ETCD encryption enabled
+MITRE,C-0066,Secret/etcd encryption enabled
 MITRE,C-0067,Audit logs enabled
 MITRE,C-0068,PSP enabled
 MITRE,C-0069,Disable anonymous access to Kubelet service
@@ -154,7 +154,7 @@ NSA,C-0055,Linux hardening
 NSA,C-0057,Privileged container
 NSA,C-0058,CVE-2021-25741 - Using symlink for arbitrary host file system access.
 NSA,C-0059,CVE-2021-25742-nginx-ingress-snippet-annotation-vulnerability
-NSA,C-0066,Secret/ETCD encryption enabled
+NSA,C-0066,Secret/etcd encryption enabled
 NSA,C-0067,Audit logs enabled
 NSA,C-0068,PSP enabled
 NSA,C-0069,Disable anonymous access to Kubelet service

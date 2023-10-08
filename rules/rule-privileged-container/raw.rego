@@ -2,7 +2,7 @@ package armo_builtins
 # Deny mutating action unless user is in group owning the resource
 
 
-#privileged pods
+# privileged pods
 deny[msga] {
 
 	pod := input[_]
@@ -24,7 +24,7 @@ deny[msga] {
 }
 
 
-#handles majority of workload resources
+# handles majority of workload resources
 deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
@@ -45,7 +45,7 @@ deny[msga] {
      }
 }
 
-#handles cronjob
+# handles cronjob
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"

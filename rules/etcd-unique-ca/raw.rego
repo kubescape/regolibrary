@@ -2,7 +2,7 @@ package armo_builtins
 
 import future.keywords.in
 
-#CIS 2.7 https://workbench.cisecurity.org/sections/1126654/recommendations/1838578
+# CIS 2.7 https://workbench.cisecurity.org/sections/1126654/recommendations/1838578
 
 deny[msga] {
 	etcdPod := [pod | pod := input[_]; filter_input(pod, "etcd")]
@@ -39,7 +39,7 @@ filter_input(obj, res) {
 }
 
 get_argument_value(command, argument) = value {
-	args := regex.split("=", command)
+	args := split(command, "=")
 	some i, sprintf("%v", [argument]) in args
 	value := args[i + 1]
 }

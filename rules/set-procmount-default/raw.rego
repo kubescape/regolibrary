@@ -93,7 +93,7 @@ is_control_plane_info(obj) {
 # check if ProcMountType feature-gate is enabled
 is_proc_mount_type_enabled(command) {
 	contains(command, "--feature-gates=")
-	args := regex.split(" +", command)
+	args := regex.split(` +`, command)
 	some i
-	regex.match("ProcMountType=true", args[i])
+	regex.match(`ProcMountType=true`, args[i])
 }

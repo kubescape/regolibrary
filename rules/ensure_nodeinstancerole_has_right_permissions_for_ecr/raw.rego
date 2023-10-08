@@ -31,7 +31,7 @@ deny[msga] {
 	policies.kind == "PolicyVersion"
 	policies.metadata.provider == "eks"
 
-	#node_instance_role_policies := ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]
+	# node_instance_role_policies := ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]
 	some policy in node_instance_role_policies
 		some stat, _ in policies.data.policiesDocuments[policy].Statement
 			not isPolicyCompliant(policies, policy, stat)

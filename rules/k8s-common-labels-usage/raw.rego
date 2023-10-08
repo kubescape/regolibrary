@@ -42,7 +42,7 @@ deny[msga] {
      }
 }
 
-#handles cronjob
+# handles cronjob
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
