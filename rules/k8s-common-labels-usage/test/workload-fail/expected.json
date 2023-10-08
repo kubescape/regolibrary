@@ -2,7 +2,7 @@
     "alertMessage": "Deployment: kubernetes-dashboard the kubernetes common labels are is not defined:",
     "failedPaths": [],
     "fixPaths": [{
-        "path": "spec.template.metadata.labels.YOUR_KEY",
+        "path": "spec.template.metadata.labels.app.kubernetes.io/name",
         "value": "YOUR_VALUE"
     }],
     "ruleStatus": "",
