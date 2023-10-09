@@ -2,7 +2,7 @@
     "alertMessage": "Deployment: kubernetes-dashboard a certain set of labels is not defined:",
     "failedPaths": [],
     "fixPaths": [{
-        "path": "spec.template.metadata.labels",
+        "path": "spec.template.metadata.labels.app",
         "value": "YOUR_VALUE"
     }],
     "ruleStatus": "",

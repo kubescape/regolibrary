@@ -86,19 +86,22 @@ no_K8s_label_usage(wl, podSpec, beggining_of_pod_path) = path{
 
 no_K8s_label_or_no_K8s_label_usage(wl, start_of_path) = path{
 	not wl.metadata.labels
-	path = [{"path": sprintf("%vmetadata.labels", [start_of_path]), "value": "YOUR_VALUE"}]
+	label_key := get_label_key("")
+	path = [{"path": sprintf("%vmetadata.labels.%v", [start_of_path, label_key]), "value": "YOUR_VALUE"}]
 }
 
 no_K8s_label_or_no_K8s_label_usage(wl, start_of_path) = path{
 	metadata := wl.metadata
 	not metadata.labels
-	path = [{"path": sprintf("%vmetadata.labels", [start_of_path]), "value": "YOUR_VALUE"}]
+	label_key := get_label_key("")
+	path = [{"path": sprintf("%vmetadata.labels.%v", [start_of_path, label_key]), "value": "YOUR_VALUE"}]
 }
 
 no_K8s_label_or_no_K8s_label_usage(wl, start_of_path) = path{
 	labels := wl.metadata.labels
 	not all_kubernetes_labels(labels)
-	path = [{"path": sprintf("%vmetadata.labels", [start_of_path]), "value": "YOUR_VALUE"}]
+	label_key := get_label_key("")
+	path = [{"path": sprintf("%vmetadata.labels.%v", [start_of_path, label_key]), "value": "YOUR_VALUE"}]
 }
 
 all_kubernetes_labels(labels){
@@ -106,3 +109,10 @@ all_kubernetes_labels(labels){
 	recommended_label := recommended_labels[_]
 	labels[recommended_label]
 }
+
+# get_label_key accepts a parameter so it's not considered a rule
+get_label_key(unused_param) = key {
+	recommended_labels := data.postureControlInputs.k8sRecommendedLabels
+    count(recommended_labels) > 0
+    key := recommended_labels[0]
+} else = "YOUR_LABEL"

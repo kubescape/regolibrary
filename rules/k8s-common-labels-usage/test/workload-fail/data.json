@@ -1,0 +1,8 @@
+{
+    "postureControlInputs": {
+        "k8sRecommendedLabels": [
+            "app.kubernetes.io/name",
+            "app.kubernetes.io/instance"
+        ]
+    }
+}
