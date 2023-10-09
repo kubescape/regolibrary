@@ -19,7 +19,7 @@
         }
     ],
     "ruleDependencies": [],
-    "description": "Fails in case anonymous or unauthenticated user has any rbac permissions (is bound by a RoleBinding/ClusterRoleBinding",
+    "description": "Fails in case anonymous or unauthenticated user has any rbac permissions (is bound by a RoleBinding/ClusterRoleBinding)",
     "remediation": "Remove any RBAC rules which allow anonymous users to perform actions",
     "ruleQuery": "armo_builtins"
 }
