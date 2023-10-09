@@ -27,6 +27,7 @@ deny[msga] {
 		"alertMessage": sprintf("pod %v/%v exposed by SSH services: %v", [podns, podname, service]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
         "alertObject": {
@@ -58,6 +59,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v is exposed by SSH services: %v", [wl.kind, wl.metadata.name, service]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [path],
 		"failedPaths": [path],
         "alertObject": {
 			"k8sApiObjects": [],
@@ -87,6 +89,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v is exposed by SSH services: %v", [wl.kind, wl.metadata.name, service]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [path],
 		"failedPaths": [path],
         "alertObject": {
 			"k8sApiObjects": [],

@@ -10,6 +10,7 @@ deny[msga] {
     msga := {
 	"alertMessage": sprintf("Pod: %v is connected to the host network", [pod.metadata.name]),
 		"alertScore": 9,
+		"deletePaths": [path],
 		"failedPaths": [path],
 		"fixPaths":[],
 		"packagename": "armo_builtins",
@@ -28,6 +29,7 @@ deny[msga] {
     msga := {
 	"alertMessage": sprintf("%v: %v has a pod connected to the host network", [wl.kind, wl.metadata.name]),
 		"alertScore": 9,
+		"deletePaths": [path],
 		"failedPaths": [path],
 		"fixPaths":[],
 		"packagename": "armo_builtins",
@@ -46,6 +48,7 @@ deny[msga] {
     msga := {
 	"alertMessage": sprintf("CronJob: %v has a pod connected to the host network", [wl.metadata.name]),
 		"alertScore": 9,
+		"deletePaths": [path],
 		"failedPaths": [path],
 		"fixPaths":[],
 		"packagename": "armo_builtins",

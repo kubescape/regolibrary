@@ -23,6 +23,7 @@ deny[msga] {
 		"alertMessage": sprintf("Pod: %v does not set 'securityContext.fsGroup' with allowed value", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": paths["failedPaths"],
 		"failedPaths": paths["failedPaths"],
 		"fixPaths": paths["fixPaths"],
 		"alertObject": {
@@ -51,6 +52,7 @@ deny[msga] {
 		"alertMessage": sprintf("CronJob: %v does not set 'securityContext.fsGroup' with allowed value", [cj.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": paths["failedPaths"],
 		"failedPaths": paths["failedPaths"],
 		"fixPaths": paths["fixPaths"],
 		"alertObject": {
@@ -79,6 +81,7 @@ deny[msga] {
 		"alertMessage": sprintf("Workload: %v does not set 'securityContext.fsGroup' with allowed value", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": paths["failedPaths"],
 		"failedPaths": paths["failedPaths"],
 		"fixPaths": paths["fixPaths"],
 		"alertObject": {

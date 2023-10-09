@@ -40,6 +40,7 @@ rule_path := sprintf("relatedObjects[%d].rules[%d]", [i, p])
 		"alertMessage": sprintf("Subject: %s-%s can delete events", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
 		"packagename": "armo_builtins",
+		"reviewPaths": finalpath,
 		"failedPaths": finalpath,
 		"fixPaths": [],
 		"alertObject": {

@@ -40,6 +40,7 @@ is_same_subjects(subjectVector, subject)
 		"alertMessage": sprintf("Subject: %s-%s have high privileges, such as cluster-admin", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
 		"fixPaths": [],
+		"reviewPaths": finalpath,
 		"failedPaths": finalpath,
 		"packagename": "armo_builtins",
 		"alertObject": {
