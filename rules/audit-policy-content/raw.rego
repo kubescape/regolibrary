@@ -57,11 +57,11 @@ deny[msga] {
 }
 
 # Sample rules object
-#rules:
-#  - level: RequestResponse
-#    resources:
-#    - group: ""
-#      resources: ["pods"]
+# rules:
+# - level: RequestResponse
+#   resources:
+#   - group: ""
+#     resources: ["pods"]
 are_audit_file_rules_valid(rules) if {
 	seeked_resources_with_audit_level := {
 		"secrets": {

@@ -3,7 +3,7 @@ package armo_builtins
 import data.cautils
 
 # fails if user can list/get secrets
-#RoleBinding to Role
+# RoleBinding to Role
 deny[msga] {
     roles := [role |  role= input[_]; role.kind == "Role"]
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
@@ -24,6 +24,7 @@ deny[msga] {
 	    "alertMessage": sprintf("The following %v: %v can read secrets", [subject.kind, subject.name]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
+		"deletePaths": [path],
        "failedPaths": [path],
         "alertObject": {
 			"k8sApiObjects": [role,rolebinding],
@@ -36,7 +37,7 @@ deny[msga] {
 
 
 # fails if user can list/get secrets
-#RoleBinding to ClusterRole
+# RoleBinding to ClusterRole
 deny[msga] {
     roles := [role |  role= input[_]; role.kind == "ClusterRole"]
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]

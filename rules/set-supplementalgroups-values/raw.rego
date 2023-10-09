@@ -16,6 +16,7 @@ deny[msga] {
 		"alertMessage": sprintf("Pod: %v does not set 'securityContext.supplementalGroups'", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
 		"alertObject": {
@@ -41,6 +42,7 @@ deny[msga] {
 		"alertMessage": sprintf("Workload: %v does not set 'securityContext.supplementalGroups'", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
 		"alertObject": {
@@ -65,6 +67,7 @@ deny[msga] {
 		"alertMessage": sprintf("CronJob: %v does not set 'securityContext.supplementalGroups'", [cj.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
 		"alertObject": {

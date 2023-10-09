@@ -2,7 +2,7 @@ package armo_builtins
 
 import future.keywords.in
 
-#CIS 4.2.13 https://workbench.cisecurity.org/sections/1126668/recommendations/1838663
+# CIS 4.2.13 https://workbench.cisecurity.org/sections/1126668/recommendations/1838663
 
 deny[msga] {
 	obj := input[_]
@@ -44,6 +44,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Kubelet is not configured to only use strong cryptographic ciphers",
 		"alertScore": 5,
+		"reviewPaths": ["TLSCipherSuites"],
 		"failedPaths": ["TLSCipherSuites"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

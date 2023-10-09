@@ -22,6 +22,7 @@
 			"alertMessage": sprintf("Pod: %v has sensitive information in environment variables", [pod.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
+			"deletePaths": [path],
 			"failedPaths": [path],
 			"packagename": "armo_builtins",
 			"alertObject": {

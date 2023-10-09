@@ -1,6 +1,6 @@
 package armo_builtins
 
-#CIS 4.2.3 https://workbench.cisecurity.org/sections/1126668/recommendations/1838643
+# CIS 4.2.3 https://workbench.cisecurity.org/sections/1126668/recommendations/1838643
 
 deny[msga] {
 	obj := input[_]

@@ -2,15 +2,15 @@ package armo_builtins
 
 deny[msga] {
     wl := input[_]
-    beggining_of_path := get_beginning_of_path(wl)
-    spec := object.get(wl, beggining_of_path, [])
+    start_of_path := get_beginning_of_path(wl)
+    spec := object.get(wl, start_of_path, [])
 
     sa := input[_]
     sa.kind == "ServiceAccount"
     is_same_sa(spec, sa.metadata.name)
     is_same_namespace(sa.metadata , wl.metadata)
     has_service_account_binding(sa)
-    result := is_sa_auto_mounted_and_bound(spec, beggining_of_path, sa)
+    result := is_sa_auto_mounted_and_bound(spec, start_of_path, sa)
 
     failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
@@ -20,6 +20,7 @@ deny[msga] {
         "packagename": "armo_builtins",
         "alertScore": 9,
         "fixPaths": fixed_path,
+        "reviewPaths": failed_path,
         "failedPaths": failed_path,
         "alertObject": {
             "k8sApiObjects": [wl]
@@ -31,40 +32,40 @@ deny[msga] {
 }
 
 
-get_beginning_of_path(workload) = beggining_of_path {
+get_beginning_of_path(workload) = start_of_path {
     spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
     spec_template_spec_patterns[workload.kind]
-    beggining_of_path := ["spec", "template", "spec"]
+    start_of_path := ["spec", "template", "spec"]
 }
 
-get_beginning_of_path(workload) = beggining_of_path {
+get_beginning_of_path(workload) = start_of_path {
     workload.kind == "Pod"
-    beggining_of_path := ["spec"]
+    start_of_path := ["spec"]
 }
 
-get_beginning_of_path(workload) = beggining_of_path {
+get_beginning_of_path(workload) = start_of_path {
     workload.kind == "CronJob"
-    beggining_of_path := ["spec", "jobTemplate", "spec", "template", "spec"]
+    start_of_path := ["spec", "jobTemplate", "spec", "template", "spec"]
 }
 
 
  #  -- ----     For workloads     -- ----     
-is_sa_auto_mounted_and_bound(spec, beggining_of_path, sa) = [failed_path, fix_path]   {
+is_sa_auto_mounted_and_bound(spec, start_of_path, sa) = [failed_path, fix_path]   {
     # automountServiceAccountToken not in pod spec
     not spec.automountServiceAccountToken == false
     not spec.automountServiceAccountToken == true
 
     not sa.automountServiceAccountToken == false
 
-    fix_path = { "path": sprintf("%v.automountServiceAccountToken", [concat(".", beggining_of_path)]), "value": "false"}
+    fix_path = { "path": sprintf("%v.automountServiceAccountToken", [concat(".", start_of_path)]), "value": "false"}
     failed_path = ""
 }
 
-is_sa_auto_mounted_and_bound(spec, beggining_of_path, sa) =  [failed_path, fix_path]  {
+is_sa_auto_mounted_and_bound(spec, start_of_path, sa) =  [failed_path, fix_path]  {
     # automountServiceAccountToken set to true in pod spec
     spec.automountServiceAccountToken == true
 
-    failed_path = sprintf("%v.automountServiceAccountToken", [concat(".", beggining_of_path)])
+    failed_path = sprintf("%v.automountServiceAccountToken", [concat(".", start_of_path)])
     fix_path = ""
 }
 

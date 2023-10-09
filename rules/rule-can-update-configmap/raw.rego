@@ -3,7 +3,7 @@ package armo_builtins
 import data.cautils
 
 # Fails if user can modify all configmaps, or if he can modify the 'coredns' configmap (default for coredns)
-#RoleBinding to Role
+# RoleBinding to Role
 deny [msga] {
      configmaps := [configmap | configmap = input[_]; configmap.kind == "ConfigMap"]
      configmap := configmaps[_]
@@ -30,6 +30,7 @@ deny [msga] {
     	msga := {
 	     "alertMessage": sprintf("The following %v: %v can modify 'coredns' configmap", [subject.kind, subject.name]),
 		"alertScore": 6,
+		"deletePaths": [path],
          "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {

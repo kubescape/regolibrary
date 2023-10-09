@@ -9,6 +9,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v is in the 'default' namespace", [resource.kind, resource.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 3,
+		"reviewPaths": failed_path,
 		"failedPaths": failed_path,
 		"fixPaths": fixed_path,
 		"alertObject": {

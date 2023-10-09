@@ -38,7 +38,7 @@ should_skip_check(kubelet_info) {
 
 is_RotateKubeletServerCertificate_enabled_via_cli(command) {
 	contains(command, "--feature-gates=")
-	args := regex.split(" +", command)
+	args := regex.split(` +`, command)
 	some i
-	regex.match("RotateKubeletServerCertificate=true", args[i])
+	regex.match(`RotateKubeletServerCertificate=true`, args[i])
 }

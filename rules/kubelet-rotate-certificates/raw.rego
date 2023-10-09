@@ -2,7 +2,7 @@ package armo_builtins
 
 import future.keywords.in
 
-#CIS 4.2.11 https://workbench.cisecurity.org/sections/1126668/recommendations/1838658
+# CIS 4.2.11 https://workbench.cisecurity.org/sections/1126668/recommendations/1838658
 
 deny[msga] {
 	obj := input[_]
@@ -41,6 +41,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Kubelet client certificates rotation is disabled",
 		"alertScore": 6,
+		"reviewPaths": ["rotateCertificates"],
 		"failedPaths": ["rotateCertificates"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

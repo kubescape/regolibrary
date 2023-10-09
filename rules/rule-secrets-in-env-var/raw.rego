@@ -14,6 +14,7 @@ deny[msga] {
 		"alertMessage": sprintf("Pod: %v has secrets in environment variables", [pod.metadata.name]),
 		"alertScore": 9,
 		"fixPaths": [],
+		"deletePaths": [path],
 		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
@@ -36,6 +37,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v has secrets in environment variables", [wl.kind, wl.metadata.name]),
 		"alertScore": 9,
 		"fixPaths": [],
+		"deletePaths": [path],
 		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
@@ -57,6 +59,7 @@ deny[msga] {
 		"alertMessage": sprintf("Cronjob: %v has secrets in environment variables", [wl.metadata.name]),
 		"alertScore": 9,
 		"fixPaths": [],
+		"deletePaths": [path],
 		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {

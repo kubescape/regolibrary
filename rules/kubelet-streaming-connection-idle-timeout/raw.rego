@@ -2,12 +2,12 @@ package armo_builtins
 
 import future.keywords.in
 
-#CIS 4.2.5 https://workbench.cisecurity.org/sections/1126668/recommendations/1838646
+# CIS 4.2.5 https://workbench.cisecurity.org/sections/1126668/recommendations/1838646
 
 deny[msga] {
 	obj := input[_]
 	is_kubelet_info(obj)
-	
+
 	command := obj.data.cmdLine
 
 	contains(command, "--streaming-connection-idle-timeout")
@@ -41,6 +41,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Timeouts on streaming connections are enabled",
 		"alertScore": 3,
+		"reviewPaths": ["streamingConnectionIdleTimeout"],
 		"failedPaths": ["streamingConnectionIdleTimeout"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

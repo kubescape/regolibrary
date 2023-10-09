@@ -9,8 +9,8 @@ deny[msga] {
 	volumes_data := get_volumes(resources)
     volumes := volumes_data["volumes"]
     volume := volumes[i]
-	beggining_of_path := volumes_data["beggining_of_path"]
-    result := is_unsafe_paths(volume, beggining_of_path, provider,i)
+	start_of_path := volumes_data["start_of_path"]
+    result := is_unsafe_paths(volume, start_of_path, provider,i)
 
 	msga := {
 		"alertMessage": sprintf("%v: %v has: %v as volume with potential credentials access.", [resources.kind, resources.metadata.name, volume.name]),
@@ -30,27 +30,27 @@ deny[msga] {
 get_volumes(resources) := result {
 	resources_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	resources_kinds[resources.kind]
-	result = {"volumes": resources.spec.template.spec.volumes, "beggining_of_path": "spec.template.spec."}
+	result = {"volumes": resources.spec.template.spec.volumes, "start_of_path": "spec.template.spec."}
 }
 
 # get_volume - get resource volumes paths for "Pod"
 get_volumes(resources) := result {
 	resources.kind == "Pod"
-	result = {"volumes": resources.spec.volumes, "beggining_of_path": "spec."}
+	result = {"volumes": resources.spec.volumes, "start_of_path": "spec."}
 }
 
 # get_volume - get resource volumes paths for "CronJob"
 get_volumes(resources) := result {
 	resources.kind == "CronJob"
-	result = {"volumes": resources.spec.jobTemplate.spec.template.spec.volumes, "beggining_of_path": "spec.jobTemplate.spec.template.spec."}
+	result = {"volumes": resources.spec.jobTemplate.spec.template.spec.volumes, "start_of_path": "spec.jobTemplate.spec.template.spec."}
 }
 
 
 # is_unsafe_paths - looking for cloud provider (eks/gke/aks) paths that have the potential of accessing credentials
-is_unsafe_paths(volume, beggining_of_path, provider, i) = result {
+is_unsafe_paths(volume, start_of_path, provider, i) = result {
 	unsafe :=  unsafe_paths(provider)
 	unsafe[_] == fix_path(volume.hostPath.path)
-	result= sprintf("%vvolumes[%d].hostPath.path", [beggining_of_path, i])
+	result= sprintf("%vvolumes[%d].hostPath.path", [start_of_path, i])
 }
 
 

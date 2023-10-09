@@ -2,7 +2,7 @@ package armo_builtins
 
 import future.keywords.in
 
-#CIS 4.2.4 https://workbench.cisecurity.org/sections/1126668/recommendations/1838645
+# CIS 4.2.4 https://workbench.cisecurity.org/sections/1126668/recommendations/1838645
 
 deny[msga] {
 	obj := input[_]
@@ -43,6 +43,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "kubelet read-only port is not disabled",
 		"alertScore": 4,
+		"reviewPaths": ["readOnlyPort"],
 		"failedPaths": ["readOnlyPort"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

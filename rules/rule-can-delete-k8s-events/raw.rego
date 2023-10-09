@@ -3,7 +3,7 @@ package armo_builtins
 import data.cautils
 
 # fails if user can delete events
-#RoleBinding to Role
+# RoleBinding to Role
 deny [msga] {
     roles := [role |  role= input[_]; role.kind == "Role"]
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
@@ -23,6 +23,7 @@ deny [msga] {
     msga := {
 	    "alertMessage": sprintf("The following %v: %v can delete events", [subject.kind, subject.name]),
 		"alertScore": 6,
+		"deletePaths": [path],
        "failedPaths": [path],
 		"packagename": "armo_builtins",
           "alertObject": {
@@ -36,7 +37,7 @@ deny [msga] {
 
 
 # fails if user can delete events
-#RoleBinding to ClusterRole
+# RoleBinding to ClusterRole
 deny[msga] {
     roles := [role |  role= input[_]; role.kind == "ClusterRole"]
     rolebindings := [rolebinding | rolebinding = input[_]; rolebinding.kind == "RoleBinding"]
@@ -57,6 +58,7 @@ deny[msga] {
     msga := {
 	    "alertMessage": sprintf("The following %v: %v can delete events", [subject.kind, subject.name]),
 		"alertScore": 6,
+		"deletePaths": [path],
        "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {
@@ -91,6 +93,7 @@ deny[msga] {
     msga := {
 	    "alertMessage": sprintf("The following %v: %v can delete events", [subject.kind, subject.name]),
 		"alertScore": 6,
+		"deletePaths": [path],
        "failedPaths": [path],
 		"packagename": "armo_builtins",
         "alertObject": {

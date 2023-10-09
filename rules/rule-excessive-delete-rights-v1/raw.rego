@@ -39,6 +39,7 @@ rule_path := sprintf("relatedObjects[%d].rules[%d]", [i, p])
 		"alertMessage": sprintf("Subject: %s-%s can delete important resources", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
 		"fixPaths": [],
+		"reviewPaths": finalpath,
 		"failedPaths": finalpath,
 		"packagename": "armo_builtins",
 		"alertObject": {

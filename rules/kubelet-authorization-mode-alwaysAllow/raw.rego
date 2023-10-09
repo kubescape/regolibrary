@@ -2,7 +2,7 @@ package armo_builtins
 
 import future.keywords.in
 
-#CIS 4.2.2 https://workbench.cisecurity.org/sections/1126668/recommendations/1838640
+# CIS 4.2.2 https://workbench.cisecurity.org/sections/1126668/recommendations/1838640
 
 # has cli
 deny[msga] {
@@ -43,6 +43,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Anonymous requests are enabled",
 		"alertScore": 10,
+		"reviewPaths": ["authorization.mode"],
 		"failedPaths": ["authorization.mode"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
@@ -64,7 +65,7 @@ deny[msga] {
 
 	not contains(command, "--authorization-mode")
 	not contains(command, "--config")
-	
+
 	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 	msga := {
 		"alertMessage": "Anonymous requests are enabled",

@@ -4,6 +4,13 @@ rules:
       # This should be enabled, but the version of OPA used here is
       # too old to recognize the object.keys built-in function
       level: ignore
+    no-defined-entrypoint:
+      level: ignore
+    use-some-for-output-vars:
+      level: ignore
+  imports:
+    prefer-package-imports:
+      level: ignore
   style:
     avoid-get-and-list-prefix:
       level: ignore
@@ -15,6 +22,11 @@ rules:
       level: ignore
     prefer-snake-case:
       level: ignore
+    prefer-some-in-iteration:
+      level: ignore
+    rule-length:
+      level: error
+      max-rule-length: 50
     todo-comment:
       level: ignore
     use-assignment-operator:

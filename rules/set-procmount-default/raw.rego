@@ -20,6 +20,7 @@ deny[msga] {
 		"alertMessage": sprintf("Pod: %v has containers that do not set 'securityContext.procMount' to 'Default'", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
 		"alertObject": {
@@ -48,6 +49,7 @@ deny[msga] {
 		"alertMessage": sprintf("Workload: %v has containers that do not set 'securityContext.procMount' to 'Default'", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
 		"alertObject": {
@@ -75,6 +77,7 @@ deny[msga] {
 		"alertMessage": sprintf("CronJob: %v has containers that do not set 'securityContext.procMount' to 'Default'", [cj.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
 		"alertObject": {
@@ -93,7 +96,7 @@ is_control_plane_info(obj) {
 # check if ProcMountType feature-gate is enabled
 is_proc_mount_type_enabled(command) {
 	contains(command, "--feature-gates=")
-	args := regex.split(" +", command)
+	args := regex.split(` +`, command)
 	some i
-	regex.match("ProcMountType=true", args[i])
+	regex.match(`ProcMountType=true`, args[i])
 }

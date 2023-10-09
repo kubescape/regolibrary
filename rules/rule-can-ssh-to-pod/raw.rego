@@ -23,6 +23,7 @@ deny[msga] {
 		"alertMessage": sprintf("pod %v/%v exposed by SSH services: %v", [podns, podname, service]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"deletePaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
           "alertObject": {
