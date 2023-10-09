@@ -19,6 +19,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("PodSecurityPolicy: '%v' has hostPID set as true.", [psp.metadata.name]),
 		"packagename": "armo_builtins",
+		"deletePaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [psp]},

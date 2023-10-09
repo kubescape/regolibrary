@@ -2,7 +2,7 @@
 	{
 		"alertMessage": "Pod: mypod has mounted configMap",
 		"failedPaths": [
-			"spec.containers[0].volumeMounts"
+			"spec.containers[0].volumeMounts[1]"
 		],
 		"fixPaths": [],
 		"ruleStatus": "",

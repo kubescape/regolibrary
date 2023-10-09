@@ -41,6 +41,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Timeouts on streaming connections are enabled",
 		"alertScore": 3,
+		"reviewPaths": ["streamingConnectionIdleTimeout"],
 		"failedPaths": ["streamingConnectionIdleTimeout"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

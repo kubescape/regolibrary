@@ -18,14 +18,15 @@ deny[msga] {
 	container.volumeMounts
 
  	# check if volume is mounted
-	container.volumeMounts[_].name == volume.name
+	container.volumeMounts[k].name == volume.name
 
-	failedPaths := sprintf("%s[%d].volumeMounts", [concat(".", containers_path), j])
+	failedPaths := sprintf("%s[%d].volumeMounts[%d]", [concat(".", containers_path), j, k])
 
 
 	msga := {
 		"alertMessage": sprintf("%v: %v has mounted configMap", [resource.kind, resource.metadata.name]),
 		"packagename": "armo_builtins",
+		"deletePaths": [failedPaths],
 		"failedPaths": [failedPaths],
 		"fixPaths":[],
 		"alertObject": {

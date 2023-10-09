@@ -66,6 +66,7 @@ deny[msga] {
 		"alertMessage": "etcd/secret encryption is not enabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
+		"reviewPaths": ["data.database_encryption.state"],
 		"failedPaths": ["data.database_encryption.state"],
 		"fixPaths": [],
 		"fixCommand": "gcloud container clusters update <cluster_name> --region=<compute_region> --database-encryption-key=<key_project_id>/locations/<location>/keyRings/<ring_name>/cryptoKeys/<key_name> --project=<cluster_project_id>",

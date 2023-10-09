@@ -41,6 +41,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Property protectKernelDefaults is not set to true",
 		"alertScore": 2,
+		"reviewPaths": ["protectKernelDefaults"],
 		"failedPaths": ["protectKernelDefaults"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

@@ -40,6 +40,7 @@ is_same_subjects(subjectVector, subject)
 	msga := {
 		"alertMessage": sprintf("Subject: %s-%s can create pods", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
+		"reviewPaths": finalpath,
 		"failedPaths": finalpath,
 		"fixPaths": [],
 		"packagename": "armo_builtins",

@@ -21,6 +21,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("the following %v: %v, can impersonate users", [subject.kind, subject.name]),
 		"alertScore": 9,
+		"deletePaths": [path],
 		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
