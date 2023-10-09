@@ -6,8 +6,8 @@ deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	beggining_of_path := "spec."
-    result := is_mutable_filesystem(container, beggining_of_path, i)
+	start_of_path := "spec."
+    result := is_mutable_filesystem(container, start_of_path, i)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
 	msga := {
@@ -28,8 +28,8 @@ deny[msga] {
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 	spec_template_spec_patterns[wl.kind]
     container := wl.spec.template.spec.containers[i]
-	beggining_of_path := "spec.template.spec."
-    result := is_mutable_filesystem(container, beggining_of_path, i)
+	start_of_path := "spec.template.spec."
+    result := is_mutable_filesystem(container, start_of_path, i)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
 	msga := {
@@ -50,8 +50,8 @@ deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	beggining_of_path := "spec.jobTemplate.spec.template.spec."
-	result := is_mutable_filesystem(container, beggining_of_path, i)
+	start_of_path := "spec.jobTemplate.spec.template.spec."
+	result := is_mutable_filesystem(container, start_of_path, i)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
 
@@ -68,16 +68,16 @@ deny[msga] {
 }
 
 # Default of readOnlyRootFilesystem is false. This field is only in container spec and not pod spec
-is_mutable_filesystem(container, beggining_of_path, i) = [failed_path, fixPath]  {
+is_mutable_filesystem(container, start_of_path, i) = [failed_path, fixPath]  {
 	container.securityContext.readOnlyRootFilesystem == false
-	failed_path = sprintf("%vcontainers[%v].securityContext.readOnlyRootFilesystem", [beggining_of_path, format_int(i, 10)])
+	failed_path = sprintf("%vcontainers[%v].securityContext.readOnlyRootFilesystem", [start_of_path, format_int(i, 10)])
 	fixPath = ""
  }
 
- is_mutable_filesystem(container, beggining_of_path, i)  = [failed_path, fixPath] {
+ is_mutable_filesystem(container, start_of_path, i)  = [failed_path, fixPath] {
 	not container.securityContext.readOnlyRootFilesystem == false
     not container.securityContext.readOnlyRootFilesystem == true
-	fixPath = {"path": sprintf("%vcontainers[%v].securityContext.readOnlyRootFilesystem", [beggining_of_path, format_int(i, 10)]), "value": "true"}
+	fixPath = {"path": sprintf("%vcontainers[%v].securityContext.readOnlyRootFilesystem", [start_of_path, format_int(i, 10)]), "value": "true"}
 	failed_path = ""
  }
 
