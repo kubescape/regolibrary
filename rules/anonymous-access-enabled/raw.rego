@@ -4,12 +4,14 @@ package armo_builtins
 deny[msga] {
     rolebindings := [rolebinding | rolebinding = input[_]; endswith(rolebinding.kind, "Binding")]
     rolebinding := rolebindings[_]
-
-    isAnonymous(rolebinding)
-
+    subject := rolebinding.subjects[i]
+    isAnonymous(subject)
+    delete_path := sprintf("subjects[%d]", [i])
     msga := {
         "alertMessage": sprintf("the following RoleBinding: %v gives permissions to anonymous users", [rolebinding.metadata.name]),
         "alertScore": 9,
+        "deletePaths": [delete_path],
+        "failedPaths": [delete_path],
         "packagename": "armo_builtins",
         "alertObject": {
             "k8sApiObjects": [rolebinding]
@@ -18,13 +20,10 @@ deny[msga] {
 }
 
 
-isAnonymous(binding) {
-    subject := binding.subjects[_]
+isAnonymous(subject) {
     subject.name == "system:anonymous"
 }
 
-
-isAnonymous(binding) {
-    subject := binding.subjects[_]
+isAnonymous(subject) {
     subject.name == "system:unauthenticated"
 }

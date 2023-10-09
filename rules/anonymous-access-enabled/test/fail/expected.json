@@ -1,7 +1,7 @@
 [
     {
         "alertMessage": "the following RoleBinding: system:public-info-viewer gives permissions to anonymous users",
-        "failedPaths": null,
+        "failedPaths": ["subjects[1]"],
         "fixPaths": null,
         "ruleStatus": "",
         "packagename": "armo_builtins",
