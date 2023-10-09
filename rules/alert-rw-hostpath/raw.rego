@@ -11,8 +11,8 @@ deny[msga] {
 	container := pod.spec.containers[i]
 	volume_mount := container.volumeMounts[k]
 	volume_mount.name == volume.name
-	beggining_of_path := "spec."
-	result := is_rw_mount(volume_mount, beggining_of_path,  i, k)
+	start_of_path := "spec."
+	result := is_rw_mount(volume_mount, start_of_path,  i, k)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
 
@@ -42,8 +42,8 @@ deny[msga] {
 	container := wl.spec.template.spec.containers[i]
 	volume_mount := container.volumeMounts[k]
 	volume_mount.name == volume.name
-	beggining_of_path := "spec.template.spec."
-	result := is_rw_mount(volume_mount, beggining_of_path,  i, k)
+	start_of_path := "spec.template.spec."
+	result := is_rw_mount(volume_mount, start_of_path,  i, k)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
 
@@ -72,8 +72,8 @@ deny[msga] {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 	volume_mount := container.volumeMounts[k]
 	volume_mount.name == volume.name
-	beggining_of_path := "spec.jobTemplate.spec.template.spec."
-	result := is_rw_mount(volume_mount, beggining_of_path,  i, k)
+	start_of_path := "spec.jobTemplate.spec.template.spec."
+	result := is_rw_mount(volume_mount, start_of_path,  i, k) 
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
 
@@ -101,15 +101,15 @@ get_fixed_path(paths) = [paths[1]] {
 } else = []
 
 
-is_rw_mount(mount, beggining_of_path,  i, k) =  [failed_path, fix_path] {
+is_rw_mount(mount, start_of_path,  i, k) =  [failed_path, fix_path] {
 	not mount.readOnly == true
  	not mount.readOnly == false
 	failed_path = ""
-    fix_path = {"path": sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [beggining_of_path, format_int(i, 10), format_int(k, 10)]), "value":"true"}
+    fix_path = {"path": sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [start_of_path, format_int(i, 10), format_int(k, 10)]), "value":"true"}
 }
 
-is_rw_mount(mount, beggining_of_path,  i, k) =  [failed_path, fix_path] {
+is_rw_mount(mount, start_of_path,  i, k) =  [failed_path, fix_path] {
   	mount.readOnly == false
-  	failed_path = sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [beggining_of_path, format_int(i, 10), format_int(k, 10)])
+  	failed_path = sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [start_of_path, format_int(i, 10), format_int(k, 10)])
     fix_path = ""
 }
