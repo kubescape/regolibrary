@@ -19,7 +19,7 @@
         }
     ],
     "ruleDependencies": [],
-    "description": "Fails in case anonymous access is enabled on the cluster",
-    "remediation": "Disable anonymous access by passing the --anonymous-auth=false flag to the kube-apiserver component, or if it's a managed cluster, you can remove any RBAC rules which allow anonymous users to perform actions",
+    "description": "Fails in case anonymous or unauthenticated user has any rbac permissions (is bound by a RoleBinding/ClusterRoleBinding)",
+    "remediation": "Remove any RBAC rules which allow anonymous users to perform actions",
     "ruleQuery": "armo_builtins"
 }
