@@ -37,6 +37,7 @@ rule_path := sprintf("relatedObjects[%d].rules[%d]", [i, p])
 	msga := {
 		"alertMessage": sprintf("Subject: %s-%s can do port forwarding", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
+		"reviewPaths": finalpath,
 		"failedPaths": finalpath,
 		"fixPaths": [],
 		"packagename": "armo_builtins",

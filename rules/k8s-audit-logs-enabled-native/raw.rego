@@ -15,6 +15,7 @@ deny[msga] {
 		"alertMessage": "audit logs is not enabled",
 		"alertScore": 9,
 		"packagename": "armo_builtins",
+		"reviewPaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
 		"alertObject": {

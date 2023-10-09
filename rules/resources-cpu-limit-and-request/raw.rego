@@ -87,6 +87,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v exceeds CPU-limit or request", [ container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [failed_paths],
 		"failedPaths": [failed_paths],
 		"fixPaths": [],
 		"alertObject": {
@@ -112,6 +113,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [failed_paths],
 		"failedPaths": [failed_paths],
 		"fixPaths": [],
 		"alertObject": {
@@ -136,6 +138,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [failed_paths],
 		"failedPaths": [failed_paths],
 		"fixPaths": [],
 		"alertObject": {

@@ -43,6 +43,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "kubelet read-only port is not disabled",
 		"alertScore": 4,
+		"reviewPaths": ["readOnlyPort"],
 		"failedPaths": ["readOnlyPort"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

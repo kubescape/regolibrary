@@ -2,7 +2,7 @@
 	{
 		"alertMessage": "Pod: mypod has mounted PVC",
 		"failedPaths": [
-			"spec.containers[0].volumeMounts"
+			"spec.containers[0].volumeMounts[0]"
 		],
 		"fixPaths": [],
 		"ruleStatus": "",

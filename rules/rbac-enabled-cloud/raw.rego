@@ -12,6 +12,7 @@ deny[msga] {
 		"alertMessage": "rbac is not enabled",
 		"alertScore": 3,
 		"packagename": "armo_builtins",
+		"reviewPaths": ["data.properties.enableRBAC"],
 		"failedPaths": ["data.properties.enableRBAC"],
 		"fixCommand": "",
 		"fixPaths": [],

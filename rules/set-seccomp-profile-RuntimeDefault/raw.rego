@@ -18,6 +18,7 @@ deny[msga] {
 		"alertMessage": sprintf("Pod: %v does not define seccompProfile as RuntimeDefault", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": seccompProfile_result.failed_path,
 		"failedPaths": seccompProfile_result.failed_path,
 		"fixPaths": seccompProfile_result.fix_path,
 		"alertObject": {
@@ -45,6 +46,7 @@ deny[msga] {
 		"alertMessage": sprintf("Workload: %v does not define seccompProfile as RuntimeDefault", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": seccompProfile_result.failed_path,
 		"failedPaths": seccompProfile_result.failed_path,
 		"fixPaths": seccompProfile_result.fix_path,
 		"alertObject": {
@@ -72,6 +74,7 @@ deny[msga] {
 		"alertMessage": sprintf("Cronjob: %v does not define seccompProfile as RuntimeDefault", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": seccompProfile_result.failed_path,
 		"failedPaths": seccompProfile_result.failed_path,
 		"fixPaths": seccompProfile_result.fix_path,
 		"alertObject": {

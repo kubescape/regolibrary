@@ -43,6 +43,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Anonymous requests are enabled",
 		"alertScore": 10,
+		"reviewPaths": ["authorization.mode"],
 		"failedPaths": ["authorization.mode"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

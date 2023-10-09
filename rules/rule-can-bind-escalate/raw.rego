@@ -40,6 +40,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("Subject: %s-%s can bind roles/clusterroles", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
+		"reviewPaths": finalpath,
 		"failedPaths": finalpath,
 		"fixPaths": [],
 		"packagename": "armo_builtins",
@@ -90,6 +91,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("Subject: %s-%s can escalate roles/clusterroles", [subjectVector.kind, subjectVector.name]),
 		"alertScore": 3,
+		"reviewPaths": finalpath,
 		"failedPaths": finalpath,
 		"fixPaths": [],
 		"packagename": "armo_builtins",

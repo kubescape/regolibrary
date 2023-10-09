@@ -22,6 +22,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Value of the eventRecordQPS argument is set to 0",
 		"alertScore": 2,
+		"reviewPaths": ["eventRecordQPS"],
 		"failedPaths": ["eventRecordQPS"],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
