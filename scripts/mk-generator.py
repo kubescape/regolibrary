@@ -69,8 +69,10 @@ def create_md_for_control(control):
     # severity map: https://github.com/kubescape/opa-utils/blob/master/reporthandling/apis/severity.go#L34
     severity_map = {1:'Low',2:'Low',3:'Low',4:'Medium',5:'Medium',6:'Medium',7:'High',8:'High',9:'Critical',10:'Critical'}
     md_text += '%s\n' % severity_map[int(control['baseScore'])] + '\n'
-    md_text += '## Description of the the issue\n'
-    description = control['long_description'] if 'long_description' in control else control['description']
+    if 'long_description' in control or 'description' in control:
+        description = control['long_description'] if 'long_description' in control else control['description']
+        if description.strip():
+            md_text += '## Description of the issue\n'
     if len(control_config_input):
         description += ' Note, [this control is configurable](#configuration-parameters).'
     md_text += description + '\n \n'
@@ -82,16 +84,17 @@ def create_md_for_control(control):
     test = control['test'] if 'test' in control else control['description']
     md_text += test + '\n \n'
 
-    if 'manual_test' in control:
+    if 'manual_test' in control and control['manual_test'].strip():
         md_text += '## How to check it manually \n'
         manual_test = control['manual_test'] 
         md_text += manual_test + '\n \n'
 
-    md_text += '## Remediation\n'
-    md_text += control['remediation'] + '\n \n'
-    if 'impact_statement' in control:
+    if 'remediation' in control and control['remediation'].strip():
+        md_text += '## Remediation\n'
+        md_text += control['remediation'] + '\n \n'
+    if 'impact_statement' in control and control['impact_statement'].strip() and control['impact_statement'] is not 'None':
         md_text += '### Impact Statement\n' + control['impact_statement'] + '\n \n'
-    if 'default_value' in control:
+    if 'default_value' in control and control['default_value'].strip():
         md_text += '### Default Value\n' + control['default_value'] + '\n \n'
 
     if len(control_config_input):
@@ -100,7 +103,7 @@ def create_md_for_control(control):
             control_config = control_config_input[control_config_name]
             # configuration_text += '### ' + control_config['name'] + '\n'
             config_name = control_config['path'].split('.')[-1]
-            configuration_text += '* ' '[' + config_name + '](../frameworks-and-controls/configuring-controls.md#%s)'%config_name.lower() + '\n'
+            configuration_text += '* ' '[' + config_name + '](../frameworks-and-controls/configuring-controls.md#%s)'%config_name.lower() + ':' + '\n'
             configuration_text += control_config['description'] + '\n \n'
         md_text += configuration_text
 
