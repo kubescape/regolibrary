@@ -109,6 +109,21 @@ def create_md_for_control(control):
         md_text += '```\n' + control['example'] + '\n```' + '\n'
     return md_text
 
+# Function to generate the index.md file
+def generate_index_md(controls):
+    index_md = "# Control library\n\nEach control in the Kubescape control library is documented under this page.\n\n"
+    index_md += "| Control | Name | Framework |\n"
+    index_md += "| --- | --- | --- |\n"
+
+    for control in controls:
+        control_id = control['controlID']
+        control_name = control['name']
+        control_frameworks = get_frameworks_for_control(control)
+        control_link = control_id.lower().replace(".", "-") + ".md"
+        index_md += "| [%s](%s) | %s | %s |\n" % (control_id, control_link, control_name, ", ".join(control_frameworks))
+
+    return index_md
+
 # Function to generate a slug for a given control
 def generate_slug(control):
     return control['controlID'].lower().replace(".", "-")
@@ -264,6 +279,7 @@ def main():
         config_parameter_slug = 'configuration_parameter_' + config_parameters_path.lower()
         i = i + 1
 
+    controls = []
     # Process controls.
     for control_json_file_name in filter(lambda fn: fn.endswith('.json'), os.listdir('controls')):
         print('processing %s' % control_json_file_name)
@@ -294,6 +310,8 @@ def main():
                 if rule_obj['name'] in control_obj['rulesNames']:
                     control_obj['rules'].append(rule_obj)
                         
+        controls.append(control_obj)
+
         # Generate a Markdown document for the control.
         md = create_md_for_control(control_obj)
 
@@ -310,26 +328,17 @@ def main():
         print('created or updated %s' % md_file_path)
 
     # Generate the index.md file
-    index_md = "# Control library\n\nEach control in the Kubescape control library is documented under this page.\n\n"
-    index_md += "| Control | Name | Framework |\n"
-    index_md += "| --- | --- | --- |\n"
+    index_md = generate_index_md(controls)
 
-    # Loop through the controls and add a row for each control in the index.md file
-    for control_json_file_name in filter(lambda fn: fn.endswith('.json'), os.listdir('controls')):
-        control_obj = json.load(open(os.path.join('controls', control_json_file_name)))
-        control_id = control_obj['controlID']
-        control_name = control_obj['name']
-        control_frameworks = get_frameworks_for_control(control_obj)
-        control_link = control_id.lower().replace(".", "-") + ".md"
-        index_md += "| [%s](%s) | %s | %s |\n" % (control_id, control_link, control_name, ", ".join(control_frameworks))
+    # Define the path of the index.md file.
+    index_md_file_path = os.path.join(docs_dir, "index.md")
 
     # Write the index.md file
-    index_md_file_path = os.path.join(docs_dir, "index.md")
     with open(index_md_file_path, 'w') as index_md_file:
         index_md_file.write(index_md)
 
     print('created or updated %s' % index_md_file_path)
-
+    
 # Run the main function if the script is run as a standalone program
 if __name__ == '__main__':
     main()

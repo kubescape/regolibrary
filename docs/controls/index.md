@@ -37,7 +37,7 @@ Each control in the Kubescape control library is documented under this page.
 | [C-0089](c-0089.md) | CVE-2022-3172-aggregated-API-server-redirect | ArmoBest |
 | [C-0173](c-0173.md) | Ensure that the --authorization-mode argument is not set to AlwaysAllow | cis-eks-t1.2.0, cis-aks-t1.2.0, cis-v1.23-t1.0.1 |
 | [C-0065](c-0065.md) | No impersonation | AllControls, ArmoBest |
-| [C-0262](c-0262.md) | Anonymous access enabled | security, ClusterScan, AllControls |
+| [C-0262](c-0262.md) | Anonymous user has RoleBinding | security, ClusterScan, AllControls |
 | [C-0245](c-0245.md) | Encrypt traffic to HTTPS load balancers with TLS certificates | cis-aks-t1.2.0 |
 | [C-0039](c-0039.md) | Validate admission controller (mutating) | MITRE, ClusterScan, AllControls |
 | [C-0143](c-0143.md) | Ensure that the API Server only makes use of Strong Cryptographic Ciphers | cis-v1.23-t1.0.1 |
