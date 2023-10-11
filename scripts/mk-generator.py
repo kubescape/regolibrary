@@ -111,6 +111,9 @@ def create_md_for_control(control):
 
 # Function to generate the index.md file
 def generate_index_md(controls):
+    # Sort the controls list based on control ID
+    controls.sort(key=lambda control: convert_control_id_to_doc_order(control['controlID']))
+
     index_md = "# Control library\n\nEach control in the Kubescape control library is documented under this page.\n\n"
     index_md += "| Control | Name | Framework |\n"
     index_md += "| --- | --- | --- |\n"
@@ -338,7 +341,7 @@ def main():
         index_md_file.write(index_md)
 
     print('created or updated %s' % index_md_file_path)
-    
+
 # Run the main function if the script is run as a standalone program
 if __name__ == '__main__':
     main()
