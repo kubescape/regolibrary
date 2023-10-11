@@ -72,7 +72,7 @@ def create_md_for_control(control):
     md_text += '## Description of the the issue\n'
     description = control['long_description'] if 'long_description' in control else control['description']
     if len(control_config_input):
-        description += ' Note, [this control is configurable](##configuration).'
+        description += ' Note, [this control is configurable](#configuration-parameters).'
     md_text += description + '\n \n'
     if related_resources:
         md_text += '## Related resources\n'
@@ -95,12 +95,12 @@ def create_md_for_control(control):
         md_text += '### Default Value\n' + control['default_value'] + '\n \n'
 
     if len(control_config_input):
-        configuration_text = '## Configuration\n This control can be configured using the following parameters. Read CLI/UI documentation about how to change parameters.\n \n'
+        configuration_text = '## Configuration parameters \n You can adjust the configuration of this control to suit your specific environment. [Read the documentation on configuring controls](../frameworks-and-controls/configuring-controls.md) to learn more.\n \n'
         for control_config_name in control_config_input:
             control_config = control_config_input[control_config_name]
-            configuration_text += '### ' + control_config['name'] + '\n'
+            # configuration_text += '### ' + control_config['name'] + '\n'
             config_name = control_config['path'].split('.')[-1]
-            configuration_text += '[' + config_name + '](doc:configuration_parameter_%s)'%config_name.lower() + '\n'
+            configuration_text += '* ' '[' + config_name + '](../frameworks-and-controls/configuring-controls.md#%s)'%config_name.lower() + '\n'
             configuration_text += control_config['description'] + '\n \n'
         md_text += configuration_text
 
