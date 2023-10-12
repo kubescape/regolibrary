@@ -8,12 +8,34 @@ such as its severity, description, related resources, test, remediation, and exa
 import os
 import json
 
-# Function to ignore certain frameworks based on their names
 def ignore_framework(framework_name: str):
+    """
+    determines whether or not to ignore a framework based on its name.
+
+    Parameters
+    ----------
+    framework_name: the name of the framework
+
+    Returns
+    --------
+    True if the framework should be ignored, False otherwise
+    
+    """
     return framework_name == 'YAML-scanning' or framework_name.startswith('developer')
 
-# Function to get the frameworks a given control conforms to
 def get_frameworks_for_control(control):
+    """
+    returns the frameworks a given control conforms to.
+
+    Parameters
+    ----------
+    control: the control object
+
+    Returns
+    -------
+    a list of framework names
+
+    """
     r = []
     # Loop through all the json files in the 'frameworks' directory
     for frameworks_json_file_name in filter(lambda fn: fn.endswith('.json'),os.listdir('frameworks')):
@@ -28,8 +50,19 @@ def get_frameworks_for_control(control):
                     r.append(framework['name'])
     return r
 
-# Function to create a markdown text for a given control
 def create_md_for_control(control):
+    """
+    generates a markdown file for a given control.
+
+    Parameters
+    ----------
+    control: the control object
+    
+    Returns
+    -------
+    the markdown text/file
+
+    """
     related_resources = set()
     control_config_input = {}
     host_sensor = False
@@ -112,8 +145,19 @@ def create_md_for_control(control):
         md_text += '```\n' + control['example'] + '\n```' + '\n'
     return md_text
 
-# Function to generate the index.md file
 def generate_index_md(controls):
+    """
+    Generates the content for the index.md file based on the provided list of controls.
+
+    Parameters
+    ----------
+    controls: A list of control objects.
+
+    Returns
+    ------- 
+    str: The generated content for the index.md file.
+
+    """
     # Sort the controls list based on control ID
     controls.sort(key=lambda control: convert_control_id_to_doc_order(control['controlID']))
 
@@ -130,12 +174,31 @@ def generate_index_md(controls):
 
     return index_md
 
-# Function to generate a slug for a given control
 def generate_slug(control):
+    """
+    Generates a slug for a given control.
+
+    Parameters
+    ----------
+    control: The control object.
+
+    Returns 
+    -------
+    str: The generated slug for the control.
+
+    """
     return control['controlID'].lower().replace(".", "-")
 
-# Function to fetch and obtain the control's configuration parameters information
 def get_configuration_parameters_info():
+    """
+    Fetches and obtains the control's configuration parameters information.
+
+    Returns
+    -------
+    tuple: A tuple containing two dictionaries - config_parameters and default_config_inputs.
+        - config_parameters: A dictionary mapping configuration parameter names to their corresponding configuration objects.
+        - default_config_inputs: A dictionary containing default configuration inputs.
+    """
     default_config_inputs = None
     with open('default-config-inputs.json','r') as f:
         default_config_inputs = json.load(f)['settings']['postureControlInputs']
