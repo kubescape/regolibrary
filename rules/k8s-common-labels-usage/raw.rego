@@ -87,21 +87,21 @@ no_K8s_label_usage(wl, podSpec, beggining_of_pod_path) = path{
 no_K8s_label_or_no_K8s_label_usage(wl, start_of_path) = path{
 	not wl.metadata.labels
 	label_key := get_label_key("")
-	path = [{"path": sprintf("%vmetadata.labels.%v", [start_of_path, label_key]), "value": "YOUR_VALUE"}]
+	path = [{"path": sprintf("%vmetadata.labels[%v]", [start_of_path, label_key]), "value": "YOUR_VALUE"}]
 }
 
 no_K8s_label_or_no_K8s_label_usage(wl, start_of_path) = path{
 	metadata := wl.metadata
 	not metadata.labels
 	label_key := get_label_key("")
-	path = [{"path": sprintf("%vmetadata.labels.%v", [start_of_path, label_key]), "value": "YOUR_VALUE"}]
+	path = [{"path": sprintf("%vmetadata.labels[%v]", [start_of_path, label_key]), "value": "YOUR_VALUE"}]
 }
 
 no_K8s_label_or_no_K8s_label_usage(wl, start_of_path) = path{
 	labels := wl.metadata.labels
 	not all_kubernetes_labels(labels)
 	label_key := get_label_key("")
-	path = [{"path": sprintf("%vmetadata.labels.%v", [start_of_path, label_key]), "value": "YOUR_VALUE"}]
+	path = [{"path": sprintf("%vmetadata.labels[%v]", [start_of_path, label_key]), "value": "YOUR_VALUE"}]
 }
 
 all_kubernetes_labels(labels){

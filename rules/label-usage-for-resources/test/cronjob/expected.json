@@ -5,7 +5,7 @@
         "path": "metadata.labels.YOUR_LABEL",
         "value": "YOUR_VALUE"
     }, {
-        "path": "spec.jobTemplate.spec.template.metadata.labels.YOUR_LABEL",
+        "path": "spec.jobTemplate.spec.template.metadata.labels[YOUR_LABEL]",
         "value": "YOUR_VALUE"
     }],
     "ruleStatus": "",
