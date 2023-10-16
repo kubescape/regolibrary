@@ -35,6 +35,10 @@ deny[msga] {
     
     svc := input[_]
     svc.kind == "Service"
+
+    # Make sure that they belong to the same namespace
+    svc.metadata.namespace == ingress.metadata.namespace
+
     # avoid duplicate alerts
     # if service is already exposed through NodePort or LoadBalancer workload will fail on that
     not is_exposed_service(svc)
@@ -55,11 +59,16 @@ deny[msga] {
         "alertObject": {
             "k8sApiObjects": [wl]
         },
-        "relatedObjects": [{
-            "object": ingress,
+        "relatedObjects": [
+		{
+	            "object": ingress,
 		    "reviewPaths": result,
-            "failedPaths": result,
-        }]
+	            "failedPaths": result,
+	        },
+		{
+	            "object": svc,
+		}
+        ]
     }
 } 
 
