@@ -2,8 +2,36 @@
     {
         "alertMessage": "Container: hello in CronJob: hello   does not have CPU-limit or request",
         "failedPaths": [],
-        "fixPaths" : [{"path": "spec.jobTemplate.spec.template.spec.containers[0].resources.limits.cpu", "value": "YOUR_VALUE"}, 
-                        {"path": "spec.jobTemplate.spec.template.spec.containers[0].resources.requests.cpu", "value": "YOUR_VALUE"}],
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[0].resources.limits.cpu",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Container: hello in CronJob: hello   does not have CPU-limit or request",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[0].resources.requests.cpu",
+                "value": "YOUR_VALUE"
+            }
+        ],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,
