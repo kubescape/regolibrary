@@ -1,15 +1,13 @@
 package armo_builtins
 
-# Fails if pod does not have container with memory-limit or request
+#  ================================== memory limits ==================================
+# Fails if pod does not have container with memory-limits
 deny[msga] {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	not request_or_limit_memory(container)
-	fixPaths := [
-		{"path": sprintf("spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
-		{"path": sprintf("spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
-	]
+	not container.resources.limits.memory
+	fixPaths := [{"path": sprintf("spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": sprintf("Container: %v does not have memory-limit or request", [container.name]),
@@ -21,17 +19,14 @@ deny[msga] {
 	}
 }
 
-# Fails if workload does not have container with memory-limit or request
+# Fails if workload does not have container with memory-limits
 deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
-	not request_or_limit_memory(container)
-	fixPaths := [
-		{"path": sprintf("spec.template.spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
-		{"path": sprintf("spec.template.spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
-	]
+	not container.resources.limits.memory
+	fixPaths := [{"path": sprintf("spec.template.spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have memory-limit or request", [container.name, wl.kind, wl.metadata.name]),
@@ -43,16 +38,69 @@ deny[msga] {
 	}
 }
 
-# Fails if cronjob does not have container with memory-limit or request
+# Fails if cronjob does not have container with memory-limits
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	not request_or_limit_memory(container)
-	fixPaths := [
-		{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
-		{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"},
-	]
+	not container.resources.limits.memory
+	fixPaths := [{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
+
+	msga := {
+		"alertMessage": sprintf("Container: %v in %v: %v   does not have memory-limit or request", [container.name, wl.kind, wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"fixPaths": fixPaths,
+		"failedPaths": [],
+		"alertObject": {"k8sApiObjects": [wl]},
+	}
+}
+
+#  ================================== memory requests ==================================
+# Fails if pod does not have container with memory requests
+deny[msga] {
+	pod := input[_]
+	pod.kind == "Pod"
+	container := pod.spec.containers[i]
+	not container.resources.requests.memory
+	fixPaths := [{"path": sprintf("spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
+
+	msga := {
+		"alertMessage": sprintf("Container: %v does not have memory-limit or request", [container.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"fixPaths": fixPaths,
+		"failedPaths": [],
+		"alertObject": {"k8sApiObjects": [pod]},
+	}
+}
+
+# Fails if workload does not have container with memory requests
+deny[msga] {
+	wl := input[_]
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	spec_template_spec_patterns[wl.kind]
+	container := wl.spec.template.spec.containers[i]
+	not container.resources.requests.memory
+	fixPaths := [{"path": sprintf("spec.template.spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
+
+	msga := {
+		"alertMessage": sprintf("Container: %v in %v: %v   does not have memory-limit or request", [container.name, wl.kind, wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"fixPaths": fixPaths,
+		"failedPaths": [],
+		"alertObject": {"k8sApiObjects": [wl]},
+	}
+}
+
+# Fails if cronjob does not have container with memory requests
+deny[msga] {
+	wl := input[_]
+	wl.kind == "CronJob"
+	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+	not container.resources.requests.memory
+	fixPaths := [{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have memory-limit or request", [container.name, wl.kind, wl.metadata.name]),
@@ -148,9 +196,7 @@ is_min_max_exceeded_memory(container) = "resources.limits.memory" {
 } else = "resources.requests.memory" {
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
-} else = "" {
-	true
-}
+} else = ""
 
 is_limit_exceeded_memory(memory_limit) {
 	is_min_limit_exceeded_memory(memory_limit)
@@ -171,7 +217,7 @@ is_req_exceeded_memory(memory_req) {
 # helpers
 
 is_max_limit_exceeded_memory(memory_limit) {
-	memory_limit_max :=data.postureControlInputs.memory_limit_max[_]
+	memory_limit_max := data.postureControlInputs.memory_limit_max[_]
 	compare_max(memory_limit_max, memory_limit)
 }
 
@@ -197,24 +243,24 @@ is_min_request_exceeded_memory(memory_req) {
 compare_max(max, given) {
 	endswith(max, "Mi")
 	endswith(given, "Mi")
-	split_max :=  split(max, "Mi")[0]
-	split_given :=  split(given, "Mi")[0]
+	split_max := split(max, "Mi")[0]
+	split_given := split(given, "Mi")[0]
 	split_given > split_max
 }
 
 compare_max(max, given) {
 	endswith(max, "M")
 	endswith(given, "M")
-	split_max :=  split(max, "M")[0]
-	split_given :=  split(given, "M")[0]
+	split_max := split(max, "M")[0]
+	split_given := split(given, "M")[0]
 	split_given > split_max
 }
 
 compare_max(max, given) {
 	endswith(max, "m")
 	endswith(given, "m")
-	split_max :=  split(max, "m")[0]
-	split_given :=  split(given, "m")[0]
+	split_max := split(max, "m")[0]
+	split_given := split(given, "m")[0]
 	split_given > split_max
 }
 
@@ -224,31 +270,29 @@ compare_max(max, given) {
 	given > max
 }
 
-
-
 ################
 # Compare according to unit - min
 compare_min(min, given) {
 	endswith(min, "Mi")
 	endswith(given, "Mi")
-	split_min :=  split(min, "Mi")[0]
-	split_given :=  split(given, "Mi")[0]
+	split_min := split(min, "Mi")[0]
+	split_given := split(given, "Mi")[0]
 	split_given < split_min
 }
 
 compare_min(min, given) {
 	endswith(min, "M")
 	endswith(given, "M")
-	split_min :=  split(min, "M")[0]
-	split_given :=  split(given, "M")[0]
+	split_min := split(min, "M")[0]
+	split_given := split(given, "M")[0]
 	split_given < split_min
 }
 
 compare_min(min, given) {
 	endswith(min, "m")
 	endswith(given, "m")
-	split_min :=  split(min, "m")[0]
-	split_given :=  split(given, "m")[0]
+	split_min := split(min, "m")[0]
+	split_given := split(given, "m")[0]
 	split_given < split_min
 }
 
@@ -257,7 +301,6 @@ compare_min(min, given) {
 	not is_special_measure(given)
 	given < min
 }
-
 
 # Check that is same unit
 is_special_measure(unit) {
