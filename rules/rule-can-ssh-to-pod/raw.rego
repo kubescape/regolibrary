@@ -49,6 +49,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v is exposed by SSH services: %v", [wl.kind, wl.metadata.name, service]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"deletePaths": [path],
 		"failedPaths": [path],
         "alertObject": {
 			"k8sApiObjects": [wl,service]
@@ -72,6 +73,7 @@ deny[msga] {
 		"alertMessage": sprintf("%v: %v is exposed by SSH services: %v", [wl.kind, wl.metadata.name, service]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"deletePaths": [path],
 		"failedPaths": [path],
         "alertObject": {
 			"k8sApiObjects": [wl,service]
