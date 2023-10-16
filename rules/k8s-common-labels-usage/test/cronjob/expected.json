@@ -2,7 +2,7 @@
     "alertMessage": "the following cronjobs the kubernetes common labels are not defined: hello",
     "failedPaths": [],
     "fixPaths": [{
-        "path": "spec.jobTemplate.spec.template.metadata.labels.app.kubernetes.io/name",
+        "path": "spec.jobTemplate.spec.template.metadata.labels[app.kubernetes.io/name]",
         "value": "YOUR_VALUE"
     }],
     "ruleStatus": "",

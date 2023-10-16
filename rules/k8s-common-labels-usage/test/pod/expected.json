@@ -2,7 +2,7 @@
     "alertMessage": "in the following pod the kubernetes common labels are not defined: command-demo",
     "failedPaths": [],
     "fixPaths": [{
-        "path": "metadata.labels.YOUR_LABEL",
+        "path": "metadata.labels[YOUR_LABEL]",
         "value": "YOUR_VALUE"
     }],
     "ruleStatus": "",
