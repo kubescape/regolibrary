@@ -59,11 +59,16 @@ deny[msga] {
         "alertObject": {
             "k8sApiObjects": [wl]
         },
-        "relatedObjects": [{
-            "object": ingress,
+        "relatedObjects": [
+		{
+	            "object": ingress,
 		    "reviewPaths": result,
-            "failedPaths": result,
-        }]
+	            "failedPaths": result,
+	        },
+		{
+	            "object": svc,
+		}
+        ]
     }
 } 
 
