@@ -23,7 +23,7 @@
     "default_value": "By default, Kubernetes starts with two initial namespaces: 1. `default` - The default namespace for objects with no other namespace2. `kube-system` - The namespace for objects created by the Kubernetes system3. `kube-node-lease` - Namespace used for node heartbeats4. `kube-public` - Namespace used for public information in a cluster",
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

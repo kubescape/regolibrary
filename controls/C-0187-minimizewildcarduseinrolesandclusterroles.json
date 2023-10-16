@@ -23,8 +23,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cluster",
-            "file"
+            "cluster"
         ]
     }
 }

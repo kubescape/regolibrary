@@ -45,7 +45,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }
