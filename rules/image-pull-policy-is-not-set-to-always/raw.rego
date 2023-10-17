@@ -11,6 +11,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in pod: %v  has 'latest' tag on image but imagePullPolicy is not set to 'Always'", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 2,
+		"reviewPaths": paths,
 		"failedPaths": paths,
 		"fixPaths":[],
 		"alertObject": {
@@ -30,6 +31,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in %v: %v  has 'latest' tag on image but imagePullPolicy is not set to 'Always'", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 2,
+		"reviewPaths": paths,
 		"failedPaths": paths,
 		"fixPaths":[],
 		"alertObject": {
@@ -48,6 +50,7 @@ deny[msga] {
 		"alertMessage": sprintf("container: %v in cronjob: %v  has 'latest' tag on image but imagePullPolicy is not set to 'Always'", [container.name, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 2,
+		"reviewPaths": paths,
 		"failedPaths": paths,
 		"fixPaths":[],
 		"alertObject": {
