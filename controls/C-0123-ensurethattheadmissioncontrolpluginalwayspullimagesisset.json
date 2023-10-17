@@ -22,7 +22,7 @@
     "default_value": "By default, `AlwaysPullImages` is not set.",
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }
