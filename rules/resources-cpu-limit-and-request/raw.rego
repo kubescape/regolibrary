@@ -140,11 +140,11 @@ deny[msga] {
     pod.kind == "Pod"
     container := pod.spec.containers[i]
 	request_or_limit_cpu(container)
-	resource := "resources.limits.cpu" 
+	path := "resources.limits.cpu" 
 	cpu_limit := container.resources.limits.cpu
 	is_limit_exceeded_cpu(cpu_limit)
 
-	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v exceeds CPU-limit or request", [ container.name]),
@@ -167,11 +167,11 @@ deny[msga] {
     container := wl.spec.template.spec.containers[i]
 
 	request_or_limit_cpu(container)
-	resource := "resources.limits.cpu" 
+	path := "resources.limits.cpu" 
 	cpu_limit := container.resources.limits.cpu
 	is_limit_exceeded_cpu(cpu_limit)
 
-	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
@@ -193,11 +193,11 @@ deny[msga] {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
 	request_or_limit_cpu(container)
-   	resource := "resources.limits.cpu" 
+   	path := "resources.limits.cpu" 
 	cpu_limit := container.resources.limits.cpu
 	is_limit_exceeded_cpu(cpu_limit)
 
-	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
 
     msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
@@ -220,11 +220,11 @@ deny[msga] {
     pod.kind == "Pod"
     container := pod.spec.containers[i]
 	request_or_limit_cpu(container)
-	resource := "resources.requests.cpu" 
+	path := "resources.requests.cpu" 
 	cpu_req := container.resources.requests.cpu
 	is_req_exceeded_cpu(cpu_req)
 
-	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v exceeds CPU-limit or request", [ container.name]),
@@ -247,11 +247,11 @@ deny[msga] {
     container := wl.spec.template.spec.containers[i]
 
 	request_or_limit_cpu(container)
-	resource := "resources.requests.cpu" 
+	path := "resources.requests.cpu" 
 	cpu_req := container.resources.requests.cpu
 	is_req_exceeded_cpu(cpu_req)
 
-	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
@@ -273,11 +273,11 @@ deny[msga] {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
 	request_or_limit_cpu(container)
-	resource := "resources.requests.cpu" 
+	path := "resources.requests.cpu" 
 	cpu_req := container.resources.requests.cpu
 	is_req_exceeded_cpu(cpu_req)
 
-	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
 
     msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),

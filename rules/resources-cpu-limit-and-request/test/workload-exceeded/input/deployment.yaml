@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+  namespace: default
+  labels:
+    purpose: demonstrate-command
+spec:
+  selector:
+    matchLabels:
+      purpose: demonstrate-command
+  template:
+    metadata:
+      labels:
+        purpose: demonstrate-command
+    spec :
+      containers :
+        -
+          name : log-aggregator
+          image : images.my-company.example/log-aggregator:v6
+          resources :
+            requests :
+              memory : "64Mi"
+              cpu : "250m"
+            limits :
+              memory : "128Mi"
+              cpu : "500m"
+    

@@ -1,0 +1,50 @@
+[
+    {
+        "alertMessage": "Container: log-aggregator in Deployment: test exceeds CPU-limit or request",
+        "failedPaths": [
+            "spec.template.spec.containers[0].resources.limits.cpu"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-command"
+                        },
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Container: log-aggregator in Deployment: test exceeds CPU-limit or request",
+        "failedPaths": [
+            "spec.template.spec.containers[0].resources.requests.cpu"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-command"
+                        },
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

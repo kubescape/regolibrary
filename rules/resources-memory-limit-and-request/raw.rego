@@ -127,9 +127,9 @@ deny[msga] {
 	request_or_limit_memory(container)
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
-	resource := "resources.requests.memory"
+	path := "resources.requests.memory"
 
-	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v exceeds memory request", [container.name]),
@@ -152,9 +152,9 @@ deny[msga] {
 	request_or_limit_memory(container)
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
-	resource := "resources.requests.memory"
+	path := "resources.requests.memory"
 
-	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory request", [container.name, wl.kind, wl.metadata.name]),
@@ -176,9 +176,9 @@ deny[msga] {
 	request_or_limit_memory(container)
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
-	resource := "resources.requests.memory" 
+	path := "resources.requests.memory" 
 
-	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory request", [container.name, wl.kind, wl.metadata.name]),
@@ -201,9 +201,9 @@ deny[msga] {
 	request_or_limit_memory(container)
 	memory_limit := container.resources.limits.memory
 	is_limit_exceeded_memory(memory_limit)
-	resource := "resources.limits.memory"
+	path := "resources.limits.memory"
 
-	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v exceeds memory-limit ", [container.name]),
@@ -226,9 +226,9 @@ deny[msga] {
 	request_or_limit_memory(container)
 	memory_limit := container.resources.limits.memory
 	is_limit_exceeded_memory(memory_limit)
-	resource := "resources.limits.memory"
+	path := "resources.limits.memory"
 
-	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory-limit", [container.name, wl.kind, wl.metadata.name]),
@@ -250,9 +250,9 @@ deny[msga] {
 	request_or_limit_memory(container)
 	memory_limit := container.resources.limits.memory
 	is_limit_exceeded_memory(memory_limit)
-	resource := "resources.limits.memory"
+	path := "resources.limits.memory"
 
-	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory-limit", [container.name, wl.kind, wl.metadata.name]),
