@@ -1,6 +1,6 @@
 package armo_builtins
 
-#  ================================== memory limits ==================================
+#  ================================== no memory limits ==================================
 # Fails if pod does not have container with memory-limits
 deny[msga] {
 	pod := input[_]
@@ -56,7 +56,7 @@ deny[msga] {
 	}
 }
 
-#  ================================== memory requests ==================================
+#  ================================== no memory requests ==================================
 # Fails if pod does not have container with memory requests
 deny[msga] {
 	pod := input[_]
@@ -117,21 +117,22 @@ request_or_limit_memory(container) {
 	container.resources.requests.memory
 }
 
-######################################################################################################
+# ============================================= memory requests exceed min/max =============================================
 
-# Fails if pod exceeds memory-limit or request
+# Fails if pod exceeds memory request
 deny[msga] {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
 	request_or_limit_memory(container)
-	resource := is_min_max_exceeded_memory(container)
-	resource != ""
+	memory_req := container.resources.requests.memory
+	is_req_exceeded_memory(memory_req)
+	resource := "resources.requests.memory"
 
 	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), resource])
 
 	msga := {
-		"alertMessage": sprintf("Container: %v exceeds memory-limit or request", [container.name]),
+		"alertMessage": sprintf("Container: %v exceeds memory request", [container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"reviewPaths": [failed_paths],
@@ -141,7 +142,7 @@ deny[msga] {
 	}
 }
 
-# Fails if workload exceeds memory-limit or request
+# Fails if workload exceeds memory request
 deny[msga] {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
@@ -149,13 +150,14 @@ deny[msga] {
 	container := wl.spec.template.spec.containers[i]
 
 	request_or_limit_memory(container)
-	resource := is_min_max_exceeded_memory(container)
-	resource != ""
+	memory_req := container.resources.requests.memory
+	is_req_exceeded_memory(memory_req)
+	resource := "resources.requests.memory"
 
 	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
 
 	msga := {
-		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory-limit or request", [container.name, wl.kind, wl.metadata.name]),
+		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory request", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"reviewPaths": [failed_paths],
@@ -165,20 +167,95 @@ deny[msga] {
 	}
 }
 
-# Fails if cronjob exceeds memory-limit or request
+# Fails if cronjob exceeds memory request
 deny[msga] {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
 	request_or_limit_memory(container)
-	resource := is_min_max_exceeded_memory(container)
-	resource != ""
+	memory_req := container.resources.requests.memory
+	is_req_exceeded_memory(memory_req)
+	resource := "resources.requests.memory" 
 
 	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
 
 	msga := {
-		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory-limit or request", [container.name, wl.kind, wl.metadata.name]),
+		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory request", [container.name, wl.kind, wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"reviewPaths": [failed_paths],
+		"failedPaths": [failed_paths],
+		"fixPaths": [],
+		"alertObject": {"k8sApiObjects": [wl]},
+	}
+}
+
+# ============================================= memory limits exceed min/max =============================================
+
+# Fails if pod exceeds memory-limit 
+deny[msga] {
+	pod := input[_]
+	pod.kind == "Pod"
+	container := pod.spec.containers[i]
+	request_or_limit_memory(container)
+	memory_limit := container.resources.limits.memory
+	is_limit_exceeded_memory(memory_limit)
+	resource := "resources.limits.memory"
+
+	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), resource])
+
+	msga := {
+		"alertMessage": sprintf("Container: %v exceeds memory-limit ", [container.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"reviewPaths": [failed_paths],
+		"failedPaths": [failed_paths],
+		"fixPaths": [],
+		"alertObject": {"k8sApiObjects": [pod]},
+	}
+}
+
+# Fails if workload exceeds memory-limit 
+deny[msga] {
+	wl := input[_]
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	spec_template_spec_patterns[wl.kind]
+	container := wl.spec.template.spec.containers[i]
+
+	request_or_limit_memory(container)
+	memory_limit := container.resources.limits.memory
+	is_limit_exceeded_memory(memory_limit)
+	resource := "resources.limits.memory"
+
+	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+
+	msga := {
+		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory-limit", [container.name, wl.kind, wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"reviewPaths": [failed_paths],
+		"failedPaths": [failed_paths],
+		"fixPaths": [],
+		"alertObject": {"k8sApiObjects": [wl]},
+	}
+}
+
+# Fails if cronjob exceeds memory-limit 
+deny[msga] {
+	wl := input[_]
+	wl.kind == "CronJob"
+	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+
+	request_or_limit_memory(container)
+	memory_limit := container.resources.limits.memory
+	is_limit_exceeded_memory(memory_limit)
+	resource := "resources.limits.memory"
+
+	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+
+	msga := {
+		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory-limit", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"reviewPaths": [failed_paths],
@@ -190,13 +267,6 @@ deny[msga] {
 
 ######################################################################################################
 
-is_min_max_exceeded_memory(container) = "resources.limits.memory" {
-	memory_limit := container.resources.limits.memory
-	is_limit_exceeded_memory(memory_limit)
-} else = "resources.requests.memory" {
-	memory_req := container.resources.requests.memory
-	is_req_exceeded_memory(memory_req)
-} else = ""
 
 is_limit_exceeded_memory(memory_limit) {
 	is_min_limit_exceeded_memory(memory_limit)

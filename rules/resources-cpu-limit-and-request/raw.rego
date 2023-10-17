@@ -1,6 +1,6 @@
 package armo_builtins
 
-# ==================================== CPU requests =============================================
+# ==================================== no CPU requests =============================================
 # Fails if pod does not have container with CPU request
 deny[msga] {
     pod := input[_]
@@ -65,7 +65,7 @@ deny[msga] {
 	}
 }
 
-# ==================================== CPU limits =============================================
+# ==================================== no CPU limits =============================================
 # Fails if pod does not have container with CPU-limits
 deny[msga] {
     pod := input[_]
@@ -132,7 +132,7 @@ deny[msga] {
 
 
 
-###################################################################################################################
+# ============================================= cpu limits exceed min/max =============================================
 
 # Fails if pod exceeds CPU-limit or request
 deny[msga] {
@@ -140,8 +140,9 @@ deny[msga] {
     pod.kind == "Pod"
     container := pod.spec.containers[i]
 	request_or_limit_cpu(container)
-	resource := is_min_max_exceeded_cpu(container)
-	resource != ""
+	resource := "resources.limits.cpu" 
+	cpu_limit := container.resources.limits.cpu
+	is_limit_exceeded_cpu(cpu_limit)
 
 	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), resource])
 
@@ -166,8 +167,9 @@ deny[msga] {
     container := wl.spec.template.spec.containers[i]
 
 	request_or_limit_cpu(container)
-	resource := is_min_max_exceeded_cpu(container)
-	resource != ""
+	resource := "resources.limits.cpu" 
+	cpu_limit := container.resources.limits.cpu
+	is_limit_exceeded_cpu(cpu_limit)
 
 	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
 
@@ -191,8 +193,9 @@ deny[msga] {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
 	request_or_limit_cpu(container)
-   	resource := is_min_max_exceeded_cpu(container)
-	resource != ""
+   	resource := "resources.limits.cpu" 
+	cpu_limit := container.resources.limits.cpu
+	is_limit_exceeded_cpu(cpu_limit)
 
 	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
 
@@ -209,7 +212,85 @@ deny[msga] {
 	}
 }
 
+# ============================================= cpu requests exceed min/max =============================================
 
+# Fails if pod exceeds CPU-limit or request
+deny[msga] {
+    pod := input[_]
+    pod.kind == "Pod"
+    container := pod.spec.containers[i]
+	request_or_limit_cpu(container)
+	resource := "resources.requests.cpu" 
+	cpu_req := container.resources.requests.cpu
+	is_req_exceeded_cpu(cpu_req)
+
+	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), resource])
+
+	msga := {
+		"alertMessage": sprintf("Container: %v exceeds CPU-limit or request", [ container.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"reviewPaths": [failed_paths],
+		"failedPaths": [failed_paths],
+		"fixPaths": [],
+		"alertObject": {
+			"k8sApiObjects": [pod]
+		}
+	}
+}
+
+# Fails if workload exceeds CPU-limit or request
+deny[msga] {
+    wl := input[_]
+	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	spec_template_spec_patterns[wl.kind]
+    container := wl.spec.template.spec.containers[i]
+
+	request_or_limit_cpu(container)
+	resource := "resources.requests.cpu" 
+	cpu_req := container.resources.requests.cpu
+	is_req_exceeded_cpu(cpu_req)
+
+	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+
+	msga := {
+		"alertMessage": sprintf("Container: %v in %v: %v exceeds CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"reviewPaths": [failed_paths],
+		"failedPaths": [failed_paths],
+		"fixPaths": [],
+		"alertObject": {
+			"k8sApiObjects": [wl]
+		}
+	}
+}
+
+# Fails if cronjob doas exceeds CPU-limit or request
+deny[msga] {
+  	wl := input[_]
+	wl.kind == "CronJob"
+	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+
+	request_or_limit_cpu(container)
+	resource := "resources.requests.cpu" 
+	cpu_req := container.resources.requests.cpu
+	is_req_exceeded_cpu(cpu_req)
+
+	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), resource])
+
+    msga := {
+		"alertMessage": sprintf("Container: %v in %v: %v exceeds CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"reviewPaths": [failed_paths],
+		"failedPaths": [failed_paths],
+		"fixPaths": [],
+		"alertObject": {
+			"k8sApiObjects": [wl]
+		}
+	}
+}
 
 
 #################################################################################################################
