@@ -139,7 +139,6 @@ deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
     container := pod.spec.containers[i]
-	request_or_limit_cpu(container)
 	path := "resources.limits.cpu" 
 	cpu_limit := container.resources.limits.cpu
 	is_limit_exceeded_cpu(cpu_limit)
@@ -166,7 +165,6 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
     container := wl.spec.template.spec.containers[i]
 
-	request_or_limit_cpu(container)
 	path := "resources.limits.cpu" 
 	cpu_limit := container.resources.limits.cpu
 	is_limit_exceeded_cpu(cpu_limit)
@@ -192,7 +190,6 @@ deny[msga] {
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
-	request_or_limit_cpu(container)
    	path := "resources.limits.cpu" 
 	cpu_limit := container.resources.limits.cpu
 	is_limit_exceeded_cpu(cpu_limit)
@@ -219,7 +216,6 @@ deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
     container := pod.spec.containers[i]
-	request_or_limit_cpu(container)
 	path := "resources.requests.cpu" 
 	cpu_req := container.resources.requests.cpu
 	is_req_exceeded_cpu(cpu_req)
@@ -246,7 +242,6 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
     container := wl.spec.template.spec.containers[i]
 
-	request_or_limit_cpu(container)
 	path := "resources.requests.cpu" 
 	cpu_req := container.resources.requests.cpu
 	is_req_exceeded_cpu(cpu_req)
@@ -272,7 +267,6 @@ deny[msga] {
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
-	request_or_limit_cpu(container)
 	path := "resources.requests.cpu" 
 	cpu_req := container.resources.requests.cpu
 	is_req_exceeded_cpu(cpu_req)
@@ -294,11 +288,6 @@ deny[msga] {
 
 
 #################################################################################################################
-
-request_or_limit_cpu(container) {
-	container.resources.limits.cpu
-	container.resources.requests.cpu
-}
 
 
 is_min_max_exceeded_cpu(container)  = "resources.limits.cpu" {
