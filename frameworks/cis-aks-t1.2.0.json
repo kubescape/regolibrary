@@ -7,7 +7,7 @@
     },
     "scanningScope": {
         "matches": [
-            "AKS"
+            "cluster"
         ]
     },
     "typeTags": ["compliance"],
