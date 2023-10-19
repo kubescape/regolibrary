@@ -112,10 +112,6 @@ deny[msga] {
 	}
 }
 
-request_or_limit_memory(container) {
-	container.resources.limits.memory
-	container.resources.requests.memory
-}
 
 # ============================================= memory requests exceed min/max =============================================
 
@@ -124,7 +120,6 @@ deny[msga] {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	request_or_limit_memory(container)
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
 	path := "resources.requests.memory"
@@ -149,7 +144,6 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 
-	request_or_limit_memory(container)
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
 	path := "resources.requests.memory"
@@ -173,7 +167,6 @@ deny[msga] {
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
-	request_or_limit_memory(container)
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
 	path := "resources.requests.memory" 
@@ -198,7 +191,6 @@ deny[msga] {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	request_or_limit_memory(container)
 	memory_limit := container.resources.limits.memory
 	is_limit_exceeded_memory(memory_limit)
 	path := "resources.limits.memory"
@@ -223,7 +215,6 @@ deny[msga] {
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 
-	request_or_limit_memory(container)
 	memory_limit := container.resources.limits.memory
 	is_limit_exceeded_memory(memory_limit)
 	path := "resources.limits.memory"
@@ -247,7 +238,6 @@ deny[msga] {
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
-	request_or_limit_memory(container)
 	memory_limit := container.resources.limits.memory
 	is_limit_exceeded_memory(memory_limit)
 	path := "resources.limits.memory"
