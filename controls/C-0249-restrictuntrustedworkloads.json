@@ -20,7 +20,7 @@
     "default_value": "ACI is not a default component of the AKS",
     "scanningScope": {
         "matches": [
-            "AKS"
+            "cluster"
         ]
     }
 }

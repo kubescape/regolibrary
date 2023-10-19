@@ -19,7 +19,7 @@
     "default_value": "By default, Network Policy is disabled.",
     "scanningScope": {
         "matches": [
-            "AKS"
+            "cluster"
         ]
     }
 }
