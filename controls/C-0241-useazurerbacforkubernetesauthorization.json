@@ -17,7 +17,7 @@
     "default_value": "",
     "scanningScope": {
         "matches": [
-            "cluster"
+            "AKS"
         ]
     }
 }
