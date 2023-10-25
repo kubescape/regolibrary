@@ -18,3 +18,9 @@ jobs:
         uses: BetaHuhn/repo-file-sync-action@v1
         with:
           GH_PAT: ${{ secrets.PAT }}
+          COMMIT_BODY: "Sync control library docs from `regolibrary` repo"
+          PR_BODY: Syncing the Control Library docs from `regolibrary` repository to update the `controls` documentation
+          PR_LABELS: |
+            file-sync
+            automerge
+          COMMIT_PREFIX: false
