@@ -21,6 +21,5 @@ jobs:
           COMMIT_BODY: "Sync control library docs from `regolibrary` repo"
           PR_BODY: Syncing the Control Library docs from `regolibrary` repository to update the `controls` documentation
           PR_LABELS: |
-            file-sync
             automerge
-          COMMIT_PREFIX: false
+          COMMIT_PREFIX: ''
