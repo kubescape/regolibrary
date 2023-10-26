@@ -125,7 +125,7 @@ def create_md_for_control(control):
     if 'remediation' in control and control['remediation'].strip():
         md_text += '## Remediation\n'
         md_text += control['remediation'] + '\n \n'
-    if 'impact_statement' in control and control['impact_statement'].strip() and control['impact_statement'] is not 'None':
+    if 'impact_statement' in control and control['impact_statement'].strip() and control['impact_statement'] != 'None':
         md_text += '### Impact Statement\n' + control['impact_statement'] + '\n \n'
     if 'default_value' in control and control['default_value'].strip():
         md_text += '### Default Value\n' + control['default_value'] + '\n \n'
