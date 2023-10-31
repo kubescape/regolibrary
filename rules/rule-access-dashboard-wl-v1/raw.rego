@@ -14,8 +14,8 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"fixPaths": [],
-		"deletePaths": ["spec.serviceaccountname"],
-		"failedPaths": ["spec.serviceaccountname"],
+		"deletePaths": ["spec.serviceAccountName"],
+		"failedPaths": ["spec.serviceAccountName"],
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -36,8 +36,8 @@ deny[msga] {
 	msga := {
 		"alertMessage": sprintf("%v: %v is associated with dashboard service account", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"deletePaths": ["spec.template.spec.serviceaccountname"],
-		"failedPaths": ["spec.template.spec.serviceaccountname"],
+		"deletePaths": ["spec.template.spec.serviceAccountName"],
+		"failedPaths": ["spec.template.spec.serviceAccountName"],
 		"alertScore": 7,
 		"fixPaths": [],
 		"alertObject": {
@@ -61,8 +61,8 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"fixPaths": [],
-		"deletePaths": ["spec.jobTemplate.spec.template.spec.serviceaccountname"],
-		"failedPaths": ["spec.jobTemplate.spec.template.spec.serviceaccountname"],
+		"deletePaths": ["spec.jobTemplate.spec.template.spec.serviceAccountName"],
+		"failedPaths": ["spec.jobTemplate.spec.template.spec.serviceAccountName"],
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
