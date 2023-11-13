@@ -23,7 +23,8 @@
    },
     "scanningScope": {
         "matches": [
-          "cloud"
+          "cluster",
+          "file"
         ]
       }
 }

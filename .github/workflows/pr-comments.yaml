@@ -1,8 +1,9 @@
 name: PR Comment Trigger
 
 on:
-  issue_comment:
-    types: [created]
+  workflow_call:
+  # issue_comment:
+  #   types: [created]
 jobs:
   job01:
     if: ${{ github.event.issue.pull_request }}

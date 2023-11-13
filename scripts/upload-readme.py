@@ -152,15 +152,16 @@ class ReadmeApi(object):
 
         return r.json()
 
-"""
-Function to validate the structure of the Readme documentation. 
-It checks that there is exactly one "Controls" category and one "Controls" document.
-"""
+# function is validating if the structure is validated and return an error if missing some objects. 
+# NOTE: objects might be changed from time to time, need to update accordingly
 def validate_readme_structure(readmeapi : ReadmeApi):
     categories = readmeapi.get_categories()
-    filtered_categories = list(filter(lambda c: c['title'] == 'Controls',categories))
+    filtered_categories = list(filter(lambda c: c['title'] == 'Review Controls',categories))
+    print(categories)
+    
     if len(filtered_categories) != 1:
-        raise Exception('Readme structure validation failure: missing "Controls" category (or more than one)')
+        raise Exception('Readme structure validation failure: missing "Review Controls" category (or more than one)')
+    
     controls_category = filtered_categories[0]
     docs_in_control_category = readmeapi.get_docs_in_category(controls_category['slug'])
     filtered_docs = list(filter(lambda d: d['title'] == 'Controls',docs_in_control_category))
@@ -170,9 +171,9 @@ def validate_readme_structure(readmeapi : ReadmeApi):
 # Fucntion to get the documentation for a specific control. It checks that there is exactly one "Controls" category and one document that starts with the control's id.
 def get_document_for_control(readmeapi : ReadmeApi, control):
     categories = readmeapi.get_categories()
-    filtered_categories = list(filter(lambda c: c['title'] == 'Controls',categories))
+    filtered_categories = list(filter(lambda c: c['title'] == 'Review Controls',categories))
     if len(filtered_categories) != 1:
-        raise Exception('Readme structure failure: missing "Controls" category (or more than one)')
+        raise Exception('Readme structure failure: missing "Review Controls" category (or more than one)')
     controls_category = filtered_categories[0]
     docs_in_control_category = readmeapi.get_docs_in_category(controls_category['slug'])
     filtered_docs = list(filter(lambda d: d['title'].startswith(control['id']),docs_in_control_category))
@@ -558,4 +559,3 @@ def get_controls_doc_slugs(readmeapi: ReadmeApi) -> list:
 
 if __name__ == '__main__':
     main()
-

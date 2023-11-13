@@ -6,7 +6,7 @@ on:
     # run for every chnage in the PR
     types: [ opened, synchronize, reopened, ready_for_review ]
     # Do not run the pipeline if only Markdown files changed
-    paths-ignore: ['**.md']
+    # paths-ignore: ['**.md']
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
