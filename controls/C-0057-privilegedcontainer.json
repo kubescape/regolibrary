@@ -6,7 +6,8 @@
             "Privilege escalation"
         ],
         "controlTypeTags": [
-            "security"
+            "security",
+            "smartRemediation"
         ]
     },
     "description": "Potential attackers may gain access to privileged containers and inherit access to the host resources. Therefore, it is not recommended to deploy privileged containers unless it is absolutely necessary. This control identifies all the privileged Pods.",

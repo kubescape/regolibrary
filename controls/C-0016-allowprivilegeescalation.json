@@ -4,7 +4,8 @@
         "armoBuiltin": true,
         "controlTypeTags": [
             "security",
-            "compliance"
+            "compliance",
+            "smartRemediation"
         ]
     },
     "description": "Attackers may gain access to a container and uplift its privilege to enable excessive capabilities.",
