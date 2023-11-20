@@ -5,7 +5,8 @@
         "armoBuiltin": true,
         "controlTypeTags": [
             "security",
-            "compliance"
+            "compliance",
+            "smartRemediation"
         ],
         "attackTracks": [
             {
