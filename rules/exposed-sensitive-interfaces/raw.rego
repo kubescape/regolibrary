@@ -104,10 +104,10 @@ deny[msga] {
 
 wl_connectedto_service(wl, service) = paths{
 	count({x | service.spec.selector[x] == wl.metadata.labels[x]}) == count(service.spec.selector)
-	paths = ["spec.selector.matchLabels", "service.spec.selector"]
+	paths = ["spec.selector.matchLabels","spec.selector"]
 }
 
 wl_connectedto_service(wl, service) = paths {
 	wl.spec.selector.matchLabels == service.spec.selector
-	paths = ["spec.selector.matchLabels", "service.spec.selector"]
+	paths = ["spec.selector.matchLabels", "spec.selector"]
 }
