@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "PodSecurityPolicy: 'eks.privileged' has hostPID set as true.",
+        "deletePaths": [
+            "spec.hostPID"
+        ],
         "failedPaths": [
             "spec.hostPID"
         ],

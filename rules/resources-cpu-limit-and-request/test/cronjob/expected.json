@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "Container: hello in CronJob: hello   does not have CPU-limit or request",
+        "reviewPaths": [],
         "failedPaths": [],
         "fixPaths": [
             {
@@ -25,6 +26,7 @@
     },
     {
         "alertMessage": "Container: hello in CronJob: hello   does not have CPU-limit or request",
+        "reviewPaths": [],
         "failedPaths": [],
         "fixPaths": [
             {

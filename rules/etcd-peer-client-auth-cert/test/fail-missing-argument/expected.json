@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "Etcd server is not requiring a valid client certificate.",
+        "reviewPaths": [],
         "failedPaths": [],
         "fixPaths": [
             {

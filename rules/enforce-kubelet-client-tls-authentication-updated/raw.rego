@@ -43,6 +43,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "kubelet client TLS authentication is not enabled",
 		"alertScore": 6,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
@@ -69,6 +70,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Failed to analyze config file",
 		"alertScore": 6,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

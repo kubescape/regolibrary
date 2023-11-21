@@ -16,6 +16,9 @@
          }
       },
       "alertScore": 7,
+      "reviewPaths": [
+         "authentication.anonymous.enabled"
+     ],
       "failedPaths": [
           "authentication.anonymous.enabled"
       ],

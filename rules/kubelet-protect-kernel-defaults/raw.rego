@@ -18,6 +18,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Argument --protect-kernel-defaults is not set to true.",
 		"alertScore": 2,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
@@ -68,6 +69,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Argument --protect-kernel-defaults is not set to true.",
 		"alertScore": 2,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
@@ -90,6 +92,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Failed to analyze config file",
 		"alertScore": 2,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

@@ -1,1 +1,93 @@
-[{"alertMessage":"certificate based kubelet authentication is not enabled","failedPaths":[],"fixPaths":[{"path":"spec.containers[0].command[29]","value":"--kubelet-client-key=\u003cpath/to/appropriate/file\u003e"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}},{"alertMessage":"certificate based kubelet authentication is not enabled","failedPaths":[],"fixPaths":[{"path":"spec.containers[0].command[28]","value":"--kubelet-client-certificate=\u003cpath/to/appropriate/file\u003e"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}},{"alertMessage":"certificate based kubelet authentication is not enabled","failedPaths":[],"fixPaths":[{"path":"spec.containers[0].command[26]","value":"--kubelet-client-certificate=\u003cpath/to/appropriate/file\u003e"},{"path":"spec.containers[0].command[27]","value":"--kubelet-client-key=\u003cpath/to/appropriate/file\u003e"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}}]
+[
+    {
+        "alertMessage": "certificate based kubelet authentication is not enabled",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[29]",
+                "value": "--kubelet-client-key=\u003cpath/to/appropriate/file\u003e"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "certificate based kubelet authentication is not enabled",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[28]",
+                "value": "--kubelet-client-certificate=\u003cpath/to/appropriate/file\u003e"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "certificate based kubelet authentication is not enabled",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[26]",
+                "value": "--kubelet-client-certificate=\u003cpath/to/appropriate/file\u003e"
+            },
+            {
+                "path": "spec.containers[0].command[27]",
+                "value": "--kubelet-client-key=\u003cpath/to/appropriate/file\u003e"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

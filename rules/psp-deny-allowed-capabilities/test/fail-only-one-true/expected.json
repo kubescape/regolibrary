@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "PodSecurityPolicy: 'eks.privileged' has allowedCapabilities.",
+        "deletePaths": [
+            "spec.allowedCapabilities"
+        ],
         "failedPaths": [
             "spec.allowedCapabilities"
         ],

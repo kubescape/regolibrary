@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Please validate that audit-log-maxsize has an appropriate value",
+        "reviewPaths": [
+            "spec.containers[0].command[26]"
+        ],
         "failedPaths": [
             "spec.containers[0].command[26]"
         ],
@@ -26,6 +29,9 @@
     },
     {
         "alertMessage": "Audit log max size not set",
+        "reviewPaths": [
+            "spec.containers[0].command[27]"
+        ],
         "failedPaths": [
             "spec.containers[0].command[27]"
         ],

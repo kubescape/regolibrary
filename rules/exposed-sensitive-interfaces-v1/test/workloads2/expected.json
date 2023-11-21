@@ -1,6 +1,10 @@
 [
     {
         "alertMessage": "service: jenkins-service is exposed",
+        "reviewPaths": [
+            "spec.selector.matchLabels",
+            "spec.selector"
+        ],
         "failedPaths": [
             "spec.selector.matchLabels",
             "spec.selector"

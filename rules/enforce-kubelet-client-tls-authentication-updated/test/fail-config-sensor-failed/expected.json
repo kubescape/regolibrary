@@ -12,6 +12,7 @@
             }
         },
         "alertScore": 6,
+        "reviewPaths": [],
         "failedPaths": [],
         "fixPaths": [],
         "packagename": "armo_builtins"

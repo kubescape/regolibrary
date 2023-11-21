@@ -3,6 +3,7 @@
        "fixCommand": "gcloud container clusters update \u003ccluster_name\u003e --region=\u003ccompute_region\u003e --database-encryption-key=\u003ckey_project_id\u003e/locations/\u003clocation\u003e/keyRings/\u003cring_name\u003e/cryptoKeys/\u003ckey_name\u003e --project=\u003ccluster_project_id\u003e",
        "alertMessage": "etcd/secret encryption is not enabled",
        "fixPaths": [],
+       "reviewPaths": ["data.database_encryption.state"],
        "failedPaths": ["data.database_encryption.state"],
        "ruleStatus": "",
        "packagename": "armo_builtins",

@@ -1,6 +1,7 @@
 [{
     "alertMessage": "CronJob: hello has pods running in the 'default' namespace",
     "fixPaths": [],
+    "reviewPaths": ["metadata.namespace"],
     "failedPaths": ["metadata.namespace"],
     "ruleStatus": "",
     "packagename": "armo_builtins",

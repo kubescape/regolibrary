@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Deployment: my-deployment has a pod connected to the host network",
+        "deletePaths": [
+            "spec.template.spec.hostNetwork"
+        ],
         "failedPaths": [
             "spec.template.spec.hostNetwork"
         ],

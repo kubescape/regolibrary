@@ -1,6 +1,9 @@
 [
 	{
 		"alertMessage": "Pod: mypod has mounted configMap",
+		"deletePaths": [
+			"spec.containers[0].volumeMounts[1]"
+		],
 		"failedPaths": [
 			"spec.containers[0].volumeMounts[1]"
 		],

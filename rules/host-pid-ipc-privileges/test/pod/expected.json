@@ -1,5 +1,6 @@
 [{
     "alertMessage": "Pod: test has hostPID enabled",
+    "deletePaths": ["spec.hostPID"],
     "failedPaths": ["spec.hostPID"],
     "fixPaths": [],
     "ruleStatus": "",

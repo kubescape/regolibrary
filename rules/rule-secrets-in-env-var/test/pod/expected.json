@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Pod: audit-pod has secrets in environment variables",
+        "deletePaths": [
+            "spec.containers[1].env[0].name"
+        ],
         "failedPaths": [
             "spec.containers[1].env[0].name"
         ],

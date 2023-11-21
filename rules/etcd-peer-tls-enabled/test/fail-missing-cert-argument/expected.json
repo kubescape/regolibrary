@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Etcd encryption for peer connection is not enabled.",
+        "reviewPaths": [
+            "spec.containers[0].command"
+        ],
         "failedPaths": [
             "spec.containers[0].command"
         ],

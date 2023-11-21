@@ -16,6 +16,9 @@
          }
       },
       "alertScore": 2,
+      "reviewPaths": [
+         "protectKernelDefaults"
+      ],
       "failedPaths": [
           "protectKernelDefaults"
       ],

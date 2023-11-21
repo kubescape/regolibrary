@@ -1,5 +1,6 @@
 [{
     "alertMessage": "container: web in pod: static-web  may run as root",
+    "reviewPaths": [],
     "failedPaths": [],
     "fixPaths": [{
         "path": "spec.containers[0].securityContext.runAsNonRoot",

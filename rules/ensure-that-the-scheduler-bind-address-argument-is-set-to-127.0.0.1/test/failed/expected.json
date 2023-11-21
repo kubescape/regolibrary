@@ -1,1 +1,64 @@
-[{"alertMessage":"the kube scheduler is not bound to a localhost interface only","failedPaths":["spec.containers[0].command[3]"],"fixPaths":[{"path":"spec.containers[0].command[3]","value":"--bind-address=127.0.0.1"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-scheduler","tier":"control-plane"},"name":"kube-scheduler"}}]}},{"alertMessage":"the kube scheduler is not bound to a localhost interface only","failedPaths":[],"fixPaths":[{"path":"spec.containers[0].command[5]","value":"--bind-address=127.0.0.1"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-scheduler","tier":"control-plane"},"name":"kube-scheduler"}}]}}]
+[
+    {
+        "alertMessage": "the kube scheduler is not bound to a localhost interface only",
+        "reviewPaths": [
+            "spec.containers[0].command[3]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[3]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[3]",
+                "value": "--bind-address=127.0.0.1"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-scheduler",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-scheduler"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "the kube scheduler is not bound to a localhost interface only",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[5]",
+                "value": "--bind-address=127.0.0.1"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-scheduler",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-scheduler"
+                    }
+                }
+            ]
+        }
+    }
+]

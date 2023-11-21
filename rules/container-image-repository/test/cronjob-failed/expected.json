@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "image 'influxdb' in container 'influxdb' comes from untrusted registry",
+        "reviewPaths": [
+            "spec.jobTemplate.spec.template.spec.containers[0].image"
+        ],
         "failedPaths": [
             "spec.jobTemplate.spec.template.spec.containers[0].image"
         ],

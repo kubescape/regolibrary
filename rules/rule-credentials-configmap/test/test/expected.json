@@ -1,5 +1,6 @@
 [{
     "alertMessage": "this configmap has sensitive information: game-demo",
+    "deletePaths": ["data[aws_access_key_id]"],
     "failedPaths": ["data[aws_access_key_id]"],
     "fixPaths": [],
     "ruleStatus": "",
@@ -16,6 +17,7 @@
     }
 }, {
     "alertMessage": "this configmap has sensitive information: game-demo",
+    "deletePaths": ["data[pwd]"],
     "failedPaths": ["data[pwd]"],
     "fixPaths": [],
     "ruleStatus": "",

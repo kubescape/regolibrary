@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "Pod: envar-demo has pods running in the 'default' namespace",
+        "reviewPaths": [],
         "failedPaths": [],
         "fixPaths": [
             {

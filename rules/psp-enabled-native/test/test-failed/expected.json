@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "PodSecurityPolicy is not enabled",
+        "reviewPaths": [
+            "spec.containers[0].command[5]"
+        ],
         "failedPaths": [
             "spec.containers[0].command[5]"
         ],

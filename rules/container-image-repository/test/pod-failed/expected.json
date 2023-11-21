@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "image 'debian' in container 'command-demo-container' comes from untrusted registry",
+        "reviewPaths": [
+            "spec.containers[0].image"
+        ],
         "failedPaths": [
             "spec.containers[0].image"
         ],

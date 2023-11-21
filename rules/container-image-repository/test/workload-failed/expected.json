@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "image 'k8s.gcb.io/goproxy:0.1' in container 'goproxy' comes from untrusted registry",
+        "reviewPaths": [
+            "spec.template.spec.containers[0].image"
+        ],
         "failedPaths": [
             "spec.template.spec.containers[0].image"
         ],

@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "audit logs are not enabled",
+        "reviewPaths": [
+            "spec.containers[0].command[11]"
+        ],
         "failedPaths": [
             "spec.containers[0].command[11]"
         ],

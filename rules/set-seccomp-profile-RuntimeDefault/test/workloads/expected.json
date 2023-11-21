@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Workload: my-deployment does not define seccompProfile as RuntimeDefault",
+        "reviewPaths": [
+            "spec.template.spec.containers[1].securityContext.seccompProfile.type"
+        ],
         "failedPaths": [
             "spec.template.spec.containers[1].securityContext.seccompProfile.type"
         ],

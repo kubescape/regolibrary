@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "Container: health-check in Deployment: health-check-deployment   does not have CPU-limit or request",
+        "reviewPaths": [],
         "failedPaths": [],
         "fixPaths": [
             {
@@ -25,6 +26,10 @@
     },
     {
         "alertMessage": "Container: health-check in Deployment: health-check-deployment exceeds CPU-limit or request",
+        "reviewPaths": [
+            "spec.template.spec.containers[0].resources.limits.cpu"
+        ],
+
         "failedPaths": [
             "spec.template.spec.containers[0].resources.limits.cpu"
         ],

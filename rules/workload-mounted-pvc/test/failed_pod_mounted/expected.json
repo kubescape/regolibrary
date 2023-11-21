@@ -1,6 +1,9 @@
 [
 	{
 		"alertMessage": "Pod: mypod has mounted PVC",
+		"deletePaths": [
+			"spec.containers[0].volumeMounts[0]"
+		],
 		"failedPaths": [
 			"spec.containers[0].volumeMounts[0]"
 		],

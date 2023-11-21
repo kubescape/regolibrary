@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Container: influxdb has Host-port",
+        "deletePaths": [
+            "spec.containers[0].ports[0].hostPort"
+        ],
         "failedPaths": [
             "spec.containers[0].ports[0].hostPort"
         ],

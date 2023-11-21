@@ -52,7 +52,7 @@ func TestSingleRule(t *testing.T) {
 // To print the output
 // Change the testDir variable to the directory of the rego you want to test
 func TestSingleRego(t *testing.T) {
-	testDir := "ensure-endpointprivateaccess-is-enabled"
+	testDir := "ensure-that-the-scheduler-profiling-argument-is-set-to-false"
 	dir := fmt.Sprintf("%v/input", testSingleRegoDirectory)
 	mocks, err := os.Open(dir)
 	if err != nil {

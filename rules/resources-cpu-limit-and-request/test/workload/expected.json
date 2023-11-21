@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "Container: app in Deployment: test   does not have CPU-limit or request",
+        "reviewPaths": [],
         "failedPaths": [],
         "fixPaths": [
             {
@@ -28,6 +29,7 @@
     },
     {
         "alertMessage": "Container: app in Deployment: test   does not have CPU-limit or request",
+        "reviewPaths": [],
         "failedPaths": [],
         "fixPaths": [
             {

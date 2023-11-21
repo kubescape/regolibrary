@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "anonymous requests is enabled",
+        "reviewPaths": [],
         "failedPaths": [],
         "fixPaths": [
             {
@@ -29,6 +30,9 @@
     },
     {
         "alertMessage": "anonymous requests is enabled",
+        "reviewPaths": [
+            "spec.containers[0].command[26]"
+        ],
         "failedPaths": [
             "spec.containers[0].command[26]"
         ],

@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "ClusterRoleBinding: read-secrets-global has for ServiceAccount 'default' rules bound to it that are not defaults",
+        "deletePaths": ["subjects[0]"],
         "failedPaths": ["subjects[0]"],
         "fixPaths": [],
         "ruleStatus": "",

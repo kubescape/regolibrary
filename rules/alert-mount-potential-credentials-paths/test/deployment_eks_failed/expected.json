@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Deployment: my-deployment has: test-volume as volume with potential credentials access.",
+        "deletePaths": [
+            "spec.template.spec.volumes[0].hostPath.path"
+        ],
         "failedPaths": [
             "spec.template.spec.volumes[0].hostPath.path"
         ],
@@ -25,6 +28,9 @@
     },
     {
         "alertMessage": "Deployment: my-deployment has: test-volume2 as volume with potential credentials access.",
+        "deletePaths": [
+            "spec.template.spec.volumes[1].hostPath.path"
+        ],
         "failedPaths": [
             "spec.template.spec.volumes[1].hostPath.path"
         ],

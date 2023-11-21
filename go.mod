@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/armosec/armoapi-go v0.0.256
 	github.com/go-gota/gota v0.12.0
-	github.com/kubescape/opa-utils v0.0.263
+	github.com/kubescape/opa-utils v0.0.272
 	github.com/stretchr/testify v1.8.4
 	go.uber.org/zap v1.24.0
 	k8s.io/utils v0.0.0-20230726121419-3b25d923346b

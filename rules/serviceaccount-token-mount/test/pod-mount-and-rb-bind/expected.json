@@ -1,6 +1,9 @@
 [
 	{
 		"alertMessage": "Pod: test-pd in the following namespace: default mounts service account tokens by default",
+		"reviewPaths": [
+			"spec.automountServiceAccountToken"
+		],
 		"failedPaths": [
 			"spec.automountServiceAccountToken"
 		],

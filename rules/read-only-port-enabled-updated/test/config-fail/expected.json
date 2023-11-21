@@ -16,6 +16,9 @@
          }
       },
       "alertScore": 4,
+      "reviewPaths": [
+         "readOnlyPort"
+      ],
       "failedPaths": [
          "readOnlyPort"
       ],

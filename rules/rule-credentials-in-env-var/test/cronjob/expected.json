@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Cronjob: hello has sensitive information in environment variables",
+        "deletePaths": [
+            "spec.jobTemplate.spec.template.spec.containers[0].env[0].name"
+        ],
         "failedPaths": [
             "spec.jobTemplate.spec.template.spec.containers[0].env[0].name"
         ],

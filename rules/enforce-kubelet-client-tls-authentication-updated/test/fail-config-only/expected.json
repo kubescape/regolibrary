@@ -16,6 +16,10 @@
          }
       },
       "alertScore": 6,
+      "reviewPaths": [
+         "authentication.x509.clientCAFile"
+      ],
+
       "failedPaths": [
           "authentication.x509.clientCAFile"
       ],

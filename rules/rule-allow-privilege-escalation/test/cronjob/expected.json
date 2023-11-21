@@ -1,5 +1,6 @@
 [{
     "alertMessage": "container :mysql in CronJob: hello allow privilege escalation",
+    "reviewPaths": [],
     "failedPaths": [],
     "fixPaths": [{
         "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation",
@@ -19,6 +20,7 @@
     }
 }, {
     "alertMessage": "container :php in CronJob: hello allow privilege escalation",
+    "reviewPaths": [],
     "failedPaths": [],
     "fixPaths": [{
         "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.allowPrivilegeEscalation",

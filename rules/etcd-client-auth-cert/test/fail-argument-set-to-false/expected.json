@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Etcd server is not requiring a valid client certificate",
+        "reviewPaths": [
+            "spec.containers[0].command[2]"
+        ],
         "failedPaths": [
             "spec.containers[0].command[2]"
         ],

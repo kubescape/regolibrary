@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Pod: audit-pod does not define seccompProfile as RuntimeDefault",
+        "reviewPaths": [
+            "spec.containers[1].securityContext.seccompProfile.type"
+        ],
         "failedPaths": [
             "spec.containers[1].securityContext.seccompProfile.type"
         ],
@@ -25,6 +28,9 @@
     },
     {
         "alertMessage": "Pod: audit-pod does not define seccompProfile as RuntimeDefault",
+        "reviewPaths": [
+            "spec.securityContext.seccompProfile.type"
+        ],
         "failedPaths": [
             "spec.securityContext.seccompProfile.type"
         ],

@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "Role: allow-port-forward is in the 'default' namespace",
+        "reviewPaths": [],
         "failedPaths": [],
         "fixPaths": [
             {

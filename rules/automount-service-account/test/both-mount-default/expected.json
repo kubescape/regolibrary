@@ -1,6 +1,7 @@
 [{
     "alertMessage": "the following service account: default in the following namespace: default mounts service account tokens in pods by default",
     "failedPaths": [],
+    "deletePaths": [],
     "fixPaths": [{
         "path": "automountServiceAccountToken",
         "value": "false"

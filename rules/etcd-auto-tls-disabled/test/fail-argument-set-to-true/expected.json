@@ -1,7 +1,9 @@
 [
     {
         "alertMessage": "Auto tls is enabled. Clients are able to use self-signed certificates for TLS.",
-        "failedPaths": [
+        "reviewPaths": [
+            "spec.containers[0].command[1]"
+        ],        "failedPaths": [
             "spec.containers[0].command[1]"
         ],
         "fixPaths": [

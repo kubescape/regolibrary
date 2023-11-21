@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "PodSecurityPolicy: 'eks.privileged' has privileged set as true.",
+        "deletePaths": [
+            "spec.privileged"
+        ],
         "failedPaths": [
             "spec.privileged"
         ],
@@ -26,6 +29,9 @@
     },
     {
         "alertMessage": "PodSecurityPolicy: 'eks.privileged1' has privileged set as true.",
+        "deletePaths": [
+            "spec.privileged"
+        ],
         "failedPaths": [
             "spec.privileged"
         ],
