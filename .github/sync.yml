@@ -1,0 +1,3 @@
+kubescape/kubescape.io:
+  - source: docs/controls
+    dest: docs/docs/controls/
