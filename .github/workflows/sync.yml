@@ -3,7 +3,7 @@ name: Sync Files
 on:
   push:
     branches:
-      - Markdown-generation
+      - master
     paths:
       - 'docs/controls/**'
   workflow_dispatch:
@@ -17,7 +17,7 @@ jobs:
       - name: Run GitHub File Sync
         uses: BetaHuhn/repo-file-sync-action@v1
         with:
-          GH_PAT: ${{ secrets.PAT }}
+          GH_PAT: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           COMMIT_BODY: "Sync control library docs from `regolibrary` repo"
           PR_BODY: Syncing the Control Library docs from `regolibrary` repository to update the `controls` documentation
           PR_LABELS: automerge

@@ -329,6 +329,10 @@ def main():
     # Define the directory where the Markdown files should be created.
     docs_dir = 'docs/controls'
 
+    # Ensure the directory exists, if not create it
+    if not os.path.exists(docs_dir):
+        os.makedirs(docs_dir)
+
     # Fetches the Configuration parameters and related resources per control
     config_parameters, default_config_inputs = get_configuration_parameters_info()
 
