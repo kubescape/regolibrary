@@ -1,5 +1,6 @@
 [{
     "alertMessage": "Deployment: my-deployment has a pod with hostPID enabled",
+    "deletePaths": ["spec.template.spec.hostPID"],
     "failedPaths": ["spec.template.spec.hostPID"],
     "fixPaths": [],
     "ruleStatus": "",
@@ -19,6 +20,7 @@
     }
 }, {
     "alertMessage": "Deployment: my-deployment has a pod with hostIPC enabled",
+    "deletePaths": ["spec.template.spec.hostIPC"],
     "failedPaths": ["spec.template.spec.hostIPC"],
     "fixPaths": [],
     "ruleStatus": "",

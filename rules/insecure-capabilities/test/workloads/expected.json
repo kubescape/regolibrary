@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "container: php in workload: my-deployment  have dangerous capabilities",
+        "deletePaths": [
+            "spec.template.spec.containers[1].securityContext.capabilities.add[0]"
+        ],
         "failedPaths": [
             "spec.template.spec.containers[1].securityContext.capabilities.add[0]"
         ],

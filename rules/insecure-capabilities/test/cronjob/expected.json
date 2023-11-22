@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "container: mysql in cronjob: hello  have dangerous capabilities",
+        "deletePaths": [
+            "spec.jobTemplate.spec.template.spec.containers[0].securityContext.capabilities.add[0]"
+        ],
         "failedPaths": [
             "spec.jobTemplate.spec.template.spec.containers[0].securityContext.capabilities.add[0]"
         ],

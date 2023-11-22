@@ -1,5 +1,6 @@
 [{
     "alertMessage": "Deployment: my-deployment has: test-volume as hostPath volume",
+    "deletePaths": ["spec.template.spec.containers[0].volumeMounts[0].readOnly"],
     "failedPaths": ["spec.template.spec.containers[0].volumeMounts[0].readOnly"],
     "fixPaths": [],
     "ruleStatus": "",
@@ -19,6 +20,7 @@
     }
 }, {
     "alertMessage": "Deployment: my-deployment has: test-volume as hostPath volume",
+    "deletePaths": [],
     "failedPaths": [],
     "fixPaths": [{
         "path": "spec.template.spec.containers[0].volumeMounts[1].readOnly",

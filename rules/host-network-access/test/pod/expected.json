@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Pod: test is connected to the host network",
+        "deletePaths": [
+            "spec.hostNetwork"
+        ],
         "failedPaths": [
             "spec.hostNetwork"
         ],

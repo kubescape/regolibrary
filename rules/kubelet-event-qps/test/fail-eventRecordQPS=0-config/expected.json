@@ -16,6 +16,9 @@
          }
       },
       "alertScore": 2,
+      "reviewPaths": [
+         "eventRecordQPS"
+     ],
       "failedPaths": [
           "eventRecordQPS"
       ],

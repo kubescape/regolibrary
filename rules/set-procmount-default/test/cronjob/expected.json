@@ -3,6 +3,7 @@
         "alertMessage": "CronJob: hello has containers that do not set 'securityContext.procMount' to 'Default'",
         "packagename": "armo_builtins",
         "alertScore": 7,
+        "reviewPaths": ["containers[0].securityContext.procMount"],
         "failedPaths": ["containers[0].securityContext.procMount"],
 		    "fixPaths": [],
         "ruleStatus": "",

@@ -16,6 +16,9 @@
          }
       },
       "alertScore": 3,
+      "reviewPaths": [
+         "makeIPTablesUtilChains"
+      ],
       "failedPaths": [
           "makeIPTablesUtilChains"
       ],

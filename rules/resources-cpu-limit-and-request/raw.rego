@@ -14,6 +14,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v does not have CPU-limit or request", [ container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": fixPaths,
 		"alertObject": {
@@ -36,6 +37,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": fixPaths,
 		"alertObject": {
@@ -57,6 +59,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": fixPaths,
 		"alertObject": {
@@ -79,6 +82,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v does not have CPU-limit or request", [ container.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": fixPaths,
 		"alertObject": {
@@ -101,6 +105,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": fixPaths,
 		"alertObject": {
@@ -122,6 +127,7 @@ deny[msga] {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have CPU-limit or request", [ container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": fixPaths,
 		"alertObject": {

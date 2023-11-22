@@ -1,5 +1,6 @@
 [{
     "alertMessage": "this configmap has sensitive information: game-demo",
+    "deletePaths": ["data[pwd]"],
     "failedPaths": ["data[pwd]"],
     "fixPaths": [],
     "ruleStatus": "",

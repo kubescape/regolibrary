@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Peer auto tls is enabled. Peer clients are able to use self-signed certificates for TLS.",
+        "reviewPaths": [
+            "spec.containers[0].command[1]"
+        ],
         "failedPaths": [
             "spec.containers[0].command[1]"
         ],

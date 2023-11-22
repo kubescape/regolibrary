@@ -18,6 +18,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Timeouts on streaming connections are enabled",
 		"alertScore": 3,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
@@ -69,6 +70,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Failed to analyze config file",
 		"alertScore": 3,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

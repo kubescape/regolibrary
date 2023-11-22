@@ -1,6 +1,10 @@
 [
     {
         "alertMessage": "container: test in pod: test  has 'latest' tag on image but imagePullPolicy is not set to 'Always'",
+        "reviewPaths": [
+            "spec.containers[0].image",
+            "spec.containers[0].imagePullPolicy"
+        ],
         "failedPaths": [
             "spec.containers[0].image",
             "spec.containers[0].imagePullPolicy"

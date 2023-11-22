@@ -3,6 +3,7 @@
         "alertMessage": "Workload: my-deployment does not set 'securityContext.supplementalGroups'",
         "packagename": "armo_builtins",
         "alertScore": 7,
+        "reviewPaths": ["spec.template.spec.securityContext"],
         "failedPaths": ["spec.template.spec.securityContext"],
 		    "fixPaths": [],
         "ruleStatus": "",

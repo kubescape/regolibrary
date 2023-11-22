@@ -1,5 +1,6 @@
 [{
     "alertMessage": "container :hello in CronJob: hello  may run as root",
+    "reviewPaths": [],
     "failedPaths": [],
     "fixPaths": [{
         "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.runAsNonRoot",
@@ -22,6 +23,7 @@
     }
 }, {
     "alertMessage": "container :hello2 in CronJob: hello  may run as root",
+    "reviewPaths": [],
     "failedPaths": [],
     "fixPaths": [{
         "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.runAsNonRoot",

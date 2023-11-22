@@ -1,1 +1,63 @@
-[{"alertMessage":"anonymous requests is enabled","failedPaths":["spec.containers[0].command[2]"],"fixPaths":[{"path":"spec.containers[0].command[2]","value":"--allow-privileged=true --service-account-lookup=true"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}},{"alertMessage":"anonymous requests is enabled","failedPaths":["spec.containers[0].command[2]"],"fixPaths":[],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}}]
+[
+    {
+        "alertMessage": "anonymous requests is enabled",
+        "reviewPaths": [
+            "spec.containers[0].command[2]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[2]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[2]",
+                "value": "--allow-privileged=true --service-account-lookup=true"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "anonymous requests is enabled",
+        "reviewPaths": [
+            "spec.containers[0].command[2]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[2]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

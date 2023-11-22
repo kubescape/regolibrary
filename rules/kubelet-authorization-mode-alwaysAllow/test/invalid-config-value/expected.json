@@ -16,6 +16,9 @@
          }
       },
       "alertScore": 10,
+      "reviewPaths": [
+         "authorization.mode"
+     ],
       "failedPaths": [
           "authorization.mode"
       ],

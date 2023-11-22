@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "ServiceAccount: kubescape is in the 'default' namespace",
+        "reviewPaths": [
+            "metadata.namespace"
+        ],
         "failedPaths": [
             "metadata.namespace"
         ],

@@ -1,5 +1,8 @@
 {
 	"alertMessage": "Pod: test-pd has: test-volume as volume with potential credentials access.",
+	"deletePaths": [
+		"spec.volumes[0].hostPath.path"
+	],
 	"failedPaths": [
 		"spec.volumes[0].hostPath.path"
 	],

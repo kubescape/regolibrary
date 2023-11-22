@@ -3,6 +3,7 @@
         "alertMessage": "Pod: nginx has containers that do not set 'securityContext.procMount' to 'Default'",
         "packagename": "armo_builtins",
         "alertScore": 7,
+        "reviewPaths": ["containers[1].securityContext.procMount"],
         "failedPaths": ["containers[1].securityContext.procMount"],
 		    "fixPaths": [],
         "ruleStatus": "",

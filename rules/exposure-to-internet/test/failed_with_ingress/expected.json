@@ -51,6 +51,9 @@
                         ]
                     }
                 },
+                "reviewPaths": [
+                    "spec.rules[0].http.paths[0].backend.service.name"
+                ],
                 "failedPaths": [
                     "spec.rules[0].http.paths[0].backend.service.name"
                 ],

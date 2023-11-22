@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "Endpoints: kubescape is in the 'default' namespace",
+        "reviewPaths": [
+            "metadata.namespace"
+        ],
         "failedPaths": [
             "metadata.namespace"
         ],

@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "PodSecurityPolicy: 'eks.privileged' has hostNetwork set as true.",
+        "deletePaths": [
+            "spec.hostNetwork"
+        ],
         "failedPaths": [
             "spec.hostNetwork"
         ],

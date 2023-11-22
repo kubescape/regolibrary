@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "Cronjob: hello does not define seccompProfile as RuntimeDefault",
+        "reviewPaths": [],
         "failedPaths": [],
         "fixPaths": [
             {
@@ -25,6 +26,9 @@
     },
     {
         "alertMessage": "Cronjob: hello does not define seccompProfile as RuntimeDefault",
+        "reviewPaths": [
+            "spec.jobTemplate.spec.template.spec.containers[1].securityContext.seccompProfile.type"
+        ],
         "failedPaths": [
             "spec.jobTemplate.spec.template.spec.containers[1].securityContext.seccompProfile.type"
         ],

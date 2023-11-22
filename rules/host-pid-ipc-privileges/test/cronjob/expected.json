@@ -1,5 +1,6 @@
 [{
     "alertMessage": "CronJob: hello has a pod with hostIPC enabled",
+    "deletePaths": ["spec.jobTemplate.spec.template.spec.hostIPC"],
     "failedPaths": ["spec.jobTemplate.spec.template.spec.hostIPC"],
     "fixPaths": [],
     "ruleStatus": "",

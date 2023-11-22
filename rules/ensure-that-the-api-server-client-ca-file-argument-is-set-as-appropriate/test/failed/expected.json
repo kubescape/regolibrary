@@ -1,1 +1,31 @@
-[{"alertMessage":"API server communication is not encrypted properly","failedPaths":[],"fixPaths":[{"path":"spec.containers[0].command[25]","value":"--client-ca-file=\u003cpath/to/client-ca.crt\u003e"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}}]
+[
+    {
+        "alertMessage": "API server communication is not encrypted properly",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[25]",
+                "value": "--client-ca-file=\u003cpath/to/client-ca.crt\u003e"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

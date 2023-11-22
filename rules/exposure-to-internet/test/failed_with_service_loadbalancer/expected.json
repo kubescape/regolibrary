@@ -49,6 +49,9 @@
                         }
                     }
                 },
+                "reviewPaths": [
+                    "spec.type"
+                ],
                 "failedPaths": [
                     "spec.type"
                 ],

@@ -1,5 +1,6 @@
 [{
     "alertMessage": "container: test-container in pod: audit-pod  allow privilege escalation",
+    "reviewPaths": ["spec.containers[0].securityContext.allowPrivilegeEscalation"],
     "failedPaths": ["spec.containers[0].securityContext.allowPrivilegeEscalation"],
     "fixPaths": [],
     "ruleStatus": "",

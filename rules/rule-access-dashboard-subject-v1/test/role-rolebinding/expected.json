@@ -1,5 +1,6 @@
 [{
     "alertMessage": "Subject: User-jane is bound to dashboard role/clusterrole",
+    "reviewPaths": ["relatedObjects[0].subjects[0]", "relatedObjects[0].roleRef.name"],
     "failedPaths": ["relatedObjects[0].subjects[0]", "relatedObjects[0].roleRef.name"],
     "fixPaths": [],
     "ruleStatus": "",

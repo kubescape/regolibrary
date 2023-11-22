@@ -1,5 +1,6 @@
 [{
     "alertMessage": "service: my-service is exposed",
+    "reviewPaths": ["spec.selector.matchLabels", "spec.selector"],
     "failedPaths": ["spec.selector.matchLabels", "spec.selector"],
     "fixPaths": [],
     "ruleStatus": "",

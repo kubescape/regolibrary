@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "etcd encryption is not enabled",
+        "reviewPaths": [],
         "failedPaths": [],
         "fixPaths": [
             {

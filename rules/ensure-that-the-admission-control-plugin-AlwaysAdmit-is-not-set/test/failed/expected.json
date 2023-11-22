@@ -1,1 +1,63 @@
-[{"alertMessage":"admission control plugin AlwaysAdmit is enabled. This is equal to turning off all admission controllers","failedPaths":["spec.containers[0].command[5]"],"fixPaths":[],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}},{"alertMessage":"admission control plugin AlwaysAdmit is enabled. This is equal to turning off all admission controllers","failedPaths":["spec.containers[0].command[5]"],"fixPaths":[{"path":"spec.containers[0].command[5]","value":"--enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}}]
+[
+    {
+        "alertMessage": "admission control plugin AlwaysAdmit is enabled. This is equal to turning off all admission controllers",
+        "reviewPaths": [
+            "spec.containers[0].command[5]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[5]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "admission control plugin AlwaysAdmit is enabled. This is equal to turning off all admission controllers",
+        "reviewPaths": [
+            "spec.containers[0].command[5]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[5]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[5]",
+                "value": "--enable-admission-plugins=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,NodeRestriction,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

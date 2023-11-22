@@ -1,1 +1,31 @@
-[{"alertMessage":"the controller manager is not configured to inject the trusted ca.crt file into pods so that they can verify TLS connections to the API server","failedPaths":[],"fixPaths":[{"path":"spec.containers[0].command[17]","value":"--root-ca-file=\u003cpath/to/key/ca.crt\u003e"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-controller-manager","tier":"control-plane"},"name":"kube-controller-manager"}}]}}]
+[
+    {
+        "alertMessage": "the controller manager is not configured to inject the trusted ca.crt file into pods so that they can verify TLS connections to the API server",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[17]",
+                "value": "--root-ca-file=\u003cpath/to/key/ca.crt\u003e"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-controller-manager",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-controller-manager"
+                    }
+                }
+            ]
+        }
+    }
+]

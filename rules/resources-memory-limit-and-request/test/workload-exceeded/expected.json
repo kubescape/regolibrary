@@ -1,6 +1,9 @@
 [
    {
       "alertMessage": "Container: log-aggregator in Deployment: test exceeds memory request",
+      "reviewPaths": [
+         "spec.template.spec.containers[0].resources.requests.memory"
+      ],
       "failedPaths": [
          "spec.template.spec.containers[0].resources.requests.memory"
       ],
@@ -25,6 +28,9 @@
    },
    {
       "alertMessage": "Container: log-aggregator in Deployment: test exceeds memory-limit",
+      "reviewPaths": [
+         "spec.template.spec.containers[0].resources.limits.memory"
+      ],
       "failedPaths": [
          "spec.template.spec.containers[0].resources.limits.memory"
       ],

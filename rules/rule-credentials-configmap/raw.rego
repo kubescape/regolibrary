@@ -20,7 +20,7 @@ deny[msga] {
 		"alertMessage": sprintf("this configmap has sensitive information: %v", [configmap.metadata.name]),
 		"alertScore": 9,
 		"deletePaths": [path],
-       "failedPaths": [path],
+        "failedPaths": [path],
         "fixPaths": [],
 		"packagename": "armo_builtins",
           "alertObject": {

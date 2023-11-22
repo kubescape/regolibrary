@@ -51,6 +51,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Failed to analyze config file",
 		"alertScore": 2,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

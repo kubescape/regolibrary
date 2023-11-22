@@ -39,6 +39,9 @@
                         "type": "NodePort"
                     }
                 },
+                "reviewPaths": [
+                    "spec.type"
+                ],
                 "failedPaths": [
                     "spec.type"
                 ],

@@ -1,1 +1,64 @@
-[{"alertMessage":"Audit log retention period is 29 days, which is too small (should be at least 30 days)","failedPaths":["spec.containers[0].command[2]"],"fixPaths":[{"path":"spec.containers[0].command[2]","value":"--audit-log-maxage=30"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}},{"alertMessage":"Audit log retention period is not set","failedPaths":[],"fixPaths":[{"path":"spec.containers[0].command[26]","value":"--audit-log-maxage=30"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}}]
+[
+    {
+        "alertMessage": "Audit log retention period is 29 days, which is too small (should be at least 30 days)",
+        "reviewPaths": [
+            "spec.containers[0].command[2]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[2]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[2]",
+                "value": "--audit-log-maxage=30"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Audit log retention period is not set",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[26]",
+                "value": "--audit-log-maxage=30"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

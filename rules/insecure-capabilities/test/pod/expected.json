@@ -1,6 +1,10 @@
 [
     {
         "alertMessage": "container: test2 in pod: test  have dangerous capabilities",
+        "deletePaths": [
+            "spec.containers[1].securityContext.capabilities.add[0]",
+            "spec.containers[1].securityContext.capabilities.add[1]"
+        ],
         "failedPaths": [
             "spec.containers[1].securityContext.capabilities.add[0]",
             "spec.containers[1].securityContext.capabilities.add[1]"

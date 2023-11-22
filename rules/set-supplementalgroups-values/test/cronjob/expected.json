@@ -3,6 +3,7 @@
         "alertMessage": "CronJob: hello does not set 'securityContext.supplementalGroups'",
         "packagename": "armo_builtins",
         "alertScore": 7,
+        "reviewPaths": ["spec.jobTemplate.spec.template.spec.securityContext"],
         "failedPaths": ["spec.jobTemplate.spec.template.spec.securityContext"],
 		    "fixPaths": [],
         "ruleStatus": "",

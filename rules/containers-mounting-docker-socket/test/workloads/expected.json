@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "volume: test-volume2 in Deployment: my-deployment has mounting to Docker internals.",
+        "deletePaths": [
+            "spec.template.spec.volumes[1].hostPath.path"
+        ],
         "failedPaths": [
             "spec.template.spec.volumes[1].hostPath.path"
         ],

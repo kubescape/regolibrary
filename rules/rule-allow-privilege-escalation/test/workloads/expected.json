@@ -1,5 +1,6 @@
 [{
     "alertMessage": "container :mysql in Deployment: my-deployment  allow privilege escalation",
+    "reviewPaths": ["spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation"],
     "failedPaths": ["spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation"],
     "fixPaths": [],
     "ruleStatus": "",
@@ -19,6 +20,7 @@
     }
 }, {
     "alertMessage": "container :php in Deployment: my-deployment  allow privilege escalation",
+    "reviewPaths": [],
     "failedPaths": [],
     "fixPaths": [{
         "path": "spec.template.spec.containers[1].securityContext.allowPrivilegeEscalation",

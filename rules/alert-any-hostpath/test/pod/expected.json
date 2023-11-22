@@ -1,5 +1,8 @@
 {
 	"alertMessage": "pod: test-pd has: test-volume as hostPath volume",
+	"deletePaths": [
+		"spec.volumes[0].hostPath.path"
+	],
 	"failedPaths": [
 		"spec.volumes[0].hostPath.path"
 	],

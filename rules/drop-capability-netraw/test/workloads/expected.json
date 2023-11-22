@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "Workload: my-deployment does not drop the capability NET_RAW",
+        "deletePaths": [],
         "failedPaths": [],
         "fixPaths": [
             {
@@ -28,6 +29,7 @@
     },
     {
         "alertMessage": "Workload: my-deployment does not drop the capability NET_RAW",
+        "deletePaths": [],
         "failedPaths": [],
         "fixPaths": [
             {

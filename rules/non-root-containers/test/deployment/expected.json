@@ -1,5 +1,6 @@
 [{
     "alertMessage": "container :nginx in Deployment: nginx-deployment may run as root",
+    "reviewPaths": ["spec.template.spec.containers[0].securityContext.runAsUser"],
     "failedPaths": ["spec.template.spec.containers[0].securityContext.runAsUser"],
     "fixPaths": [],
     "ruleStatus": "",

@@ -1,7 +1,7 @@
 [{
     "alertMessage": "Deployment: test is associated with dashboard service account",
-    "failedPaths": ["spec.template.spec.serviceAccountName"],
     "deletePaths": ["spec.template.spec.serviceAccountName"],
+    "failedPaths": ["spec.template.spec.serviceAccountName"],
     "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",

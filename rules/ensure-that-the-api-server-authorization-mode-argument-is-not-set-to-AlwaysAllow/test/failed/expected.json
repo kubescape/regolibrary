@@ -1,1 +1,68 @@
-[{"alertMessage":"AlwaysAllow authorization mode is enabled","failedPaths":["spec.containers[0].command[3]"],"fixPaths":[{"path":"spec.containers[0].command[3]","value":"--authorization-mode=RBAC"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}},{"alertMessage":"AlwaysAllow authorization mode is enabled","failedPaths":["spec.containers[0].command[3]"],"fixPaths":[{"path":"spec.containers[0].command[3]","value":"--authorization-mode=Node"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}}]
+[
+    {
+        "alertMessage": "AlwaysAllow authorization mode is enabled",
+        "reviewPaths": [
+            "spec.containers[0].command[3]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[3]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[3]",
+                "value": "--authorization-mode=RBAC"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "AlwaysAllow authorization mode is enabled",
+        "reviewPaths": [
+            "spec.containers[0].command[3]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[3]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[3]",
+                "value": "--authorization-mode=Node"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]
