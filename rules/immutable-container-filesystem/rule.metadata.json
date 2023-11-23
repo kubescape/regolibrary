@@ -1,7 +1,6 @@
 {
     "name": "immutable-container-filesystem",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

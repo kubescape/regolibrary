@@ -1,7 +1,6 @@
 {
   "name": "insecure-port-flag",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

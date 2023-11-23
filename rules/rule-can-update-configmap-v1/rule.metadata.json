@@ -2,7 +2,6 @@
     "name": "rule-can-update-configmap-v1",
     "attributes": {
       "microsoftK8sThreatMatrix": "Lateral Movement::CoreDNS poisoning",
-      "armoBuiltin": true,
       "resourcesAggregator": "subject-role-rolebinding",
       "useFromKubescapeVersion": "v1.0.133"
     },

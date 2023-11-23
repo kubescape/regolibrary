@@ -1,7 +1,6 @@
 {
     "name": "Instance Metadata API",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Discovery"
         ],

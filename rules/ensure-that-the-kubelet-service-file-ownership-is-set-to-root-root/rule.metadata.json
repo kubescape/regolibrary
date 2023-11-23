@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-kubelet-service-file-ownership-is-set-to-root-root",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

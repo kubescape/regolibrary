@@ -345,7 +345,7 @@ func TestSetControls(t *testing.T) {
 	}
 
 	//
-	respStr = `[{"name":"TEST","attributes":{"armoBuiltin":true,"controlTypeTags":["security","compliance"],"attackTracks":[{"attackTrack": "container","categories": ["Execution","Initial access"]},{"attackTrack": "network","categories": ["Eavesdropping","Spoofing"]}]},"description":"","remediation":"","rulesNames":["CVE-2022-0185"],"id":"C-0079","long_description":"","test":"","controlID":"C-0079","baseScore":4,"example":""}]`
+	respStr = `[{"name":"TEST","attributes":{"controlTypeTags":["security","compliance"],"attackTracks":[{"attackTrack": "container","categories": ["Execution","Initial access"]},{"attackTrack": "network","categories": ["Eavesdropping","Spoofing"]}]},"description":"","remediation":"","rulesNames":["CVE-2022-0185"],"id":"C-0079","long_description":"","test":"","controlID":"C-0079","baseScore":4,"example":""}]`
 	err = store.setControls(respStr)
 	if err != nil {
 		t.Errorf("Error setting controls: %v", err)

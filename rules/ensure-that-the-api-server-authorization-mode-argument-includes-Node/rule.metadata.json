@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-api-server-authorization-mode-argument-includes-Node",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

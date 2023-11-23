@@ -1,7 +1,6 @@
 {
   "name": "etcd-peer-client-auth-cert",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

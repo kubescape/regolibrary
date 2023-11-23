@@ -1,7 +1,6 @@
 {
   "name": "k8s-audit-logs-enabled-native-cis",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

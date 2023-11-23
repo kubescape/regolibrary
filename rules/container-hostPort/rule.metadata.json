@@ -1,7 +1,6 @@
 {
     "name": "container-hostPort",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

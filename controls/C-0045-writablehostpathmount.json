@@ -1,7 +1,6 @@
 {
     "name": "Writable hostPath mount",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Persistence",
             "Lateral Movement"

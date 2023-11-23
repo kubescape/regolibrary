@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-controller-manager-RotateKubeletServerCertificate-argument-is-set-to-true",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

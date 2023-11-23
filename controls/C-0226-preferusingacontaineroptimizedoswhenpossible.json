@@ -10,7 +10,6 @@
         "https://aws.amazon.com/bottlerocket/"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "alert-container-optimized-os-not-in-use"

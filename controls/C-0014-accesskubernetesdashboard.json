@@ -1,7 +1,6 @@
 {
     "name": "Access Kubernetes dashboard",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Discovery",
             "Lateral Movement"

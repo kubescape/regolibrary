@@ -1,7 +1,6 @@
 {
     "name": "Validate admission controller (mutating)",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Persistence"
         ],

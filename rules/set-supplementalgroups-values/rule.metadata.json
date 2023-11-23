@@ -1,7 +1,6 @@
 {
     "name": "set-supplementalgroups-values",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

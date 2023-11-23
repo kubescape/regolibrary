@@ -12,7 +12,6 @@
         "ensure-that-the-API-server-pod-specification-file-ownership-is-set-to-root-root"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "baseScore": 6,
     "impact_statement": "None",

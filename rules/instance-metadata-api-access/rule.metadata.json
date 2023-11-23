@@ -2,7 +2,6 @@
   "name": "instance-metadata-api-access",
   "attributes": {
     "m$K8sThreatMatrix": "Credential Access::Instance Metadata API",
-    "armoBuiltin": true,
     "hostSensorRule": "true"
   },
   "ruleLanguage": "Rego",

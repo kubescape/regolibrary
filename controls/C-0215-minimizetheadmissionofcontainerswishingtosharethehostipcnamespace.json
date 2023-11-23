@@ -9,7 +9,6 @@
         "https://kubernetes.io/docs/concepts/policy/pod-security-policy"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "psp-deny-hostipc"

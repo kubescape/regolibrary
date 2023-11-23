@@ -1,7 +1,6 @@
 {
     "name": "SSH server running inside container",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Execution"
         ],

@@ -4,7 +4,6 @@
     "m$K8sThreatMatrix": "Privilege Escalation::privileged container",
     "mitre": "Privilege Escalation",
     "mitreCode": "TA0004",
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

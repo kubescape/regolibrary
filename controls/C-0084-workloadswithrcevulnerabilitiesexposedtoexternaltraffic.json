@@ -1,7 +1,6 @@
 {
     "name": "Workloads with RCE vulnerabilities exposed to external traffic",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

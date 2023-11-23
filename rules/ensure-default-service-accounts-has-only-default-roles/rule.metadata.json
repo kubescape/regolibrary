@@ -1,7 +1,6 @@
 {
     "name": "ensure-default-service-accounts-has-only-default-roles",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

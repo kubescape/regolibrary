@@ -1,7 +1,6 @@
 {
   "name": "cluster-admin-role",
   "attributes": {
-    "armoBuiltin": true,
     "resourcesAggregator": "subject-role-rolebinding",
     "useFromKubescapeVersion": "v1.0.133"
   },

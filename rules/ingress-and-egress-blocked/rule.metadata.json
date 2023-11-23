@@ -1,7 +1,6 @@
 {
     "name": "ingress-and-egress-blocked",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

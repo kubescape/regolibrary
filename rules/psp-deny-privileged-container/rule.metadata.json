@@ -1,7 +1,6 @@
 {
     "name": "psp-deny-privileged-container",
     "attributes": {
-    "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

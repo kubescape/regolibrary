@@ -1,7 +1,6 @@
 {
     "name": "resources-cpu-limit-and-request",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

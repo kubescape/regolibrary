@@ -1,7 +1,6 @@
 {
     "name": "k8s-common-labels-usage",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

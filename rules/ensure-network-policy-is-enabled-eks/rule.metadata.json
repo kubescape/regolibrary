@@ -1,7 +1,6 @@
 {
     "name": "ensure-network-policy-is-enabled-eks",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

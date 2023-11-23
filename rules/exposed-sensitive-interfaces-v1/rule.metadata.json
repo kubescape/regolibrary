@@ -2,7 +2,6 @@
   "name": "exposed-sensitive-interfaces-v1",
   "attributes": {
     "microsoftK8sThreatMatrix": "Initial access::Exposed sensitive interfaces",
-    "armoBuiltin": true,
     "useFromKubescapeVersion": "v1.0.133"
   },
   "ruleLanguage": "Rego",

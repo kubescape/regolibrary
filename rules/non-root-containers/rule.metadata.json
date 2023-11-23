@@ -1,7 +1,6 @@
 {
     "name": "non-root-containers",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

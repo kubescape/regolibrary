@@ -2,7 +2,6 @@
     "name": "Images from allowed registry",
     "attributes": {
         "actionRequired": "configuration",
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Collection"
         ],

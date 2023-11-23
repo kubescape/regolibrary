@@ -1,7 +1,6 @@
 {
     "name": "Enforce Kubelet client TLS authentication",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

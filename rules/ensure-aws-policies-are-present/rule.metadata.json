@@ -1,7 +1,6 @@
 {
     "name": "ensure-aws-policies-are-present",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "dynamicMatch": [

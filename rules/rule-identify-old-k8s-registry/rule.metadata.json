@@ -2,7 +2,6 @@
   "name": "rule-identify-old-k8s-registry",
   "attributes": {
     "m$K8sThreatMatrix": "Initial Access::Compromised images in registry",
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

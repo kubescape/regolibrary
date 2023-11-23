@@ -1,7 +1,6 @@
 {
   "name": "kubelet-event-qps",
   "attributes": {
-    "armoBuiltin": true,
     "hostSensorRule": "true"
   },
   "ruleLanguage": "Rego",

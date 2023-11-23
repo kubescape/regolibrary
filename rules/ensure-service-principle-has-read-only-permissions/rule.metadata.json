@@ -1,7 +1,6 @@
 {
   "name": "ensure-service-principle-has-read-only-permissions",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "dynamicMatch": [

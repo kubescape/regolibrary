@@ -1,7 +1,6 @@
 {
     "name": "CVE-2021-25741 - Using symlink for arbitrary host file system access.",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

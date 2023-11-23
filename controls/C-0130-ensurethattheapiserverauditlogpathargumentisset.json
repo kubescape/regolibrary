@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126663/recommendations/1838662"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-that-the-api-server-audit-log-path-argument-is-set"

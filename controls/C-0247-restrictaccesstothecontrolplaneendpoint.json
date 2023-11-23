@@ -9,7 +9,6 @@
         "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-network-security#ns-1-implement-security-for-internal-traffic>"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "restrict-access-to-the-control-plane-endpoint"

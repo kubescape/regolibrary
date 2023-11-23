@@ -7,7 +7,6 @@
     "manual_test": "",
     "references": [],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": ["ensure-network-policy-is-enabled-eks"],
     "baseScore": 6.0,

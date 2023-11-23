@@ -10,7 +10,6 @@
         "https://aws.github.io/aws-eks-best-practices/pods/#restrict-the-containers-that-can-run-as-privileged"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "psp-deny-privileged-container"

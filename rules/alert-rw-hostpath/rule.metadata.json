@@ -1,8 +1,7 @@
 {
   "name": "alert-rw-hostpath",
   "attributes": {
-    "m$K8sThreatMatrix": "Persistence::Writable hostPath mount, Lateral Movement::Writable volume mounts on the host",
-    "armoBuiltin": true
+    "m$K8sThreatMatrix": "Persistence::Writable hostPath mount, Lateral Movement::Writable volume mounts on the host"
   },
   "ruleLanguage": "Rego",
   "match": [

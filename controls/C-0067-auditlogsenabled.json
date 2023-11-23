@@ -1,7 +1,6 @@
 {
     "name": "Audit logs enabled",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

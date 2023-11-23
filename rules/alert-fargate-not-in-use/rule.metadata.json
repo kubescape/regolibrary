@@ -1,7 +1,6 @@
 {
     "name": "alert-fargate-not-in-use",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

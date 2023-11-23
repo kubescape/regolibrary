@@ -1,7 +1,6 @@
 {
     "name": "resources-secret-in-default-namespace",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

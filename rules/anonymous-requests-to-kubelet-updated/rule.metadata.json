@@ -1,7 +1,6 @@
 {
     "name": "anonymous-requests-to-kubelet-service-updated",
     "attributes": {
-      "armoBuiltin": true,
       "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

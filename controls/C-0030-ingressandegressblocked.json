@@ -1,7 +1,6 @@
 {
     "name": "Ingress and Egress blocked",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "compliance"
         ]

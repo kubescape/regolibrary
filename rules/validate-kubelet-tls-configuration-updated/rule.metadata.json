@@ -1,7 +1,6 @@
 {
     "name": "validate-kubelet-tls-configuration-updated",
     "attributes": {
-      "armoBuiltin": true,
       "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

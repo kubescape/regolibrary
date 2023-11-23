@@ -1,7 +1,6 @@
 {
     "name": "Deprecated Kubernetes image registry",
     "attributes": {
-        "armoBuiltin": true
     },
     "description": "Kubernetes team has deprecated GCR (k8s.gcr.io) registry and recommends pulling Kubernetes components from the new registry (registry.k8s.io). This is mandatory from 1.27",
     "remediation": "Change the images to be pulled from the new registry (registry.k8s.io).",

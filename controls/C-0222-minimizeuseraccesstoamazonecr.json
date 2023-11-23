@@ -9,7 +9,6 @@
         "https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html#scanning-repository"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-aws-policies-are-present"

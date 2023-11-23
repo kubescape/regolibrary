@@ -1,7 +1,6 @@
 {
     "name": "Allow privilege escalation",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance",

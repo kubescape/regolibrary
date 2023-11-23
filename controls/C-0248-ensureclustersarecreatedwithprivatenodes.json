@@ -9,7 +9,6 @@
         "<https://learn.microsoft.com/en-us/azure/aks/private-clusters>"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-clusters-are-created-with-private-nodes"

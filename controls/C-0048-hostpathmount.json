@@ -1,7 +1,6 @@
 {
     "name": "HostPath mount",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Privilege escalation"
         ],
