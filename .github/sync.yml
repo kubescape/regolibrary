@@ -1,3 +1,7 @@
-kubescape/kubescape.io:
+# This is a config file used by the `sync.yml` action under workflows folder
+# To determine which files are to be synced and where.
+# You can configure it to sync files across multiples repositories or branches too. 
+
+kubescape/kubescape.io: # Target repository
   - source: docs/controls
     dest: docs/docs/controls/

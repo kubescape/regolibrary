@@ -1,3 +1,7 @@
+# The action is used to sync documentation of controls library with `kubescape.io` website
+# The action checks for any files that are out of sync 
+# And opens a pull request in the target repository with the changes(if any)
+
 name: Sync Files
 
 on:
@@ -5,7 +9,7 @@ on:
     branches:
       - master
     paths:
-      - 'docs/controls/**'
+      - 'docs/controls/**' # The action is triggered everytime there is a push to the defined path 
   workflow_dispatch:
 
 jobs:
@@ -18,7 +22,7 @@ jobs:
         uses: BetaHuhn/repo-file-sync-action@v1
         with:
           GH_PAT: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          COMMIT_BODY: "Sync control library docs from `regolibrary` repo"
+          COMMIT_BODY: "Sync documentation of controls library from `regolibrary` repository"
           PR_BODY: Syncing the Control Library docs from `regolibrary` repository to update the `controls` documentation
           PR_LABELS: automerge
           COMMIT_PREFIX: ""
