@@ -12,7 +12,7 @@ concurrency:
 env:
   REGO_ARTIFACT_KEY_NAME: rego_artifact
   REGO_ARTIFACT_PATH: releaseDev
-  GH_ACCESS_TOKEN: ${{ secrets.ARMOSEC_GITHUB_ACCESS_TOKEN }}
+  GH_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
 jobs:
   # testing link checks
