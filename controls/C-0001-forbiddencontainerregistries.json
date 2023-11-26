@@ -1,7 +1,6 @@
 {
     "name": "Forbidden Container Registries",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Initial Access"
         ],

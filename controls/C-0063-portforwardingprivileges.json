@@ -1,7 +1,6 @@
 {
     "name": "Portforwarding privileges",
     "attributes": {
-        "armoBuiltin": true,
         "rbacQuery": "Port Forwarding",
         "controlTypeTags": [
             "security-impact",

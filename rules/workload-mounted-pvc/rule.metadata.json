@@ -1,7 +1,6 @@
 {
     "name": "workload-mounted-pvc",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

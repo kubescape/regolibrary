@@ -2,7 +2,6 @@
   "name": "rule-identify-blocklisted-image-registries-v1",
   "attributes": {
     "m$K8sThreatMatrix": "Initial Access::Compromised images in registry",
-    "armoBuiltin": true,
     "useFromKubescapeVersion": "v2.9.0"
   },
   "ruleLanguage": "Rego",

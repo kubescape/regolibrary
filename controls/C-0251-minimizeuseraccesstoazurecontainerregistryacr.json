@@ -9,7 +9,6 @@
         "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-privileged-access#pa-7-follow-just-enough-administration-least-privilege-principle>"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "list-role-definitions-in-acr"

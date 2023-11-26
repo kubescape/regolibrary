@@ -9,7 +9,6 @@
         "https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": ["ensure-endpointprivateaccess-is-enabled-and-endpointpublicaccess-is-disabled-eks"],
     "baseScore": 8.0,

@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-kubeconfig-kubelet.conf-file-permissions-are-set-to-600-or-more-restrictive",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

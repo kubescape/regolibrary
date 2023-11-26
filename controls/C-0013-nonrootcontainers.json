@@ -1,7 +1,6 @@
 {
     "name": "Non-root containers",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

@@ -1,7 +1,6 @@
 {
     "name": "Naked pods",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "devops"
         ]

@@ -1,7 +1,6 @@
 {
     "name": "review-roles-with-aws-iam-authenticator",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

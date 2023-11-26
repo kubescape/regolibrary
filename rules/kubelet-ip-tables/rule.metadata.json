@@ -1,7 +1,6 @@
 {
   "name": "kubelet-ip-tables",
   "attributes": {
-    "armoBuiltin": true,
     "hostSensorRule": "true"
   },
   "ruleLanguage": "Rego",

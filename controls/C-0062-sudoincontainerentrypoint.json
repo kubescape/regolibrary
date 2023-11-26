@@ -1,7 +1,6 @@
 {
     "name": "Sudo in container entrypoint",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security"
         ]

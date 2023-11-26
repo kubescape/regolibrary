@@ -1,7 +1,6 @@
 {
     "name": "Delete Kubernetes events",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Defense evasion"
         ],

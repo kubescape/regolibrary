@@ -1,7 +1,6 @@
 {
     "name": "CVE-2022-0492-cgroups-container-escape",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

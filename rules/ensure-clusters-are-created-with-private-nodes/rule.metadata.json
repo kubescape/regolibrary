@@ -1,7 +1,6 @@
 {
     "name": "ensure-clusters-are-created-with-private-nodes",
     "attributes": {
-      "armoBuiltin": true,
       "hostSensorRule": false,
       "imageScanRelated": false
     },

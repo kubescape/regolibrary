@@ -1,7 +1,6 @@
 {
     "name": "rule-allow-privilege-escalation",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

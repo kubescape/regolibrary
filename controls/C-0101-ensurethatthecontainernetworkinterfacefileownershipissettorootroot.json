@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126653/recommendations/1838576"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-that-the-Container-Network-Interface-file-ownership-is-set-to-root-root"

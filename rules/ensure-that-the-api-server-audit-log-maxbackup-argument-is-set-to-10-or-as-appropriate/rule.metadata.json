@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-api-server-audit-log-maxbackup-argument-is-set-to-10-or-as-appropriate",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

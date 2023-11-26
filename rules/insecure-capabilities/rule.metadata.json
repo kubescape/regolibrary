@@ -1,7 +1,6 @@
 {
   "name": "insecure-capabilities",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

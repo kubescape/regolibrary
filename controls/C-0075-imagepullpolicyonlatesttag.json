@@ -1,7 +1,6 @@
 {
     "name": "Image pull policy on latest tag",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "devops"
         ]

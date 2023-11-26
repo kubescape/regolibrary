@@ -1,7 +1,6 @@
 {
   "name": "kubelet-strong-cryptographics-ciphers",
   "attributes": {
-    "armoBuiltin": true,
     "hostSensorRule": "true"
   },
   "ruleLanguage": "Rego",

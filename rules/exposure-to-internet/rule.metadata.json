@@ -1,7 +1,6 @@
 {
   "name": "exposure-to-internet",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

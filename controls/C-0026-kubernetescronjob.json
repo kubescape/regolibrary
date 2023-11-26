@@ -1,7 +1,6 @@
 {
     "name": "Kubernetes CronJob",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Persistence"
         ],

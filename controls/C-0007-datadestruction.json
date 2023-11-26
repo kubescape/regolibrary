@@ -1,7 +1,6 @@
 {
     "name": "Data Destruction",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Impact"
         ],

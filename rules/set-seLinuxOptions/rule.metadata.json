@@ -1,7 +1,6 @@
 {
     "name": "set-seLinuxOptions",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

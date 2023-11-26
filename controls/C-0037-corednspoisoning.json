@@ -1,7 +1,6 @@
 {
     "name": "CoreDNS poisoning",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Lateral Movement"
         ],

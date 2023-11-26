@@ -1,7 +1,6 @@
 {
   "name": "kubelet-hostname-override",
   "attributes": {
-    "armoBuiltin": true,
     "hostSensorRule": "true"
   },
   "ruleLanguage": "Rego",

@@ -1,7 +1,6 @@
 {
   "name": "ensure-endpointprivateaccess-is-enabled",
   "attributes": {
-  "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

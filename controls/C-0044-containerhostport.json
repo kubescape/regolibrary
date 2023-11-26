@@ -1,7 +1,6 @@
 {
     "name": "Container hostPort",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance",

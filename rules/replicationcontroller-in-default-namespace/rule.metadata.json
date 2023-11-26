@@ -1,7 +1,6 @@
 {
     "name": "replicationcontroller-in-default-namespace",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

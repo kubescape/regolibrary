@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-kubelet-configuration-file-has-permissions-set-to-644-or-more-restrictive",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

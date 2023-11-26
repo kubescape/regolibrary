@@ -12,7 +12,6 @@
         "ensure-that-the-certificate-authorities-file-permissions-are-set-to-600-or-more-restrictive"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "baseScore": 7,
     "impact_statement": "None",

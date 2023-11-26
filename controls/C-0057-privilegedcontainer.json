@@ -1,7 +1,6 @@
 {
     "name": "Privileged container",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Privilege escalation"
         ],

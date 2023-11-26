@@ -1,7 +1,6 @@
 {
     "name": "Host PID/IPC privileges",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

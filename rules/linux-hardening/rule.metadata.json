@@ -1,7 +1,6 @@
 {
     "name": "linux-hardening",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

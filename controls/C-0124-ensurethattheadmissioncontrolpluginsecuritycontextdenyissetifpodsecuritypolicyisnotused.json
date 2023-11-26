@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126663/recommendations/1838650"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-that-the-admission-control-plugin-SecurityContextDeny-is-set-if-PodSecurityPolicy-is-not-used"

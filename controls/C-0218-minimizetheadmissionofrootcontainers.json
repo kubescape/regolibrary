@@ -9,7 +9,6 @@
         "https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "psp-deny-root-container"

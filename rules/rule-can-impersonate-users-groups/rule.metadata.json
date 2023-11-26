@@ -2,7 +2,6 @@
     "name": "rule-can-impersonate-users-groups",
     "attributes": {
       "microsoftK8sThreatMatrix": "Discovery::Access the K8s API server",
-      "armoBuiltin": true,
       "useUntilKubescapeVersion": "v1.0.133"
     },
     "ruleLanguage": "Rego",

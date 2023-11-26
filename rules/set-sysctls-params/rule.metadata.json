@@ -1,7 +1,6 @@
 {
     "name": "set-sysctls-params",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

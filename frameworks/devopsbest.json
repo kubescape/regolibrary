@@ -2,7 +2,6 @@
     "name": "DevOpsBest",
     "description": "",
     "attributes": {
-        "armoBuiltin": true
     },
     "scanningScope": {
         "matches": [

@@ -1,7 +1,6 @@
 {
     "name": "Resource limits",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security"
         ],

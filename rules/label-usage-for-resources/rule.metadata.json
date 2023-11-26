@@ -1,7 +1,6 @@
 {
     "name": "label-usage-for-resources",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

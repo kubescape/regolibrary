@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126663/recommendations/1838642"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-that-the-api-server-authorization-mode-argument-includes-RBAC"

@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126669/recommendations/1838678"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-that-the-controller-manager-profiling-argument-is-set-to-false"

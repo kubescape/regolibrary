@@ -1,7 +1,6 @@
 {
     "name": "Missing network policy",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security"
         ],

@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-api-server-etcd-cafile-argument-is-set-as-appropriate",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

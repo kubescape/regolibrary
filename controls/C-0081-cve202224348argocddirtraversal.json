@@ -1,7 +1,6 @@
 {
     "name": "CVE-2022-24348-argocddirtraversal",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security"
         ]

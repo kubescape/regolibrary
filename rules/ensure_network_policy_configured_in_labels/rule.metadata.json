@@ -1,7 +1,6 @@
 {
     "name": "ensure_network_policy_configured_in_labels",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

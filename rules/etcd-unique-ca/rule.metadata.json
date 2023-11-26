@@ -1,7 +1,6 @@
 {
   "name": "etcd-unique-ca",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

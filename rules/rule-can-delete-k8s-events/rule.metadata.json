@@ -2,7 +2,6 @@
     "name": "rule-can-delete-k8s-events",
     "attributes": {
       "microsoftK8sThreatMatrix": "Defense Evasion::Delete K8S events",
-      "armoBuiltin": true,
       "useUntilKubescapeVersion": "v1.0.133"
     },
     "ruleLanguage": "Rego",

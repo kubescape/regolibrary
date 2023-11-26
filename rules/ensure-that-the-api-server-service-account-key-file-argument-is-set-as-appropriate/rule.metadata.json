@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-api-server-service-account-key-file-argument-is-set-as-appropriate",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true",
         "useFromKubescapeVersion": "v2.0.159"
     },

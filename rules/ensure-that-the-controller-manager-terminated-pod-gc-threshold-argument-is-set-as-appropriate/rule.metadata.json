@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-controller-manager-terminated-pod-gc-threshold-argument-is-set-as-appropriate",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

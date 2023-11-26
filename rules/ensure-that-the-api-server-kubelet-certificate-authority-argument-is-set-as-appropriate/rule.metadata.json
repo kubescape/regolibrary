@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-api-server-kubelet-certificate-authority-argument-is-set-as-appropriate",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

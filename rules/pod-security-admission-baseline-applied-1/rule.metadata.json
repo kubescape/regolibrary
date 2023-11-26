@@ -1,7 +1,6 @@
 {
     "name": "pod-security-admission-baseline-applied-1",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

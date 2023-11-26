@@ -1,7 +1,6 @@
 {
     "name": "set-fsgroup-value",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

@@ -2,7 +2,6 @@
     "name": "rule-can-list-get-secrets",
     "attributes": {
       "microsoftK8sThreatMatrix": "Discovery::Access the K8s API server",
-      "armoBuiltin": true,
       "useUntilKubescapeVersion": "v1.0.133"
     },
     "ruleLanguage": "Rego",

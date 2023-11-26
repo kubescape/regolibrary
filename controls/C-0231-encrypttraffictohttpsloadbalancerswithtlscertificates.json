@@ -9,7 +9,6 @@
         "https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/data-protection.html"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": ["ensure-https-loadbalancers-encrypted-with-tls-aws"],
     "baseScore": 5.0,

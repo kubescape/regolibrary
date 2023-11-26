@@ -1,7 +1,6 @@
 {
     "name": "Mount service principal",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Credential Access"
         ],

@@ -1,7 +1,6 @@
 {
     "name": "alert-container-optimized-os-not-in-use",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

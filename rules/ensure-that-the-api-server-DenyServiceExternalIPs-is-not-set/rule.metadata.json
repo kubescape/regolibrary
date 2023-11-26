@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-api-server-DenyServiceExternalIPs-is-not-set",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

@@ -1,7 +1,6 @@
 {
     "name": "CVE-2022-23648-containerd-fs-escape",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security"
         ]
