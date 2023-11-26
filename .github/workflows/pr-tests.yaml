@@ -13,7 +13,6 @@ env:
   REGO_ARTIFACT_KEY_NAME: rego_artifact
   REGO_ARTIFACT_PATH: releaseDev
   GH_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-  GO_VERSION: 1.20
 
 jobs:
   # main job of testing and building the env.
