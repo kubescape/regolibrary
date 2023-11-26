@@ -3,9 +3,7 @@
         "alertMessage": "Workload: my-deployment1 does not set 'securityContext.fsGroup' with allowed value",
         "packagename": "armo_builtins",
         "alertScore": 7,
-        "reviewPaths": ["spec.template.spec.securityContext"],
-        "failedPaths": ["spec.template.spec.securityContext"],
-		    "fixPaths": [],
+		    "fixPaths": [{"path":"spec.template.spec.securityContext.fsGroup", "value": "YOUR_VALUE"}],
         "ruleStatus": "",
         "alertObject": {
             "k8sApiObjects": [
@@ -26,8 +24,6 @@
         "alertMessage": "Workload: my-deployment2 does not set 'securityContext.fsGroup' with allowed value",
         "packagename": "armo_builtins",
         "alertScore": 7,
-        "reviewPaths": [],
-        "failedPaths": [],
 		    "fixPaths": [{"path":"spec.template.spec.securityContext.fsGroup", "value": "YOUR_VALUE"}],
         "ruleStatus": "",
         "alertObject": {

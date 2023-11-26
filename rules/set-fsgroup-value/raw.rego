@@ -16,16 +16,13 @@ deny[msga] {
 
     securityContextPath := "spec.securityContext"
 
-    paths := get_paths(pod, securityContextPath)
+    fixPaths = [{"path":sprintf("%v.fsGroup", [securityContextPath]), "value": "YOUR_VALUE"}]
     
-
     msga := {
 		"alertMessage": sprintf("Pod: %v does not set 'securityContext.fsGroup' with allowed value", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"reviewPaths": paths["failedPaths"],
-		"failedPaths": paths["failedPaths"],
-		"fixPaths": paths["fixPaths"],
+		"fixPaths": fixPaths,
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -46,15 +43,13 @@ deny[msga] {
 
     securityContextPath := "spec.jobTemplate.spec.template.spec.securityContext"
 
-    paths := get_paths(cj, securityContextPath)
+    fixPaths = [{"path":sprintf("%v.fsGroup", [securityContextPath]), "value": "YOUR_VALUE"}]
     
     msga := {
 		"alertMessage": sprintf("CronJob: %v does not set 'securityContext.fsGroup' with allowed value", [cj.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"reviewPaths": paths["failedPaths"],
-		"failedPaths": paths["failedPaths"],
-		"fixPaths": paths["fixPaths"],
+		"fixPaths": fixPaths,
 		"alertObject": {
 			"k8sApiObjects": [cj]
 		}
@@ -74,16 +69,14 @@ deny[msga] {
     # check securityContext has fsGroup set properly
     not fsGroupSetProperly(wl.spec.template.spec.securityContext)
 
-    path := "spec.template.spec.securityContext"
-    paths := get_paths(wl, path)
+    securityContextPath := "spec.template.spec.securityContext"
+    fixPaths = [{"path":sprintf("%v.fsGroup", [securityContextPath]), "value": "YOUR_VALUE"}]
 
     msga := {
 		"alertMessage": sprintf("Workload: %v does not set 'securityContext.fsGroup' with allowed value", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"reviewPaths": paths["failedPaths"],
-		"failedPaths": paths["failedPaths"],
-		"fixPaths": paths["fixPaths"],
+		"fixPaths": fixPaths,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -94,14 +87,3 @@ deny[msga] {
 fsGroupSetProperly(securityContext) := true if {
     securityContext.fsGroup >= 0
 } else := false
-
-
-get_paths(resources, securityContextPath) := result {  
-
-  objectPath := array.concat(split(securityContextPath, "."), ["fsGroup"])
-  object.get(resources, objectPath, false)
-
-  result = {"failedPaths": [], "fixPaths": [{"path":sprintf("%v.fsGroup", [securityContextPath]), "value": "YOUR_VALUE"}]}
-} else = result {
-  result = {"failedPaths": [securityContextPath], "fixPaths": []}
-}
