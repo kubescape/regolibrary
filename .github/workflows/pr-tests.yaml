@@ -53,7 +53,7 @@ jobs:
       - name: Test Regoes
         working-directory: testrunner
         run: |
-          apt update && apt install -y cmake
+          sudo apt update && apt install -y cmake
           GOPATH=$(go env GOPATH) make
 
       - name: Set up Regal
