@@ -21,7 +21,7 @@ jobs:
       pull-requests: write
     uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@main
     with:
-      GO_VERSION: 1.20
+      GO_VERSION: '1.20'
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
 
