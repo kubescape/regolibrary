@@ -5,7 +5,7 @@
     "alertScore": 7,
     "fixPaths": [
       {
-        "path": "containers[1].securityContext.procMount",
+        "path": "spec.containers[1].securityContext.procMount",
         "value": "Default"
       }
     ],

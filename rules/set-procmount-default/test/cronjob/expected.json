@@ -5,7 +5,7 @@
     "alertScore": 7,
     "fixPaths": [
       {
-        "path": "cj.spec.jobTemplate.spec.template.spec.containers[0].securityContext.procMount",
+        "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.procMount",
         "value": "Default"
       }
     ],

@@ -17,7 +17,7 @@ deny[msga] {
 	container := pod.spec.containers[i]
 	not procMountSetProperly(container.securityContext)
 
-	fixPaths = [{"path": sprintf("containers[%d].securityContext.procMount", [i]), "value": "Default"}]
+	fixPaths = [{"path": sprintf("spec.containers[%d].securityContext.procMount", [i]), "value": "Default"}]
 	msga := {
 		"alertMessage": sprintf("Pod: %v has containers that do not set 'securityContext.procMount' to 'Default'", [pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -42,7 +42,7 @@ deny[msga] {
 	container := wl.spec.template.spec.containers[i]
 	not procMountSetProperly(container.securityContext)
 
-	fixPaths = [{"path": sprintf("wl.spec.template.spec.containers[%d].securityContext.procMount", [i]), "value": "Default"}]
+	fixPaths = [{"path": sprintf("spec.template.spec.containers[%d].securityContext.procMount", [i]), "value": "Default"}]
 	msga := {
 		"alertMessage": sprintf("Workload: %v has containers that do not set 'securityContext.procMount' to 'Default'", [wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -66,7 +66,7 @@ deny[msga] {
 	container := cj.spec.jobTemplate.spec.template.spec.containers[i]
 	not procMountSetProperly(container.securityContext)
 
-	fixPaths = [{"path": sprintf("cj.spec.jobTemplate.spec.template.spec.containers[%d].securityContext.procMount", [i]), "value": "Default"}]
+	fixPaths = [{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%d].securityContext.procMount", [i]), "value": "Default"}]
 	msga := {
 		"alertMessage": sprintf("CronJob: %v has containers that do not set 'securityContext.procMount' to 'Default'", [cj.metadata.name]),
 		"packagename": "armo_builtins",
