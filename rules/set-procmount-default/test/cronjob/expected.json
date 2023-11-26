@@ -1,22 +1,25 @@
 [
-    {
-        "alertMessage": "CronJob: hello has containers that do not set 'securityContext.procMount' to 'Default'",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "reviewPaths": ["containers[0].securityContext.procMount"],
-        "failedPaths": ["containers[0].securityContext.procMount"],
-		    "fixPaths": [],
-        "ruleStatus": "",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                  "apiVersion": "batch/v1beta1",
-                  "kind": "CronJob",
-                  "metadata": {
-                    "name": "hello"
-                  }
-                }
-            ]
+  {
+    "alertMessage": "CronJob: hello has containers that do not set 'securityContext.procMount' to 'Default'",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "fixPaths": [
+      {
+        "path": "cj.spec.jobTemplate.spec.template.spec.containers[0].securityContext.procMount",
+        "value": "Default"
+      }
+    ],
+    "ruleStatus": "",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1beta1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "hello"
+          }
         }
+      ]
     }
+  }
 ]
