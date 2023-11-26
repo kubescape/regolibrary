@@ -3,7 +3,7 @@
   "attributes": {
     "m$K8sThreatMatrix": "Privilege Escalation::privileged container",
     "mitre": "Privilege Escalation",
-    "mitreCode": "TA0004",
+    "mitreCode": "TA0004"
   },
   "ruleLanguage": "Rego",
   "match": [
