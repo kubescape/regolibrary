@@ -15,28 +15,12 @@ env:
   GH_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
 jobs:
-  # testing link checks
-  markdown-link-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ env.GH_ACCESS_TOKEN }}
-  # testing link checks
-  markdown-link-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ env.GH_ACCESS_TOKEN }}
-
   # main job of testing and building the env.
   test_pr_checks:
     permissions:
       pull-requests: write
     uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@main
     with:
-      GO_VERSION: 1.20
       GO_VERSION: 1.20
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
@@ -59,21 +43,18 @@ jobs:
         name: checkout repo content
         with:
           token: ${{ env.GH_ACCESS_TOKEN }}
-          token: ${{ env.GH_ACCESS_TOKEN }}
 
       # Test using Golang OPA hot rule compilation
       - name: Set up Go
         uses: actions/setup-go@v4
-        uses: actions/setup-go@v4
         with:
-          go-version: 1.20
           go-version: 1.20
 
       # testing rego library
       - name: Test Regoes
         working-directory: testrunner
         run: |
-          apt update && apt install -y cmake
+          apt update && apt install -y cmake 
           GOPATH=$(go env GOPATH) make
 
       - name: Set up Regal
@@ -155,7 +136,6 @@ jobs:
       - uses: actions/checkout@v4
         name: checkout repo content
         with:
-          token: ${{ env.GH_ACCESS_TOKEN }}
           token: ${{ env.GH_ACCESS_TOKEN }}
       - name: Remove pre-release folder
         run: rm -r -f pre-release
