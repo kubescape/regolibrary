@@ -1,7 +1,6 @@
 {
     "name": "workload-mounted-configmap",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

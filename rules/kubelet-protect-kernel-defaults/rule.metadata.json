@@ -1,7 +1,6 @@
 {
   "name": "kubelet-protect-kernel-defaults",
   "attributes": {
-    "armoBuiltin": true,
     "hostSensorRule": "true"
   },
   "ruleLanguage": "Rego",

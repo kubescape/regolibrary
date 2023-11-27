@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126663/recommendations/1838671"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-that-the-api-server-tls-cert-file-and-tls-private-key-file-arguments-are-set-as-appropriate"

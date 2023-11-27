@@ -1,7 +1,6 @@
 {
     "name": "CVE-2022-39328-grafana-auth-bypass",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security"
         ]

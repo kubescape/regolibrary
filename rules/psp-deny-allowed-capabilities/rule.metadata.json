@@ -1,7 +1,6 @@
 {
     "name": "psp-deny-allowed-capabilities",
     "attributes": {
-    "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

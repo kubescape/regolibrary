@@ -1,7 +1,6 @@
 {
     "name": "Configured readiness probe",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "devops"
         ]

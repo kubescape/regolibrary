@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-controller-manager-bind-address-argument-is-set-to-127.0.0.1",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

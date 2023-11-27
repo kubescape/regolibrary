@@ -2,7 +2,6 @@
   "name": "container-image-repository",
   "attributes": {
     "m$K8sThreatMatrix": "Collection::Images from private registry",
-    "armoBuiltin": true,
     "useUntilKubescapeVersion": "v2.3.8"
   },
   "ruleLanguage": "Rego",

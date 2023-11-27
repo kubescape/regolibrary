@@ -1,8 +1,7 @@
 {
   "name": "internal-networking",
   "attributes": {
-    "m$K8sThreatMatrix": "Lateral Movement::Container internal networking, Discovery::Network mapping",
-    "armoBuiltin": true
+    "m$K8sThreatMatrix": "Lateral Movement::Container internal networking, Discovery::Network mapping"
   },
   "ruleLanguage": "Rego",
   "match": [

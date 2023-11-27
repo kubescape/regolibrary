@@ -1,7 +1,6 @@
 {
   "name": "kubelet-rotate-certificates",
   "attributes": {
-    "armoBuiltin": true,
     "hostSensorRule": "true"
   },
   "ruleLanguage": "Rego",

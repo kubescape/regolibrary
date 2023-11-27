@@ -1,7 +1,6 @@
 {
     "name": "ensure-clusters-are-created-with-private-endpoint-enabled-and-public-access-disabled",
     "attributes": {
-      "armoBuiltin": true,
       "hostSensorRule": "false",
       "imageScanRelated": false
     },

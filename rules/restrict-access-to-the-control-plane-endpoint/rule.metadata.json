@@ -1,7 +1,6 @@
 {
     "name": "restrict-access-to-the-control-plane-endpoint",
     "attributes": {
-      "armoBuiltin": true,
       "hostSensorRule": "false",
       "imageScanRelated": false
     },

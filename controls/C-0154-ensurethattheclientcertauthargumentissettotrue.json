@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126654/recommendations/1838565"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "etcd-client-auth-cert"

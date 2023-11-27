@@ -1,7 +1,6 @@
 {
     "name": "No impersonation",
     "attributes": {
-        "armoBuiltin": true,
         "rbacQuery": "Impersonation",
         "controlTypeTags": [
             "security",

@@ -1,7 +1,6 @@
 {
     "name": "RBAC enabled",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

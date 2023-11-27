@@ -1,7 +1,6 @@
 {
   "name": "ensure-https-loadbalancers-encrypted-with-tls-aws",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

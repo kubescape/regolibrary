@@ -1,8 +1,7 @@
 {
   "name": "rule-deny-cronjobs",
   "attributes": {
-    "m$K8sThreatMatrix": "Persistence::Kubernetes Cronjob",
-    "armoBuiltin": true
+    "m$K8sThreatMatrix": "Persistence::Kubernetes Cronjob"
   },
   "ruleLanguage": "rego",
   "match": [

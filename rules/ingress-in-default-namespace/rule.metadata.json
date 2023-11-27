@@ -1,7 +1,6 @@
 {
     "name": "ingress-in-default-namespace",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

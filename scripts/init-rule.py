@@ -54,7 +54,6 @@ set_use_until_kubescape_version = """
 rule_metadata = """{{
     "name": "{rule_name}",
     "attributes": {{
-      "armoBuiltin": true,{use_from_kubescape_version}{use_until_kubescape_version}
       "hostSensorRule": "{host_sensor_rule}",
       "imageScanRelated": {image_scan_related}
     }},

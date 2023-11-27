@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-api-server-encryption-providers-are-appropriately-configured",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

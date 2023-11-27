@@ -12,7 +12,6 @@
         "if-the-kubelet-config.yaml-configuration-file-is-being-used-validate-permissions-set-to-600-or-more-restrictive"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "baseScore": 7,
     "impact_statement": "None",

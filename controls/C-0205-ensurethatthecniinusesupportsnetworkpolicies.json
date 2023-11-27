@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126664/recommendations/1838627"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-that-the-cni-in-use-supports-network-policies"

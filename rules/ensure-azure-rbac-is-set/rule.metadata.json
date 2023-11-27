@@ -1,7 +1,6 @@
 {
     "name": "ensure-azure-rbac-is-set",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "dynamicMatch": [

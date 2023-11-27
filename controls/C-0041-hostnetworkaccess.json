@@ -1,7 +1,6 @@
 {
     "name": "HostNetwork access",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

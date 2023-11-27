@@ -1,7 +1,6 @@
 {
   "name": "etcd-client-auth-cert",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

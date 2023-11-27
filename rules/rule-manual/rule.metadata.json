@@ -1,7 +1,6 @@
 {
     "name": "rule-manual",
     "attributes": {
-      "armoBuiltin": true,
       "actionRequired": "manual review",
       "hostSensorRule": false,
       "imageScanRelated": false

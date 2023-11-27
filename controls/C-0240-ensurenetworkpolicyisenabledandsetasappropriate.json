@@ -9,7 +9,6 @@
         "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-network-security#ns-2-connect-private-networks-together>\n\n  <https://docs.microsoft.com/en-us/azure/aks/use-network-policies>"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "rule-cni-enabled-aks"

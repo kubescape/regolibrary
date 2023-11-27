@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-cni-in-use-supports-network-policies",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

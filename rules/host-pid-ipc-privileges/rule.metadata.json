@@ -1,7 +1,6 @@
 {
     "name": "host-pid-ipc-privileges",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

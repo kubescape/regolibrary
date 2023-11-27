@@ -1,7 +1,6 @@
 {
   "name": "resources-memory-limit-and-request",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

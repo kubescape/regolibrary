@@ -1,7 +1,6 @@
 {
   "name": "rule-can-bind-escalate",
   "attributes": {
-    "armoBuiltin": true,
     "resourcesAggregator": "subject-role-rolebinding",
     "useFromKubescapeVersion": "v1.0.133"
   },

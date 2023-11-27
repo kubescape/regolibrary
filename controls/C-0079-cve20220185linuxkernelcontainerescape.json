@@ -1,7 +1,6 @@
 {
     "name": "CVE-2022-0185-linux-kernel-container-escape",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

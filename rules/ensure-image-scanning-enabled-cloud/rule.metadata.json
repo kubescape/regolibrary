@@ -1,7 +1,6 @@
 {
   "name": "ensure-image-scanning-enabled-cloud",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "dynamicMatch": [

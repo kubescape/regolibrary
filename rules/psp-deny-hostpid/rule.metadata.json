@@ -1,7 +1,6 @@
 {
     "name": "psp-deny-hostpid",
     "attributes": {
-    "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

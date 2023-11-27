@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-admission-control-plugin-AlwaysAdmit-is-not-set",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

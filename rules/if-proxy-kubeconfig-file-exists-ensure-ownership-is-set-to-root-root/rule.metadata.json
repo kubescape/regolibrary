@@ -1,7 +1,6 @@
 {
     "name": "if-proxy-kubeconfig-file-exists-ensure-ownership-is-set-to-root-root",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

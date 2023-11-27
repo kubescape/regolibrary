@@ -1,7 +1,6 @@
 {
     "name": "Cluster internal networking",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Lateral movement"
         ],

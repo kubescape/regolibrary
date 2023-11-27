@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126670/recommendations/1838685"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-that-the-scheduler-bind-address-argument-is-set-to-127.0.0.1"

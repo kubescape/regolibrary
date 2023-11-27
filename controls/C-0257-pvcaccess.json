@@ -1,7 +1,6 @@
 {
     "name": "Workload with PVC access",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security"
         ],

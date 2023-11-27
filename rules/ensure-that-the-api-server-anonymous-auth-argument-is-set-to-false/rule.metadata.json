@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-api-server-anonymous-auth-argument-is-set-to-false",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

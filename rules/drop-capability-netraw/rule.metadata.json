@@ -1,7 +1,6 @@
 {
     "name": "drop-capability-netraw",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

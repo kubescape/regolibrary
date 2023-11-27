@@ -1,7 +1,6 @@
 {
     "name": "Exec into container",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Execution"
         ],

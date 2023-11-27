@@ -1,7 +1,6 @@
 {
     "name": "Exposure to internet",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security"
         ],

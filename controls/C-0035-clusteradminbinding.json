@@ -1,7 +1,6 @@
 {
     "name": "Cluster-admin binding",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Privilege escalation"
         ],

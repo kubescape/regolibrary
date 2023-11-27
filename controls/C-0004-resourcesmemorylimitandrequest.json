@@ -1,7 +1,6 @@
 {
     "name": "Resources memory limit and request",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "compliance",
             "devops"

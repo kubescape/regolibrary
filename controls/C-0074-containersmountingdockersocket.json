@@ -1,7 +1,6 @@
 {
     "name": "Container runtime socket mounted",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "devops",
             "smartRemediation"

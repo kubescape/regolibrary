@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126662/recommendations/1838610"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "pod-security-admission-baseline-applied-1",

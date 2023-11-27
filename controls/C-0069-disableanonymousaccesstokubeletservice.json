@@ -1,7 +1,6 @@
 {
     "name": "Disable anonymous access to Kubelet service",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

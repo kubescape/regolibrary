@@ -1,7 +1,6 @@
 {
   "name": "rule-secrets-in-env-var",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

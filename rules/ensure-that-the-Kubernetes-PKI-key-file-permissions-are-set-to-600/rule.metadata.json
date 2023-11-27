@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-Kubernetes-PKI-key-file-permissions-are-set-to-600",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

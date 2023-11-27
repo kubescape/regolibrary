@@ -1,7 +1,6 @@
 {
     "name": "list-role-definitions-in-acr",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "dynamicMatch": [

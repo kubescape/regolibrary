@@ -7,7 +7,6 @@
     "manual_test": "",
     "references": [],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "has-image-signature"

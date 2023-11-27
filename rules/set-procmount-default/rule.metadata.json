@@ -1,7 +1,6 @@
 {
     "name": "set-procmount-default",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

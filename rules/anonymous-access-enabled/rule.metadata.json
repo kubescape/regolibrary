@@ -1,7 +1,6 @@
 {
     "name": "anonymous-access-enabled",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

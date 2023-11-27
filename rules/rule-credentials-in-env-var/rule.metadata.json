@@ -1,8 +1,7 @@
 {
   "name": "rule-credentials-in-env-var",
   "attributes": {
-    "m$K8sThreatMatrix": "Credential access::Applications credentials in configuration files, Lateral Movement::Applications credentials in configuration files",
-    "armoBuiltin": true
+    "m$K8sThreatMatrix": "Credential access::Applications credentials in configuration files, Lateral Movement::Applications credentials in configuration files"
   },
   "ruleLanguage": "Rego",
   "match": [

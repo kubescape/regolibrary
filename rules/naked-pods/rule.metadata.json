@@ -1,7 +1,6 @@
 {
     "name": "naked-pods",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

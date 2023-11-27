@@ -1,7 +1,6 @@
 {
     "name": "ServiceAccount token mounted",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security"
         ],

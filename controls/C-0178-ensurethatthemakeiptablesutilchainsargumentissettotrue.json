@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126668/recommendations/1838651"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "kubelet-ip-tables"

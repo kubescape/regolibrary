@@ -7,7 +7,6 @@
     "manual_test": "",
     "references": [],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": ["ensure-endpointpublicaccess-is-disabled-on-private-nodes-eks"],
     "baseScore": 8.0,
