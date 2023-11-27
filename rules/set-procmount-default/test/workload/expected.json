@@ -1,25 +1,28 @@
 [
-    {
-        "alertMessage": "Workload: my-deployment has containers that do not set 'securityContext.procMount' to 'Default'",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "reviewPaths": ["containers[1].securityContext.procMount"],
-        "failedPaths": ["containers[1].securityContext.procMount"],
-		    "fixPaths": [],
-        "ruleStatus": "",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                  "apiVersion": "apps/v1",
-                  "kind": "Deployment",
-                  "metadata": {
-                    "name": "my-deployment",
-                    "labels": {
-                      "app": "goproxy"
-                    }
-                  }
-                }
-            ]
+  {
+    "alertMessage": "Workload: my-deployment has containers that do not set 'securityContext.procMount' to 'Default'",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.containers[1].securityContext.procMount",
+        "value": "Default"
+      }
+    ],
+    "ruleStatus": "",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "my-deployment",
+            "labels": {
+              "app": "goproxy"
+            }
+          }
         }
+      ]
     }
+  }
 ]

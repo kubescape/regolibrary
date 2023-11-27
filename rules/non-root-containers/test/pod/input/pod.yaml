@@ -6,7 +6,7 @@ metadata:
     role: myrole
 spec:
   securityContext:
-    allowPrivilegeEscalation: false
+    allowPrivilegeEscalation: true
   containers:
     - name: web
       image: nginx
