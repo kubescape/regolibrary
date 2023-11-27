@@ -1,24 +1,34 @@
-[{
-    "alertMessage": "container: web in pod: static-web  may run as root",
-    "reviewPaths": [],
-    "failedPaths": [],
-    "fixPaths": [{
-        "path": "spec.containers[0].securityContext.runAsNonRoot",
-        "value": "true"
-    }],
-    "ruleStatus": "",
-    "packagename": "armo_builtins",
-    "alertScore": 7,
-    "alertObject": {
-        "k8sApiObjects": [{
-            "apiVersion": "v1",
-            "kind": "Pod",
-            "metadata": {
-                "labels": {
-                    "role": "myrole"
-                },
-                "name": "static-web"
+[
+    {
+        "alertMessage": "container: web in pod: static-web  may run as root",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].securityContext.runAsNonRoot",
+                "value": "true"
+            },
+            {
+                "path": "spec.containers[0].securityContext.allowPrivilegeEscalation",
+                "value": "false"
             }
-        }]
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "role": "myrole"
+                        },
+                        "name": "static-web"
+                    }
+                }
+            ]
+        }
     }
-}]
+]
