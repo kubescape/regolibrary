@@ -2,6 +2,7 @@
     "name": "ArmoBest",
     "description": "",
     "attributes": {
+        "armoBuiltin": true
     },
     "scanningScope": {
         "matches": [
