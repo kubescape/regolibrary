@@ -2,6 +2,7 @@
     "name": "NSA",
     "description": "Implement NSA security advices for K8s ",
     "attributes": {
+        "armoBuiltin": true
     },
     "scanningScope": {
         "matches": [
