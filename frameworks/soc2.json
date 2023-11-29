@@ -1,0 +1,58 @@
+{
+    "name": "SOC2",
+    "description": "SOC2 compliance related controls",
+    "attributes": {
+        "armoBuiltin": true
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    },
+    "typeTags": ["compliance"],
+    "activeControls": [
+        {
+            "controlID": "C-0260",
+            "patch": {
+                "name": "Firewall (CC6.1,CC6.6,CC7.2)",
+                "description": "Network is monitored and protected by the following. System firewalls are configured to limit unnecessary ports, protocols and services. Firewall rules are reviewed at least annually by IT management.",
+                "long_description": "Network is monitored and protected by the following. System firewalls are configured to limit unnecessary ports, protocols and services. Firewall rules are reviewed at least annually by IT management.",
+                "remediation": "Define network policies for all workloads to protect unwanted access"
+            }
+        },
+        {
+            "controlID": "C-0012",
+            "patch": {
+                "name": "Cryptographic key management - misplaced secrets (CC6.1,CC6.6,CC6.7)",
+                "description": "Encryption keys used to protect data at rest and in transit are stored and managed in accordance with the organization's cryptography policy. Access to encryption keys are restricted to authorized personnel.",
+                "long_description": "Encryption keys used to protect data at rest and in transit are stored and managed in accordance with the organization's cryptography policy. Access to encryption keys are restricted to authorized personnel."
+            }
+        },
+        {
+            "controlID": "C-0186",
+            "patch": {
+                "name": "Cryptographic key management - minimize access to secrets (CC6.1,CC6.6,CC6.7)",
+                "description": "Encryption keys used to protect data at rest and in transit are stored and managed in accordance with the organization's cryptography policy. Access to encryption keys are restricted to authorized personnel.",
+                "long_description": "Encryption keys used to protect data at rest and in transit are stored and managed in accordance with the organization's cryptography policy. Access to encryption keys are restricted to authorized personnel."
+            }
+        },
+        {
+            "controlID": "C-0035",
+            "patch": {
+                "name": "Access restriction to infrastructure - admin access (CC6.1 ,CC6.2, CC6.7, CC6.8)",
+                "description": "Administrative access on the in-scope production infrastructure (cloud platform, servers, database) are restricted to authorized users based on job responsibilities.",
+                "long_description": "Administrative access on the in-scope production infrastructure (cloud platform, servers, database) are restricted to authorized users based on job responsibilities."
+            }
+        },
+        {
+            "controlID": "C-0067",
+            "patch": {
+                "name": "Event logging (CC6.8,CC7.1,CC7.2)",
+                "description": "Logging is enabled to monitor the following events at the application and/or infrastructure layers.",
+                "long_description": "Logging is enabled to monitor the following events at the application and/or infrastructure layers: - Logon attempts - Data deletions - Application and system errors - Changes to software and configuration settings - Changes to system files, configuration files or content files  The logs are monitored by IT Operations staff and significant issues are investigated and resolved within a timely manner."
+            }
+        }
+
+    ]
+}
