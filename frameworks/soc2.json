@@ -52,6 +52,14 @@
                 "description": "Logging is enabled to monitor the following events at the application and/or infrastructure layers.",
                 "long_description": "Logging is enabled to monitor the following events at the application and/or infrastructure layers: - Logon attempts - Data deletions - Application and system errors - Changes to software and configuration settings - Changes to system files, configuration files or content files  The logs are monitored by IT Operations staff and significant issues are investigated and resolved within a timely manner."
             }
+        },
+        {
+            "controlID": "C-0263",
+            "patch": {
+                "name": "Data in motion encryption - Ingress is TLS encrypted (CC6.1,CC6.6,CC6.7)",
+                "description": "Transport Layer Security (TLS) is used to protect the transmission of data sent over the internet to and from the organization's application server.",
+                "long_description": "Transport Layer Security (TLS) is used to protect the transmission of data sent over the internet to and from the organization's application server."
+            }
         }
 
     ]
