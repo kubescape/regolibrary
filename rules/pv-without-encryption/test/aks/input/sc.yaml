@@ -1,0 +1,9 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azure-disk-cmk
+provisioner: kubernetes.io/azure-disk
+parameters:
+  skuname: Standard_LRS
+  kind: Managed
+  diskEncryptionSetID: /subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSet-name}

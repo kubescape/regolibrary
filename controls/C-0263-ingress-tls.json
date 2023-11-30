@@ -1,0 +1,20 @@
+{
+    "name": "Ingress uses TLS",
+    "attributes": {
+        "controlTypeTags": [
+            "security",
+            "compliance"
+        ]
+    },
+    "description": "This control detect Ingress resources that do not use TLS",
+    "remediation": "The user needs to implement TLS for the Ingress resource in order to encrypt the incoming traffic",
+    "rulesNames": ["ingress-no-tls"],
+    "test": "Check if the Ingress resource has TLS configured",
+    "controlID": "C-0263",
+    "baseScore": 7.0,
+    "scanningScope": {
+        "matches": [
+            "cluster","file"
+        ]
+    }
+}
