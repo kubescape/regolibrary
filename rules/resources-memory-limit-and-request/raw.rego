@@ -296,6 +296,7 @@ is_min_request_exceeded_memory(memory_req) {
 	compare_min(memory_req_min, memory_req)
 }
 
+
 ##############
 # helpers
 
@@ -305,7 +306,7 @@ compare_max(max, given) {
 	endswith(given, "Mi")
 	split_max := split(max, "Mi")[0]
 	split_given := split(given, "Mi")[0]
-	split_given > split_max
+    to_number(split_given) > to_number(split_max)
 }
 
 compare_max(max, given) {
@@ -313,7 +314,7 @@ compare_max(max, given) {
 	endswith(given, "M")
 	split_max := split(max, "M")[0]
 	split_given := split(given, "M")[0]
-	split_given > split_max
+    to_number(split_given) > to_number(split_max)
 }
 
 compare_max(max, given) {
@@ -321,7 +322,7 @@ compare_max(max, given) {
 	endswith(given, "m")
 	split_max := split(max, "m")[0]
 	split_given := split(given, "m")[0]
-	split_given > split_max
+    to_number(split_given) > to_number(split_max)
 }
 
 compare_max(max, given) {
@@ -337,7 +338,7 @@ compare_min(min, given) {
 	endswith(given, "Mi")
 	split_min := split(min, "Mi")[0]
 	split_given := split(given, "Mi")[0]
-	split_given < split_min
+	to_number(split_given) < to_number(split_min)
 }
 
 compare_min(min, given) {
@@ -345,7 +346,8 @@ compare_min(min, given) {
 	endswith(given, "M")
 	split_min := split(min, "M")[0]
 	split_given := split(given, "M")[0]
-	split_given < split_min
+	to_number(split_given) < to_number(split_min)
+
 }
 
 compare_min(min, given) {
@@ -353,13 +355,15 @@ compare_min(min, given) {
 	endswith(given, "m")
 	split_min := split(min, "m")[0]
 	split_given := split(given, "m")[0]
-	split_given < split_min
+	to_number(split_given) < to_number(split_min)
+
 }
 
 compare_min(min, given) {
 	not is_special_measure(min)
 	not is_special_measure(given)
-	given < min
+	to_number(given) < to_number(min)
+
 }
 
 # Check that is same unit
