@@ -349,12 +349,6 @@
             }
         },
         {
-            "controlID": "C-0086",
-            "patch": {
-                "name": "CVE-2022-0492-cgroups-container-escape"
-            }
-        },
-        {
             "controlID": "C-0087",
             "patch": {
                 "name": "CVE-2022-23648-containerd-fs-escape"
