@@ -2,13 +2,13 @@ name: Push to regolibrary-dev
 
 on:
   push:
-    branches: [master, main]
+    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: ${{ github.head_ref }}
         fetch-depth: 0

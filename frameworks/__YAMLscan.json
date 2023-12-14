@@ -57,7 +57,6 @@
         "Label usage for resources",
         "K8s common labels usage",
         "Images from allowed registry",
-        "CVE-2022-24348-argocddirtraversal",
-        "CVE-2022-0492-cgroups-container-escape"
+        "CVE-2022-24348-argocddirtraversal"
     ]
 }

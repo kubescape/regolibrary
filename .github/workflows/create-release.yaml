@@ -66,7 +66,7 @@ jobs:
 
       # generating subsections ids
       - name: Update frameworks subsections
-        run: bash ./scripts/generate_subsections_ids.sh
+        run: python ./scripts/generate_subsections_ids.py
 
       # validate control-ID duplications
       - run: python ./scripts/validations.py
