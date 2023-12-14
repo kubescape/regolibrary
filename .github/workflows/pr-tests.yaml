@@ -80,7 +80,7 @@ jobs:
 
       # generating subsections ids
       - name: Update frameworks subsections
-        run: bash ./scripts/generate_subsections_ids.sh
+        run: python ./scripts/generate_subsections_ids.py
 
       # run export script to generate regolibrary artifacts
       # releaseDev clean up is for old compatability. should be removed at end of 2023.
