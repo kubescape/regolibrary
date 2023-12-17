@@ -1,6 +1,7 @@
 {
   "name": "pv-without-encryption",
   "attributes": {
+    "useFromKubescapeVersion": "v3.0.2"
   },
   "ruleLanguage": "Rego",
   "match": [
