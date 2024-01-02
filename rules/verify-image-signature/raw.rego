@@ -9,13 +9,14 @@ deny[msga] {
     verified_keys := [trusted_key | trusted_key = data.postureControlInputs.trustedCosignPublicKeys[_]; cosign.verify(container.image, trusted_key)]
     count(verified_keys) == 0
 
+	path := sprintf("spec.containers[%v].image", [i])
 
 	msga := {
 		"alertMessage": sprintf("signature not verified for image: %v", [container.image]),
 		"alertScore": 7,
 		"fixPaths": [],
-		"reviewPaths": [container.image],
-		"failedPaths": [container.image],
+		"reviewPaths": [path],
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [pod]
@@ -32,12 +33,14 @@ deny[msga] {
 	verified_keys := [trusted_key | trusted_key = data.postureControlInputs.trustedCosignPublicKeys[_]; cosign.verify(container.image, trusted_key)]
     count(verified_keys) == 0
 
+	path := sprintf("spec.template.spec.containers[%v].image", [i])
+
     msga := {
 		"alertMessage": sprintf("signature not verified for image: %v", [container.image]),
 		"alertScore": 7,
 		"fixPaths": [],
-		"reviewPaths": [container.image],
-		"failedPaths": [container.image],
+		"reviewPaths": [path],
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl]
@@ -54,12 +57,14 @@ deny[msga] {
     verified_keys := [trusted_key | trusted_key = data.postureControlInputs.trustedCosignPublicKeys[_]; cosign.verify(container.image, trusted_key)]
     count(verified_keys) == 0
 
+	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [i])
+
     msga := {
 		"alertMessage": sprintf("signature not verified for image: %v", [container.image]),
 		"alertScore": 7,
 		"fixPaths": [],
-		"reviewPaths": [container.image],
-		"failedPaths": [container.image],
+		"reviewPaths": [path],
+		"failedPaths": [path],
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [wl]
