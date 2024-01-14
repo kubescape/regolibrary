@@ -14,14 +14,15 @@
 
 		is_not_reference(env)
 
-		path := sprintf("spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
+		paths := [sprintf("spec.containers[%v].env[%v].name", [i, j]),
+				  sprintf("spec.containers[%v].env[%v].value", [i, j])]
 
 		msga := {
 			"alertMessage": sprintf("Pod: %v has sensitive information in environment variables", [pod.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
-			"deletePaths": [path],
-			"failedPaths": [path],
+			"deletePaths": paths,
+			"failedPaths": paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [pod]
@@ -45,14 +46,15 @@
 
 		is_not_reference(env)
 
-		path := sprintf("spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
+		paths := [sprintf("spec.template.spec.containers[%v].env[%v].name", [i, j]),
+				sprintf("spec.template.spec.containers[%v].env[%v].value", [i, j])]
 
 		msga := {
 			"alertMessage": sprintf("%v: %v has sensitive information in environment variables", [wl.kind, wl.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
-			"deletePaths": [path],
-			"failedPaths": [path],
+			"deletePaths": paths,
+			"failedPaths": paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [wl]
@@ -75,14 +77,15 @@
 
 		is_not_reference(env)
 
-		path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
+		paths := [sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [i, j]),
+				  sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].value", [i, j])]
 
 		msga := {
 			"alertMessage": sprintf("Cronjob: %v has sensitive information in environment variables", [wl.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
-			"deletePaths": [path],
-			"failedPaths": [path],
+			"deletePaths": paths,
+			"failedPaths": paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [wl]
@@ -104,14 +107,15 @@ deny[msga] {
 
 		is_not_reference(env)
 
-		path := sprintf("spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
+		paths := [sprintf("spec.containers[%v].env[%v].name", [i, j]),
+				  sprintf("spec.containers[%v].env[%v].value", [i, j])]
 
 		msga := {
 			"alertMessage": sprintf("Pod: %v has sensitive information in environment variables", [pod.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
-			"deletePaths": [path],
-			"failedPaths": [path],
+			"deletePaths": paths,
+			"failedPaths": paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [pod]
@@ -134,14 +138,15 @@ deny[msga] {
 
 		is_not_reference(env)
 
-		path := sprintf("spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
+		paths := [sprintf("spec.template.spec.containers[%v].env[%v].name", [i, j]),
+				sprintf("spec.template.spec.containers[%v].env[%v].value", [i, j])]
 
 		msga := {
 			"alertMessage": sprintf("%v: %v has sensitive information in environment variables", [wl.kind, wl.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
-			"deletePaths": [path],
-			"failedPaths": [path],
+			"deletePaths": paths,
+			"failedPaths": paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [wl]
@@ -162,14 +167,15 @@ deny[msga] {
 
 		is_not_reference(env)
 
-		path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
+		paths := [sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [i, j]),
+				  sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].value", [i, j])]
 
 		msga := {
 			"alertMessage": sprintf("Cronjob: %v has sensitive information in environment variables", [wl.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
-			"deletePaths": [path],
-			"failedPaths": [path],
+			"deletePaths": paths,
+			"failedPaths": paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [wl]
