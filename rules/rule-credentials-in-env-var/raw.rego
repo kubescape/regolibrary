@@ -11,19 +11,18 @@
 
 		contains(lower(env.name), lower(key_name))
 		env.value != ""
-		# check that value wasn't allowed by user
-		not is_allowed_value(env.value)
 
 		is_not_reference(env)
 
-		path := sprintf("spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
+		paths := [sprintf("spec.containers[%v].env[%v].name", [i, j]),
+				  sprintf("spec.containers[%v].env[%v].value", [i, j])]
 
 		msga := {
 			"alertMessage": sprintf("Pod: %v has sensitive information in environment variables", [pod.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
-			"deletePaths": [path],
-			"failedPaths": [path],
+			"deletePaths": paths,
+			"failedPaths": paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [pod]
@@ -44,19 +43,18 @@
 
 		contains(lower(env.name), lower(key_name))
 		env.value != ""
-		# check that value wasn't allowed by user
-		not is_allowed_value(env.value)
 
 		is_not_reference(env)
 
-		path := sprintf("spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
+		paths := [sprintf("spec.template.spec.containers[%v].env[%v].name", [i, j]),
+				sprintf("spec.template.spec.containers[%v].env[%v].value", [i, j])]
 
 		msga := {
 			"alertMessage": sprintf("%v: %v has sensitive information in environment variables", [wl.kind, wl.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
-			"deletePaths": [path],
-			"failedPaths": [path],
+			"deletePaths": paths,
+			"failedPaths": paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [wl]
@@ -76,19 +74,18 @@
 		contains(lower(env.name), lower(key_name))
 
 		env.value != ""
-		# check that value wasn't allowed by user
-		not is_allowed_value(env.value)
 
 		is_not_reference(env)
 
-		path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
+		paths := [sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [i, j]),
+				  sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].value", [i, j])]
 
 		msga := {
 			"alertMessage": sprintf("Cronjob: %v has sensitive information in environment variables", [wl.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
-			"deletePaths": [path],
-			"failedPaths": [path],
+			"deletePaths": paths,
+			"failedPaths": paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [wl]
@@ -106,20 +103,19 @@ deny[msga] {
 		container := pod.spec.containers[i]
 		env := container.env[j]
 
-		# check that value wasn't allowed by user
-		not is_allowed_value(env.value)
 		contains(lower(env.value), lower(value))
 
 		is_not_reference(env)
 
-		path := sprintf("spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
+		paths := [sprintf("spec.containers[%v].env[%v].name", [i, j]),
+				  sprintf("spec.containers[%v].env[%v].value", [i, j])]
 
 		msga := {
 			"alertMessage": sprintf("Pod: %v has sensitive information in environment variables", [pod.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
-			"deletePaths": [path],
-			"failedPaths": [path],
+			"deletePaths": paths,
+			"failedPaths": paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [pod]
@@ -138,20 +134,19 @@ deny[msga] {
 		container := wl.spec.template.spec.containers[i]
 		env := container.env[j]
 
-		not is_allowed_value(env.value)
 		contains(lower(env.value), lower(value))
-		# check that value wasn't allowed by user
 
 		is_not_reference(env)
 
-		path := sprintf("spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
+		paths := [sprintf("spec.template.spec.containers[%v].env[%v].name", [i, j]),
+				sprintf("spec.template.spec.containers[%v].env[%v].value", [i, j])]
 
 		msga := {
 			"alertMessage": sprintf("%v: %v has sensitive information in environment variables", [wl.kind, wl.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
-			"deletePaths": [path],
-			"failedPaths": [path],
+			"deletePaths": paths,
+			"failedPaths": paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [wl]
@@ -168,20 +163,19 @@ deny[msga] {
 		container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 		env := container.env[j]
 
-		# check that value wasn't allowed by user
-		not is_allowed_value(env.value)
 		contains(lower(env.value), lower(value))
 
 		is_not_reference(env)
 
-		path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [format_int(i, 10), format_int(j, 10)])
+		paths := [sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [i, j]),
+				  sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].value", [i, j])]
 
 		msga := {
 			"alertMessage": sprintf("Cronjob: %v has sensitive information in environment variables", [wl.metadata.name]),
 			"alertScore": 9,
 			"fixPaths": [],
-			"deletePaths": [path],
-			"failedPaths": [path],
+			"deletePaths": paths,
+			"failedPaths": paths,
 			"packagename": "armo_builtins",
 			"alertObject": {
 				"k8sApiObjects": [wl]
@@ -194,9 +188,4 @@ is_not_reference(env)
 {
 	not env.valueFrom.secretKeyRef
 	not env.valueFrom.configMapKeyRef
-}
-
-is_allowed_value(value) {
-    allow_val := data.postureControlInputs.sensitiveValuesAllowed[_]
-    value == allow_val
 }
