@@ -11,8 +11,6 @@
 
 		contains(lower(env.name), lower(key_name))
 		env.value != ""
-		# check that value wasn't allowed by user
-		not is_allowed_value(env.value)
 
 		is_not_reference(env)
 
@@ -44,8 +42,6 @@
 
 		contains(lower(env.name), lower(key_name))
 		env.value != ""
-		# check that value wasn't allowed by user
-		not is_allowed_value(env.value)
 
 		is_not_reference(env)
 
@@ -76,8 +72,6 @@
 		contains(lower(env.name), lower(key_name))
 
 		env.value != ""
-		# check that value wasn't allowed by user
-		not is_allowed_value(env.value)
 
 		is_not_reference(env)
 
@@ -106,8 +100,6 @@ deny[msga] {
 		container := pod.spec.containers[i]
 		env := container.env[j]
 
-		# check that value wasn't allowed by user
-		not is_allowed_value(env.value)
 		contains(lower(env.value), lower(value))
 
 		is_not_reference(env)
@@ -138,9 +130,7 @@ deny[msga] {
 		container := wl.spec.template.spec.containers[i]
 		env := container.env[j]
 
-		not is_allowed_value(env.value)
 		contains(lower(env.value), lower(value))
-		# check that value wasn't allowed by user
 
 		is_not_reference(env)
 
@@ -168,8 +158,6 @@ deny[msga] {
 		container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 		env := container.env[j]
 
-		# check that value wasn't allowed by user
-		not is_allowed_value(env.value)
 		contains(lower(env.value), lower(value))
 
 		is_not_reference(env)
@@ -194,9 +182,4 @@ is_not_reference(env)
 {
 	not env.valueFrom.secretKeyRef
 	not env.valueFrom.configMapKeyRef
-}
-
-is_allowed_value(value) {
-    allow_val := data.postureControlInputs.sensitiveValuesAllowed[_]
-    value == allow_val
 }
