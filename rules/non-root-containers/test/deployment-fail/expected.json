@@ -1,0 +1,48 @@
+[{
+    "alertMessage": "container: nginx in Deployment: nginx-deployment may run as root",
+    "reviewPaths": [],
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.template.spec.containers[0].securityContext.runAsNonRoot",
+        "value": "true"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "labels": {
+                    "app": "nginx"
+                },
+                "name": "nginx-deployment"
+            }
+        }]
+    }
+},
+{
+    "alertMessage": "container: nginx2 in Deployment: nginx-deployment may run as root",
+    "reviewPaths": [],
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.template.spec.containers[1].securityContext.runAsGroup",
+        "value": "1000"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "labels": {
+                    "app": "nginx"
+                },
+                "name": "nginx-deployment"
+            }
+        }]
+    }
+}]

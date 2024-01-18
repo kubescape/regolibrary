@@ -7,12 +7,12 @@
         ]
     },
     "description": "Potential attackers may gain access to a container and leverage its existing privileges to conduct an attack. Therefore, it is not recommended to deploy containers with root privileges unless it is absolutely necessary. This control identifies all the pods running as root or can escalate to root.",
-    "remediation": "If your application does not need root privileges, make sure to define the runAsUser or runAsGroup under the PodSecurityContext and use user ID 1000 or higher. Do not turn on allowPrivlegeEscalation bit and make sure runAsNonRoot is true.",
+    "remediation": "If your application does not need root privileges, make sure to define the runAsUser or runAsGroup under the PodSecurityContext or container securityContext and use user ID 1000 or higher, or make sure that runAsNonRoot is true.",
     "rulesNames": [
         "non-root-containers"
     ],
-    "long_description": "Container engines allow containers to run applications as a non-root user with non-root group membership. Typically, this non-default setting is configured when the container image is built. . Alternatively, Kubernetes can load containers into a Pod with SecurityContext:runAsUser specifying a non-zero user. While the runAsUser directive effectively forces non-root execution at deployment, NSA and CISA encourage developers to build container applications to execute as a non-root user. Having non-root execution integrated at build time provides better assurance that applications will function correctly without root privileges.",
-    "test": "Verify if runAsUser  and runAsGroup are set to a user id greater than 999. Check that the allowPrivilegeEscalation field is set to false. Check all the combinations with PodSecurityContext and SecurityContext (for containers).",
+    "long_description": "Container engines allow containers to run applications as a non-root user with non-root group membership. Typically, this non-default setting is configured when the container image is built. Alternatively, Kubernetes can load containers into a Pod with SecurityContext:runAsUser specifying a non-zero user. While the runAsUser directive effectively forces non-root execution at deployment, NSA and CISA encourage developers to build container applications to execute as a non-root user. Having non-root execution integrated at build time provides better assurance that applications will function correctly without root privileges.",
+    "test": "Verify that runAsUser and runAsGroup are set to a user id greater than 0, or that runAsNonRoot is set to true. Check all the combinations with PodSecurityContext and SecurityContext (for containers).",
     "controlID": "C-0013",
     "baseScore": 6.0,
     "example": "@controls/examples/c013.yaml",

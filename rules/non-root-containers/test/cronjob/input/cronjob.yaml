@@ -8,6 +8,8 @@ spec:
     spec:
       template:
         spec:
+          securityContext:
+            runAsNonRoot: false
           containers:
           - name: hello
             image: busybox

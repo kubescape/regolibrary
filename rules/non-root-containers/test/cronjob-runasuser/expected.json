@@ -1,13 +1,14 @@
 [{
-    "alertMessage": "container :hello in CronJob: hello  may run as root",
+    "alertMessage": "container: hello in CronJob: hello  may run as root",
     "reviewPaths": [],
     "failedPaths": [],
     "fixPaths": [{
-        "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.runAsNonRoot",
-        "value": "true"
-    }, {
-        "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation",
-        "value": "false"
+        "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.runAsUser",
+        "value": "1000"
+    },
+    {
+        "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.runAsGroup",
+        "value": "1000"
     }],
     "ruleStatus": "",
     "packagename": "armo_builtins",
@@ -22,15 +23,12 @@
         }]
     }
 }, {
-    "alertMessage": "container :hello2 in CronJob: hello  may run as root",
+    "alertMessage": "container: hello2 in CronJob: hello  may run as root",
     "reviewPaths": [],
     "failedPaths": [],
     "fixPaths": [{
-        "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.runAsNonRoot",
-        "value": "true"
-    }, {
-        "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.allowPrivilegeEscalation",
-        "value": "false"
+        "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.runAsGroup",
+        "value": "1000"
     }],
     "ruleStatus": "",
     "packagename": "armo_builtins",
