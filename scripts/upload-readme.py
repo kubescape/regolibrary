@@ -1,14 +1,37 @@
+"""
+This script is used to manage the documentation of controls present in the `controls` folder in a Readme API. 
+It fetches the controls from the `controls` directory, 
+processes them, and then creates or updates the corresponding documentation in the Readme API. 
+It also handles the deletion of inactive controls from the documentation. 
+
+The script uses the Readme API's categories, docs, and versions endpoints.
+
+The script follows these main steps:
+1. Authenticate with the Readme API using an API key.
+2. Validate the structure of the Readme documentation.
+3. Process configuration parameters and update or create corresponding documentation.
+4. Process each control, create its documentation, and update or create it in the Readme API.
+5. Delete documentation for inactive controls.
+"""
+
 import requests
 import os
 import json
 import re
 
 class ReadmeApi(object):
+    """
+    The script uses the ReadmeApi class to interact with the Readme API. This class has methods to authenticate, get categories, 
+    get docs in a category, get a specific doc, delete a doc, create a doc, and update a doc.
+    """
     def __init__(self):
         super().__init__()
         self.doc_version = None
 
     def authenticate(self, api_key):
+        """
+        Function to authenticate with the Readme API 
+        """
         r = requests.get('https://dash.readme.com/api/v1', auth=(api_key, ''))
         if r.status_code != 200:
             raise Exception('Failed to authenticate')
@@ -18,9 +41,15 @@ class ReadmeApi(object):
         self.api_key = api_key
 
     def set_version(self, version:str):
+        """
+        Function to set the version of the documentation
+        """
         self.doc_version = version
 
     def get_categories(self):
+        """
+        Function to fetch and obtain all categories from the Readme API.
+        """
         url = "https://dash.readme.com/api/v1/categories"
 
         querystring = {"perPage":"1000","page":"1"}
@@ -33,6 +62,9 @@ class ReadmeApi(object):
         return r.json()
 
     def get_category(self,category_slug : str):
+        """
+        Function to fetch and obtain a specific category from the Readme API using its slug.
+        """
         url = "https://dash.readme.com/api/v1/categories/%s" % category_slug
 
         r = requests.request("GET", url,headers={"Accept": "application/json"}, auth=(self.api_key, ''))
@@ -43,6 +75,9 @@ class ReadmeApi(object):
         return r.json()
 
     def get_docs_in_category(self, category_slug: str):
+        """
+        Function to fetch and obatin all the docs related to or of a specific category from the Readme API using the category's slug.
+        """
         url = "https://dash.readme.com/api/v1/categories/%s/docs" % category_slug
 
         r = requests.request("GET", url, headers={"Accept":"application/json"}, auth=(self.api_key, ''))
@@ -53,6 +88,9 @@ class ReadmeApi(object):
         return r.json()
 
     def get_doc(self, doc_slug: str):
+        """
+        Function to get a specific document from the Readme API using its slug.
+        """
         url = "https://dash.readme.com/api/v1/docs/%s" % doc_slug
 
         r = requests.request("GET", url, headers={"Accept":"application/json"}, auth=(self.api_key, ''))
@@ -65,6 +103,9 @@ class ReadmeApi(object):
         return r.json()
 
     def delete_doc(self, doc_slug: str):
+        """
+        Function to delete a specific doc from the Readme API using its slug.
+        """
         url = "https://dash.readme.com/api/v1/docs/%s" % doc_slug
 
         r = requests.request("DELETE", url, headers={"Accept":"application/json"}, auth=(self.api_key, ''))
@@ -73,6 +114,9 @@ class ReadmeApi(object):
             raise Exception('Failed to delete doc (%d)'%r.status_code)
     
     def create_doc(self, slug: str, parent_id: str, order: any, title: str, body: str, category: str):
+        """
+        Function to create a new document in the Readme API.
+        """
         url = "https://dash.readme.com/api/v1/docs"
 
         payload = {
@@ -97,9 +141,11 @@ class ReadmeApi(object):
             raise Exception('Failed to create doc: %s'%r.text)
 
         return r.json()
-        
-    def update_doc(self, doc_slug: str, order: any, title: str, body: str, category: str):
 
+    def update_doc(self, doc_slug: str, order: any, title: str, body: str, category: str):
+        """
+        Function to update a specific document in the Readme API using its slug.
+        """
         url = "https://dash.readme.com/api/v1/docs/%s" % doc_slug
 
         payload = {
@@ -121,9 +167,12 @@ class ReadmeApi(object):
 
         return r.json()
 
-# function is validating if the structure is validated and return an error if missing some objects. 
-# NOTE: objects might be changed from time to time, need to update accordingly
+
 def validate_readme_structure(readmeapi : ReadmeApi):
+    """
+    function is validating if the structure is validated and return an error if missing some objects. 
+    NOTE: objects might be changed from time to time, need to update accordingly
+    """
     categories = readmeapi.get_categories()
     filtered_categories = list(filter(lambda c: c['title'] == 'Review Controls',categories))
     print(categories)
@@ -138,6 +187,9 @@ def validate_readme_structure(readmeapi : ReadmeApi):
         raise Exception('Readme structure validation failure: missing "Controls" document')
 
 def get_document_for_control(readmeapi : ReadmeApi, control):
+    """
+    Function to get the documentation for a specific control. It checks that there is exactly one "Controls" category and one document that starts with the control's id.
+    """
     categories = readmeapi.get_categories()
     filtered_categories = list(filter(lambda c: c['title'] == 'Review Controls',categories))
     if len(filtered_categories) != 1:
@@ -151,9 +203,33 @@ def get_document_for_control(readmeapi : ReadmeApi, control):
     return control_doc
 
 def ignore_framework(framework_name: str):
+    """
+    determines whether or not to ignore a framework based on its name.
+
+    Parameters
+    ----------
+    framework_name: the name of the framework
+
+    Returns
+    --------
+    True if the framework should be ignored, False otherwise
+    
+    """
     return framework_name == 'YAML-scanning' or framework_name.startswith('developer')
 
 def get_frameworks_for_control(control):
+    """
+    returns the frameworks a given control conforms to.
+
+    Parameters
+    ----------
+    control: the control object
+
+    Returns
+    -------
+    a list of framework names
+
+    """
     r = []
     for frameworks_json_file_name in filter(lambda fn: fn.endswith('.json'),os.listdir('frameworks')):
         framework = json.load(open(os.path.join('frameworks',frameworks_json_file_name)))
@@ -166,26 +242,44 @@ def get_frameworks_for_control(control):
                     r.append(framework['name'])
     return r
    
-
 def create_md_for_control(control):
+    """
+    generates a markdown file for a given control.
+
+    Parameters
+    ----------
+    control: the control object
+    
+    Returns
+    -------
+    the markdown text/file
+
+    """
     related_resources = set()
     control_config_input = {}
     host_sensor = False
     cloud_control = False
+
+    # Loop through all the rules of the control
     for rule_obj in control['rules']:
+        # If the rule has a 'match' field, add its resources to the related resources
         if 'match' in rule_obj:
             for match_obj in rule_obj['match']:
                 if 'resources' in match_obj:
                     related_resources.update(set(match_obj['resources']))
+        # If the rule has a 'controlConfigInputs' field, add its configuration to the control configuration input
         if 'controlConfigInputs' in rule_obj:
             for control_config in rule_obj['controlConfigInputs']:
                 control_config_input[control_config['path']] = control_config
+        # If the rule has a 'attributes' field and it contains 'hostSensorRule', set host_sensor to True
         if 'attributes' in rule_obj:
             if 'hostSensorRule' in rule_obj['attributes']:
                 host_sensor = True
+        # If the rule has a 'relevantCloudProviders' field and it is not empty, set cloud_control to True
         if 'relevantCloudProviders' in rule_obj:
             cloud_control = len(rule_obj['relevantCloudProviders']) > 0
 
+    # Start creating the markdown text
     md_text = ''
     if host_sensor:
         md_text += '## Prerequisites\n*Run Kubescape with host sensor (see [here](https://hub.armo.cloud/docs/host-sensor))*\n'
@@ -233,15 +327,36 @@ def create_md_for_control(control):
 
     md_text += '## Example\n'
     if 'example' in control:
-        md_text += '```\n' +control['example'] + '\n```' + '\n'
+        md_text += '```\n' + control['example'] + '\n```' + '\n'
     else:
         md_text += 'No example\n'
     return md_text
 
 def generate_slug(control):
+    """
+    Generates a slug for a given control.
+
+    Parameters
+    ----------
+    control: The control object.
+
+    Returns 
+    -------
+    str: The generated slug for the control.
+
+    """
     return control['controlID'].lower().replace(".", "-")
 
 def get_configuration_parameters_info():
+    """
+    Fetches and obtains the control's configuration parameters information.
+
+    Returns
+    -------
+    tuple: A tuple containing two dictionaries - config_parameters and default_config_inputs.
+        - config_parameters: A dictionary mapping configuration parameter names to their corresponding configuration objects.
+        - default_config_inputs: A dictionary containing default configuration inputs.
+    """
     default_config_inputs = None
     with open('default-config-inputs.json','r') as f:
         default_config_inputs = json.load(f)['settings']['postureControlInputs']
@@ -276,7 +391,7 @@ def main():
     readmeapi.authenticate(API_KEY)
     print('Authenticated')
 
-    # Validated structure
+    # Validate structure
     validate_readme_structure(readmeapi)
     print('Readme structure validated')
 
@@ -388,9 +503,6 @@ def main():
     
     exit(0)
 
-
-
-
 def convert_control_id_to_doc_order(control_id: str) -> int:
     """get a control_id and returns it's expected order in docs.
     control_id is expected to either have "c-" or "cis-" prefix, otherwise raises an error.
@@ -415,8 +527,6 @@ def convert_control_id_to_doc_order(control_id: str) -> int:
         return convert_dotted_section_to_int(control_id.replace("cis-", ""))
 
     raise Exception(f"control_id structure unknown {control_id}")
-
-
 
 def convert_dotted_section_to_int(subsection_id : str, 
                                   subsection_digits : int = 2, 
@@ -473,7 +583,6 @@ def convert_dotted_section_to_int(subsection_id : str,
         
     return int(res)
 
-            
 def find_inactive_controls_in_docs(list_docs : list, list_active: list) -> list:
     """returns a list of controls that doesn't exist in rego but exit in docs.
 
@@ -492,7 +601,7 @@ def find_inactive_controls_in_docs(list_docs : list, list_active: list) -> list:
 
     """
     return list(sorted(set(list_docs)- set(list_active)))
-               
+
 def get_controls_doc_slugs(readmeapi: ReadmeApi) -> list:
     """returns a list of slugs exist under the "controls" category
 
