@@ -14,10 +14,19 @@ spec:
       labels:
         app: nginx
     spec:
+      securityContext:
+        runAsNonRoot: true
       containers:
       - name: nginx
         securityContext:
-          runAsUser: 0
+          runAsNonRoot: false
+          runAsGroup: 2000
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+      - name: nginx2
+        securityContext:
+          runAsGroup: 0
         image: nginx:1.14.2
         ports:
         - containerPort: 80

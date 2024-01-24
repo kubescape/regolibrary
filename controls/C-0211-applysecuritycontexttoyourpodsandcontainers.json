@@ -34,7 +34,8 @@
         "set-fsgroup-value",
         "set-fsgroupchangepolicy-value",
         "set-sysctls-params",
-        "set-supplementalgroups-values"
+        "set-supplementalgroups-values",
+        "rule-allow-privilege-escalation"
     ],
     "baseScore": 8,
     "impact_statement": "If you incorrectly apply security contexts, you may have trouble running the pods.",
