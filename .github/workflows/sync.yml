@@ -1,5 +1,5 @@
 # The action is used to sync documentation of controls library with `kubescape.io` website
-# The action checks for any files that are out of sync 
+# The action checks for any files that are out of sync
 # And opens a pull request in the target repository with the changes(if any)
 
 name: Sync Files

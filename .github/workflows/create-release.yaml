@@ -166,5 +166,5 @@ jobs:
           README_API_KEY: ${{ secrets.README_API_KEY }}
         run: |-
           python ./scripts/upload-readme.py
-      - name: execute docs generator script 
-        run: python ./scripts/mk-generator.py # Script to generate controls library documentation 
+      - name: execute docs generator script
+        run: python ./scripts/mk-generator.py # Script to generate controls library documentation

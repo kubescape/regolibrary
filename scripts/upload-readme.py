@@ -141,7 +141,7 @@ class ReadmeApi(object):
             raise Exception('Failed to create doc: %s'%r.text)
 
         return r.json()
-    
+
     def update_doc(self, doc_slug: str, order: any, title: str, body: str, category: str):
         """
         Function to update a specific document in the Readme API using its slug.
@@ -282,26 +282,26 @@ def create_md_for_control(control):
     # Start creating the markdown text
     md_text = ''
     if host_sensor:
-        md_text += '## Prerequisites\n *Run Kubescape with host sensor (see [here](https://hub.armo.cloud/docs/host-sensor))*\n \n'
+        md_text += '## Prerequisites\n*Run Kubescape with host sensor (see [here](https://hub.armo.cloud/docs/host-sensor))*\n'
     if cloud_control:
-        md_text += '## Prerequisites\n *Integrate with cloud provider (see [here](https://hub.armosec.io/docs/kubescape-integration-with-cloud-providers))*\n \n'
+        md_text += '## Prerequisites\n*Integrate with cloud provider (see [here](https://hub.armosec.io/docs/kubescape-integration-with-cloud-providers))*\n'
     md_text += '## Framework\n'
-    md_text += ', '.join(get_frameworks_for_control(control)) + '\n \n'
+    md_text += ', '.join(get_frameworks_for_control(control)) + '\n'
     md_text += '## Severity\n'
     # severity map: https://github.com/kubescape/opa-utils/blob/master/reporthandling/apis/severity.go#L34
     severity_map = {1:'Low',2:'Low',3:'Low',4:'Medium',5:'Medium',6:'Medium',7:'High',8:'High',9:'Critical',10:'Critical'}
-    md_text += '%s\n' % severity_map[int(control['baseScore'])] + '\n'
+    md_text += '%s\n' % severity_map[int(control['baseScore'])]
     md_text += '## Description of the the issue\n'
     description = control['long_description'] if 'long_description' in control else control['description']
     if len(control_config_input):
         description += 'Note, this control is configurable. See below the details.'
-    md_text += description + '\n \n'
+    md_text += description + '\n'
     md_text += '## Related resources\n'
 
-    md_text += ', '.join(sorted(list(related_resources))) + '\n \n'
+    md_text += ', '.join(sorted(list(related_resources))) + '\n'
     md_text += '## What does this control test\n'
     test = control['test'] if 'test' in control else control['description']
-    md_text += test + '\n \n'
+    md_text += test + '\n'
 
     if 'manual_test' in control:
         md_text += '## How to check it manually\n'
@@ -309,20 +309,20 @@ def create_md_for_control(control):
         md_text += manual_test + '\n'
 
     md_text += '## Remediation\n'
-    md_text += control['remediation'] + '\n \n'
+    md_text += control['remediation'] + '\n'
     if 'impact_statement' in control:
         md_text += '### Impact Statement\n' + control['impact_statement'] + '\n'
     if 'default_value' in control:
         md_text += '### Default Value\n' + control['default_value'] + '\n'
 
     if len(control_config_input):
-        configuration_text = '## Configuration\n This control can be configured using the following parameters. Read CLI/UI documentation about how to change parameters.\n \n'
+        configuration_text = '## Configuration\nThis control can be configured using the following parameters. Read CLI/UI documentation about how to change parameters.\n'
         for control_config_name in control_config_input:
             control_config = control_config_input[control_config_name]
             configuration_text += '### ' + control_config['name'] + '\n'
             config_name = control_config['path'].split('.')[-1]
             configuration_text += '[' + config_name + '](doc:configuration_parameter_%s)'%config_name.lower() + '\n'
-            configuration_text += control_config['description'] + '\n \n'
+            configuration_text += control_config['description'] + '\n'
         md_text += configuration_text
 
     md_text += '## Example\n'
@@ -582,7 +582,7 @@ def convert_dotted_section_to_int(subsection_id : str,
         res = res + "0"*subsection_digits*(n_subsections - len(subsection_ids))
         
     return int(res)
-   
+
 def find_inactive_controls_in_docs(list_docs : list, list_active: list) -> list:
     """returns a list of controls that doesn't exist in rego but exit in docs.
 
@@ -601,7 +601,7 @@ def find_inactive_controls_in_docs(list_docs : list, list_active: list) -> list:
 
     """
     return list(sorted(set(list_docs)- set(list_active)))
-         
+
 def get_controls_doc_slugs(readmeapi: ReadmeApi) -> list:
     """returns a list of slugs exist under the "controls" category
 
