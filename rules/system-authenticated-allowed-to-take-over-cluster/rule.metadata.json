@@ -1,0 +1,27 @@
+{
+    "name": "system-authenticated-allowed-to-take-over-cluster",
+    "attributes": {
+        "resourcesAggregator": "subject-role-rolebinding"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                "rbac.authorization.k8s.io"
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "RoleBinding",
+                "ClusterRoleBinding",
+                "Role",
+                "ClusterRole"
+            ]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "Fails in system:authenticated user has cluster takeover rbac permissions (is bound by a RoleBinding/ClusterRoleBinding)",
+    "remediation": "Remove any RBAC rules which allow system:authenticated users to perform actions",
+    "ruleQuery": "armo_builtins"
+}
