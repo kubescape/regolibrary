@@ -1,0 +1,24 @@
+{
+    "controlID": "C-0265",
+    "name": "system:authenticated user has elevated roles",
+    "description": "Granting permissions to the system:authenticated group is generally not recommended and can introduce security risks. This control ensures that system:authenticated users do not have cluster risking permissions.",
+    "remediation": "Review and modify your cluster's RBAC configuration to ensure that system:authenticated will have minimal permissions.",
+    "test": "Checks if ClusterRoleBinding/RoleBinding resources give permissions to system:authenticated group.",
+    "attributes": {
+    },
+    "rulesNames": [
+        "system-authenticated-allowed-to-take-over-cluster"
+    ],
+    "baseScore": 7,
+    "category": {
+        "name": "Control plane",
+        "subCategory": {
+            "name": "Supply chain"
+        }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
+}
