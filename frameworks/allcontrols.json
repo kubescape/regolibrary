@@ -377,6 +377,12 @@
             "patch": {
                 "name": "Anonymous access enabled"
             }
+        },
+        {
+            "controlID": "C-0266",
+            "patch": {
+                "name": "Unauthenticated service"
+            }
         }
     ]
 }
