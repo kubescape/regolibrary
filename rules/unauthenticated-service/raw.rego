@@ -5,13 +5,12 @@ deny[msga] {
     service := input[_]
     service.kind == "Service"
 
-    port := service.spec.ports[i]
+    port := service.spec.ports[_]
     service_name := service.metadata.name
 
-    unauthenticated_ports := [networkscanner.unauthenticated_service(service_name, port.port)]
-    count(unauthenticated_ports) == 0
+    networkscanner.unauthenticated_service(service_name, port.port)
 
-    path := sprintf("spec.ports[%d]", i)
+    path := sprintf("spec.ports[%d]", port.index)
 
 	msga := {
 		"alertMessage": sprintf("service is unauthenticated: %s in port %v", service_name, port.port),
