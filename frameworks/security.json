@@ -26,7 +26,7 @@
                 "name": "Immutable container filesystem"
             }
         },
-	    {   
+	    {
             "controlID": "C-0256",
             "patch": {
                 "name": "Exposure to Internet"
@@ -62,7 +62,7 @@
                 "name": "ServiceAccount token mounted"
             }
         },
-        {     
+        {
             "controlID": "C-0255",
             "patch": {
                 "name": "Workload with secret access"
@@ -104,10 +104,16 @@
                 "name": "Apply Security Context to Your Pods and Containers"
             }
         },
-        {   
+        {
             "controlID": "C-0262",
             "patch": {
                 "name": "Anonymous access enabled"
+            }
+        },
+        {
+            "controlID": "C-0265",
+            "patch": {
+                "name": "Authenticated user has sensitive permissions"
             }
         }
     ]

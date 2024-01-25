@@ -1,0 +1,18 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: system:viewer
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - nodes/*
+  - namespaces
+  - namespaces/*
+  - pods
+  - pods/*
+  verbs:
+  - get
+  - list
+  - watch
