@@ -1,0 +1,26 @@
+{
+    "name": "unauthenticated-service",
+    "attributes": {
+      "useFromKubescapeVersion": "v3.0.4"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+              ""
+            ],
+            "apiVersions": [
+              "v1"
+            ],
+            "resources": [
+              "Service"
+            ]
+        }
+      ],
+      "dynamicMatch": [
+    ],
+    "ruleDependencies": [],
+    "description": "Verifies that the service is authenticated",
+    "remediation": "Add authentication to the service",
+    "ruleQuery": "armo_builtins"
+}
