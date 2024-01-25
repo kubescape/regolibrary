@@ -39,6 +39,12 @@
             }
         },
         {
+            "controlID": "C-0265",
+            "patch": {
+                "name": "Authenticated user has sensitive permissions"
+            }
+        },
+        {
             "controlID": "C-0015",
             "patch": {
                 "name": "List Kubernetes secrets"
