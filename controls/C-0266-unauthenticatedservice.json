@@ -5,9 +5,10 @@
     "long_description": "Verifies that in order to access the service, the user must be authenticated.",
     "remediation": "Configure the service to require authentication.",
     "manual_test": "",
-    "references": [],
     "attributes": {
-        "actionRequired": "configuration"
+        "controlTypeTags": [
+            "security"
+        ]
     },
     "rulesNames": [
         "unauthenticated-service"
