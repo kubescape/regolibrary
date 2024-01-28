@@ -1,8 +1,5 @@
 {
     "name": "unauthenticated-service",
-    "attributes": {
-      "useFromKubescapeVersion": "v3.0.4"
-    },
     "ruleLanguage": "Rego",
     "match": [
         {
