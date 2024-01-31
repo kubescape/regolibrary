@@ -2,17 +2,44 @@
     "name": "unauthenticated-service",
     "ruleLanguage": "Rego",
     "match": [
-        {
-            "apiGroups": [
-              ""
-            ],
-            "apiVersions": [
-              "v1"
-            ],
-            "resources": [
-              "Service"
-            ]
-        }
+      {
+        "apiGroups": [
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "Pod",
+          "Service"
+        ]
+      },
+      {
+        "apiGroups": [
+          "apps"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet"
+        ]
+      },
+      {
+        "apiGroups": [
+          "batch"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Job",
+            "CronJob"
+        ]
+      }
       ],
       "dynamicMatch": [
     ],
