@@ -115,6 +115,18 @@
             "patch": {
                 "name": "Authenticated user has sensitive permissions"
             }
+        },
+        {
+            "controlID": "C-0057",
+            "patch": {
+                "name": "Privileged container"
+            }
+        },
+        {
+            "controlID": "C-0038",
+            "patch": {
+                "name": "Host PID/IPC privileges"
+            }
         }
     ]
 }
