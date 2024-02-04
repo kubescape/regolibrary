@@ -52,6 +52,17 @@
         "resources": [
           "Ingress"
         ]
+    },
+    {
+      "apiGroups": [
+        "gateway.networking.k8s.io"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "HTTPRoute"
+      ]
     }
   ],
   "description": "fails in case the running workload has binded Service or Ingress that are exposing it on Internet.",
