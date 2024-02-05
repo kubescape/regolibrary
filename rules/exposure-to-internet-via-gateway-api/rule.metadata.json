@@ -1,5 +1,5 @@
 {
-  "name": "exposure-to-internet",
+  "name": "exposure-to-internet-via-gateway-api",
   "attributes": {
   },
   "ruleLanguage": "Rego",
@@ -43,18 +43,18 @@
       ]
     },
     {
-        "apiGroups": [
-          "networking.k8s.io"
-        ],
-        "apiVersions": [
-          "v1"
-        ],
-        "resources": [
-          "Ingress"
-        ]
+      "apiGroups": [
+        "gateway.networking.k8s.io"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "HTTPRoute"
+      ]
     }
   ],
-  "description": "fails in case the running workload has binded Service or Ingress that are exposing it on Internet.",
+  "description": "fails in case the running workload has binded Service and Gateway that are exposing it on Internet.",
   "remediation": "",
   "ruleQuery": "armo_builtins"
 }
