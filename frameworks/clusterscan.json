@@ -83,7 +83,7 @@
         {
             "controlID": "C-0035",
             "patch": {
-                "name": "Cluster-admin binding"
+                "name": "Administrative Roles"
             }
         },
         {
