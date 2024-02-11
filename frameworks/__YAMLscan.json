@@ -29,7 +29,7 @@
         "Delete Kubernetes events",
         "Access tiller endpoint",
         "Automatic mapping of service account",
-        "Cluster-admin binding",
+        "Administrative Roles",
         "Validate admission controller (validating)",
         "CoreDNS poisoning",
         "Host PID/IPC privileges",
