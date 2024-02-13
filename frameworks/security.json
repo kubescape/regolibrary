@@ -183,12 +183,6 @@
             }
         },
         {
-            "controlID": "C-0264",
-            "patch": {
-                "name": "PersistentVolume without encyption"
-            }
-        },
-        {
             "controlID": "C-0265",
             "patch": {
                 "name": "Authenticated user has sensitive permissions"
