@@ -23,14 +23,14 @@ type storeSetter func(*GitRegoStore, string) error
 const (
 	attackTracksJsonFileName          = "attack_tracks.json"
 	attackTracksPathPrefix            = "attack-tracks"
-	frameworksJsonFileName            = "frameworks.json"
-	securityFrameworksJsonFileName    = "security_frameworks.json"
-	controlsJsonFileName              = "controls.json"
-	rulesJsonFileName                 = "rules.json"
+	frameworksJsonFileName            = "frameworks-v2.json"
+	securityFrameworksJsonFileName    = "security_frameworks-v2.json"
+	controlsJsonFileName              = "controls-v2.json"
+	rulesJsonFileName                 = "rules-v2.json"
 	frameworkControlRelationsFileName = "FWName_CID_CName.csv"
 	ControlRuleRelationsFileName      = "ControlID_RuleName.csv"
 	defaultConfigInputsFileName       = "default_config_inputs.json"
-	systemPostureExceptionFileName    = "exceptions.json"
+	systemPostureExceptionFileName    = "exceptions-v2.json"
 
 	controlIDRegex                    = `^(?:[a-z]+|[A-Z]+)(?:[\-][v]?(?:[0-9][\.]?)+)(?:[\-]?[0-9][\.]?)+$`
 	earliestTagWithSecurityFrameworks = "v1.0.282-rc.0"

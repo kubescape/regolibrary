@@ -133,6 +133,38 @@ jobs:
           name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
           path: ${{ env.REGO_ARTIFACT_PATH }}
 
+      - name: Create v2 assets
+        run: |
+          LIST_OF_V1_ASSETS=("frameworks.json" "security_frameworks.json" "controls.json" "rules.json" "exceptions.json")
+          LIST_OF_V2_ASSETS=("frameworks-v2.json" "security_frameworks-v2.json" "controls-v2.json" "rules-v2.json" "exceptions-v2.json")
+          # Rename assets in v1 list to the name in v2 list
+          for i in "${!LIST_OF_V1_ASSETS[@]}"; do
+          mv "${REGO_ARTIFACT_PATH}/${LIST_OF_V1_ASSETS[$i]}" "${REGO_ARTIFACT_PATH}/${LIST_OF_V2_ASSETS[$i]}"
+          done
+
+          LAST_V1_URL="https://github.com/kubescape/regolibrary/releases/download/v1.0.312-rc.0/"
+          # Loop over v1 assets and download them
+          for i in "${!LIST_OF_V1_ASSETS[@]}"; do
+          # Remove .json from the asset name
+          basename=$(echo "${LIST_OF_V1_ASSETS[$i]}" | sed 's/.json//')
+          curl -s -f -L -o "${REGO_ARTIFACT_PATH}/${LIST_OF_V1_ASSETS[$i]}" "${LAST_V1_URL}${basename}"
+          done
+
+          printf "Important note!\n\nThe following assets are the real releases and have been renamed to v2: \n" > "${REGO_ARTIFACT_PATH}/IMPORTANT_v2_assets_note.txt"
+          for i in "${!LIST_OF_V1_ASSETS[@]}"; do
+          printf "  - ${LIST_OF_V1_ASSETS[$i]} -> ${LIST_OF_V2_ASSETS[$i]}\n" >> "${REGO_ARTIFACT_PATH}/IMPORTANT_v2_assets_note.txt"
+          done
+          printf "\n" >> "${REGO_ARTIFACT_PATH}/IMPORTANT_v2_assets_note.txt"
+          printf "The following assets have been downloaded from the release ${LAST_V1_URL}: \n" >> "${REGO_ARTIFACT_PATH}/IMPORTANT_v2_assets_note.txt"
+          for i in "${!LIST_OF_V1_ASSETS[@]}"; do
+          printf "  - ${LIST_OF_V1_ASSETS[$i]}\n" >> "${REGO_ARTIFACT_PATH}/IMPORTANT_v2_assets_note.txt"
+          done
+          printf "\nThis is due to the problem that were introduced in Kubescape that it failes when cannot collect scan objects. This prevents regolibrary to release new controls therefore we are doing releases under new artifact names and keeping a copy of old release artifacts here." >> "${REGO_ARTIFACT_PATH}/IMPORTANT_v2_assets_note.txt"
+
+
+
+
+
       - name: Create Release and upload assets
         id: create_release_upload_assets
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
