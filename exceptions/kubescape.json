@@ -1,5 +1,56 @@
 [
     {
+        "name": "kubescape-ignore",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kubescape.io/ignore": "true"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kubescape.io/ignore": "True"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kubescape.io/ignore": "yes"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kubescape.io/ignore": "1"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kubescape.io/ignore": "enable"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kubescape.io/ignore": "enabled"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {}
+        ]
+    },
+    {
         "name": "exclude-kubescape-deployment-security-context",
         "policyType": "postureExceptionPolicy",
         "actions": [
@@ -76,19 +127,46 @@
         ],
         "posturePolicies": [
             {
+                "controlID": "c-0076"
+            },
+            {
+                "controlID": "c-0237"
+            },
+            {
                 "controlID": "c-0055"
+            },
+            {
+                "controlID": "c-0056"
             },
             {
                 "controlID": "c-0017"
             },
             {
+                "controlID": "c-0018"
+            },
+            {
+                "controlID": "c-0013"
+            },
+            {
+                "controlID": "c-0030"
+            },
+            {
                 "controlID": "c-0210"
+            },
+            {
+                "controlID": "c-0260"
+            },
+            {
+                "controlID": "c-0207"
             },
             {
                 "controlID": "c-0211"
             },
             {
                 "controlID": "c-0058"
+            },
+            {
+                "controlID": "c-0038"
             }
         ]
     },
@@ -206,6 +284,9 @@
         "posturePolicies": [
             {
                 "controlID": "c-0030"
+            },
+            {
+                "controlID": "c-0013"
             }
         ]
     },
@@ -380,7 +461,31 @@
                 "designatorType": "Attributes",
                 "attributes": {
                     "kind": "ServiceAccount",
+                    "name": "storage",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
                     "name": "kubescape-sa",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "node-agent",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "kubevuln",
                     "namespace": "kubescape"
                 }
             },
@@ -406,7 +511,19 @@
                 "controlID": "c-0034"
             },
             {
+                "controlID": "c-0207"
+            },
+            {
+                "controlID": "c-0013"
+            },
+            {
+                "controlID": "c-0015"
+            },
+            {
                 "controlID": "c-0053"
+            },
+            {
+                "controlID": "c-0186"
             }
         ]
     },
@@ -530,6 +647,12 @@
                 "controlID": "c-0055"
             },
             {
+                "controlID": "c-0260"
+            },
+            {
+                "controlID": "c-0013"
+            },
+            {
                 "controlID": "c-0056"
             },
             {
@@ -577,6 +700,9 @@
             },
             {
                 "controlID": "c-0034"
+            },
+            {
+                "controlID": "c-0260"
             },
             {
                 "controlID": "c-0055"
