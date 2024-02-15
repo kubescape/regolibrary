@@ -160,6 +160,7 @@ jobs:
           printf "  - ${LIST_OF_V1_ASSETS[$i]}\n" >> "${REGO_ARTIFACT_PATH}/IMPORTANT_v2_assets_note.txt"
           done
           printf "\nThis is due to the problem that were introduced in Kubescape that it failes when cannot collect scan objects. This prevents regolibrary to release new controls therefore we are doing releases under new artifact names and keeping a copy of old release artifacts here." >> "${REGO_ARTIFACT_PATH}/IMPORTANT_v2_assets_note.txt"
+          printf "See https://github.com/kubescape/regolibrary/issues/577\n\n" >> "${REGO_ARTIFACT_PATH}/IMPORTANT_v2_assets_note.txt"
 
 
 
