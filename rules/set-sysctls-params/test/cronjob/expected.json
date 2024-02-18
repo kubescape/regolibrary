@@ -1,21 +1,30 @@
 [
-    {
-        "alertMessage": "CronJob: hello does not set 'securityContext.sysctls'",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "failedPaths": [],
-        "fixPaths": [{"path": "spec.jobTemplate.spec.template.spec.securityContext.sysctls", "name": "net.ipv4.tcp_syncookie", "value": "1"}],
-        "ruleStatus": "",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                  "apiVersion": "batch/v1beta1",
-                  "kind": "CronJob",
-                  "metadata": {
-                    "name": "hello"
-                  }
-                }
-            ]
+  {
+    "alertMessage": "CronJob: hello does not set 'securityContext.sysctls'",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.jobTemplate.spec.template.spec.securityContext.sysctls.name",
+        "value": "YOUR_VALUE"
+      },
+      {
+        "path": "spec.jobTemplate.spec.template.spec.securityContext.sysctls.value",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1beta1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "hello"
+          }
         }
+      ]
     }
+  }
 ]
