@@ -1,21 +1,29 @@
 [
-    {
-        "alertMessage": "Pod: nginx does not set 'securityContext.sysctls'",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "failedPaths": [],
-        "fixPaths": [{"path": "spec.securityContext.sysctls", "name": "net.ipv4.tcp_syncookie", "value": "1"}],
-        "ruleStatus": "",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                  "apiVersion": "v1",
-                  "kind": "Pod",
-                  "metadata": {
-                    "name": "nginx"
-                  }
-                }
-            ]
+  {
+    "alertMessage": "Pod: nginx does not set 'securityContext.sysctls'",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.securityContext.sysctls.name",
+        "value": "YOUR_VALUE"
+      },
+      {
+        "path": "spec.securityContext.sysctls.value",
+        "value": "YOUR_VALUE"}
+    ],
+    "ruleStatus": "",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "nginx"
+          }
         }
+      ]
     }
+  }
 ]
