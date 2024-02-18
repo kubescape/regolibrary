@@ -88,6 +88,14 @@
                 "designatorType": "Attributes",
                 "attributes": {
                     "kind": "Deployment",
+                    "name": "synchronizer",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
                     "name": "kubevuln",
                     "namespace": "kubescape"
                 }
@@ -501,6 +509,14 @@
                 "designatorType": "Attributes",
                 "attributes": {
                     "kind": "ServiceAccount",
+                    "name": "synchronizer",
+                    "namespace": "kubescape"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
                     "name": "node-agent-service-account",
                     "namespace": "kubescape"
                 }
@@ -719,6 +735,28 @@
             {
                 "controlID": "c-0076"
             }
+        ]
+    },
+    {
+        "name": "exclude-ns",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Namespace",
+                    "name": "kubescape"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {}
         ]
     }
 ]
