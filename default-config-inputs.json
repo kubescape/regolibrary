@@ -74,6 +74,8 @@
                 "_key_",
                 "_secret_"
             ],
+            "sensitiveKeyNamesAllowed": [],
+            "sensitiveValuesAllowed": [],
             "servicesNames": [
                 "nifi-service",
                 "argo-server",

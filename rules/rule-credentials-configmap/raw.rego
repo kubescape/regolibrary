@@ -12,6 +12,10 @@ deny[msga] {
 
     contains(lower(map_key), lower(key_name))
 
+    # check that value or key weren't allowed by user
+    not is_allowed_value(map_secret)
+    not is_allowed_key_name(map_key)
+
     path := sprintf("data[%v]", [map_key])
 
 	msga := {
@@ -39,6 +43,10 @@ deny[msga] {
     map_secret != ""
 
     regex.match(value , map_secret)
+
+    # check that value or key weren't allowed by user
+    not is_allowed_value(map_secret)
+    not is_allowed_key_name(map_key)
 
     path := sprintf("data[%v]", [map_key])
 
@@ -70,6 +78,10 @@ deny[msga] {
 
     regex.match(value , decoded_secret)
 
+    # check that value or key weren't allowed by user
+    not is_allowed_value(map_secret)
+    not is_allowed_key_name(map_key)
+
     path := sprintf("data[%v]", [map_key])
 
 	msga := {
@@ -83,4 +95,14 @@ deny[msga] {
 			"k8sApiObjects": [configmap]
 		}
      }
+}
+
+is_allowed_value(value) {
+    allow_val := data.postureControlInputs.sensitiveValuesAllowed[_]
+    regex.match(allow_val , value)
+}
+
+is_allowed_key_name(key_name) {
+    allow_key := data.postureControlInputs.sensitiveKeyNamesAllowed[_]
+    contains(lower(key_name), lower(allow_key))
 }
