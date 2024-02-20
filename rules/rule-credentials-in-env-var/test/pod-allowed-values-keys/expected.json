@@ -1,0 +1,31 @@
+[
+    {
+        "alertMessage": "Pod: audit-pod has sensitive information in environment variables",
+        "deletePaths": [
+            "spec.containers[0].env[1].name",
+            "spec.containers[0].env[1].value"
+        ],
+        "failedPaths": [
+            "spec.containers[0].env[1].name",
+            "spec.containers[0].env[1].value"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "audit-pod"
+                        },
+                        "name": "audit-pod"
+                    }
+                }
+            ]
+        }
+    }
+]

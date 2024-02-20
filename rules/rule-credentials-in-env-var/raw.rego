@@ -11,6 +11,9 @@
 
 		contains(lower(env.name), lower(key_name))
 		env.value != ""
+		# check that value or key weren't allowed by user
+    	not is_allowed_value(env.value)
+    	not is_allowed_key_name(env.name)
 
 		is_not_reference(env)
 
@@ -43,6 +46,9 @@
 
 		contains(lower(env.name), lower(key_name))
 		env.value != ""
+		# check that value or key weren't allowed by user
+    	not is_allowed_value(env.value)
+    	not is_allowed_key_name(env.name)
 
 		is_not_reference(env)
 
@@ -72,8 +78,10 @@
 		env := container.env[j]
 
 		contains(lower(env.name), lower(key_name))
-
 		env.value != ""
+		# check that value or key weren't allowed by user
+    	not is_allowed_value(env.value)
+    	not is_allowed_key_name(env.name)
 
 		is_not_reference(env)
 
@@ -104,6 +112,9 @@ deny[msga] {
 		env := container.env[j]
 
 		contains(lower(env.value), lower(value))
+		# check that value or key weren't allowed by user
+    	not is_allowed_value(env.value)
+    	not is_allowed_key_name(env.name)
 
 		is_not_reference(env)
 
@@ -135,6 +146,9 @@ deny[msga] {
 		env := container.env[j]
 
 		contains(lower(env.value), lower(value))
+		# check that value or key weren't allowed by user
+    	not is_allowed_value(env.value)
+    	not is_allowed_key_name(env.name)
 
 		is_not_reference(env)
 
@@ -164,6 +178,9 @@ deny[msga] {
 		env := container.env[j]
 
 		contains(lower(env.value), lower(value))
+		# check that value or key weren't allowed by user
+    	not is_allowed_value(env.value)
+    	not is_allowed_key_name(env.name)
 
 		is_not_reference(env)
 
@@ -188,4 +205,14 @@ is_not_reference(env)
 {
 	not env.valueFrom.secretKeyRef
 	not env.valueFrom.configMapKeyRef
+}
+
+is_allowed_value(value) {
+    allow_val := data.postureControlInputs.sensitiveValuesAllowed[_]
+    regex.match(allow_val , value)
+}
+
+is_allowed_key_name(key_name) {
+    allow_key := data.postureControlInputs.sensitiveKeyNamesAllowed[_]
+    contains(lower(key_name), lower(allow_key))
 }
