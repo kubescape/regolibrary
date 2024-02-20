@@ -127,7 +127,9 @@ jobs:
                         "scan_repository_from_url_and_submit_to_backend", 
                         "host_scanner",
                         "scan_local_list_of_files",
-                        "scan_compliance_score"
+                        "scan_compliance_score",
+                        "ks_microservice_triggering_with_cron_job",
+                        "ac_1_1_fix_control_no_relevancy"
                       ]'
       DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
     secrets: inherit
