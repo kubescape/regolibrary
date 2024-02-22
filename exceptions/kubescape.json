@@ -1,56 +1,5 @@
 [
     {
-        "name": "kubescape-ignore",
-        "policyType": "postureExceptionPolicy",
-        "actions": [
-            "alertOnly"
-        ],
-        "attributes": {
-            "systemException": true
-        },
-        "resources": [
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kubescape.io/ignore": "true"
-                }
-            },
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kubescape.io/ignore": "True"
-                }
-            },
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kubescape.io/ignore": "yes"
-                }
-            },
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kubescape.io/ignore": "1"
-                }
-            },
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kubescape.io/ignore": "enable"
-                }
-            },
-            {
-                "designatorType": "Attributes",
-                "attributes": {
-                    "kubescape.io/ignore": "enabled"
-                }
-            }
-        ],
-        "posturePolicies": [
-            {}
-        ]
-    },
-    {
         "name": "exclude-kubescape-deployment-security-context",
         "policyType": "postureExceptionPolicy",
         "actions": [
