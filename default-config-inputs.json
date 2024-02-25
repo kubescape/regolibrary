@@ -37,7 +37,6 @@
                 "bin/busybox",
                 "usr/bin/busybox"
             ],
-            "publicRegistries": [],
             "sensitiveInterfaces": [
                 "nifi",
                 "argo-server",
@@ -85,7 +84,6 @@
                 "weave-scope-app",
                 "kubernetes-dashboard"
             ],
-            "untrustedRegistries": [],
             "memory_request_max": [],
             "memory_request_min": ["0"],
             "memory_limit_max": [],

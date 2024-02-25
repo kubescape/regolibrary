@@ -13,12 +13,6 @@
     "typeTags": ["compliance"],
     "activeControls": [
         {
-            "controlID": "C-0001",
-            "patch": {
-                "name": "Forbidden Container Registries"
-            }
-        },
-        {
             "controlID": "C-0002",
             "patch": {
                 "name": "Exec into container"
