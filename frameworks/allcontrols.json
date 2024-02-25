@@ -21,7 +21,7 @@
         {
             "controlID": "C-0002",
             "patch": {
-                "name": "Exec into container"
+                "name": "Prevent containers from allowing command execution"
             }
         },
         {
