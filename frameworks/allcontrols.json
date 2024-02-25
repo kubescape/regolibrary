@@ -383,6 +383,12 @@
             "patch": {
                 "name": "Authenticated user has sensitive permissions"
             }
+        },
+        {
+            "controlID": "C-0266",
+            "patch": {
+                "name": "Unauthenticated service"
+            }
         }
     ]
 }
