@@ -21,12 +21,6 @@
             }
         },
         {
-            "controlID": "C-0009",
-            "patch": {
-                "name": "Resource limits"
-            }
-        },
-        {
             "controlID": "C-0012",
             "patch": {
                 "name": "Applications credentials in configuration files"
