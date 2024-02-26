@@ -4,6 +4,9 @@ on:
   push:
     branches: [master]
 
+env:
+  GH_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,8 +15,11 @@ jobs:
       with:
         ref: ${{ github.head_ref }}
         fetch-depth: 0
-        token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        token: ${{ env.GH_ACCESS_TOKEN }}
 
+    - run: git config --global url.https://${{ env.GH_ACCESS_TOKEN }}@github.com/armosec/.insteadOf https://github.com/armosec/
+    - run: git config --global url.https://${{ env.GH_ACCESS_TOKEN }}@github.com/kubescape/.insteadOf https://github.com/kubescape/
+  
     - name: Run export script
       run: |
         OUTPUT=pre-release python ./scripts/export.py
@@ -30,6 +36,6 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        github_token: ${{ env.GH_ACCESS_TOKEN }}
         repository: kubescape/regolibrary-dev
         force: true
