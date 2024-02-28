@@ -1,7 +1,0 @@
-{
-    "postureControlInputs": {
-        "untrustedRegistries": [
-            "quay.io"
-        ]
-    }
-}
