@@ -2,8 +2,6 @@ module testrunner
 
 go 1.21
 
-toolchain go1.22.0
-
 require (
 	github.com/armosec/armoapi-go v0.0.330
 	github.com/golang/glog v1.1.2
