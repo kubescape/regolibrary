@@ -1,0 +1,67 @@
+{
+  "name": "rule-identify-blocklisted-image-registries-v1",
+  "attributes": {
+    "m$K8sThreatMatrix": "Initial Access::Compromised images in registry",
+    "useFromKubescapeVersion": "v2.9.0"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    },
+    {
+      "apiGroups": [
+        "apps"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet"
+      ]
+    },
+    {
+      "apiGroups": [
+        "batch"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+          "Job",
+          "CronJob"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "configInputs": [
+    "settings.postureControlInputs.publicRegistries",
+    "settings.postureControlInputs.untrustedRegistries"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.publicRegistries",
+      "name": "Public registries",
+      "description": "Kubescape checks none of these public container registries are in use."
+    },
+    {
+      "path": "settings.postureControlInputs.untrustedRegistries",
+      "name": "Registries block list",
+      "description": "Kubescape checks none of these user-provided container registries are in use."
+    }
+  ],
+  "description": "Identifying if pod container images are from unallowed registries",
+  "remediation": "Use images from safe registry",
+  "ruleQuery": ""
+}

@@ -54,6 +54,9 @@
         ],
         "posturePolicies": [
             {
+                "controlID": "c-0001"
+            },
+            {
                 "controlID": "c-0078"
             }
         ]
@@ -137,6 +140,9 @@
             }
         ],
         "posturePolicies": [
+            {
+                "controlID": "c-0001"
+            },
             {
                 "controlID": "c-0078"
             }
