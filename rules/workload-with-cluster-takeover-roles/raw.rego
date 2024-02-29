@@ -17,11 +17,11 @@ deny[msga] {
 
     # check if sa has cluster takeover roles
     role := input[_]
-    endswith(role.kind, "Role")
+    role.kind in ["Role", "ClusterRole"]
     is_takeover_role(role)
 
     rolebinding := input[_]
-	endswith(rolebinding.kind, "RoleBinding")
+	rolebinding.kind in ["RoleBinding", "ClusterRoleBinding"] 
     rolebinding.roleRef.name == role.metadata.name
     rolebinding.subjects[j].kind == "ServiceAccount"
     rolebinding.subjects[j].name == sa.metadata.name
