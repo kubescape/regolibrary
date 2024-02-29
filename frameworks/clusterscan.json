@@ -59,7 +59,7 @@
         {
             "controlID": "C-0007",
             "patch": {
-                "name": "Data Destruction"
+                "name": "Roles with delete capabilities"
             }
         },
         {
