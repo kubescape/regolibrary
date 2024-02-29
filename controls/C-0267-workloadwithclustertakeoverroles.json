@@ -9,7 +9,7 @@
     "long_description": "In Kubernetes, workloads with overly permissive roles pose a significant security risk. When a workload is granted roles that exceed the necessities of its operation, it creates an attack surface for privilege escalation within the cluster. This is especially critical if the roles include permissions for creating, updating, or accessing sensitive resources or secrets. An attacker exploiting such a workload can leverage these excessive privileges to perform unauthorized actions, potentially leading to a full cluster takeover. Ensuring that each service account associated with a workload is limited to permissions that are strictly necessary for its function is crucial in mitigating the risk of cluster takeovers.",
     "test": "Check if the service account used by a workload has cluster takeover roles.",
     "controlID": "C-0267",
-    "baseScore": 3.0,
+    "baseScore": 6.0,
     "category": {
         "name" : "Workload"
    },
