@@ -1,5 +1,5 @@
 {
-    "name": "Exec into container",
+    "name": "Prevent containers from allowing command execution",
     "attributes": {
         "microsoftMitreColumns": [
             "Execution"
