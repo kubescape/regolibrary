@@ -38,10 +38,16 @@ deny[msga] {
             "k8sApiObjects": [wl]
         },
         "relatedObjects": [{
+            "object": sa,
+        },
+        {
             "object": rolebinding,
 		    "reviewPaths": [reviewPath],
             "deletePaths": [deletePath],
-        }]
+        },
+        {
+            "object": role,
+        },]
     }
 }
 
