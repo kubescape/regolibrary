@@ -21,12 +21,6 @@
             }
         },
         {
-            "controlID": "C-0009",
-            "patch": {
-                "name": "Resource limits"
-            }
-        },
-        {
             "controlID": "C-0012",
             "patch": {
                 "name": "Applications credentials in configuration files"
@@ -186,6 +180,18 @@
             "controlID": "C-0265",
             "patch": {
                 "name": "Authenticated user has sensitive permissions"
+            }
+        },
+        {
+            "controlID": "C-0270",
+            "patch": {
+                "name": "Ensure CPU limits are set"
+            }
+        },
+        {
+            "controlID": "C-0271",
+            "patch": {
+                "name": "Ensure memory limits are set"
             }
         }
     ]
