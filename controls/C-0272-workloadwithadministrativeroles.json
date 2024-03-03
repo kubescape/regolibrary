@@ -1,0 +1,22 @@
+{
+    "name": "Workload with administrative roles",
+    "attributes": {},
+    "description": "This control identifies workloads where the associated service accounts have roles that grant administrative-level access across the cluster. Granting a workload such expansive permissions equates to providing it cluster admin roles. This level of access can pose a significant security risk, as it allows the workload to perform any action on any resource, potentially leading to unauthorized data access or cluster modifications.",
+    "remediation": "You should apply least privilege principle. Make sure cluster admin permissions are granted only when it is absolutely necessary. Don't use service accounts with such high permissions for daily operations.",
+    "rulesNames": [
+        "workload-with-administrative-roles"
+    ],
+    "long_description": "In Kubernetes environments, workloads granted administrative-level privileges without restrictions represent a critical security vulnerability. When a service account associated with a workload is configured with permissions to perform any action on any resource, it essentially holds unrestricted access within the cluster, akin to cluster admin privileges. This configuration dramatically increases the risk of security breaches, including data theft, unauthorized modifications, and potentially full cluster takeovers. Such privileges allow attackers to exploit the workload for wide-ranging malicious activities, bypassing the principle of least privilege. Therefore, it's essential to follow the least privilege principle and make sure cluster admin permissions are granted only when it is absolutely necessary.",
+    "test": "Check if the service account used by a workload has cluster admin roles, either by being bound to the cluster-admin clusterrole, or by having equivalent high privileges.",
+    "controlID": "C-0272",
+    "baseScore": 6.0,
+    "category": {
+        "name" : "Workload"
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}
