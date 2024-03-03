@@ -1,0 +1,63 @@
+{
+    "name": "workload-with-administrative-roles",
+    "attributes": {},
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod",
+                "ServiceAccount"
+            ]
+        },
+        {
+            "apiGroups": [
+                "apps"
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Deployment",
+                "ReplicaSet",
+                "DaemonSet",
+                "StatefulSet"
+            ]
+        },
+        {
+            "apiGroups": [
+                "batch"
+            ],
+            "apiVersions": [
+                "*"
+            ],
+            "resources": [
+                "Job",
+                "CronJob"
+            ]
+        },
+        {
+            "apiGroups": [
+                "rbac.authorization.k8s.io"
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "RoleBinding",
+                "ClusterRoleBinding",
+                "Role",
+                "ClusterRole"
+            ]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+}
