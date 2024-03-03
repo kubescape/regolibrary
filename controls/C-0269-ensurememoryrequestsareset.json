@@ -1,0 +1,28 @@
+{
+    "name": "Ensure memory requests are set",
+    "attributes": {
+        "controlTypeTags": [
+            "compliance",
+            "devops"
+        ]
+    },
+    "description": "This control identifies all Pods for which the memory requests are not set.",
+    "remediation": "Set the memory requests or use exception mechanism to avoid unnecessary notifications.",
+    "rulesNames": [
+        "resources-memory-requests"
+    ],
+    "controlID": "C-0269",
+    "baseScore": 3.0,
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Resource management"
+        }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

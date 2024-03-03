@@ -1,0 +1,48 @@
+{
+  "name": "resources-cpu-requests",
+  "attributes": {},
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    },
+    {
+      "apiGroups": [
+        "apps"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet"
+      ]
+    },
+    {
+      "apiGroups": [
+        "batch"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Job",
+        "CronJob"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "CPU requests are not set.",
+  "remediation": "Ensure CPU requests are set.",
+  "ruleQuery": "armo_builtins"
+}
