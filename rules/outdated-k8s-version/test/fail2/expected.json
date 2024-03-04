@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "Your kubelet version: v1.25.3, in node: attack-chain-6-control-plane is outdated",
+        "failedPaths": null,
+        "reviewPaths": [
+            "status.nodeInfo.kubeletVersion"
+        ],
+        "deletePaths": null,
+        "fixPaths": null,
+        "ruleStatus": "",
+        "packagename": "",
+        "alertScore": 0,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Node",
+                    "metadata": {
+                        "labels": {
+                            "beta.kubernetes.io/arch": "amd64",
+                            "beta.kubernetes.io/os": "linux",
+                            "ingress-ready": "true",
+                            "kubernetes.io/arch": "amd64",
+                            "kubernetes.io/hostname": "attack-chain-6-control-plane",
+                            "kubernetes.io/os": "linux",
+                            "node-role.kubernetes.io/control-plane": "",
+                            "node.kubernetes.io/exclude-from-external-load-balancers": ""
+                        },
+                        "name": "attack-chain-6-control-plane"
+                    }
+                }
+            ]
+        }
+    }
+]
