@@ -11,7 +11,7 @@
             "description": "An attacker can access the Kubernetes environment.",
             "subSteps": [
                 {
-                    "name": "Cluster/Resources Access",
+                    "name": "Cluster Access",
                     "description": "An attacker has access to sensitive information and can leverage them by creating pods in the cluster."
                 }
             ]
