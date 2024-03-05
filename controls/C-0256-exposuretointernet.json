@@ -16,6 +16,18 @@
                 "categories": [
                     "Initial Access"
                 ]
+            },
+            {
+                "attackTrack": "external-workload-with-cluster-takeover-roles",
+                "categories": [
+                    "Initial Access"
+                ]
+            },
+            {
+                "attackTrack": "external-database-without-authentication",
+                "categories": [
+                    "Initial Access"
+                ]
             }
         ]
     },

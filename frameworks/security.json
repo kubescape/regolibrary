@@ -183,6 +183,12 @@
             }
         },
         {
+            "controlID": "C-0267",
+            "patch": {
+                "name": "Workload with cluster takeover roles"
+            }
+        },
+        {
             "controlID": "C-0270",
             "patch": {
                 "name": "Ensure CPU limits are set"
@@ -192,6 +198,18 @@
             "controlID": "C-0271",
             "patch": {
                 "name": "Ensure memory limits are set"
+            }
+        },
+        {
+            "controlID": "C-0272",
+            "patch": {
+                "name": "Workload with administrative roles"
+            }
+        },
+        {
+            "controlID": "C-0273",
+            "patch": {
+                "name": "Outdated Kubernetes version"
             }
         }
     ]
