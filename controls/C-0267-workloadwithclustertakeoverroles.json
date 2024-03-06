@@ -9,7 +9,9 @@
                 "attackTrack": "external-workload-with-cluster-takeover-roles",
                 "categories": [
                     "Cluster Access"
-                ]
+                ],
+                "displayRelatedResources": true,
+                "clickableResourceKind": "ServiceAccount"
             }
         ]
     },

@@ -1,0 +1,109 @@
+[
+    {
+        "apiVersion": "regolibrary.kubescape/v1alpha1",
+        "kind": "AttackTrack",
+        "metadata": {
+            "name": "external-workload-with-cluster-takeover-roles"
+        },
+        "spec": {
+            "version": null,
+            "data": {
+                "name": "Initial Access",
+                "description": "An attacker can access the Kubernetes environment.",
+                "subSteps": [
+                    {
+                        "name": "Cluster Access",
+                        "description": "An attacker has access to sensitive information and can leverage them by creating pods in the cluster."
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "apiVersion": "regolibrary.kubescape/v1alpha1",
+        "kind": "AttackTrack",
+        "metadata": {
+            "name": "external-database-without-authentication"
+        },
+        "spec": {
+            "version": null,
+            "data": {
+                "name": "Initial Access",
+                "description": "An attacker can access the Kubernetes environment.",
+                "subSteps": [
+                    {
+                        "name": "Unauthenticated Access",
+                        "description": "An unauthenticated attacker can access resources."
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "apiVersion": "regolibrary.kubescape/v1alpha1",
+        "kind": "AttackTrack",
+        "metadata": {
+            "name": "service-destruction"
+        },
+        "spec": {
+            "version": null,
+            "data": {
+                "name": "Initial Access",
+                "description": "An attacker can access the Kubernetes environment.",
+                "subSteps": [
+                    {
+                        "name": "Denial of service",
+                        "description": "An attacker can overload the workload, making it unavailable."
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "apiVersion": "regolibrary.kubescape/v1alpha1",
+        "kind": "AttackTrack",
+        "metadata": {
+            "name": "workload-external-track"
+        },
+        "spec": {
+            "version": null,
+            "data": {
+                "name": "Initial Access",
+                "description": "An attacker can access the Kubernetes environment.",
+                "subSteps": [
+                    {
+                        "name": "Execution (Vulnerable Image)",
+                        "description": "An attacker can execute malicious code by exploiting vulnerable images.",
+                        "checksVulnerabilities": true,
+                        "subSteps": [
+                            {
+                                "name": "Data Collection",
+                                "description": "An attacker can gather data."
+                            },
+                            {
+                                "name": "Secret Access",
+                                "description": "An attacker can steal secrets."
+                            },
+                            {
+                                "name": "Credential access",
+                                "description": "An attacker can steal account names and passwords."
+                            },
+                            {
+                                "name": "Privilege Escalation (Node)",
+                                "description": "An attacker can gain permissions and access node resources."
+                            },
+                            {
+                                "name": "Persistence",
+                                "description": "An attacker can create a foothold."
+                            },
+                            {
+                                "name": "Lateral Movement (Network)",
+                                "description": "An attacker can move through the network."
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+]

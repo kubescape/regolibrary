@@ -1,0 +1,2569 @@
+[
+    {
+        "name": "WorkloadScan",
+        "description": "Framework for scanning a workload",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "typeTags": [
+            "security"
+        ],
+        "version": null,
+        "controls": [
+            {
+                "name": "Images from allowed registry",
+                "attributes": {
+                    "actionRequired": "configuration",
+                    "microsoftMitreColumns": [
+                        "Collection"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "This control is intended to ensure that all the used container images are taken from the authorized repositories. It allows user to list all the approved repositories and will fail all the images taken from any repository outside of this list.",
+                "remediation": "You should enable all trusted repositories in the parameters of this control.",
+                "long_description": "If attackers get access to the cluster, they can re-point kubernetes to a compromized container repository. This control is intended to ensure that all the container images are taken from the authorized repositories only. User should list all the approved repositories in the parameters of this control so that any potential dangerous image can be identified.",
+                "test": "Checks if image is from allowed listed registry.",
+                "controlID": "C-0078",
+                "baseScore": 5.0,
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Supply chain",
+                        "id": "Cat-6"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "controlID": "C-0236",
+                "name": "Verify image signature",
+                "description": "Verifies the signature of each image with given public keys",
+                "long_description": "Verifies the signature of each image with given public keys",
+                "remediation": "Replace the image with an image that is signed correctly",
+                "manual_test": "",
+                "references": [],
+                "attributes": {
+                    "actionRequired": "configuration"
+                },
+                "baseScore": 7,
+                "impact_statement": "",
+                "default_value": "",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Supply chain",
+                        "id": "Cat-6"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "controlID": "C-0237",
+                "name": "Check if signature exists",
+                "description": "Ensures that all images contain some signature",
+                "long_description": "Verifies that each image is signed",
+                "remediation": "Replace the image with a signed image",
+                "manual_test": "",
+                "references": [],
+                "attributes": {},
+                "baseScore": 7,
+                "impact_statement": "",
+                "default_value": "",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Supply chain",
+                        "id": "Cat-6"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Writable hostPath mount",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Persistence",
+                        "Lateral Movement"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "devops",
+                        "security-impact",
+                        "smartRemediation"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Privilege Escalation (Node)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host and gain persistence.",
+                "remediation": "Refrain from using the hostPath mount or use the exception mechanism to remove unnecessary notifications.",
+                "long_description": "hostPath volume mounts a directory or a file from the host to the container. Attackers who have permissions to create a new container in the cluster may create one with a writable hostPath volume and gain persistence on the underlying host. For example, the latter can be achieved by creating a cron job on the host.",
+                "test": "Checking in Pod spec if there is a hostPath volume, if it has the section mount.readOnly == false (or doesn\u2019t exist) we raise an alert.",
+                "controlID": "C-0045",
+                "baseScore": 8.0,
+                "example": "@controls/examples/c045.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Storage",
+                        "id": "Cat-8"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "HostPath mount",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Privilege escalation"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "smartRemediation"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Privilege Escalation (Node)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host. This control identifies all the pods using hostPath mount.",
+                "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: test-pd\nspec:\n  containers:\n  - image: k8s.gcr.io/test-webserver\n    name: test-container\n    volumeMounts:\n    - mountPath: /test-pd\n      name: test-volume\n  volumes:\n  - name: test-volume\n    hostPath: # This field triggers failure!\n      path: /data\n      type: Directory\n",
+                "remediation": "Remove hostPath mounts unless they are absolutely necessary and use exception mechanism to remove notifications.",
+                "controlID": "C-0048",
+                "baseScore": 7.0,
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Storage",
+                        "id": "Cat-8"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Workload with PVC access",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Data Collection"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control detects workloads that have mounted PVC. Workloads with PVC access can potentially expose sensitive information and elevate the risk of unauthorized access to critical resources.",
+                "remediation": "Review the workloads identified by this control and assess whether it's necessary to mount these PVCs. Remove PVC access from workloads that don't require it or ensure appropriate access controls are in place to protect sensitive information.",
+                "test": "Check if any workload has mounted PVCs by inspecting their specifications and verifying if PVC volumes are defined",
+                "controlID": "C-0257",
+                "baseScore": 4.0,
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Storage",
+                        "id": "Cat-8"
+                    },
+                    "id": "Cat-5"
+                },
+                "rules": []
+            },
+            {
+                "name": "Prefer using secrets as files over secrets as environment variables",
+                "controlID": "C-0207",
+                "description": "Kubernetes supports mounting secrets as data volumes or as environment variables. Minimize the use of environment variable secrets.",
+                "long_description": "It is reasonably common for application code to log out its environment (particularly in the event of an error). This will include any secret values passed in as environment variables, so secrets can easily be exposed to any user or entity who has access to the logs.",
+                "remediation": "If possible, rewrite application code to read secrets from mounted secret files, rather than from environment variables.",
+                "manual_test": "Run the following command to find references to objects which use environment variables defined from secrets.\n\n \n```\nkubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {\"\\n\"}{end}' -A\n\n```",
+                "test": "Check if pods have secrets in their environment variables",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/1126665/recommendations/1838630"
+                ],
+                "attributes": {},
+                "baseScore": 4,
+                "impact_statement": "Application code which expects to read secrets in the form of environment variables would need modification",
+                "default_value": "By default, secrets are not defined",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Secrets",
+                        "id": "Cat-3"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Automatic mapping of service account",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "smartRemediation"
+                    ]
+                },
+                "description": "Potential attacker may gain access to a pod and steal its service account token. Therefore, it is recommended to disable automatic mapping of the service account tokens in service account configuration and enable it only for pods that need to use them.",
+                "remediation": "Disable automatic mounting of service account tokens to pods either at the service account level or at the individual pod level, by specifying the automountServiceAccountToken: false. Note that pod level takes precedence.",
+                "long_description": "We have it in Armo best (Automatic mapping of service account token).",
+                "test": "Check all service accounts on which automount is not disabled.  Check all workloads on which they and their service account don't disable automount ",
+                "controlID": "C-0034",
+                "baseScore": 6.0,
+                "example": "@controls/examples/c034.yaml",
+                "category": {
+                    "name": "Secrets",
+                    "id": "Cat-3"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Applications credentials in configuration files",
+                "attributes": {
+                    "actionRequired": "configuration",
+                    "microsoftMitreColumns": [
+                        "Credential access",
+                        "Lateral Movement"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "security-impact"
+                    ]
+                },
+                "description": "Attackers who have access to configuration files can steal the stored secrets and use them. This control checks if ConfigMaps or pod specifications have sensitive information in their configuration.",
+                "remediation": "Use Kubernetes secrets or Key Management Systems to store credentials.",
+                "long_description": "Developers store secrets in the Kubernetes configuration files, such as environment variables in the pod configuration. Such behavior is commonly seen in clusters that are monitored by Azure Security Center. Attackers who have access to those configurations, by querying the API server or by accessing those files on the developer\u2019s endpoint, can steal the stored secrets and use them.",
+                "test": "Check if the pod has sensitive information in environment variables, by using list of known sensitive key names. Check if there are configmaps with sensitive information.",
+                "controlID": "C-0012",
+                "baseScore": 8.0,
+                "category": {
+                    "name": "Secrets",
+                    "id": "Cat-3"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "HostNetwork access",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Lateral Movement (Network)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Potential attackers may gain access to a pod and inherit access to the entire host network. For example, in AWS case, they will have access to the entire VPC. This control identifies all the pods with host network access enabled.",
+                "remediation": "Only connect pods to host network when it is necessary. If not, set the hostNetwork field of the pod spec to false, or completely remove it (false is the default). Whitelist only those pods that must have access to host network by design.",
+                "long_description": "We have it in ArmoBest",
+                "test": "",
+                "controlID": "C-0041",
+                "baseScore": 7.0,
+                "example": "@controls/examples/c041.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Network",
+                        "id": "Cat-4"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Missing network policy",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Lateral Movement (Network)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control detects workloads that has no NetworkPolicy configured in labels. If a network policy is not configured, it means that your applications might not have necessary control over the traffic to and from the pods, possibly leading to a security vulnerability.",
+                "remediation": "Review the workloads identified by this control and assess whether it's necessary to configure a network policy for them.",
+                "test": "Check that all workloads has a network policy configured in labels.",
+                "controlID": "C-0260",
+                "baseScore": 5.0,
+                "category": {
+                    "name": "Network",
+                    "id": "Cat-4"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Container hostPort",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "devops"
+                    ]
+                },
+                "description": "Configuring hostPort requires a particular port number. If two objects specify the same HostPort, they could not be deployed to the same node. It may prevent the second object from starting, even if Kubernetes will try reschedule it on another node, provided there are available nodes with sufficient amount of resources. Also, if the number of replicas of such workload is higher than the number of nodes, the deployment will consistently fail.",
+                "remediation": "Avoid usage of hostPort unless it is absolutely necessary, in which case define appropriate exception. Use NodePort / ClusterIP instead.",
+                "long_description": "Workloads (like pod, deployment, etc) that contain a container with hostport. The problem that arises is that if the scale of your workload is larger than the number of nodes in your Kubernetes cluster, the deployment fails. And any two workloads that specify the same HostPort cannot be deployed to the same node. In addition, if the host where your pods are running becomes unavailable, Kubernetes reschedules the pods to different nodes. Thus, if the IP address for your workload changes, external clients of your application will lose access to the pod. The same thing happens when you restart your pods \u2014 Kubernetes reschedules them to a different node if available.\u00a0",
+                "test": "Check for each workload (with container) if it exists inside the container hostPort.\u00a0\u00a0",
+                "controlID": "C-0044",
+                "baseScore": 4.0,
+                "example": "@controls/examples/c044.yaml",
+                "category": {
+                    "name": "Network",
+                    "id": "Cat-4"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Host PID/IPC privileges",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all pods using hostPID or hostIPC privileges.",
+                "remediation": "Remove hostPID and hostIPC from the yaml file(s) privileges unless they are absolutely necessary.",
+                "long_description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all pods using hostPID or hostIPC privileges.",
+                "controlID": "C-0038",
+                "baseScore": 7.0,
+                "example": "@controls/examples/c038.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Insecure capabilities",
+                "attributes": {
+                    "actionRequired": "configuration",
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "smartRemediation"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Privilege Escalation (Node)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the pods with dangerous capabilities (see documentation pages for details).",
+                "remediation": "Remove all insecure capabilities which are not necessary for the container.",
+                "long_description": "Giving  insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
+                "test": "Check capabilities given against a configurable blacklist of insecure capabilities (https://man7.org/linux/man-pages/man7/capabilities.7.html). ",
+                "controlID": "C-0046",
+                "baseScore": 7.0,
+                "example": "@controls/examples/c046.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Non-root containers",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Potential attackers may gain access to a container and leverage its existing privileges to conduct an attack. Therefore, it is not recommended to deploy containers with root privileges unless it is absolutely necessary. This control identifies all the pods running as root or can escalate to root.",
+                "remediation": "If your application does not need root privileges, make sure to define runAsNonRoot as true or explicitly set the runAsUser using ID 1000 or higher under the PodSecurityContext or container securityContext. In addition, set an explicit value for runAsGroup using ID 1000 or higher.",
+                "long_description": "Container engines allow containers to run applications as a non-root user with non-root group membership. Typically, this non-default setting is configured when the container image is built. Alternatively, Kubernetes can load containers into a Pod with SecurityContext:runAsUser specifying a non-zero user. While the runAsUser directive effectively forces non-root execution at deployment, NSA and CISA encourage developers to build container applications to execute as a non-root user. Having non-root execution integrated at build time provides better assurance that applications will function correctly without root privileges.",
+                "test": "Verify that runAsUser is set to a user id greater than 0 or that runAsNonRoot is set to true, and that runAsGroup is set to an id greater than 0. Check all the combinations with PodSecurityContext and SecurityContext (for containers).",
+                "controlID": "C-0013",
+                "baseScore": 6.0,
+                "example": "@controls/examples/c013.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Allow privilege escalation",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "smartRemediation"
+                    ]
+                },
+                "description": "Attackers may gain access to a container and uplift its privilege to enable excessive capabilities.",
+                "remediation": "If your application does not need it, make sure the allowPrivilegeEscalation field of the securityContext is set to false.",
+                "test": " Check that the allowPrivilegeEscalation field in securityContext of container is set to false.   ",
+                "controlID": "C-0016",
+                "baseScore": 6.0,
+                "example": "@controls/examples/allowprivilegeescalation.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Immutable container filesystem",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "smartRemediation"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Persistence"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks.",
+                "remediation": "Set the filesystem of the container to read-only when possible (pod securityContext, readOnlyRootFilesystem: true). If containers application needs to write into the filesystem, it is recommended to mount secondary filesystems for specific directories where application require write access.",
+                "long_description": "By default, containers are permitted mostly unrestricted execution within their own context. An attacker who has access to a container, can create files and download scripts as he wishes, and modify the underlying application running on the container. ",
+                "test": "Check whether the readOnlyRootFilesystem field in the SecurityContext is set to true. ",
+                "controlID": "C-0017",
+                "baseScore": 3.0,
+                "example": "@controls/examples/c017.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Linux hardening",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Containers may be given more privileges than they actually need. This can increase the potential impact of a container compromise.",
+                "remediation": "You can use AppArmor, Seccomp, SELinux and Linux Capabilities mechanisms to restrict containers abilities to utilize unwanted privileges.",
+                "long_description": "In order to reduce the attack surface, it is recommend, when it is possible, to harden your application using security services such as SELinux\u00ae, AppArmor\u00ae, and seccomp. Starting from Kubernetes version 22, SELinux is enabled by default. ",
+                "test": "Check if there is AppArmor or Seccomp or SELinux or Capabilities are defined in the securityContext of container and pod. If none of these fields are defined for both the container and pod, alert.",
+                "controlID": "C-0055",
+                "baseScore": 4.0,
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Privileged container",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Privilege escalation"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "smartRemediation"
+                    ]
+                },
+                "description": "Potential attackers may gain access to privileged containers and inherit access to the host resources. Therefore, it is not recommended to deploy privileged containers unless it is absolutely necessary. This control identifies all the privileged Pods.",
+                "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: privileged\nspec:\n  containers:\n    - name: pause\n      image: k8s.gcr.io/pause\n      securityContext:\n          privileged: true # This field triggers failure!\n",
+                "remediation": "Remove privileged capabilities by setting the securityContext.privileged to false. If you must deploy a Pod as privileged, add other restriction to it, such as network policy, Seccomp etc and still remove all unnecessary capabilities. Use the exception mechanism to remove unnecessary notifications.",
+                "long_description": "A privileged container is a container that has all the capabilities of the host machine, which lifts all the limitations regular containers have. Practically, this means that privileged containers can do almost every action that can be performed directly on the host. Attackers who gain access to a privileged container or have permissions to create a new privileged container (by using the compromised pod\u2019s service account, for example), can get access to the host\u2019s resources.",
+                "test": "Check in Pod spec if securityContext.privileged == true, if so raise an alert.",
+                "controlID": "C-0057",
+                "baseScore": 8.0,
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Ensure CPU limits are set",
+                "attributes": {
+                    "controlTypeTags": [
+                        "compliance",
+                        "devops",
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "service-destruction",
+                            "categories": [
+                                "Denial of service"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control identifies all Pods for which the CPU limits are not set.",
+                "remediation": "Set the CPU limits or use exception mechanism to avoid unnecessary notifications.",
+                "controlID": "C-0270",
+                "baseScore": 8.0,
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Resource management",
+                        "id": "Cat-7"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Ensure memory limits are set",
+                "attributes": {
+                    "controlTypeTags": [
+                        "compliance",
+                        "devops",
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "service-destruction",
+                            "categories": [
+                                "Denial of service"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control identifies all Pods for which the memory limits are not set.",
+                "remediation": "Set the memory limits or use exception mechanism to avoid unnecessary notifications.",
+                "controlID": "C-0271",
+                "baseScore": 8.0,
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Resource management",
+                        "id": "Cat-7"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            }
+        ],
+        "ControlsIDs": [
+            "C-0078",
+            "C-0236",
+            "C-0237",
+            "C-0045",
+            "C-0048",
+            "C-0257",
+            "C-0207",
+            "C-0034",
+            "C-0012",
+            "C-0041",
+            "C-0260",
+            "C-0044",
+            "C-0038",
+            "C-0046",
+            "C-0013",
+            "C-0016",
+            "C-0017",
+            "C-0055",
+            "C-0057",
+            "C-0270",
+            "C-0271"
+        ]
+    },
+    {
+        "name": "security",
+        "description": "Controls that are used to assess security threats.",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "typeTags": [
+            "security"
+        ],
+        "scanningScope": {
+            "matches": [
+                "cluster",
+                "file"
+            ]
+        },
+        "version": null,
+        "controls": [
+            {
+                "name": "API server insecure port is enabled",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Kubernetes control plane API is running with non-secure port enabled which allows attackers to gain unprotected access to the cluster.",
+                "remediation": "Set the insecure-port flag of the API server to zero.",
+                "long_description": "The control plane is the core of Kubernetes and gives users the ability to view containers, schedule new Pods, read Secrets, and execute commands in the cluster. Therefore, it should be protected. It is recommended to avoid control plane exposure to the Internet or to an untrusted network. The API server runs on ports 6443 and 8080. We recommend to block them in the firewall. Note also that port 8080, when accessed through the local machine, does not require TLS encryption, and the requests bypass authentication and authorization modules.",
+                "test": "Check if the insecure-port flag is set (in case of cloud vendor hosted Kubernetes service this verification will not be effective).",
+                "controlID": "C-0005",
+                "category": {
+                    "name": "Control plane",
+                    "id": "Cat-1"
+                },
+                "baseScore": 9,
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Applications credentials in configuration files",
+                "attributes": {
+                    "actionRequired": "configuration",
+                    "microsoftMitreColumns": [
+                        "Credential access",
+                        "Lateral Movement"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "security-impact"
+                    ]
+                },
+                "description": "Attackers who have access to configuration files can steal the stored secrets and use them. This control checks if ConfigMaps or pod specifications have sensitive information in their configuration.",
+                "remediation": "Use Kubernetes secrets or Key Management Systems to store credentials.",
+                "long_description": "Developers store secrets in the Kubernetes configuration files, such as environment variables in the pod configuration. Such behavior is commonly seen in clusters that are monitored by Azure Security Center. Attackers who have access to those configurations, by querying the API server or by accessing those files on the developer\u2019s endpoint, can steal the stored secrets and use them.",
+                "test": "Check if the pod has sensitive information in environment variables, by using list of known sensitive key names. Check if there are configmaps with sensitive information.",
+                "controlID": "C-0012",
+                "baseScore": 8.0,
+                "category": {
+                    "name": "Secrets",
+                    "id": "Cat-3"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Non-root containers",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Potential attackers may gain access to a container and leverage its existing privileges to conduct an attack. Therefore, it is not recommended to deploy containers with root privileges unless it is absolutely necessary. This control identifies all the pods running as root or can escalate to root.",
+                "remediation": "If your application does not need root privileges, make sure to define runAsNonRoot as true or explicitly set the runAsUser using ID 1000 or higher under the PodSecurityContext or container securityContext. In addition, set an explicit value for runAsGroup using ID 1000 or higher.",
+                "long_description": "Container engines allow containers to run applications as a non-root user with non-root group membership. Typically, this non-default setting is configured when the container image is built. Alternatively, Kubernetes can load containers into a Pod with SecurityContext:runAsUser specifying a non-zero user. While the runAsUser directive effectively forces non-root execution at deployment, NSA and CISA encourage developers to build container applications to execute as a non-root user. Having non-root execution integrated at build time provides better assurance that applications will function correctly without root privileges.",
+                "test": "Verify that runAsUser is set to a user id greater than 0 or that runAsNonRoot is set to true, and that runAsGroup is set to an id greater than 0. Check all the combinations with PodSecurityContext and SecurityContext (for containers).",
+                "controlID": "C-0013",
+                "baseScore": 6.0,
+                "example": "@controls/examples/c013.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Allow privilege escalation",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "smartRemediation"
+                    ]
+                },
+                "description": "Attackers may gain access to a container and uplift its privilege to enable excessive capabilities.",
+                "remediation": "If your application does not need it, make sure the allowPrivilegeEscalation field of the securityContext is set to false.",
+                "test": " Check that the allowPrivilegeEscalation field in securityContext of container is set to false.   ",
+                "controlID": "C-0016",
+                "baseScore": 6.0,
+                "example": "@controls/examples/allowprivilegeescalation.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Immutable container filesystem",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "smartRemediation"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Persistence"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Mutable container filesystem can be abused to inject malicious code or data into containers. Use immutable (read-only) filesystem to limit potential attacks.",
+                "remediation": "Set the filesystem of the container to read-only when possible (pod securityContext, readOnlyRootFilesystem: true). If containers application needs to write into the filesystem, it is recommended to mount secondary filesystems for specific directories where application require write access.",
+                "long_description": "By default, containers are permitted mostly unrestricted execution within their own context. An attacker who has access to a container, can create files and download scripts as he wishes, and modify the underlying application running on the container. ",
+                "test": "Check whether the readOnlyRootFilesystem field in the SecurityContext is set to true. ",
+                "controlID": "C-0017",
+                "baseScore": 3.0,
+                "example": "@controls/examples/c017.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Automatic mapping of service account",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "smartRemediation"
+                    ]
+                },
+                "description": "Potential attacker may gain access to a pod and steal its service account token. Therefore, it is recommended to disable automatic mapping of the service account tokens in service account configuration and enable it only for pods that need to use them.",
+                "remediation": "Disable automatic mounting of service account tokens to pods either at the service account level or at the individual pod level, by specifying the automountServiceAccountToken: false. Note that pod level takes precedence.",
+                "long_description": "We have it in Armo best (Automatic mapping of service account token).",
+                "test": "Check all service accounts on which automount is not disabled.  Check all workloads on which they and their service account don't disable automount ",
+                "controlID": "C-0034",
+                "baseScore": 6.0,
+                "example": "@controls/examples/c034.yaml",
+                "category": {
+                    "name": "Secrets",
+                    "id": "Cat-3"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Administrative Roles",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Privilege escalation"
+                    ],
+                    "rbacQuery": "Show cluster_admin",
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Attackers who have cluster admin permissions (can perform any action on any resource), can take advantage of their privileges for malicious activities. This control determines which subjects have cluster admin permissions.",
+                "remediation": "You should apply least privilege principle. Make sure cluster admin permissions are granted only when it is absolutely necessary. Don't use subjects with such high permissions for daily operations.",
+                "long_description": "Role-based access control (RBAC) is a key security feature in Kubernetes. RBAC can restrict the allowed actions of the various identities in the cluster. Cluster-admin is a built-in high privileged role in Kubernetes. Attackers who have permissions to create bindings and cluster-bindings in the cluster can create a binding to the cluster-admin ClusterRole or to other high privileges roles.",
+                "test": "Check which subjects have cluster-admin RBAC permissions \u2013 either by being bound to the cluster-admin clusterrole, or by having equivalent high privileges.  ",
+                "controlID": "C-0035",
+                "baseScore": 6.0,
+                "category": {
+                    "name": "Access control",
+                    "id": "Cat-2"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Host PID/IPC privileges",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all pods using hostPID or hostIPC privileges.",
+                "remediation": "Remove hostPID and hostIPC from the yaml file(s) privileges unless they are absolutely necessary.",
+                "long_description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all pods using hostPID or hostIPC privileges.",
+                "controlID": "C-0038",
+                "baseScore": 7.0,
+                "example": "@controls/examples/c038.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "HostNetwork access",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Lateral Movement (Network)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Potential attackers may gain access to a pod and inherit access to the entire host network. For example, in AWS case, they will have access to the entire VPC. This control identifies all the pods with host network access enabled.",
+                "remediation": "Only connect pods to host network when it is necessary. If not, set the hostNetwork field of the pod spec to false, or completely remove it (false is the default). Whitelist only those pods that must have access to host network by design.",
+                "long_description": "We have it in ArmoBest",
+                "test": "",
+                "controlID": "C-0041",
+                "baseScore": 7.0,
+                "example": "@controls/examples/c041.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Network",
+                        "id": "Cat-4"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Container hostPort",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "devops"
+                    ]
+                },
+                "description": "Configuring hostPort requires a particular port number. If two objects specify the same HostPort, they could not be deployed to the same node. It may prevent the second object from starting, even if Kubernetes will try reschedule it on another node, provided there are available nodes with sufficient amount of resources. Also, if the number of replicas of such workload is higher than the number of nodes, the deployment will consistently fail.",
+                "remediation": "Avoid usage of hostPort unless it is absolutely necessary, in which case define appropriate exception. Use NodePort / ClusterIP instead.",
+                "long_description": "Workloads (like pod, deployment, etc) that contain a container with hostport. The problem that arises is that if the scale of your workload is larger than the number of nodes in your Kubernetes cluster, the deployment fails. And any two workloads that specify the same HostPort cannot be deployed to the same node. In addition, if the host where your pods are running becomes unavailable, Kubernetes reschedules the pods to different nodes. Thus, if the IP address for your workload changes, external clients of your application will lose access to the pod. The same thing happens when you restart your pods \u2014 Kubernetes reschedules them to a different node if available.\u00a0",
+                "test": "Check for each workload (with container) if it exists inside the container hostPort.\u00a0\u00a0",
+                "controlID": "C-0044",
+                "baseScore": 4.0,
+                "example": "@controls/examples/c044.yaml",
+                "category": {
+                    "name": "Network",
+                    "id": "Cat-4"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Writable hostPath mount",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Persistence",
+                        "Lateral Movement"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "devops",
+                        "security-impact",
+                        "smartRemediation"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Privilege Escalation (Node)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host and gain persistence.",
+                "remediation": "Refrain from using the hostPath mount or use the exception mechanism to remove unnecessary notifications.",
+                "long_description": "hostPath volume mounts a directory or a file from the host to the container. Attackers who have permissions to create a new container in the cluster may create one with a writable hostPath volume and gain persistence on the underlying host. For example, the latter can be achieved by creating a cron job on the host.",
+                "test": "Checking in Pod spec if there is a hostPath volume, if it has the section mount.readOnly == false (or doesn\u2019t exist) we raise an alert.",
+                "controlID": "C-0045",
+                "baseScore": 8.0,
+                "example": "@controls/examples/c045.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Storage",
+                        "id": "Cat-8"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Insecure capabilities",
+                "attributes": {
+                    "actionRequired": "configuration",
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "smartRemediation"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Privilege Escalation (Node)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Giving insecure or excessive capabilities to a container can increase the impact of the container compromise. This control identifies all the pods with dangerous capabilities (see documentation pages for details).",
+                "remediation": "Remove all insecure capabilities which are not necessary for the container.",
+                "long_description": "Giving  insecure and unnecessary capabilities for a container can increase the impact of a container compromise.",
+                "test": "Check capabilities given against a configurable blacklist of insecure capabilities (https://man7.org/linux/man-pages/man7/capabilities.7.html). ",
+                "controlID": "C-0046",
+                "baseScore": 7.0,
+                "example": "@controls/examples/c046.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "HostPath mount",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Privilege escalation"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "smartRemediation"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Privilege Escalation (Node)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host. This control identifies all the pods using hostPath mount.",
+                "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: test-pd\nspec:\n  containers:\n  - image: k8s.gcr.io/test-webserver\n    name: test-container\n    volumeMounts:\n    - mountPath: /test-pd\n      name: test-volume\n  volumes:\n  - name: test-volume\n    hostPath: # This field triggers failure!\n      path: /data\n      type: Directory\n",
+                "remediation": "Remove hostPath mounts unless they are absolutely necessary and use exception mechanism to remove notifications.",
+                "controlID": "C-0048",
+                "baseScore": 7.0,
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Storage",
+                        "id": "Cat-8"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Privileged container",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Privilege escalation"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "smartRemediation"
+                    ]
+                },
+                "description": "Potential attackers may gain access to privileged containers and inherit access to the host resources. Therefore, it is not recommended to deploy privileged containers unless it is absolutely necessary. This control identifies all the privileged Pods.",
+                "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: privileged\nspec:\n  containers:\n    - name: pause\n      image: k8s.gcr.io/pause\n      securityContext:\n          privileged: true # This field triggers failure!\n",
+                "remediation": "Remove privileged capabilities by setting the securityContext.privileged to false. If you must deploy a Pod as privileged, add other restriction to it, such as network policy, Seccomp etc and still remove all unnecessary capabilities. Use the exception mechanism to remove unnecessary notifications.",
+                "long_description": "A privileged container is a container that has all the capabilities of the host machine, which lifts all the limitations regular containers have. Practically, this means that privileged containers can do almost every action that can be performed directly on the host. Attackers who gain access to a privileged container or have permissions to create a new privileged container (by using the compromised pod\u2019s service account, for example), can get access to the host\u2019s resources.",
+                "test": "Check in Pod spec if securityContext.privileged == true, if so raise an alert.",
+                "controlID": "C-0057",
+                "baseScore": 8.0,
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Secret/etcd encryption enabled",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "All Kubernetes Secrets are stored primarily in etcd therefore it is important to encrypt it.",
+                "remediation": "Turn on the etcd encryption in your cluster, for more see the vendor documentation.",
+                "long_description": "etcd is a consistent and highly-available key value store used as Kubernetes' backing store for all cluster data. All object data in Kubernetes, like secrets, are stored there. This is the reason why it is important to protect the contents of etcd and use its data encryption feature.",
+                "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if etcd encryption is enabled",
+                "controlID": "C-0066",
+                "baseScore": 6.0,
+                "category": {
+                    "name": "Control plane",
+                    "id": "Cat-1"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Disable anonymous access to Kubelet service",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "By default, requests to the kubelet's HTTPS endpoint that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of system:anonymous and a group of system:unauthenticated.",
+                "remediation": "Start the kubelet with the --anonymous-auth=false flag.",
+                "long_description": "By default, requests to the kubelet's HTTPS endpoint that are not rejected by other configured authentication methods are treated as anonymous requests, and given a username of system:anonymous and a group of system:unauthenticated.",
+                "test": "Reading the kubelet command lines and configuration file looking for anonymous-auth configuration. If this configuration is set on both, the command line values take precedence over it.",
+                "controlID": "C-0069",
+                "category": {
+                    "name": "Control plane",
+                    "id": "Cat-1"
+                },
+                "baseScore": 10.0,
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Enforce Kubelet client TLS authentication",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Kubelets are the node level orchestrator in Kubernetes control plane. They are publishing service port 10250 where they accept commands from API server. Operator must make sure that only API server is allowed to submit commands to Kubelet. This is done through client certificate verification, must configure Kubelet with client CA file to use for this purpose.",
+                "remediation": "Start the kubelet with the --client-ca-file flag, providing a CA bundle to verify client certificates with.",
+                "long_description": "Kubelets are the node level orchestrator in Kubernetes control plane. They are publishing service port 10250 where they accept commands from API server. Operator must make sure that only API server is allowed to submit commands to Kubelet. This is done through client certificate verification, must configure Kubelet with client CA file to use for this purpose.",
+                "test": "Reading the kubelet command lines and configuration file looking for client TLS configuration.",
+                "controlID": "C-0070",
+                "baseScore": 9.0,
+                "category": {
+                    "name": "Control plane",
+                    "id": "Cat-1"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Container runtime socket mounted",
+                "attributes": {
+                    "controlTypeTags": [
+                        "devops",
+                        "smartRemediation"
+                    ]
+                },
+                "description": "Mounting Container runtime socket (Unix socket) enables container to access Container runtime, retrieve sensitive information and execute commands, if Container runtime is available. This control identifies pods that attempt to mount Container runtime socket for accessing Container runtime.",
+                "remediation": "Remove container runtime socket mount request or define an exception.",
+                "long_description": "Mounting Docker socket (Unix socket) enables container to access Docker internals, retrieve sensitive information and execute Docker commands, if Docker runtime is available. This control identifies pods that attempt to mount Docker socket for accessing Docker runtime.",
+                "test": "Check hostpath. If the path is set to one of the container runtime socket, the container has access to container runtime - fail.",
+                "controlID": "C-0074",
+                "baseScore": 5.0,
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Apply Security Context to Your Pods and Containers",
+                "controlID": "C-0211",
+                "description": "Apply Security Context to Your Pods and Containers",
+                "long_description": "A security context defines the operating system security settings (uid, gid, capabilities, SELinux role, etc..) applied to a container. When designing your containers and pods, make sure that you configure the security context for your pods, containers, and volumes. A security context is a property defined in the deployment yaml. It controls the security parameters that will be assigned to the pod/container/volume. There are two levels of security context: pod level security context, and container level security context.",
+                "remediation": "Follow the Kubernetes documentation and apply security contexts to your pods. For a suggested list of security contexts, you may refer to the CIS Security Benchmark for Docker Containers.",
+                "test": "Check that pod and container security context fields according to recommendations in CIS Security Benchmark for Docker Containers",
+                "manual_test": "Review the pod definitions in your cluster and verify that you have security contexts defined as appropriate.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/1126667/recommendations/1838636"
+                ],
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Privilege Escalation (Node)"
+                            ]
+                        }
+                    ]
+                },
+                "baseScore": 8,
+                "impact_statement": "If you incorrectly apply security contexts, you may have trouble running the pods.",
+                "default_value": "By default, no security contexts are automatically applied to pods.",
+                "category": {
+                    "name": "Workload",
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Workload with secret access",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Secret Access"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control identifies workloads that have mounted secrets. Workloads with secret access can potentially expose sensitive information and increase the risk of unauthorized access to critical resources.",
+                "remediation": "Review the workloads identified by this control and assess whether it's necessary to mount these secrets. Remove secret access from workloads that don't require it or ensure appropriate access controls are in place to protect sensitive information.",
+                "test": "Check if any workload has mounted secrets by inspecting their specifications and verifying if secret volumes are defined.",
+                "controlID": "C-0255",
+                "baseScore": 8.0,
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Exposure to Internet",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Initial Access"
+                            ]
+                        },
+                        {
+                            "attackTrack": "service-destruction",
+                            "categories": [
+                                "Initial Access"
+                            ]
+                        },
+                        {
+                            "attackTrack": "external-workload-with-cluster-takeover-roles",
+                            "categories": [
+                                "Initial Access"
+                            ]
+                        },
+                        {
+                            "attackTrack": "external-database-without-authentication",
+                            "categories": [
+                                "Initial Access"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control detect workloads that are exposed on Internet through a Service (NodePort or LoadBalancer) or Ingress. It fails in case it find workloads connected with these resources.",
+                "remediation": "The user can evaluate its exposed resources and apply relevant changes wherever needed.",
+                "test": "Checks if workloads are exposed through the use of NodePort, LoadBalancer or Ingress",
+                "controlID": "C-0256",
+                "baseScore": 7.0,
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Workload with PVC access",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Data Collection"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control detects workloads that have mounted PVC. Workloads with PVC access can potentially expose sensitive information and elevate the risk of unauthorized access to critical resources.",
+                "remediation": "Review the workloads identified by this control and assess whether it's necessary to mount these PVCs. Remove PVC access from workloads that don't require it or ensure appropriate access controls are in place to protect sensitive information.",
+                "test": "Check if any workload has mounted PVCs by inspecting their specifications and verifying if PVC volumes are defined",
+                "controlID": "C-0257",
+                "baseScore": 4.0,
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Storage",
+                        "id": "Cat-8"
+                    },
+                    "id": "Cat-5"
+                },
+                "rules": []
+            },
+            {
+                "name": "Workload with configMap access",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Data Collection"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control detects workloads that have mounted ConfigMaps. Workloads with ConfigMap access can potentially expose sensitive information and elevate the risk of unauthorized access to critical resources.",
+                "remediation": "Review the workloads identified by this control and assess whether it's necessary to mount these configMaps. Remove configMaps access from workloads that don't require it or ensure appropriate access controls are in place to protect sensitive information.",
+                "test": "Check if any workload has mounted secrets by inspecting their specifications and verifying if secret volumes are defined",
+                "controlID": "C-0258",
+                "baseScore": 5.0,
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Workload with credential access",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Credential access"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control checks if workloads specifications have sensitive information in their environment variables.",
+                "remediation": "Use Kubernetes secrets or Key Management Systems to store credentials.",
+                "test": "Check if the workload has sensitive information in environment variables, by using list of known sensitive key names.",
+                "controlID": "C-0259",
+                "baseScore": 8.0,
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Missing network policy",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Lateral Movement (Network)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control detects workloads that has no NetworkPolicy configured in labels. If a network policy is not configured, it means that your applications might not have necessary control over the traffic to and from the pods, possibly leading to a security vulnerability.",
+                "remediation": "Review the workloads identified by this control and assess whether it's necessary to configure a network policy for them.",
+                "test": "Check that all workloads has a network policy configured in labels.",
+                "controlID": "C-0260",
+                "baseScore": 5.0,
+                "category": {
+                    "name": "Network",
+                    "id": "Cat-4"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "ServiceAccount token mounted",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Credential access"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Potential attacker may gain access to a workload and steal its ServiceAccount token. Therefore, it is recommended to disable automatic mapping of the ServiceAccount tokens in ServiceAccount configuration. Enable it only for workloads that need to use them and ensure that this ServiceAccount is not bound to an unnecessary ClusterRoleBinding or RoleBinding.",
+                "remediation": "Disable automatic mounting of service account tokens to pods at the workload level, by specifying automountServiceAccountToken: false. Enable it only for workloads that need to use them and ensure that this ServiceAccount doesn't have unnecessary permissions",
+                "test": "test if ServiceAccount token is mounted on workload and it has at least one binding.",
+                "controlID": "C-0261",
+                "baseScore": 7.0,
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "controlID": "C-0262",
+                "name": "Anonymous access enabled",
+                "description": "Granting permissions to the system:unauthenticated or system:anonymous user is generally not recommended and can introduce security risks. Allowing unauthenticated access to your Kubernetes cluster can lead to unauthorized access, potential data breaches, and abuse of cluster resources.",
+                "remediation": "Review and modify your cluster's RBAC configuration to ensure that only authenticated and authorized users have appropriate permissions based on their roles and responsibilities within your system.",
+                "test": "Checks if ClusterRoleBinding/RoleBinding resources give permissions to anonymous user. Also checks in the apiserver if the --anonymous-auth flag is set to false",
+                "attributes": {},
+                "baseScore": 7,
+                "category": {
+                    "name": "Control plane",
+                    "subCategory": {
+                        "name": "Supply chain",
+                        "id": "Cat-6"
+                    },
+                    "id": "Cat-1"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "controlID": "C-0265",
+                "name": "Authenticated user has sensitive permissions",
+                "description": "Granting permissions to the system:authenticated group is generally not recommended and can introduce security risks. This control ensures that system:authenticated users do not have cluster risking permissions.",
+                "remediation": "Review and modify your cluster's RBAC configuration to ensure that system:authenticated will have minimal permissions.",
+                "test": "Checks if ClusterRoleBinding/RoleBinding resources give permissions to system:authenticated group.",
+                "attributes": {},
+                "baseScore": 7,
+                "category": {
+                    "name": "Control plane",
+                    "subCategory": {
+                        "name": "Supply chain",
+                        "id": "Cat-6"
+                    },
+                    "id": "Cat-1"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Workload with cluster takeover roles",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "external-workload-with-cluster-takeover-roles",
+                            "categories": [
+                                "Cluster Access"
+                            ],
+                            "displayRelatedResources": true,
+                            "clickableResourceKind": "ServiceAccount"
+                        }
+                    ]
+                },
+                "description": "Cluster takeover roles include workload creation or update and secret access. They can easily lead to super privileges in the cluster. If an attacker can exploit this workload then the attacker can take over the cluster using the RBAC privileges this workload is assigned to.",
+                "remediation": "You should apply least privilege principle. Make sure each service account has only the permissions that are absolutely necessary.",
+                "long_description": "In Kubernetes, workloads with overly permissive roles pose a significant security risk. When a workload is granted roles that exceed the necessities of its operation, it creates an attack surface for privilege escalation within the cluster. This is especially critical if the roles include permissions for creating, updating, or accessing sensitive resources or secrets. An attacker exploiting such a workload can leverage these excessive privileges to perform unauthorized actions, potentially leading to a full cluster takeover. Ensuring that each service account associated with a workload is limited to permissions that are strictly necessary for its function is crucial in mitigating the risk of cluster takeovers.",
+                "test": "Check if the service account used by a workload has cluster takeover roles.",
+                "controlID": "C-0267",
+                "baseScore": 6.0,
+                "category": {
+                    "name": "Workload",
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Ensure CPU limits are set",
+                "attributes": {
+                    "controlTypeTags": [
+                        "compliance",
+                        "devops",
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "service-destruction",
+                            "categories": [
+                                "Denial of service"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control identifies all Pods for which the CPU limits are not set.",
+                "remediation": "Set the CPU limits or use exception mechanism to avoid unnecessary notifications.",
+                "controlID": "C-0270",
+                "baseScore": 8.0,
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Resource management",
+                        "id": "Cat-7"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Ensure memory limits are set",
+                "attributes": {
+                    "controlTypeTags": [
+                        "compliance",
+                        "devops",
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "service-destruction",
+                            "categories": [
+                                "Denial of service"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control identifies all Pods for which the memory limits are not set.",
+                "remediation": "Set the memory limits or use exception mechanism to avoid unnecessary notifications.",
+                "controlID": "C-0271",
+                "baseScore": 8.0,
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Resource management",
+                        "id": "Cat-7"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Workload with administrative roles",
+                "attributes": {},
+                "description": "This control identifies workloads where the associated service accounts have roles that grant administrative-level access across the cluster. Granting a workload such expansive permissions equates to providing it cluster admin roles. This level of access can pose a significant security risk, as it allows the workload to perform any action on any resource, potentially leading to unauthorized data access or cluster modifications.",
+                "remediation": "You should apply least privilege principle. Make sure cluster admin permissions are granted only when it is absolutely necessary. Don't use service accounts with such high permissions for daily operations.",
+                "long_description": "In Kubernetes environments, workloads granted administrative-level privileges without restrictions represent a critical security vulnerability. When a service account associated with a workload is configured with permissions to perform any action on any resource, it essentially holds unrestricted access within the cluster, akin to cluster admin privileges. This configuration dramatically increases the risk of security breaches, including data theft, unauthorized modifications, and potentially full cluster takeovers. Such privileges allow attackers to exploit the workload for wide-ranging malicious activities, bypassing the principle of least privilege. Therefore, it's essential to follow the least privilege principle and make sure cluster admin permissions are granted only when it is absolutely necessary.",
+                "test": "Check if the service account used by a workload has cluster admin roles, either by being bound to the cluster-admin clusterrole, or by having equivalent high privileges.",
+                "controlID": "C-0272",
+                "baseScore": 6.0,
+                "category": {
+                    "name": "Workload",
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Outdated Kubernetes version",
+                "attributes": {},
+                "description": "Identifies Kubernetes clusters running on outdated versions. Using old versions can expose clusters to known vulnerabilities, compatibility issues, and miss out on improved features and security patches. Keeping Kubernetes up-to-date is crucial for maintaining security and operational efficiency.",
+                "remediation": "Regularly update Kubernetes clusters to the latest stable version to mitigate known vulnerabilities and enhance functionality. Plan and execute upgrades considering workload compatibility, testing in a staging environment before applying changes to production. Follow Kubernetes' best practices for version management and upgrades to ensure a smooth transition and minimal downtime.",
+                "long_description": "Running an outdated version of Kubernetes poses significant security risks and operational challenges. Older versions may contain unpatched vulnerabilities, leading to potential security breaches and unauthorized access. Additionally, outdated clusters might not support newer, more secure, and efficient features, impacting both performance and security. Regularly updating Kubernetes ensures compliance with the latest security standards and access to enhanced functionalities.",
+                "test": "Verifies the current Kubernetes version against the latest stable releases.",
+                "controlID": "C-0273",
+                "baseScore": 2.0,
+                "category": {
+                    "name": "Control plane",
+                    "id": "Cat-1"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            }
+        ],
+        "ControlsIDs": [
+            "C-0005",
+            "C-0012",
+            "C-0013",
+            "C-0016",
+            "C-0017",
+            "C-0034",
+            "C-0035",
+            "C-0038",
+            "C-0041",
+            "C-0044",
+            "C-0045",
+            "C-0046",
+            "C-0048",
+            "C-0057",
+            "C-0066",
+            "C-0069",
+            "C-0070",
+            "C-0074",
+            "C-0211",
+            "C-0255",
+            "C-0256",
+            "C-0257",
+            "C-0258",
+            "C-0259",
+            "C-0260",
+            "C-0261",
+            "C-0262",
+            "C-0265",
+            "C-0267",
+            "C-0270",
+            "C-0271",
+            "C-0272",
+            "C-0273"
+        ]
+    },
+    {
+        "name": "ClusterScan",
+        "description": "Framework for scanning a cluster",
+        "attributes": {
+            "armoBuiltin": true
+        },
+        "typeTags": [
+            "security"
+        ],
+        "version": null,
+        "controls": [
+            {
+                "name": "Secret/etcd encryption enabled",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "All Kubernetes Secrets are stored primarily in etcd therefore it is important to encrypt it.",
+                "remediation": "Turn on the etcd encryption in your cluster, for more see the vendor documentation.",
+                "long_description": "etcd is a consistent and highly-available key value store used as Kubernetes' backing store for all cluster data. All object data in Kubernetes, like secrets, are stored there. This is the reason why it is important to protect the contents of etcd and use its data encryption feature.",
+                "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if etcd encryption is enabled",
+                "controlID": "C-0066",
+                "baseScore": 6.0,
+                "category": {
+                    "name": "Control plane",
+                    "id": "Cat-1"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "RBAC enabled",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "RBAC is the most advanced and well accepted mode of authorizing users of the Kubernetes API",
+                "remediation": "Enable RBAC either in the API server configuration or with the Kubernetes provider API",
+                "long_description": "RBAC is the most advanced and well accepted mode of authorizing users of the Kubernetes API",
+                "test": "Testing API server or managed Kubernetes vendor API to determine if RBAC is enabled",
+                "controlID": "C-0088",
+                "baseScore": 7.0,
+                "category": {
+                    "name": "Control plane",
+                    "id": "Cat-1"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Audit logs enabled",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Audit logging is an important security feature in Kubernetes, it enables the operator to track requests to the cluster. It is important to use it so the operator has a record of events happened in Kubernetes",
+                "remediation": "Turn on audit logging for your cluster. Look at the vendor guidelines for more details",
+                "long_description": "Audit logging is an important security feature in Kubernetes, it enables the operator to track requests to the cluster. It is important to use it so the operator has a record of events happened in Kubernetes",
+                "test": "Reading the cluster description from the managed cloud API (EKS, GKE), or the API server pod configuration for native K8s and checking if audit logging is enabled",
+                "controlID": "C-0067",
+                "baseScore": 5.0,
+                "category": {
+                    "name": "Control plane",
+                    "id": "Cat-1"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "API server insecure port is enabled",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Kubernetes control plane API is running with non-secure port enabled which allows attackers to gain unprotected access to the cluster.",
+                "remediation": "Set the insecure-port flag of the API server to zero.",
+                "long_description": "The control plane is the core of Kubernetes and gives users the ability to view containers, schedule new Pods, read Secrets, and execute commands in the cluster. Therefore, it should be protected. It is recommended to avoid control plane exposure to the Internet or to an untrusted network. The API server runs on ports 6443 and 8080. We recommend to block them in the firewall. Note also that port 8080, when accessed through the local machine, does not require TLS encryption, and the requests bypass authentication and authorization modules.",
+                "test": "Check if the insecure-port flag is set (in case of cloud vendor hosted Kubernetes service this verification will not be effective).",
+                "controlID": "C-0005",
+                "category": {
+                    "name": "Control plane",
+                    "id": "Cat-1"
+                },
+                "baseScore": 9,
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "controlID": "C-0262",
+                "name": "Anonymous access enabled",
+                "description": "Granting permissions to the system:unauthenticated or system:anonymous user is generally not recommended and can introduce security risks. Allowing unauthenticated access to your Kubernetes cluster can lead to unauthorized access, potential data breaches, and abuse of cluster resources.",
+                "remediation": "Review and modify your cluster's RBAC configuration to ensure that only authenticated and authorized users have appropriate permissions based on their roles and responsibilities within your system.",
+                "test": "Checks if ClusterRoleBinding/RoleBinding resources give permissions to anonymous user. Also checks in the apiserver if the --anonymous-auth flag is set to false",
+                "attributes": {},
+                "baseScore": 7,
+                "category": {
+                    "name": "Control plane",
+                    "subCategory": {
+                        "name": "Supply chain",
+                        "id": "Cat-6"
+                    },
+                    "id": "Cat-1"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "controlID": "C-0265",
+                "name": "Authenticated user has sensitive permissions",
+                "description": "Granting permissions to the system:authenticated group is generally not recommended and can introduce security risks. This control ensures that system:authenticated users do not have cluster risking permissions.",
+                "remediation": "Review and modify your cluster's RBAC configuration to ensure that system:authenticated will have minimal permissions.",
+                "test": "Checks if ClusterRoleBinding/RoleBinding resources give permissions to system:authenticated group.",
+                "attributes": {},
+                "baseScore": 7,
+                "category": {
+                    "name": "Control plane",
+                    "subCategory": {
+                        "name": "Supply chain",
+                        "id": "Cat-6"
+                    },
+                    "id": "Cat-1"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "List Kubernetes secrets",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Credential access"
+                    ],
+                    "rbacQuery": "Show who can access secrets",
+                    "controlTypeTags": [
+                        "security-impact",
+                        "compliance"
+                    ]
+                },
+                "description": "Attackers who have permissions to access secrets can access sensitive information that might include credentials to various services. This control determines which user, group or service account can list/get secrets.",
+                "remediation": "Monitor and approve list of users, groups and service accounts that can access secrets. Use exception mechanism to prevent repetitive the notifications.",
+                "long_description": "A Kubernetes secret is an object that lets users store and manage sensitive information, such as passwords and connection strings in the cluster. Secrets can be consumed by reference in the pod configuration. Attackers who have permissions to retrieve the secrets from the API server (by using the pod service account, for example) can access sensitive information that might include credentials to various services.",
+                "test": "Alerting on users  which have get/list/watch RBAC permissions on secrets. ",
+                "controlID": "C-0015",
+                "baseScore": 7.0,
+                "example": "@controls/examples/c015.yaml",
+                "category": {
+                    "name": "Access control",
+                    "id": "Cat-2"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Prevent containers from allowing command execution",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Execution"
+                    ],
+                    "rbacQuery": "Show who can access into pods",
+                    "controlTypeTags": [
+                        "compliance",
+                        "security-impact"
+                    ]
+                },
+                "description": "Attackers with relevant permissions can run malicious commands in the context of legitimate containers in the cluster using \u201ckubectl exec\u201d command. This control determines which subjects have permissions to use this command.",
+                "remediation": "It is recommended to prohibit \u201ckubectl exec\u201d command in production environments. It is also recommended not to use subjects with this permission for daily cluster operations.",
+                "long_description": "Attackers who have permissions, can run malicious commands in containers in the cluster using exec command (\u201ckubectl exec\u201d). In this method, attackers can use legitimate images, such as an OS image (e.g., Ubuntu) as a backdoor container, and run their malicious code remotely by using \u201ckubectl exec\u201d.",
+                "test": "Check which subjects have RBAC permissions to exec into pods\u2013 if they have the \u201cpods/exec\u201d verb.",
+                "controlID": "C-0002",
+                "baseScore": 5.0,
+                "example": "@controls/examples/c002.yaml",
+                "category": {
+                    "name": "Access control",
+                    "id": "Cat-2"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Roles with delete capabilities",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Impact"
+                    ],
+                    "rbacQuery": "Data destruction",
+                    "controlTypeTags": [
+                        "compliance"
+                    ]
+                },
+                "description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources. This control identifies all subjects that can delete resources.",
+                "remediation": "You should follow the least privilege principle and minimize the number of subjects that can delete resources.",
+                "long_description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources.",
+                "test": "Check which subjects have delete/deletecollection RBAC permissions on workloads.",
+                "controlID": "C-0007",
+                "category": {
+                    "name": "Access control",
+                    "id": "Cat-2"
+                },
+                "baseScore": 5,
+                "example": "@controls/examples/c007.yaml",
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Portforwarding privileges",
+                "attributes": {
+                    "rbacQuery": "Port Forwarding",
+                    "controlTypeTags": [
+                        "security-impact",
+                        "compliance"
+                    ]
+                },
+                "description": "Attackers with relevant RBAC permission can use \u201ckubectl portforward\u201d command to establish direct communication with pods from within the cluster or even remotely. Such communication will most likely bypass existing security measures in the cluster. This control determines which subjects have permissions to use this command.",
+                "remediation": "It is recommended to prohibit \u201ckubectl portforward\u201d command in production environments. It is also recommended not to use subjects with this permission for daily cluster operations.",
+                "long_description": "Attackers who have relevant RBAC permissions, can run open a backdoor communication channel directly to the sockets inside target container using exec command \u201ckubectl portforward\u201d command. Using this method, attackers can bypass network security restrictions and communicate directly with software in the containers.",
+                "test": "Check which subjects have RBAC permissions to portforward into pods\u2013 if they have the \u201cpods/portforward\u201d resource.",
+                "controlID": "C-0063",
+                "baseScore": 5.0,
+                "example": "@controls/examples/c063.yaml",
+                "category": {
+                    "name": "Access control",
+                    "id": "Cat-2"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Validate admission controller (validating)",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Credential access"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Attackers can use validating webhooks to intercept and discover all the resources in the cluster. This control lists all the validating webhook configurations that must be verified.",
+                "remediation": "Ensure all the webhooks are necessary. Use exception mechanism to prevent repititive notifications.",
+                "controlID": "C-0036",
+                "baseScore": 3.0,
+                "category": {
+                    "name": "Access control",
+                    "id": "Cat-2"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Validate admission controller (mutating)",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Persistence"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Attackers may use mutating webhooks to intercept and modify all the resources in the cluster. This control lists all mutating webhook configurations that must be verified.",
+                "remediation": "Ensure all the webhooks are necessary. Use exception mechanism to prevent repititive notifications.",
+                "controlID": "C-0039",
+                "baseScore": 4.0,
+                "category": {
+                    "name": "Access control",
+                    "id": "Cat-2"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Administrative Roles",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Privilege escalation"
+                    ],
+                    "rbacQuery": "Show cluster_admin",
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Attackers who have cluster admin permissions (can perform any action on any resource), can take advantage of their privileges for malicious activities. This control determines which subjects have cluster admin permissions.",
+                "remediation": "You should apply least privilege principle. Make sure cluster admin permissions are granted only when it is absolutely necessary. Don't use subjects with such high permissions for daily operations.",
+                "long_description": "Role-based access control (RBAC) is a key security feature in Kubernetes. RBAC can restrict the allowed actions of the various identities in the cluster. Cluster-admin is a built-in high privileged role in Kubernetes. Attackers who have permissions to create bindings and cluster-bindings in the cluster can create a binding to the cluster-admin ClusterRole or to other high privileges roles.",
+                "test": "Check which subjects have cluster-admin RBAC permissions \u2013 either by being bound to the cluster-admin clusterrole, or by having equivalent high privileges.  ",
+                "controlID": "C-0035",
+                "baseScore": 6.0,
+                "category": {
+                    "name": "Access control",
+                    "id": "Cat-2"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Minimize access to create pods",
+                "controlID": "C-0188",
+                "description": "The ability to create pods in a namespace can provide a number of opportunities for privilege escalation, such as assigning privileged service accounts to these pods or mounting hostPaths with access to sensitive data (unless Pod Security Policies are implemented to restrict this access)\n\n As such, access to create new pods should be restricted to the smallest possible group of users.",
+                "long_description": "The ability to create pods in a cluster opens up possibilities for privilege escalation and should be restricted, where possible.",
+                "remediation": "Where possible, remove `create` access to `pod` objects in the cluster.",
+                "manual_test": "Review the users who have create access to pod objects in the Kubernetes API.",
+                "test": "Check which subjects have RBAC permissions to create pods.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/1126661/recommendations/1838592"
+                ],
+                "attributes": {},
+                "baseScore": 5,
+                "impact_statement": "Care should be taken not to remove access to pods to system components which require this for their operation",
+                "category": {
+                    "name": "Access control",
+                    "id": "Cat-2"
+                },
+                "default_value": "By default in a kubeadm cluster the following list of principals have `create` privileges on `pod` objects ```CLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACEcluster-admin                                         system:masters                      Group           system:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-systemsystem:controller:daemon-set-controller               daemon-set-controller               ServiceAccount  kube-systemsystem:controller:job-controller                      job-controller                      ServiceAccount  kube-systemsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-systemsystem:controller:replicaset-controller               replicaset-controller               ServiceAccount  kube-systemsystem:controller:replication-controller              replication-controller              ServiceAccount  kube-systemsystem:controller:statefulset-controller              statefulset-controller              ServiceAccount  kube-system```",
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Minimize wildcard use in Roles and ClusterRoles",
+                "controlID": "C-0187",
+                "description": "Kubernetes Roles and ClusterRoles provide access to resources based on sets of objects and actions that can be taken on those objects. It is possible to set either of these to be the wildcard \"\\*\" which matches all items.\n\n Use of wildcards is not optimal from a security perspective as it may allow for inadvertent access to be granted when new resources are added to the Kubernetes API either as CRDs or in later versions of the product.",
+                "long_description": "The principle of least privilege recommends that users are provided only the access required for their role and nothing more. The use of wildcard rights grants is likely to provide excessive rights to the Kubernetes API.",
+                "remediation": "Where possible replace any use of wildcards in clusterroles and roles with specific objects or actions.",
+                "manual_test": "Retrieve the roles defined across each namespaces in the cluster and review for wildcards\n\n \n```\nkubectl get roles --all-namespaces -o yaml\n\n```\n Retrieve the cluster roles defined in the cluster and review for wildcards\n\n \n```\nkubectl get clusterroles -o yaml\n\n```",
+                "test": "Check which subjects have wildcard RBAC permissions.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/1126661/recommendations/1838591"
+                ],
+                "attributes": {},
+                "baseScore": 7,
+                "impact_statement": "",
+                "default_value": "",
+                "category": {
+                    "name": "Access control",
+                    "id": "Cat-2"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Applications credentials in configuration files",
+                "attributes": {
+                    "actionRequired": "configuration",
+                    "microsoftMitreColumns": [
+                        "Credential access",
+                        "Lateral Movement"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "security-impact"
+                    ]
+                },
+                "description": "Attackers who have access to configuration files can steal the stored secrets and use them. This control checks if ConfigMaps or pod specifications have sensitive information in their configuration.",
+                "remediation": "Use Kubernetes secrets or Key Management Systems to store credentials.",
+                "long_description": "Developers store secrets in the Kubernetes configuration files, such as environment variables in the pod configuration. Such behavior is commonly seen in clusters that are monitored by Azure Security Center. Attackers who have access to those configurations, by querying the API server or by accessing those files on the developer\u2019s endpoint, can steal the stored secrets and use them.",
+                "test": "Check if the pod has sensitive information in environment variables, by using list of known sensitive key names. Check if there are configmaps with sensitive information.",
+                "controlID": "C-0012",
+                "baseScore": 8.0,
+                "category": {
+                    "name": "Secrets",
+                    "id": "Cat-3"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Missing network policy",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Lateral Movement (Network)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control detects workloads that has no NetworkPolicy configured in labels. If a network policy is not configured, it means that your applications might not have necessary control over the traffic to and from the pods, possibly leading to a security vulnerability.",
+                "remediation": "Review the workloads identified by this control and assess whether it's necessary to configure a network policy for them.",
+                "test": "Check that all workloads has a network policy configured in labels.",
+                "controlID": "C-0260",
+                "baseScore": 5.0,
+                "category": {
+                    "name": "Network",
+                    "id": "Cat-4"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Exposure to internet",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Initial Access"
+                            ]
+                        },
+                        {
+                            "attackTrack": "service-destruction",
+                            "categories": [
+                                "Initial Access"
+                            ]
+                        },
+                        {
+                            "attackTrack": "external-workload-with-cluster-takeover-roles",
+                            "categories": [
+                                "Initial Access"
+                            ]
+                        },
+                        {
+                            "attackTrack": "external-database-without-authentication",
+                            "categories": [
+                                "Initial Access"
+                            ]
+                        }
+                    ]
+                },
+                "description": "This control detect workloads that are exposed on Internet through a Service (NodePort or LoadBalancer) or Ingress. It fails in case it find workloads connected with these resources.",
+                "remediation": "The user can evaluate its exposed resources and apply relevant changes wherever needed.",
+                "test": "Checks if workloads are exposed through the use of NodePort, LoadBalancer or Ingress",
+                "controlID": "C-0256",
+                "baseScore": 7.0,
+                "scanningScope": {
+                    "matches": [
+                        "cluster"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Host PID/IPC privileges",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all pods using hostPID or hostIPC privileges.",
+                "remediation": "Remove hostPID and hostIPC from the yaml file(s) privileges unless they are absolutely necessary.",
+                "long_description": "Containers should be isolated from the host machine as much as possible. The hostPID and hostIPC fields in deployment yaml may allow cross-container influence and may expose the host itself to potentially malicious or destructive actions. This control identifies all pods using hostPID or hostIPC privileges.",
+                "controlID": "C-0038",
+                "baseScore": 7.0,
+                "example": "@controls/examples/c038.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "HostNetwork access",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Lateral Movement (Network)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Potential attackers may gain access to a pod and inherit access to the entire host network. For example, in AWS case, they will have access to the entire VPC. This control identifies all the pods with host network access enabled.",
+                "remediation": "Only connect pods to host network when it is necessary. If not, set the hostNetwork field of the pod spec to false, or completely remove it (false is the default). Whitelist only those pods that must have access to host network by design.",
+                "long_description": "We have it in ArmoBest",
+                "test": "",
+                "controlID": "C-0041",
+                "baseScore": 7.0,
+                "example": "@controls/examples/c041.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Network",
+                        "id": "Cat-4"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "HostPath mount",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Privilege escalation"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "compliance",
+                        "smartRemediation"
+                    ],
+                    "attackTracks": [
+                        {
+                            "attackTrack": "workload-external-track",
+                            "categories": [
+                                "Privilege Escalation (Node)"
+                            ]
+                        }
+                    ]
+                },
+                "description": "Mounting host directory to the container can be used by attackers to get access to the underlying host. This control identifies all the pods using hostPath mount.",
+                "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: test-pd\nspec:\n  containers:\n  - image: k8s.gcr.io/test-webserver\n    name: test-container\n    volumeMounts:\n    - mountPath: /test-pd\n      name: test-volume\n  volumes:\n  - name: test-volume\n    hostPath: # This field triggers failure!\n      path: /data\n      type: Directory\n",
+                "remediation": "Remove hostPath mounts unless they are absolutely necessary and use exception mechanism to remove notifications.",
+                "controlID": "C-0048",
+                "baseScore": 7.0,
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Storage",
+                        "id": "Cat-8"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Privileged container",
+                "attributes": {
+                    "microsoftMitreColumns": [
+                        "Privilege escalation"
+                    ],
+                    "controlTypeTags": [
+                        "security",
+                        "smartRemediation"
+                    ]
+                },
+                "description": "Potential attackers may gain access to privileged containers and inherit access to the host resources. Therefore, it is not recommended to deploy privileged containers unless it is absolutely necessary. This control identifies all the privileged Pods.",
+                "example": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: privileged\nspec:\n  containers:\n    - name: pause\n      image: k8s.gcr.io/pause\n      securityContext:\n          privileged: true # This field triggers failure!\n",
+                "remediation": "Remove privileged capabilities by setting the securityContext.privileged to false. If you must deploy a Pod as privileged, add other restriction to it, such as network policy, Seccomp etc and still remove all unnecessary capabilities. Use the exception mechanism to remove unnecessary notifications.",
+                "long_description": "A privileged container is a container that has all the capabilities of the host machine, which lifts all the limitations regular containers have. Practically, this means that privileged containers can do almost every action that can be performed directly on the host. Attackers who gain access to a privileged container or have permissions to create a new privileged container (by using the compromised pod\u2019s service account, for example), can get access to the host\u2019s resources.",
+                "test": "Check in Pod spec if securityContext.privileged == true, if so raise an alert.",
+                "controlID": "C-0057",
+                "baseScore": 8.0,
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            },
+            {
+                "name": "Non-root containers",
+                "attributes": {
+                    "controlTypeTags": [
+                        "security",
+                        "compliance"
+                    ]
+                },
+                "description": "Potential attackers may gain access to a container and leverage its existing privileges to conduct an attack. Therefore, it is not recommended to deploy containers with root privileges unless it is absolutely necessary. This control identifies all the pods running as root or can escalate to root.",
+                "remediation": "If your application does not need root privileges, make sure to define runAsNonRoot as true or explicitly set the runAsUser using ID 1000 or higher under the PodSecurityContext or container securityContext. In addition, set an explicit value for runAsGroup using ID 1000 or higher.",
+                "long_description": "Container engines allow containers to run applications as a non-root user with non-root group membership. Typically, this non-default setting is configured when the container image is built. Alternatively, Kubernetes can load containers into a Pod with SecurityContext:runAsUser specifying a non-zero user. While the runAsUser directive effectively forces non-root execution at deployment, NSA and CISA encourage developers to build container applications to execute as a non-root user. Having non-root execution integrated at build time provides better assurance that applications will function correctly without root privileges.",
+                "test": "Verify that runAsUser is set to a user id greater than 0 or that runAsNonRoot is set to true, and that runAsGroup is set to an id greater than 0. Check all the combinations with PodSecurityContext and SecurityContext (for containers).",
+                "controlID": "C-0013",
+                "baseScore": 6.0,
+                "example": "@controls/examples/c013.yaml",
+                "category": {
+                    "name": "Workload",
+                    "subCategory": {
+                        "name": "Node escape",
+                        "id": "Cat-9"
+                    },
+                    "id": "Cat-5"
+                },
+                "scanningScope": {
+                    "matches": [
+                        "cluster",
+                        "file"
+                    ]
+                },
+                "rules": []
+            }
+        ],
+        "ControlsIDs": [
+            "C-0066",
+            "C-0088",
+            "C-0067",
+            "C-0005",
+            "C-0262",
+            "C-0265",
+            "C-0015",
+            "C-0002",
+            "C-0007",
+            "C-0063",
+            "C-0036",
+            "C-0039",
+            "C-0035",
+            "C-0188",
+            "C-0187",
+            "C-0012",
+            "C-0260",
+            "C-0256",
+            "C-0038",
+            "C-0041",
+            "C-0048",
+            "C-0057",
+            "C-0013"
+        ]
+    }
+]

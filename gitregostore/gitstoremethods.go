@@ -225,6 +225,20 @@ func (gs *GitRegoStore) GetOPAAttackTrackControls() ([]opapolicy.Control, error)
 	return attackTrackControlsList, nil
 }
 
+func (gs *GitRegoStore) GetAttackTrackCategoriesByControlIDAndAttackTrackName(controlID string, attackTrackName string) (opapolicy.AttackTrackCategories, error) {
+	control, err := gs.GetOPAControlByID(controlID)
+	if err != nil {
+		return opapolicy.AttackTrackCategories{}, fmt.Errorf("in GetAttackTrackCategoriesByControlIDAndAttackTrackName: error getting control: %s. error: %w", controlID, err)
+	}
+	categories := control.GetAllAttackTrackCategories()
+	for _, category := range categories {
+		if category.AttackTrack == attackTrackName {
+			return category, nil
+		}
+	}
+	return opapolicy.AttackTrackCategories{}, fmt.Errorf("attack track category '%s' not found in control '%s'", attackTrackName, controlID)
+}
+
 func (gs *GitRegoStore) GetOPAControlsNamesList() ([]string, error) {
 	gs.controlsLock.RLock()
 	defer gs.controlsLock.RUnlock()
