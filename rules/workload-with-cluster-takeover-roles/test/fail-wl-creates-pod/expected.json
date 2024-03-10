@@ -69,9 +69,7 @@
                     ]
                 },
                 "failedPaths": null,
-                "reviewPaths": [
-                    "roleRef"
-                ],
+                "reviewPaths": null,
                 "deletePaths": [
                     "subjects[1]"
                 ],
