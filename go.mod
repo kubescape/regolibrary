@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/armosec/armoapi-go v0.0.330
 	github.com/go-gota/gota v0.12.0
-	github.com/kubescape/opa-utils v0.0.279-0.20240306142553-f6c8e3e85e5b
+	github.com/kubescape/opa-utils v0.0.279
 	github.com/stretchr/testify v1.8.4
 	go.uber.org/zap v1.27.0
 	k8s.io/utils v0.0.0-20230726121419-3b25d923346b
