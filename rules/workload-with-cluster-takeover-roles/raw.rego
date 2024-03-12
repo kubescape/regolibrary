@@ -27,7 +27,6 @@ deny[msga] {
     rolebinding.subjects[j].name == sa.metadata.name
     rolebinding.subjects[j].namespace == sa.metadata.namespace
 
-    reviewPath := "roleRef"
     deletePath := sprintf("subjects[%d]", [j])
 
     msga := {
@@ -42,7 +41,6 @@ deny[msga] {
         },
         {
             "object": rolebinding,
-		    "reviewPaths": [reviewPath],
             "deletePaths": [deletePath],
         },
         {
