@@ -36,7 +36,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568
         with:
-          go-version: '1.20'
+          go-version: '1.21'
 
       - name: setup python
         uses: actions/setup-python@75f3110429a8c05be0e1bf360334e4cced2b63fa
