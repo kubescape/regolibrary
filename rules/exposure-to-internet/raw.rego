@@ -5,7 +5,7 @@ deny[msga] {
     service := input[_]
     service.kind == "Service"
     is_exposed_service(service)
-    
+
     wl := input[_]
     spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
     spec_template_spec_patterns[wl.kind]
@@ -32,7 +32,7 @@ deny[msga] {
 deny[msga] {
     ingress := input[_]
     ingress.kind == "Ingress"
-    
+
     svc := input[_]
     svc.kind == "Service"
 
@@ -49,7 +49,7 @@ deny[msga] {
     wl_connected_to_service(wl, svc)
 
     result := svc_connected_to_ingress(svc, ingress)
-    
+
     msga := {
         "alertMessage": sprintf("workload '%v' is exposed through ingress '%v'", [wl.metadata.name, ingress.metadata.name]),
         "packagename": "armo_builtins",
@@ -70,7 +70,7 @@ deny[msga] {
 		}
         ]
     }
-} 
+}
 
 # ====================================================================================
 
@@ -90,6 +90,10 @@ wl_connected_to_service(wl, svc) {
     wl.spec.selector.matchLabels == svc.spec.selector
 }
 
+wl_connected_to_service(wl, svc) {
+    count({x | svc.spec.selector[x] == wl.spec.template.metadata.labels[x]}) == count(svc.spec.selector)
+}
+
 # check if service is connected to ingress
 svc_connected_to_ingress(svc, ingress) = result {
     rule := ingress.spec.rules[i]
@@ -97,4 +101,5 @@ svc_connected_to_ingress(svc, ingress) = result {
     svc.metadata.name == paths.backend.service.name
     result := [sprintf("spec.rules[%d].http.paths[%d].backend.service.name", [i,j])]
 }
+
 
