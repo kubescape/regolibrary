@@ -7,7 +7,7 @@ on:
         description: 'Tag name'
         required: true
         type: string
-        
+
   push:
     tags:
       - 'v*.*.*-rc.*' 
@@ -168,7 +168,7 @@ jobs:
 
   # Update regolibrary documentation with latest controls and rules.
   update-documentation:
-    needs: [release]
+    needs: [create-new-tag-and-release]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # ratchet:actions/checkout@v3.5.2
