@@ -1,4 +1,5 @@
-name: create release
+name: 'Create and Publish Tags with Testing and Artifact Handling'
+
 on:
   workflow_dispatch:
     inputs:
@@ -6,17 +7,17 @@ on:
         description: 'Tag name'
         required: true
         type: string
-
+        
   push:
     tags:
-      - 'v*.*.*-rc.*'
+      - 'v*.*.*-rc.*' 
+
 
 env:
   REGO_ARTIFACT_KEY_NAME: rego_artifact
   REGO_ARTIFACT_PATH: release
 
 jobs:
-  # main job of testing and building the env.
   test_pr_checks:
     permissions:
       pull-requests: write
@@ -26,64 +27,47 @@ jobs:
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
 
-  # build regolibrary artifacts / test rego dependencies / test rego unit-tests
   build-and-rego-test:
     needs: [test_pr_checks]
-    name: Build and test rego artifacts
     runs-on: ubuntu-latest
-    outputs:
-      NEW_TAG: ${{ steps.tag-calculator.outputs.NEW_TAG }}
-      REGO_ARTIFACT_KEY_NAME: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_KEY_NAME }}
-      REGO_ARTIFACT_PATH: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_PATH }}
     steps:
-      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
-        name: checkout repo content
-        with:
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      - uses: actions/checkout@v2
+        name: Checkout repo content
 
-      - id: tag-calculator
-        uses: kubescape/workflows/.github/actions/tag-action@main
+      - name: Set up Go 1.21
+        uses: actions/setup-go@v2
         with:
-          ORIGINAL_TAG: ${{ inputs.TAG }}
-          SUB_STRING: "-rc"
+          go-version: 1.21
 
-      # Test using Golang OPA hot rule compilation
-      - name: Set up Go
-        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568
-        with:
-          go-version: '1.21'
-
-      - name: Test Regoes
+      - name: Test Regos (Golang OPA hot rule compilation)
         working-directory: testrunner
         run: |
-          apt update && apt install -y cmake
+          sudo apt update && sudo apt install -y cmake
           GOPATH=$(go env GOPATH) make
 
-      - name: setup python
-        uses: actions/setup-python@75f3110429a8c05be0e1bf360334e4cced2b63fa
+      - name: Setup Python 3.10.6
+        uses: actions/setup-python@v2
         with:
           python-version: 3.10.6
-      - name: Install dependencies
+
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install requests
 
-      # generating subsections ids
-      - name: Update frameworks subsections
+      - name: Update frameworks subsections (generating subsections ids)
         run: python ./scripts/generate_subsections_ids.py
 
-      # validate control-ID duplications
-      - run: python ./scripts/validations.py
+      - name: Validate control-ID duplications
+        run: python ./scripts/validations.py
 
-      # run export script to generate regolibrary artifacts
-      - run: python ./scripts/export.py
+      - name: Generate RegoLibrary artifacts (run export script)
+        run: python ./scripts/export.py
 
-      # removing release artifacts file extensions
       - name: Strip Metadata Files Extensions
         run: |
           cd release
-          find -type f -name '*.json' | while read f; do mv "$f" "${f%.json}"; done
-          find -type f -name '*.csv' | while read f; do mv "$f" "${f%.csv}"; done
+          find . -type f \( -name '*.json' -o -name '*.csv' \) | while read f; do mv "$f" "${f%.*}"; done
 
       - run: ls -laR
 
@@ -93,8 +77,8 @@ jobs:
           echo "REGO_ARTIFACT_KEY_NAME=${{ env.REGO_ARTIFACT_KEY_NAME }}" >> $GITHUB_OUTPUT
           echo "REGO_ARTIFACT_PATH=${{ env.REGO_ARTIFACT_PATH }}" >> $GITHUB_OUTPUT
 
-      - uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # ratchet:actions/upload-artifact@v3.1.1
-        name: Upload artifact
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
           name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
           path: ${{ env.REGO_ARTIFACT_PATH }}/
@@ -125,30 +109,62 @@ jobs:
     secrets: inherit
 
   # start release process
-  release:
+  create-new-tag-and-release:
     needs: [ks-and-rego-test]
     if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
     name: create release and upload assets
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        name: Checkout repository
+
+      - name: 'Generate Release Tag'
+        id: generate_tag
+        uses: kubescape/workflows/.github/actions/tag-action@main
+        with:
+          ORIGINAL_TAG: ${{ github.ref_name }}
+          SUB_STRING: "-rc."
+      
+      # Create and push the full version tag (e.g., v2.0.1)
+      - name: Create and Push Full Tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ steps.generate_tag.outputs.NEW_TAG }}
+          force_push_tag: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Short Tag
+        id: short_tag
+        run: |
+          SHORT_TAG=$(echo "${{ steps.generate_tag.outputs.NEW_TAG }}" | grep -oP '^v\d+')
+          echo "Short tag: $SHORT_TAG"
+          echo "SHORT_TAG=$SHORT_TAG" >> $GITHUB_ENV
+
+      - name: Force Push Short Tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ env.SHORT_TAG }}
+          force_push_tag: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # ratchet:actions/download-artifact@v3.0.2
         id: download-artifact
         with:
           name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
           path: ${{ env.REGO_ARTIFACT_PATH }}
 
-      - name: Create Release and upload assets
-        id: create_release_upload_assets
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+      - name: Create or Update Release and Upload Assets
+        uses: softprops/action-gh-release@v2
         with:
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          name: Release ${{ needs.build-and-rego-test.outputs.NEW_TAG }}
-          tag_name: ${{ needs.build-and-rego-test.outputs.NEW_TAG }}
-          body: ${{ github.event.pull_request.body }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ env.SHORT_TAG }} 
+          name: ${{ env.SHORT_TAG }}
+          body: "Automated release for ${{ env.SHORT_TAG}}"
+          files: ${{ env.REGO_ARTIFACT_PATH }}/*
           draft: false
           fail_on_unmatched_files: true
           prerelease: false
-          files: '${{ env.REGO_ARTIFACT_PATH }}/*'
+          make_latest: "false"
 
   # Update regolibrary documentation with latest controls and rules.
   update-documentation:
