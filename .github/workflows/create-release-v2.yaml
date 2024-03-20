@@ -1,6 +1,13 @@
 name: 'Create and Publish Tags with Testing and Artifact Handling'
 
 on:
+  workflow_dispatch:
+    inputs:
+      TAG:
+        description: 'Tag name'
+        required: true
+        type: string
+        
   push:
     tags:
       - 'v*.*.*-rc.*' 
