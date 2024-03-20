@@ -56,7 +56,7 @@ func newGitRegoStore(baseUrl string, owner string, repository string, path strin
 		watch = true
 	}
 
-	if strings.Contains(tag, "latest") || strings.Contains(tag, "download") {
+	if strings.Contains(tag, "latest") || strings.Contains(tag, "download") || strings.Contains(path, "releases") {
 		// TODO - This condition was added to avoid dependency on updating productions configs on deployment.
 		// Once production configs are updated (branch set to ""), this condition can be removed.
 		if strings.ToLower(branch) == "master" {
