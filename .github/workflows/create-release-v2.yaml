@@ -105,7 +105,7 @@ jobs:
                         "scan_local_list_of_files",
                         "scan_compliance_score"
                       ]'
-      DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
+      DOWNLOAD_ARTIFACT_PATH: ${{ env.REGO_ARTIFACT_PATH }}
     secrets: inherit
 
   # start release process
