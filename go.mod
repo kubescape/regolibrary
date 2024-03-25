@@ -1,4 +1,4 @@
-module github.com/kubescape/regolibrary
+module github.com/kubescape/regolibrary/v2
 
 go 1.21
 
