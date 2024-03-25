@@ -100,6 +100,13 @@ func (gs *GitRegoStore) SetRegoObjects() error {
 
 // NewDefaultGitRegoStore - generates git store object for production regolibrary release files.
 // Release files source: "https://github.com/kubescape/regolibrary/releases/latest/download"
+func NewGitRegoStoreV2(frequency int) *GitRegoStore {
+	gs := NewGitRegoStore("https://github.com", "kubescape", "regolibrary", "releases", "download/v2", "", frequency)
+	return gs
+}
+
+// NewDefaultGitRegoStore - generates git store object for production regolibrary release files.
+// Release files source: "https://github.com/kubescape/regolibrary/releases/latest/download"
 func NewDefaultGitRegoStore(frequency int) *GitRegoStore {
 	gs := NewGitRegoStore("https://github.com", "kubescape", "regolibrary", "releases", "latest/download", "", frequency)
 	return gs
