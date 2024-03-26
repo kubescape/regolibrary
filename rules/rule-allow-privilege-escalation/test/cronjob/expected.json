@@ -5,7 +5,12 @@
     "fixPaths": [{
         "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation",
         "value": "false"
-    }],
+    },
+    {
+        "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.privileged",
+        "value": "false"
+    }
+],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 7,
@@ -25,7 +30,13 @@
     "fixPaths": [{
         "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.allowPrivilegeEscalation",
         "value": "false"
-    }],
+    },
+    {
+        "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.privileged",
+        "value": "false"
+    }
+
+],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 7,

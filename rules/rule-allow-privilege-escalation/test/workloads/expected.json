@@ -25,7 +25,12 @@
     "fixPaths": [{
         "path": "spec.template.spec.containers[1].securityContext.allowPrivilegeEscalation",
         "value": "false"
-    }],
+    
+        },
+        {
+            "path": "spec.template.spec.containers[1].securityContext.privileged",
+            "value": "false"
+        }],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 7,

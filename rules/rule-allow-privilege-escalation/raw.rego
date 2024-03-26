@@ -81,7 +81,9 @@ is_allow_privilege_escalation_container(container, i, start_of_path) = [failed_p
 	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) == 0
 	failed_path = ""
-	fixPath = {"path": sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [start_of_path, format_int(i, 10)]), "value":"false"} 
+	fixPath = [{"path": sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [start_of_path, format_int(i, 10)]), "value":"false"},
+	{"path": sprintf("%vcontainers[%v].securityContext.privileged", [start_of_path, format_int(i, 10)]), "value":"false"}
+	]
 }
 
 is_allow_privilege_escalation_container(container, i, start_of_path) = [failed_path, fixPath] {
@@ -92,7 +94,10 @@ is_allow_privilege_escalation_container(container, i, start_of_path) = [failed_p
 	psp := psps[_]
 	not psp.spec.allowPrivilegeEscalation == false
 	failed_path = ""
-	fixPath = {"path": sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [start_of_path, format_int(i, 10)]), "value":"false"} 
+	fixPath = [{"path": sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [start_of_path, format_int(i, 10)]), "value":"false"},
+	{"path": sprintf("%vcontainers[%v].securityContext.privileged", [start_of_path, format_int(i, 10)]), "value":"false"}
+
+	]
 }
 
 
@@ -101,7 +106,7 @@ is_allow_privilege_escalation_container(container, i, start_of_path) = [failed_p
 	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) == 0
 	fixPath = ""
-	failed_path = sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [start_of_path, format_int(i, 10)])
+	failed_path = [sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [start_of_path, format_int(i, 10)])]
 }
 
 is_allow_privilege_escalation_container(container, i, start_of_path)= [failed_path, fixPath] {
@@ -111,15 +116,15 @@ is_allow_privilege_escalation_container(container, i, start_of_path)= [failed_pa
 	psp := psps[_]
 	not psp.spec.allowPrivilegeEscalation == false
 	fixPath = ""
-	failed_path = sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [start_of_path, format_int(i, 10)])
+	failed_path = [sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [start_of_path, format_int(i, 10)])]
 }
 
- get_failed_path(paths) = [paths[0]] {
+ get_failed_path(paths) = paths[0] {
 	paths[0] != ""
 } else = []
 
 
-get_fixed_path(paths) = [paths[1]] {
+get_fixed_path(paths) = paths[1] {
 	paths[1] != ""
 } else = []
 
