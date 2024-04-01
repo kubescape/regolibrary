@@ -1,52 +1,56 @@
-[{
-    "alertMessage": "container :mysql in CronJob: hello allow privilege escalation",
-    "reviewPaths": [],
-    "failedPaths": [],
-    "fixPaths": [{
-        "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation",
-        "value": "false"
+[
+    {
+        "alertMessage": "container :mysql in CronJob: hello allow privilege escalation",
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation",
+                "value": "false"
+            },
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.privileged",
+                "value": "false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
     },
     {
-        "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.privileged",
-        "value": "false"
-    }
-],
-    "ruleStatus": "",
-    "packagename": "armo_builtins",
-    "alertScore": 7,
-    "alertObject": {
-        "k8sApiObjects": [{
-            "apiVersion": "batch/v1beta1",
-            "kind": "CronJob",
-            "metadata": {
-                "name": "hello"
+        "alertMessage": "container :php in CronJob: hello allow privilege escalation",
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.allowPrivilegeEscalation",
+                "value": "false"
+            },
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.privileged",
+                "value": "false"
             }
-        }]
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1beta1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "hello"
+                    }
+                }
+            ]
+        }
     }
-}, {
-    "alertMessage": "container :php in CronJob: hello allow privilege escalation",
-    "reviewPaths": [],
-    "failedPaths": [],
-    "fixPaths": [{
-        "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.allowPrivilegeEscalation",
-        "value": "false"
-    },
-    {
-        "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.privileged",
-        "value": "false"
-    }
-
-],
-    "ruleStatus": "",
-    "packagename": "armo_builtins",
-    "alertScore": 7,
-    "alertObject": {
-        "k8sApiObjects": [{
-            "apiVersion": "batch/v1beta1",
-            "kind": "CronJob",
-            "metadata": {
-                "name": "hello"
-            }
-        }]
-    }
-}]
+]
