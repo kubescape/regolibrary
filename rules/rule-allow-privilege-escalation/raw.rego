@@ -97,7 +97,5 @@ is_allow_privilege_escalation_container(container) {
 	not psp.spec.allowPrivilegeEscalation == false
 }
 
-get_fix_path(i, start_of_path) = fixPath {
-	fixPath = [{"path": sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [start_of_path, i]), "value":"false"},
+get_fix_path(i, start_of_path) = [{"path": sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [start_of_path, i]), "value":"false"},
 	{"path": sprintf("%vcontainers[%v].securityContext.privileged", [start_of_path, i]), "value":"false"}]
-}
