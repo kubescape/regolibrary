@@ -2,7 +2,7 @@
     "apiVersion": "hostdata.kubescape.cloud/v1beta0",
     "kind": "KubeletInfo",
     "data": {
-        "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet  --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --anonymous-auth=false --config=ss",
+        "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet  --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --config=ss",
         "configFile": {
             "content": "YXBpVmVyc2lvbjoga3ViZWxldC5jb25maWcuazhzLmlvL3YxYmV0YTEKc3RyZWFtaW5nQ29ubmVjdGlvbklkbGVUaW1lb3V0OiAwCmV2ZW50UmVjb3JkUVBTOiAwCnByb3RlY3RLZXJuZWxEZWZhdWx0czogZmFsc2UKYXV0aGVudGljYXRpb246CiAgYW5vbnltb3VzOgogICAgZW5hYmxlZDogZmFsc2UKICB3ZWJob29rOgogICAgY2FjaGVUVEw6IDBzCiAgICBlbmFibGVkOiB0cnVlCiAgeDUwOToKICAgIGNsaWVudENBRmlsZTogL3Zhci9saWIvbWluaWt1YmUvY2VydHMvY2EuY3J0CmF1dGhvcml6YXRpb246CiAgbW9kZTogV2ViaG9vawogIHdlYmhvb2s6CiAgICBjYWNoZUF1dGhvcml6ZWRUVEw6IDBzCiAgICBjYWNoZVVuYXV0aG9yaXplZFRUTDogMHM="
         }
