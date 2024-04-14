@@ -1,9 +1,7 @@
 {
     "name": "ClusterScan",
     "description": "Framework for scanning a cluster",
-    "attributes": {
-        "armoBuiltin": true
-    },
+    "attributes": {},
     "typeTags": [
         "security"
     ],

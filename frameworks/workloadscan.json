@@ -1,9 +1,7 @@
 {
     "name": "WorkloadScan",
     "description": "Framework for scanning a workload",
-    "attributes": {
-        "armoBuiltin": true
-    },
+    "attributes": {},
     "typeTags": [
         "security"
     ],
