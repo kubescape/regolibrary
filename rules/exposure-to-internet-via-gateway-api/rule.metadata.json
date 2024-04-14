@@ -47,10 +47,12 @@
         "gateway.networking.k8s.io"
       ],
       "apiVersions": [
-        "v1"
+        "v1", "v1alpha2"
       ],
       "resources": [
-        "HTTPRoute"
+        "HTTPRoute",
+        "TCPRoute",
+        "UDPRoute"
       ]
     }
   ],

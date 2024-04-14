@@ -1,9 +1,10 @@
 package armo_builtins
+import future.keywords.in
 
 
 deny[msga] {
     httproute := input[_]
-    httproute.kind == "HTTPRoute"
+    httproute.kind in ["HTTPRoute", "TCPRoute", "UDPRoute"]
 
     svc := input[_]
     svc.kind == "Service"
