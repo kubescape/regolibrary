@@ -222,6 +222,18 @@ func gs_tests(t *testing.T, gs *GitRegoStore) {
 	})
 }
 
+func TestGetPoliciesMethodsNewV2(t *testing.T) {
+	t.Parallel()
+
+	gs := NewGitRegoStoreV2(-1)
+	t.Run("shoud set objects in rego store", func(t *testing.T) {
+		require.NoError(t, gs.SetRegoObjects())
+	})
+
+	gs_tests(t, gs)
+
+}
+
 func TestGetPoliciesMethodsNew(t *testing.T) {
 	t.Parallel()
 

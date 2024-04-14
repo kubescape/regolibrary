@@ -56,7 +56,7 @@ func newGitRegoStore(baseUrl string, owner string, repository string, path strin
 		watch = true
 	}
 
-	if strings.Contains(tag, "latest") || strings.Contains(tag, "download") {
+	if strings.Contains(tag, "latest") || strings.Contains(tag, "download") || strings.Contains(path, "releases") {
 		// TODO - This condition was added to avoid dependency on updating productions configs on deployment.
 		// Once production configs are updated (branch set to ""), this condition can be removed.
 		if strings.ToLower(branch) == "master" {
@@ -96,6 +96,13 @@ func NewGitRegoStore(baseUrl string, owner string, repository string, path strin
 func (gs *GitRegoStore) SetRegoObjects() error {
 	err := gs.setObjects()
 	return err
+}
+
+// NewGitRegoStoreV2 - generates git store object for production v2 regolibrary release files.
+// Release files source: "https://github.com/kubescape/regolibrary/releases/tag/v2"
+func NewGitRegoStoreV2(frequency int) *GitRegoStore {
+	gs := NewGitRegoStore("https://github.com", "kubescape", "regolibrary", "releases", "download/v2", "", frequency)
+	return gs
 }
 
 // NewDefaultGitRegoStore - generates git store object for production regolibrary release files.

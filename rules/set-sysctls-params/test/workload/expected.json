@@ -1,24 +1,33 @@
 [
-    {
-        "alertMessage": "Workload: my-deployment does not set 'securityContext.sysctls'",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "failedPaths": [],
-	"fixPaths": [{"path": "spec.template.spec.securityContext.sysctls", "name": "net.ipv4.tcp_syncookie", "value": "1"}],
-        "ruleStatus": "",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                  "apiVersion": "apps/v1",
-                  "kind": "Deployment",
-                  "metadata": {
-                    "name": "my-deployment",
-                    "labels": {
-                      "app": "goproxy"
-                    }
-                  }
-                }
-            ]
+  {
+    "alertMessage": "Workload: my-deployment does not set 'securityContext.sysctls'",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.securityContext.sysctls.name",
+        "value": "YOUR_VALUE"
+      },
+      {
+        "path": "spec.template.spec.securityContext.sysctls.value",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "my-deployment",
+            "labels": {
+              "app": "goproxy"
+            }
+          }
         }
+      ]
     }
+  }
 ]

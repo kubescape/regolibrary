@@ -1,5 +1,5 @@
 {
-    "name": "Data Destruction",
+    "name": "Roles with delete capabilities",
     "attributes": {
         "microsoftMitreColumns": [
             "Impact"

@@ -1,5 +1,5 @@
 {
-    "name": "Cluster-admin binding",
+    "name": "Administrative Roles",
     "attributes": {
         "microsoftMitreColumns": [
             "Privilege escalation"

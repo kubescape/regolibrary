@@ -15,19 +15,13 @@
         {
             "controlID": "C-0002",
             "patch": {
-                "name": "Exec into container"
+                "name": "Prevent containers from allowing command execution"
             }
         },
         {
             "controlID": "C-0005",
             "patch": {
                 "name": "API server insecure port is enabled"
-            }
-        },
-        {
-            "controlID": "C-0009",
-            "patch": {
-                "name": "Resource limits"
             }
         },
         {
@@ -69,7 +63,7 @@
         {
             "controlID": "C-0035",
             "patch": {
-                "name": "Cluster-admin binding"
+                "name": "Administrative Roles"
             }
         },
         {
@@ -154,6 +148,18 @@
             "controlID": "C-0070",
             "patch": {
                 "name": "Enforce Kubelet client TLS authentication"
+            }
+        },
+        {
+            "controlID": "C-0270",
+            "patch": {
+                "name": "Ensure CPU limits are set"
+            }
+        },
+        {
+            "controlID": "C-0271",
+            "patch": {
+                "name": "Ensure memory limits are set"
             }
         }
     ]

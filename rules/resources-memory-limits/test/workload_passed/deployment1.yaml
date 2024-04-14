@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  generation: 19
+  labels:
+    app: dtr-customer-myapp
+  name: dtr-customer-myapp
+  namespace: dtr-customer
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: dtr-customer-myapp
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: dtr-customer-myapp
+    spec:
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: dtr-customer-myapp-configmap
+        - secretRef:
+            name: dtr-customer-myapp-secrets
+        image: myrepo.domain.com/cre/dtr-customer-myapp:1.1.1
+        imagePullPolicy: IfNotPresent
+        name: dtr-customer-myapp
+        ports:
+        - containerPort: 343
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 450m
+            memory: "512Mi"
+          requests:
+            cpu: 100m
+            memory: "200Mi"
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: myimagesecret
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      topologySpreadConstraints:
+      - labelSelector:
+          matchLabels:
+            app: dtr-customer-myapp
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
