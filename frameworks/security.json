@@ -211,6 +211,12 @@
             "patch": {
                 "name": "Outdated Kubernetes version"
             }
+        },
+        {
+            "controlID": "C-0266",
+            "patch": {
+                "name": "Exposure to internet via Gateway API"
+            }
         }
     ]
 }
