@@ -1,0 +1,21 @@
+[
+    {
+        "alertMessage": "workload 'httpbin' is exposed through httproute 'http'",
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "httpbin"
+                    }
+                }
+            ]
+        }
+    }
+]

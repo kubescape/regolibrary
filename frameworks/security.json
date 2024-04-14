@@ -127,6 +127,12 @@
             "patch": {
                 "name": "Host PID/IPC privileges"
             }
+        },
+        {
+            "controlID": "C-0266",
+            "patch": {
+                "name": "Exposure to internet via Gateway API"
+            }
         }
     ]
 }
