@@ -16,6 +16,12 @@
                 "categories": [
                     "Initial Access"
                 ]
+            },
+            {
+                "attackTrack": "external-workload-with-cluster-takeover-roles",
+                "categories": [
+                    "Initial Access"
+                ]
             }
         ]
     },
