@@ -4,7 +4,16 @@
         "controlTypeTags": [
             "security"
         ],
-        "attackTracks": []
+        "attackTracks": [
+            {
+                "attackTrack": "external-workload-with-cluster-takeover-roles",
+                "categories": [
+                    "Cluster Access"
+                ],
+                "displayRelatedResources": true,
+                "clickableResourceKind": "ServiceAccount"
+            }
+        ]
     },
     "description": "Cluster takeover roles include workload creation or update and secret access. They can easily lead to super privileges in the cluster. If an attacker can exploit this workload then the attacker can take over the cluster using the RBAC privileges this workload is assigned to.",
     "remediation": "You should apply least privilege principle. Make sure each service account has only the permissions that are absolutely necessary.",
@@ -16,8 +25,8 @@
     "controlID": "C-0267",
     "baseScore": 6.0,
     "category": {
-        "name" : "Workload"
-   },
+        "name": "Workload"
+    },
     "scanningScope": {
         "matches": [
             "cluster",
