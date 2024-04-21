@@ -1,9 +1,7 @@
 {
     "name": "AllControls",
     "description": "Contains all the controls from all the frameworks",
-    "attributes": {
-        "armoBuiltin": true
-    },
+    "attributes": {},
     "scanningScope": {
         "matches": [
             "cluster",

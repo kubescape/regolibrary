@@ -1,0 +1,20 @@
+{
+    "apiVersion": "regolibrary.kubescape/v1alpha1",
+    "kind": "AttackTrack",
+    "metadata": {
+        "name": "external-workload-with-cluster-takeover-roles"
+    },
+    "spec": {
+        "version": "1.0",
+        "data": {
+            "name": "Initial Access",
+            "description": "An attacker can access the Kubernetes environment.",
+            "subSteps": [
+                {
+                    "name": "Cluster Access",
+                    "description": "An attacker has access to sensitive information and can leverage them by creating pods in the cluster."
+                }
+            ]
+        }
+    }
+}
