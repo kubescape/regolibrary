@@ -5,6 +5,10 @@
     "remediation": "Review and modify your cluster's RBAC configuration to ensure that only authenticated and authorized users have appropriate permissions based on their roles and responsibilities within your system.",
     "test": "Checks if ClusterRoleBinding/RoleBinding resources give permissions to anonymous user. Also checks in the apiserver if the --anonymous-auth flag is set to false",
     "attributes": {
+        "controlTypeTags": [
+            "security",
+            "compliance"
+        ]
     },
     "rulesNames": [
         "anonymous-access-enabled"
