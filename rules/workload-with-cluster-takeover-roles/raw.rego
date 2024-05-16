@@ -23,6 +23,7 @@ deny[msga] {
     rolebinding := input[_]
 	rolebinding.kind in ["RoleBinding", "ClusterRoleBinding"] 
     rolebinding.roleRef.name == role.metadata.name
+    rolebinding.roleRef.kind == role.kind
     rolebinding.subjects[j].kind == "ServiceAccount"
     rolebinding.subjects[j].name == sa.metadata.name
     rolebinding.subjects[j].namespace == sa.metadata.namespace
