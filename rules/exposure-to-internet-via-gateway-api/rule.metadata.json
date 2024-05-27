@@ -47,7 +47,7 @@
         "gateway.networking.k8s.io"
       ],
       "apiVersions": [
-        "v1", "v1alpha2"
+        "*"
       ],
       "resources": [
         "HTTPRoute",
@@ -56,7 +56,7 @@
       ]
     }
   ],
-  "description": "fails in case the running workload has binded Service and Gateway that are exposing it on Internet.",
+  "description": "fails if the running workload is bound to a Service that is exposed to the Internet through a Gateway.",
   "remediation": "",
   "ruleQuery": "armo_builtins"
 }
