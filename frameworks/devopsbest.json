@@ -1,9 +1,7 @@
 {
     "name": "DevOpsBest",
     "description": "",
-    "attributes": {
-        "armoBuiltin": true
-    },
+    "attributes": {},
     "scanningScope": {
         "matches": [
             "cluster",
@@ -12,12 +10,6 @@
     },
     "typeTags": ["compliance"],
     "activeControls": [
-        {
-            "controlID": "C-0004",
-            "patch": {
-                "name": "Resources memory limit and request"
-            }
-        },
         {
             "controlID": "C-0018",
             "patch": {
@@ -28,12 +20,6 @@
             "controlID": "C-0044",
             "patch": {
                 "name": "Container hostPort"
-            }
-        },
-        {
-            "controlID": "C-0050",
-            "patch": {
-                "name": "Resources CPU limit and request"
             }
         },
         {
@@ -82,6 +68,30 @@
             "controlID": "C-0253",
             "patch": {
                 "name": "Deprecated Kubernetes image registry"
+            }
+        },
+        {
+            "controlID": "C-0268",
+            "patch": {
+                "name": "Ensure CPU requests are set"
+            }
+        },
+        {
+            "controlID": "C-0269",
+            "patch": {
+                "name": "Ensure memory requests are set"
+            }
+        },
+        {
+            "controlID": "C-0270",
+            "patch": {
+                "name": "Ensure CPU limits are set"
+            }
+        },
+        {
+            "controlID": "C-0271",
+            "patch": {
+                "name": "Ensure memory limits are set"
             }
         }
     ]

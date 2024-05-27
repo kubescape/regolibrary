@@ -1,11 +1,13 @@
 [
     {
         "alertMessage": "Deployment: my-deployment has: test-volume as volume with potential credentials access.",
-        "deletePaths": [
-            "spec.template.spec.volumes[0].hostPath.path"
-        ],
         "failedPaths": [
-            "spec.template.spec.volumes[0].hostPath.path"
+            "spec.template.spec.volumes[0]",
+            "spec.template.spec.containers[0].volumeMounts[0]"
+        ],
+        "deletePaths": [
+            "spec.template.spec.volumes[0]",
+            "spec.template.spec.containers[0].volumeMounts[0]"
         ],
         "fixPaths": [],
         "ruleStatus": "",
@@ -28,11 +30,13 @@
     },
     {
         "alertMessage": "Deployment: my-deployment has: test-volume2 as volume with potential credentials access.",
-        "deletePaths": [
-            "spec.template.spec.volumes[1].hostPath.path"
-        ],
         "failedPaths": [
-            "spec.template.spec.volumes[1].hostPath.path"
+            "spec.template.spec.volumes[1]",
+            "spec.template.spec.containers[0].volumeMounts[1]"
+        ],
+        "deletePaths": [
+            "spec.template.spec.volumes[1]",
+            "spec.template.spec.containers[0].volumeMounts[1]"
         ],
         "fixPaths": [],
         "ruleStatus": "",

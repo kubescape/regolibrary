@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 env:
-  GH_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+  GH_ACCESS_TOKEN: ${{ secrets.ARMOSEC_ACCESS_KEY }}
 
 jobs:
   build:
@@ -19,7 +19,7 @@ jobs:
 
     - run: git config --global url.https://${{ env.GH_ACCESS_TOKEN }}@github.com/armosec/.insteadOf https://github.com/armosec/
     - run: git config --global url.https://${{ env.GH_ACCESS_TOKEN }}@github.com/kubescape/.insteadOf https://github.com/kubescape/
-  
+
     - name: Run export script
       run: |
         OUTPUT=pre-release python ./scripts/export.py

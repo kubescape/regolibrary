@@ -161,6 +161,7 @@ func AssertResponses(t *testing.T, responses []reporthandling.RuleResponse, expe
 		return err
 	}
 
+	//fmt.Println("actual:", string(actual))
 	require.JSONEq(t, string(expected), string(actual))
 	return nil
 }

@@ -1,0 +1,22 @@
+{
+    "name": "Outdated Kubernetes version",
+    "attributes": {},
+    "description": "Identifies Kubernetes clusters running on outdated versions. Using old versions can expose clusters to known vulnerabilities, compatibility issues, and miss out on improved features and security patches. Keeping Kubernetes up-to-date is crucial for maintaining security and operational efficiency.",
+    "remediation": "Regularly update Kubernetes clusters to the latest stable version to mitigate known vulnerabilities and enhance functionality. Plan and execute upgrades considering workload compatibility, testing in a staging environment before applying changes to production. Follow Kubernetes' best practices for version management and upgrades to ensure a smooth transition and minimal downtime.",
+    "rulesNames": [
+        "outdated-k8s-version"
+    ],
+    "long_description": "Running an outdated version of Kubernetes poses significant security risks and operational challenges. Older versions may contain unpatched vulnerabilities, leading to potential security breaches and unauthorized access. Additionally, outdated clusters might not support newer, more secure, and efficient features, impacting both performance and security. Regularly updating Kubernetes ensures compliance with the latest security standards and access to enhanced functionalities.",
+    "test": "Verifies the current Kubernetes version against the latest stable releases.",
+    "controlID": "C-0273",
+    "baseScore": 2.0,
+    "category": {
+        "name": "Control plane"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

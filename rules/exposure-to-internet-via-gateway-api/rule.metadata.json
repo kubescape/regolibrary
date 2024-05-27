@@ -1,0 +1,62 @@
+{
+  "name": "exposure-to-internet-via-gateway-api",
+  "attributes": {
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod",
+        "Service"
+      ]
+    },
+    {
+      "apiGroups": [
+        "apps"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet"
+      ]
+    },
+    {
+      "apiGroups": [
+        "batch"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+          "Job",
+          "CronJob"
+      ]
+    },
+    {
+      "apiGroups": [
+        "gateway.networking.k8s.io"
+      ],
+      "apiVersions": [
+        "v1", "v1alpha2"
+      ],
+      "resources": [
+        "HTTPRoute",
+        "TCPRoute",
+        "UDPRoute"
+      ]
+    }
+  ],
+  "description": "fails in case the running workload has binded Service and Gateway that are exposing it on Internet.",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

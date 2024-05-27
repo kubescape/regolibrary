@@ -1,44 +1,54 @@
-[{
-    "alertMessage": "Deployment: my-deployment has: test-volume as hostPath volume",
-    "deletePaths": ["spec.template.spec.containers[0].volumeMounts[0].readOnly"],
-    "failedPaths": ["spec.template.spec.containers[0].volumeMounts[0].readOnly"],
-    "fixPaths": [],
-    "ruleStatus": "",
-    "packagename": "armo_builtins",
-    "alertScore": 7,
-    "alertObject": {
-        "k8sApiObjects": [{
-            "apiVersion": "apps/v1",
-            "kind": "Deployment",
-            "metadata": {
-                "labels": {
-                    "purpose": "demonstrate-command"
-                },
-                "name": "my-deployment"
+[
+    {
+        "alertMessage": "Deployment: my-deployment has: test-volume as hostPath volume",
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[0].volumeMounts[0].readOnly",
+                "value": "true"
             }
-        }]
-    }
-}, {
-    "alertMessage": "Deployment: my-deployment has: test-volume as hostPath volume",
-    "deletePaths": [],
-    "failedPaths": [],
-    "fixPaths": [{
-        "path": "spec.template.spec.containers[0].volumeMounts[1].readOnly",
-        "value": "true"
-    }],
-    "ruleStatus": "",
-    "packagename": "armo_builtins",
-    "alertScore": 7,
-    "alertObject": {
-        "k8sApiObjects": [{
-            "apiVersion": "apps/v1",
-            "kind": "Deployment",
-            "metadata": {
-                "labels": {
-                    "purpose": "demonstrate-command"
-                },
-                "name": "my-deployment"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-command"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Deployment: my-deployment has: test-volume as hostPath volume",
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[0].volumeMounts[1].readOnly",
+                "value": "true"
             }
-        }]
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "purpose": "demonstrate-command"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
     }
-}]
+]

@@ -23,7 +23,7 @@ spec:
               name : test-volume
 
             - mountPath : /test-pd2
-              name : test-volume
+              name : test-volume2
       volumes :
         - name : test-volume
           hostPath :

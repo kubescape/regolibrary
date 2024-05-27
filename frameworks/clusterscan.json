@@ -1,9 +1,7 @@
 {
     "name": "ClusterScan",
     "description": "Framework for scanning a cluster",
-    "attributes": {
-        "armoBuiltin": true
-    },
+    "attributes": {},
     "typeTags": [
         "security"
     ],
@@ -53,7 +51,7 @@
         {
             "controlID": "C-0002",
             "patch": {
-                "name": "Exec into container"
+                "name": "Prevent containers from allowing command execution"
             }
         },
         {
@@ -113,7 +111,7 @@
         {
             "controlID": "C-0256",
             "patch": {
-                "name": "Exposure to internet"
+                "name": "External facing"
             }
         },
         {
