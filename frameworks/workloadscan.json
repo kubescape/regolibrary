@@ -13,18 +13,6 @@
             }
         },
         {
-            "controlID": "C-0236",
-            "patch": {
-                "name": "Verify image signature"
-            }
-        },
-        {
-            "controlID": "C-0237",
-            "patch": {
-                "name": "Check if signature exists"
-            }
-        },
-        {
             "controlID": "C-0045",
             "patch": {
                 "name": "Writable hostPath mount"
