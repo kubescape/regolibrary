@@ -1,6 +1,7 @@
 {
   "name": "exposure-to-internet-via-gateway-api",
   "attributes": {
+    "useFromKubescapeVersion": "v3.0.9"
   },
   "ruleLanguage": "Rego",
   "match": [
