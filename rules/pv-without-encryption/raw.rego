@@ -18,7 +18,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"fixPaths": [{
-			"path": "pv.spec.storageClassName",
+			"path": "spec.storageClassName",
 			"value": "<your encrypted storage class>"
         }],
 		"alertScore": 7,
