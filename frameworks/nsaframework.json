@@ -1,7 +1,9 @@
 {
     "name": "NSA",
     "description": "Implement NSA security advices for K8s ",
-    "attributes": {},
+    "attributes": {
+        "builtin": true
+    },
     "scanningScope": {
         "matches": [
             "cluster",

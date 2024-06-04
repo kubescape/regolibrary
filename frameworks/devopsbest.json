@@ -1,7 +1,9 @@
 {
     "name": "DevOpsBest",
     "description": "",
-    "attributes": {},
+    "attributes": {
+        "builtin": true
+    },
     "scanningScope": {
         "matches": [
             "cluster",
