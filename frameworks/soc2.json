@@ -1,7 +1,9 @@
 {
     "name": "SOC2",
     "description": "SOC2 compliance related controls",
-    "attributes": {},
+    "attributes": {
+        "builtin": true
+    },
     "scanningScope": {
         "matches": [
             "cluster",

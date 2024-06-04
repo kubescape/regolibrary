@@ -2,7 +2,8 @@
     "name": "cis-eks-t1.2.0",
     "description": "Testing CIS for Amazon Elastic Kubernetes Service (EKS) as suggested by CIS benchmark: https://workbench.cisecurity.org/benchmarks/9681",
     "attributes": {
-        "version": "v1.2.0"
+        "version": "v1.2.0",
+        "builtin": true
     },
     "scanningScope": {
         "matches": [

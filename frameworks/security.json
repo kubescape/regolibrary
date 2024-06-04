@@ -1,7 +1,9 @@
 {
     "name": "security",
     "description": "Controls that are used to assess security threats.",
-    "attributes": {},
+    "attributes": {
+        "builtin": true
+    },
     "typeTags": [
         "security"
     ],

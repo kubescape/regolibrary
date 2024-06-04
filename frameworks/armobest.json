@@ -1,7 +1,9 @@
 {
     "name": "ArmoBest",
     "description": "",
-    "attributes": {},
+    "attributes": {
+        "builtin": true
+    },
     "scanningScope": {
         "matches": [
             "cluster",

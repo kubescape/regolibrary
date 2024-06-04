@@ -1,7 +1,9 @@
 {
     "name": "YAML-scanning",
     "description": "Controls relevant to yamls",
-    "attributes": {},
+    "attributes": {
+        "builtin": true
+    },
     "scanningScope": {
         "matches": [
             "file"
