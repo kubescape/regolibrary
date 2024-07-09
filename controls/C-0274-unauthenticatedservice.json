@@ -1,0 +1,27 @@
+{
+    "controlID": "C-0274",
+    "name": "Verify Authenticated Service",
+    "description": "Verifies if the service is authenticated",
+    "long_description": "Verifies that in order to access the service, the user must be authenticated.",
+    "remediation": "Configure the service to require authentication.",
+    "manual_test": "",
+    "attributes": {
+        "controlTypeTags": [
+            "security"
+        ]
+    },
+    "rulesNames": [
+        "unauthenticated-service"
+    ],
+    "baseScore": 7,
+    "impact_statement": "",
+    "default_value": "",
+    "category": {
+        "name": "Network"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
+}
