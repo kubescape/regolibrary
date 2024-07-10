@@ -1,4 +1,4 @@
-{
+[{
     "alertMessage": "Unauthenticated service operator exposes operator",
     "alertObject": {
       "k8sApiObjects": [
@@ -81,3 +81,4 @@
     "reviewPaths": ["spec"],
     "ruleStatus": ""
 }
+]
