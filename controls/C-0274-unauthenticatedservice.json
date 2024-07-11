@@ -8,6 +8,14 @@
     "attributes": {
         "controlTypeTags": [
             "security"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "workload-external-track",
+                "categories": [
+                    "Data Collection"
+                ]
+            }
         ]
     },
     "rulesNames": [
