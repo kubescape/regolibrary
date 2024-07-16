@@ -17,7 +17,7 @@ deny contains msga if {
 	service_name := service.metadata.name
 	has_unauthenticated_service(service_name, service.metadata.namespace, service_scan_result)
 
-	# Path to the workload spec.
+	# Path to the service object
 	path := "spec"
 
 	msga := {
@@ -25,10 +25,11 @@ deny contains msga if {
 		"alertScore": 7,
 		"fixPaths": [],
 		"reviewPaths": [path],
-		"failedPaths": [path],
+		"failedPaths": [],
 		"packagename": "armo_builtins",
-		"alertObject": {"k8sApiObjects": [wl]},
+		"alertObject": {"k8sApiObjects": [service]},
 		"relatedObjects": [
+			{"object": wl},
 			{"object": service},
 			{"object": service_scan_result},
 		],
