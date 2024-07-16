@@ -29,7 +29,7 @@
     },
     "scanningScope": {
         "matches": [
-            "cluster"
+            "cluster"        
         ]
     }
 }
