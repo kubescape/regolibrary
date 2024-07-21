@@ -1,0 +1,18 @@
+apiVersion: kubescape.io/v1
+kind: ServiceScanResult
+metadata:
+  creationTimestamp: "2024-07-03T04:40:17Z"
+  generation: 4
+  name: operator
+  namespace: kubescape
+  resourceVersion: "2772"
+  uid: 24dc622d-ee78-40c2-8654-2a5604715f95
+spec:
+  clusterIP: 10.103.207.220
+  ports:
+  - applicationLayer: ""
+    authenticated: false
+    port: 4002
+    presentationLayer: http
+    protocol: TCP
+    sessionLayer: tcp

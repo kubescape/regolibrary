@@ -223,6 +223,12 @@
             "patch": {
                 "name": "Exposure to internet via Gateway API"
             }
+        },
+        {
+            "controlID": "C-0274",
+            "patch": {
+                "name": "Verify Authenticated Service"
+            }
         }
     ]
 }

@@ -1,0 +1,118 @@
+[
+  {
+    "alertMessage": "Unauthenticated service operator exposes operator",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+            "name": "operator"
+          }
+        }
+      ]
+    },
+    "alertScore": 7,
+    "deletePaths": null,
+    "failedPaths": [],
+    "fixPaths": [],
+    "packagename": "armo_builtins",
+    "relatedObjects": [
+      {
+        "deletePaths": null,
+        "failedPaths": null,
+        "fixPaths": null,
+        "object": {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "labels": {
+              "app": "operator"
+            },
+            "name": "operator",
+            "namespace": "kubescape"
+          },
+          "spec": {
+            "containers": [
+              {
+                "image": "your-operator-image:latest",
+                "name": "operator-container",
+                "ports": [
+                  {
+                    "containerPort": 8080
+                  }
+                ],
+                "resources": {
+                  "limits": {
+                    "cpu": "1",
+                    "memory": "1Gi"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "reviewPaths": null
+      },
+      {
+        "deletePaths": null,
+        "failedPaths": null,
+        "fixPaths": null,
+        "object": {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+            "name": "operator",
+            "namespace": "kubescape"
+          },
+          "spec": {
+            "ports": [
+              {
+                "port": 4002,
+                "protocol": "TCP",
+                "targetPort": 8080
+              }
+            ],
+            "selector": {
+              "app": "operator"
+            }
+          }
+        },
+        "reviewPaths": null
+      },
+      {
+        "deletePaths": null,
+        "failedPaths": null,
+        "fixPaths": null,
+        "object": {
+          "apiVersion": "kubescape.io/v1",
+          "kind": "ServiceScanResult",
+          "metadata": {
+            "creationTimestamp": "2024-07-03T04:40:17Z",
+            "generation": 4,
+            "name": "operator",
+            "namespace": "kubescape",
+            "resourceVersion": "2772",
+            "uid": "24dc622d-ee78-40c2-8654-2a5604715f95"
+          },
+          "spec": {
+            "clusterIP": "10.103.207.220",
+            "ports": [
+              {
+                "applicationLayer": "",
+                "authenticated": false,
+                "port": 4002,
+                "presentationLayer": "http",
+                "protocol": "TCP",
+                "sessionLayer": "tcp"
+              }
+            ]
+          }
+        },
+        "reviewPaths": null
+      }
+    ],
+    "reviewPaths": ["spec"],
+    "ruleStatus": ""
+  }
+]
