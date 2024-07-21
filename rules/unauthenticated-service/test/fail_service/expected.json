@@ -5,8 +5,11 @@
       "k8sApiObjects": [
         {
           "apiVersion": "v1",
-          "kind": "Service",
+          "kind": "Pod",
           "metadata": {
+            "labels": {
+              "app": "operator"
+            },
             "name": "operator"
           }
         }
@@ -18,42 +21,6 @@
     "fixPaths": [],
     "packagename": "armo_builtins",
     "relatedObjects": [
-      {
-        "deletePaths": null,
-        "failedPaths": null,
-        "fixPaths": null,
-        "object": {
-          "apiVersion": "v1",
-          "kind": "Pod",
-          "metadata": {
-            "labels": {
-              "app": "operator"
-            },
-            "name": "operator",
-            "namespace": "kubescape"
-          },
-          "spec": {
-            "containers": [
-              {
-                "image": "your-operator-image:latest",
-                "name": "operator-container",
-                "ports": [
-                  {
-                    "containerPort": 8080
-                  }
-                ],
-                "resources": {
-                  "limits": {
-                    "cpu": "1",
-                    "memory": "1Gi"
-                  }
-                }
-              }
-            ]
-          }
-        },
-        "reviewPaths": null
-      },
       {
         "deletePaths": null,
         "failedPaths": null,
