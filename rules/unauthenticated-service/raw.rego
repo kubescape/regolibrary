@@ -30,7 +30,6 @@ deny contains msga if {
 		"alertObject": {"k8sApiObjects": [wl]},
 		"relatedObjects": [
 			{"object": service},
-			{"object": service_scan_result},
 		],
 	}
 }
