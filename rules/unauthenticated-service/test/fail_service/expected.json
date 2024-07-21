@@ -5,8 +5,11 @@
       "k8sApiObjects": [
         {
           "apiVersion": "v1",
-          "kind": "Service",
+          "kind": "Pod",
           "metadata": {
+            "labels": {
+              "app": "operator"
+            },
             "name": "operator"
           }
         }
@@ -18,42 +21,6 @@
     "fixPaths": [],
     "packagename": "armo_builtins",
     "relatedObjects": [
-      {
-        "deletePaths": null,
-        "failedPaths": null,
-        "fixPaths": null,
-        "object": {
-          "apiVersion": "v1",
-          "kind": "Pod",
-          "metadata": {
-            "labels": {
-              "app": "operator"
-            },
-            "name": "operator",
-            "namespace": "kubescape"
-          },
-          "spec": {
-            "containers": [
-              {
-                "image": "your-operator-image:latest",
-                "name": "operator-container",
-                "ports": [
-                  {
-                    "containerPort": 8080
-                  }
-                ],
-                "resources": {
-                  "limits": {
-                    "cpu": "1",
-                    "memory": "1Gi"
-                  }
-                }
-              }
-            ]
-          }
-        },
-        "reviewPaths": null
-      },
       {
         "deletePaths": null,
         "failedPaths": null,
@@ -76,37 +43,6 @@
             "selector": {
               "app": "operator"
             }
-          }
-        },
-        "reviewPaths": null
-      },
-      {
-        "deletePaths": null,
-        "failedPaths": null,
-        "fixPaths": null,
-        "object": {
-          "apiVersion": "kubescape.io/v1",
-          "kind": "ServiceScanResult",
-          "metadata": {
-            "creationTimestamp": "2024-07-03T04:40:17Z",
-            "generation": 4,
-            "name": "operator",
-            "namespace": "kubescape",
-            "resourceVersion": "2772",
-            "uid": "24dc622d-ee78-40c2-8654-2a5604715f95"
-          },
-          "spec": {
-            "clusterIP": "10.103.207.220",
-            "ports": [
-              {
-                "applicationLayer": "",
-                "authenticated": false,
-                "port": 4002,
-                "presentationLayer": "http",
-                "protocol": "TCP",
-                "sessionLayer": "tcp"
-              }
-            ]
           }
         },
         "reviewPaths": null
