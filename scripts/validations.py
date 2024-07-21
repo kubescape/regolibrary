@@ -1,4 +1,5 @@
 import json
+from operator import itemgetter
 import os
 import re
 import requests
@@ -162,20 +163,33 @@ def get_kubernetes_supported_versions():
         raise Exception("Failed to fetch Kubernetes releases") from e
 
     releases = response.json()
+
+    # Order the releases by publication date
+    ordered_releases = sorted(releases, key=itemgetter('created_at'), reverse=True)
+
     supported_versions = []
-    for release in releases:
+    for release in ordered_releases:
         if not release['draft'] and not release['prerelease']:
             tag_name = release['tag_name']
             if all(x not in tag_name for x in ['alpha', 'beta', 'rc']):
                 major_minor_version = '.'.join(tag_name.lstrip('v').split('.')[:2])
                 if major_minor_version not in supported_versions:
                     supported_versions.append(major_minor_version)
-        if len(supported_versions) == 3:
+
+        # we are taking 5 since smaller versions might have updates after the latest major.minor version
+        if len(supported_versions) == 5:
             break
 
     if not supported_versions:
         raise Exception("No supported Kubernetes versions found.")
-    return supported_versions
+
+    # Sort the versions in descending order as strings
+    sorted_versions = sorted(supported_versions, reverse=True)
+
+    # Get the top 3 versions
+    top_3_versions = sorted_versions[:3]
+
+    return top_3_versions
 
 def validate_k8s_supported_versions_in_rego():
     # Step 1: Get the latest supported Kubernetes versions
