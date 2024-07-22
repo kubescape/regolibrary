@@ -11,7 +11,7 @@
         ],
         "attackTracks": [
             {
-                "attackTrack": "workload-external-track",
+                "attackTrack": "workload-unauthenticated-service",
                 "categories": [
                     "Data Collection"
                 ]
