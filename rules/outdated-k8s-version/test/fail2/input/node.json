@@ -1,0 +1,296 @@
+{
+    "apiVersion": "v1",
+    "kind": "Node",
+    "metadata": {
+        "annotations": {
+            "kubeadm.alpha.kubernetes.io/cri-socket": "unix:///run/containerd/containerd.sock",
+            "node.alpha.kubernetes.io/ttl": "0",
+            "volumes.kubernetes.io/controller-managed-attach-detach": "true"
+        },
+        "creationTimestamp": "2024-02-20T11:17:49Z",
+        "labels": {
+            "beta.kubernetes.io/arch": "amd64",
+            "beta.kubernetes.io/os": "linux",
+            "ingress-ready": "true",
+            "kubernetes.io/arch": "amd64",
+            "kubernetes.io/hostname": "attack-chain-6-control-plane",
+            "kubernetes.io/os": "linux",
+            "node-role.kubernetes.io/control-plane": "",
+            "node.kubernetes.io/exclude-from-external-load-balancers": ""
+        },
+        "name": "attack-chain-6-control-plane",
+        "resourceVersion": "291629",
+        "uid": "7102f06c-ec50-4150-a962-83f5e35b7d9d"
+    },
+    "spec": {
+        "podCIDR": "10.244.0.0/24",
+        "podCIDRs": [
+            "10.244.0.0/24"
+        ],
+        "providerID": "kind://docker/attack-chain-6/attack-chain-6-control-plane"
+    },
+    "status": {
+        "addresses": [
+            {
+                "address": "172.18.0.2",
+                "type": "InternalIP"
+            },
+            {
+                "address": "attack-chain-6-control-plane",
+                "type": "Hostname"
+            }
+        ],
+        "allocatable": {
+            "cpu": "8",
+            "ephemeral-storage": "486903968Ki",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "16081500Ki",
+            "pods": "110"
+        },
+        "capacity": {
+            "cpu": "8",
+            "ephemeral-storage": "486903968Ki",
+            "hugepages-1Gi": "0",
+            "hugepages-2Mi": "0",
+            "memory": "16081500Ki",
+            "pods": "110"
+        },
+        "conditions": [
+            {
+                "lastHeartbeatTime": "2024-03-04T09:45:05Z",
+                "lastTransitionTime": "2024-02-20T11:17:46Z",
+                "message": "kubelet has sufficient memory available",
+                "reason": "KubeletHasSufficientMemory",
+                "status": "False",
+                "type": "MemoryPressure"
+            },
+            {
+                "lastHeartbeatTime": "2024-03-04T09:45:05Z",
+                "lastTransitionTime": "2024-02-20T11:17:46Z",
+                "message": "kubelet has no disk pressure",
+                "reason": "KubeletHasNoDiskPressure",
+                "status": "False",
+                "type": "DiskPressure"
+            },
+            {
+                "lastHeartbeatTime": "2024-03-04T09:45:05Z",
+                "lastTransitionTime": "2024-02-20T11:17:46Z",
+                "message": "kubelet has sufficient PID available",
+                "reason": "KubeletHasSufficientPID",
+                "status": "False",
+                "type": "PIDPressure"
+            },
+            {
+                "lastHeartbeatTime": "2024-03-04T09:45:05Z",
+                "lastTransitionTime": "2024-02-20T11:18:12Z",
+                "message": "kubelet is posting ready status",
+                "reason": "KubeletReady",
+                "status": "True",
+                "type": "Ready"
+            }
+        ],
+        "daemonEndpoints": {
+            "kubeletEndpoint": {
+                "Port": 10250
+            }
+        },
+        "images": [
+            {
+                "names": [
+                    "docker.io/library/wordpress@sha256:5f1873a461105cb1dc1a75731671125f1fb406b18e3fcf63210e8f7f84ce560b",
+                    "docker.io/library/wordpress:6.0.1-php7.4"
+                ],
+                "sizeBytes": 214624632
+            },
+            {
+                "names": [
+                    "docker.io/library/mysql@sha256:ff5ab9cdce0b4c59704b4e2a09deed5ab8467be795e0ea20228b8528f53fcf82",
+                    "docker.io/library/mysql:oracle"
+                ],
+                "sizeBytes": 183413119
+            },
+            {
+                "names": [
+                    "registry.k8s.io/etcd:3.5.4-0"
+                ],
+                "sizeBytes": 102157811
+            },
+            {
+                "names": [
+                    "docker.io/bitnami/kubectl@sha256:15f8664618ec2efea467067e86591b876eef0ef84f1ad09e15aab5ca5bc441fb",
+                    "docker.io/bitnami/kubectl:1.27.6"
+                ],
+                "sizeBytes": 80620317
+            },
+            {
+                "names": [
+                    "docker.io/library/import-2022-11-02@sha256:975ab6838f71ba7f8ed71ea319124bc7adbdc41a639e329e76d0beda84d5c193",
+                    "registry.k8s.io/kube-apiserver:v1.25.3"
+                ],
+                "sizeBytes": 76530158
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/kubescape@sha256:9ccc948e83b22cd3fc6919b4e3e44536530cc9426a13b8d5e07bf3b2bd1b0f22",
+                    "quay.io/kubescape/kubescape:v3.0.3"
+                ],
+                "sizeBytes": 71122909
+            },
+            {
+                "names": [
+                    "docker.io/library/import-2022-11-02@sha256:ea11577bfe5c64a2c95b291596042b878dcc627903e3d9e3734c51b0fc019af1",
+                    "registry.k8s.io/kube-controller-manager:v1.25.3"
+                ],
+                "sizeBytes": 64499324
+            },
+            {
+                "names": [
+                    "docker.io/library/import-2022-11-02@sha256:a8333982f3c16667801faa12373e05cc7024e0182e4d034679b83e4911d1fdd1",
+                    "registry.k8s.io/kube-proxy:v1.25.3"
+                ],
+                "sizeBytes": 63273981
+            },
+            {
+                "names": [
+                    "docker.io/library/import-2022-11-02@sha256:2a436be2b9f9f6973775123308760aeb44edaeda099374efd3ddab5a91812121",
+                    "registry.k8s.io/kube-scheduler:v1.25.3"
+                ],
+                "sizeBytes": 51920508
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/kubevuln@sha256:94cbbb94f8d6bdf2529d5f9c5279ac4c7411182f4e8e5a3d0b5e8f10a465f73a",
+                    "quay.io/kubescape/kubevuln:v0.3.2"
+                ],
+                "sizeBytes": 51702904
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/storage@sha256:9b712b34dbc38cc40a212e7857cac5ce3880624bd7afdd34fb7ff89867cbfaaa",
+                    "quay.io/kubescape/storage:v0.0.69"
+                ],
+                "sizeBytes": 43160553
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/storage@sha256:b6ecc63dc4e16e1ae395c9bde571e39665166c5cc30d57f4f2dcb20cffac6fa7",
+                    "quay.io/kubescape/storage:v0.0.67"
+                ],
+                "sizeBytes": 43122123
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/synchronizer@sha256:205b3a3ea5f68ea537c820b353baa542ca126aa8223b76cbc8396e581698eaa4",
+                    "quay.io/kubescape/synchronizer:v0.0.59"
+                ],
+                "sizeBytes": 39717995
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/node-agent@sha256:c15f198440e20d404dcb1eed4efed1393b8871c09b31fb49c9a0eb335ad7097c",
+                    "quay.io/kubescape/node-agent:v0.2.12"
+                ],
+                "sizeBytes": 38501567
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/node-agent@sha256:77a965ea2abffdd6b4a6988db7c7e009912e8bea1cb2c05f31c0bd74daf50c10",
+                    "quay.io/kubescape/node-agent:v0.2.10"
+                ],
+                "sizeBytes": 38455760
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/operator@sha256:dd2adac214bae06915d9b2b5b383212f8dae463d7fe4e56cb26b20f88cb623ee",
+                    "quay.io/kubescape/operator:v0.2.4"
+                ],
+                "sizeBytes": 37683286
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/gateway@sha256:f3852c3deb8838d4891cfa63f6d266fbe0daed34152219f1f5e970bbb4e35b1e",
+                    "quay.io/kubescape/gateway:v0.1.20"
+                ],
+                "sizeBytes": 29748754
+            },
+            {
+                "names": [
+                    "docker.io/otel/opentelemetry-collector@sha256:92f6e2efd014152bee26f8324e3a511980b512a36d8793d3fee708715caaa6c0",
+                    "docker.io/otel/opentelemetry-collector:0.92.0"
+                ],
+                "sizeBytes": 28355004
+            },
+            {
+                "names": [
+                    "docker.io/kindest/kindnetd:v20221004-44d545d1"
+                ],
+                "sizeBytes": 25830582
+            },
+            {
+                "names": [
+                    "docker.io/kindest/local-path-provisioner:v0.0.22-kind.0"
+                ],
+                "sizeBytes": 17375346
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/kollector@sha256:da216606a706e97a3456a3c2f3eee380db9579de3140a5f26623febe4ca4e6c4",
+                    "quay.io/kubescape/kollector:v0.1.33"
+                ],
+                "sizeBytes": 16993483
+            },
+            {
+                "names": [
+                    "registry.k8s.io/coredns/coredns:v1.9.3"
+                ],
+                "sizeBytes": 14837849
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/http-request@sha256:42e1d32255ad77cf980e5edfafaa1ee2688c217b67ac50b218e909bc5bb39276",
+                    "quay.io/kubescape/http-request:v0.2.2"
+                ],
+                "sizeBytes": 7339246
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/http-request@sha256:4b5f47715f2daefd4eb6265d410588bcda90e97a0588383f7b0904cac9baea26",
+                    "quay.io/kubescape/http-request:v0.0.14"
+                ],
+                "sizeBytes": 6489710
+            },
+            {
+                "names": [
+                    "quay.io/kubescape/host-scanner@sha256:89fe7df48898769110dc6fb96050c3a8f58dd8d8dbc795b21471bb68148516f2",
+                    "quay.io/kubescape/host-scanner:v1.0.66"
+                ],
+                "sizeBytes": 6472151
+            },
+            {
+                "names": [
+                    "docker.io/kindest/local-path-helper:v20220607-9a4d8d2a"
+                ],
+                "sizeBytes": 2859509
+            },
+            {
+                "names": [
+                    "registry.k8s.io/pause:3.7"
+                ],
+                "sizeBytes": 311278
+            }
+        ],
+        "nodeInfo": {
+            "architecture": "amd64",
+            "bootID": "a0a0427b-40ea-4cf5-9f24-53d6e200ef2d",
+            "containerRuntimeVersion": "containerd://1.6.9",
+            "kernelVersion": "6.5.0-21-generic",
+            "kubeProxyVersion": "v1.25.3",
+            "kubeletVersion": "v1.25.3",
+            "machineID": "9cbf8e2fbf5540cd8ff218ef016ba690",
+            "operatingSystem": "linux",
+            "osImage": "Ubuntu 22.04.1 LTS",
+            "systemUUID": "3f39a350-3cd4-400f-875d-c270379817b0"
+        }
+    }
+}

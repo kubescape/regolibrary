@@ -1,5 +1,5 @@
 {
-    "name": "Exposure to internet",
+    "name": "External facing",
     "attributes": {
         "controlTypeTags": [
             "security"
@@ -13,6 +13,18 @@
             },
             {
                 "attackTrack": "service-destruction",
+                "categories": [
+                    "Initial Access"
+                ]
+            },
+            {
+                "attackTrack": "external-workload-with-cluster-takeover-roles",
+                "categories": [
+                    "Initial Access"
+                ]
+            },
+            {
+                "attackTrack": "external-database-without-authentication",
                 "categories": [
                     "Initial Access"
                 ]

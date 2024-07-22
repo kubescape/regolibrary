@@ -1,0 +1,37 @@
+{
+    "name": "Ensure memory limits are set",
+    "attributes": {
+        "controlTypeTags": [
+            "compliance",
+            "devops",
+            "security"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "service-destruction",
+                "categories": [
+                    "Denial of service"
+                ]
+            }
+        ]
+    },
+    "description": "This control identifies all Pods for which the memory limits are not set.",
+    "remediation": "Set the memory limits or use exception mechanism to avoid unnecessary notifications.",
+    "rulesNames": [
+        "resources-memory-limits"
+    ],
+    "controlID": "C-0271",
+    "baseScore": 8.0,
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Resource management"
+        }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

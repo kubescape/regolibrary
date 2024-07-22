@@ -2,7 +2,7 @@
     "name": "ClusterScan",
     "description": "Framework for scanning a cluster",
     "attributes": {
-        "armoBuiltin": true
+        "builtin": true
     },
     "typeTags": [
         "security"
@@ -53,13 +53,13 @@
         {
             "controlID": "C-0002",
             "patch": {
-                "name": "Exec into container"
+                "name": "Prevent containers from allowing command execution"
             }
         },
         {
             "controlID": "C-0007",
             "patch": {
-                "name": "Data Destruction"
+                "name": "Roles with delete capabilities"
             }
         },
         {
@@ -83,7 +83,7 @@
         {
             "controlID": "C-0035",
             "patch": {
-                "name": "Cluster-admin binding"
+                "name": "Administrative Roles"
             }
         },
         {
@@ -113,7 +113,7 @@
         {
             "controlID": "C-0256",
             "patch": {
-                "name": "Exposure to internet"
+                "name": "External facing"
             }
         },
         {

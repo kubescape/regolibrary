@@ -7,6 +7,7 @@ import (
 	"github.com/armosec/armoapi-go/armotypes"
 	"github.com/go-gota/gota/dataframe"
 	"github.com/go-gota/gota/series"
+	"github.com/kubescape/opa-utils/reporthandling"
 	opapolicy "github.com/kubescape/opa-utils/reporthandling"
 	"github.com/kubescape/opa-utils/reporthandling/attacktrack/v1alpha1"
 	"k8s.io/utils/strings/slices"
@@ -225,6 +226,20 @@ func (gs *GitRegoStore) GetOPAAttackTrackControls() ([]opapolicy.Control, error)
 	return attackTrackControlsList, nil
 }
 
+func (gs *GitRegoStore) GetAttackTrackCategoriesByControlIDAndAttackTrackName(controlID string, attackTrackName string) (opapolicy.AttackTrackCategories, error) {
+	control, err := gs.GetOPAControlByID(controlID)
+	if err != nil {
+		return opapolicy.AttackTrackCategories{}, fmt.Errorf("in GetAttackTrackCategoriesByControlIDAndAttackTrackName: error getting control: %s. error: %w", controlID, err)
+	}
+	categories := control.GetAllAttackTrackCategories()
+	for _, category := range categories {
+		if category.AttackTrack == attackTrackName {
+			return category, nil
+		}
+	}
+	return opapolicy.AttackTrackCategories{}, fmt.Errorf("attack track category '%s' not found in control '%s'", attackTrackName, controlID)
+}
+
 func (gs *GitRegoStore) GetOPAControlsNamesList() ([]string, error) {
 	gs.controlsLock.RLock()
 	defer gs.controlsLock.RUnlock()
@@ -285,6 +300,55 @@ func (gs *GitRegoStore) GetOpaFrameworkListByControlID(controlID string) []strin
 	}
 
 	return frameworksNameList
+}
+
+// GetControlFrameworkSubsections returns all subsections of a control in a framework
+func (gs *GitRegoStore) GetControlFrameworkSubsections(controlID string, frameworkName string) ([]string, error) {
+	gs.frameworksLock.RLock()
+	defer gs.frameworksLock.RUnlock()
+	gs.controlsLock.RLock()
+	defer gs.controlsLock.RUnlock()
+
+	fw, err := gs.getOPAFrameworkByName(frameworkName) // doesn't lock framework
+	if err != nil {
+		return nil, err
+	}
+
+	control, err := gs.getOPAControlByID(controlID) // doesn't lock control
+	if err != nil {
+		return nil, err
+	}
+
+	fwSubsectionIDs := make([]string, 0)
+	subsections := fw.SubSections
+
+	for i := range subsections {
+		fwSubsectionIDs = gs.getControlFrameworkSubSections(fwSubsectionIDs, control.ControlID, subsections[i])
+	}
+
+	return fwSubsectionIDs, nil
+}
+
+func (gs *GitRegoStore) getControlFrameworkSubSections(fwSubsectionIDs []string, controlID string, section *reporthandling.FrameworkSubSection) []string {
+	// Return the current list if the section is nil
+	if section == nil {
+		return fwSubsectionIDs
+	}
+
+	// Recursively gather IDs from subsections
+	if section.SubSections != nil {
+		for _, subSection := range section.SubSections {
+			// Update fwSubsectionIDs with the result of the recursive call
+			fwSubsectionIDs = gs.getControlFrameworkSubSections(fwSubsectionIDs, controlID, subSection)
+		}
+	}
+
+	// Append the current section ID if it contains the controlID
+	if section.ControlIDs != nil && slices.Contains(section.ControlIDs, controlID) {
+		fwSubsectionIDs = append(fwSubsectionIDs, section.ID)
+	}
+
+	return fwSubsectionIDs
 }
 
 // ===============================================================

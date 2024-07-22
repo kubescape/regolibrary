@@ -2,7 +2,7 @@
     "name": "SOC2",
     "description": "SOC2 compliance related controls",
     "attributes": {
-        "armoBuiltin": true
+        "builtin": true
     },
     "scanningScope": {
         "matches": [
@@ -60,6 +60,16 @@
                 "description": "Transport Layer Security (TLS) is used to protect the transmission of data sent over the internet to and from the organization's application server.",
                 "long_description": "Transport Layer Security (TLS) is used to protect the transmission of data sent over the internet to and from the organization's application server."
             }
+        },
+        {
+            "controlID": "C-0264",
+            "patch": {
+                "name": "Data in rest encryption - Persistent Volumes are encrypted (CC1.1,CC6.7)",
+                "description": "Transport Layer Security (TLS) is used to protect the transmission of data sent over the internet to and from the organization's application server.",
+                "long_description": "Transport Layer Security (TLS) is used to protect the transmission of data sent over the internet to and from the organization's application server."
+            }
         }
+
+
     ]
 }

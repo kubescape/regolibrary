@@ -1,0 +1,54 @@
+[
+  {
+    "alertMessage": "Unauthenticated service operator exposes operator",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "labels": {
+              "app": "operator"
+            },
+            "name": "operator"
+          }
+        }
+      ]
+    },
+    "alertScore": 7,
+    "deletePaths": null,
+    "failedPaths": [],
+    "fixPaths": [],
+    "packagename": "armo_builtins",
+    "relatedObjects": [
+      {
+        "deletePaths": null,
+        "failedPaths": null,
+        "fixPaths": null,
+        "object": {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+            "name": "operator",
+            "namespace": "kubescape"
+          },
+          "spec": {
+            "ports": [
+              {
+                "port": 4002,
+                "protocol": "TCP",
+                "targetPort": 8080
+              }
+            ],
+            "selector": {
+              "app": "operator"
+            }
+          }
+        },
+        "reviewPaths": null
+      }
+    ],
+    "reviewPaths": ["spec"],
+    "ruleStatus": ""
+  }
+]

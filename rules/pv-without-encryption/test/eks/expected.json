@@ -1,1 +1,26 @@
-[{"alertMessage":"Volume 'pvc-0eeeeefe-5193-472c-a81e-104f3919130e' has is using a storage class that does not use encryption","failedPaths":[],"fixPaths":[{"path":"pv.spec.storageClassName","value":"\u003cyour encrypted storage class\u003e"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":7,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"PersistentVolume","metadata":{"name":"pvc-0eeeeefe-5193-472c-a81e-104f3919130e"}}]}}]
+[
+    {
+        "alertMessage": "Volume 'pvc-0eeeeefe-5193-472c-a81e-104f3919130e' has is using a storage class that does not use encryption",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.storageClassName",
+                "value": "\u003cyour encrypted storage class\u003e"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "PersistentVolume",
+                    "metadata": {
+                        "name": "pvc-0eeeeefe-5193-472c-a81e-104f3919130e"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,24 +1,28 @@
-{
-	"alertMessage": "Pod: test-pd has: test-volume as volume with potential credentials access.",
-	"deletePaths": [
-		"spec.volumes[0].hostPath.path"
-	],
-	"failedPaths": [
-		"spec.volumes[0].hostPath.path"
-	],
-	"fixPaths": [],
-	"ruleStatus": "",
-	"packagename": "armo_builtins",
-	"alertScore": 7,
-	"alertObject": {
-		"k8sApiObjects": [
-			{
-				"apiVersion": "v1",
-				"kind": "Pod",
-				"metadata": {
-					"name": "test-pd"
+[
+	{
+		"alertMessage": "Pod: test-pd has: test-volume as volume with potential credentials access.",
+		"failedPaths": [
+			"spec.volumes[0]",
+			"spec.containers[0].volumeMounts[0]"
+		],
+		"deletePaths": [
+			"spec.volumes[0]",
+			"spec.containers[0].volumeMounts[0]"
+		],
+		"fixPaths": [],
+		"ruleStatus": "",
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"alertObject": {
+			"k8sApiObjects": [
+				{
+					"apiVersion": "v1",
+					"kind": "Pod",
+					"metadata": {
+						"name": "test-pd"
+					}
 				}
-			}
-        ]
+			]
+		}
 	}
-}
+]

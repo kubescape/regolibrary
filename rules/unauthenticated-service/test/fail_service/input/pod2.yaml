@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: operator2
+  namespace: kubescape
+  labels:
+    app: operator2
+spec:
+  containers:
+  - name: operator-container
+    image: your-operator-image:latest
+    ports:
+    - containerPort: 8080
+    resources:
+      limits:
+        cpu: "1"
+        memory: "1Gi"

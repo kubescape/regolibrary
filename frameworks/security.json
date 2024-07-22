@@ -2,7 +2,7 @@
     "name": "security",
     "description": "Controls that are used to assess security threats.",
     "attributes": {
-    	"armoBuiltin": true
+        "builtin": true
     },
     "typeTags": [
         "security"
@@ -15,9 +15,27 @@
     },
     "activeControls": [
         {
-            "controlID": "C-0009",
+            "controlID": "C-0005",
             "patch": {
-                "name": "Resource limits"
+                "name": "API server insecure port is enabled"
+            }
+        },
+        {
+            "controlID": "C-0012",
+            "patch": {
+                "name": "Applications credentials in configuration files"
+            }
+        },
+        {
+            "controlID": "C-0013",
+            "patch": {
+                "name": "Non-root containers"
+            }
+        },
+        {
+            "controlID": "C-0016",
+            "patch": {
+                "name": "Allow privilege escalation"
             }
         },
         {
@@ -26,58 +44,28 @@
                 "name": "Immutable container filesystem"
             }
         },
-	    {
-            "controlID": "C-0256",
+        {
+            "controlID": "C-0034",
             "patch": {
-                "name": "Exposure to Internet"
-            }
-        },
-	    {
-            "controlID": "C-0259",
-            "patch": {
-                "name": "Workload with credential access"
+                "name": "Automatic mapping of service account"
             }
         },
         {
-            "controlID": "C-0258",
+            "controlID": "C-0035",
             "patch": {
-                "name": "Workload with configMap access"
-            }
-        },
-        {
-            "controlID": "C-0257",
-            "patch": {
-                "name": "Workload with PVC access"
-            }
-        },
-        {
-            "controlID": "C-0260",
-            "patch": {
-                "name": "Missing network policy"
-            }
-        },
-        {
-            "controlID": "C-0261",
-            "patch": {
-                "name": "ServiceAccount token mounted"
-            }
-        },
-        {
-            "controlID": "C-0255",
-            "patch": {
-                "name": "Workload with secret access"
-            }
-        },
-        {
-            "controlID": "C-0041",
-            "patch": {
-                "name": "HostNetwork access"
+                "name": "Administrative Roles"
             }
         },
         {
             "controlID": "C-0038",
             "patch": {
                 "name": "Host PID/IPC privileges"
+            }
+        },
+        {
+            "controlID": "C-0041",
+            "patch": {
+                "name": "HostNetwork access"
             }
         },
         {
@@ -105,9 +93,81 @@
             }
         },
         {
+            "controlID": "C-0057",
+            "patch": {
+                "name": "Privileged container"
+            }
+        },
+        {
+            "controlID": "C-0066",
+            "patch": {
+                "name": "Secret/etcd encryption enabled"
+            }
+        },
+        {
+            "controlID": "C-0069",
+            "patch": {
+                "name": "Disable anonymous access to Kubelet service"
+            }
+        },
+        {
+            "controlID": "C-0070",
+            "patch": {
+                "name": "Enforce Kubelet client TLS authentication"
+            }
+        },
+        {
+            "controlID": "C-0074",
+            "patch": {
+                "name": "Container runtime socket mounted"
+            }
+        },
+        {
             "controlID": "C-0211",
             "patch": {
                 "name": "Apply Security Context to Your Pods and Containers"
+            }
+        },
+        {
+            "controlID": "C-0255",
+            "patch": {
+                "name": "Workload with secret access"
+            }
+        },
+        {
+            "controlID": "C-0256",
+            "patch": {
+                "name": "External facing"
+            }
+        },
+        {
+            "controlID": "C-0257",
+            "patch": {
+                "name": "Workload with PVC access"
+            }
+        },
+        {
+            "controlID": "C-0258",
+            "patch": {
+                "name": "Workload with configMap access"
+            }
+        },
+        {
+            "controlID": "C-0259",
+            "patch": {
+                "name": "Workload with credential access"
+            }
+        },
+        {
+            "controlID": "C-0260",
+            "patch": {
+                "name": "Missing network policy"
+            }
+        },
+        {
+            "controlID": "C-0261",
+            "patch": {
+                "name": "ServiceAccount token mounted"
             }
         },
         {
@@ -117,15 +177,57 @@
             }
         },
         {
+            "controlID": "C-0264",
+            "patch": {
+            "name": "PersistentVolume without encyption"
+            }
+        },
+        {
             "controlID": "C-0265",
             "patch": {
                 "name": "Authenticated user has sensitive permissions"
             }
         },
         {
-            "controlID": "C-0057",
+            "controlID": "C-0267",
             "patch": {
-                "name": "Privileged container"
+                "name": "Workload with cluster takeover roles"
+            }
+        },
+        {
+            "controlID": "C-0270",
+            "patch": {
+                "name": "Ensure CPU limits are set"
+            }
+        },
+        {
+            "controlID": "C-0271",
+            "patch": {
+                "name": "Ensure memory limits are set"
+            }
+        },
+        {
+            "controlID": "C-0272",
+            "patch": {
+                "name": "Workload with administrative roles"
+            }
+        },
+        {
+            "controlID": "C-0273",
+            "patch": {
+                "name": "Outdated Kubernetes version"
+            }
+        },
+        {
+            "controlID": "C-0266",
+            "patch": {
+                "name": "Exposure to internet via Gateway API"
+            }
+        },
+        {
+            "controlID": "C-0274",
+            "patch": {
+                "name": "Verify Authenticated Service"
             }
         }
     ]

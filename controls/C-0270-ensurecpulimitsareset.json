@@ -1,0 +1,37 @@
+{
+    "name": "Ensure CPU limits are set",
+    "attributes": {
+        "controlTypeTags": [
+            "compliance",
+            "devops",
+            "security"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "service-destruction",
+                "categories": [
+                    "Denial of service"
+                ]
+            }
+        ]
+    },
+    "description": "This control identifies all Pods for which the CPU limits are not set.",
+    "remediation": "Set the CPU limits or use exception mechanism to avoid unnecessary notifications.",
+    "rulesNames": [
+        "resources-cpu-limits"
+    ],
+    "controlID": "C-0270",
+    "baseScore": 8.0,
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Resource management"
+        }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

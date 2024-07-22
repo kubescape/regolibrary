@@ -2,7 +2,7 @@
     "name": "AllControls",
     "description": "Contains all the controls from all the frameworks",
     "attributes": {
-        "armoBuiltin": true
+        "builtin": true
     },
     "scanningScope": {
         "matches": [
@@ -13,21 +13,9 @@
     "typeTags": ["compliance"],
     "activeControls": [
         {
-            "controlID": "C-0001",
-            "patch": {
-                "name": "Forbidden Container Registries"
-            }
-        },
-        {
             "controlID": "C-0002",
             "patch": {
-                "name": "Exec into container"
-            }
-        },
-        {
-            "controlID": "C-0004",
-            "patch": {
-                "name": "Resources memory limit and request"
+                "name": "Prevent containers from allowing command execution"
             }
         },
         {
@@ -39,13 +27,7 @@
         {
             "controlID": "C-0007",
             "patch": {
-                "name": "Data Destruction"
-            }
-        },
-        {
-            "controlID": "C-0009",
-            "patch": {
-                "name": "Resource limits"
+                "name": "Roles with delete capabilities"
             }
         },
         {
@@ -129,7 +111,7 @@
         {
             "controlID": "C-0035",
             "patch": {
-                "name": "Cluster-admin binding"
+                "name": "Administrative Roles"
             }
         },
         {
@@ -190,12 +172,6 @@
             "controlID": "C-0049",
             "patch": {
                 "name": "Network mapping"
-            }
-        },
-        {
-            "controlID": "C-0050",
-            "patch": {
-                "name": "Resources CPU limit and request"
             }
         },
         {
@@ -382,6 +358,18 @@
             "controlID": "C-0265",
             "patch": {
                 "name": "Authenticated user has sensitive permissions"
+            }
+        },
+        {
+            "controlID": "C-0270",
+            "patch": {
+                "name": "Ensure CPU limits are set"
+            }
+        },
+        {
+            "controlID": "C-0271",
+            "patch": {
+                "name": "Ensure memory limits are set"
             }
         }
     ]

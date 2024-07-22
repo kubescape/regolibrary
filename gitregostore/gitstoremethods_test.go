@@ -220,6 +220,40 @@ func gs_tests(t *testing.T, gs *GitRegoStore) {
 			"wrong control for framework name 'NSA' and control name 'Allow privilege escalation' expected: 'C-0016', found %s", control.ControlID,
 		)
 	})
+
+	t.Run("should retrieve list of fw subsections IDs", func(t *testing.T) {
+		t.Parallel()
+
+		subsectionsIDs, err := gs.GetControlFrameworkSubsections("C-0067", "cis-eks-t1.2.0")
+		require.NoError(t, err)
+		require.NotEmptyf(t, subsectionsIDs,
+			"failed to get subsections ids list for control 'C-0067' in framework name 'cis-eks-t1.2.0' %v", err,
+		)
+		assert.ElementsMatch(t, []string{"2.1"}, subsectionsIDs)
+
+		t.Run("should retrieve fw subsection by ID", func(t *testing.T) {
+			t.Parallel()
+
+			subsectionsIDs, err := gs.GetControlFrameworkSubsections("C-0167", "cis-aks-t1.2.0")
+			assert.NoError(t, err)
+			require.NotEmptyf(t, subsectionsIDs,
+				"failed to get subsections ids list for control 'C-0167' in framework name 'cis-aks-t1.2.0' %v", err,
+			)
+			assert.ElementsMatch(t, []string{"3.1"}, subsectionsIDs)
+		})
+	})
+}
+
+func TestGetPoliciesMethodsNewV2(t *testing.T) {
+	t.Parallel()
+
+	gs := NewGitRegoStoreV2(-1)
+	t.Run("shoud set objects in rego store", func(t *testing.T) {
+		require.NoError(t, gs.SetRegoObjects())
+	})
+
+	gs_tests(t, gs)
+
 }
 
 func TestGetPoliciesMethodsNew(t *testing.T) {

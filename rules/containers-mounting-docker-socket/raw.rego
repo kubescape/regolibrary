@@ -7,12 +7,15 @@ deny[msga] {
     volume := pod.spec.volumes[i]
 	host_path := volume.hostPath
     is_runtime_socket_mounting(host_path)
-	path := sprintf("spec.volumes[%v].hostPath.path", [format_int(i, 10)])
+	path := sprintf("spec.volumes[%v]", [format_int(i, 10)])
+	volumeMounts := pod.spec.containers[j].volumeMounts
+	pathMounts = volume_mounts(volume.name, volumeMounts, sprintf("spec.containers[%v]", [j]))
+	finalPath := array.concat([path], pathMounts)
     msga := {
 		"alertMessage": sprintf("volume: %v in pod: %v has mounting to Docker internals.", [volume.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
-		"deletePaths": [path],
-		"failedPaths": [path],
+		"deletePaths":finalPath,
+		"failedPaths": finalPath,
 		"fixPaths":[],
 		"alertScore": 5,
 		"alertObject": {
@@ -30,12 +33,15 @@ deny[msga] {
     volume := wl.spec.template.spec.volumes[i]
 	host_path := volume.hostPath
     is_runtime_socket_mounting(host_path)
-	path := sprintf("spec.template.spec.volumes[%v].hostPath.path", [format_int(i, 10)])
+	path := sprintf("spec.template.spec.volumes[%v]", [format_int(i, 10)])
+	volumeMounts := wl.spec.template.spec.containers[j].volumeMounts
+	pathMounts = volume_mounts(volume.name,volumeMounts, sprintf("spec.template.spec.containers[%v]", [j]))
+	finalPath := array.concat([path], pathMounts)
 	msga := {
 		"alertMessage": sprintf("volume: %v in %v: %v has mounting to Docker internals.", [ volume.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"deletePaths": [path],
-		"failedPaths": [path],
+		"deletePaths": finalPath,
+		"failedPaths": finalPath,
 		"fixPaths":[],
 		"alertScore": 5,
 		"alertObject": {
@@ -51,12 +57,15 @@ deny[msga] {
 	volume = wl.spec.jobTemplate.spec.template.spec.volumes[i]
     host_path := volume.hostPath
     is_runtime_socket_mounting(host_path)
-	path := sprintf("spec.jobTemplate.spec.template.spec.volumes[%v].hostPath.path", [format_int(i, 10)])
+	path := sprintf("spec.jobTemplate.spec.template.spec.volumes[%v]", [format_int(i, 10)])
+	volumeMounts := wl.spec.jobTemplate.spec.template.spec.containers[j].volumeMounts
+	pathMounts = volume_mounts(volume.name,volumeMounts, sprintf("spec.jobTemplate.spec.template.spec.containers[%v]", [j]))
+	finalPath := array.concat([path], pathMounts)
     msga := {
 		"alertMessage": sprintf("volume: %v in %v: %v has mounting to Docker internals.", [ volume.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
-		"deletePaths": [path],
-		"failedPaths": [path],
+		"deletePaths": finalPath,
+		"failedPaths": finalPath,
 		"fixPaths":[],
 		"alertScore": 5,
 		"alertObject": {
@@ -65,6 +74,10 @@ deny[msga] {
 	}
 }
 
+volume_mounts(name, volume_mounts, str) = [path] {
+	name == volume_mounts[j].name
+	path := sprintf("%s.volumeMounts[%v]", [str, j])
+} else = []
 
 is_runtime_socket_mounting(host_path) {
 	host_path.path == "/var/run/docker.sock"
