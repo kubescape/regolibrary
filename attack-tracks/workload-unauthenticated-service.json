@@ -1,0 +1,27 @@
+{
+    "apiVersion": "regolibrary.kubescape/v1alpha1",
+    "kind": "AttackTrack",
+    "metadata": {
+        "name": "workload-unauthenticated-service"
+    },
+    "spec": {
+        "version": "1.0",
+        "data": {
+            "name": "Initial Access",
+            "description": "An attacker can access the Kubernetes environment.",
+            "subSteps": [
+                {
+                    "name": "Execution (Vulnerable Image)",
+                    "description": "An attacker can execute malicious code by exploiting vulnerable images.",
+                    "checksVulnerabilities": true,
+                    "subSteps": [
+                        {
+                            "name": "Data Collection",
+                            "description": "An attacker can gather data."
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
