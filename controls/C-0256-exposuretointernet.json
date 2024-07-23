@@ -28,6 +28,12 @@
                 "categories": [
                     "Initial Access"
                 ]
+            },
+            {
+                "attackTrack": "workload-unauthenticated-service",
+                "categories": [
+                    "Initial Access"
+                ]
             }
         ]
     },
