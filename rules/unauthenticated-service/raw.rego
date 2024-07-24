@@ -29,7 +29,9 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertObject": {"k8sApiObjects": [wl]},
 		"relatedObjects": [
-			{"object": service},
+			{"object": service,
+			"reviewPaths": ["spec"],
+			},
 		],
 	}
 }
