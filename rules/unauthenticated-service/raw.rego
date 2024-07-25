@@ -21,7 +21,7 @@ deny contains msga if {
 		"alertMessage": sprintf("Unauthenticated service %v exposes %v", [service_name, wl.metadata.name]),
 		"alertScore": 7,
 		"fixPaths": [],
-		"reviewPaths": ["spec"],
+		"reviewPaths": [],
 		"failedPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {"k8sApiObjects": [wl]},

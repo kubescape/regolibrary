@@ -48,7 +48,7 @@
         "reviewPaths": ["spec"]
       }
     ],
-    "reviewPaths": ["spec"],
+    "reviewPaths": [],
     "ruleStatus": ""
   }
 ]
