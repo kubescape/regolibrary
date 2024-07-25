@@ -45,10 +45,10 @@
             }
           }
         },
-        "reviewPaths": null
+        "reviewPaths": ["spec"]
       }
     ],
-    "reviewPaths": ["spec"],
+    "reviewPaths": [],
     "ruleStatus": ""
   }
 ]

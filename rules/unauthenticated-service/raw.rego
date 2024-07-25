@@ -17,19 +17,18 @@ deny contains msga if {
 	service_name := service.metadata.name
 	has_unauthenticated_service(service_name, service.metadata.namespace, service_scan_result)
 
-	# Path to the service object
-	path := "spec"
-
 	msga := {
 		"alertMessage": sprintf("Unauthenticated service %v exposes %v", [service_name, wl.metadata.name]),
 		"alertScore": 7,
 		"fixPaths": [],
-		"reviewPaths": [path],
+		"reviewPaths": [],
 		"failedPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {"k8sApiObjects": [wl]},
 		"relatedObjects": [
-			{"object": service},
+			{"object": service,
+			"reviewPaths": ["spec"],
+			},
 		],
 	}
 }
