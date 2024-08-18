@@ -11,7 +11,7 @@
             "description": "The service is exposed outside the Kubernetes network.",
             "subSteps": [
                 {
-                    "name": "Data Collection",
+                    "name": "Execution",
                     "description": "Database access is missing authentication and it can be accessed by anyone"
                 }
             ]
