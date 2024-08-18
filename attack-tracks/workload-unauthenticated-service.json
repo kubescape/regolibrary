@@ -8,18 +8,11 @@
         "version": "1.0",
         "data": {
             "name": "Initial Access",
-            "description": "An attacker can access the Kubernetes environment.",
+            "description": "The service is exposed outside the Kubernetes network.",
             "subSteps": [
                 {
-                    "name": "Execution (Vulnerable Image)",
-                    "description": "An attacker can execute malicious code by exploiting vulnerable images.",
-                    "checksVulnerabilities": true,
-                    "subSteps": [
-                        {
-                            "name": "Data Collection",
-                            "description": "An attacker can gather data."
-                        }
-                    ]
+                    "name": "Execution",
+                    "description": "Database access is missing authentication and it can be accessed by anyone"
                 }
             ]
         }
