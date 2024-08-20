@@ -25,11 +25,6 @@ deny contains msga if {
 		"failedPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {"k8sApiObjects": [wl]},
-		"relatedObjects": [
-			{"object": service,
-			"reviewPaths": ["spec"],
-			},
-		],
 	}
 }
 
