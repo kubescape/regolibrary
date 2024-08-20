@@ -20,34 +20,7 @@
     "failedPaths": [],
     "fixPaths": [],
     "packagename": "armo_builtins",
-    "relatedObjects": [
-      {
-        "deletePaths": null,
-        "failedPaths": null,
-        "fixPaths": null,
-        "object": {
-          "apiVersion": "v1",
-          "kind": "Service",
-          "metadata": {
-            "name": "operator",
-            "namespace": "kubescape"
-          },
-          "spec": {
-            "ports": [
-              {
-                "port": 4002,
-                "protocol": "TCP",
-                "targetPort": 8080
-              }
-            ],
-            "selector": {
-              "app": "operator"
-            }
-          }
-        },
-        "reviewPaths": ["spec"]
-      }
-    ],
+    "relatedObjects": [],
     "reviewPaths": [],
     "ruleStatus": ""
   }
