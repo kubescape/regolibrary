@@ -4,6 +4,7 @@
 <!-- markdown-link-check-enable-->
 [![GitHub](https://img.shields.io/github/license/kubescape/kubescape)](https://github.com/kubescape/kubescape/blob/master/LICENSE)
 <!-- markdown-link-check-enable-->
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/kubescape/regolibrary/badge)](https://securityscorecards.dev/viewer/?uri=github.com/kubescape/regolibrary)
 
 # Kubescape Regolibrary
 
