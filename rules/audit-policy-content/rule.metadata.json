@@ -1,7 +1,6 @@
 {
   "name": "audit-policy-content",
   "attributes": {
-    "armoBuiltin": true,
     "hostSensorRule": "true"
   },
   "ruleLanguage": "Rego",

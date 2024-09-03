@@ -9,7 +9,6 @@
         "<https://docs.microsoft.com/en-us/azure/aks/manage-azure-rbac>"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": ["ensure-azure-rbac-is-set"],
     "baseScore": 7,

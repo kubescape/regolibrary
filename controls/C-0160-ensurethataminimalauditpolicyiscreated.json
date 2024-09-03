@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126657/recommendations/1838582"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "k8s-audit-logs-enabled-native-cis"
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

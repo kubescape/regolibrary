@@ -1,7 +1,6 @@
 {
   "name": "etcd-auto-tls-disabled",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

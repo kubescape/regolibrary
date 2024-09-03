@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "The API server container: kube-apiserver has insecure-port flag enabled",
+        "reviewPaths": [
+            "spec.containers[0].command[11]"
+        ],
         "failedPaths": [
             "spec.containers[0].command[11]"
         ],

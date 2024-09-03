@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Container: log-aggregator does not have memory-limit or request",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[1].resources.limits.memory",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "frontend"
+                    }
+                }
+            ]
+        }
+    }
+]

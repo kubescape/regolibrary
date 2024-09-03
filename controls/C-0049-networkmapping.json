@@ -1,7 +1,6 @@
 {
     "name": "Network mapping",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Discovery"
         ],

@@ -1,6 +1,7 @@
 [{
     "alertMessage": "service: my-service is exposed",
-    "failedPaths": ["spec.selector.matchLabels", "service.spec.selector"],
+    "reviewPaths": ["spec.selector.matchLabels", "spec.selector"],
+    "failedPaths": ["spec.selector.matchLabels", "spec.selector"],
     "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",

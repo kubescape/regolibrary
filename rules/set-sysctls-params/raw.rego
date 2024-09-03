@@ -12,12 +12,14 @@ deny[msga] {
     not pod.spec.securityContext.sysctls
 
     path := "spec.securityContext.sysctls"
+	fixPaths := [{"path": sprintf("%s.name", [path]), "value": "YOUR_VALUE"},
+				{"path": sprintf("%s.value", [path]), "value": "YOUR_VALUE"}]
     msga := {
 		"alertMessage": sprintf("Pod: %v does not set 'securityContext.sysctls'", [pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [],
-		"fixPaths": [{"path": path, "name": "net.ipv4.tcp_syncookie", "value": "1"}],
+		"fixPaths": fixPaths,
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -37,12 +39,14 @@ deny[msga] {
     not wl.spec.template.spec.securityContext.sysctls
 
     path := "spec.template.spec.securityContext.sysctls"
+	fixPaths := [{"path": sprintf("%s.name", [path]), "value": "YOUR_VALUE"},
+				{"path": sprintf("%s.value", [path]), "value": "YOUR_VALUE"}]
     msga := {
 		"alertMessage": sprintf("Workload: %v does not set 'securityContext.sysctls'", [wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [],
-		"fixPaths": [{"path": path, "name": "net.ipv4.tcp_syncookie", "value": "1"}],
+		"fixPaths": fixPaths,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -61,12 +65,14 @@ deny[msga] {
     not cj.spec.jobTemplate.spec.template.spec.securityContext.sysctls
 
     path := "spec.jobTemplate.spec.template.spec.securityContext.sysctls"
+	fixPaths := [{"path": sprintf("%s.name", [path]), "value": "YOUR_VALUE"},
+				{"path": sprintf("%s.value", [path]), "value": "YOUR_VALUE"}]
     msga := {
 		"alertMessage": sprintf("CronJob: %v does not set 'securityContext.sysctls'", [cj.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [],
-		"fixPaths": [{"path": path, "name": "net.ipv4.tcp_syncookie", "value": "1"}],
+		"fixPaths": fixPaths,
 		"alertObject": {
 			"k8sApiObjects": [cj]
 		}

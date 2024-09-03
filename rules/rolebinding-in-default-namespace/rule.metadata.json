@@ -1,7 +1,6 @@
 {
     "name": "rolebinding-in-default-namespace",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

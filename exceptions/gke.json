@@ -1010,6 +1010,20 @@
                 "designatorType": "Attributes",
                 "attributes": {
                     "kind": "ValidatingWebhookConfiguration",
+                    "name": "gmp-operator.gmp-system.monitoring.googleapis.com"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ValidatingWebhookConfiguration",
+                    "name": "warden-validating.config.common-webhooks.networking.gke.io"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ValidatingWebhookConfiguration",
                     "name": "nodelimit.config.common-webhooks.networking.gke.io"
                 }
             },
@@ -1103,6 +1117,20 @@
                     "kind": "Namespace",
                     "name": "kube-system"
                 }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Namespace",
+                    "name": "gmp-public"
+                }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Namespace",
+                    "name": "gmp-system"
+                }
             }
         ],
         "posturePolicies": [
@@ -1142,11 +1170,107 @@
                     "name": "route-controller",   
                     "namespace": "kube-system"
                 }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "superadmin",   
+                    "namespace": "kube-system"
+                }	
+                
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "pkgextract-service",   
+                    "namespace": "kube-system"
+                }	
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "pkgextract-service",   
+                    "namespace": "kube-system"
+                }	
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "default",   
+                    "namespace": "gmp-system"
+                }	
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "collector",   
+                    "namespace": "gmp-system"
+                }	
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "operator",   
+                    "namespace": "gmp-system"
+                }	
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ServiceAccount",
+                    "name": "collector",   
+                    "namespace": "gmp-public"
+                }	
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "StatefulSet",
+                    "name": "alertmanager",   
+                    "namespace": "gmp-system"
+                }	
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "DaemonSet",
+                    "name": "collector",   
+                    "namespace": "gmp-system"
+                }	
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "rule-evaluator",   
+                    "namespace": "gmp-system"
+                }	
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "Deployment",
+                    "name": "gmp-operator",   
+                    "namespace": "gmp-system"
+                }	
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ConfigMap",
+                    "name": "gke-metrics-agent-conf",   
+                    "namespace": "kube-system"
+                }	
             }
         ],
         "posturePolicies": [
             {
-                "controlID": "c-0053"
             }
         ]
     }

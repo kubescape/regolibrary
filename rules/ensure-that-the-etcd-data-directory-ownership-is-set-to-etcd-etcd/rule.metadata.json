@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-etcd-data-directory-ownership-is-set-to-etcd-etcd",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

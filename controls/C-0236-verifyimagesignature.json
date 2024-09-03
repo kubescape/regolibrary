@@ -7,8 +7,7 @@
     "manual_test": "",
     "references": [],
     "attributes": {
-        "actionRequired": "configuration",
-        "armoBuiltin": true
+        "actionRequired": "configuration"
     },
     "rulesNames": [
         "verify-image-signature"

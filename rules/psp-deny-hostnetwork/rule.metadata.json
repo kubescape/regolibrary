@@ -1,7 +1,6 @@
 {
     "name": "psp-deny-hostnetwork",
     "attributes": {
-    "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

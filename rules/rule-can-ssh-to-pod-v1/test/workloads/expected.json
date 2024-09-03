@@ -1,5 +1,6 @@
 [{
     "alertMessage": "Deployment: test2 is exposed by SSH services: {\"apiVersion\": \"v1\", \"kind\": \"Service\", \"metadata\": {\"name\": \"my-service\", \"namespace\": \"default\"}, \"spec\": {\"ports\": [{\"port\": 2222, \"protocol\": \"TCP\", \"targetPort\": 2222}], \"selector\": {\"app\": \"audit-pod\"}}}",
+    "reviewPaths": ["spec.template.metadata.labels"],
     "failedPaths": ["spec.template.metadata.labels"],
     "fixPaths": null,
     "ruleStatus": "",

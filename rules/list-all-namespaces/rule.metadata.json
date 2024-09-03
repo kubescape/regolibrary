@@ -1,7 +1,6 @@
 {
   "name": "list-all-namespaces",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

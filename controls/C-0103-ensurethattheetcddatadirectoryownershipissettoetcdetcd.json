@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126653/recommendations/1838579"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-that-the-etcd-data-directory-ownership-is-set-to-etcd-etcd"
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

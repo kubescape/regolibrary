@@ -6,7 +6,7 @@ metadata:
     role: myrole
 spec:
   securityContext:
-    allowPrivilegeEscalation: false
+    runAsNonRoot: false
   containers:
     - name: web
       image: nginx
@@ -14,3 +14,5 @@ spec:
         - name: web
           containerPort: 80
           protocol: TCP
+      securityContext:
+        runAsGroup: 1000

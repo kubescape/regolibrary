@@ -1,7 +1,6 @@
 {
     "name": "automount-service-account",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

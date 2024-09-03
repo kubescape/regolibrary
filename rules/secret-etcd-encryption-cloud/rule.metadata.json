@@ -1,7 +1,6 @@
 {
   "name": "secret-etcd-encryption-cloud",
   "attributes": {
-  "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

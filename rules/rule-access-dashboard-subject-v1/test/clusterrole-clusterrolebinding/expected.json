@@ -1,5 +1,6 @@
 [{
     "alertMessage": "Subject: Group-manager is bound to dashboard role/clusterrole",
+    "reviewPaths": ["relatedObjects[0].subjects[0]", "relatedObjects[0].roleRef.name"],
     "failedPaths": ["relatedObjects[0].subjects[0]", "relatedObjects[0].roleRef.name"],
     "fixPaths": [],
     "ruleStatus": "",
@@ -46,6 +47,7 @@
     }
 }, {
     "alertMessage": "Subject: Group-manager is bound to dashboard role/clusterrole",
+    "reviewPaths": ["relatedObjects[0].subjects[1]", "relatedObjects[0].roleRef.name"],
     "failedPaths": ["relatedObjects[0].subjects[1]", "relatedObjects[0].roleRef.name"],
     "fixPaths": [],
     "ruleStatus": "",
@@ -92,6 +94,7 @@
     }
 }, {
     "alertMessage": "Subject: Group-dev is bound to dashboard role/clusterrole",
+    "reviewPaths": ["relatedObjects[0].subjects[0]", "relatedObjects[0].roleRef.name"],
     "failedPaths": ["relatedObjects[0].subjects[0]", "relatedObjects[0].roleRef.name"],
     "fixPaths": [],
     "ruleStatus": "",
@@ -138,6 +141,7 @@
     }
 }, {
     "alertMessage": "Subject: Group-dev is bound to dashboard role/clusterrole",
+    "reviewPaths": ["relatedObjects[0].subjects[1]", "relatedObjects[0].roleRef.name"],
     "failedPaths": ["relatedObjects[0].subjects[1]", "relatedObjects[0].roleRef.name"],
     "fixPaths": [],
     "ruleStatus": "",

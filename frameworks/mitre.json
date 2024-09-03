@@ -2,7 +2,7 @@
     "name": "MITRE",
     "description": "Testing MITRE for Kubernetes as suggested by microsoft in https://www.microsoft.com/security/blog/wp-content/uploads/2020/04/k8s-matrix.png",
     "attributes": {
-        "armoBuiltin": true
+        "builtin": true
     },
     "scanningScope": {
         "matches": [
@@ -15,13 +15,13 @@
         {
             "controlID": "C-0002",
             "patch": {
-                "name": "Exec into container"
+                "name": "Prevent containers from allowing command execution"
             }
         },
         {
             "controlID": "C-0007",
             "patch": {
-                "name": "Data Destruction"
+                "name": "Roles with delete capabilities"
             }
         },
         {
@@ -69,7 +69,7 @@
         {
             "controlID": "C-0035",
             "patch": {
-                "name": "Cluster-admin binding"
+                "name": "Administrative Roles"
             }
         },
         {

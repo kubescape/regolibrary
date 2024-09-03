@@ -1,7 +1,6 @@
 {
     "name": "rule-can-create-pod",
     "attributes": {
-      "armoBuiltin": true,
       "resourcesAggregator": "subject-role-rolebinding",
       "useFromKubescapeVersion": "v1.0.133"
     },

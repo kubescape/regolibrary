@@ -1,7 +1,6 @@
 {
     "name": "workload-mounted-secrets",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

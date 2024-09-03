@@ -1,8 +1,13 @@
 [
     {
         "alertMessage": "volume: test-volume in pod: test-pd has mounting to Docker internals.",
+        "deletePaths": [
+            "spec.volumes[0]",
+            "spec.containers[0].volumeMounts[0]"
+        ],
         "failedPaths": [
-            "spec.volumes[0].hostPath.path"
+            "spec.volumes[0]",
+            "spec.containers[0].volumeMounts[0]"
         ],
         "fixPaths": [],
         "ruleStatus": "",

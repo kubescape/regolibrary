@@ -1,7 +1,6 @@
 {
   "name": "etcd-peer-tls-enabled",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

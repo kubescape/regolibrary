@@ -10,7 +10,6 @@
         "https://workbench.cisecurity.org/sections/1126661/recommendations/1838591"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "rule-list-all-cluster-admins-v1"

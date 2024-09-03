@@ -1,0 +1,31 @@
+{
+    "postureControlInputs": {
+        "sensitiveKeyNames": [
+            "aws_access_key_id",
+            "aws_secret_access_key",
+            "azure_batchai_storage_account",
+            "azure_batchai_storage_key",
+            "azure_batch_account",
+            "azure_batch_key",
+            "secret",
+            "key",
+            "password",
+            "pwd",
+            "token",
+            "jwt",
+            "bearer",
+            "credential"
+        ],
+        "sensitiveValues": [
+            "BEGIN \\w+ PRIVATE KEY",
+            "PRIVATE KEY",
+            "eyJhbGciO",
+            "JWT",
+            "Bearer",
+            "_key_",
+            "_secret_"
+        ],
+        "sensitiveKeyNamesAllowed": ["_FILE"],
+        "sensitiveValuesAllowed": ["my/secret/file/path"]
+    }
+}

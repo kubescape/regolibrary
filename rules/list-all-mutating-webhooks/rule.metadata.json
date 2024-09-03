@@ -1,8 +1,7 @@
 {
     "name": "list-all-mutating-webhooks",
     "attributes": {
-      "m$K8sThreatMatrix": "Persistence::Validate admission controller",
-      "armoBuiltin": true
+      "m$K8sThreatMatrix": "Persistence::Validate admission controller"
     },
     "ruleLanguage": "Rego",
     "match": [

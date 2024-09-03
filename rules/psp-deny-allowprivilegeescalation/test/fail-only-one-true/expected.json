@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "PodSecurityPolicy: 'eks.privileged' has allowPrivilegeEscalation set as true.",
+        "deletePaths": [
+            "spec.allowPrivilegeEscalation"
+        ],
         "failedPaths": [
             "spec.allowPrivilegeEscalation"
         ],

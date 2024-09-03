@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126670/recommendations/1838684"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-that-the-scheduler-profiling-argument-is-set-to-false"
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

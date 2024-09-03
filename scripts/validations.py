@@ -1,6 +1,8 @@
 import json
+from operator import itemgetter
 import os
 import re
+import requests
 
 FRAMEWORK_DIR = "frameworks"
 CONTROLS_DIR = "controls"
@@ -10,6 +12,7 @@ RULES_CHECKED = set()
 CONTROLID_TO_FILENAME = {}
 RULENAME_TO_RULE_DIR = {}
 ATTACK_TRACKS_DICT = {}
+k8s_RELEASE_URL = "https://api.github.com/repos/kubernetes/kubernetes/releases"
 
 def ignore_file(file_name: str):
     return file_name.startswith('__')
@@ -152,6 +155,70 @@ def validate_rules():
             data = json.load(rule_file)
             assert data["name"] in RULES_CHECKED, f"rule {data['name']} is not used by any control"
 
+def get_kubernetes_supported_versions():
+    try:
+        response = requests.get(k8s_RELEASE_URL)
+        response.raise_for_status()
+    except requests.RequestException as e:
+        raise Exception("Failed to fetch Kubernetes releases") from e
+
+    releases = response.json()
+
+    # Order the releases by publication date
+    ordered_releases = sorted(releases, key=itemgetter('created_at'), reverse=True)
+
+    supported_versions = []
+    for release in ordered_releases:
+        if not release['draft'] and not release['prerelease']:
+            tag_name = release['tag_name']
+            if all(x not in tag_name for x in ['alpha', 'beta', 'rc']):
+                major_minor_version = '.'.join(tag_name.lstrip('v').split('.')[:2])
+                if major_minor_version not in supported_versions:
+                    supported_versions.append(major_minor_version)
+
+        # we are taking 5 since smaller versions might have updates after the latest major.minor version
+        if len(supported_versions) == 5:
+            break
+
+    if not supported_versions:
+        raise Exception("No supported Kubernetes versions found.")
+
+    # Sort the versions in descending order as strings
+    sorted_versions = sorted(supported_versions, reverse=True)
+
+    # Get the top 3 versions
+    top_3_versions = sorted_versions[:3]
+
+    return top_3_versions
+
+def validate_k8s_supported_versions_in_rego():
+    # Step 1: Get the latest supported Kubernetes versions
+    api_versions = get_kubernetes_supported_versions()
+
+    # Step 2 & 3: Check the Rego file and compare
+    # Read the rego file
+    file_path = os.path.join("rules/outdated-k8s-version/raw.rego")
+    try:
+        with open(file_path, 'r') as file:
+            rego_content = file.read()
+    except FileNotFoundError:
+        raise Exception(f"File {file_path} not found.")
+    
+    # Extract the currently supported versions from the file
+    versions_pattern = re.compile(r'supported_k8s_versions := \["(v[0-9]+\.[0-9]+)", "(v[0-9]+\.[0-9]+)", "(v[0-9]+\.[0-9]+)"\]')
+    match = versions_pattern.search(rego_content)
+    if not match:
+        raise Exception("Could not find the supported Kubernetes versions in the Rego file.")
+    
+    file_versions = list(match.groups())
+    # Format the API versions to match the Rego file format
+    formatted_api_versions = ['v' + version for version in api_versions]
+    
+    # Compare the versions from the API with those in the file
+    if set(formatted_api_versions) != set(file_versions):
+        raise Exception(f"The Rego file's (outdated-k8s-version/raw.rego) supported Kubernetes versions: {file_versions} do not match the latest Kubernetes supported versions: {formatted_api_versions} from {k8s_RELEASE_URL}. Please update the Rego file: rules/outdated-k8s-version/raw.rego")
+    else:
+        print("The rule: outdated-k8s-version/raw.rego contains the correct latest supported Kubernetes versions.")
 
 if __name__ == "__main__":
     fill_rulename_to_rule_dir()
@@ -160,3 +227,4 @@ if __name__ == "__main__":
     validate_controls_in_framework()
     validate_controls()
     validate_rules()
+    validate_k8s_supported_versions_in_rego()

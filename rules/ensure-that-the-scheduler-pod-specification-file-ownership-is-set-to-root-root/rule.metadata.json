@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-scheduler-pod-specification-file-ownership-is-set-to-root-root",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

@@ -9,17 +9,19 @@ deny[msga] {
 	container := pod.spec.containers[i]
 
 	start_of_path := "spec"
-	alertInfo := evaluate_workload_non_root_container(container, pod, start_of_path)
-	fixPath := get_fixed_path(alertInfo, i)
-    failed_path := get_failed_path(alertInfo, i) 
+	run_as_user_fixpath := evaluate_workload_run_as_user(container, pod, start_of_path)
+	run_as_group_fixpath := evaluate_workload_run_as_group(container, pod, start_of_path)
+	all_fixpaths := array.concat(run_as_user_fixpath, run_as_group_fixpath)
+	count(all_fixpaths) > 0
+	fixPaths := get_fixed_paths(all_fixpaths, i)
 
     msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  may run as root", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"reviewPaths": failed_path,
-		"failedPaths": failed_path,
-        "fixPaths": fixPath,
+		"reviewPaths": [],
+		"failedPaths": [],
+        "fixPaths": fixPaths,
 		"alertObject": {
 			"k8sApiObjects": [pod]
 		}
@@ -34,16 +36,19 @@ deny[msga] {
     container := wl.spec.template.spec.containers[i]
 
 	start_of_path := "spec.template.spec"
-	alertInfo := evaluate_workload_non_root_container(container, wl.spec.template, start_of_path)
-	fixPath := get_fixed_path(alertInfo, i)
-    failed_path := get_failed_path(alertInfo, i) 
+	run_as_user_fixpath := evaluate_workload_run_as_user(container, wl.spec.template, start_of_path)
+	run_as_group_fixpath := evaluate_workload_run_as_group(container, wl.spec.template, start_of_path)
+	all_fixpaths := array.concat(run_as_user_fixpath, run_as_group_fixpath)
+	count(all_fixpaths) > 0
+	fixPaths := get_fixed_paths(all_fixpaths, i)
+
     msga := {
-		"alertMessage": sprintf("container :%v in %v: %v may run as root", [container.name, wl.kind, wl.metadata.name]),
+		"alertMessage": sprintf("container: %v in %v: %v may run as root", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"reviewPaths": failed_path,
-		"failedPaths": failed_path,
-        "fixPaths": fixPath,
+		"reviewPaths": [],
+		"failedPaths": [],
+        "fixPaths": fixPaths,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
@@ -57,39 +62,38 @@ deny[msga] {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
 	start_of_path := "spec.jobTemplate.spec.template.spec"
-	alertInfo := evaluate_workload_non_root_container(container, wl.spec.jobTemplate.spec.template, start_of_path)
-	fixPath := get_fixed_path(alertInfo, i)
-    failed_path := get_failed_path(alertInfo, i) 
+	run_as_user_fixpath := evaluate_workload_run_as_user(container, wl.spec.jobTemplate.spec.template, start_of_path)
+	run_as_group_fixpath := evaluate_workload_run_as_group(container, wl.spec.jobTemplate.spec.template, start_of_path)
+	all_fixpaths := array.concat(run_as_user_fixpath, run_as_group_fixpath)
+	count(all_fixpaths) > 0
+	fixPaths := get_fixed_paths(all_fixpaths, i)
 	
 
     msga := {
-		"alertMessage": sprintf("container :%v in %v: %v  may run as root", [container.name, wl.kind, wl.metadata.name]),
+		"alertMessage": sprintf("container: %v in %v: %v  may run as root", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"reviewPaths": failed_path,
-		"failedPaths": failed_path,
-        "fixPaths": fixPath,
+		"reviewPaths": [],
+		"failedPaths": [],
+        "fixPaths": fixPaths,
 		"alertObject": {
 			"k8sApiObjects": [wl]
 		}
 	}
 }
 
-get_failed_path(alertInfo, i) = [replace(alertInfo.failed_path,"container_ndx",format_int(i,10))] {
-	alertInfo.failed_path != ""
-} else = []
 
-
-get_fixed_path(alertInfo, i) = [{"path":replace(alertInfo.fixPath[0].path,"container_ndx",format_int(i,10)), "value":alertInfo.fixPath[0].value}, {"path":replace(alertInfo.fixPath[1].path,"container_ndx",format_int(i,10)), "value":alertInfo.fixPath[1].value}]{
-	count(alertInfo.fixPath) == 2
-} else = [{"path":replace(alertInfo.fixPath[0].path,"container_ndx",format_int(i,10)), "value":alertInfo.fixPath[0].value}] {
-	count(alertInfo.fixPath) == 1
-}  else = []
+get_fixed_paths(all_fixpaths, i) = [{"path":replace(all_fixpaths[0].path,"container_ndx",format_int(i,10)), "value":all_fixpaths[0].value}, {"path":replace(all_fixpaths[1].path,"container_ndx",format_int(i,10)), "value":all_fixpaths[1].value}]{
+	count(all_fixpaths) == 2
+} else = [{"path":replace(all_fixpaths[0].path,"container_ndx",format_int(i,10)), "value":all_fixpaths[0].value}] 
 
 #################################################################################
 # Workload evaluation 
 
-evaluate_workload_non_root_container(container, pod, start_of_path) = alertInfo {
+# if runAsUser is set to 0 and runAsNonRoot is set to false/ not set - suggest to set runAsUser to 1000
+# if runAsUser is not set and runAsNonRoot is set to false/ not set - suggest to set runAsNonRoot to true
+# all checks are both on the pod and the container level
+evaluate_workload_run_as_user(container, pod, start_of_path) = fixPath {
 	runAsNonRootValue := get_run_as_non_root_value(container, pod, start_of_path)
 	runAsNonRootValue.value == false
 	
@@ -97,12 +101,18 @@ evaluate_workload_non_root_container(container, pod, start_of_path) = alertInfo 
 	runAsUserValue.value == 0
 
 	alertInfo := choose_first_if_defined(runAsUserValue, runAsNonRootValue)
-} else = alertInfo {
-    allowPrivilegeEscalationValue := get_allow_privilege_escalation(container, pod, start_of_path)
-    allowPrivilegeEscalationValue.value == true
+	fixPath := alertInfo.fixPath
+} else = [] 
 
-    alertInfo := allowPrivilegeEscalationValue
-}
+
+# if runAsGroup is set to 0/ not set - suggest to set runAsGroup to 1000
+# all checks are both on the pod and the container level
+evaluate_workload_run_as_group(container, pod, start_of_path) = fixPath {	
+	runAsGroupValue := get_run_as_group_value(container, pod, start_of_path)
+	runAsGroupValue.value == 0
+
+	fixPath := runAsGroupValue.fixPath
+} else = []
 
 
 #################################################################################
@@ -110,60 +120,32 @@ evaluate_workload_non_root_container(container, pod, start_of_path) = alertInfo 
 
 
 get_run_as_non_root_value(container, pod, start_of_path) = runAsNonRoot {
-    failed_path := sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [start_of_path]) 
-    runAsNonRoot := {"value" : container.securityContext.runAsNonRoot, "failed_path" : failed_path, "fixPath": [] ,"defined" : true}
+    runAsNonRoot := {"value" : container.securityContext.runAsNonRoot, "fixPath": [{"path": sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [start_of_path]), "value":"true"}], "defined" : true}
 } else = runAsNonRoot {
-	failed_path := sprintf("%v.securityContext.runAsNonRoot", [start_of_path]) 
-    runAsNonRoot := {"value" : pod.spec.securityContext.runAsNonRoot,  "failed_path" : failed_path, "fixPath": [], "defined" : true}
-} else = {"value" : false,  "failed_path" : "", "fixPath": [{"path": sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [start_of_path]), "value":"true"}], "defined" : false} {
-	is_allow_privilege_escalation_field(container, pod)
-} else = {"value" : false,  "failed_path" : "", "fixPath": [{"path":  sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [start_of_path]) , "value":"true"}, {"path":sprintf("%v.containers[container_ndx].securityContext.allowPrivilegeEscalation", [start_of_path]), "value":"false"}], "defined" : false}
+    runAsNonRoot := {"value" : pod.spec.securityContext.runAsNonRoot, "fixPath": [{"path": sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [start_of_path]), "value":"true"}], "defined" : true}
+}  else = {"value" : false, "fixPath": [{"path":  sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [start_of_path]) , "value":"true"}], "defined" : false}
 
 get_run_as_user_value(container, pod, start_of_path) = runAsUser {
-	failed_path := sprintf("%v.containers[container_ndx].securityContext.runAsUser", [start_of_path]) 
-    runAsUser := {"value" : container.securityContext.runAsUser,  "failed_path" : failed_path,  "fixPath": [], "defined" : true}
+	path := sprintf("%v.containers[container_ndx].securityContext.runAsUser", [start_of_path]) 
+    runAsUser := {"value" : container.securityContext.runAsUser, "fixPath": [{"path": path, "value": "1000"}], "defined" : true}
 } else = runAsUser {
-	failed_path := sprintf("%v.securityContext.runAsUser", [start_of_path]) 
-    runAsUser := {"value" : pod.spec.securityContext.runAsUser,  "failed_path" : failed_path, "fixPath": [],"defined" : true}
-} else = {"value" : 0, "failed_path": "", "fixPath": [{"path":  sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [start_of_path]), "value":"true"}],"defined" : false}{
-	is_allow_privilege_escalation_field(container, pod)
-} else = {"value" : 0, "failed_path": "", 
-	"fixPath": [{"path":  sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [start_of_path]), "value":"true"},{"path":  sprintf("%v.containers[container_ndx].securityContext.allowPrivilegeEscalation", [start_of_path]), "value":"false"}],
+	path := sprintf("%v.securityContext.runAsUser", [start_of_path]) 
+    runAsUser := {"value" : pod.spec.securityContext.runAsUser, "fixPath": [{"path": path, "value": "1000"}],"defined" : true}
+} else = {"value" : 0, "fixPath": [{"path":  sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [start_of_path]), "value":"true"}],
 	"defined" : false}
 
 get_run_as_group_value(container, pod, start_of_path) = runAsGroup {
-	failed_path := sprintf("%v.containers[container_ndx].securityContext.runAsGroup", [start_of_path])
-    runAsGroup := {"value" : container.securityContext.runAsGroup,  "failed_path" : failed_path, "fixPath": [],"defined" : true}
+	path := sprintf("%v.containers[container_ndx].securityContext.runAsGroup", [start_of_path])
+    runAsGroup := {"value" : container.securityContext.runAsGroup, "fixPath": [{"path": path, "value": "1000"}],"defined" : true}
 } else = runAsGroup {
-	failed_path := sprintf("%v.securityContext.runAsGroup", [start_of_path])
-    runAsGroup := {"value" : pod.spec.securityContext.runAsGroup,  "failed_path" : failed_path, "fixPath":[], "defined" : true}
-} else = {"value" : 0, "failed_path": "", "fixPath": [{"path": sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [start_of_path]), "value":"true"}], "defined" : false}{
-	is_allow_privilege_escalation_field(container, pod)
-} else = {"value" : 0, "failed_path": "", 
-	"fixPath": [{"path": sprintf("%v.containers[container_ndx].securityContext.runAsNonRoot", [start_of_path]), "value":"true"},{"path": sprintf("%v.containers[container_ndx].securityContext.allowPrivilegeEscalation", [start_of_path]), "value":"false"}],
+	path := sprintf("%v.securityContext.runAsGroup", [start_of_path])
+    runAsGroup := {"value" : pod.spec.securityContext.runAsGroup, "fixPath":[{"path": path, "value": "1000"}], "defined" : true}
+} else = {"value" : 0, "fixPath": [{"path": sprintf("%v.containers[container_ndx].securityContext.runAsGroup", [start_of_path]), "value":"1000"}],
  	"defined" : false
 }
-
-get_allow_privilege_escalation(container, pod, start_of_path) = allowPrivilegeEscalation {
-	failed_path := sprintf("%v.containers[container_ndx].securityContext.allowPrivilegeEscalation", [start_of_path])
-    allowPrivilegeEscalation := {"value" : container.securityContext.allowPrivilegeEscalation,  "failed_path" : failed_path, "fixPath": [],"defined" : true}
-} else = allowPrivilegeEscalation {
-	failed_path := sprintf("%v.securityContext.allowPrivilegeEscalation", [start_of_path])
-    allowPrivilegeEscalation := {"value" : pod.spec.securityContext.allowPrivilegeEscalation,  "failed_path" : failed_path, "fixPath": [],"defined" : true}
-} else = {"value" : true, "failed_path": "", "fixPath": [{"path": sprintf("%v.containers[container_ndx].securityContext.allowPrivilegeEscalation", [start_of_path]), "value":"false"}], "defined" : false}
 
 choose_first_if_defined(l1, l2) = c {
     l1.defined
     c := l1
 } else = l2
-
-
-is_allow_privilege_escalation_field(container, pod) {
-	container.securityContext.allowPrivilegeEscalation == false
-}
-
-is_allow_privilege_escalation_field(container, pod) {
-	pod.spec.securityContext.allowPrivilegeEscalation == false
-}
-
 

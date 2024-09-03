@@ -10,7 +10,6 @@
         "https://workbench.cisecurity.org/sections/1126662/recommendations/1838600"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "pod-security-admission-applied-1",
@@ -24,7 +23,8 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster",
+            "file"
         ]
     }
 }

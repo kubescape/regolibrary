@@ -1,1 +1,30 @@
-[{"alertMessage":"Please validate the request timeout flag is set to an appropriate value","failedPaths":["spec.containers[0].command[1]"],"fixPaths":[],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}}]
+[
+    {
+        "alertMessage": "Please validate the request timeout flag is set to an appropriate value",
+        "reviewPaths": [
+            "spec.containers[0].command[1]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[1]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

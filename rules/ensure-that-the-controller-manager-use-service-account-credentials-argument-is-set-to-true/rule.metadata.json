@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-controller-manager-use-service-account-credentials-argument-is-set-to-true",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

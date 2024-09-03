@@ -1,0 +1,51 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  creationTimestamp: "2024-02-04T19:06:03Z"
+  generation: 1
+  labels:
+    example: httpbin-route
+  name: httpbin
+  namespace: httpbin
+  resourceVersion: "914"
+  uid: fd820080-801d-4fa7-934a-e23abe8bf746
+spec:
+  hostnames:
+  - www.example.com
+  parentRefs:
+  - group: gateway.networking.k8s.io
+    kind: Gateway
+    name: http
+    namespace: gloo-system
+  rules:
+  - backendRefs:
+    - group: ""
+      kind: Service
+      name: httpbin
+      port: 8000
+      weight: 1
+    matches:
+    - path:
+        type: PathPrefix
+        value: /
+status:
+  parents:
+  - conditions:
+    - lastTransitionTime: "2024-02-04T19:06:03Z"
+      message: ""
+      observedGeneration: 1
+      reason: Accepted
+      status: "True"
+      type: Accepted
+    - lastTransitionTime: "2024-02-04T19:06:03Z"
+      message: ""
+      observedGeneration: 1
+      reason: ResolvedRefs
+      status: "True"
+      type: ResolvedRefs
+    controllerName: solo.io/gloo-gateway
+    parentRef:
+      group: gateway.networking.k8s.io
+      kind: Gateway
+      name: http
+      namespace: gloo-system

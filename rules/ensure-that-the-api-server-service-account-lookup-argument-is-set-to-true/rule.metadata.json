@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-api-server-service-account-lookup-argument-is-set-to-true",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

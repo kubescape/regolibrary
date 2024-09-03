@@ -9,7 +9,6 @@
         "https://docs.aws.amazon.com/eks/latest/userguide/fargate.html"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "alert-fargate-not-in-use"

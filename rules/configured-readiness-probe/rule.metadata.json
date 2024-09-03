@@ -1,7 +1,6 @@
 {
     "name": "configured-readiness-probe",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

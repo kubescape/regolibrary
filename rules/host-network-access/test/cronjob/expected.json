@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "CronJob: hello has a pod connected to the host network",
+        "deletePaths": [
+            "spec.jobTemplate.spec.template.spec.hostNetwork"
+        ],
         "failedPaths": [
             "spec.jobTemplate.spec.template.spec.hostNetwork"
         ],

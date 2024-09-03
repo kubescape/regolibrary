@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126668/recommendations/1838645"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "read-only-port-enabled-updated"
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

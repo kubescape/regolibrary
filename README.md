@@ -31,7 +31,6 @@ Example of a framework:
     "name": "DevOpsBest",
     "description": "This framework is recommended for use by devops.",
     "attributes": {
-      "armoBuiltin": true
     },
     "scanningScope": {
         "matches": [
@@ -54,7 +53,6 @@ Example of a framework:
     ]
 }
 ```
-* Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
 * controlNames - List of controls to run, must be exact name. Use copy-paste to be sure.
 * `scanningScope` - this framework will run just if kubescape scan process match to the scope in the list.(for example the framework above will run if the running kubescape scan is for scanning cluster or file) - list of allowed scanning scope ``` [["cluster", "file"], ["cluster"], ["cloud"], ["GKE"], ["EKS"], ["AKS"]] ```. `cloud` meaning - will run just on managed cluster
 
@@ -68,7 +66,6 @@ Example of a control:
 {
     "name": "Pods in default namespace",
     "attributes": {
-        "armoBuiltin": true
     },
     "description": "It is recommended to avoid running pods in cluster without explicit namespace assignment. This control identifies all the pods running in the default namespace.",
     "remediation": "Create necessary namespaces and move all the pods from default namespace there.",
@@ -94,7 +91,6 @@ Example of a control:
    }
 }
 ```
-* Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
 * `rulesNames` -  List of rules to run, must be exact name. Use copy-paste to be sure.
 * `scanningScope` - this control will run just if kubescape scan process match to the scope in the list.(for example the control above will run if the running kubescape scan is for scanning cluster or file) - list of allowed scanning scope ``` [["cluster", "file"], ["cluster"], ["cloud"], ["GKE"], ["EKS"], ["AKS"]] ```. `cloud` meaning - will run just on managed cluster
 * `category` - The category the control belongs to. Some controls may also define a `subCategory`. The available categories/sub categories are listed under the `mapCategoryNameToID.json` file, mapped to their respective IDs
@@ -116,7 +112,6 @@ Example of rule.metadata.json:
 {
     "name": "resources-cpu-limit-and-request",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [
@@ -146,7 +141,6 @@ Example of rule.metadata.json:
     "ruleQuery": "armo_builtins"
 }
 ```
-* Attribute `"armoBuiltin": true` - mandatory for armo rules. Only ARMO team members are authorized to create builtin objects.
 
 
 * See [rule go struct](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructures.go#L37) for further explanations of rule fields

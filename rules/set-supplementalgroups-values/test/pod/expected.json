@@ -1,21 +1,25 @@
 [
-    {
-        "alertMessage": "Pod: nginx does not set 'securityContext.supplementalGroups'",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "failedPaths": ["spec.securityContext"],
-		    "fixPaths": [],
-        "ruleStatus": "",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                  "apiVersion": "v1",
-                  "kind": "Pod",
-                  "metadata": {
-                    "name": "nginx"
-                  }
-                }
-            ]
+  {
+    "alertMessage": "Pod: nginx does not set 'securityContext.supplementalGroups'",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "fixPaths": [
+      {
+        "path": "spec.securityContext.supplementalGroups",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "nginx"
+          }
         }
+      ]
     }
+  }
 ]

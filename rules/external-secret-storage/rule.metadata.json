@@ -1,7 +1,6 @@
 {
     "name": "external-secret-storage",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

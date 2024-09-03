@@ -1,0 +1,21 @@
+apiVersion: kubescape.io/v1
+kind: ServiceScanResult
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"kubescape.io/v1","kind":"ServiceScanResult","metadata":{"annotations":{},"name":"operator","namespace":"new-namespace"},"spec":{"clusterIP":"10.103.207.220","ports":[{"applicationLayer":"","authenticated":false,"port":4002,"presentationLayer":"http","protocol":"TCP","sessionLayer":"tcp"}]}}
+  creationTimestamp: "2024-07-15T11:39:46Z"
+  generation: 1
+  name: operator
+  namespace: new-namespace
+  resourceVersion: "1118691"
+  uid: cd049412-c329-48ce-82b8-dfa56d6e85fd
+spec:
+  clusterIP: 10.103.207.220
+  ports:
+  - applicationLayer: ""
+    authenticated: true
+    port: 4002
+    presentationLayer: http
+    protocol: TCP
+    sessionLayer: tcp

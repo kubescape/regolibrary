@@ -1,7 +1,6 @@
 {
   "name": "rule-cni-enabled-aks",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "dynamicMatch": [

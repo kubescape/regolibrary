@@ -1,7 +1,6 @@
 {
-    "name": "Exposure to internet",
+    "name": "External facing",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security"
         ],
@@ -17,6 +16,24 @@
                 "categories": [
                     "Initial Access"
                 ]
+            },
+            {
+                "attackTrack": "external-workload-with-cluster-takeover-roles",
+                "categories": [
+                    "Initial Access"
+                ]
+            },
+            {
+                "attackTrack": "external-database-without-authentication",
+                "categories": [
+                    "Initial Access"
+                ]
+            },
+            {
+                "attackTrack": "workload-unauthenticated-service",
+                "categories": [
+                    "Initial Access"
+                ]
             }
         ]
     },
@@ -28,8 +45,7 @@
     "baseScore": 7.0,
     "scanningScope": {
         "matches": [
-            "cluster",
-            "file"
+            "cluster"
         ]
     }
 }

@@ -1,7 +1,6 @@
 {
     "name": "pod-security-admission-applied-2",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

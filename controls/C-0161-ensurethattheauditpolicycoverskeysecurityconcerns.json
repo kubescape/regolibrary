@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126657/recommendations/1838583"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "audit-policy-content"
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

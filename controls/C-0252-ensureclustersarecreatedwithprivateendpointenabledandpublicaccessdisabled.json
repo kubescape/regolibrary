@@ -9,7 +9,6 @@
         "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-network-security#ns-2-connect-private-networks-together>\n\n  <https://learn.microsoft.com/en-us/azure/aks/private-clusters>"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-clusters-are-created-with-private-endpoint-enabled-and-public-access-disabled"

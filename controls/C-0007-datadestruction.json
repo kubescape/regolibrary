@@ -1,7 +1,6 @@
 {
-    "name": "Data Destruction",
+    "name": "Roles with delete capabilities",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Impact"
         ],
@@ -13,7 +12,6 @@
     "description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources. This control identifies all subjects that can delete resources.",
     "remediation": "You should follow the least privilege principle and minimize the number of subjects that can delete resources.",
     "rulesNames": [
-        "rule-excessive-delete-rights",
         "rule-excessive-delete-rights-v1"
     ],
     "long_description": "Attackers may attempt to destroy data and resources in the cluster. This includes deleting deployments, configurations, storage, and compute resources.",

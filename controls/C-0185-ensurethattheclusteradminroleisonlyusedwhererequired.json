@@ -10,7 +10,6 @@
         "https://workbench.cisecurity.org/sections/1126661/recommendations/1838588"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "cluster-admin-role"
@@ -23,7 +22,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

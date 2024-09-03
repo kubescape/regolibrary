@@ -1,7 +1,6 @@
 {
     "name": "serviceaccount-token-mount",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

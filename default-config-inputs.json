@@ -1,7 +1,6 @@
 {
     "name": "default",
     "attributes": {
-        "armoBuiltin": true
     },
     "scope": {
         "designatorType": "attributes",
@@ -50,13 +49,9 @@
             ],
             "max_critical_vulnerabilities": ["5"],
             "max_high_vulnerabilities": ["10"],
-            "sensitiveValuesAllowed": ["AllowedValue"],
             "sensitiveKeyNames": [
-                "aws_access_key_id",
                 "aws_secret_access_key",
-                "azure_batchai_storage_account",
                 "azure_batchai_storage_key",
-                "azure_batch_account",
                 "azure_batch_key",
                 "secret",
                 "key",
@@ -76,6 +71,8 @@
                 "_key_",
                 "_secret_"
             ],
+            "sensitiveKeyNamesAllowed": [],
+            "sensitiveValuesAllowed": [],
             "servicesNames": [
                 "nifi-service",
                 "argo-server",

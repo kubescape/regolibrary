@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126653/recommendations/1838574"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-that-the-Container-Network-Interface-file-permissions-are-set-to-600-or-more-restrictive"
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

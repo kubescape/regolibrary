@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126668/recommendations/1838656"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "kubelet-event-qps"
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

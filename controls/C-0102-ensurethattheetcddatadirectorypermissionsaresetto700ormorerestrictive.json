@@ -12,7 +12,6 @@
         "ensure-that-the-etcd-data-directory-permissions-are-set-to-700-or-more-restrictive"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "baseScore": 7,
     "impact_statement": "None",
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

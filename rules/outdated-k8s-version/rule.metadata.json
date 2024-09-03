@@ -1,0 +1,22 @@
+{
+  "name": "outdated-k8s-version",
+  "attributes": {},
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Node"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

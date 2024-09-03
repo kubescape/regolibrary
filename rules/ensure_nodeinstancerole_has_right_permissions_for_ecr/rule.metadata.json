@@ -1,7 +1,6 @@
 {
     "name": "ensure_nodeinstancerole_has_right_permissions_for_ecr",
     "attributes": {
-      "armoBuiltin": true,
       "useFromKubescapeVersion": "v2.2.5"
     },
     "ruleLanguage": "Rego",

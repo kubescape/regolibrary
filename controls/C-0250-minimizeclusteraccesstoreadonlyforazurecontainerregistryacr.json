@@ -9,7 +9,6 @@
     "<https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-data-protection#dp-2-protect-sensitive-data>"
   ],
   "attributes": {
-    "armoBuiltin": true
   },
   "rulesNames": [
     "ensure-service-principle-has-read-only-permissions"

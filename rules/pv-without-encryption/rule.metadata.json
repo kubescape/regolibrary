@@ -1,0 +1,34 @@
+{
+  "name": "pv-without-encryption",
+  "attributes": {
+    "useFromKubescapeVersion": "v3.0.3"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+        "apiGroups": [
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "PersistentVolume"
+        ]
+    },
+    {
+        "apiGroups": [
+          "storage.k8s.io"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "StorageClass"
+        ]
+    }
+  ],
+  "description": "PersistentVolume without encryption",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}

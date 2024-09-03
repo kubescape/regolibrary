@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "PodSecurityPolicy: 'eks.privileged' has hostIPC set as true.",
+        "deletePaths": [
+            "spec.hostIPC"
+        ],
         "failedPaths": [
             "spec.hostIPC"
         ],
@@ -26,6 +29,9 @@
     },
     {
         "alertMessage": "PodSecurityPolicy: 'eks.privileged1' has hostIPC set as true.",
+        "deletePaths": [
+            "spec.hostIPC"
+        ],
         "failedPaths": [
             "spec.hostIPC"
         ],

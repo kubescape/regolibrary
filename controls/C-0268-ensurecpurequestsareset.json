@@ -1,0 +1,28 @@
+{
+    "name": "Ensure CPU requests are set",
+    "attributes": {
+        "controlTypeTags": [
+            "compliance",
+            "devops"
+        ]
+    },
+    "description": "This control identifies all Pods for which the CPU requests are not set.",
+    "remediation": "Set the CPU requests or use exception mechanism to avoid unnecessary notifications.",
+    "rulesNames": [
+        "resources-cpu-requests"
+    ],
+    "controlID": "C-0268",
+    "baseScore": 3.0,
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Resource management"
+        }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

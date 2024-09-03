@@ -14,6 +14,7 @@
          }
       },
       "alertScore": 3, 
+      "reviewPaths": [],
       "failedPaths": [],
       "fixPaths": [],
       "ruleStatus": "",

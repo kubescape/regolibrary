@@ -1,7 +1,6 @@
 {
     "name": "Writable hostPath mount",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Persistence",
             "Lateral Movement"
@@ -10,7 +9,8 @@
             "security",
             "compliance",
             "devops",
-            "security-impact"
+            "security-impact",
+            "smartRemediation"
         ],
         "attackTracks": [
             {

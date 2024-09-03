@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126659/recommendations/1838589"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "ensure-that-the-kubelet-service-file-ownership-is-set-to-root-root"
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

@@ -1,7 +1,6 @@
 {
     "name": "horizontalpodautoscaler-in-default-namespace",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

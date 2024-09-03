@@ -12,4 +12,4 @@ spec:
     image: busybox
     command: [ "sh", "-c", "sleep 1h" ]
     securityContext:
-      allowPrivilegeEscalation: false  #lastly, we check this is set to false
+      runAsNonRoot: false  # alternatively, this can be runAsNonRoot: true

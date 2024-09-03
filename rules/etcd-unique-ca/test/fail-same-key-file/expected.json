@@ -29,6 +29,10 @@
             ]
         },
         "alertScore": 8,
+        "reviewPaths": [
+            "spec.containers[0].command[15]",
+            "spec.containers[0].command[4]"
+        ],
         "failedPaths": [
             "spec.containers[0].command[15]",
             "spec.containers[0].command[4]"

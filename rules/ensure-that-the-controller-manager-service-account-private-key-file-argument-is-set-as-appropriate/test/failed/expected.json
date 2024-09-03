@@ -1,1 +1,31 @@
-[{"alertMessage":"service account token can not be rotated as needed","failedPaths":[],"fixPaths":[{"path":"spec.containers[0].command[17]","value":"--service-account-private-key-file=\u003cpath/to/key/filename.key\u003e"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-controller-manager","tier":"control-plane"},"name":"kube-controller-manager"}}]}}]
+[
+    {
+        "alertMessage": "service account token can not be rotated as needed",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[17]",
+                "value": "--service-account-private-key-file=\u003cpath/to/key/filename.key\u003e"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-controller-manager",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-controller-manager"
+                    }
+                }
+            ]
+        }
+    }
+]

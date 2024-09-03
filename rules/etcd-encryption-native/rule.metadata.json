@@ -1,7 +1,6 @@
 {
   "name": "etcd-encryption-native",
   "attributes": {
-    "armoBuiltin": true,
     "resourcesAggregator": "apiserver-pod",
     "useFromKubescapeVersion": "v1.0.133"
   },

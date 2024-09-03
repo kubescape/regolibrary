@@ -2,17 +2,23 @@ name: Push to regolibrary-dev
 
 on:
   push:
-    branches: [master, main]
+    branches: [master]
+
+env:
+  GH_ACCESS_TOKEN: ${{ secrets.ARMOSEC_ACCESS_KEY }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: ${{ github.head_ref }}
         fetch-depth: 0
-        token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        token: ${{ env.GH_ACCESS_TOKEN }}
+
+    - run: git config --global url.https://${{ env.GH_ACCESS_TOKEN }}@github.com/armosec/.insteadOf https://github.com/armosec/
+    - run: git config --global url.https://${{ env.GH_ACCESS_TOKEN }}@github.com/kubescape/.insteadOf https://github.com/kubescape/
 
     - name: Run export script
       run: |
@@ -30,6 +36,6 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        github_token: ${{ env.GH_ACCESS_TOKEN }}
         repository: kubescape/regolibrary-dev
         force: true

@@ -19,6 +19,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Kubelet is not configured to only use strong cryptographic ciphers",
 		"alertScore": 5,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
@@ -71,6 +72,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Kubelet is not configured to only use strong cryptographic ciphers",
 		"alertScore": 5,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

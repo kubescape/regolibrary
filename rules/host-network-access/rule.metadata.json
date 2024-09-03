@@ -1,7 +1,6 @@
 {
     "name": "host-network-access",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

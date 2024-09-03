@@ -2,7 +2,6 @@
     "name": "rule-excessive-delete-rights-v1",
     "attributes": {
       "m$K8sThreatMatrix": "Impact::Data Destruction",
-      "armoBuiltin": true,
       "resourcesAggregator": "subject-role-rolebinding",
       "useFromKubescapeVersion": "v1.0.133"
     },

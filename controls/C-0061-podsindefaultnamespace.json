@@ -1,7 +1,6 @@
 {
     "name": "Pods in default namespace",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "compliance",
             "devops"

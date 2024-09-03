@@ -1,7 +1,6 @@
 {
     "name": "Workload with ConfigMap access",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security"
         ],

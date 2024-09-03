@@ -1,0 +1,193 @@
+name: 'Create and Publish Tags with Testing and Artifact Handling'
+
+on:
+  workflow_dispatch:
+    inputs:
+      TAG:
+        description: 'Tag name'
+        required: true
+        type: string
+
+  push:
+    tags:
+      - 'v*.*.*-rc.*' 
+
+
+env:
+  REGO_ARTIFACT_KEY_NAME: rego_artifact
+  REGO_ARTIFACT_PATH: release
+
+jobs:
+  test_pr_checks:
+    permissions:
+      pull-requests: write
+    uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@main
+    with:
+      GO_VERSION: '1.21'
+      BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
+    secrets: inherit
+
+  build-and-rego-test:
+    needs: [test_pr_checks]
+    runs-on: ubuntu-latest
+    outputs:
+      REGO_ARTIFACT_KEY_NAME: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_KEY_NAME }}
+      REGO_ARTIFACT_PATH: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_PATH }}
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout repo content
+
+      - name: Set up Go 1.21
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.21
+
+      - name: Test Regos (Golang OPA hot rule compilation)
+        working-directory: testrunner
+        run: |
+          sudo apt update && sudo apt install -y cmake
+          GOPATH=$(go env GOPATH) make
+
+      - name: Setup Python 3.10.6
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10.6
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Update frameworks subsections (generating subsections ids)
+        run: python ./scripts/generate_subsections_ids.py
+
+      - name: Validate control-ID duplications
+        run: python ./scripts/validations.py
+
+      - name: Generate RegoLibrary artifacts (run export script)
+        run: python ./scripts/export.py
+
+      - name: Strip Metadata Files Extensions
+        run: |
+          cd release
+          find . -type f \( -name '*.json' -o -name '*.csv' \) | while read f; do mv "$f" "${f%.*}"; done
+
+      - run: ls -laR
+
+      - name: Set outputs
+        id: set_outputs
+        run: |
+          echo "REGO_ARTIFACT_KEY_NAME=${{ env.REGO_ARTIFACT_KEY_NAME }}" >> $GITHUB_OUTPUT
+          echo "REGO_ARTIFACT_PATH=${{ env.REGO_ARTIFACT_PATH }}" >> $GITHUB_OUTPUT
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
+          path: ${{ env.REGO_ARTIFACT_PATH }}/
+          if-no-files-found: error
+
+  # test kubescape e2e flow with tested artifacts
+  ks-and-rego-test:
+    uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
+    needs: [build-and-rego-test]
+    if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
+    with:
+      DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
+      BINARY_TESTS: '[  "scan_nsa",
+                        "scan_mitre",
+                        "scan_with_exceptions",
+                        "scan_repository",
+                        "scan_local_file",
+                        "scan_local_glob_files",
+                        "scan_nsa_and_submit_to_backend",
+                        "scan_mitre_and_submit_to_backend",
+                        "scan_local_repository_and_submit_to_backend",
+                        "scan_repository_from_url_and_submit_to_backend",
+                        "host_scanner",
+                        "scan_local_list_of_files",
+                        "scan_compliance_score"
+                      ]'
+      DOWNLOAD_ARTIFACT_PATH: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_PATH }}
+    secrets: inherit
+
+  # start release process
+  create-new-tag-and-release:
+    needs: [ks-and-rego-test]
+    if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
+    name: create release and upload assets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout repository
+
+      - name: 'Generate Release Tag'
+        id: generate_tag
+        uses: kubescape/workflows/.github/actions/tag-action@main
+        with:
+          ORIGINAL_TAG: ${{ github.ref_name }}
+          SUB_STRING: "-rc."
+      
+      # Create and push the full version tag (e.g., v2.0.1)
+      - name: Create and Push Full Tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ steps.generate_tag.outputs.NEW_TAG }}
+          force_push_tag: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Short Tag
+        id: short_tag
+        run: |
+          SHORT_TAG=$(echo "${{ steps.generate_tag.outputs.NEW_TAG }}" | grep -oP '^v\d+')
+          echo "Short tag: $SHORT_TAG"
+          echo "SHORT_TAG=$SHORT_TAG" >> $GITHUB_ENV
+
+      - name: Force Push Short Tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ env.SHORT_TAG }}
+          force_push_tag: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # ratchet:actions/download-artifact@v3.0.2
+        id: download-artifact
+        with:
+          name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
+          path: ${{ env.REGO_ARTIFACT_PATH }}
+
+      - name: Create or Update Release and Upload Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ env.SHORT_TAG }} 
+          name: ${{ env.SHORT_TAG }}
+          body: "Automated release for ${{ env.SHORT_TAG}}"
+          files: ${{ env.REGO_ARTIFACT_PATH }}/*
+          draft: false
+          fail_on_unmatched_files: true
+          prerelease: false
+          make_latest: "false"
+
+  # Update regolibrary documentation with latest controls and rules.
+  update-documentation:
+    needs: [create-new-tag-and-release]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # ratchet:actions/checkout@v3.5.2
+        name: checkout repo content
+      - name: setup python
+        uses: actions/setup-python@57ded4d7d5e986d7296eab16560982c6dd7c923b # ratchet:actions/setup-python@v4.6.0
+        with:
+          python-version: 3.8
+      - name: install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+      - name: execute upload script
+        env:
+          README_API_KEY: ${{ secrets.README_API_KEY }}
+        run: |-
+          python ./scripts/upload-readme.py
+      - name: execute docs generator script
+        run: python ./scripts/mk-generator.py # Script to generate controls library documentation

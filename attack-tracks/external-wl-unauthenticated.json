@@ -1,0 +1,20 @@
+{
+    "apiVersion": "regolibrary.kubescape/v1alpha1",
+    "kind": "AttackTrack",
+    "metadata": {
+        "name": "external-database-without-authentication"
+    },
+    "spec": {
+        "version": "1.0",
+        "data": {
+            "name": "Initial Access",
+            "description": "An attacker can access the Kubernetes environment.",
+            "subSteps": [
+                {
+                    "name": "Unauthenticated Access",
+                    "description": "An unauthenticated attacker can access resources."
+                }
+            ]
+        }
+    }
+}

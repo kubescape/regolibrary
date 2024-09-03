@@ -1,7 +1,6 @@
 {
     "name": "containers-mounting-docker-socket",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

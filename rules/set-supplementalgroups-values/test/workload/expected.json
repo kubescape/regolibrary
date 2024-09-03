@@ -1,24 +1,28 @@
 [
-    {
-        "alertMessage": "Workload: my-deployment does not set 'securityContext.supplementalGroups'",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "failedPaths": ["spec.template.spec.securityContext"],
-		    "fixPaths": [],
-        "ruleStatus": "",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                  "apiVersion": "apps/v1",
-                  "kind": "Deployment",
-                  "metadata": {
-                    "name": "my-deployment",
-                    "labels": {
-                      "app": "goproxy"
-                    }
-                  }
-                }
-            ]
+  {
+    "alertMessage": "Workload: my-deployment does not set 'securityContext.supplementalGroups'",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.securityContext.supplementalGroups",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "my-deployment",
+            "labels": {
+              "app": "goproxy"
+            }
+          }
         }
+      ]
     }
+  }
 ]

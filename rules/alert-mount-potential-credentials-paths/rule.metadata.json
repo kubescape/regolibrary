@@ -1,7 +1,6 @@
 {
   "name": "alert-mount-potential-credentials-paths",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

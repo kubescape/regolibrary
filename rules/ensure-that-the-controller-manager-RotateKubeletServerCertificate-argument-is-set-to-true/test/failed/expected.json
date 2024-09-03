@@ -1,1 +1,35 @@
-[{"alertMessage":"`RotateKubeletServerCertificate` is set to false on the controller manager","failedPaths":["spec.containers[0].command[4]"],"fixPaths":[{"path":"spec.containers[0].command[4]","value":"--feature-gates=RotateKubeletServerCertificate=true"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-controller-manager","tier":"control-plane"},"name":"kube-controller-manager"}}]}}]
+[
+    {
+        "alertMessage": "`RotateKubeletServerCertificate` is set to false on the controller manager",
+        "reviewPaths": [
+            "spec.containers[0].command[4]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[4]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[4]",
+                "value": "--feature-gates=RotateKubeletServerCertificate=true"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-controller-manager",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-controller-manager"
+                    }
+                }
+            ]
+        }
+    }
+]

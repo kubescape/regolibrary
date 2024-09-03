@@ -1,7 +1,6 @@
 {
     "name": "encrypt-traffic-to-https-load-balancers-with-tls-certificates",
     "attributes": {
-      "armoBuiltin": true,
       "hostSensorRule": "false",
       "imageScanRelated": false
     },

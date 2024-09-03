@@ -1,7 +1,6 @@
 {
     "name": "namespace-without-service-account",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

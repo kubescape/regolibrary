@@ -1,7 +1,6 @@
 {
     "name": "psp-deny-hostipc",
     "attributes": {
-    "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

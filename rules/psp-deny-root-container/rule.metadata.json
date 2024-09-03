@@ -1,7 +1,6 @@
 {
     "name": "psp-deny-root-container",
     "attributes": {
-    "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

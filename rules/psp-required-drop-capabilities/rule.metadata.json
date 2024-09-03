@@ -1,7 +1,6 @@
 {
     "name": "psp-required-drop-capabilities",
     "attributes": {
-    "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

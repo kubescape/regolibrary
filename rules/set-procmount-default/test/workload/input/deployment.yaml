@@ -23,7 +23,6 @@ spec:
         - name : php
           image : php:7.0-apache
           securityContext:
-            procMount: Unmasked
           volumeMounts :
             - name : site-data
               mountPath : /var/www/html

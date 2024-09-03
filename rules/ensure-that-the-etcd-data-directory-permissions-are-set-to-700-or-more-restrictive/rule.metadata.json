@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-etcd-data-directory-permissions-are-set-to-700-or-more-restrictive",
     "attributes": {
-        "armoBuiltin": true,
         "hostSensorRule": "true"
     },
     "ruleLanguage": "Rego",

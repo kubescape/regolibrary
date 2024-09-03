@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126668/recommendations/1838661"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "kubelet-rotate-kubelet-server-certificate"
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

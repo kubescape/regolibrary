@@ -1,0 +1,56 @@
+[
+   {
+      "alertMessage": "Container: log-aggregator in Deployment: test exceeds memory request",
+      "reviewPaths": [
+         "spec.template.spec.containers[0].resources.requests.memory"
+      ],
+      "failedPaths": [
+         "spec.template.spec.containers[0].resources.requests.memory"
+      ],
+      "fixPaths": [],
+      "ruleStatus": "",
+      "packagename": "armo_builtins",
+      "alertScore": 7,
+      "alertObject": {
+         "k8sApiObjects": [
+            {
+               "apiVersion": "apps/v1",
+               "kind": "Deployment",
+               "metadata": {
+                  "labels": {
+                     "purpose": "demonstrate-command"
+                  },
+                  "name": "test"
+               }
+            }
+         ]
+      }
+   },
+   {
+      "alertMessage": "Container: log-aggregator in Deployment: test exceeds memory-limit",
+      "reviewPaths": [
+         "spec.template.spec.containers[0].resources.limits.memory"
+      ],
+      "failedPaths": [
+         "spec.template.spec.containers[0].resources.limits.memory"
+      ],
+      "fixPaths": [],
+      "ruleStatus": "",
+      "packagename": "armo_builtins",
+      "alertScore": 7,
+      "alertObject": {
+         "k8sApiObjects": [
+            {
+               "apiVersion": "apps/v1",
+               "kind": "Deployment",
+               "metadata": {
+                  "labels": {
+                     "purpose": "demonstrate-command"
+                  },
+                  "name": "test"
+               }
+            }
+         ]
+      }
+   }
+]

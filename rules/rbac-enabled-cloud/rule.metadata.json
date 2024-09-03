@@ -1,7 +1,6 @@
 {
     "name": "rbac-enabled-cloud",
     "attributes": {
-    	"armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

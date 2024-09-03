@@ -1,7 +1,6 @@
 {
     "name": "psp-deny-allowprivilegeescalation",
     "attributes": {
-    "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

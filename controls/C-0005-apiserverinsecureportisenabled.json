@@ -1,7 +1,6 @@
 {
     "name": "API server insecure port is enabled",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

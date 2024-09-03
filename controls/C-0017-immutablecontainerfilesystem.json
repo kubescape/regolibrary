@@ -1,10 +1,10 @@
 {
     "name": "Immutable container filesystem",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
-            "compliance"
+            "compliance",
+            "smartRemediation"
         ],
         "attackTracks": [
             {

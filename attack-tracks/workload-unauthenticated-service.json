@@ -1,0 +1,20 @@
+{
+    "apiVersion": "regolibrary.kubescape/v1alpha1",
+    "kind": "AttackTrack",
+    "metadata": {
+        "name": "workload-unauthenticated-service"
+    },
+    "spec": {
+        "version": "1.0",
+        "data": {
+            "name": "Initial Access",
+            "description": "The service is exposed outside the Kubernetes network.",
+            "subSteps": [
+                {
+                    "name": "Execution",
+                    "description": "Database access is missing authentication and it can be accessed by anyone"
+                }
+            ]
+        }
+    }
+}

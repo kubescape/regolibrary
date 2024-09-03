@@ -1,20 +1,32 @@
-[{
-    "alertMessage": "container: test-container in pod: audit-pod  allow privilege escalation",
-    "failedPaths": ["spec.containers[0].securityContext.allowPrivilegeEscalation"],
-    "fixPaths": [],
-    "ruleStatus": "",
-    "packagename": "armo_builtins",
-    "alertScore": 7,
-    "alertObject": {
-        "k8sApiObjects": [{
-            "apiVersion": "v1",
-            "kind": "Pod",
-            "metadata": {
-                "labels": {
-                    "app": "audit-pod"
-                },
-                "name": "audit-pod"
+[
+    {
+        "alertMessage": "container: test-container in pod: audit-pod  allow privilege escalation",
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].securityContext.allowPrivilegeEscalation",
+                "value": "false"
+            },
+            {
+                "path": "spec.containers[0].securityContext.privileged",
+                "value": "false"
             }
-        }]
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "audit-pod"
+                        },
+                        "name": "audit-pod"
+                    }
+                }
+            ]
+        }
     }
-}]
+]

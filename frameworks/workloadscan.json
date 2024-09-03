@@ -2,7 +2,7 @@
     "name": "WorkloadScan",
     "description": "Framework for scanning a workload",
     "attributes": {
-        "armoBuiltin": true
+        "builtin": true
     },
     "typeTags": [
         "security"
@@ -12,30 +12,6 @@
             "controlID": "C-0078",
             "patch": {
                 "name": "Images from allowed registry"
-            }
-        },
-        {
-            "controlID": "C-0236",
-            "patch": {
-                "name": "Verify image signature"
-            }
-        },
-        {
-            "controlID": "C-0237",
-            "patch": {
-                "name": "Check if signature exists"
-            }
-        },
-        {
-            "controlID": "C-0004",
-            "patch": {
-                "name": "Resources memory limit and request"
-            }
-        },
-        {
-            "controlID": "C-0050",
-            "patch": {
-                "name": "Resources CPU limit and request"
             }
         },
         {
@@ -133,6 +109,18 @@
             "controlID": "C-0057",
             "patch": {
                 "name": "Privileged container"
+            }
+        },
+        {
+            "controlID": "C-0270",
+            "patch": {
+                "name": "Ensure CPU limits are set"
+            }
+        },
+        {
+            "controlID": "C-0271",
+            "patch": {
+                "name": "Ensure memory limits are set"
             }
         }
     ]

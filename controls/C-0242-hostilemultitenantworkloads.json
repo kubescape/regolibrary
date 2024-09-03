@@ -9,7 +9,6 @@
         "<https://docs.microsoft.com/en-us/azure/aks/operator-best-practices-cluster-isolation>"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "rule-hostile-multitenant-workloads"

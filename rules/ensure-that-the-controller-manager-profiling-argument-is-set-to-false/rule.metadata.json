@@ -1,7 +1,6 @@
 {
     "name": "ensure-that-the-controller-manager-profiling-argument-is-set-to-false",
     "attributes": {
-        "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

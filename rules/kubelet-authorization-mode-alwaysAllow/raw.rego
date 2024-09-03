@@ -19,6 +19,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Anonymous requests are enabled",
 		"alertScore": 10,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
@@ -70,6 +71,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Anonymous requests are enabled",
 		"alertScore": 10,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
@@ -92,6 +94,7 @@ deny[msga] {
 	msga := {
 		"alertMessage": "Failed to analyze config file",
 		"alertScore": 6,
+		"reviewPaths": [],
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",

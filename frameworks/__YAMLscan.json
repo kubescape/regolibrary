@@ -2,7 +2,7 @@
     "name": "YAML-scanning",
     "description": "Controls relevant to yamls",
     "attributes": {
-        "armoBuiltin": true
+        "builtin": true
     },
     "scanningScope": {
         "matches": [
@@ -29,7 +29,7 @@
         "Delete Kubernetes events",
         "Access tiller endpoint",
         "Automatic mapping of service account",
-        "Cluster-admin binding",
+        "Administrative Roles",
         "Validate admission controller (validating)",
         "CoreDNS poisoning",
         "Host PID/IPC privileges",
@@ -57,7 +57,6 @@
         "Label usage for resources",
         "K8s common labels usage",
         "Images from allowed registry",
-        "CVE-2022-24348-argocddirtraversal",
-        "CVE-2022-0492-cgroups-container-escape"
+        "CVE-2022-24348-argocddirtraversal"
     ]
 }

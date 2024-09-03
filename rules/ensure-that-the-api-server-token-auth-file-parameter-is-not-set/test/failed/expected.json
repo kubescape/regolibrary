@@ -1,1 +1,63 @@
-[{"alertMessage":"API server TLS is not configured","failedPaths":["spec.containers[0].command[26]"],"fixPaths":[],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}},{"alertMessage":"API server TLS is not configured","failedPaths":["spec.containers[0].command[25]"],"fixPaths":[{"path":"spec.containers[0].command[25]","value":"--tls-private-key-file=/var/lib/minikube/certs/apiserver.key"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}}]
+[
+    {
+        "alertMessage": "API server TLS is not configured",
+        "reviewPaths": [
+            "spec.containers[0].command[26]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[26]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "API server TLS is not configured",
+        "reviewPaths": [
+            "spec.containers[0].command[25]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[25]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[25]",
+                "value": "--tls-private-key-file=/var/lib/minikube/certs/apiserver.key"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

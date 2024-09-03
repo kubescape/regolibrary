@@ -16,6 +16,9 @@
          }
       },
       "alertScore": 6,
+      "reviewPaths": [
+         "rotateCertificates"
+     ],
       "failedPaths": [
           "rotateCertificates"
       ],

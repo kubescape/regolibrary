@@ -1,9 +1,13 @@
 [
     {
         "alertMessage": "service: jenkins-service is exposed",
+        "reviewPaths": [
+            "spec.selector.matchLabels",
+            "spec.selector"
+        ],
         "failedPaths": [
             "spec.selector.matchLabels",
-            "service.spec.selector"
+            "spec.selector"
         ],
         "fixPaths": [],
         "ruleStatus": "",

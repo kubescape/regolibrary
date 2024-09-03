@@ -10,7 +10,6 @@
         "https://www.nccgroup.trust/uk/our-research/abusing-privileged-and-unprivileged-linux-containers/"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "psp-deny-allowed-capabilities"

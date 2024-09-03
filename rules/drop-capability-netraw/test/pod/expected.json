@@ -1,6 +1,7 @@
 [
     {
         "alertMessage": "Pod: audit-pod does not drop the capability NET_RAW",
+        "deletePaths": [],
         "failedPaths": [],
         "fixPaths": [
             {
@@ -28,6 +29,7 @@
     },
     {
         "alertMessage": "Pod: audit-pod does not drop the capability NET_RAW",
+        "deletePaths": ["spec.containers[2].securityContext.capabilities.add"],
         "failedPaths": ["spec.containers[2].securityContext.capabilities.add"],
         "fixPaths": [],
         "ruleStatus": "",

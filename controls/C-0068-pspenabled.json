@@ -1,7 +1,6 @@
 {
     "name": "PSP enabled",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
             "security",
             "compliance"

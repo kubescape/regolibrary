@@ -1,7 +1,6 @@
 {
     "name": "non-root-containers",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [
@@ -46,6 +45,6 @@
     "ruleDependencies": [
     ],
     "description": "fails if container can run as root",
-    "remediation": "Make sure that the user/group in the securityContext of pod/container is set to an id less than 1000, or the runAsNonRoot flag is set to true. Also make sure that the allowPrivilegeEscalation field is set to false",
+    "remediation": "Make sure that the user/group in the securityContext of pod/container is set to an id over 0, or the runAsNonRoot flag is set to true.",
     "ruleQuery": "armo_builtins"
 }

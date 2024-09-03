@@ -1,13 +1,13 @@
 {
     "name": "HostPath mount",
     "attributes": {
-        "armoBuiltin": true,
         "microsoftMitreColumns": [
             "Privilege escalation"
         ],
         "controlTypeTags": [
             "security",
-            "compliance"
+            "compliance",
+            "smartRemediation"
         ],
         "attackTracks": [
             {

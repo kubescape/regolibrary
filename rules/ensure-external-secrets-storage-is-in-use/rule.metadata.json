@@ -1,7 +1,6 @@
 {
   "name": "ensure-external-secrets-storage-is-in-use",
   "attributes": {
-    "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

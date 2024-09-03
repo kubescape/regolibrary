@@ -1,0 +1,52 @@
+[
+    {
+        "alertMessage": "Container: health-check in Deployment: health-check-deployment   does not have CPU-limit or request",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[0].resources.requests.cpu",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "health-check-deployment"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Container: health-check in Deployment: health-check-deployment exceeds CPU-limit or request",
+        "reviewPaths": [
+            "spec.template.spec.containers[0].resources.limits.cpu"
+        ],
+
+        "failedPaths": [
+            "spec.template.spec.containers[0].resources.limits.cpu"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "health-check-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -3,14 +3,16 @@
     "description": "Testing CIS for Amazon Elastic Kubernetes Service (EKS) as suggested by CIS benchmark: https://workbench.cisecurity.org/benchmarks/9681",
     "attributes": {
         "version": "v1.2.0",
-        "armoBuiltin": true
+        "builtin": true
     },
     "scanningScope": {
         "matches": [
             "EKS"
         ]
     },
-    "typeTags": ["compliance"],
+    "typeTags": [
+        "compliance"
+    ],
     "activeControls": [
         {
             "controlID": "C-0066",
@@ -499,7 +501,7 @@
                 "name": "CIS-3.1.1 Ensure that the kubeconfig file permissions are set to 644 or more restrictive"
             }
         },
-	{
+        {
             "controlID": "C-0242",
             "patch": {
                 "name": "CIS-5.6.2 Hostile multi-tenant workloads"
@@ -509,8 +511,8 @@
             "controlID": "C-0246",
             "patch": {
                 "name": "CIS-4.1.7 Avoid use of system:masters group"
-	    }
-	}
+            }
+        }
     ],
     "subSections": {
         "2": {
@@ -580,7 +582,8 @@
                         "C-0188",
                         "C-0189",
                         "C-0190",
-                        "C-0191"
+                        "C-0191",
+                        "C-0246"
                     ]
                 },
                 "2": {
@@ -618,7 +621,7 @@
                     "id": "4.6",
                     "controlsIDs": [
                         "C-0209",
-			"C-0211",
+                        "C-0211",
                         "C-0212"
                     ]
                 }
@@ -632,9 +635,10 @@
                     "name": "Image Registry and Image Scanning",
                     "id": "5.1",
                     "controlsIDs": [
+                        "C-0078",
                         "C-0221",
-                        "C-0223",
-                        "C-0078"
+                        "C-0222",
+                        "C-0223"
                     ]
                 },
                 "2": {
@@ -673,7 +677,8 @@
                     "name": "Other Cluster Configurations",
                     "id": "5.6",
                     "controlsIDs": [
-                        "C-0233"
+                        "C-0233",
+                        "C-0242"
                     ]
                 }
             }

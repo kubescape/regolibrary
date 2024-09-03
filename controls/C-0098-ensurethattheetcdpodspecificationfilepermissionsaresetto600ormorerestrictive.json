@@ -12,7 +12,6 @@
         "ensure-that-the-etcd-pod-specification-file-permissions-are-set-to-600-or-more-restrictive"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "baseScore": 6,
     "impact_statement": "None",
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

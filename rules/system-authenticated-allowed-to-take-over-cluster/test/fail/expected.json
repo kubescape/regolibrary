@@ -1,0 +1,74 @@
+[
+    {
+        "alertMessage": "system:authenticated has sensitive roles",
+        "alertObject": {
+            "externalObjects": {
+                "apiGroup": "rbac.authorization.k8s.io",
+                "kind": "Group",
+                "name": "system:authenticated",
+                "relatedObjects": [
+                    {
+                        "apiVersion": "rbac.authorization.k8s.io/v1",
+                        "kind": "ClusterRoleBinding",
+                        "metadata": {
+                            "name": "system:viewer"
+                        },
+                        "roleRef": {
+                            "apiGroup": "rbac.authorization.k8s.io",
+                            "kind": "ClusterRole",
+                            "name": "system:viewer"
+                        },
+                        "subjects": [
+                            {
+                                "apiGroup": "rbac.authorization.k8s.io",
+                                "kind": "Group",
+                                "name": "system:authenticated"
+                            }
+                        ]
+                    },
+                    {
+                        "apiVersion": "rbac.authorization.k8s.io/v1",
+                        "kind": "ClusterRole",
+                        "metadata": {
+                            "name": "system:viewer"
+                        },
+                        "rules": [
+                            {
+                                "apiGroups": [
+                                    ""
+                                ],
+                                "resources": [
+                                    "nodes",
+                                    "nodes/*",
+                                    "namespaces",
+                                    "namespaces/*",
+                                    "pods",
+                                    "pods/*"
+                                ],
+                                "verbs": [
+                                    "get",
+                                    "list",
+                                    "watch"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "k8sApiObjects": []
+        },
+        "alertScore": 5,
+        "failedPaths": [
+            "",
+            "relatedObjects[0].subjects[0]",
+            "relatedObjects[1].roleRef.name"
+        ],
+        "fixPaths": [],
+        "packagename": "armo_builtins",
+        "reviewPaths": [
+            "",
+            "relatedObjects[0].subjects[0]",
+            "relatedObjects[1].roleRef.name"
+        ]
+    }
+]

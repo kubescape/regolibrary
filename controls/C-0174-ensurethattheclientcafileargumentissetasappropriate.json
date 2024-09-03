@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126668/recommendations/1838643"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "enforce-kubelet-client-tls-authentication-updated"
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

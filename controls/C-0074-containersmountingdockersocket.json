@@ -1,9 +1,9 @@
 {
     "name": "Container runtime socket mounted",
     "attributes": {
-        "armoBuiltin": true,
         "controlTypeTags": [
-            "devops"
+            "devops",
+            "smartRemediation"
         ]
     },
     "description": "Mounting Container runtime socket (Unix socket) enables container to access Container runtime, retrieve sensitive information and execute commands, if Container runtime is available. This control identifies pods that attempt to mount Container runtime socket for accessing Container runtime.",

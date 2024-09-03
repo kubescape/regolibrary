@@ -1,5 +1,6 @@
 [{
     "alertMessage": "pod 'nginx' exposed with rce vulnerability",
+    "reviewPaths": ["status.containerStatuses[0].imageID"],
     "failedPaths": ["status.containerStatuses[0].imageID"],
     "fixPaths": [],
     "ruleStatus": "",

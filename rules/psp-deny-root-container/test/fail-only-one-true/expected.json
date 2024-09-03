@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "PodSecurityPolicy: 'eks.privileged' permits containers to run as the root user.",
+        "deletePaths": [
+            "spec.runAsUser.rule"
+        ],
         "failedPaths": [
             "spec.runAsUser.rule"
         ],

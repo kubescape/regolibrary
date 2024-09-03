@@ -1,7 +1,6 @@
 {
     "name": "set-seccomp-profile-RuntimeDefault",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

@@ -1,6 +1,9 @@
 [
     {
         "alertMessage": "RoleBinding: pod is in the 'default' namespace",
+        "reviewPaths": [
+            "metadata.namespace"
+        ],
         "failedPaths": [
             "metadata.namespace"
         ],

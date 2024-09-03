@@ -9,7 +9,6 @@
         "<https://docs.microsoft.com/en-us/azure/aks/operator-best-practices-cluster-isolation>\n\n  <https://azure.microsoft.com/en-us/blog/azure-container-instances-now-generally-available/>\n\n  <https://azure.microsoft.com/en-us/resources/videos/ignite-2018-run-a-serverless-kubernetes-cluster-by-bridging-aks-and-aci-through-the-virtual-kubelet/>"
     ],
     "attributes": {
-        "armoBuiltin": true,
         "actionRequired": "manual review"
     },
     "rulesNames": [

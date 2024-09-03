@@ -3,7 +3,7 @@
     "description": "Testing CIS for Kubernetes as suggested by CIS in https://workbench.cisecurity.org/benchmarks/8973",
     "attributes": {
         "version": "v1.0.1",
-        "armoBuiltin": true
+        "builtin": true
     },
     "scanningScope": {
         "matches": [
@@ -11,7 +11,9 @@
             "file"
         ]
     },
-    "typeTags": ["compliance"],
+    "typeTags": [
+        "compliance"
+    ],
     "subSections": {
         "1": {
             "id": "1",
@@ -79,7 +81,6 @@
                         "C-0141",
                         "C-0142",
                         "C-0143"
-
                     ]
                 },
                 "3": {
@@ -92,7 +93,7 @@
                         "C-0147",
                         "C-0148",
                         "C-0149",
-                        "C-0150"                        
+                        "C-0150"
                     ]
                 },
                 "4": {
@@ -115,7 +116,7 @@
                 "C-0156",
                 "C-0157",
                 "C-0158",
-                "C-0159"                
+                "C-0159"
             ]
         },
         "3": {
@@ -150,7 +151,6 @@
                         "C-0169",
                         "C-0170",
                         "C-0171"
-                        
                     ]
                 },
                 "2": {
@@ -169,7 +169,7 @@
                         "C-0181",
                         "C-0182",
                         "C-0183",
-                        "C-0184"                        
+                        "C-0184"
                     ]
                 }
             }
@@ -188,7 +188,7 @@
                         "C-0188",
                         "C-0189",
                         "C-0190",
-                        "C-0191"                        
+                        "C-0191"
                     ]
                 },
                 "2": {
@@ -207,38 +207,38 @@
                         "C-0201",
                         "C-0202",
                         "C-0203",
-                        "C-0204"                        
+                        "C-0204"
                     ]
                 },
                 "3": {
                     "name": "Network Policies and CNI",
                     "id": "5.3",
                     "controlsIDs": [
-                        "C-0205", 
-                        "C-0206" 
+                        "C-0205",
+                        "C-0206"
                     ]
                 },
                 "4": {
                     "name": "Secrets Management",
                     "id": "5.4",
                     "controlsIDs": [
-                        "C-0207", 
-                        "C-0208" 
+                        "C-0207",
+                        "C-0208"
                     ]
                 },
                 "7": {
                     "name": "General Policies",
                     "id": "5.7",
                     "controlsIDs": [
-                        "C-0209", 
+                        "C-0209",
                         "C-0210",
-                        "C-0211", 
-                        "C-0212" 
+                        "C-0211",
+                        "C-0212"
                     ]
                 }
             }
         }
-    }, 
+    },
     "activeControls": [
         {
             "controlID": "C-0092",

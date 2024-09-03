@@ -1,7 +1,6 @@
 {
     "name": "sudo-in-container-entrypoint",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [

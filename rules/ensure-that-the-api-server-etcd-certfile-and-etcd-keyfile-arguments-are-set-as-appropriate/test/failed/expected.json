@@ -1,1 +1,93 @@
-[{"alertMessage":"etcd is not configured to use TLS properly","failedPaths":[],"fixPaths":[{"path":"spec.containers[0].command[27]","value":"--etcd-keyfile=\u003cpath/to/client-key-file.key\u003e"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}},{"alertMessage":"etcd is not configured to use TLS properly","failedPaths":[],"fixPaths":[{"path":"spec.containers[0].command[25]","value":"--etcd-certfile=\u003cpath/to/client-certificate-file.crt\u003e"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}},{"alertMessage":"etcd is not configured to use TLS properly","failedPaths":[],"fixPaths":[{"path":"spec.containers[0].command[25]","value":"--etcd-certfile=\u003cpath/to/client-certificate-file.crt\u003e"},{"path":"spec.containers[0].command[26]","value":"--etcd-keyfile=\u003cpath/to/client-key-file.key\u003e"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}}]
+[
+    {
+        "alertMessage": "etcd is not configured to use TLS properly",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[27]",
+                "value": "--etcd-keyfile=\u003cpath/to/client-key-file.key\u003e"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "etcd is not configured to use TLS properly",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[25]",
+                "value": "--etcd-certfile=\u003cpath/to/client-certificate-file.crt\u003e"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "etcd is not configured to use TLS properly",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[25]",
+                "value": "--etcd-certfile=\u003cpath/to/client-certificate-file.crt\u003e"
+            },
+            {
+                "path": "spec.containers[0].command[26]",
+                "value": "--etcd-keyfile=\u003cpath/to/client-key-file.key\u003e"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

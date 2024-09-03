@@ -1,0 +1,61 @@
+{
+    "name": "unauthenticated-service",
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "Pod",
+          "Service"
+        ]
+      },
+      {
+        "apiGroups": [
+          "apps"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet"
+        ]
+      },
+      {
+        "apiGroups": [
+          "batch"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Job",
+            "CronJob"
+        ]
+      },
+      {
+        "apiGroups": [
+          "kubescape.io"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "servicesscanresults"
+        ]
+      }
+      ],
+      "dynamicMatch": [
+    ],
+    "ruleDependencies": [],
+    "description": "Verifies that the service is authenticated",
+    "remediation": "Add authentication to the service",
+    "ruleQuery": "armo_builtins"
+}

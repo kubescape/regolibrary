@@ -3,10 +3,7 @@ on:
   push:
     branches: [ master, main ]
   pull_request:
-    # run for every chnage in the PR
     types: [ opened, synchronize, reopened, ready_for_review ]
-    # Do not run the pipeline if only Markdown files changed
-    paths-ignore: ['**.md']
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -15,42 +12,18 @@ concurrency:
 env:
   REGO_ARTIFACT_KEY_NAME: rego_artifact
   REGO_ARTIFACT_PATH: releaseDev
+  GH_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
 jobs:
-  # testing link checks
-  markdown-link-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
-      - name: Check links
-        uses: gaurav-nelson/github-action-markdown-link-check@5c5dfc0ac2e225883c0e5f03a85311ec2830d368
-        with:
-          use-verbose-mode: 'yes'
-
   # main job of testing and building the env.
   test_pr_checks:
-    # needs: [markdown-link-check]
     permissions:
       pull-requests: write
     uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@main
     with:
-      GO_VERSION: 1.19
+      GO_VERSION: '1.21'
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
-
-#   test-coverage:
-#     needs: [test_pr_checks]
-#     uses: kubescape/workflows/.github/workflows/coverage-check.yaml@main
-#     if: |
-#       ${{ (always() &&
-#       (contains(needs.*.result, 'success')) &&
-#       !(contains(needs.*.result, 'skipped')) &&
-#       !(contains(needs.*.result, 'failure')) &&
-#       !(contains(needs.*.result, 'cancelled'))) }}
-#     with:
-#       COVERAGELIMIT: "58"
-#       SHA: ${{ github.sha }}
-
 
   build-and-rego-test:
     name: Build and test rego artifacts
@@ -61,27 +34,32 @@ jobs:
         !(contains(needs.*.result, 'skipped')) && 
         !(contains(needs.*.result, 'failure')) && 
         !(contains(needs.*.result, 'cancelled'))) }}
-    # needs: [test_pr_checks]
     outputs:
       REGO_ARTIFACT_KEY_NAME: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_KEY_NAME }}
       REGO_ARTIFACT_PATH: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_PATH }}
     steps:
-      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
+      - uses: actions/checkout@v4
         name: checkout repo content
         with:
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          token: ${{ env.GH_ACCESS_TOKEN }}
 
       # Test using Golang OPA hot rule compilation
       - name: Set up Go
-        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568
+        uses: actions/setup-go@v4
         with:
-          go-version: 1.19
+          go-version: '1.21'
 
       # testing rego library
       - name: Test Regoes
         working-directory: testrunner
         run: |
-          apt update && apt install -y cmake
+          for i in {1..5}; do 
+              sudo apt update && break || sleep 15; 
+          done
+          for i in {1..5}; do 
+              sudo apt install -y cmake && break || sleep 15; 
+          done
+          echo "Using Go path: $(which go)"
           GOPATH=$(go env GOPATH) make
 
       - name: Set up Regal
@@ -96,13 +74,18 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.10.6
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
 
       # validate control-ID duplications
       - run: python ./scripts/validations.py
 
       # generating subsections ids
       - name: Update frameworks subsections
-        run: bash ./scripts/generate_subsections_ids.sh
+        run: python ./scripts/generate_subsections_ids.py
 
       # run export script to generate regolibrary artifacts
       # releaseDev clean up is for old compatability. should be removed at end of 2023.
@@ -159,9 +142,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ks-and-rego-test]
     steps:
-      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
+      - uses: actions/checkout@v4
         name: checkout repo content
         with:
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          token: ${{ env.GH_ACCESS_TOKEN }}
       - name: Remove pre-release folder
         run: rm -r -f pre-release

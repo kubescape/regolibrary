@@ -9,7 +9,6 @@
         "https://workbench.cisecurity.org/sections/1126668/recommendations/1838638"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "rulesNames": [
         "anonymous-requests-to-kubelet-service-updated"
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

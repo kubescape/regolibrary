@@ -1,7 +1,6 @@
 {
   "name": "ensure-endpointpublicaccess-is-disabled-on-private-nodes-eks",
   "attributes": {
-  "armoBuiltin": true
   },
   "ruleLanguage": "Rego",
   "match": [

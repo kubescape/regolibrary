@@ -1,6 +1,10 @@
 [
     {
         "alertMessage": "container: php in cronjob: hello  has 'latest' tag on image but imagePullPolicy is not set to 'Always'",
+        "reviewPaths": [
+            "spec.jobTemplate.spec.template.spec.containers[1].image",
+            "spec.jobTemplate.spec.template.spec.containers[1].imagePullPolicy"
+        ],
         "failedPaths": [
             "spec.jobTemplate.spec.template.spec.containers[1].image",
             "spec.jobTemplate.spec.template.spec.containers[1].imagePullPolicy"

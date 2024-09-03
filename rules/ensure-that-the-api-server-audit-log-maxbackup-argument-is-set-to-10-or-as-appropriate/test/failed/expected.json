@@ -1,1 +1,63 @@
-[{"alertMessage":"Audit log max backup is not set","failedPaths":["spec.containers[0].command[26]"],"fixPaths":[{"path":"spec.containers[0].command[26]","value":"--audit-log-maxbackup=YOUR_VALUE"}],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}},{"alertMessage":"Please validate that the audit log max backup is set to an appropriate value","failedPaths":["spec.containers[0].command[27]"],"fixPaths":[],"ruleStatus":"","packagename":"armo_builtins","alertScore":2,"alertObject":{"k8sApiObjects":[{"apiVersion":"v1","kind":"Pod","metadata":{"labels":{"component":"kube-apiserver","tier":"control-plane"},"name":"kube-apiserver-minikube"}}]}}]
+[
+    {
+        "alertMessage": "Audit log max backup is not set",
+        "reviewPaths": [
+            "spec.containers[0].command[26]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[26]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[26]",
+                "value": "--audit-log-maxbackup=YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Please validate that the audit log max backup is set to an appropriate value",
+        "reviewPaths": [
+            "spec.containers[0].command[27]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[27]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]

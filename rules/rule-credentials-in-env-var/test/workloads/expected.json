@@ -1,8 +1,13 @@
 [
     {
         "alertMessage": "Deployment: test2 has sensitive information in environment variables",
+        "deletePaths": [
+            "spec.template.spec.containers[1].env[0].name",
+            "spec.template.spec.containers[1].env[0].value"
+        ],
         "failedPaths": [
-            "spec.template.spec.containers[1].env[0].name"
+            "spec.template.spec.containers[1].env[0].name",
+            "spec.template.spec.containers[1].env[0].value"
         ],
         "fixPaths": [],
         "ruleStatus": "",

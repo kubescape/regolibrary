@@ -1,7 +1,10 @@
 [{
     "alertMessage": "container :mysql in Deployment: my-deployment has  mutable filesystem",
-    "failedPaths": ["spec.template.spec.containers[0].securityContext.readOnlyRootFilesystem"],
-    "fixPaths": [],
+    "failedPaths": [],
+    "fixPaths": [{
+        "path": "spec.template.spec.containers[0].securityContext.readOnlyRootFilesystem",
+        "value": "true"
+    }],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 7,

@@ -1,8 +1,7 @@
 {
   "name": "alert-any-hostpath",
   "attributes": {
-    "m$K8sThreatMatrix": "Privilege Escalation::hostPath mount",
-    "armoBuiltin": true
+    "m$K8sThreatMatrix": "Privilege Escalation::hostPath mount"
   },
   "ruleLanguage": "Rego",
   "match": [

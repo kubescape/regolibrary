@@ -12,7 +12,6 @@
         "ensure-that-the-controller-manager-pod-specification-file-ownership-is-set-to-root-root"
     ],
     "attributes": {
-        "armoBuiltin": true
     },
     "baseScore": 6,
     "impact_statement": "None",
@@ -22,7 +21,7 @@
    },
     "scanningScope": {
         "matches": [
-            "cloud"
+            "cluster"
         ]
     }
 }

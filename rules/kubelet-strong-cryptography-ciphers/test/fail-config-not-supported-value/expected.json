@@ -16,6 +16,9 @@
          }
       },
       "alertScore": 5,
+      "reviewPaths": [
+         "TLSCipherSuites"
+     ],
       "failedPaths": [
           "TLSCipherSuites"
       ],

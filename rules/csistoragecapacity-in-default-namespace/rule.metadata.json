@@ -1,7 +1,6 @@
 {
     "name": "csistoragecapacity-in-default-namespace",
     "attributes": {
-      "armoBuiltin": true
     },
     "ruleLanguage": "Rego",
     "match": [
@@ -10,7 +9,7 @@
           "storage.k8s.io"
         ],
         "apiVersions": [
-          "v1beta1"
+          "*"
         ],
         "resources": [
             "CSIStorageCapacity"
