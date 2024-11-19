@@ -51,7 +51,8 @@
         "v1"
       ],
       "resources": [
-        "*"
+        "VirtualService",
+        "Gateways"
       ]
     }
   ],
