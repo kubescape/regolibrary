@@ -1,5 +1,5 @@
 {
-    "name": "Exposure to internet via Gateway API",
+    "name": "Exposure to internet via Gateway API or Istio Ingress",
     "attributes": {
         "controlTypeTags": [
             "security"

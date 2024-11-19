@@ -48,11 +48,10 @@
         "networking.istio.io"
       ],
       "apiVersions": [
-        "*"
+        "v1"
       ],
       "resources": [
-        "Gateway",
-        "VirtualService"
+        "*"
       ]
     }
   ],
