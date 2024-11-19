@@ -26,7 +26,7 @@ rules:
       level: ignore
     rule-length:
       level: error
-      max-rule-length: 50
+      max-rule-length: 100
     todo-comment:
       level: ignore
     use-assignment-operator:

@@ -69,6 +69,8 @@ deny[msga] {
 # ====================================================================================
 
 get_namespace(obj) = namespace {
+    obj.metadata
+    obj.metadata.namespace
     namespace := obj.metadata.namespace
 }
 
