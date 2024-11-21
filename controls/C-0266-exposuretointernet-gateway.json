@@ -1,5 +1,5 @@
 {
-    "name": "Exposure to internet via Gateway API",
+    "name": "Exposure to internet via Gateway API or Istio Ingress",
     "attributes": {
         "controlTypeTags": [
             "security"
@@ -31,10 +31,10 @@
             }
         ]
     },
-    "description": "This control detect workloads that are exposed on Internet through a Gateway API (HTTPRoute,TCPRoute, UDPRoute). It fails in case it find workloads connected with these resources.",
+    "description": "This control detect workloads that are exposed on Internet through a Gateway API (HTTPRoute,TCPRoute, UDPRoute) or Istio Gateway. It fails in case it find workloads connected with these resources.",
     "remediation": "The user can evaluate its exposed resources and apply relevant changes wherever needed.",
-    "rulesNames": ["exposure-to-internet-via-gateway-api"],
-    "test": "Checks if workloads are exposed through the use of Gateway API (HTTPRoute,TCPRoute, UDPRoute).",
+    "rulesNames": ["exposure-to-internet-via-gateway-api","exposure-to-internet-via-istio-ingress"],
+    "test": "Checks if workloads are exposed through the use of Gateway API (HTTPRoute,TCPRoute, UDPRoute) or Istio Gateway.",
     "controlID": "C-0266",
     "baseScore": 7.0,
     "scanningScope": {

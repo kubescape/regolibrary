@@ -1,0 +1,62 @@
+{
+  "name": "exposure-to-internet-via-istio-ingress",
+  "attributes": {
+    "useFromKubescapeVersion": "v3.0.9"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod",
+        "Service"
+      ]
+    },
+    {
+      "apiGroups": [
+        "apps"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+          "Deployment",
+          "ReplicaSet",
+          "DaemonSet",
+          "StatefulSet"
+      ]
+    },
+    {
+      "apiGroups": [
+        "batch"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+          "Job",
+          "CronJob"
+      ]
+    },
+    {
+      "apiGroups": [
+        "networking.istio.io"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "VirtualService",
+        "Gateways"
+      ]
+    }
+  ],
+  "description": "fails if the running workload is bound to a Service that is exposed to the Internet through Istio Gateway.",
+  "remediation": "",
+  "ruleQuery": "armo_builtins"
+}
