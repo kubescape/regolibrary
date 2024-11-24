@@ -10,7 +10,7 @@ on:
 
   push:
     tags:
-      - 'v*.*.*-rc.*' 
+      - 'v*.*.*-rc.*'
 
 
 env:
@@ -81,7 +81,7 @@ jobs:
           echo "REGO_ARTIFACT_PATH=${{ env.REGO_ARTIFACT_PATH }}" >> $GITHUB_OUTPUT
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
           path: ${{ env.REGO_ARTIFACT_PATH }}/
@@ -127,7 +127,7 @@ jobs:
         with:
           ORIGINAL_TAG: ${{ github.ref_name }}
           SUB_STRING: "-rc."
-      
+
       # Create and push the full version tag (e.g., v2.0.1)
       - name: Create and Push Full Tag
         uses: rickstaa/action-create-tag@v1
@@ -160,7 +160,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ env.SHORT_TAG }} 
+          tag_name: ${{ env.SHORT_TAG }}
           name: ${{ env.SHORT_TAG }}
           body: "Automated release for ${{ env.SHORT_TAG}}"
           files: ${{ env.REGO_ARTIFACT_PATH }}/*
