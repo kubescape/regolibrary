@@ -48,7 +48,8 @@
         "networking.istio.io"
       ],
       "apiVersions": [
-        "v1"
+        "v1",
+        "v1beta1"
       ],
       "resources": [
         "VirtualService",
