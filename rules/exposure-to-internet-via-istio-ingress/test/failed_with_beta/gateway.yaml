@@ -1,0 +1,24 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  annotations:
+    meta.helm.sh/release-name: legacy-compatibility
+    meta.helm.sh/release-namespace: kt-itinternal
+  creationTimestamp: "2023-03-16T10:18:13Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/managed-by: Helm
+  name: prod-lan-gateway
+  namespace: kt-itinternal
+  resourceVersion: "713118464"
+  uid: 46cb8274-3569-4b4a-952a-52037a352715
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - legacy.stg.prod.lan
+    port:
+      name: http
+      number: 80
+      protocol: HTTP

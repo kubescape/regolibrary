@@ -1,0 +1,15 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: prod-lan-gateway
+  namespace: kt-connections
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - legacy.stg.prod.lan
+    port:
+      name: http
+      number: 80
+      protocol: HTTP

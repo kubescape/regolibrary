@@ -6,19 +6,24 @@ deny[msga] {
     virtualservice := input[_]
     virtualservice.kind == "VirtualService"
 
+    # Get the namescape of the VirtualService
+    vs_ns := get_namespace(virtualservice)
+    # Looping over the gateways of the VirtualService
+    vs_gw_name := virtualservice.spec.gateways[_]
+    # Get the namespace of the Gateway
+    vs_gw = get_vs_gw_ns(vs_ns, vs_gw_name)
+
     # Check if the VirtualService is connected to a Gateway
     gateway := input[_]
     gateway.kind == "Gateway"
-
-    is_same_namespace(gateway, virtualservice)
-    virtualservice.spec.gateways[_] == gateway.metadata.name
+    gateway.metadata.name == vs_gw.name
+    get_namespace(gateway) == vs_gw.namespace
 
     # Find the connected Istio Ingress Gateway that should be a LoadBalancer if it is exposed to the internet
     istioingressgateway := input[_]
     istioingressgateway.kind == "Service"
     istioingressgateway.metadata.namespace == "istio-system"
     gateway.spec.selector[_] == istioingressgateway.metadata.labels[_]
-
 
     # Check if the Istio Ingress Gateway is exposed to the internet
     is_exposed_service(istioingressgateway)
@@ -27,7 +32,7 @@ deny[msga] {
     # First, find the service that the VirtualService is connected to
     connected_service := input[_]
     connected_service.kind == "Service"
-    fqsn := get_fqsn(get_namespace(virtualservice), virtualservice.spec.http[_].route[_].destination.host)
+    fqsn := get_fqsn(get_namespace(virtualservice), virtualservice.spec.http[i].route[j].destination.host)
     target_ns := split(fqsn,".")[1]
     target_name := split(fqsn,".")[0]
     # Check if the service is in the same namespace as the VirtualService
@@ -42,7 +47,7 @@ deny[msga] {
     spec_template_spec_patterns[wl.kind]
     wl_connected_to_service(wl, connected_service)
 
-    result := svc_connected_to_virtualservice(connected_service, virtualservice)
+    failedPaths := [sprintf("spec.http[%d].routes[%d].destination.host", [i,j])]
 
     msga := {
         "alertMessage": sprintf("workload '%v' is exposed through virtualservice '%v'", [wl.metadata.name, virtualservice.metadata.name]),
@@ -54,14 +59,14 @@ deny[msga] {
             "k8sApiObjects": [wl]
         },
         "relatedObjects": [
-		{
+		    {
 	            "object": virtualservice,
-		    "reviewPaths": result,
-	            "failedPaths": result,
+	            "reviewPaths": failedPaths,
+	            "failedPaths": failedPaths,
 	        },
-		{
-	            "object": connected_service,
-		}
+            {
+                    "object": connected_service,
+            }
         ]
     }
 }
@@ -77,6 +82,20 @@ get_namespace(obj) = namespace {
 get_namespace(obj) = namespace {
     not obj.metadata.namespace
     namespace := "default"
+}
+
+get_vs_gw_ns(vs_ns, vs_gw_name) = {"name": name, "namespace": ns} {
+    # Check if there is a / in the gateway name
+    count(split(vs_gw_name, "/")) == 2
+    ns := split(vs_gw_name, "/")[0]
+    name := split(vs_gw_name, "/")[1]
+}
+
+get_vs_gw_ns(vs_ns, vs_gw_name) = {"name": name, "namespace": ns} {
+    # Check if there is no / in the gateway name
+    count(split(vs_gw_name, "/")) == 1
+    ns := vs_ns
+    name := vs_gw_name
 }
 
 is_same_namespace(obj1, obj2) {
@@ -139,6 +158,5 @@ get_fqsn(ns, dest_host) = fqsn {
     count(split(".", dest_host)) == 4
     fqsn := dest_host
 }
-
 
 
