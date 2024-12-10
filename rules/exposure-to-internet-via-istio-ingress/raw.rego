@@ -19,14 +19,12 @@ deny[msga] {
     gateway.metadata.name == vs_gw.name
     get_namespace(gateway) == vs_gw.namespace
 
-    # Find the connected Istio Ingress Gateway that should be a LoadBalancer if it is exposed to the internet
-    istioingressgateway := input[_]
-    istioingressgateway.kind == "Service"
-    istioingressgateway.metadata.namespace == "istio-system"
-    gateway.spec.selector[_] == istioingressgateway.metadata.labels[_]
+    # print("Found the gateway that the virtualservice is connected to", gateway)
 
-    # Check if the Istio Ingress Gateway is exposed to the internet
-    is_exposed_service(istioingressgateway)
+    # Either the gateway is exposed via LoadBalancer/n service OR has "public" suffix
+    is_gateway_public(gateway, input)
+
+    # print("Gateway is public", gateway)
 
     # Check if the VirtualService is connected to an workload
     # First, find the service that the VirtualService is connected to
@@ -40,6 +38,8 @@ deny[msga] {
     # Check if the service is the target of the VirtualService
     connected_service.metadata.name == target_name
 
+    # print("Found the service that the virtualservice is connected to", connected_service)
+
     # Check if the service is connected to a workload
     wl := input[_]
     is_same_namespace(connected_service, wl)
@@ -47,7 +47,11 @@ deny[msga] {
     spec_template_spec_patterns[wl.kind]
     wl_connected_to_service(wl, connected_service)
 
+    # print("Found the workload that the service is connected to", wl)
+
     failedPaths := [sprintf("spec.http[%d].routes[%d].destination.host", [i,j])]
+
+    # print("Found the failed paths", failedPaths)
 
     msga := {
         "alertMessage": sprintf("workload '%v' is exposed through virtualservice '%v'", [wl.metadata.name, virtualservice.metadata.name]),
@@ -72,6 +76,18 @@ deny[msga] {
 }
 
 # ====================================================================================
+
+is_gateway_public(gateway, inputs) {
+    endswith(gateway.metadata.name, "public")
+}
+
+is_gateway_public(gateway, inputs) {
+    inputs[_].kind == "Service"
+    inputs[_].metadata.namespace == "istio-system"
+    gateway.spec.selector[_] == inputs[_].metadata.labels[_]
+    is_exposed_service(inputs[_])
+}
+
 
 get_namespace(obj) = namespace {
     obj.metadata
