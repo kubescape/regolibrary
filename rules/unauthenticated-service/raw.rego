@@ -10,6 +10,7 @@ deny contains msga if {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
 	spec_template_spec_patterns[wl.kind]
+	is_same_namespace(wl, service)
 	wl_connected_to_service(wl, service)
 
 	service_scan_result := input[_]
@@ -35,9 +36,6 @@ has_unauthenticated_service(service_name, namespace, service_scan_result) if {
 }
 
 
-wl_connected_to_service(wl, svc) {
-    wl.metadata.namespace == svc.metadata.namespace
-}
 
 wl_connected_to_service(wl, svc) if {
 	count({x | svc.spec.selector[x] == wl.metadata.labels[x]}) == count(svc.spec.selector)
@@ -45,4 +43,24 @@ wl_connected_to_service(wl, svc) if {
 
 wl_connected_to_service(wl, svc) if {
 	wl.spec.selector.matchLabels == svc.spec.selector
+}
+
+
+is_same_namespace(metadata1, metadata2) {
+	metadata1.namespace == metadata2.namespace
+}
+
+is_same_namespace(metadata1, metadata2) {
+	not metadata1.namespace
+	not metadata2.namespace
+}
+
+is_same_namespace(metadata1, metadata2) {
+	not metadata2.namespace
+	metadata1.namespace == "default"
+}
+
+is_same_namespace(metadata1, metadata2) {
+	not metadata1.namespace
+	metadata2.namespace == "default"
 }
