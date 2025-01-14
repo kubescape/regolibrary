@@ -83,6 +83,10 @@ is_exposed_service(svc) {
 }
 
 wl_connected_to_service(wl, svc) {
+    wl.metadata.namespace == svc.metadata.namespace
+}
+
+wl_connected_to_service(wl, svc) {
     count({x | svc.spec.selector[x] == wl.metadata.labels[x]}) == count(svc.spec.selector)
 }
 
