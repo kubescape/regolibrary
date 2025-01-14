@@ -34,6 +34,11 @@ has_unauthenticated_service(service_name, namespace, service_scan_result) if {
 	service_scan_result.spec.ports[_].authenticated == false
 }
 
+
+wl_connected_to_service(wl, svc) {
+    wl.metadata.namespace == svc.metadata.namespace
+}
+
 wl_connected_to_service(wl, svc) if {
 	count({x | svc.spec.selector[x] == wl.metadata.labels[x]}) == count(svc.spec.selector)
 }
