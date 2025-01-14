@@ -9,7 +9,8 @@ deny[msga] {
     wl := input[_]
     spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
     spec_template_spec_patterns[wl.kind]
-    wl_connected_to_service(wl, service)
+    pod := get_pod_spec(wl)["spec"]
+    wl_connected_to_service(pod, service)
     failPath := ["spec.type"]
     msga := {
         "alertMessage": sprintf("workload '%v' is exposed through service '%v'", [wl.metadata.name, service.metadata.name]),
@@ -123,4 +124,25 @@ is_same_namespace(metadata1, metadata2) {
 is_same_namespace(metadata1, metadata2) {
 	not metadata1.namespace
 	metadata2.namespace == "default"
+}
+
+
+
+# get_volume - get resource spec paths for {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+get_pod_spec(resources) := result {
+	resources_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	resources_kinds[resources.kind]
+	result = {"spec": resources.spec.template, "start_of_path": "spec.template."}
+}
+
+# get_volume - get resource spec paths for "Pod"
+get_pod_spec(resources) := result {
+	resources.kind == "Pod"
+	result = {"spec": resources, "start_of_path": ""}
+}
+
+# get_volume - get resource spec paths for "CronJob"
+get_pod_spec(resources) := result {
+	resources.kind == "CronJob"
+	result = {"spec": resources.spec.jobTemplate.spec.template.spec, "start_of_path": "spec.jobTemplate.spec.template.spec."}
 }

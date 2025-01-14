@@ -45,7 +45,8 @@ deny[msga] {
     is_same_namespace(connected_service, wl)
     spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
     spec_template_spec_patterns[wl.kind]
-    wl_connected_to_service(wl, connected_service)
+    pod := get_pod_spec(wl)["spec"]
+    wl_connected_to_service(pod, connected_service)
 
     # print("Found the workload that the service is connected to", wl)
 
@@ -177,3 +178,22 @@ get_fqsn(ns, dest_host) = fqsn {
 }
 
 
+
+# get_volume - get resource spec paths for {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+get_pod_spec(resources) := result {
+	resources_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	resources_kinds[resources.kind]
+	result = {"spec": resources.spec.template, "start_of_path": "spec.template."}
+}
+
+# get_volume - get resource spec paths for "Pod"
+get_pod_spec(resources) := result {
+	resources.kind == "Pod"
+	result = {"spec": resources, "start_of_path": ""}
+}
+
+# get_volume - get resource spec paths for "CronJob"
+get_pod_spec(resources) := result {
+	resources.kind == "CronJob"
+	result = {"spec": resources.spec.jobTemplate.spec.template.spec, "start_of_path": "spec.jobTemplate.spec.template.spec."}
+}

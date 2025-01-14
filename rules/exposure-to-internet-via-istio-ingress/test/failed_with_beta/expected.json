@@ -171,10 +171,7 @@
                      }
                   ],
                   "selector": {
-                     "app": "int-0721",
-                     "context": "default",
-                     "name": "int-0721",
-                     "role": "app"
+                     "app": "nginx"
                   },
                   "sessionAffinity": "None",
                   "type": "ClusterIP"
