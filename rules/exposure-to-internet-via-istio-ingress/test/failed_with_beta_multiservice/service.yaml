@@ -1,6 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    ctx.vrs.meeseeks.sre.monaco-telecom.mc/default: "3664777130"
+    ms.vrs.meeseeks.sre.monaco-telecom.mc/int-0721: "3779862107"
+    pe.vrs.meeseeks.sre.monaco-telecom.mc/int-0721: "2387894954"
   creationTimestamp: "2024-04-15T09:00:11Z"
   labels:
     app: int-0721
@@ -34,7 +38,10 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    app: nginx
+    app: int-0721
+    context: default
+    name: int-0721
+    role: app
   sessionAffinity: None
   type: ClusterIP
 status:

@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: istio-ingressgateway
+    istio: ingressgateway
+    istio.io/rev: default
+    operator.istio.io/component: IngressGateways
+    operator.istio.io/managed: Reconcile
+    operator.istio.io/version: 1.18.7
+    release: istio
+  name: istio-ingressgateway
+  namespace: istio-system
+spec:
+  externalTrafficPolicy: Local
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: status-port
+    nodePort: 30432
+    port: 15033
+    protocol: TCP
+    targetPort: 15033
+  selector:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}

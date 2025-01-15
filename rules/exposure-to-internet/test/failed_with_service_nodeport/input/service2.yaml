@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-service
-  namespace: ns1
+  name: my-service2
+  namespace: ns2
 spec:
   selector:
     app: argo-server
@@ -10,4 +10,4 @@ spec:
   ports:
     - port: 80
       targetPort: 80
-      nodePort: 30007
+      nodePort: 30008

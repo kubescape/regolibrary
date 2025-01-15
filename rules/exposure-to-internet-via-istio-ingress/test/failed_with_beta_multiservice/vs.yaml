@@ -1,0 +1,57 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  creationTimestamp: "2024-04-15T08:56:16Z"
+  generation: 2
+  labels:
+    app: int-0721
+    context: default
+    name: int-0721
+    owner: int-0721
+    owner-namespace: kt-itinternal
+    role: app
+  name: int-0721
+  namespace: kt-itinternal
+spec:
+  gateways:
+  - kt-connections/wildcard-stg-gateway
+  - kt-connections/sdfsdfs-gateway
+  - kt-connections/api-public
+  - kt-connections/aaaaa-public
+  - kt-connections/mydddd-public
+  hosts:
+  - api.stg.prod.lan
+  http:
+  - corsPolicy:
+      allowHeaders:
+      - authorization
+      - Origin
+      - Content-Type
+      - Accept
+      allowMethods:
+      - POST
+      - GET
+      - OPTIONS
+      - PUT
+      - PATCH
+      - DELETE
+      allowOrigins:
+      - regex: .*
+    match:
+    - authority:
+        exact: api.stg.prod.lan
+      uri:
+        prefix: /int/0698/
+    name: api-http-stgprodlan
+    rewrite:
+      uri: /
+    route:
+    - destination:
+        host: int-0721.kt-itinternal.svc.cluster.local
+        port:
+          number: 8080
+      headers:
+        request:
+          set:
+            X-Forwarded-Prefix: /int/0698
+            X-Forwarded-Proto: https
