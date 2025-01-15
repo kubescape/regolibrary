@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    ctx.vrs.meeseeks.sre.monaco-telecom.mc/default: "3664777130"
+    ms.vrs.meeseeks.sre.monaco-telecom.mc/int-0721: "3779862107"
+    pe.vrs.meeseeks.sre.monaco-telecom.mc/int-0721: "2387894954"
+  creationTimestamp: "2024-04-15T09:00:11Z"
+  labels:
+    app: int-0721
+    context: default
+    name: int-0721
+    owner: int-0721
+    owner-namespace: kt-itinternal
+    role: app
+  name: int-0721
+  namespace: kt-itinternal-2
+  ownerReferences:
+  - apiVersion: msss/v1alpha1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Microservice
+    name: int-0721
+    uid: 14a69d5b-249c-487d-9500-645bda6a4c56
+  resourceVersion: "3779885629"
+  uid: 0428cb70-5d8f-4345-8ef2-5b0a249e0793
+spec:
+  clusterIP: 10.81.208.49
+  clusterIPs:
+  - 10.81.208.49
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: int-0721
+    context: default
+    name: int-0721
+    role: app
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

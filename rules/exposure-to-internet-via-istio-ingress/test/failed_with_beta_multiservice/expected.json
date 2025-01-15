@@ -1,0 +1,190 @@
+[
+   {
+      "alertMessage": "workload 'nginx' is exposed through virtualservice 'int-0721'",
+      "failedPaths": [],
+      "reviewPaths": null,
+      "deletePaths": null,
+      "fixPaths": [],
+      "ruleStatus": "",
+      "packagename": "armo_builtins",
+      "alertScore": 7,
+      "alertObject": {
+         "k8sApiObjects": [
+            {
+               "apiVersion": "apps/v1",
+               "kind": "Deployment",
+               "metadata": {
+                  "labels": {
+                     "app": "int-0721",
+                     "context": "default",
+                     "name": "int-0721",
+                     "role": "app"
+                  },
+                  "name": "nginx"
+               }
+            }
+         ]
+      },
+      "relatedObjects": [
+         {
+            "object": {
+               "apiVersion": "networking.istio.io/v1beta1",
+               "kind": "VirtualService",
+               "metadata": {
+                  "creationTimestamp": "2024-04-15T08:56:16Z",
+                  "generation": 2,
+                  "labels": {
+                     "app": "int-0721",
+                     "context": "default",
+                     "name": "int-0721",
+                     "owner": "int-0721",
+                     "owner-namespace": "kt-itinternal",
+                     "role": "app"
+                  },
+                  "name": "int-0721",
+                  "namespace": "kt-itinternal"
+               },
+               "spec": {
+                  "gateways": [
+                     "kt-connections/prod-lan-gateway",
+                     "kt-connections/sdfsdfs-gateway",
+                     "kt-connections/api-public",
+                     "kt-connections/aaaaa-public",
+                     "kt-connections/mydddd-public"
+                  ],
+                  "hosts": [
+                     "api.stg.prod.lan"
+                  ],
+                  "http": [
+                     {
+                        "corsPolicy": {
+                           "allowHeaders": [
+                              "authorization",
+                              "Origin",
+                              "Content-Type",
+                              "Accept"
+                           ],
+                           "allowMethods": [
+                              "POST",
+                              "GET",
+                              "OPTIONS",
+                              "PUT",
+                              "PATCH",
+                              "DELETE"
+                           ],
+                           "allowOrigins": [
+                              {
+                                 "regex": ".*"
+                              }
+                           ]
+                        },
+                        "match": [
+                           {
+                              "authority": {
+                                 "exact": "api.stg.prod.lan"
+                              },
+                              "uri": {
+                                 "prefix": "/int/0698/"
+                              }
+                           }
+                        ],
+                        "name": "api-http-stgprodlan",
+                        "rewrite": {
+                           "uri": "/"
+                        },
+                        "route": [
+                           {
+                              "destination": {
+                                 "host": "int-0721.kt-itinternal.svc.cluster.local",
+                                 "port": {
+                                    "number": 8080
+                                 }
+                              },
+                              "headers": {
+                                 "request": {
+                                    "set": {
+                                       "X-Forwarded-Prefix": "/int/0698",
+                                       "X-Forwarded-Proto": "https"
+                                    }
+                                 }
+                              }
+                           }
+                        ]
+                     }
+                  ]
+               }
+            },
+            "failedPaths": [
+               "spec.http[0].routes[0].destination.host"
+            ],
+            "reviewPaths": [
+               "spec.http[0].routes[0].destination.host"
+            ],
+            "deletePaths": null,
+            "fixPaths": null
+         },
+         {
+            "object": {
+               "apiVersion": "v1",
+               "kind": "Service",
+               "metadata": {
+                  "creationTimestamp": "2024-04-15T09:00:11Z",
+                  "labels": {
+                     "app": "int-0721",
+                     "context": "default",
+                     "name": "int-0721",
+                     "owner": "int-0721",
+                     "owner-namespace": "kt-itinternal",
+                     "role": "app"
+                  },
+                  "name": "int-0721",
+                  "namespace": "kt-itinternal",
+                  "ownerReferences": [
+                     {
+                        "apiVersion": "msss/v1alpha1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Microservice",
+                        "name": "int-0721",
+                        "uid": "14a69d5b-249c-487d-9500-645bda6a4c56"
+                     }
+                  ],
+                  "resourceVersion": "3779885629",
+                  "uid": "0428cb70-5d8f-4345-8ef2-5b0a249e0793"
+               },
+               "spec": {
+                  "clusterIP": "10.81.208.49",
+                  "clusterIPs": [
+                     "10.81.208.49"
+                  ],
+                  "internalTrafficPolicy": "Cluster",
+                  "ipFamilies": [
+                     "IPv4"
+                  ],
+                  "ipFamilyPolicy": "SingleStack",
+                  "ports": [
+                     {
+                        "name": "http",
+                        "port": 8080,
+                        "protocol": "TCP",
+                        "targetPort": 8080
+                     }
+                  ],
+                  "selector": {
+                     "app": "nginx"
+                  },
+                  "sessionAffinity": "None",
+                  "type": "ClusterIP"
+               },
+               "status": {
+                  "loadBalancer": {}
+               }
+            },
+            "failedPaths": null,
+            "reviewPaths": null,
+            "deletePaths": null,
+            "fixPaths": null
+         }
+      ]
+   }
+]
