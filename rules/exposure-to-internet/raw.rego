@@ -9,6 +9,7 @@ deny[msga] {
     wl := input[_]
     spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
     spec_template_spec_patterns[wl.kind]
+    is_same_namespace(wl.metadata, service.metadata)
     pod := get_pod_spec(wl)["spec"]
     wl_connected_to_service(pod, service)
     failPath := ["spec.type"]
