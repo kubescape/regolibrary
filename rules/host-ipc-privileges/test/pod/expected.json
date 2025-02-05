@@ -1,0 +1,18 @@
+[{
+    "alertMessage": "Pod: test has hostIPC enabled",
+    "deletePaths": ["spec.hostIPC"],
+    "failedPaths": ["spec.hostIPC"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "name": "test"
+            }
+        }]
+    }
+}]
