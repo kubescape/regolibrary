@@ -81,7 +81,7 @@ jobs:
           echo "REGO_ARTIFACT_PATH=${{ env.REGO_ARTIFACT_PATH }}" >> $GITHUB_OUTPUT
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
           path: ${{ env.REGO_ARTIFACT_PATH }}/
