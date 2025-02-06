@@ -1,0 +1,21 @@
+[{
+    "alertMessage": "Deployment: my-deployment has a pod with hostPID enabled",
+    "deletePaths": ["spec.template.spec.hostPID"],
+    "failedPaths": ["spec.template.spec.hostPID"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 9,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "labels": {
+                    "app": "goproxy"
+                },
+                "name": "my-deployment"
+            }
+        }]
+    }
+}]
