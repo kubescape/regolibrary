@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Check out code
         if: (github.actor == 'kubescape/sonar')
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       # trigger system tests - TODO
       # trigger release process - TODO 
       - name: say hello
