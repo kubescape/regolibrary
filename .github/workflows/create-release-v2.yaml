@@ -34,11 +34,11 @@ jobs:
       REGO_ARTIFACT_KEY_NAME: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_KEY_NAME }}
       REGO_ARTIFACT_PATH: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_PATH }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         name: Checkout repo content
 
       - name: Set up Go 1.21
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v4
         with:
           go-version: 1.21
 
@@ -49,7 +49,7 @@ jobs:
           GOPATH=$(go env GOPATH) make
 
       - name: Setup Python 3.10.6
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: 3.10.6
 
@@ -81,7 +81,7 @@ jobs:
           echo "REGO_ARTIFACT_PATH=${{ env.REGO_ARTIFACT_PATH }}" >> $GITHUB_OUTPUT
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
           path: ${{ env.REGO_ARTIFACT_PATH }}/
@@ -118,7 +118,7 @@ jobs:
     name: create release and upload assets
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         name: Checkout repository
 
       - name: 'Generate Release Tag'
@@ -150,7 +150,7 @@ jobs:
           force_push_tag: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # ratchet:actions/download-artifact@v3.0.2
+      - uses: actions/download-artifact@v4
         id: download-artifact
         with:
           name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
@@ -174,10 +174,10 @@ jobs:
     needs: [create-new-tag-and-release]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # ratchet:actions/checkout@v3.5.2
+      - uses: actions/checkout@v4
         name: checkout repo content
       - name: setup python
-        uses: actions/setup-python@57ded4d7d5e986d7296eab16560982c6dd7c923b # ratchet:actions/setup-python@v4.6.0
+        uses: actions/setup-python@v5
         with:
           python-version: 3.8
       - name: install dependencies
