@@ -1,0 +1,28 @@
+{
+    "name": "rule-can-create-pv",
+    "attributes": {
+      "resourcesAggregator": "subject-role-rolebinding",
+      "useFromKubescapeVersion": "v1.0.133"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          "rbac.authorization.k8s.io"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "Role",
+            "ClusterRole",
+            "ClusterRoleBinding",
+            "RoleBinding"
+          ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "determines which users can create persistent volumes",
+    "remediation": "",
+    "ruleQuery": "armo_builtins"
+  }
