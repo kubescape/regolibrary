@@ -12,7 +12,7 @@
     "attributes": {
     },
     "rulesNames": [
-        "rule-can-approve-certsigningreq"
+        "rule-can-approve-cert-signing-request"
     ],
     "baseScore": 5,
     "impact_statement": "Users with access to the approval sub-resource of certificatesigningrequests objects can approve new client certificates for the Kubernetes API effectively allowing them to create new high-privileged user accounts.",
