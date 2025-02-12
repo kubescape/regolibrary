@@ -1,0 +1,29 @@
+{
+    "name": "Minimize access to the approval sub-resource of certificatesigningrequests objects",
+    "controlID": "C-0280",
+    "description": "Users with access to the update the approval sub-resource of certificateaigningrequests objects can approve new client certificates for the Kubernetes API effectively allowing them to create new high-privileged user accounts.",
+    "long_description": "Users with access to the update the approval sub-resource of certificateaigningrequests objects can approve new client certificates for the Kubernetes API effectively allowing them to create new high-privileged user accounts. This can allow for privilege escalation to full cluster administrator, depending on users configured in the cluster",
+    "remediation": "Where possible, remove access to the approval sub-resource of certificatesigningrequests objects.",
+    "manual_test": "Review the users who have access to update the approval sub-resource of certificatesigningrequests objects in the Kubernetes API.",
+    "test": "Check which subjects have RBAC permissions to update the approval sub-resource of certificatesigningrequests objects.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/2633388/recommendations/4261962"
+    ],
+    "attributes": {
+    },
+    "rulesNames": [
+        "rule-can-approve-cert-signing-request"
+    ],
+    "baseScore": 5,
+    "impact_statement": "Users with access to the approval sub-resource of certificatesigningrequests objects can approve new client certificates for the Kubernetes API effectively allowing them to create new high-privileged user accounts.",
+    "category": {
+        "name" : "Access control"
+   },
+    "default_value": "By default in a kubeadm cluster the following list of principals have `update` privileges on `certificatesigningrequests/approval` objects ```CLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACEcluster-admin                                         system:masters                      Group           system:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-systemsystem:controller:daemon-set-controller               daemon-set-controller               ServiceAccount  kube-systemsystem:controller:job-controller                      job-controller                      ServiceAccount  kube-systemsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-systemsystem:controller:replicaset-controller               replicaset-controller               ServiceAccount  kube-systemsystem:controller:replication-controller              replication-controller              ServiceAccount  kube-systemsystem:controller:statefulset-controller              statefulset-controller              ServiceAccount  kube-system```",
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

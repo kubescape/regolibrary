@@ -1,0 +1,29 @@
+{
+    "name": "Minimize access to create persistent volumes",
+    "controlID": "C-0278",
+    "description": "The ability to create persistent volumes in a cluster can provide an opportunity for privilege escalation, via the creation of hostPath volumes. ",
+    "long_description": "The ability to create persistent volumes in a cluster can provide an opportunity for privilege escalation, via the creation of hostPath volumes. As persistent volumes are not covered by Pod Security Admission, a user with access to create persistent volumes may be able to get access to sensitive files from the underlying host even where restrictive Pod Security Admission policies are in place.",
+    "remediation": "Where possible, remove `create` access to `persistentvolume` objects in the cluster.",
+    "manual_test": "Review the users who have create access to persistentvolume objects in the Kubernetes API.",
+    "test": "Check which subjects have RBAC permissions to create persistentvolumes.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/2633388/recommendations/4261959"
+    ],
+    "attributes": {
+    },
+    "rulesNames": [
+        "rule-can-create-pv"
+    ],
+    "baseScore": 5,
+    "impact_statement": "Care should be taken not to remove access to pods to system components which require this for their operation",
+    "category": {
+        "name" : "Access control"
+   },
+    "default_value": "By default in a kubeadm cluster the following list of principals have `create` privileges on `persistentvolume` objects ```CLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACEcluster-admin                                         system:masters                      Group           system:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-systemsystem:controller:daemon-set-controller               daemon-set-controller               ServiceAccount  kube-systemsystem:controller:job-controller                      job-controller                      ServiceAccount  kube-systemsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-systemsystem:controller:replicaset-controller               replicaset-controller               ServiceAccount  kube-systemsystem:controller:replication-controller              replication-controller              ServiceAccount  kube-systemsystem:controller:statefulset-controller              statefulset-controller              ServiceAccount  kube-system```",
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}
