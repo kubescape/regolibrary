@@ -1,0 +1,29 @@
+{
+    "name": "Minimize access to webhook configuration objects",
+    "controlID": "C-0281",
+    "description": "Users with rights to create/modify/delete validatingwebhookconfigurations or mutatingwebhookconfigurations can control webhooks that can read any object admitted to the cluster, and in the case of mutating webhooks, also mutate admitted objects. This could allow for privilege escalation or disruption of the operation of the cluster.",
+    "long_description": "Users with rights to create/modify/delete validatingwebhookconfigurations or mutatingwebhookconfigurations can control webhooks that can read any object admitted to the cluster, and in the case of mutating webhooks, also mutate admitted objects. This could allow for privilege escalation or disruption of the operation of the cluster.",
+    "remediation": "Where possible, remove access to the validatingwebhookconfigurations or mutatingwebhookconfigurations objects",
+    "manual_test": "Review the users who have access to validatingwebhookconfigurations or mutatingwebhookconfigurations objects in the Kubernetes API.",
+    "test": "Check which subjects have RBAC permissions to create/modify/delete validatingwebhookconfigurations or mutatingwebhookconfigurations objects.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/2633388/recommendations/4261963"
+    ],
+    "attributes": {
+    },
+    "rulesNames": [
+        "rule-can-modify-admission-webhooks"
+    ],
+    "baseScore": 5,
+    "impact_statement": "Users with rights to create/modify/delete validatingwebhookconfigurations or mutatingwebhookconfigurations can control webhooks that can read any object admitted to the cluster, and in the case of mutating webhooks, also mutate admitted objects. This could allow for privilege escalation or disruption of the operation of the cluster.",
+    "category": {
+        "name" : "Access control"
+   },
+    "default_value": "By default in a kubeadm cluster the following list of principals have `create/modify/delete` privileges on `validatingwebhookconfigurations/mutatingwebhookconfigurations` objects ```CLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACEcluster-admin                                         system:masters                      Group           system:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-systemsystem:controller:daemon-set-controller               daemon-set-controller               ServiceAccount  kube-systemsystem:controller:job-controller                      job-controller                      ServiceAccount  kube-systemsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-systemsystem:controller:replicaset-controller               replicaset-controller               ServiceAccount  kube-systemsystem:controller:replication-controller              replication-controller              ServiceAccount  kube-systemsystem:controller:statefulset-controller              statefulset-controller              ServiceAccount  kube-system```",
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}
