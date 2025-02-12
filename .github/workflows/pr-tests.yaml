@@ -63,7 +63,7 @@ jobs:
           GOPATH=$(go env GOPATH) make
 
       - name: Set up Regal
-        uses: StyraInc/setup-regal@v0.1.0
+        uses: StyraInc/setup-regal@v1
         with:
           version: v0.10.1
 
@@ -71,7 +71,7 @@ jobs:
         run: regal lint --format github rules
 
       - name: setup python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: 3.10.6
       - name: Install dependencies

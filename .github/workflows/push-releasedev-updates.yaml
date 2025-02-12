@@ -34,7 +34,7 @@ jobs:
         git commit -a -m "Updating releaseDev files $(date)"
 
     - name: Push changes
-      uses: ad-m/github-push-action@master
+      uses: ad-m/github-push-action@v0.8.0
       with:
         github_token: ${{ env.GH_ACCESS_TOKEN }}
         repository: kubescape/regolibrary-dev

@@ -1,0 +1,27 @@
+{
+    "controlID": "C-0277",
+    "name": "Ensure that the API Server only makes use of Strong Cryptographic Ciphers",
+    "description": "Ensure that the API server is configured to only use strong cryptographic ciphers.",
+    "long_description": "TLS ciphers have had a number of known vulnerabilities and weaknesses, which can reduce the protection provided by them. By default Kubernetes supports a number of TLS ciphersuites including some that have security concerns, weakening the protection provided.",
+    "remediation": "Edit the API server pod specification file /etc/kubernetes/manifests/kube-apiserver.yaml on the Control Plane node and set the below parameter.\n\n \n```\n--tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_ECDSA_WITH_RC4_128_SHA, TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA, TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256, TLS_ECDHE_RSA_WITH_RC4_128_SHA, TLS_RSA_WITH_3DES_EDE_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA, TLS_RSA_WITH_AES_128_CBC_SHA256, TLS_RSA_WITH_AES_128_GCM_SHA256, TLS_RSA_WITH_AES_256_CBC_SHA, TLS_RSA_WITH_AES_256_GCM_SHA384, TLS_RSA_WITH_RC4_128_SHA.\n\n```",
+    "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--tls-cipher-suites` argument is set as outlined in the remediation procedure below.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/2633389/recommendations/4262031"
+    ],
+    "attributes": {
+    },
+    "rulesNames": [
+        "ensure-that-the-API-Server-only-makes-use-of-Strong-Cryptographic-Ciphers-cis1-10"
+    ],
+    "baseScore": 5,
+    "impact_statement": "API server clients that cannot support modern cryptographic ciphers will not be able to make connections to the API server.",
+    "default_value": "By default the Kubernetes API server supports a wide range of TLS ciphers",
+    "category": {
+        "name" : "Control plane"
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
+}
