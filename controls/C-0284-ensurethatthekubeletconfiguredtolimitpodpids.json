@@ -1,0 +1,27 @@
+{
+    "controlID": "C-0284",
+    "name": "Ensure that the Kubelet is configured to limit pod PIDS",
+    "description": "Ensure that the Kubelet sets limits on the number of PIDs that can be created by pods running on the node.",
+    "long_description": "Ensure that the Kubelet sets limits on the number of PIDs that can be created by pods running on the node. By default pods running in a cluster can consume any number of PIDs, potentially exhausting the resources available on the node. Setting an appropriate limit reduces the risk of a denial of service attack on cluster nodes.",
+    "remediation": "Decide on an appropriate level for this parameter and set it, either via the `--pod-max-pids` command line parameter or the `PodPidsLimit` configuration file setting.",
+    "manual_test": "Review the Kubelet's start-up parameters for the value of --pod-max-pids, and check the Kubelet configuration file for the PodPidsLimit . If neither of these values is set, then there is no limit in place.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/2633393/recommendations/4262020"
+    ],
+    "attributes": {
+    },
+    "rulesNames": [
+        "kubelet-set-pod-limit"
+    ],
+    "baseScore": 2,
+    "impact_statement": "Setting this value will restrict the number of processes per pod. If this limit is lower than the number of PIDs required by a pod it will not operate.",
+    "default_value": "By default the number of PIDs is not limited.",
+    "category": {
+        "name" : "Control plane"
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
+}
