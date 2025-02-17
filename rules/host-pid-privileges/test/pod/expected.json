@@ -1,0 +1,18 @@
+[{
+    "alertMessage": "Pod: test has hostPID enabled",
+    "deletePaths": ["spec.hostPID"],
+    "failedPaths": ["spec.hostPID"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "name": "test"
+            }
+        }]
+    }
+}]
