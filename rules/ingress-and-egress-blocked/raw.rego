@@ -3,13 +3,13 @@ package armo_builtins
 
 # For pods
 deny[msga] {
- 		pods := [pod |  pod= input[_]; pod.kind == "Pod"]
-		networkpolicies := [networkpolicie |  networkpolicie= input[_]; networkpolicie.kind == "NetworkPolicy"]
-		pod := pods[_]
-		network_policies_connected_to_pod := [networkpolicie |  networkpolicie= networkpolicies[_];  pod_connected_to_network_policy(pod, networkpolicie)]
-		count(network_policies_connected_to_pod) > 0
-        goodPolicies := [goodpolicie |  goodpolicie= network_policies_connected_to_pod[_];  is_ingerss_egress_policy(goodpolicie)]
-		count(goodPolicies) < 1
+	pods := [pod |  pod= input[_]; pod.kind == "Pod"]
+	networkpolicies := [networkpolicie |  networkpolicie= input[_]; networkpolicie.kind == "NetworkPolicy"]
+	pod := pods[_]
+	network_policies_connected_to_pod := [networkpolicie |  networkpolicie= networkpolicies[_];  pod_connected_to_network_policy(pod, networkpolicie)]
+	count(network_policies_connected_to_pod) > 0
+	goodPolicies := [goodpolicie |  goodpolicie= network_policies_connected_to_pod[_];  is_ingerss_egress_policy(goodpolicie)]
+	count(goodPolicies) < 1
 
     msga := {
 		"alertMessage": sprintf("Pod: %v does not have ingress/egress defined", [pod.metadata.name]),
@@ -188,8 +188,11 @@ cronjob_connected_to_network_policy(cj, networkpolicie){
 
 is_ingerss_egress_policy(networkpolicie) {
     list_contains(networkpolicie.spec.policyTypes, "Ingress")
+}
+
+is_ingerss_egress_policy(networkpolicie) {
     list_contains(networkpolicie.spec.policyTypes, "Egress")
- }
+}
 
 list_contains(list, element) {
   some i
