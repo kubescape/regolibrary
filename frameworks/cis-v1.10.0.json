@@ -77,7 +77,8 @@
                         "C-0140",
                         "C-0141",
                         "C-0142",
-                        "C-0277"
+                        "C-0277",
+                        "C-0283"
                     ]
                 },
                 "3": {
@@ -120,11 +121,6 @@
             "name": "Control Plane Configuration",
             "id": "3",
             "subSections": {
-                "1": {
-                    "name": "Authentication and Authorization",
-                    "id": "3.1",
-                    "controlsIDs": []
-                },
                 "2": {
                     "name": "Logging",
                     "id": "3.2",
@@ -172,11 +168,6 @@
                         "C-0183",
                         "C-0184"
                     ]
-                },
-                "3": {
-                    "name": "kube-proxy",
-                    "id": "4.3",
-                    "controlsIDs": []
                 }
             }
         },
@@ -1412,6 +1403,17 @@
                 "manual_test": "Review the users who have access to create the `token` sub-resource of `serviceaccount` objects in the Kubernetes API.",
                 "impact_statement": "",
                 "default_value": ""
+            }
+        },
+        {
+            "controlID": "C-0283",
+            "patch": {
+                "name": "CIS-1.2.3 Ensure that the DenyServiceExternalIPs is set",
+                "long_description": "Most users do not need the ability to set the `externalIPs` field for a `Service` at all, and cluster admins should consider disabling this functionality by enabling the `DenyServiceExternalIPs` admission controller. Clusters that do need to allow this functionality should consider using some custom policy to manage its usage.",
+                "remediation": "Edit the API server pod specification file /etc/kubernetes/manifests/kube-apiserver.yaml on the master node and append the Kubernetes API server flag --enable-admission-plugins with the DenyServiceExternalIPs plugin. Note, the Kubernetes API server flag --enable-admission-plugins takes a comma-delimited list of admission control plugins to be enabled, even if they are in the list of plugins enabled by default.\n\n kube-apiserver --enable-admission-plugins=DenyServiceExternalIPs",
+                "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `DenyServiceExternalIPs' argument exist as a string value in --enable-admission-plugins.",
+                "impact_statement": "When enabled, users of the cluster may not create new Services which use externalIPs and may not add new values to externalIPs on existing Service objects.",
+                "default_value": "By default, --enable-admission-plugins=DenyServiceExternalIP argument is not set, and the use of externalIPs is authorized."
             }
         }
     ]
