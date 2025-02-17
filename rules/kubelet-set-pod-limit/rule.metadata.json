@@ -1,0 +1,31 @@
+{
+  "name": "kubelet-set-pod-limit",
+  "attributes": {
+    "hostSensorRule": "true"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Ensure that the --pod-max-pids argument is set.",
+  "remediation": "Set the --pod-max-pids argument.",
+  "ruleQuery": ""
+}
