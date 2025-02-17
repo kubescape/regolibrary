@@ -166,7 +166,8 @@
                         "C-0181",
                         "C-0182",
                         "C-0183",
-                        "C-0184"
+                        "C-0184",
+                        "C-0284"
                     ]
                 }
             }
@@ -1414,6 +1415,14 @@
                 "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `DenyServiceExternalIPs' argument exist as a string value in --enable-admission-plugins.",
                 "impact_statement": "When enabled, users of the cluster may not create new Services which use externalIPs and may not add new values to externalIPs on existing Service objects.",
                 "default_value": "By default, --enable-admission-plugins=DenyServiceExternalIP argument is not set, and the use of externalIPs is authorized."
+            }
+        },
+        {
+            "controlID": "C-0284",
+            "patch": {
+                "name": "CIS-4.2.13 Ensure that a limit is set on pod PIDs",
+                "long_description": "By default pods running in a cluster can consume any number of PIDs, potentially exhausting the resources available on the node. Setting an appropriate limit reduces the risk of a denial of service attack on cluster nodes.",
+                "manual_test": "Review the Kubelet's start-up parameters for the value of `--pod-max-pids`, and check the Kubelet configuration file for the `PodPidsLimit` . If neither of these values is set, then there is no limit in place."
             }
         }
     ]
