@@ -251,6 +251,13 @@
                     "kind": "Group",
                     "name": "system:masters"
                 }
+            },
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ClusterRoleBinding",
+                    "name": "system:public-info-viewer"
+                }
             }
         ],
         "posturePolicies": [
