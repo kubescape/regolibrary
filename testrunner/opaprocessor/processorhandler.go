@@ -4,21 +4,19 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/open-policy-agent/opa/topdown"
 	"os"
 	"strings"
 
 	"github.com/armosec/armoapi-go/armotypes"
+	"github.com/golang/glog"
 	"github.com/kubescape/k8s-interface/workloadinterface"
 	"github.com/kubescape/opa-utils/objectsenvelopes"
 	"github.com/kubescape/opa-utils/reporthandling"
-	"gopkg.in/yaml.v3"
-
-	"github.com/golang/glog"
-
 	"github.com/kubescape/opa-utils/resources"
-	"github.com/open-policy-agent/opa/ast"
-	"github.com/open-policy-agent/opa/rego"
+	"github.com/open-policy-agent/opa/v1/ast"
+	"github.com/open-policy-agent/opa/v1/rego"
+	"github.com/open-policy-agent/opa/v1/topdown"
+	"gopkg.in/yaml.v3"
 )
 
 type OPAProcessor struct {
@@ -120,6 +118,7 @@ func RunSingleRego(rule *reporthandling.PolicyRule, inputObj []map[string]interf
 	modules[rule.Name] = rule.Rule
 	compiled, err := ast.CompileModulesWithOpt(modules, ast.CompileOpts{
 		EnablePrintStatements: true,
+		ParserOptions:         ast.ParserOptions{RegoVersion: ast.RegoV0},
 	})
 	if err != nil {
 		return nil, err
@@ -161,6 +160,7 @@ func (opap *OPAProcessor) regoEval(inputObj []map[string]interface{}, compiledRe
 	}
 
 	rego := rego.New(
+		rego.SetRegoVersion(ast.RegoV0),
 		rego.Query("data.armo_builtins"), // get package name from rule
 		rego.Compiler(compiledRego),
 		rego.Input(inputObj),

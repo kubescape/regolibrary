@@ -88,5 +88,5 @@ func TestSingleRego(t *testing.T) {
 	if err != nil {
 		t.Errorf("err: %v in rule: %v", err.Error(), dir)
 	}
-	t.Errorf(result)
+	t.Log(result)
 }
