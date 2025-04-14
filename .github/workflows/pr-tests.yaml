@@ -21,7 +21,7 @@ jobs:
       pull-requests: write
     uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@main
     with:
-      GO_VERSION: '1.21'
+      GO_VERSION: '1.23'
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
 
@@ -47,7 +47,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: '1.21'
+          go-version: '1.23'
 
       # testing rego library
       - name: Test Regoes
