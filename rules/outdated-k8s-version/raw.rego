@@ -18,7 +18,7 @@ deny[msga] {
 
 has_outdated_version(version)  {
 	# the `supported_k8s_versions` is validated in the validations script against "https://api.github.com/repos/kubernetes/kubernetes/releases"
-    supported_k8s_versions := ["v1.32", "v1.31", "v1.30"] 
+    supported_k8s_versions := ["v1.33", "v1.32", "v1.31"]
 	every v in supported_k8s_versions{
 		not startswith(version, v)
 	}
