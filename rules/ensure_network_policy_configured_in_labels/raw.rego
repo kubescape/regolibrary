@@ -115,7 +115,7 @@ connected_to_network_policy(wl, networkpolicy){
 connected_to_network_policy(wl, networkpolicy){
 	is_same_namespace(networkpolicy.metadata, wl.metadata)
 	networkpolicy.kind == "CiliumNetworkPolicy"
-    count(networkpolicy.spec.endpointSelector) == 0
+    count(networkpolicy.spec.endpointSelector.matchLabels) == 0
 }
 
 
