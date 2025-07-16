@@ -54,7 +54,7 @@ connected_to_network_policy(wl, networkpolicy){
 	
 	# Handle CiliumNetworkPolicy
 	networkpolicy.kind == "CiliumNetworkPolicy"
-	count(networkpolicy.spec.endpointSelector) > 0
+	count(networkpolicy.spec.endpointSelector.matchLabels) > 0
     count({x | networkpolicy.spec.endpointSelector.matchLabels[x] == wl.spec.template.metadata.labels[x]}) == count(networkpolicy.spec.endpointSelector.matchLabels)
 }
 
