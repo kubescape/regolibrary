@@ -14,52 +14,282 @@
         "compliance"
     ],
     "activeControls": [
-        {"controlID": "C-0066", "patch": {"name": "CIS-5.3.1 Ensure Kubernetes Secrets are encrypted using Customer Master Keys (CMKs) managed in AWS KMS"}},
-        {"controlID": "C-0067", "patch": {"name": "CIS-2.1.1 Enable audit Logs"}},
-        {"controlID": "C-0078", "patch": {"name": "CIS-5.1.4 Minimize Container Registries to only those approved"}},
-        {"controlID": "C-0167", "patch": {"name": "CIS-3.1.2 Ensure that the kubelet kubeconfig file ownership is set to root:root"}},
-        {"controlID": "C-0171", "patch": {"name": "CIS-3.1.4 Ensure that the kubelet configuration file ownership is set to root:root"}},
-        {"controlID": "C-0172", "patch": {"name": "CIS-3.2.1 Ensure that the Anonymous Auth is Not Enabled"}},
-        {"controlID": "C-0173", "patch": {"name": "CIS-3.2.2 Ensure that the --authorization-mode argument is not set to AlwaysAllow"}},
-        {"controlID": "C-0174", "patch": {"name": "CIS-3.2.3 Ensure that a Client CA File is Configured"}},
-        {"controlID": "C-0175", "patch": {"name": "CIS-3.2.4 Ensure that the --read-only-port is disabled"}},
-        {"controlID": "C-0176", "patch": {"name": "CIS-3.2.5 Ensure that the --streaming-connection-idle-timeout argument is not set to 0"}},
-        {"controlID": "C-0177", "patch": {"name": "CIS-3.2.6 Ensure that the --protect-kernel-defaults argument is set to true"}},
-        {"controlID": "C-0178", "patch": {"name": "CIS-3.2.7 Ensure that the --make-iptables-util-chains argument is set to true"}},
-        {"controlID": "C-0179", "patch": {"name": "CIS-3.2.8 Ensure that the --hostname-override argument is not set"}},
-        {"controlID": "C-0180", "patch": {"name": "CIS-3.2.9 Ensure that the --eventRecordQPS argument is set to 0 or a level which ensures appropriate event capture"}},
-        {"controlID": "C-0181", "patch": {"name": "CIS-3.2.10 Ensure that the --rotate-certificates argument is not present or is set to true"}},
-        {"controlID": "C-0183", "patch": {"name": "CIS-3.2.11 Ensure that the RotateKubeletServerCertificate argument is set to true"}},
-        {"controlID": "C-0185", "patch": {"name": "CIS-4.1.1 Ensure that the cluster-admin role is only used where required"}},
-        {"controlID": "C-0186", "patch": {"name": "CIS-4.1.2 Minimize access to secrets"}},
-        {"controlID": "C-0187", "patch": {"name": "CIS-4.1.3 Minimize wildcard use in Roles and ClusterRoles"}},
-        {"controlID": "C-0188", "patch": {"name": "CIS-4.1.4 Minimize access to create pods"}},
-        {"controlID": "C-0189", "patch": {"name": "CIS-4.1.5 Ensure that default service accounts are not actively used."}},
-        {"controlID": "C-0190", "patch": {"name": "CIS-4.1.6 Ensure that Service Account Tokens are only mounted where necessary"}},
-        {"controlID": "C-0191", "patch": {"name": "CIS-4.1.8 Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster"}},
-        {"controlID": "C-0205", "patch": {"name": "CIS-4.3.1 Ensure CNI plugin supports network policies."}},
-        {"controlID": "C-0206", "patch": {"name": "CIS-4.3.2 Ensure that all Namespaces have Network Policies defined"}},
-        {"controlID": "C-0207", "patch": {"name": "CIS-4.4.1 Prefer using secrets as files over secrets as environment variables"}},
-        {"controlID": "C-0209", "patch": {"name": "CIS-4.5.1 Create administrative boundaries between resources using namespaces"}},
-        {"controlID": "C-0211", "patch": {"name": "CIS-4.5.2 Apply Security Context to Your Pods and Containers"}},
-        {"controlID": "C-0212", "patch": {"name": "CIS-4.5.3 The default namespace should not be used"}},
-        {"controlID": "C-0221", "patch": {"name": "CIS-5.1.1 Ensure Image Vulnerability Scanning using Amazon ECR image scanning or a third party provider"}},
-        {"controlID": "C-0222", "patch": {"name": "CIS-5.1.2 Minimize user access to Amazon ECR"}},
-        {"controlID": "C-0223", "patch": {"name": "CIS-5.1.3 Minimize cluster access to read-only for Amazon ECR"}},
-        {"controlID": "C-0225", "patch": {"name": "CIS-5.2.1 Prefer using dedicated EKS Service Accounts"}},
-        {"controlID": "C-0226", "patch": {"name": "CIS-3.3.1 Prefer using a container-optimized OS when possible"}},
-        {"controlID": "C-0227", "patch": {"name": "CIS-5.4.1 Restrict Access to the Control Plane Endpoint"}},
-        {"controlID": "C-0228", "patch": {"name": "CIS-5.4.2 Ensure clusters are created with Private Endpoint Enabled and Public Access Disabled"}},
-        {"controlID": "C-0229", "patch": {"name": "CIS-5.4.3 Ensure clusters are created with Private Nodes"}},
-        {"controlID": "C-0230", "patch": {"name": "CIS-5.4.4 Ensure Network Policy is Enabled and set as appropriate"}},
-        {"controlID": "C-0231", "patch": {"name": "CIS-5.4.5 Encrypt traffic to HTTPS load balancers with TLS certificates"}},
-        {"controlID": "C-0232", "patch": {"name": "CIS-5.5.1 Manage Kubernetes RBAC users with AWS IAM Authenticator for Kubernetes or Upgrade to AWS CLI v1.16.156"}},
-        {"controlID": "C-0233", "patch": {"name": "CIS-6.1 Consider Fargate for running untrusted workloads"}},
-        {"controlID": "C-0234", "patch": {"name": "CIS-4.4.2 Consider external secret storage"}},
-        {"controlID": "C-0235", "patch": {"name": "CIS-3.1.3 Ensure that the kubelet configuration file has permissions set to 644 or more restrictive"}},
-        {"controlID": "C-0238", "patch": {"name": "CIS-3.1.1 Ensure that the kubeconfig file permissions are set to 644 or more restrictive"}},
-        {"controlID": "C-0242", "patch": {"name": "CIS-5.6.2 Hostile multi-tenant workloads"}},
-        {"controlID": "C-0250", "patch": {"name": "CIS-4.1.7 Cluster Access Manager API to streamline and enhance the management of access controls within EKS clusters"}}
+        {
+            "controlID": "C-0066",
+            "patch": {
+                "name": "CIS-5.3.1 Ensure Kubernetes Secrets are encrypted using Customer Master Keys (CMKs) managed in AWS KMS"
+            }
+        },
+        {
+            "controlID": "C-0067",
+            "patch": {
+                "name": "CIS-2.1.1 Enable audit Logs"
+            }
+        },
+        {
+            "controlID": "C-0078",
+            "patch": {
+                "name": "CIS-5.1.4 Minimize Container Registries to only those approved"
+            }
+        },
+        {
+            "controlID": "C-0167",
+            "patch": {
+                "name": "CIS-3.1.2 Ensure that the kubelet kubeconfig file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0171",
+            "patch": {
+                "name": "CIS-3.1.4 Ensure that the kubelet configuration file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0172",
+            "patch": {
+                "name": "CIS-3.2.1 Ensure that the Anonymous Auth is Not Enabled"
+            }
+        },
+        {
+            "controlID": "C-0173",
+            "patch": {
+                "name": "CIS-3.2.2 Ensure that the --authorization-mode argument is not set to AlwaysAllow"
+            }
+        },
+        {
+            "controlID": "C-0174",
+            "patch": {
+                "name": "CIS-3.2.3 Ensure that a Client CA File is Configured"
+            }
+        },
+        {
+            "controlID": "C-0175",
+            "patch": {
+                "name": "CIS-3.2.4 Ensure that the --read-only-port is disabled"
+            }
+        },
+        {
+            "controlID": "C-0176",
+            "patch": {
+                "name": "CIS-3.2.5 Ensure that the --streaming-connection-idle-timeout argument is not set to 0"
+            }
+        },
+        {
+            "controlID": "C-0177",
+            "patch": {
+                "name": "CIS-3.2.6 Ensure that the --protect-kernel-defaults argument is set to true"
+            }
+        },
+        {
+            "controlID": "C-0178",
+            "patch": {
+                "name": "CIS-3.2.7 Ensure that the --make-iptables-util-chains argument is set to true"
+            }
+        },
+        {
+            "controlID": "C-0179",
+            "patch": {
+                "name": "CIS-3.2.8 Ensure that the --hostname-override argument is not set"
+            }
+        },
+        {
+            "controlID": "C-0180",
+            "patch": {
+                "name": "CIS-3.2.9 Ensure that the --eventRecordQPS argument is set to 0 or a level which ensures appropriate event capture"
+            }
+        },
+        {
+            "controlID": "C-0181",
+            "patch": {
+                "name": "CIS-3.2.10 Ensure that the --rotate-certificates argument is not present or is set to true"
+            }
+        },
+        {
+            "controlID": "C-0183",
+            "patch": {
+                "name": "CIS-3.2.11 Ensure that the RotateKubeletServerCertificate argument is set to true"
+            }
+        },
+        {
+            "controlID": "C-0185",
+            "patch": {
+                "name": "CIS-4.1.1 Ensure that the cluster-admin role is only used where required"
+            }
+        },
+        {
+            "controlID": "C-0186",
+            "patch": {
+                "name": "CIS-4.1.2 Minimize access to secrets"
+            }
+        },
+        {
+            "controlID": "C-0187",
+            "patch": {
+                "name": "CIS-4.1.3 Minimize wildcard use in Roles and ClusterRoles"
+            }
+        },
+        {
+            "controlID": "C-0188",
+            "patch": {
+                "name": "CIS-4.1.4 Minimize access to create pods"
+            }
+        },
+        {
+            "controlID": "C-0189",
+            "patch": {
+                "name": "CIS-4.1.5 Ensure that default service accounts are not actively used."
+            }
+        },
+        {
+            "controlID": "C-0190",
+            "patch": {
+                "name": "CIS-4.1.6 Ensure that Service Account Tokens are only mounted where necessary"
+            }
+        },
+        {
+            "controlID": "C-0191",
+            "patch": {
+                "name": "CIS-4.1.8 Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster"
+            }
+        },
+        {
+            "controlID": "C-0205",
+            "patch": {
+                "name": "CIS-4.3.1 Ensure CNI plugin supports network policies."
+            }
+        },
+        {
+            "controlID": "C-0206",
+            "patch": {
+                "name": "CIS-4.3.2 Ensure that all Namespaces have Network Policies defined"
+            }
+        },
+        {
+            "controlID": "C-0207",
+            "patch": {
+                "name": "CIS-4.4.1 Prefer using secrets as files over secrets as environment variables"
+            }
+        },
+        {
+            "controlID": "C-0209",
+            "patch": {
+                "name": "CIS-4.5.1 Create administrative boundaries between resources using namespaces"
+            }
+        },
+        {
+            "controlID": "C-0211",
+            "patch": {
+                "name": "CIS-4.5.2 Apply Security Context to Your Pods and Containers"
+            }
+        },
+        {
+            "controlID": "C-0212",
+            "patch": {
+                "name": "CIS-4.5.3 The default namespace should not be used"
+            }
+        },
+        {
+            "controlID": "C-0221",
+            "patch": {
+                "name": "CIS-5.1.1 Ensure Image Vulnerability Scanning using Amazon ECR image scanning or a third party provider"
+            }
+        },
+        {
+            "controlID": "C-0222",
+            "patch": {
+                "name": "CIS-5.1.2 Minimize user access to Amazon ECR"
+            }
+        },
+        {
+            "controlID": "C-0223",
+            "patch": {
+                "name": "CIS-5.1.3 Minimize cluster access to read-only for Amazon ECR"
+            }
+        },
+        {
+            "controlID": "C-0225",
+            "patch": {
+                "name": "CIS-5.2.1 Prefer using dedicated EKS Service Accounts"
+            }
+        },
+        {
+            "controlID": "C-0226",
+            "patch": {
+                "name": "CIS-3.3.1 Prefer using a container-optimized OS when possible"
+            }
+        },
+        {
+            "controlID": "C-0227",
+            "patch": {
+                "name": "CIS-5.4.1 Restrict Access to the Control Plane Endpoint"
+            }
+        },
+        {
+            "controlID": "C-0228",
+            "patch": {
+                "name": "CIS-5.4.2 Ensure clusters are created with Private Endpoint Enabled and Public Access Disabled"
+            }
+        },
+        {
+            "controlID": "C-0229",
+            "patch": {
+                "name": "CIS-5.4.3 Ensure clusters are created with Private Nodes"
+            }
+        },
+        {
+            "controlID": "C-0230",
+            "patch": {
+                "name": "CIS-5.4.4 Ensure Network Policy is Enabled and set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0231",
+            "patch": {
+                "name": "CIS-5.4.5 Encrypt traffic to HTTPS load balancers with TLS certificates"
+            }
+        },
+        {
+            "controlID": "C-0232",
+            "patch": {
+                "name": "CIS-5.5.1 Manage Kubernetes RBAC users with AWS IAM Authenticator for Kubernetes or Upgrade to AWS CLI v1.16.156"
+            }
+        },
+        {
+            "controlID": "C-0233",
+            "patch": {
+                "name": "CIS-6.1 Consider Fargate for running untrusted workloads"
+            }
+        },
+        {
+            "controlID": "C-0234",
+            "patch": {
+                "name": "CIS-4.4.2 Consider external secret storage"
+            }
+        },
+        {
+            "controlID": "C-0235",
+            "patch": {
+                "name": "CIS-3.1.3 Ensure that the kubelet configuration file has permissions set to 644 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0238",
+            "patch": {
+                "name": "CIS-3.1.1 Ensure that the kubeconfig file permissions are set to 644 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0242",
+            "patch": {
+                "name": "CIS-5.6.2 Hostile multi-tenant workloads"
+            }
+        },
+        {
+            "controlID": "C-0250",
+            "patch": {
+                "name": "CIS-4.1.7 Cluster Access Manager API to streamline and enhance the management of access controls within EKS clusters"
+            }
+        }
     ],
     "subSections": {
         "2": {
@@ -69,7 +299,9 @@
                 "1": {
                     "name": "Logging",
                     "id": "2.1",
-                    "controlsIDs": ["C-0067"]
+                    "controlsIDs": [
+                        "C-0067"
+                    ]
                 }
             }
         },
@@ -80,17 +312,36 @@
                 "1": {
                     "name": "Worker Node Configuration Files",
                     "id": "3.1",
-                    "controlsIDs": ["C-0167", "C-0171", "C-0235", "C-0238"]
+                    "controlsIDs": [
+                        "C-0167",
+                        "C-0171",
+                        "C-0235",
+                        "C-0238"
+                    ]
                 },
                 "2": {
                     "name": "Kubelet",
                     "id": "3.2",
-                    "controlsIDs": ["C-0172", "C-0173", "C-0174", "C-0175", "C-0176", "C-0177", "C-0178", "C-0179", "C-0180", "C-0181", "C-0183"]
+                    "controlsIDs": [
+                        "C-0172",
+                        "C-0173",
+                        "C-0174",
+                        "C-0175",
+                        "C-0176",
+                        "C-0177",
+                        "C-0178",
+                        "C-0179",
+                        "C-0180",
+                        "C-0181",
+                        "C-0183"
+                    ]
                 },
                 "3": {
                     "name": "Container Optimized OS",
                     "id": "3.3",
-                    "controlsIDs": ["C-0226"]
+                    "controlsIDs": [
+                        "C-0226"
+                    ]
                 }
             }
         },
@@ -101,22 +352,41 @@
                 "1": {
                     "name": "RBAC and Service Accounts",
                     "id": "4.1",
-                    "controlsIDs": ["C-0185", "C-0186", "C-0187", "C-0188", "C-0189", "C-0190", "C-0191", "C-0250"]
+                    "controlsIDs": [
+                        "C-0185",
+                        "C-0186",
+                        "C-0187",
+                        "C-0188",
+                        "C-0189",
+                        "C-0190",
+                        "C-0191",
+                        "C-0250"
+                    ]
                 },
                 "3": {
                     "name": "CNI Plugin",
                     "id": "4.3",
-                    "controlsIDs": ["C-0205", "C-0206"]
+                    "controlsIDs": [
+                        "C-0205",
+                        "C-0206"
+                    ]
                 },
                 "4": {
                     "name": "Secrets Management",
                     "id": "4.4",
-                    "controlsIDs": ["C-0207", "C-0234"]
+                    "controlsIDs": [
+                        "C-0207",
+                        "C-0234"
+                    ]
                 },
                 "5": {
                     "name": "Namespace Boundaries and Security Contexts",
                     "id": "4.5",
-                    "controlsIDs": ["C-0209", "C-0211", "C-0212"]
+                    "controlsIDs": [
+                        "C-0209",
+                        "C-0211",
+                        "C-0212"
+                    ]
                 }
             }
         },
@@ -127,32 +397,51 @@
                 "1": {
                     "name": "Image Registry and Image Scanning",
                     "id": "5.1",
-                    "controlsIDs": ["C-0078", "C-0221", "C-0222", "C-0223"]
+                    "controlsIDs": [
+                        "C-0078",
+                        "C-0221",
+                        "C-0222",
+                        "C-0223"
+                    ]
                 },
                 "2": {
                     "name": "Identity and Access Management (IAM)",
                     "id": "5.2",
-                    "controlsIDs": ["C-0225"]
+                    "controlsIDs": [
+                        "C-0225"
+                    ]
                 },
                 "3": {
                     "name": "AWS EKS Key Management Service",
                     "id": "5.3",
-                    "controlsIDs": ["C-0066"]
+                    "controlsIDs": [
+                        "C-0066"
+                    ]
                 },
                 "4": {
                     "name": "Cluster Networking",
                     "id": "5.4",
-                    "controlsIDs": ["C-0227", "C-0228", "C-0229", "C-0230", "C-0231"]
+                    "controlsIDs": [
+                        "C-0227",
+                        "C-0228",
+                        "C-0229",
+                        "C-0230",
+                        "C-0231"
+                    ]
                 },
                 "5": {
                     "name": "Authentication and Authorization",
                     "id": "5.5",
-                    "controlsIDs": ["C-0232"]
+                    "controlsIDs": [
+                        "C-0232"
+                    ]
                 },
                 "6": {
                     "name": "Other Cluster Configurations",
                     "id": "5.6",
-                    "controlsIDs": ["C-0242"]
+                    "controlsIDs": [
+                        "C-0242"
+                    ]
                 }
             }
         },
@@ -163,7 +452,9 @@
                 "1": {
                     "name": "Fargate for Untrusted Workloads",
                     "id": "6.1",
-                    "controlsIDs": ["C-0233"]
+                    "controlsIDs": [
+                        "C-0233"
+                    ]
                 }
             }
         }
