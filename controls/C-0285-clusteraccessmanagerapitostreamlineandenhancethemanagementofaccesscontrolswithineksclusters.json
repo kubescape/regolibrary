@@ -15,5 +15,13 @@
     "rulesNames": ["cluster-access-manager-api-eks"],
     "baseScore": 5,
     "impact_statement": "The shift to using the **Cluster Access Manager API** instead of the aws-auth ConfigMap impacts EKS RBAC and Service Accounts by simplifying access control management, reducing the risk of misconfigurations, and enhancing security. It allows for more granular, direct management of IAM permissions and Kubernetes roles, eliminating manual ConfigMap edits and reducing operational overhead. For Service Accounts, it better integrates with existing mechanisms like IAM Roles for Service Accounts (IRSA) for secure pod access to AWS resources, making it easier to enforce least-privilege principles. This transition improves scalability, auditing, and compliance, while providing a future-proof solution aligned with AWS\u2019s Kubernetes identity management roadmap.",
-    "default_value": "`EKS API` is selected by default during EKS Cluster creation but can be changed during initial configuration"
+    "default_value": "`EKS API` is selected by default during EKS Cluster creation but can be changed during initial configuration",
+    "category": {
+        "name": "Control plane"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
 }
