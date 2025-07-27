@@ -517,6 +517,12 @@
                 ],
                 "impact_statement": "Ensuring that the kubeconfig file permissions are set to 644 or more restrictive significantly strengthens the security posture of the Kubernetes environment by preventing unauthorized modifications. This restricts write access to the kubeconfig file, ensuring only administrators can alter crucial kubelet configurations, thereby reducing the risk of malicious alterations that could compromise the cluster's integrity.\n\n However, this configuration may slightly impact usability, as it limits the ability for non-administrative users to make quick adjustments to the kubelet settings. Administrators will need to balance security needs with operational flexibility, potentially requiring adjustments to workflows for managing kubelet configurations."
             }
+        },
+        {
+            "controlID": "C-0285",
+            "patch": {
+                "name": "CIS-4.1.7 Cluster Access Manager API to streamline and enhance the management of access controls within EKS clusters"
+            }
         }
     ],
     "subSections": {
