@@ -97,7 +97,7 @@ Example of a control:
 * `subCategory` - A sub category for a `category` (optional). Must be listed under the  `mapCategoryNameToID.json` file
 
 
-* `long_description`, `test` and other control fields are used mainly in the [documentation](https://hub.armosec.io/docs)
+* `long_description`, `test` and other control fields are used mainly in the [documentation](https://kubescape.io/docs/)
 
 * See [control go struct](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructures.go#L56) for more control fields
 
