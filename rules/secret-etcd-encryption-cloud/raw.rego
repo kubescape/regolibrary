@@ -24,17 +24,16 @@ deny[msga] {
 }
 
 
-# Check if encryption in etcd in enabled for EKS
+# Check if encryption in etcd is enabled for EKS
 deny[msga] {
 	cluster_config := input[_]
 	cluster_config.apiVersion == "eks.amazonaws.com/v1"
 	cluster_config.kind == "ClusterDescribe"
-    cluster_config.metadata.provider == "eks"	
-	config = cluster_config.data
+	cluster_config.metadata.provider == "eks"
+	config := cluster_config.data
 
-	is_not_encrypted_EKS(config)
-    
-	
+	not is_encrypted_EKS(config)
+
 	msga := {
 		"alertMessage": "etcd/secret encryption is not enabled",
 		"alertScore": 3,
@@ -44,7 +43,7 @@ deny[msga] {
 		"fixCommand": "eksctl utils enable-secrets-encryption --cluster=<cluster> --key-arn=arn:aws:kms:<cluster_region>:<account>:key/<key> --region=<region>",
 		"alertObject": {
 			"k8sApiObjects": [],
-            "externalObjects": cluster_config
+			"externalObjects": cluster_config
 		}
 	}
 }
@@ -84,23 +83,11 @@ is_encrypted_GKE(config) {
 	 config.database_encryption.state == "ENCRYPTED"
 }
 
-is_not_encrypted_EKS(cluster_config) {
-	encryptionConfig := cluster_config.Cluster.EncryptionConfig[_]
-    goodResources := [resource  | resource =   cluster_config.Cluster.EncryptionConfig.Resources[_]; resource == "secrets"]
-	count(goodResources) == 0
-}
 
-is_not_encrypted_EKS(cluster_config) {
-	cluster_config.Cluster.EncryptionConfig == null
-}
-
-is_not_encrypted_EKS(cluster_config) {
-	count(cluster_config.Cluster.EncryptionConfig) == 0
-}
-
-is_not_encrypted_EKS(cluster_config) {
-	encryptionConfig := cluster_config.Cluster.EncryptionConfig[_]
-    count(encryptionConfig.Resources) == 0
+is_encrypted_EKS(config) {
+	encryption := config.Cluster.EncryptionConfig[_]
+	encryption.provider.keyArn != ""
+	count(encryption.resources) > 0
 }
 
 isEncryptedAKS(cluster_config) {

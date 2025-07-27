@@ -1,0 +1,35 @@
+{
+  "name": "cluster-access-manager-api-eks",
+  "attributes": {
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+      ],
+      "apiVersions": [
+      ],
+      "resources": [
+      ]
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "eks.amazonaws.com"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "ClusterDescribe"
+      ]
+    }
+  ],
+  "relevantCloudProviders": ["EKS"],
+  "ruleDependencies": [
+  ],
+  "description": "check if the EKS cluster is configured with the Cluster Access Manager API by checking in the ClusterDescribe resource if accessConfig.AuthenticationMode is not set to 'CONFIG_MAP'",
+  "remediation": "If AuthenticationMode is set to 'API' or 'API_AND_CONFIG_MAP', it means the Cluster Access Manager API is enabled",
+  "ruleQuery": "armo_builtins"
+}
