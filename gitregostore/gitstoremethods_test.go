@@ -277,8 +277,8 @@ func TestGetOPAFrameworkByName(t *testing.T) {
 		require.NoError(t, gs.SetRegoObjects())
 	})
 
-	t.Run("shoud retrieve 'cis-v1.23-t1.0.1'' framework", func(t *testing.T) {
-		_, err := gs.GetOPAFrameworkByName("cis-v1.23-t1.0.1")
+	t.Run("shoud retrieve 'cis-v1.10.0'' framework", func(t *testing.T) {
+		_, err := gs.GetOPAFrameworkByName("cis-v1.10.0")
 		require.NoErrorf(t, err,
 			"failed to get framework object: %v", err,
 		)
