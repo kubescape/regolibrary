@@ -224,10 +224,10 @@ func gs_tests(t *testing.T, gs *GitRegoStore) {
 	t.Run("should retrieve list of fw subsections IDs", func(t *testing.T) {
 		t.Parallel()
 
-		subsectionsIDs, err := gs.GetControlFrameworkSubsections("C-0067", "cis-eks-t1.2.0")
+		subsectionsIDs, err := gs.GetControlFrameworkSubsections("C-0067", "cis-eks-t1.7.0")
 		require.NoError(t, err)
 		require.NotEmptyf(t, subsectionsIDs,
-			"failed to get subsections ids list for control 'C-0067' in framework name 'cis-eks-t1.2.0' %v", err,
+			"failed to get subsections ids list for control 'C-0067' in framework name 'cis-eks-t1.7.0' %v", err,
 		)
 		assert.ElementsMatch(t, []string{"2.1"}, subsectionsIDs)
 
