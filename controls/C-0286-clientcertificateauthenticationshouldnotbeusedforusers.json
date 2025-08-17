@@ -17,5 +17,10 @@
     ],
     "baseScore": 0,
     "impact_statement": "External mechanisms for authentication generally require additional software to be deployed.",
-    "default_value": "Client certificate authentication is enabled by default."
+    "default_value": "Client certificate authentication is enabled by default.",
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
 }

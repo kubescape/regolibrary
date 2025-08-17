@@ -17,5 +17,10 @@
     ],
     "baseScore": 0,
     "impact_statement": "External mechanisms for authentication generally require additional software to be deployed.",
-    "default_value": "Bootstrap token authentication is not enabled by default and requires an API server parameter to be set."
+    "default_value": "Bootstrap token authentication is not enabled by default and requires an API server parameter to be set.",
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
 }

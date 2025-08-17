@@ -17,5 +17,10 @@
     ],
     "baseScore": 0,
     "impact_statement": "You need to regularly maintain your provenance configuration based on container image updates.",
-    "default_value": "By default, image provenance is not set."
+    "default_value": "By default, image provenance is not set.",
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
 }
