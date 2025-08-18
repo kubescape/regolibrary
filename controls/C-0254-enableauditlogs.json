@@ -9,6 +9,7 @@
         "<https://kubernetes.io/docs/tasks/debug-application-cluster/audit/>\n\n  <https://docs.microsoft.com/en-us/azure/aks/view-master-logs>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-logging-threat-detection#lt-4-enable-logging-for-azure-resources>"
     ],
     "attributes": {
+        "actionRequired": "manual review"
     },
     "rulesNames": [
         "rule-manual"

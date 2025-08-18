@@ -1,0 +1,26 @@
+{
+    "id": "CIS-3.1.1",
+    "controlID": "C-0286",
+    "name": "Client certificate authentication should not be used for users",
+    "description": "Kubernetes provides the option to use client certificates for user authentication. However as there is no way to revoke these certificates when a user leaves an organization or loses their credential, they are not suitable for this purpose.\n\n It is not possible to fully disable client certificate use within a cluster as it is used for component to component authentication.",
+    "long_description": "With any authentication mechanism the ability to revoke credentials if they are compromised or no longer required, is a key control. Kubernetes client certificate authentication does not allow for this due to a lack of support for certificate revocation.",
+    "remediation": "Alternative mechanisms provided by Kubernetes such as the use of OIDC should be implemented in place of client certificates.",
+    "manual_test": "Review user access to the cluster and ensure that users are not making use of Kubernetes client certificate authentication.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/2633383/recommendations/4261934"
+    ],
+    "attributes": {
+        "actionRequired": "manual review"
+    },
+    "rulesNames": [
+        "rule-manual"
+    ],
+    "baseScore": 0,
+    "impact_statement": "External mechanisms for authentication generally require additional software to be deployed.",
+    "default_value": "Client certificate authentication is enabled by default.",
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
+}

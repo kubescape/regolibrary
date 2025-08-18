@@ -1,0 +1,26 @@
+{
+    "id": "CIS-3.1.3",
+    "controlID": "C-0288",
+    "name": "Bootstrap token authentication should not be used for users",
+    "description": "Kubernetes provides bootstrap tokens which are intended for use by new nodes joining the cluster\n\n These tokens are not designed for use by end-users they are specifically designed for the purpose of bootstrapping new nodes and not for general authentication",
+    "long_description": "Bootstrap tokens are not intended for use as a general authentication mechanism and impose constraints on user and group naming that do not facilitate good RBAC design. They also cannot be used with MFA resulting in a weak authentication mechanism being available.",
+    "remediation": "Alternative mechanisms provided by Kubernetes such as the use of OIDC should be implemented in place of bootstrap tokens.",
+    "manual_test": "Review user access to the cluster and ensure that users are not making use of bootstrap token authentication.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/2633383/recommendations/4261936"
+    ],
+    "attributes": {
+        "actionRequired": "manual review"
+    },
+    "rulesNames": [
+        "rule-manual"
+    ],
+    "baseScore": 0,
+    "impact_statement": "External mechanisms for authentication generally require additional software to be deployed.",
+    "default_value": "Bootstrap token authentication is not enabled by default and requires an API server parameter to be set.",
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
+}

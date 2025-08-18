@@ -1,0 +1,26 @@
+{
+    "id": "CIS-5.5.1",
+    "controlID": "C-0289",
+    "name": "Configure Image Provenance using ImagePolicyWebhook admission controller",
+    "description": "Configure Image Provenance for your deployment.",
+    "long_description": "Kubernetes supports plugging in provenance rules to accept or reject the images in your deployments. You could configure such rules to ensure that only approved images are deployed in the cluster.",
+    "remediation": "Follow the Kubernetes documentation and setup image provenance.",
+    "manual_test": "Review the pod definitions in your cluster and verify that image provenance is configured as appropriate.",
+    "references": [
+        "https://workbench.cisecurity.org/sections/2633394/recommendations/4261995"
+    ],
+    "attributes": {
+        "actionRequired": "manual review"
+    },
+    "rulesNames": [
+        "rule-manual"
+    ],
+    "baseScore": 0,
+    "impact_statement": "You need to regularly maintain your provenance configuration based on container image updates.",
+    "default_value": "By default, image provenance is not set.",
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
+}

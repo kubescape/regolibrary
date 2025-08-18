@@ -9,6 +9,7 @@
         "https://github.com/kubernetes/kubernetes/blob/master/pkg/registry/rbac/escalation_check.go#L38"
     ],
     "attributes": {
+        "actionRequired": "manual review"
     },
     "rulesNames": [
         "rule-manual"
