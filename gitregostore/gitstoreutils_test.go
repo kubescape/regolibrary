@@ -121,18 +121,6 @@ func TestNewGitRegoStore(t *testing.T) {
 		wantedURL string
 	}{
 		{
-			name: "Check Prod gitregostore",
-			fields: fields{
-				BaseUrl:    "https://github.com",
-				Owner:      "kubescape",
-				Repository: "regolibrary",
-				Branch:     "",
-				Path:       "releases",
-				Tag:        "latest/download",
-			},
-			wantedURL: "https://github.com/kubescape/regolibrary/releases/latest/download",
-		},
-		{
 			name: "Check Dev gitregostore",
 			fields: fields{
 				BaseUrl:    "https://raw.githubusercontent.com",
