@@ -102,7 +102,7 @@ def main(framework):
 
 if __name__ == "__main__":
     logging.info("Script started")
-    frameworks = ["cis-aks-t1.2.0", "cis-eks-t1.2.0", "cis-v1.10.0", "cis-eks-t1.7.0", "cis-eks-t1.7.0"]
+    frameworks = ["cis-aks-t1.2.0", "cis-v1.10.0", "cis-eks-t1.7.0", "cis-eks-t1.7.0"]
     for i in frameworks:
         logging.info(f"Running on framework {i}")
         main(i)
