@@ -1,0 +1,576 @@
+{
+    "name": "cis-aks-t1.7.0",
+    "description": "Testing CIS for Azure Kubernetes Service (AKS) as suggested by CIS benchmark: https://workbench.cisecurity.org/benchmarks/20359",
+    "attributes": {
+        "version": "v1.7.0",
+        "builtin": true
+    },
+    "scanningScope": {
+        "matches": [
+            "AKS"
+        ]
+    },
+    "typeTags": [
+        "compliance"
+    ],
+    "activeControls": [
+        {
+            "controlID": "C-0078",
+            "patch": {
+                "name": "CIS-5.1.4 Minimize Container Registries to only those approved",
+                "description": "Use approved container registries.",
+                "long_description": "Allowing unrestricted access to external container registries provides the opportunity for malicious or unapproved containers to be deployed into the cluster. Allowlisting only approved container registries reduces this risk.",
+                "remediation": "If you are using Azure Container Registry you have this option:\n<https://docs.microsoft.com/en-us/azure/container-registry/container-registry-firewall-access-rules>\n\n For other non-AKS repos using admission controllers or Azure Policy will also work.\n\n Limiting or locking down egress traffic is also recommended:\n<https://docs.microsoft.com/en-us/azure/aks/limit-egress-traffic>",
+                "manual_test": "",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123746/recommendations/5095353"
+                ],
+                "impact_statement": "All container images to be deployed to the cluster must be hosted within an approved container image registry.",
+                "default_value": ""
+            }
+        },
+        {
+            "controlID": "C-0088",
+            "patch": {
+                "name": "CIS-5.5.1 Manage Kubernetes RBAC users with Azure AD",
+                "description": "Azure Kubernetes Service (AKS) can be configured to use Azure Active Directory (AD) for user authentication. In this configuration, you sign in to an AKS cluster using an Azure AD authentication token. You can also configure Kubernetes role-based access control (Kubernetes RBAC) to limit access to cluster resources based a user's identity or group membership.",
+                "long_description": "Kubernetes RBAC and AKS help you secure your cluster access and provide only the minimum required permissions to developers and operators.",
+                "remediation": "",
+                "manual_test": "",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123755/recommendations/5095368"
+                ],
+                "impact_statement": "",
+                "default_value": ""
+            }
+        },
+        {
+            "controlID": "C-0167",
+            "patch": {
+                "name": "CIS-3.1.2 Ensure that the kubelet kubeconfig file ownership is set to root:root",
+                "description": "If `kubelet` is running, ensure that the file ownership of its kubeconfig file is set to `root:root`.",
+                "long_description": "The kubeconfig file for `kubelet` controls various parameters for the `kubelet` service in the worker node. You should set its file ownership to maintain the integrity of the file. The file should be owned by `root:root`.",
+                "remediation": "Run the below command (based on the file location on your system) on each worker node. For example,\n\n \n```\nchown root:root <proxy kubeconfig file>\n\n```",
+                "manual_test": "**Method 1**\n\n SSH to the worker nodes\n\n To check to see if the Kubelet Service is running:\n\n \n```\nsudo systemctl status kubelet\n\n```\n The output should return `Active: active (running) since..`\n\n Run the following command on each node to find the appropriate kubeconfig file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--kubeconfig /var/lib/kubelet/kubeconfig` which is the location of the kubeconfig file.\n\n Run this command to obtain the kubeconfig file ownership:\n\n \n```\nstat -c %U:%G /var/lib/kubelet/kubeconfig\n\n```\n The output of the above command gives you the kubeconfig file's ownership. Verify that the ownership is set to `root:root`.\n\n **Method 2**\n\n Create and Run a Privileged Pod.\n\n You will need to run a pod that is privileged enough to access the host's file system. This can be achieved by deploying a pod that uses the hostPath volume to mount the node's file system into the pod.\n\n Here's an example of a simple pod definition that mounts the root of the host to /host within the pod:\n\n \n```\napiVersion: v1\nkind: Pod\nmetadata:\n  name: file-check\nspec:\n  volumes:\n  - name: host-root\n    hostPath:\n      path: /\n      type: Directory\n  containers:\n  - name: nsenter\n    image: busybox\n    command: [\"sleep\", \"3600\"]\n    volumeMounts:\n    - name: host-root\n      mountPath: /host\n    securityContext:\n      privileged: true\n\n```\n Save this to a file (e.g., file-check-pod.yaml) and create the pod:\n\n \n```\nkubectl apply -f file-check-pod.yaml\n\n```\n Once the pod is running, you can exec into it to check file ownership on the node:\n\n \n```\nkubectl exec -it file-check -- sh\n\n```\n Now you are in a shell inside the pod, but you can access the node's file system through the /host directory and check the ownership of the file:\n\n \n```\nls -l /host/var/lib/kubelet/kubeconfig\n\n```\n The output of the above command gives you the kubeconfig file's ownership. Verify that the ownership is set to `root:root`.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123738/recommendations/5095326"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0172",
+            "patch": {
+                "name": "CIS-3.2.1 Ensure that the --anonymous-auth argument is set to false",
+                "remediation": "**Remediation Method 1:**\n\n If modifying the Kubelet config file, edit the kubelet-config.json file `/etc/kubernetes/kubelet/kubelet-config.json` and set the below parameter to false\n\n \n```\n\"anonymous\": \"enabled\": false\n\n```\n **Remediation Method 2:**\n\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and add the below parameter at the end of the `KUBELET_ARGS` variable string.\n\n \n```\n--anonymous-auth=false\n\n```\n **Remediation Method 3:**\n\n If using the api configz endpoint consider searching for the status of `\"authentication.*anonymous\":{\"enabled\":false}\"` by extracting the live configuration from the nodes running kubelet.\n\n \\*\\*See detailed step-by-step configmap procedures in [Reconfigure a Node's Kubelet in a Live Cluster](https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/), and then rerun the curl statement from audit process to check for kubelet configuration changes\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```\n **For all three remediations:**\nBased on your system, restart the `kubelet` service and check status\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\nsystemctl status kubelet -l\n\n```",
+                "manual_test": "**Audit Method 1:**\n\n If using a Kubelet configuration file, check that there is an entry for `authentication: anonymous: enabled` set to `false`.\n\n First, SSH to the relevant node:\n\n Run the following command on each node to find the appropriate Kubelet config file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Open the Kubelet config file:\n\n \n```\nsudo more /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n Verify that the `\"authentication\": { \"anonymous\": { \"enabled\": false }` argument is set to `false`.\n\n **Audit Method 2:**\n\n If using the api configz endpoint consider searching for the status of `authentication... \"anonymous\":{\"enabled\":false}` by extracting the live configuration from the nodes running kubelet.\n\n Set the local proxy port and the following variables and provide proxy port number and node name;\n`HOSTNAME_PORT=\"localhost-and-port-number\"` `NODE_NAME=\"The-Name-Of-Node-To-Extract-Configuration\" from the output of \"kubectl get nodes\"`\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123739/recommendations/5095329"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0173",
+            "patch": {
+                "name": "CIS-3.2.2 Ensure that the --authorization-mode argument is not set to AlwaysAllow",
+                "remediation": "**Remediation Method 1:**\n\n If modifying the Kubelet config file, edit the kubelet-config.json file `/etc/kubernetes/kubelet/kubelet-config.json` and set the below parameter to false\n\n \n```\n\"authentication\"... \"webhook\":{\"enabled\":true\n\n```\n **Remediation Method 2:**\n\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and add the below parameter at the end of the `KUBELET_ARGS` variable string.\n\n \n```\n--authorization-mode=Webhook\n\n```\n **Remediation Method 3:**\n\n If using the api configz endpoint consider searching for the status of `\"authentication.*webhook\":{\"enabled\":true\"` by extracting the live configuration from the nodes running kubelet.\n\n \\*\\*See detailed step-by-step configmap procedures in [Reconfigure a Node's Kubelet in a Live Cluster](https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/), and then rerun the curl statement from audit process to check for kubelet configuration changes\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```\n **For all three remediations:**\nBased on your system, restart the `kubelet` service and check status\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\nsystemctl status kubelet -l\n\n```",
+                "manual_test": "**Audit Method 1:**\n\n If using a Kubelet configuration file, check that there is an entry for `\"authentication\": \"webhook\": \"enabled\"` set to `true`.\n\n First, SSH to the relevant node:\n\n Run the following command on each node to find the appropriate Kubelet config file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Open the Kubelet config file:\n\n \n```\nsudo more /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n Verify that the `\"authentication\": {\"webhook\": { \"enabled\": is set to true`.\n\n If the `\"authentication\": {\"mode\": {` argument is present check that it is not set to `AlwaysAllow`. If it is not present check that there is a Kubelet config file specified by `--config`, and that file sets `\"authentication\": {\"mode\": {` to something other than `AlwaysAllow`.\n\n **Audit Method 2:**\n\n If using the api configz endpoint consider searching for the status of `authentication... \"webhook\":{\"enabled\":true}` by extracting the live configuration from the nodes running kubelet.\n\n Set the local proxy port and the following variables and provide proxy port number and node name;\n`HOSTNAME_PORT=\"localhost-and-port-number\"` `NODE_NAME=\"The-Name-Of-Node-To-Extract-Configuration\" from the output of \"kubectl get nodes\"`\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123739/recommendations/5095330"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0174",
+            "patch": {
+                "name": "CIS-3.2.3 Ensure that the --client-ca-file argument is set as appropriate",
+                "remediation": "**Remediation Method 1:**\n\n If modifying the Kubelet config file, edit the kubelet-config.json file `/etc/kubernetes/kubelet/kubelet-config.json` and set the below parameter to false\n\n \n```\n\"authentication\": { \"x509\": {\"clientCAFile:\" to the location of the client CA file.\n\n```\n **Remediation Method 2:**\n\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and add the below parameter at the end of the `KUBELET_ARGS` variable string.\n\n \n```\n--client-ca-file=<path/to/client-ca-file>\n\n```\n **Remediation Method 3:**\n\n If using the api configz endpoint consider searching for the status of `\"authentication.*x509\":(\"clientCAFile\":\"/etc/kubernetes/pki/ca.crt\"` by extracting the live configuration from the nodes running kubelet.\n\n \\*\\*See detailed step-by-step configmap procedures in [Reconfigure a Node's Kubelet in a Live Cluster](https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/), and then rerun the curl statement from audit process to check for kubelet configuration changes\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```\n **For all three remediations:**\nBased on your system, restart the `kubelet` service and check status\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\nsystemctl status kubelet -l\n\n```",
+                "manual_test": "**Audit Method 1:**\n\n If using a Kubelet configuration file, check that there is an entry for `\"x509\": {\"clientCAFile:\"` set to the location of the client certificate authority file.\n\n First, SSH to the relevant node:\n\n Run the following command on each node to find the appropriate Kubelet config file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Open the Kubelet config file:\n\n \n```\nsudo more /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n Verify that the `\"x509\": {\"clientCAFile:\"` argument exists and is set to the location of the client certificate authority file.\n\n If the `\"x509\": {\"clientCAFile:\"` argument is not present, check that there is a Kubelet config file specified by `--config`, and that the file sets `\"authentication\": { \"x509\": {\"clientCAFile:\"` to the location of the client certificate authority file.\n\n **Audit Method 2:**\n\n If using the api configz endpoint consider searching for the status of `authentication.. x509\":(\"clientCAFile\":\"/etc/kubernetes/pki/ca.crt` by extracting the live configuration from the nodes running kubelet.\n\n Set the local proxy port and the following variables and provide proxy port number and node name;\n`HOSTNAME_PORT=\"localhost-and-port-number\"` `NODE_NAME=\"The-Name-Of-Node-To-Extract-Configuration\" from the output of \"kubectl get nodes\"`\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123739/recommendations/5095331"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0175",
+            "patch": {
+                "name": "CIS-3.2.4 Ensure that the --read-only-port is secured",
+                "remediation": "If modifying the Kubelet config file, edit the kubelet-config.json file `/etc/kubernetes/kubelet/kubelet-config.json` and set the below parameter to false\n\n \n```\nreadOnlyPort to 0\n\n```\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and add the below parameter at the end of the `KUBELET_ARGS` variable string.\n\n \n```\n--read-only-port=0\n\n```\n For all remediations:\nBased on your system, restart the `kubelet` service and check status\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\nsystemctl status kubelet -l\n\n```",
+                "manual_test": "If using a Kubelet configuration file, check that there is an entry for `authentication: anonymous: enabled` set to `0`.\n\n First, SSH to the relevant node:\n\n Run the following command on each node to find the appropriate Kubelet config file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Open the Kubelet config file:\n\n \n```\ncat /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n Verify that the `--read-only-port` argument exists and is set to `0`.\n\n If the `--read-only-port` argument is not present, check that there is a Kubelet config file specified by `--config`. Check that if there is a `readOnlyPort` entry in the file, it is set to `0`.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123739/recommendations/5095332"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0176",
+            "patch": {
+                "name": "CIS-3.2.5 Ensure that the --streaming-connection-idle-timeout argument is not set to 0",
+                "remediation": "**Remediation Method 1:**\n\n If modifying the Kubelet config file, edit the kubelet-config.json file `/etc/kubernetes/kubelet/kubelet-config.json` and set the below parameter to a non-zero value in the format of #h#m#s\n\n \n```\n\"streamingConnectionIdleTimeout\": \"4h0m0s\"\n\n```\n You should ensure that the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` does not specify a `--streaming-connection-idle-timeout` argument because it would override the Kubelet config file.\n\n **Remediation Method 2:**\n\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and add the below parameter at the end of the `KUBELET_ARGS` variable string.\n\n \n```\n--streaming-connection-idle-timeout=4h0m0s\n\n```\n **Remediation Method 3:**\n\n If using the api configz endpoint consider searching for the status of `\"streamingConnectionIdleTimeout\":` by extracting the live configuration from the nodes running kubelet.\n\n \\*\\*See detailed step-by-step configmap procedures in [Reconfigure a Node's Kubelet in a Live Cluster](https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/), and then rerun the curl statement from audit process to check for kubelet configuration changes\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```\n **For all three remediations:**\nBased on your system, restart the `kubelet` service and check status\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\nsystemctl status kubelet -l\n\n```",
+                "manual_test": "**Audit Method 1:**\n\n First, SSH to the relevant node:\n\n Run the following command on each node to find the running kubelet process:\n\n \n```\nps -ef | grep kubelet\n\n```\n If the command line for the process includes the argument `streaming-connection-idle-timeout` verify that it is not set to 0.\n\n If the `streaming-connection-idle-timeout` argument is not present in the output of the above command, refer instead to the `config` argument that specifies the location of the Kubelet config file e.g. `--config /etc/kubernetes/kubelet/kubelet-config.json`.\n\n Open the Kubelet config file:\n\n \n```\ncat /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n Verify that the `streamingConnectionIdleTimeout` argument is not set to `0`.\n\n **Audit Method 2:**\n\n If using the api configz endpoint consider searching for the status of `\"streamingConnectionIdleTimeout\":\"4h0m0s\"` by extracting the live configuration from the nodes running kubelet.\n\n Set the local proxy port and the following variables and provide proxy port number and node name;\n`HOSTNAME_PORT=\"localhost-and-port-number\"` `NODE_NAME=\"The-Name-Of-Node-To-Extract-Configuration\" from the output of \"kubectl get nodes\"`\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123739/recommendations/5095333"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0178",
+            "patch": {
+                "name": "CIS-3.2.6 Ensure that the --make-iptables-util-chains argument is set to true",
+                "remediation": "**Remediation Method 1:**\n\n If modifying the Kubelet config file, edit the kubelet-config.json file `/etc/kubernetes/kubelet/kubelet-config.json` and set the below parameter to false\n\n \n```\n\"makeIPTablesUtilChains\": true\n\n```\n **Remediation Method 2:**\n\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and add the below parameter at the end of the `KUBELET_ARGS` variable string.\n\n \n```\n--make-iptables-util-chains:true\n\n```\n **Remediation Method 3:**\n\n If using the api configz endpoint consider searching for the status of `\"makeIPTablesUtilChains\": true` by extracting the live configuration from the nodes running kubelet.\n\n \\*\\*See detailed step-by-step configmap procedures in [Reconfigure a Node's Kubelet in a Live Cluster](https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/), and then rerun the curl statement from audit process to check for kubelet configuration changes\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```\n **For all three remediations:**\nBased on your system, restart the `kubelet` service and check status\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\nsystemctl status kubelet -l\n\n```",
+                "manual_test": "**Audit Method 1:**\n\n If using a Kubelet configuration file, check that there is an entry for `makeIPTablesUtilChains` set to `true`.\n\n First, SSH to the relevant node:\n\n Run the following command on each node to find the appropriate Kubelet config file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Open the Kubelet config file:\n\n \n```\ncat /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n Verify that if the `makeIPTablesUtilChains` argument exists then it is set to `true`.\n\n If the `--make-iptables-util-chains` argument does not exist, and there is a Kubelet config file specified by `--config`, verify that the file does not set `makeIPTablesUtilChains` to `false`.\n\n **Audit Method 2:**\n\n If using the api configz endpoint consider searching for the status of `authentication... \"makeIPTablesUtilChains\":true` by extracting the live configuration from the nodes running kubelet.\n\n Set the local proxy port and the following variables and provide proxy port number and node name;\n`HOSTNAME_PORT=\"localhost-and-port-number\"` `NODE_NAME=\"The-Name-Of-Node-To-Extract-Configuration\" from the output of \"kubectl get nodes\"`\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123739/recommendations/5095334"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0180",
+            "patch": {
+                "name": "CIS-3.2.7 Ensure that the --eventRecordQPS argument is set to 0 or a level which ensures appropriate event capture",
+                "description": "Security relevant information should be captured. The `--eventRecordQPS` flag on the Kubelet can be used to limit the rate at which events are gathered. Setting this too low could result in relevant events not being logged, however the unlimited setting of `0` could result in a denial of service on the kubelet.",
+                "remediation": "**Remediation Method 1:**\n\n If modifying the Kubelet config file, edit the kubelet-config.json file `/etc/kubernetes/kubelet/kubelet-config.json` and set the below parameter to 5 or a value greater or equal to 0\n\n \n```\n\"eventRecordQPS\": 5\n\n```\n Check that `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` does not define an executable argument for `eventRecordQPS` because this would override your Kubelet config.\n\n **Remediation Method 2:**\n\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and add the below parameter at the end of the `KUBELET_ARGS` variable string.\n\n \n```\n--eventRecordQPS=5\n\n```\n **Remediation Method 3:**\n\n If using the api configz endpoint consider searching for the status of `\"eventRecordQPS\"` by extracting the live configuration from the nodes running kubelet.\n\n \\*\\*See detailed step-by-step configmap procedures in [Reconfigure a Node's Kubelet in a Live Cluster](https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/), and then rerun the curl statement from audit process to check for kubelet configuration changes\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```\n **For all three remediations:**\nBased on your system, restart the `kubelet` service and check status\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\nsystemctl status kubelet -l\n\n```",
+                "manual_test": "**Audit Method 1:**\n\n First, SSH to each node.\n\n Run the following command on each node to find the Kubelet process:\n\n \n```\nps -ef | grep kubelet\n\n```\n In the output of the above command review the value set for the `--eventRecordQPS` argument and determine whether this has been set to an appropriate level for the cluster. The value of `0` can be used to ensure that all events are captured.\n\n If the `--eventRecordQPS` argument does not exist, check that there is a Kubelet config file specified by `--config` and review the value in this location.\nThe output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Open the Kubelet config file:\n\n \n```\ncat /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n If there is an entry for `eventRecordQPS` check that it is set to 0 or an appropriate level for the cluster.\n\n **Audit Method 2:**\n\n If using the api configz endpoint consider searching for the status of `eventRecordQPS` by extracting the live configuration from the nodes running kubelet.\n\n Set the local proxy port and the following variables and provide proxy port number and node name;\n`HOSTNAME_PORT=\"localhost-and-port-number\"` `NODE_NAME=\"The-Name-Of-Node-To-Extract-Configuration\" from the output of \"kubectl get nodes\"`\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123739/recommendations/5095335"
+                ],
+                "default_value": "See the AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0182",
+            "patch": {
+                "name": "CIS-3.2.8 Ensure that the --rotate-certificates argument is not set to false",
+                "long_description": "The `--rotate-certificates` setting causes the kubelet to rotate its client certificates by creating new CSRs as its existing credentials expire. This automated periodic rotation ensures that the there is no downtime due to expired certificates and thus addressing availability in the CIA (Confidentiality, Integrity, and Availability) security triad.\n\n **Note:** This recommendation only applies if you let kubelets get their certificates from the API server. In case your kubelet certificates come from an outside authority/tool (e.g. Vault) then you need to implement rotation yourself.\n\n **Note:** This feature also requires the `RotateKubeletClientCertificate` feature gate to be enabled.",
+                "remediation": "**Remediation Method 1:**\n\n If modifying the Kubelet config file, edit the kubelet-config.json file `/etc/kubernetes/kubelet/kubelet-config.json` and set the below parameter to true\n\n \n```\n\"RotateCertificate\":true\n\n```\n Additionally, ensure that the kubelet service file /etc/systemd/system/kubelet.service.d/10-kubelet-args.conf does not set the --RotateCertificate executable argument to false because this would override the Kubelet config file.\n\n **Remediation Method 2:**\n\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and add the below parameter at the end of the `KUBELET_ARGS` variable string.\n\n \n```\n--RotateCertificate=true\n\n```",
+                "manual_test": "**Audit Method 1:**\n\n SSH to each node and run the following command to find the Kubelet process:\n\n \n```\nps -ef | grep kubelet\n\n```\n If the output of the command above includes the `--RotateCertificate` executable argument, verify that it is set to true.\nIf the output of the command above does not include the `--RotateCertificate` executable argument then check the Kubelet config file. The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Open the Kubelet config file:\n\n \n```\ncat /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n Verify that the `RotateCertificate` argument is not present, or is set to `true`.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123739/recommendations/5095336"
+                ],
+                "default_value": "See the AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0183",
+            "patch": {
+                "name": "CIS-3.2.9 Ensure that the RotateKubeletServerCertificate argument is set to true",
+                "remediation": "**Remediation Method 1:**\n\n If modifying the Kubelet config file, edit the kubelet-config.json file `/etc/kubernetes/kubelet/kubelet-config.json` and set the below parameter to true\n\n \n```\n\"RotateKubeletServerCertificate\":true\n\n```\n **Remediation Method 2:**\n\n If using a Kubelet config file, edit the file to set `RotateKubeletServerCertificate to true`.\n\n If using executable arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubelet-args.conf` on each worker node and add the below parameter at the end of the `KUBELET_ARGS` variable string.\n\n \n```\n--rotate-kubelet-server-certificate=true\n\n```\n **Remediation Method 3:**\n\n If using the api configz endpoint consider searching for the status of `\"RotateKubeletServerCertificate\":` by extracting the live configuration from the nodes running kubelet.\n\n \\*\\*See detailed step-by-step configmap procedures in [Reconfigure a Node's Kubelet in a Live Cluster](https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/), and then rerun the curl statement from audit process to check for kubelet configuration changes\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```\n **For all three remediations:**\nBased on your system, restart the `kubelet` service and check status\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\nsystemctl status kubelet -l\n\n```",
+                "manual_test": "**Audit Method 1:**\n\n If using a Kubelet configuration file, check that there is an entry for `RotateKubeletServerCertificate` is set to `true`.\n\n First, SSH to the relevant node:\n\n Run the following command on each node to find the appropriate Kubelet config file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Open the Kubelet config file:\n\n \n```\ncat /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n Verify that `RotateKubeletServerCertificate` argument exists and is set to `true`.\n\n **Audit Method 2:**\n\n If using the api configz endpoint consider searching for the status of `\"RotateKubeletServerCertificate\":true` by extracting the live configuration from the nodes running kubelet.\n\n Set the local proxy port and the following variables and provide proxy port number and node name;\n`HOSTNAME_PORT=\"localhost-and-port-number\"` `NODE_NAME=\"The-Name-Of-Node-To-Extract-Configuration\" from the output of \"kubectl get nodes\"`\n\n \n```\nkubectl proxy --port=8001 &\n\nexport HOSTNAME_PORT=localhost:8001 (example host and port number)\nexport NODE_NAME=ip-192.168.31.226.aks.internal (example node name from \"kubectl get nodes\")\n\ncurl -sSL \"http://${HOSTNAME_PORT}/api/v1/nodes/${NODE_NAME}/proxy/configz\"\n\n```",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123739/recommendations/5095337"
+                ],
+                "default_value": "See the AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0185",
+            "patch": {
+                "name": "CIS-4.1.1 Ensure that the cluster-admin role is only used where required",
+                "manual_test": "Obtain a list of the principals who have access to the `cluster-admin` role by reviewing the `clusterrolebinding` output for each role binding that has access to the `cluster-admin` role.\n\n kubectl get clusterrolebindings -o=custom-columns=NAME:.metadata.name,ROLE:.roleRef.name,SUBJECT:.subjects[\\*].name\n\n Review each principal listed and ensure that `cluster-admin` privilege is required for it.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123743/recommendations/5095339"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0186",
+            "patch": {
+                "name": "CIS-4.1.2 Minimize access to secrets",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123743/recommendations/5095340"
+                ],
+                "default_value": "By default, the following list of principals have `get` privileges on `secret` objects\n\n \n```\nCLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACE\ncluster-admin                                         system:masters                      Group           \nsystem:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-system\nsystem:controller:expand-controller                   expand-controller                   ServiceAccount  kube-system\nsystem:controller:generic-garbage-collector           generic-garbage-collector           ServiceAccount  kube-system\nsystem:controller:namespace-controller                namespace-controller                ServiceAccount  kube-system\nsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-system\nsystem:kube-controller-manager                        system:kube-controller-manager      User \n\n```"
+            }
+        },
+        {
+            "controlID": "C-0187",
+            "patch": {
+                "name": "CIS-4.1.3 Minimize wildcard use in Roles and ClusterRoles",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123743/recommendations/5095341"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0188",
+            "patch": {
+                "name": "CIS-4.1.4 Minimize access to create pods",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123743/recommendations/5095342"
+                ],
+                "default_value": "By default, the following list of principals have `create` privileges on `pod` objects\n\n \n```\nCLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACE\ncluster-admin                                         system:masters                      Group           \nsystem:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-system\nsystem:controller:daemon-set-controller               daemon-set-controller               ServiceAccount  kube-system\nsystem:controller:job-controller                      job-controller                      ServiceAccount  kube-system\nsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-system\nsystem:controller:replicaset-controller               replicaset-controller               ServiceAccount  kube-system\nsystem:controller:replication-controller              replication-controller              ServiceAccount  kube-system\nsystem:controller:statefulset-controller              statefulset-controller              ServiceAccount  kube-system\n\n```"
+            }
+        },
+        {
+            "controlID": "C-0189",
+            "patch": {
+                "name": "CIS-4.1.5 Ensure that default service accounts are not actively used",
+                "remediation": "Create explicit service accounts wherever a Kubernetes workload requires specific access to the Kubernetes API server.\n\n Modify the configuration of each default service account to include this value\n\n \n```\nautomountServiceAccountToken: false\n\n```\n Automatic remediation for the default account:\n\n `kubectl patch serviceaccount default -p $'automountServiceAccountToken: false'`",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123743/recommendations/5095343"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0190",
+            "patch": {
+                "name": "CIS-4.1.6 Ensure that Service Account Tokens are only mounted where necessary",
+                "manual_test": "Review pod and service account objects in the cluster and ensure that the option below is set, unless the resource explicitly requires this access.\n\n Set SERVICE\\_ACCOUNT and POD variables to appropriate values\n\n \n```\nautomountServiceAccountToken: false\n\n```",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123743/recommendations/5095344"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0193",
+            "patch": {
+                "name": "CIS-4.2.1 Minimize the admission of privileged containers",
+                "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of privileged containers.\n\n To enable PSA for a namespace in your cluster, set the pod-security.kubernetes.io/enforce label with the policy value you want to enforce.\n\n `kubectl label --overwrite ns NAMESPACE pod-security.kubernetes.io/enforce=restricted`\n\n The above command enforces the restricted policy for the NAMESPACE namespace.\n\n You can also enable Pod Security Admission for all your namespaces. For example:\n\n `kubectl label --overwrite ns --all pod-security.kubernetes.io/warn=baseline`\n\n Pod Security Policies and Assignments can be found by searching for Policies in the Azure Portal. A detailed step-by-step guide can be found here:\n\n <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes>",
+                "manual_test": "List the policies in use for each namespace in the cluster, ensure that each policy disallows the admission of privileged containers.\n\n Since manually searching through each pod's configuration might be tedious, especially in environments with many pods, you can use a more automated approach with grep or other command-line tools.\n\n Here's an example of how you might approach this with a combination of kubectl, grep, and shell scripting for a more automated solution:\n\n `kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(.spec.containers[].securityContext.privileged == true) | .metadata.name'`\n\n OR\n\n `kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(.spec.containers[].securityContext.privileged == true) | select(.metadata.namespace != \"kube-system\" and .metadata.namespace != \"gatekeeper-system\" and .metadata.namespace != \"azure-arc\" and .metadata.namespace != \"azure-extensions-usage-system\") | \"\\(.metadata.name) \\(.metadata.namespace)\"'`\n\n When creating a Pod Security Policy, [\"kube-system\", \"gatekeeper-system\", \"azure-arc\", \"azure-extensions-usage-system\"] namespaces are excluded by default.\n\n This command uses jq, a command-line JSON processor, to parse the JSON output from kubectl get pods and filter out pods where any container has the securityContext.privileged flag set to true. Please note that you might need to adjust the command depending on your specific requirements and the structure of your pod specifications.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123744/recommendations/5095345"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0194",
+            "patch": {
+                "name": "CIS-4.2.2 Minimize the admission of containers wishing to share the host process ID namespace",
+                "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of `hostPID` containers.\n\n Pod Security Policies and Assignments can be found by searching for Policies in the Azure Portal. A detailed step-by-step guide can be found here:\n\n <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes>",
+                "manual_test": "List the policies in use for each namespace in the cluster, ensure that each policy disallows the admission of `hostPID` containers\n\n Search for the hostPID Flag: In the YAML output, look for the `hostPID` setting under the spec section to check if it is set to `true`.\n\n `kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(.spec.hostPID == true) | \"\\(.metadata.namespace)/\\(.metadata.name)\"'`\n\n OR\n\n `kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(.spec.hostPID == true) | select(.metadata.namespace != \"kube-system\" and .metadata.namespace != \"gatekeeper-system\" and .metadata.namespace != \"azure-arc\" and .metadata.namespace != \"azure-extensions-usage-system\") | \"\\(.metadata.name) \\(.metadata.namespace)\"'`\n\n When creating a Pod Security Policy, [\"kube-system\", \"gatekeeper-system\", \"azure-arc\", \"azure-extensions-usage-system\"] namespaces are excluded by default.\n\n This command retrieves all pods across all namespaces in JSON format, then uses jq to filter out those with the `hostPID` flag set to `true`, and finally formats the output to show the namespace and name of each matching pod.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123744/recommendations/5095346"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0195",
+            "patch": {
+                "name": "CIS-4.2.3 Minimize the admission of containers wishing to share the host IPC namespace",
+                "long_description": "A container running in the host's IPC namespace can use IPC to interact with processes outside the container.\n\n There should be at least one admission control policy defined which does not permit containers to share the host IPC namespace.\n\n If you need to run containers which require hostIPC, this should be defined in a separate policy and you should carefully check to ensure that only limited service accounts and users are given permission to use that policy.",
+                "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of `hostIPC` containers.\n\n Pod Security Policies and Assignments can be found by searching for Policies in the Azure Portal. A detailed step-by-step guide can be found here:\n\n <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes>",
+                "manual_test": "List the policies in use for each namespace in the cluster, ensure that each policy disallows the admission of `hostIPC` containers\n\n Search for the hostIPC Flag: In the YAML output, look for the `hostIPC` setting under the spec section to check if it is set to `true`.\n\n `kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(.spec.hostIPC == true) | \"\\(.metadata.namespace)/\\(.metadata.name)\"'`\n\n OR\n\n `kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(.spec.hostIPC == true) | select(.metadata.namespace != \"kube-system\" and .metadata.namespace != \"gatekeeper-system\" and .metadata.namespace != \"azure-arc\" and .metadata.namespace != \"azure-extensions-usage-system\") | \"\\(.metadata.name) \\(.metadata.namespace)\"'`\n\n When creating a Pod Security Policy, [\"kube-system\", \"gatekeeper-system\", \"azure-arc\", \"azure-extensions-usage-system\"] namespaces are excluded by default.\n\n This command retrieves all pods across all namespaces in JSON format, then uses jq to filter out those with the `hostIPC` flag set to `true`, and finally formats the output to show the namespace and name of each matching pod.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123744/recommendations/5095348"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0196",
+            "patch": {
+                "name": "CIS-4.2.4 Minimize the admission of containers wishing to share the host network namespace",
+                "long_description": "A container running in the host's network namespace could access the local loopback device, and could access network traffic to and from other pods.\n\n There should be at least one admission control policy defined which does not permit containers to share the host network namespace.\n\n If you need to run containers which require access to the host's network namespaces, this should be defined in a separate policy and you should carefully check to ensure that only limited service accounts and users are given permission to use that policy.",
+                "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of `hostNetwork` containers.\n\n Pod Security Policies and Assignments can be found by searching for Policies in the Azure Portal. A detailed step-by-step guide can be found here:\n\n <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes>",
+                "manual_test": "List the policies in use for each namespace in the cluster, ensure that each policy disallows the admission of `hostNetwork` containers\n\n Given that manually checking each pod can be time-consuming, especially in large environments, you can use a more automated approach to filter out pods where `hostNetwork` is set to `true`. Here\u2019s a command using kubectl and jq:\n\n `kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(.spec.hostNetwork == true) | \"\\(.metadata.namespace)/\\(.metadata.name)\"'`\n\n OR\n\n `kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(.spec.hostNetwork == true) | select(.metadata.namespace != \"kube-system\" and .metadata.namespace != \"gatekeeper-system\" and .metadata.namespace != \"azure-arc\" and .metadata.namespace != \"azure-extensions-usage-system\") | \"\\(.metadata.name) \\(.metadata.namespace)\"'`\n\n When creating a Pod Security Policy, [\"kube-system\", \"gatekeeper-system\", \"azure-arc\", \"azure-extensions-usage-system\"] namespaces are excluded by default.\n\n This command retrieves all pods across all namespaces in JSON format, then uses jq to filter out those with the `hostNetwork` flag set to `true`, and finally formats the output to show the namespace and name of each matching pod.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123744/recommendations/5095349"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0197",
+            "patch": {
+                "name": "CIS-4.2.5 Minimize the admission of containers with allowPrivilegeEscalation",
+                "description": "Do not generally permit containers to be run with the `allowPrivilegeEscalation` flag set to `true`. Allowing this right can lead to a process running a container getting more rights than it started with.\n\n It's important to note that these rights are still constrained by the overall container sandbox, and this setting does not relate to the use of privileged containers.",
+                "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of containers with `.spec.allowPrivilegeEscalation` set to `true`.\n\n Pod Security Policies and Assignments can be found by searching for Policies in the Azure Portal. A detailed step-by-step guide can be found here:\n\n <https://learn.microsoft.com/en-us/azure/governance/policy/concepts/policy-for-kubernetes>",
+                "manual_test": "List the policies in use for each namespace in the cluster, ensure that each policy disallows the admission of containers which allow privilege escalation.\n\n This command gets all pods across all namespaces, outputs their details in JSON format, and uses jq to parse and filter the output for containers with `allowPrivilegeEscalation` set to `true`.\n\n `kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(any(.spec.containers[]; .securityContext.allowPrivilegeEscalation == true)) | \"\\(.metadata.namespace)/\\(.metadata.name)\"'`\n\n OR\n\n `kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(any(.spec.containers[]; .securityContext.allowPrivilegeEscalation == true)) | select(.metadata.namespace != \"kube-system\" and .metadata.namespace != \"gatekeeper-system\" and .metadata.namespace != \"azure-arc\" and .metadata.namespace != \"azure-extensions-usage-system\") | \"\\(.metadata.name) \\(.metadata.namespace)\"'`\n\n When creating a Pod Security Policy, [\"kube-system\", \"gatekeeper-system\", \"azure-arc\", \"azure-extensions-usage-system\"] namespaces are excluded by default.\n\n This command uses jq, a command-line JSON processor, to parse the JSON output from kubectl get pods and filter out pods where any container has the securityContext.privileged flag set to true. Please note that you might need to adjust the command depending on your specific requirements and the structure of your pod specifications.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123744/recommendations/5095350"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0205",
+            "patch": {
+                "name": "CIS-5.4.4 Ensure Network Policy is Enabled and set as appropriate",
+                "description": "When you run modern, microservices-based applications in Kubernetes, you often want to control which components can communicate with each other. The principle of least privilege should be applied to how traffic can flow between pods in an Azure Kubernetes Service (AKS) cluster. Let's say you likely want to block traffic directly to back-end applications. The Network Policy feature in Kubernetes lets you define rules for ingress and egress traffic between pods in a cluster.",
+                "long_description": "All pods in an AKS cluster can send and receive traffic without limitations, by default. To improve security, you can define rules that control the flow of traffic. Back-end applications are often only exposed to required front-end services, for example. Or, database components are only accessible to the application tiers that connect to them.\n\n Network Policy is a Kubernetes specification that defines access policies for communication between Pods. Using Network Policies, you define an ordered set of rules to send and receive traffic and apply them to a collection of pods that match one or more label selectors.\n\n These network policy rules are defined as YAML manifests. Network policies can be included as part of a wider manifest that also creates a deployment or service.",
+                "remediation": "Utilize Calico or other network policy engine to segment and isolate your traffic.",
+                "manual_test": "Check for the following is not null and set with appropriate group id:\n\n \n```\nexport CLUSTER_NAME=<your cluster name>\naz aks show --name ${CLUSTER_NAME} --resource-group ${RESOURCE_GROUP} --query \"networkProfile.networkPolicy\"\n\n```",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123752/recommendations/5095366"
+                ],
+                "impact_statement": "Network Policy requires the Network Policy add-on. This add-on is included automatically when a cluster with Network Policy is created, but for an existing cluster, needs to be added prior to enabling Network Policy.\n\n Enabling/Disabling Network Policy causes a rolling update of all cluster nodes, similar to performing a cluster upgrade. This operation is long-running and will block other operations on the cluster (including delete) until it has run to completion.\n\n If Network Policy is used, a cluster must have at least 2 nodes of type `n1-standard-1` or higher. The recommended minimum size cluster to run Network Policy enforcement is 3 `n1-standard-1` instances.\n\n Enabling Network Policy enforcement consumes additional resources in nodes. Specifically, it increases the memory footprint of the `kube-system` process by approximately 128MB, and requires approximately 300 millicores of CPU.",
+                "default_value": "By default, Network Policy is disabled."
+            }
+        },
+        {
+            "controlID": "C-0206",
+            "patch": {
+                "name": "CIS-4.4.2 Ensure that all Namespaces have Network Policies defined",
+                "long_description": "Running different applications on the same Kubernetes cluster creates a risk of one compromised application attacking a neighboring application. Network segmentation is important to ensure that containers can communicate only with those they are supposed to. A network policy is a specification of how selections of pods are allowed to communicate with each other and other network endpoints.\n\n Once there is any Network Policy in a namespace selecting a particular pod, that pod will reject any connections that are not allowed by any Network Policy. Other pods in the namespace that are not selected by any Network Policy will continue to accept all traffic\"",
+                "manual_test": "Run the below command and review the `NetworkPolicy` objects created in the cluster.\n\n \n```\nkubectl get networkpolicy --all-namespaces\n\n```\n Ensure that each namespace defined in the cluster has at least one Network Policy.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123749/recommendations/5095357"
+                ],
+                "impact_statement": "Once there is any Network Policy in a namespace selecting a particular pod, that pod will reject any connections that are not allowed by any Network Policy. Other pods in the namespace that are not selected by any Network Policy will continue to accept all traffic\""
+            }
+        },
+        {
+            "controlID": "C-0207",
+            "patch": {
+                "name": "CIS-4.5.1 Prefer using secrets as files over secrets as environment variables",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123753/recommendations/5095359"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0208",
+            "patch": {
+                "name": "CIS-4.5.2 Consider external secret storage",
+                "long_description": "Kubernetes supports secrets as first-class objects, but care needs to be taken to ensure that access to secrets is carefully limited. Using an external secrets provider can ease the management of access to secrets, especially where secrests are used across both Kubernetes and non-Kubernetes environments.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123753/recommendations/5095360"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0209",
+            "patch": {
+                "name": "CIS-4.6.1 Create administrative boundaries between resources using namespaces",
+                "long_description": "Limiting the scope of user permissions can reduce the impact of mistakes or malicious activities. A Kubernetes namespace allows you to partition created resources into logically named groups. Resources created in one namespace can be hidden from other namespaces. By default, each resource created by a user in an Azure AKS cluster runs in a default namespace, called `default`. You can create additional namespaces and attach resources and users to them. You can use Kubernetes Authorization plugins to create policies that segregate access to namespace resources between different users.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123754/recommendations/5095362"
+                ],
+                "default_value": "When you create an AKS cluster, the following namespaces are available:\n\n NAMESPACES\nNamespace Description\ndefault Where pods and deployments are created by default when none is provided. In smaller environments, you can deploy applications directly into the default namespace without creating additional logical separations. When you interact with the Kubernetes API, such as with kubectl get pods, the default namespace is used when none is specified.\nkube-system Where core resources exist, such as network features like DNS and proxy, or the Kubernetes dashboard. You typically don't deploy your own applications into this namespace.\nkube-public Typically not used, but can be used for resources to be visible across the whole cluster, and can be viewed by any user."
+            }
+        },
+        {
+            "controlID": "C-0211",
+            "patch": {
+                "name": "CIS-4.6.2 Apply Security Context to Your Pods and Containers",
+                "remediation": "As a best practice we recommend that you scope the binding for privileged pods to service accounts within a particular namespace, e.g. kube-system, and limiting access to that namespace. For all other serviceaccounts/namespaces, we recommend implementing a more restrictive policy such as this:\n\n \n```\napiVersion: policy/v1beta1\nkind: PodSecurityPolicy\nmetadata:\n    name: restricted\n    annotations:\n    seccomp.security.alpha.kubernetes.io/allowedProfileNames: 'docker/default,runtime/default'\n    apparmor.security.beta.kubernetes.io/allowedProfileNames: 'runtime/default'\n    seccomp.security.alpha.kubernetes.io/defaultProfileName:  'runtime/default'\n    apparmor.security.beta.kubernetes.io/defaultProfileName:  'runtime/default'\nspec:\n    privileged: false\n    # Required to prevent escalations to root.\n    allowPrivilegeEscalation: false\n    # This is redundant with non-root + disallow privilege escalation,\n    # but we can provide it for defense in depth.\n    requiredDropCapabilities:\n    - ALL\n    # Allow core volume types.\n    volumes:\n    - 'configMap'\n    - 'emptyDir'\n    - 'projected'\n    - 'secret'\n    - 'downwardAPI'\n    # Assume that persistentVolumes set up by the cluster admin are safe to use.\n    - 'persistentVolumeClaim'\n    hostNetwork: false\n    hostIPC: false\n    hostPID: false\n    runAsUser:\n    # Require the container to run without root privileges.\n    rule: 'MustRunAsNonRoot'\n    seLinux:\n    # This policy assumes the nodes are using AppArmor rather than SELinux.\n    rule: 'RunAsAny'\n    supplementalGroups:\n    rule: 'MustRunAs'\n    ranges:\n        # Forbid adding the root group.\n        - min: 1\n        max: 65535\n    fsGroup:\n    rule: 'MustRunAs'\n    ranges:\n        # Forbid adding the root group.\n        - min: 1\n        max: 65535\n    readOnlyRootFilesystem: false\n\n```\n This policy prevents pods from running as privileged or escalating privileges. It also restricts the types of volumes that can be mounted and the root supplemental groups that can be added.\n\n Another, albeit similar, approach is to start with policy that locks everything down and incrementally add exceptions for applications that need looser restrictions such as logging agents which need the ability to mount a host path.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123754/recommendations/5095363"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0212",
+            "patch": {
+                "name": "CIS-4.6.3 The default namespace should not be used",
+                "manual_test": "Run this command to list objects in default namespace\n\n \n```\nkubectl get all -n default\n\n```\n The only entries there should be system managed resources such as the `kubernetes` service",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123754/recommendations/5095364"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0238",
+            "patch": {
+                "name": "CIS-3.1.1 Ensure that the kubeconfig file permissions are set to 644 or more restrictive",
+                "description": "If `kubelet` is running, and if it is configured by a kubeconfig file, ensure that the proxy kubeconfig file has permissions of 644 or more restrictive.",
+                "manual_test": "**Method 1**\n\n SSH to the worker nodes\n\n To check to see if the Kubelet Service is running:\n\n \n```\nsudo systemctl status kubelet\n\n```\n The output should return `Active: active (running) since..`\n\n Run the following command on each node to find the appropriate kubeconfig file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--kubeconfig /var/lib/kubelet/kubeconfig` which is the location of the kubeconfig file.\n\n Run this command to obtain the kubeconfig file permissions:\n\n \n```\nstat -c %a /var/lib/kubelet/kubeconfig\n\n```\n The output of the above command gives you the kubeconfig file's permissions.\n\n Verify that if a file is specified and it exists, the permissions are `644` or more restrictive.\n\n **Method 2**\n\n Create and Run a Privileged Pod.\n\n You will need to run a pod that is privileged enough to access the host's file system. This can be achieved by deploying a pod that uses the hostPath volume to mount the node's file system into the pod.\n\n Here's an example of a simple pod definition that mounts the root of the host to /host within the pod:\n\n \n```\napiVersion: v1\nkind: Pod\nmetadata:\n  name: file-check\nspec:\n  volumes:\n  - name: host-root\n    hostPath:\n      path: /\n      type: Directory\n  containers:\n  - name: nsenter\n    image: busybox\n    command: [\"sleep\", \"3600\"]\n    volumeMounts:\n    - name: host-root\n      mountPath: /host\n    securityContext:\n      privileged: true\n\n```\n Save this to a file (e.g., file-check-pod.yaml) and create the pod:\n\n \n```\nkubectl apply -f file-check-pod.yaml\n\n```\n Once the pod is running, you can exec into it to check file permissions on the node:\n\n \n```\nkubectl exec -it file-check -- sh\n\n```\n Now you are in a shell inside the pod, but you can access the node's file system through the /host directory and check the permission level of the file:\n\n \n```\nls -l /host/var/lib/kubelet/kubeconfig\n\n```\n Verify that if a file is specified and it exists, the permissions are `644` or more restrictive.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123738/recommendations/5095325"
+                ],
+                "default_value": "See the Azure AKS documentation for the default value."
+            }
+        },
+        {
+            "controlID": "C-0239",
+            "patch": {
+                "name": "CIS-5.2.1 Prefer using dedicated AKS Service Accounts",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123750/recommendations/5095355"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0240",
+            "patch": {
+                "name": "CIS-4.4.1 Ensure latest CNI version is used",
+                "description": "There are a variety of CNI plugins available for Kubernetes. If the CNI in use does not support Network Policies it may not be possible to effectively restrict traffic in the cluster.",
+                "long_description": "Kubernetes network policies are enforced by the CNI plugin in use. As such it is important to ensure that the CNI plugin supports both Ingress and Egress network policies.",
+                "remediation": "As with RBAC policies, network policies should adhere to the policy of least privileged access. Start by creating a deny all policy that restricts all inbound and outbound traffic from a namespace or create a global policy using Cilium or Calico.",
+                "manual_test": "Ensure CNI plugin supports network policies.\n\n Set Environment Variables to run\n\n `export RESOURCE_GROUP=Resource Group Name`\n\n `export CLUSTER_NAME=Cluster Name`\n\n Azure command to check for CNI plugin:\n\n `az aks show --resource-group ${RESOURCE_GROUP} --name ${CLUSTER_NAME} --query \"networkProfile\"`",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123749/recommendations/5095354"
+                ],
+                "impact_statement": "None.",
+                "default_value": "This will depend on the CNI plugin in use."
+            }
+        },
+        {
+            "controlID": "C-0241",
+            "patch": {
+                "name": "CIS-5.5.2 Use Azure RBAC for Kubernetes Authorization",
+                "description": "The ability to manage RBAC for Kubernetes resources from Azure gives you the choice to manage RBAC for the cluster resources either using Azure or native Kubernetes mechanisms. When enabled, Azure AD principals will be validated exclusively by Azure RBAC while regular Kubernetes users and service accounts are exclusively validated by Kubernetes RBAC.\n\n Azure role-based access control (RBAC) is an authorization system built on Azure Resource Manager that provides fine-grained access management of Azure resources.\n\n With Azure RBAC, you create a role definition that outlines the permissions to be applied. You then assign a user or group this role definition via a role assignment for a particular scope. The scope can be an individual resource, a resource group, or across the subscription.",
+                "long_description": "Today you can already leverage integrated authentication between Azure Active Directory (Azure AD) and AKS. When enabled, this integration allows customers to use Azure AD users, groups, or service principals as subjects in Kubernetes RBAC. This feature frees you from having to separately manage user identities and credentials for Kubernetes. However, you still have to set up and manage Azure RBAC and Kubernetes RBAC separately. Azure RBAC for Kubernetes Authorization is an approach that allows for the unified management and access control across Azure Resources, AKS, and Kubernetes resources.",
+                "remediation": "",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123755/recommendations/5095369"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0244",
+            "patch": {
+                "name": "CIS-5.3.1 Ensure Kubernetes Secrets are encrypted",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123751/recommendations/5095356"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0245",
+            "patch": {
+                "name": "CIS-5.4.5 Encrypt traffic to HTTPS load balancers with TLS certificates",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123752/recommendations/5095367"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0247",
+            "patch": {
+                "name": "CIS-5.4.1 Restrict Access to the Control Plane Endpoint",
+                "remediation": "By enabling private endpoint access to the Kubernetes API server, all communication between your nodes and the API server stays within your VPC. You can also limit the IP addresses that can access your API server from the internet, or completely disable internet access to the API server.\n\n With this in mind, you can update your cluster accordingly using the AKS CLI to ensure that Private Endpoint Access is enabled.\n\n If you choose to also enable Public Endpoint Access then you should also configure a list of allowable CIDR blocks, resulting in restricted access from the internet. If you specify no CIDR blocks, then the public API server endpoint is able to receive and process requests from all IP addresses by defaulting to ['0.0.0.0/0'].\n\n For example, the following command would enable private access to the Kubernetes API as well as limited public access over the internet from a single IP address (noting the /32 CIDR suffix):",
+                "manual_test": "Check for the following to be 'enabled: true'\n\n \n```\nexport CLUSTER_NAME=<your cluster name>\nexport RESOURCE_GROUP=<your resource group name>\naz aks show --name ${CLUSTER_NAME} --resource-group ${RESOURCE_GROUP} --query \"apiServerAccessProfile.enablePublicFqdn\"\n\n```\n This command queries for the enablePublicFqdn property within the apiServerAccessProfile of your AKS cluster. The output will be true if endpointPublicAccess is enabled, allowing access to the AKS cluster API server from the internet. If it's false, endpointPublicAccess is disabled, meaning the API server is not accessible over the internet, which is a common configuration for private clusters.\n\n \n```\naz aks show --name ${CLUSTER_NAME} --resource-group ${RESOURCE_GROUP} --query \"apiServerAccessProfile.enablePrivateCluster\"\n\n```\n This command queries the enablePrivateCluster property within the apiServerAccessProfile of your AKS cluster. If the output is true, it indicates that endpointPrivateAccess is enabled, and the AKS cluster API server is configured to be accessible only via a private endpoint. If the output is false, the cluster is not configured for private access only, and the API server might be accessible over the internet depending on other settings.\n\n Check for the following is not null:\n\n \n```\naz aks show --name ${CLUSTER_NAME} --resource-group ${RESOURCE_GROUP} --query \"apiServerAccessProfile.authorizedIpRanges\"\n\n```\n This command queries for the authorizedIpRanges property within the apiServerAccessProfile of your AKS cluster. The output will list the IP ranges that are authorized to access the AKS cluster's API server over the internet. If the list is empty, it means there are no restrictions, and any IP can access the AKS cluster's API server, assuming other network and security configurations allow it.",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123752/recommendations/5095358"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0248",
+            "patch": {
+                "name": "CIS-5.4.3 Ensure clusters are created with Private Nodes",
+                "manual_test": "Check for the following to be 'enabled: true'\n\n \n```\nexport CLUSTER_NAME=<your cluster name>\nexport RESOURCE_GROUP=<your resource group name>\n\naz aks show --name ${CLUSTER_NAME} --resource-group ${RESOURCE_GROUP} --query \"apiServerAccessProfile.enablePrivateCluster\"\n\n\n```",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123752/recommendations/5095365"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0250",
+            "patch": {
+                "name": "CIS-5.1.3 Minimize cluster access to read-only for Azure Container Registry (ACR)",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123746/recommendations/5095352"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0251",
+            "patch": {
+                "name": "CIS-5.1.2 Minimize user access to Azure Container Registry (ACR)",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123746/recommendations/5095351"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0254",
+            "patch": {
+                "name": "CIS-2.1.1 Enable audit Logs",
+                "references": [
+                    "https://workbench.cisecurity.org/sections/3123741/recommendations/5095338"
+                ]
+            }
+        }
+    ],
+    "subSections": {
+        "2": {
+            "name": "Master (Control Plane) Configuration",
+            "id": "2",
+            "subSections": {
+                "1": {
+                    "name": "Logging",
+                    "id": "2.1",
+                    "controlsIDs": []
+                }
+            }
+        },
+        "3": {
+            "name": "Worker Nodes",
+            "id": "3",
+            "subSections": {
+                "1": {
+                    "name": "Worker Node Configuration Files",
+                    "id": "3.1",
+                    "controlsIDs": []
+                },
+                "2": {
+                    "name": "Kubelet",
+                    "id": "3.2",
+                    "controlsIDs": []
+                }
+            }
+        },
+        "4": {
+            "name": "Policies",
+            "id": "4",
+            "subSections": {
+                "1": {
+                    "name": "RBAC and Service Accounts",
+                    "id": "4.1",
+                    "controlsIDs": []
+                },
+                "2": {
+                    "name": "Pod Security Standards",
+                    "id": "4.2",
+                    "controlsIDs": []
+                },
+                "3": {
+                    "name": "Azure Policy / OPA",
+                    "id": "4.3",
+                    "controlsIDs": []
+                },
+                "4": {
+                    "name": "CNI Plugin",
+                    "id": "4.4",
+                    "controlsIDs": []
+                },
+                "5": {
+                    "name": "Secrets Management",
+                    "id": "4.5",
+                    "controlsIDs": []
+                },
+                "6": {
+                    "name": "General Policies",
+                    "id": "4.6",
+                    "controlsIDs": []
+                }
+            }
+        },
+        "5": {
+            "name": "Managed services",
+            "id": "5",
+            "subSections": {
+                "1": {
+                    "name": "Image Registry and Image Scanning",
+                    "id": "5.1",
+                    "controlsIDs": []
+                },
+                "2": {
+                    "name": "Access and identity options for Azure Kubernetes Service (AKS)",
+                    "id": "5.2",
+                    "controlsIDs": []
+                },
+                "3": {
+                    "name": "Key Management Service (KMS)",
+                    "id": "5.3",
+                    "controlsIDs": []
+                },
+                "4": {
+                    "name": "Cluster Networking",
+                    "id": "5.4",
+                    "controlsIDs": []
+                },
+                "5": {
+                    "name": "Authentication and Authorization",
+                    "id": "5.5",
+                    "controlsIDs": []
+                }
+            }
+        }
+    }
+}
