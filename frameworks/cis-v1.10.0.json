@@ -125,6 +125,9 @@
                     "name": "Authentication and Authorization",
                     "id": "3.1",
                     "controlsIDs": [
+                        "C-0286",
+                        "C-0287",
+                        "C-0288"
                     ]
                 },
                 "2": {
@@ -240,6 +243,7 @@
                     "name": "Extensible Admission Control",
                     "id": "5.5",
                     "controlsIDs": [
+                        "C-0289"
                     ]
                 },
                 "7": {
@@ -1442,6 +1446,30 @@
                 "name": "CIS-4.2.13 Ensure that a limit is set on pod PIDs",
                 "long_description": "By default pods running in a cluster can consume any number of PIDs, potentially exhausting the resources available on the node. Setting an appropriate limit reduces the risk of a denial of service attack on cluster nodes.",
                 "manual_test": "Review the Kubelet's start-up parameters for the value of `--pod-max-pids`, and check the Kubelet configuration file for the `PodPidsLimit` . If neither of these values is set, then there is no limit in place."
+            }
+        },
+        {
+            "controlID": "C-0286",
+            "patch": {
+                "name": "CIS-3.1.1 Client certificate authentication should not be used for users"
+            }
+        },
+        {
+            "controlID": "C-0287",
+            "patch": {
+                "name": "CIS-3.1.2 Service account token authentication should not be used for users"
+            }
+        },
+        {
+            "controlID": "C-0288",
+            "patch": {
+                "name": "CIS-3.1.3 Bootstrap token authentication should not be used for users"
+            }
+        },
+        {
+            "controlID": "C-0289",
+            "patch": {
+                "name": "CIS-5.5.1 Configure Image Provenance using ImagePolicyWebhook admission controller"
             }
         }
     ]
