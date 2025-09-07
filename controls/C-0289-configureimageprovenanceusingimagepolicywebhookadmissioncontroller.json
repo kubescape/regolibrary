@@ -15,7 +15,7 @@
     "rulesNames": [
         "rule-manual"
     ],
-    "baseScore": 0,
+    "baseScore": 7,
     "impact_statement": "You need to regularly maintain your provenance configuration based on container image updates.",
     "default_value": "By default, image provenance is not set.",
     "scanningScope": {
