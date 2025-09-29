@@ -25,6 +25,7 @@ deny[msga] {
 deny[msga] {
     wl := input[_]
 	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	spec_template_spec_patterns[wl.kind]
 	is_host_ipc(wl.spec.template.spec)
 	path := "spec.template.spec.hostIPC"
     msga := {
