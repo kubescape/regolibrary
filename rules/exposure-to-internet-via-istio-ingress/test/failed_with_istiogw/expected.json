@@ -26,30 +26,39 @@
          {
             "object": {
                "apiVersion": "networking.istio.io/v1alpha3",
-               "kind": "Gateway",
+               "kind": "VirtualService",
                "metadata": {
-                  "name": "nginx-gateway"
+                  "name": "nginx"
                },
                "spec": {
-                  "selector": {
-                     "istio": "ingressgateway"
-                  },
-                  "servers": [
+                  "gateways": [
+                     "nginx-gateway"
+                  ],
+                  "hosts": [
+                     "*"
+                  ],
+                  "http": [
                      {
-                        "hosts": [
-                           "*"
-                        ],
-                        "port": {
-                           "name": "http",
-                           "number": 80,
-                           "protocol": "HTTP"
-                        }
+                        "route": [
+                           {
+                              "destination": {
+                                 "host": "nginx",
+                                 "port": {
+                                    "number": 80
+                                 }
+                              }
+                           }
+                        ]
                      }
                   ]
                }
             },
-            "failedPaths": null,
-            "reviewPaths": null,
+            "failedPaths": [
+               "spec.http[0].routes[0].destination.host"
+            ],
+            "reviewPaths": [
+               "spec.http[0].routes[0].destination.host"
+            ],
             "deletePaths": null,
             "fixPaths": null
          },
@@ -135,39 +144,30 @@
          {
             "object": {
                "apiVersion": "networking.istio.io/v1alpha3",
-               "kind": "VirtualService",
+               "kind": "Gateway",
                "metadata": {
-                  "name": "nginx"
+                  "name": "nginx-gateway"
                },
                "spec": {
-                  "gateways": [
-                     "nginx-gateway"
-                  ],
-                  "hosts": [
-                     "*"
-                  ],
-                  "http": [
+                  "selector": {
+                     "istio": "ingressgateway"
+                  },
+                  "servers": [
                      {
-                        "route": [
-                           {
-                              "destination": {
-                                 "host": "nginx",
-                                 "port": {
-                                    "number": 80
-                                 }
-                              }
-                           }
-                        ]
+                        "hosts": [
+                           "*"
+                        ],
+                        "port": {
+                           "name": "http",
+                           "number": 80,
+                           "protocol": "HTTP"
+                        }
                      }
                   ]
                }
             },
-            "failedPaths": [
-               "spec.http[0].routes[0].destination.host"
-            ],
-            "reviewPaths": [
-               "spec.http[0].routes[0].destination.host"
-            ],
+            "failedPaths": null,
+            "reviewPaths": null,
             "deletePaths": null,
             "fixPaths": null
          },
