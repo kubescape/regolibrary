@@ -21,8 +21,13 @@ deny[msga] {
 
     # print("Found the gateway that the virtualservice is connected to", gateway)
 
-    # Either the gateway is exposed via LoadBalancer/n service OR has "public" suffix
-    is_gateway_public(gateway, input)
+    # Find the Service that exposes the Gateway (typically istio-ingressgateway)
+    # The Gateway is considered public if this Service is exposed via LoadBalancer/NodePort
+    gateway_service := input[_]
+    gateway_service.kind == "Service"
+    gateway_service.metadata.namespace == "istio-system"
+    gateway.spec.selector[_] == gateway_service.metadata.labels[_]
+    is_exposed_service(gateway_service)
 
     # print("Gateway is public", gateway)
 
@@ -64,7 +69,13 @@ deny[msga] {
             "k8sApiObjects": [wl]
         },
         "relatedObjects": [
-		    {
+	    {
+	            "object": gateway,
+	        },
+	    {
+	            "object": gateway_service,
+	        },
+	    {
 	            "object": virtualservice,
 	            "reviewPaths": failedPaths,
 	            "failedPaths": failedPaths,
@@ -77,18 +88,6 @@ deny[msga] {
 }
 
 # ====================================================================================
-
-is_gateway_public(gateway, inputs) {
-    endswith(gateway.metadata.name, "public")
-}
-
-is_gateway_public(gateway, inputs) {
-    inputs[_].kind == "Service"
-    inputs[_].metadata.namespace == "istio-system"
-    gateway.spec.selector[_] == inputs[_].metadata.labels[_]
-    is_exposed_service(inputs[_])
-}
-
 
 get_namespace(obj) = namespace {
     obj.metadata
