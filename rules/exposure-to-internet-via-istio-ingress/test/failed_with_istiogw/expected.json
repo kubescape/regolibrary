@@ -26,6 +26,115 @@
          {
             "object": {
                "apiVersion": "networking.istio.io/v1alpha3",
+               "kind": "Gateway",
+               "metadata": {
+                  "name": "nginx-gateway"
+               },
+               "spec": {
+                  "selector": {
+                     "istio": "ingressgateway"
+                  },
+                  "servers": [
+                     {
+                        "hosts": [
+                           "*"
+                        ],
+                        "port": {
+                           "name": "http",
+                           "number": 80,
+                           "protocol": "HTTP"
+                        }
+                     }
+                  ]
+               }
+            },
+            "failedPaths": null,
+            "reviewPaths": null,
+            "deletePaths": null,
+            "fixPaths": null
+         },
+         {
+            "object": {
+               "apiVersion": "v1",
+               "kind": "Service",
+               "metadata": {
+                  "creationTimestamp": "2024-11-19T19:33:08Z",
+                  "labels": {
+                     "app": "istio-ingressgateway",
+                     "app.kubernetes.io/instance": "istio",
+                     "app.kubernetes.io/managed-by": "Helm",
+                     "app.kubernetes.io/name": "istio-ingressgateway",
+                     "app.kubernetes.io/part-of": "istio",
+                     "app.kubernetes.io/version": "1.24.0",
+                     "helm.sh/chart": "istio-ingress-1.24.0",
+                     "install.operator.istio.io/owning-resource": "unknown",
+                     "install.operator.istio.io/owning-resource-namespace": "istio-system",
+                     "istio": "ingressgateway",
+                     "istio.io/rev": "default",
+                     "operator.istio.io/component": "IngressGateways",
+                     "operator.istio.io/managed": "Reconcile",
+                     "operator.istio.io/version": "1.24.0",
+                     "release": "istio"
+                  },
+                  "name": "istio-ingressgateway",
+                  "namespace": "istio-system",
+                  "resourceVersion": "687",
+                  "uid": "ff2d4e0e-0f4f-49cd-b96b-a709815d1e4d"
+               },
+               "spec": {
+                  "allocateLoadBalancerNodePorts": true,
+                  "clusterIP": "10.96.22.75",
+                  "clusterIPs": [
+                     "10.96.22.75"
+                  ],
+                  "externalTrafficPolicy": "Cluster",
+                  "internalTrafficPolicy": "Cluster",
+                  "ipFamilies": [
+                     "IPv4"
+                  ],
+                  "ipFamilyPolicy": "SingleStack",
+                  "ports": [
+                     {
+                        "name": "status-port",
+                        "nodePort": 32557,
+                        "port": 15021,
+                        "protocol": "TCP",
+                        "targetPort": 15021
+                     },
+                     {
+                        "name": "http2",
+                        "nodePort": 31714,
+                        "port": 80,
+                        "protocol": "TCP",
+                        "targetPort": 8080
+                     },
+                     {
+                        "name": "https",
+                        "nodePort": 31885,
+                        "port": 443,
+                        "protocol": "TCP",
+                        "targetPort": 8443
+                     }
+                  ],
+                  "selector": {
+                     "app": "istio-ingressgateway",
+                     "istio": "ingressgateway"
+                  },
+                  "sessionAffinity": "None",
+                  "type": "LoadBalancer"
+               },
+               "status": {
+                  "loadBalancer": {}
+               }
+            },
+            "failedPaths": null,
+            "reviewPaths": null,
+            "deletePaths": null,
+            "fixPaths": null
+         },
+         {
+            "object": {
+               "apiVersion": "networking.istio.io/v1alpha3",
                "kind": "VirtualService",
                "metadata": {
                   "name": "nginx"
