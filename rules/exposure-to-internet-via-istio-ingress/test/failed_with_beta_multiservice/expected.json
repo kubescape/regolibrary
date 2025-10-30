@@ -29,6 +29,86 @@
          {
             "object": {
                "apiVersion": "networking.istio.io/v1beta1",
+               "kind": "Gateway",
+               "metadata": {
+                  "name": "prod-lan-gateway",
+                  "namespace": "kt-connections"
+               },
+               "spec": {
+                  "selector": {
+                     "istio": "ingressgateway"
+                  },
+                  "servers": [
+                     {
+                        "hosts": [
+                           "legacy.stg.prod.lan"
+                        ],
+                        "port": {
+                           "name": "http",
+                           "number": 80,
+                           "protocol": "HTTP"
+                        }
+                     }
+                  ]
+               }
+            },
+            "failedPaths": null,
+            "reviewPaths": null,
+            "deletePaths": null,
+            "fixPaths": null
+         },
+         {
+            "object": {
+               "apiVersion": "v1",
+               "kind": "Service",
+               "metadata": {
+                  "labels": {
+                     "app": "istio-ingressgateway",
+                     "istio": "ingressgateway",
+                     "istio.io/rev": "default",
+                     "operator.istio.io/component": "IngressGateways",
+                     "operator.istio.io/managed": "Reconcile",
+                     "operator.istio.io/version": "1.18.7",
+                     "release": "istio"
+                  },
+                  "name": "istio-ingressgateway",
+                  "namespace": "istio-system"
+               },
+               "spec": {
+                  "externalTrafficPolicy": "Local",
+                  "internalTrafficPolicy": "Cluster",
+                  "ipFamilies": [
+                     "IPv4"
+                  ],
+                  "ipFamilyPolicy": "SingleStack",
+                  "ports": [
+                     {
+                        "name": "status-port",
+                        "nodePort": 30432,
+                        "port": 15033,
+                        "protocol": "TCP",
+                        "targetPort": 15033
+                     }
+                  ],
+                  "selector": {
+                     "app": "istio-ingressgateway",
+                     "istio": "ingressgateway"
+                  },
+                  "sessionAffinity": "None",
+                  "type": "NodePort"
+               },
+               "status": {
+                  "loadBalancer": {}
+               }
+            },
+            "failedPaths": null,
+            "reviewPaths": null,
+            "deletePaths": null,
+            "fixPaths": null
+         },
+         {
+            "object": {
+               "apiVersion": "networking.istio.io/v1beta1",
                "kind": "VirtualService",
                "metadata": {
                   "creationTimestamp": "2024-04-15T08:56:16Z",
