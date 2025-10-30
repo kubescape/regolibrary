@@ -65,15 +65,15 @@ deny[msga] {
         },
         "relatedObjects": [
 	    {
-	            "object": gateway,
+	            "object": virtualservice,
+	            "reviewPaths": failedPaths,
+	            "failedPaths": failedPaths,
 	        },
 	    {
 	            "object": gateway_service,
 	        },
 	    {
-	            "object": virtualservice,
-	            "reviewPaths": failedPaths,
-	            "failedPaths": failedPaths,
+	            "object": gateway,
 	        },
             {
                     "object": connected_service,
