@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msg] {
+deny contains msg if {
 	obj = input[_]
 	is_api_server(obj)
 	result = invalid_flag(obj.spec.containers[0].command)
@@ -17,7 +17,7 @@ deny[msg] {
 	}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
@@ -26,7 +26,7 @@ is_api_server(obj) {
 	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
 }
 
-get_flag_values(cmd) = {"origin": origin, "values": values} {
+get_flag_values(cmd) := {"origin": origin, "values": values} if {
 	re := " ?--enable-admission-plugins=(.+?)(?: |$)"
 	matchs := regex.find_all_string_submatch_n(re, cmd, -1)
 	count(matchs) == 1
@@ -35,8 +35,7 @@ get_flag_values(cmd) = {"origin": origin, "values": values} {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) = result {
-	
+invalid_flag(cmd) := result if {
 	flag := get_flag_values(cmd[i])
 
 	# value check
@@ -47,7 +46,7 @@ invalid_flag(cmd) = result {
 	result = get_retsult(fixed_values, i)
 }
 
-get_retsult(fixed_values, i) = result {
+get_retsult(fixed_values, i) := result if {
 	count(fixed_values) == 0
 	result = {
 		"failed_paths": [sprintf("spec.containers[0].command[%v]", [i])],
@@ -55,7 +54,7 @@ get_retsult(fixed_values, i) = result {
 	}
 }
 
-get_retsult(fixed_values, i) = result {
+get_retsult(fixed_values, i) := result if {
 	count(fixed_values) > 0
 	path = sprintf("spec.containers[0].command[%v]", [i])
 	result = {

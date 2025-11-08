@@ -1,7 +1,9 @@
 package armo_builtins
 
+import rego.v1
+
 # Check if --auto-tls is not set to true
-deny[msga] {
+deny contains msga if {
 	obj = input[_]
 	is_etcd_pod(obj)
 
@@ -19,14 +21,14 @@ deny[msga] {
 	}
 }
 
-is_etcd_pod(obj) {
+is_etcd_pod(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	count(obj.spec.containers) == 1
 	endswith(split(obj.spec.containers[0].command[0], " ")[0], "etcd")
 }
 
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	contains(cmd[i], "--auto-tls=true")
 	fixed = replace(cmd[i], "--auto-tls=true", "--auto-tls=false")
 	path := sprintf("spec.containers[0].command[%d]", [i])

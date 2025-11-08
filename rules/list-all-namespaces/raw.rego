@@ -1,7 +1,9 @@
 package armo_builtins
 
+import rego.v1
+
 # returns all namespace objects in cluster
-deny[msga] {
+deny contains msga if {
 	namespace = input[_]
 	namespace.kind == "Namespace"
 
@@ -11,8 +13,6 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [namespace]
-		}
+		"alertObject": {"k8sApiObjects": [namespace]},
 	}
 }

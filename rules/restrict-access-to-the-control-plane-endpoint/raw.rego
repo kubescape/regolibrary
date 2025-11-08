@@ -1,8 +1,9 @@
-
 package armo_builtins
 
+import rego.v1
+
 # fails in case authorizedIPRanges is not set.
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	obj.apiVersion == "management.azure.com/v1"
 	obj.kind == "ClusterDescribe"
@@ -12,20 +13,17 @@ deny[msga] {
 	not isAuthorizedIPRangesSet(config)
 
 	msga := {
-    	"alertMessage": "Parameter 'authorizedIPRanges' was not set.",
-    	"packagename": "armo_builtins",
-    	"alertScore": 7,
+		"alertMessage": "Parameter 'authorizedIPRanges' was not set.",
+		"packagename": "armo_builtins",
+		"alertScore": 7,
 		"reviewPaths": [],
-    	"failedPaths": [],
-    	"fixPaths":[],
-        "fixCommand": "az aks update -n '<name>' -g '<resource_group>' --api-server-authorized-ip-ranges '0.0.0.0/32'",
-    	"alertObject": {
-			"externalObjects": obj
-        }
-    }
-
+		"failedPaths": [],
+		"fixPaths": [],
+		"fixCommand": "az aks update -n '<name>' -g '<resource_group>' --api-server-authorized-ip-ranges '0.0.0.0/32'",
+		"alertObject": {"externalObjects": obj},
+	}
 }
 
-isAuthorizedIPRangesSet(config) {
+isAuthorizedIPRangesSet(config) if {
 	count(config.properties.apiServerAccessProfile.authorizedIPRanges) > 0
 }

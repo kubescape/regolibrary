@@ -1,11 +1,10 @@
 package armo_builtins
 
-import future.keywords.every
-import future.keywords.in
+import rego.v1
 
 # =============================== GKE ===============================
 # Check if audit logs is enabled for GKE
-deny[msga] {
+deny contains msga if {
 	cluster_config := input[_]
 	cluster_config.apiVersion == "container.googleapis.com/v1"
 	cluster_config.kind == "ClusterDescribe"
@@ -29,18 +28,18 @@ deny[msga] {
 	}
 }
 
-is_logging_disabled(cluster_config) {
+is_logging_disabled(cluster_config) if {
 	not cluster_config.logging_config.component_config.enable_components
 }
 
-is_logging_disabled(cluster_config) {
+is_logging_disabled(cluster_config) if {
 	cluster_config.logging_config.component_config.enable_components
 	count(cluster_config.logging_config.component_config.enable_components) == 0
 }
 
 # =============================== EKS ===============================
 # Check if audit logs is enabled for EKS
-deny[msga] {
+deny contains msga if {
 	cluster_config := input[_]
 	cluster_config.apiVersion == "eks.amazonaws.com/v1"
 	cluster_config.kind == "ClusterDescribe"
@@ -68,13 +67,13 @@ deny[msga] {
 	}
 }
 
-all_auditlogs_enabled(logSetups, types) {
+all_auditlogs_enabled(logSetups, types) if {
 	every type in types {
 		auditlogs_enabled(logSetups, type)
 	}
 }
 
-auditlogs_enabled(logSetups, type) {
+auditlogs_enabled(logSetups, type) if {
 	logSetup := logSetups[_]
 	logSetup.Enabled == true
 	type in logSetup.Types

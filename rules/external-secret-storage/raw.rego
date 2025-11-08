@@ -1,22 +1,22 @@
 package armo_builtins
 
-import future.keywords.every
+import rego.v1
 
 # Encryption config is not using a recommended provider for KMS
-deny[msg] {
+deny contains msg if {
 	obj = input[_]
 	is_control_plane_info(obj)
 	config_file := obj.data.APIServerInfo.encryptionProviderConfigFile
 	config_file_content = decode_config_file(base64.decode(config_file.content))
 
 	resources := config_file_content.resources
-	every resource in resources{
+	every resource in resources {
 		not has_recommended_provider(resource)
 	}
 
 	fix_paths := [
-	{"path": sprintf("resources[%d].resources[%d]", [count(resources), 0]),	"value": "secrets"},
-	{"path": sprintf("resources[%d].providers[%d].kms", [count(resources), 0]),	"value": "YOUR_EXTERNAL_KMS"},
+		{"path": sprintf("resources[%d].resources[%d]", [count(resources), 0]), "value": "secrets"},
+		{"path": sprintf("resources[%d].providers[%d].kms", [count(resources), 0]), "value": "YOUR_EXTERNAL_KMS"},
 	]
 
 	# Add name to the failed object so that
@@ -37,16 +37,16 @@ deny[msg] {
 	}
 }
 
-is_control_plane_info(obj) {
+is_control_plane_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "ControlPlaneInfo"
 }
 
-decode_config_file(content) := parsed {
+decode_config_file(content) := parsed if {
 	parsed := yaml.unmarshal(content)
 } else := json.unmarshal(content)
 
-has_recommended_provider(resource) {
+has_recommended_provider(resource) if {
 	recommended_providers := {"akeyless", "azurekmsprovider", "aws-encryption-provider"}
 	some provider in resource.providers
 	recommended_providers[provider.kms.name]

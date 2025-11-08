@@ -1,7 +1,6 @@
 package armo_builtins
 
-import future.keywords.contains
-import future.keywords.if
+import rego.v1
 
 deny contains msga if {
 	service := input[_]
@@ -35,8 +34,6 @@ has_unauthenticated_service(service_name, namespace, service_scan_result) if {
 	service_scan_result.spec.ports[_].authenticated == false
 }
 
-
-
 wl_connected_to_service(wl, svc) if {
 	count({x | svc.spec.selector[x] == wl.metadata.labels[x]}) == count(svc.spec.selector)
 }
@@ -45,22 +42,21 @@ wl_connected_to_service(wl, svc) if {
 	wl.spec.selector.matchLabels == svc.spec.selector
 }
 
-
-is_same_namespace(metadata1, metadata2) {
+is_same_namespace(metadata1, metadata2) if {
 	metadata1.namespace == metadata2.namespace
 }
 
-is_same_namespace(metadata1, metadata2) {
+is_same_namespace(metadata1, metadata2) if {
 	not metadata1.namespace
 	not metadata2.namespace
 }
 
-is_same_namespace(metadata1, metadata2) {
+is_same_namespace(metadata1, metadata2) if {
 	not metadata2.namespace
 	metadata1.namespace == "default"
 }
 
-is_same_namespace(metadata1, metadata2) {
+is_same_namespace(metadata1, metadata2) if {
 	not metadata1.namespace
 	metadata2.namespace == "default"
 }

@@ -1,13 +1,13 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 # Check if EndpointPublicAccess in enabled on a private node for EKS. A private node is a node with no public ips access.
-deny[msga] {
+deny contains msga if {
 	cluster_config := input[_]
 	cluster_config.apiVersion == "eks.amazonaws.com/v1"
 	cluster_config.kind == "ClusterDescribe"
-    cluster_config.metadata.provider == "eks"
+	cluster_config.metadata.provider == "eks"
 	config := cluster_config.data
 
 	config.Cluster.ResourcesVpcConfig.EndpointPublicAccess == true
@@ -24,9 +24,7 @@ deny[msga] {
 		"fixCommand": "aws eks update-cluster-config --region $AWS_REGION --name $CLUSTER_NAME --resources-vpc-config endpointPrivateAccess=true,endpointPublicAccess=false",
 		"alertObject": {
 			"k8sApiObjects": [],
-            "externalObjects": cluster_config
-		}
+			"externalObjects": cluster_config,
+		},
 	}
 }
-
-

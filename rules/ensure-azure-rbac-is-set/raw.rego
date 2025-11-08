@@ -1,8 +1,10 @@
 package armo_builtins
 
+import rego.v1
+
 # fails in case Azure RBAC is not set on AKS instance.
-deny[msga] {
-   	cluster_describe := input[_]
+deny contains msga if {
+	cluster_describe := input[_]
 	cluster_describe.apiVersion == "management.azure.com/v1"
 	cluster_describe.kind == "ClusterDescribe"
 	cluster_describe.metadata.provider == "aks"
@@ -17,14 +19,12 @@ deny[msga] {
 		"failedPaths": [],
 		"fixCommand": "az aks update -g <resource_group> -n <cluster_name> --enable-azure-rbac",
 		"fixPaths": [],
-		"alertObject": {
-			"externalObjects": cluster_describe
-		},
-	} 
+		"alertObject": {"externalObjects": cluster_describe},
+	}
 }
 
 # isAzureRBACEnabled check if Azure RBAC is enabled into ClusterDescribe object
 # retrieved from azure cli.
-isAzureRBACEnabled(properties) {
-    properties.aadProfile.enableAzureRBAC == true
+isAzureRBACEnabled(properties) if {
+	properties.aadProfile.enableAzureRBAC == true
 }

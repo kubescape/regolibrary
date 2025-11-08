@@ -1,10 +1,10 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 # CIS 2.7 https://workbench.cisecurity.org/sections/1126654/recommendations/1838578
 
-deny[msga] {
+deny contains msga if {
 	etcdPod := [pod | pod := input[_]; filter_input(pod, "etcd")]
 	etcdCheckResult := get_argument_value_with_path(etcdPod[0].spec.containers[0].command, "--trusted-ca-file")
 
@@ -23,28 +23,28 @@ deny[msga] {
 	}
 }
 
-command_api_server_or_etcd(cmd) {
+command_api_server_or_etcd(cmd) if {
 	endswith(cmd, "kube-apiserver")
 }
 
-command_api_server_or_etcd(cmd) {
+command_api_server_or_etcd(cmd) if {
 	endswith(cmd, "etcd")
 }
 
-filter_input(obj, res) {
+filter_input(obj, res) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	count(obj.spec.containers) == 1
 	endswith(split(obj.spec.containers[0].command[0], " ")[0], res)
 }
 
-get_argument_value(command, argument) = value {
+get_argument_value(command, argument) := value if {
 	args := split(command, "=")
 	some i, sprintf("%v", [argument]) in args
 	value := args[i + 1]
 }
 
-get_argument_value_with_path(cmd, argument) = result {
+get_argument_value_with_path(cmd, argument) := result if {
 	contains(cmd[i], argument)
 	argumentValue := get_argument_value(cmd[i], argument)
 	path := sprintf("spec.containers[0].command[%d]", [i])

@@ -1,7 +1,9 @@
 package armo_builtins
 
+import rego.v1
+
 # Checks if Ingress is connected to a service and a workload to expose something
-deny[msga] {
+deny contains msga if {
 	ingress := input[_]
 	ingress.kind == "Ingress"
 
@@ -13,10 +15,10 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"fixPaths": [{
-        "path": "spec.tls",
-        "value": "<your-tls-definition>"
-        }],
+			"path": "spec.tls",
+			"value": "<your-tls-definition>",
+		}],
 		"alertScore": 7,
-		"alertObject": {"k8sApiObjects": [ingress]}
+		"alertObject": {"k8sApiObjects": [ingress]},
 	}
 }

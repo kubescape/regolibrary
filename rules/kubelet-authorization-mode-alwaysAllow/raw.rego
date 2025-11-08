@@ -1,11 +1,11 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 # CIS 4.2.2 https://workbench.cisecurity.org/sections/1126668/recommendations/1838640
 
 # has cli
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
@@ -28,7 +28,7 @@ deny[msga] {
 }
 
 # has config
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
@@ -58,7 +58,7 @@ deny[msga] {
 }
 
 # has no config and cli
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
@@ -80,7 +80,7 @@ deny[msga] {
 }
 
 ## Host sensor failed to get config file content
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
@@ -101,12 +101,12 @@ deny[msga] {
 		"alertObject": {"externalObjects": {
 			"apiVersion": obj.apiVersion,
 			"kind": obj.kind,
-			"data": obj.data
-		}}
+			"data": obj.data,
+		}},
 	}
 }
 
-is_kubelet_info(obj) {
+is_kubelet_info(obj) if {
 	obj.kind == "KubeletInfo"
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 }

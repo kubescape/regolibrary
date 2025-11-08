@@ -1,6 +1,8 @@
 package armo_builtins
 
-untrustedImageRepo[msga] {
+import rego.v1
+
+untrustedImageRepo contains msga if {
 	wl := input[_]
 	containers_path := get_containers_path(wl)
 	containers := object.get(wl, containers_path, [])
@@ -21,7 +23,7 @@ untrustedImageRepo[msga] {
 }
 
 # image_in_allowed_list - rule to check if an image complies with imageRepositoryAllowList.
-image_in_allowed_list(image){
+image_in_allowed_list(image) if {
 	# see default-config-inputs.json for list values
 	allowedlist := data.postureControlInputs.imageRepositoryAllowList
 	registry := allowedlist[_]
@@ -29,20 +31,20 @@ image_in_allowed_list(image){
 }
 
 # get_containers_path - get resource containers paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-get_containers_path(resource) := result {
+get_containers_path(resource) := result if {
 	resource_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	resource_kinds[resource.kind]
 	result = ["spec", "template", "spec", "containers"]
 }
 
 # get_containers_path - get resource containers paths for "Pod"
-get_containers_path(resource) := result {
+get_containers_path(resource) := result if {
 	resource.kind == "Pod"
 	result = ["spec", "containers"]
 }
 
 # get_containers_path - get resource containers paths for  "CronJob"
-get_containers_path(resource) := result {
+get_containers_path(resource) := result if {
 	resource.kind == "CronJob"
 	result = ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
 }

@@ -1,8 +1,10 @@
 package armo_builtins
 
+import rego.v1
+
 #  ================================== no memory limits ==================================
 # Fails if pod does not have container with memory-limits
-deny[msga] {
+deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
@@ -20,7 +22,7 @@ deny[msga] {
 }
 
 # Fails if workload does not have container with memory-limits
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	spec_template_spec_patterns[wl.kind]
@@ -39,7 +41,7 @@ deny[msga] {
 }
 
 # Fails if cronjob does not have container with memory-limits
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
@@ -58,7 +60,7 @@ deny[msga] {
 
 #  ================================== no memory requests ==================================
 # Fails if pod does not have container with memory requests
-deny[msga] {
+deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
@@ -76,7 +78,7 @@ deny[msga] {
 }
 
 # Fails if workload does not have container with memory requests
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	spec_template_spec_patterns[wl.kind]
@@ -95,7 +97,7 @@ deny[msga] {
 }
 
 # Fails if cronjob does not have container with memory requests
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
@@ -112,11 +114,10 @@ deny[msga] {
 	}
 }
 
-
 # ============================================= memory requests exceed min/max =============================================
 
 # Fails if pod exceeds memory request
-deny[msga] {
+deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
@@ -138,7 +139,7 @@ deny[msga] {
 }
 
 # Fails if workload exceeds memory request
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	spec_template_spec_patterns[wl.kind]
@@ -162,14 +163,14 @@ deny[msga] {
 }
 
 # Fails if cronjob exceeds memory request
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
-	path := "resources.requests.memory" 
+	path := "resources.requests.memory"
 
 	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
 
@@ -186,8 +187,8 @@ deny[msga] {
 
 # ============================================= memory limits exceed min/max =============================================
 
-# Fails if pod exceeds memory-limit 
-deny[msga] {
+# Fails if pod exceeds memory-limit
+deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
@@ -208,8 +209,8 @@ deny[msga] {
 	}
 }
 
-# Fails if workload exceeds memory-limit 
-deny[msga] {
+# Fails if workload exceeds memory-limit
+deny contains msga if {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	spec_template_spec_patterns[wl.kind]
@@ -232,8 +233,8 @@ deny[msga] {
 	}
 }
 
-# Fails if cronjob exceeds memory-limit 
-deny[msga] {
+# Fails if cronjob exceeds memory-limit
+deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
@@ -257,75 +258,73 @@ deny[msga] {
 
 ######################################################################################################
 
-
-is_limit_exceeded_memory(memory_limit) {
+is_limit_exceeded_memory(memory_limit) if {
 	is_min_limit_exceeded_memory(memory_limit)
 }
 
-is_limit_exceeded_memory(memory_limit) {
+is_limit_exceeded_memory(memory_limit) if {
 	is_max_limit_exceeded_memory(memory_limit)
 }
 
-is_req_exceeded_memory(memory_req) {
+is_req_exceeded_memory(memory_req) if {
 	is_max_request_exceeded_memory(memory_req)
 }
 
-is_req_exceeded_memory(memory_req) {
+is_req_exceeded_memory(memory_req) if {
 	is_min_request_exceeded_memory(memory_req)
 }
 
 # helpers
 
-is_max_limit_exceeded_memory(memory_limit) {
+is_max_limit_exceeded_memory(memory_limit) if {
 	memory_limit_max := data.postureControlInputs.memory_limit_max[_]
 	compare_max(memory_limit_max, memory_limit)
 }
 
-is_min_limit_exceeded_memory(memory_limit) {
+is_min_limit_exceeded_memory(memory_limit) if {
 	memory_limit_min := data.postureControlInputs.memory_limit_min[_]
 	compare_min(memory_limit_min, memory_limit)
 }
 
-is_max_request_exceeded_memory(memory_req) {
+is_max_request_exceeded_memory(memory_req) if {
 	memory_req_max := data.postureControlInputs.memory_request_max[_]
 	compare_max(memory_req_max, memory_req)
 }
 
-is_min_request_exceeded_memory(memory_req) {
+is_min_request_exceeded_memory(memory_req) if {
 	memory_req_min := data.postureControlInputs.memory_request_min[_]
 	compare_min(memory_req_min, memory_req)
 }
-
 
 ##############
 # helpers
 
 # Compare according to unit - max
-compare_max(max, given) {
+compare_max(max, given) if {
 	endswith(max, "Mi")
 	endswith(given, "Mi")
 	split_max := split(max, "Mi")[0]
 	split_given := split(given, "Mi")[0]
-    to_number(split_given) > to_number(split_max)
+	to_number(split_given) > to_number(split_max)
 }
 
-compare_max(max, given) {
+compare_max(max, given) if {
 	endswith(max, "M")
 	endswith(given, "M")
 	split_max := split(max, "M")[0]
 	split_given := split(given, "M")[0]
-    to_number(split_given) > to_number(split_max)
+	to_number(split_given) > to_number(split_max)
 }
 
-compare_max(max, given) {
+compare_max(max, given) if {
 	endswith(max, "m")
 	endswith(given, "m")
 	split_max := split(max, "m")[0]
 	split_given := split(given, "m")[0]
-    to_number(split_given) > to_number(split_max)
+	to_number(split_given) > to_number(split_max)
 }
 
-compare_max(max, given) {
+compare_max(max, given) if {
 	not is_special_measure(max)
 	not is_special_measure(given)
 	given > max
@@ -333,7 +332,7 @@ compare_max(max, given) {
 
 ################
 # Compare according to unit - min
-compare_min(min, given) {
+compare_min(min, given) if {
 	endswith(min, "Mi")
 	endswith(given, "Mi")
 	split_min := split(min, "Mi")[0]
@@ -341,40 +340,37 @@ compare_min(min, given) {
 	to_number(split_given) < to_number(split_min)
 }
 
-compare_min(min, given) {
+compare_min(min, given) if {
 	endswith(min, "M")
 	endswith(given, "M")
 	split_min := split(min, "M")[0]
 	split_given := split(given, "M")[0]
 	to_number(split_given) < to_number(split_min)
-
 }
 
-compare_min(min, given) {
+compare_min(min, given) if {
 	endswith(min, "m")
 	endswith(given, "m")
 	split_min := split(min, "m")[0]
 	split_given := split(given, "m")[0]
 	to_number(split_given) < to_number(split_min)
-
 }
 
-compare_min(min, given) {
+compare_min(min, given) if {
 	not is_special_measure(min)
 	not is_special_measure(given)
 	to_number(given) < to_number(min)
-
 }
 
 # Check that is same unit
-is_special_measure(unit) {
+is_special_measure(unit) if {
 	endswith(unit, "m")
 }
 
-is_special_measure(unit) {
+is_special_measure(unit) if {
 	endswith(unit, "M")
 }
 
-is_special_measure(unit) {
+is_special_measure(unit) if {
 	endswith(unit, "Mi")
 }

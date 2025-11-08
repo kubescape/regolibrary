@@ -1,10 +1,10 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 # CIS 4.2.8 https://workbench.cisecurity.org/sections/1126668/recommendations/1838654
 
-deny[msga] {
+deny contains msga if {
 	kubelet_info := input[_]
 	kubelet_info.kind == "KubeletInfo"
 	kubelet_info.apiVersion == "hostdata.kubescape.cloud/v1beta0"

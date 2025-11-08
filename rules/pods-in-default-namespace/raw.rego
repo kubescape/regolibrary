@@ -1,12 +1,14 @@
 package armo_builtins
 
-deny[msga] {
-    wl := input[_]
-	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet", "Job", "CronJob", "Pod"}
+import rego.v1
+
+deny contains msga if {
+	wl := input[_]
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "CronJob", "Pod"}
 	spec_template_spec_patterns[wl.kind]
 	result := is_default_namespace(wl.metadata)
 	failed_path := get_failed_path(result)
-    fixed_path := get_fixed_path(result)
+	fixed_path := get_fixed_path(result)
 	msga := {
 		"alertMessage": sprintf("%v: %v has pods running in the 'default' namespace", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -14,30 +16,26 @@ deny[msga] {
 		"reviewPaths": failed_path,
 		"failedPaths": failed_path,
 		"fixPaths": fixed_path,
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
-is_default_namespace(metadata) = [failed_path, fixPath] {
+is_default_namespace(metadata) := [failed_path, fixPath] if {
 	metadata.namespace == "default"
 	failed_path = "metadata.namespace"
-	fixPath = "" 
+	fixPath = ""
 }
 
-is_default_namespace(metadata) = [failed_path, fixPath] {
+is_default_namespace(metadata) := [failed_path, fixPath] if {
 	not metadata.namespace
 	failed_path = ""
-	fixPath = {"path": "metadata.namespace", "value": "YOUR_NAMESPACE"} 
+	fixPath = {"path": "metadata.namespace", "value": "YOUR_NAMESPACE"}
 }
 
-get_failed_path(paths) = [paths[0]] {
+get_failed_path(paths) := [paths[0]] if {
 	paths[0] != ""
-} else = []
+} else := []
 
-get_fixed_path(paths) = [paths[1]] {
+get_fixed_path(paths) := [paths[1]] if {
 	paths[1] != ""
-} else = []
-
-
+} else := []

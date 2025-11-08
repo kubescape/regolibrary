@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msga] {
+deny contains msga if {
 	kubelet_info := input[_]
 	kubelet_info.kind == "KubeletInfo"
 	kubelet_info.apiVersion == "hostdata.kubescape.cloud/v1beta0"
@@ -26,17 +26,17 @@ deny[msga] {
 }
 
 ## Inner rules
-should_skip_check(kubelet_info) {
+should_skip_check(kubelet_info) if {
 	command := kubelet_info.data.cmdLine
 	contains(command, "--rotate-server-certificates")
 }
 
-should_skip_check(kubelet_info) {
+should_skip_check(kubelet_info) if {
 	yamlConfigContent := yaml.unmarshal(base64.decode(kubelet_info.data.configFile.content))
 	yamlConfigContent.serverTLSBootstrap == true
 }
 
-is_RotateKubeletServerCertificate_enabled_via_cli(command) {
+is_RotateKubeletServerCertificate_enabled_via_cli(command) if {
 	contains(command, "--feature-gates=")
 	args := regex.split(` +`, command)
 	some i
