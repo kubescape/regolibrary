@@ -1,8 +1,10 @@
 package armo_builtins
 
+import rego.v1
+
 # CIS 4.2.3 https://workbench.cisecurity.org/sections/1126668/recommendations/1838643
 
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
@@ -31,7 +33,7 @@ deny[msga] {
 	}
 }
 
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
@@ -56,7 +58,7 @@ deny[msga] {
 }
 
 ## Host sensor failed to get config file content
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
@@ -82,7 +84,7 @@ deny[msga] {
 	}
 }
 
-is_kubelet_info(obj) {
+is_kubelet_info(obj) if {
 	obj.kind == "KubeletInfo"
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 }

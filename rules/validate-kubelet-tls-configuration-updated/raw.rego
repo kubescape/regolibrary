@@ -1,8 +1,10 @@
 package armo_builtins
 
+import rego.v1
+
 # CIS 4.2.10 https://workbench.cisecurity.org/sections/1126668/recommendations/1838657
 
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
@@ -27,7 +29,7 @@ deny[msga] {
 	}
 }
 
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
@@ -61,7 +63,7 @@ deny[msga] {
 	}
 }
 
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
@@ -98,7 +100,7 @@ deny[msga] {
 	}
 }
 
-extract_failed_object(resultList, keyField) = failed_objects {
+extract_failed_object(resultList, keyField) := failed_objects if {
 	failed_objects_array = [mapped |
 		singleResult := resultList[_]
 		mapped := singleResult[keyField]
@@ -107,7 +109,7 @@ extract_failed_object(resultList, keyField) = failed_objects {
 	failed_objects = concat(", ", failed_objects_array)
 }
 
-not_set_arguments(cmd) = result {
+not_set_arguments(cmd) := result if {
 	wanted = [
 		["--tls-cert-file", "tlsCertFile"],
 		["--tls-private-key-file", "tlsPrivateKeyFile"],
@@ -121,7 +123,7 @@ not_set_arguments(cmd) = result {
 	]
 }
 
-not_set_props(yamlConfig) = result {
+not_set_props(yamlConfig) := result if {
 	wanted = [
 		["tlsCertFile", "--tls-cert-file"],
 		["tlsPrivateKeyFile", "--tls-private-key-file"],
@@ -135,7 +137,7 @@ not_set_props(yamlConfig) = result {
 	]
 }
 
-is_kubelet_info(obj) {
+is_kubelet_info(obj) if {
 	obj.kind == "KubeletInfo"
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 }

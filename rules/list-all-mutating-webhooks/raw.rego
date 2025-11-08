@@ -1,18 +1,17 @@
 package armo_builtins
 
+import rego.v1
 
-deny [msga] {
-    mutatingwebhooks := [mutatingwebhook | mutatingwebhook = input[_]; mutatingwebhook.kind == "MutatingWebhookConfiguration"]
-    mutatingwebhook := mutatingwebhooks[_]
+deny contains msga if {
+	mutatingwebhooks := [mutatingwebhook | mutatingwebhook = input[_]; mutatingwebhook.kind == "MutatingWebhookConfiguration"]
+	mutatingwebhook := mutatingwebhooks[_]
 
-    	msga := {
+	msga := {
 		"alertMessage": sprintf("The following mutating webhook configuration should be checked %v.", [mutatingwebhook.metadata.name]),
 		"alertScore": 6,
 		"failedPaths": [],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
-		"alertObject": {
-			"k8sApiObjects": [mutatingwebhook]
-		}
+		"alertObject": {"k8sApiObjects": [mutatingwebhook]},
 	}
 }

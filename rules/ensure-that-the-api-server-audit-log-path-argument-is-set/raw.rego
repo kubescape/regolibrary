@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msg] {
+deny contains msg if {
 	obj = input[_]
 	is_api_server(obj)
 	result = invalid_flag(obj.spec.containers[0].command)
@@ -17,7 +17,7 @@ deny[msg] {
 	}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
@@ -26,7 +26,7 @@ is_api_server(obj) {
 	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
 }
 
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	full_cmd = concat(" ", cmd)
 	not contains(full_cmd, "--audit-log-path")
 	result := {

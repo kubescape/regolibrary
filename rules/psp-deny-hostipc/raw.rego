@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.every
+import rego.v1
 
-deny[msga] {
+deny contains msga if {
 	# only fail resources if there all PSPs have hostIPC set to true
 	# if even one PSP has hostIPC set to false, then the rule will not fail
 	every psp in input {

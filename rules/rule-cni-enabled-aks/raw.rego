@@ -1,8 +1,10 @@
 package armo_builtins
 
+import rego.v1
+
 # fails if cni is not enabled like defined in:
 # https://learn.microsoft.com/en-us/azure/aks/use-network-policies#create-an-aks-cluster-and-enable-network-policy
-deny[msga] {
+deny contains msga if {
 	cluster_describe := input[_]
 	cluster_describe.apiVersion == "management.azure.com/v1"
 	cluster_describe.kind == "ClusterDescribe"
@@ -25,17 +27,17 @@ deny[msga] {
 	}
 }
 
-cni_enabled_aks(properties) {
+cni_enabled_aks(properties) if {
 	properties.networkProfile.networkPlugin == "azure"
 	properties.networkProfile.networkPolicy == "azure"
 }
 
-cni_enabled_aks(properties) {
+cni_enabled_aks(properties) if {
 	properties.networkProfile.networkPlugin == "azure"
 	properties.networkProfile.networkPolicy == "calico"
 }
 
-cni_enabled_aks(properties) {
+cni_enabled_aks(properties) if {
 	properties.networkProfile.networkPlugin == "kubenet"
 	properties.networkProfile.networkPolicy == "calico"
 }

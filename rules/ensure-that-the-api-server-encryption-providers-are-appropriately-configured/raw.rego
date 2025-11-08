@@ -1,9 +1,9 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 # Encryption config is set but not using one of the recommended providers
-deny[msg] {
+deny contains msg if {
 	obj = input[_]
 	is_control_plane_info(obj)
 	config_file := obj.data.APIServerInfo.encryptionProviderConfigFile
@@ -41,19 +41,19 @@ deny[msg] {
 	}
 }
 
-is_control_plane_info(obj) {
+is_control_plane_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "ControlPlaneInfo"
 }
 
-decode_config_file(content) := parsed {
+decode_config_file(content) := parsed if {
 	parsed := yaml.unmarshal(content)
 } else := json.unmarshal(content)
 
-has_key(x, k) {
+has_key(x, k) if {
 	_ = x[k]
 }
 
-has_one_of_keys(x, keys) {
+has_one_of_keys(x, keys) if {
 	has_key(x, keys[_])
 }

@@ -1,8 +1,10 @@
 package armo_builtins
 
+import rego.v1
+
 import data.kubernetes.api.client
 
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	workload_types = {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "Pod", "CronJob"}
 	workload_types[wl.kind]
@@ -14,10 +16,12 @@ deny[msga] {
 
 	srvc := get_wl_connectedto_service(wl)
 
-	wlvector = {"name": wl.metadata.name,
-				"namespace": wl.metadata.namespace,
-				"kind": wl.kind,
-				"relatedObjects": srvc}
+	wlvector = {
+		"name": wl.metadata.name,
+		"namespace": wl.metadata.namespace,
+		"kind": wl.kind,
+		"relatedObjects": srvc,
+	}
 
 	msga := {
 		"alertMessage": sprintf("wl: %v is in the cluster", [wl.metadata.name]),
@@ -26,24 +30,24 @@ deny[msga] {
 		"failedPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],
-			"externalObjects": wlvector
-		}
+			"externalObjects": wlvector,
+		},
 	}
 }
 
-get_wl_connectedto_service(wl) = s {
-	service := 	input[_]
+get_wl_connectedto_service(wl) := s if {
+	service := input[_]
 	service.kind == "Service"
 	wl_connectedto_service(wl, service)
 	s = [service]
 }
 
-get_wl_connectedto_service(wl) = s {
+get_wl_connectedto_service(wl) := s if {
 	services := [service | service = input[_]; service.kind == "Service"]
 	count({i | services[i]; wl_connectedto_service(wl, services[i])}) == 0
 	s = []
 }
 
-wl_connectedto_service(wl, service){
+wl_connectedto_service(wl, service) if {
 	count({x | service.spec.selector[x] == wl.metadata.labels[x]}) == count(service.spec.selector)
 }

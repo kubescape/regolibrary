@@ -1,6 +1,8 @@
 package armo_builtins
 
-untrustedImageRepo[msga] {
+import rego.v1
+
+untrustedImageRepo contains msga if {
 	wl := input[_]
 	containers_path := get_containers_path(wl)
 	containers := object.get(wl, containers_path, [])
@@ -20,15 +22,14 @@ untrustedImageRepo[msga] {
 	}
 }
 
-untrusted_or_public_registries(image){
+untrusted_or_public_registries(image) if {
 	# see default-config-inputs.json for list values
 	untrusted_registries := data.postureControlInputs.untrustedRegistries
 	registry := untrusted_registries[_]
 	startswith(image, registry)
-
 }
 
-untrusted_or_public_registries(image){
+untrusted_or_public_registries(image) if {
 	# see default-config-inputs.json for list values
 	public_registries := data.postureControlInputs.publicRegistries
 	registry := public_registries[_]
@@ -36,20 +37,20 @@ untrusted_or_public_registries(image){
 }
 
 # get_containers_path - get resource containers paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-get_containers_path(resource) := result {
+get_containers_path(resource) := result if {
 	resource_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	resource_kinds[resource.kind]
 	result = ["spec", "template", "spec", "containers"]
 }
 
 # get_containers_path - get resource containers paths for "Pod"
-get_containers_path(resource) := result {
+get_containers_path(resource) := result if {
 	resource.kind == "Pod"
 	result = ["spec", "containers"]
 }
 
 # get_containers_path - get resource containers paths for  "CronJob"
-get_containers_path(resource) := result {
+get_containers_path(resource) := result if {
 	resource.kind == "CronJob"
 	result = ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
 }

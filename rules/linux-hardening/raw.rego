@@ -1,9 +1,9 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-# Fails if pod does not define linux security hardening 
-deny[msga] {
+# Fails if pod does not define linux security hardening
+deny contains msga if {
 	obj := input[_]
 	fix_paths := is_unsafe_obj(obj)
 	count(fix_paths) > 0
@@ -20,18 +20,18 @@ deny[msga] {
 	}
 }
 
-is_unsafe_obj(obj) := fix_paths {
+is_unsafe_obj(obj) := fix_paths if {
 	obj.kind == "Pod"
 	fix_paths := are_unsafe_specs(obj, ["spec"], ["metadata", "annotations"])
-} else := fix_paths {
+} else := fix_paths if {
 	obj.kind == "CronJob"
 	fix_paths := are_unsafe_specs(obj, ["spec", "jobTemplate", "spec", "template", "spec"], ["spec", "jobTemplate", "spec", "template", "metadata", "annotations"])
-} else := fix_paths {
+} else := fix_paths if {
 	obj.kind in ["Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"]
 	fix_paths := are_unsafe_specs(obj, ["spec", "template", "spec"], ["spec", "template", "metadata", "annotations"])
 }
 
-are_unsafe_specs(obj, specs_path, anotation_path) := paths {
+are_unsafe_specs(obj, specs_path, anotation_path) := paths if {
 	# spec
 	specs := object.get(obj, specs_path, null)
 	specs != null
@@ -50,7 +50,7 @@ are_unsafe_specs(obj, specs_path, anotation_path) := paths {
 	# for i, container in containers
 	#  		if is_unsafe_container:
 	# 			fix_paths += [(containers_path[i] + field) for j, field in fix_fields]
-	# 
+	#
 	# At the end we get [[<container1_path1>, <container1_path2>, ...], ...]
 	containers_fix_path := concat(".", containers_path)
 	fix_fields := ["seccompProfile", "seLinuxOptions", "capabilities.drop[0]"]
@@ -67,12 +67,12 @@ are_unsafe_specs(obj, specs_path, anotation_path) := paths {
 	count(paths) > 0
 }
 
-are_seccomp_and_selinux_disabled(obj) {
+are_seccomp_and_selinux_disabled(obj) if {
 	not obj.securityContext.seccompProfile
 	not obj.securityContext.seLinuxOptions
 }
 
-is_unsafe_container(container) {
+is_unsafe_container(container) if {
 	are_seccomp_and_selinux_disabled(container)
 	not container.securityContext.capabilities.drop
 }

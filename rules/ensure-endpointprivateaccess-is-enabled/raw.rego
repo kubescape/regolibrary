@@ -1,16 +1,17 @@
 package armo_builtins
 
+import rego.v1
 
 # Check if EndpointPrivateAccess in disabled for EKS
-deny[msga] {
+deny contains msga if {
 	cluster_config := input[_]
 	cluster_config.apiVersion == "eks.amazonaws.com/v1"
 	cluster_config.kind == "ClusterDescribe"
-    cluster_config.metadata.provider == "eks"	
+	cluster_config.metadata.provider == "eks"
 	config = cluster_config.data
 
-	config.Cluster.ResourcesVpcConfig.EndpointPrivateAccess == false    
-	
+	config.Cluster.ResourcesVpcConfig.EndpointPrivateAccess == false
+
 	msga := {
 		"alertMessage": "endpointPrivateAccess is not enabled",
 		"alertScore": 3,
@@ -20,9 +21,7 @@ deny[msga] {
 		"fixCommand": "aws eks update-cluster-config --region $AWS_REGION --name $CLUSTER_NAME --resources-vpc-config endpointPrivateAccess=true,endpointPublicAccess=false",
 		"alertObject": {
 			"k8sApiObjects": [],
-            "externalObjects": cluster_config
-		}
+			"externalObjects": cluster_config,
+		},
 	}
 }
-
-

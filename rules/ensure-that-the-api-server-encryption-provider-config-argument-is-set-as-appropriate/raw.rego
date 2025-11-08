@@ -1,9 +1,9 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 # Encryption config is not set at all
-deny[msg] {
+deny contains msg if {
 	obj = input[_]
 	is_api_server(obj)
 
@@ -24,7 +24,7 @@ deny[msg] {
 }
 
 # Encryption config is set but not covering secrets
-deny[msg] {
+deny contains msg if {
 	obj = input[_]
 	is_control_plane_info(obj)
 	config_file := obj.data.APIServerInfo.encryptionProviderConfigFile
@@ -51,7 +51,7 @@ deny[msg] {
 	}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
@@ -60,11 +60,11 @@ is_api_server(obj) {
 	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
 }
 
-is_control_plane_info(obj) {
+is_control_plane_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "ControlPlaneInfo"
 }
 
-decode_config_file(content) := parsed {
+decode_config_file(content) := parsed if {
 	parsed := yaml.unmarshal(content)
 } else := json.unmarshal(content)

@@ -1,10 +1,10 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 # returns subjects with cluster admin role
 # regal ignore:rule-length
-deny[msga] {
+deny contains msga if {
 	subjectVector := input[_]
 
 	role := subjectVector.relatedObjects[i]
@@ -57,14 +57,14 @@ deny[msga] {
 }
 
 # for service accounts
-is_same_subjects(subjectVector, subject) {
+is_same_subjects(subjectVector, subject) if {
 	subjectVector.kind == subject.kind
 	subjectVector.name == subject.name
 	subjectVector.namespace == subject.namespace
 }
 
 # for users/ groups
-is_same_subjects(subjectVector, subject) {
+is_same_subjects(subjectVector, subject) if {
 	subjectVector.kind == subject.kind
 	subjectVector.name == subject.name
 	subjectVector.apiGroup == subject.apiGroup

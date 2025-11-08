@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.every
+import rego.v1
 
-deny[msga] {
+deny contains msga if {
 	# only fail resources if there all PSPs have allowPrivilegeEscalation set to true
 	# if even one PSP has allowPrivilegeEscalation set to false, then the rule will not fail
 	every psp in input {
