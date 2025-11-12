@@ -1,6 +1,7 @@
 package armo_builtins
 
 _deny_supplemental_groups_msg(kind_label, obj, groups, path) = msga {
+	# regal ignore: use-in-operator
 	groups[_] == 0
 
 	msga := {
