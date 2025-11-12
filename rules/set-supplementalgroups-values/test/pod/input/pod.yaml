@@ -5,6 +5,8 @@ metadata:
 spec:
   securityContext:
     fsGroup: 2000
+    supplementalGroups:
+      - 0
   containers:
   - name: nginx1
     image: nginx:1.14.2

@@ -1,19 +1,21 @@
 [
   {
-    "alertMessage": "CronJob: hello does not set 'securityContext.supplementalGroups'",
+    "alertMessage": "CronJob: hello uses disallowed supplemental group '0'",
     "packagename": "armo_builtins",
     "alertScore": 7,
+    "failedPaths": [
+      "spec.jobTemplate.spec.template.spec.securityContext.supplementalGroups"
+    ],
     "fixPaths": [
       {
         "path": "spec.jobTemplate.spec.template.spec.securityContext.supplementalGroups",
-        "value": "YOUR_VALUE"
+        "value": "REMOVE_GROUP_0"
       }
     ],
-    "ruleStatus": "",
     "alertObject": {
       "k8sApiObjects": [
         {
-          "apiVersion": "batch/v1beta1",
+          "apiVersion": "batch/v1",
           "kind": "CronJob",
           "metadata": {
             "name": "hello"

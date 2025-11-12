@@ -17,6 +17,8 @@ spec:
       securityContext:
         runAsUser: 2000
         runAsGroup: 3000
+        supplementalGroups:
+          - 0
       hostNetwork: true
       containers :
         - name : mysql

@@ -1,24 +1,21 @@
 [
   {
-    "alertMessage": "CronJob: hello does not set 'securityContext.sysctls'",
+    "alertMessage": "CronJob: hello sets unsafe sysctl(s): [\"net.core.somaxconn\"]",
     "packagename": "armo_builtins",
     "alertScore": 7,
-    "failedPaths": [],
+    "failedPaths": [
+      "spec.jobTemplate.spec.template.spec.securityContext.sysctls"
+    ],
     "fixPaths": [
       {
-        "path": "spec.jobTemplate.spec.template.spec.securityContext.sysctls.name",
-        "value": "YOUR_VALUE"
-      },
-      {
-        "path": "spec.jobTemplate.spec.template.spec.securityContext.sysctls.value",
-        "value": "YOUR_VALUE"
+        "path": "spec.jobTemplate.spec.template.spec.securityContext.sysctls",
+        "value": "REMOVE_UNSAFE_SYSCTLS"
       }
     ],
-    "ruleStatus": "",
     "alertObject": {
       "k8sApiObjects": [
         {
-          "apiVersion": "batch/v1beta1",
+          "apiVersion": "batch/v1",
           "kind": "CronJob",
           "metadata": {
             "name": "hello"

@@ -1,4 +1,4 @@
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: hello
@@ -10,6 +10,8 @@ spec:
         spec :
           securityContext:
             fsGroup: 2000
+            supplementalGroups:
+              - 0
           hostNetwork: true
           containers :
             -

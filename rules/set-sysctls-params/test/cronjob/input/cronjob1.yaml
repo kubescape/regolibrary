@@ -1,4 +1,4 @@
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: hello
@@ -9,6 +9,11 @@ spec:
       template:
         spec :
           securityContext:
+            sysctls:
+              - name: net.core.somaxconn
+                value: "1024"
+              - name: net.ipv4.tcp_syncookies
+                value: "1"
           hostNetwork: true
           containers :
             -
@@ -41,4 +46,3 @@ spec:
               persistentVolumeClaim :
                 claimName : my-lamp-site-data
           restartPolicy: OnFailure
-          
