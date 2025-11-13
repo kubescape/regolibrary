@@ -1,65 +1,55 @@
 package armo_builtins
 
+_deny_supplemental_groups_msg(kind_label, obj, groups, path) = msga {
+	# regal ignore: use-in-operator
+	groups[_] == 0
+
+	msga := {
+		"alertMessage": sprintf("%s: %v uses disallowed supplemental group '0'", [kind_label, obj.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"failedPaths": [path],
+		"fixPaths": [{"path": path, "value": "REMOVE_GROUP_0"}],
+		"alertObject": {"k8sApiObjects": [obj]},
+	}
+}
+
 ### POD ###
 
-# Fails if securityContext.supplementalGroups is not set
+# Fails if securityContext.supplementalGroups contains the root group (0)
 deny[msga] {
 	# verify the object kind
 	pod := input[_]
-	pod.kind = "Pod"
+	pod.kind == "Pod"
 
-	# check securityContext has supplementalGroups set
-	not pod.spec.securityContext.supplementalGroups
-	fixPaths = [{"path": "spec.securityContext.supplementalGroups", "value": "YOUR_VALUE"}]
-
-	msga := {
-		"alertMessage": sprintf("Pod: %v does not set 'securityContext.supplementalGroups'", [pod.metadata.name]),
-		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"fixPaths": fixPaths,
-		"alertObject": {"k8sApiObjects": [pod]},
-	}
+	groups := pod.spec.securityContext.supplementalGroups
+	path := "spec.securityContext.supplementalGroups"
+	msga := _deny_supplemental_groups_msg("Pod", pod, groups, path)
 }
 
 ### WORKLOAD ###
 
-# Fails if securityContext.supplementalGroups is not set
+# Fails if securityContext.supplementalGroups contains the root group (0)
 deny[msga] {
 	# verify the object kind
 	wl := input[_]
 	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	manifest_kind[wl.kind]
 
-	# check securityContext has supplementalGroups set
-	not wl.spec.template.spec.securityContext.supplementalGroups
-	fixPaths = [{"path": "spec.template.spec.securityContext.supplementalGroups", "value": "YOUR_VALUE"}]
-
-	msga := {
-		"alertMessage": sprintf("Workload: %v does not set 'securityContext.supplementalGroups'", [wl.metadata.name]),
-		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"fixPaths": fixPaths,
-		"alertObject": {"k8sApiObjects": [wl]},
-	}
+	groups := wl.spec.template.spec.securityContext.supplementalGroups
+	path := "spec.template.spec.securityContext.supplementalGroups"
+	msga := _deny_supplemental_groups_msg("Workload", wl, groups, path)
 }
 
 ### CRONJOB ###
 
-# Fails if securityContext.supplementalGroups is not set
+# Fails if securityContext.supplementalGroups contains the root group (0)
 deny[msga] {
 	# verify the object kind
 	cj := input[_]
 	cj.kind == "CronJob"
 
-	# check securityContext has supplementalGroups set
-	not cj.spec.jobTemplate.spec.template.spec.securityContext.supplementalGroups
-	fixPaths = [{"path": "spec.jobTemplate.spec.template.spec.securityContext.supplementalGroups", "value": "YOUR_VALUE"}]
-
-	msga := {
-		"alertMessage": sprintf("CronJob: %v does not set 'securityContext.supplementalGroups'", [cj.metadata.name]),
-		"packagename": "armo_builtins",
-		"alertScore": 7,
-		"fixPaths": fixPaths,
-		"alertObject": {"k8sApiObjects": [cj]},
-	}
+	groups := cj.spec.jobTemplate.spec.template.spec.securityContext.supplementalGroups
+	path := "spec.jobTemplate.spec.template.spec.securityContext.supplementalGroups"
+	msga := _deny_supplemental_groups_msg("CronJob", cj, groups, path)
 }

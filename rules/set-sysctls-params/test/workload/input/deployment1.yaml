@@ -17,6 +17,11 @@ spec:
       securityContext:
         runAsUser: 2000
         runAsGroup: 3000
+        sysctls:
+          - name: net.core.somaxconn
+            value: "1024"
+          - name: net.ipv4.tcp_syncookies
+            value: "1"
       hostNetwork: true
       containers :
         - name : mysql

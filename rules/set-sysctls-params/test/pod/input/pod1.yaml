@@ -4,6 +4,11 @@ metadata:
   name: nginx
 spec:
   securityContext:
+    sysctls:
+      - name: net.core.somaxconn
+        value: "1024"
+      - name: kernel.shm_rmid_forced
+        value: "0"
   containers:
   - name: nginx1
     image: nginx:1.14.2

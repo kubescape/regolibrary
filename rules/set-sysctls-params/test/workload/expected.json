@@ -1,20 +1,17 @@
 [
   {
-    "alertMessage": "Workload: my-deployment does not set 'securityContext.sysctls'",
+    "alertMessage": "Workload: my-deployment sets unsafe sysctl(s): [\"net.core.somaxconn\"]",
     "packagename": "armo_builtins",
     "alertScore": 7,
-    "failedPaths": [],
+    "failedPaths": [
+      "spec.template.spec.securityContext.sysctls"
+    ],
     "fixPaths": [
       {
-        "path": "spec.template.spec.securityContext.sysctls.name",
-        "value": "YOUR_VALUE"
-      },
-      {
-        "path": "spec.template.spec.securityContext.sysctls.value",
-        "value": "YOUR_VALUE"
+        "path": "spec.template.spec.securityContext.sysctls",
+        "value": "REMOVE_UNSAFE_SYSCTLS"
       }
     ],
-    "ruleStatus": "",
     "alertObject": {
       "k8sApiObjects": [
         {

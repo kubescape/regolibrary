@@ -5,10 +5,10 @@ metadata:
 spec:
   securityContext:
     sysctls:
-    - name: net.core.somaxconn
-      value: "1024"
     - name: kernel.shm_rmid_forced
       value: "0"
+    - name: net.ipv4.tcp_syncookies
+      value: "1"
   containers:
   - name: sysctl-test-container
     image: busybox

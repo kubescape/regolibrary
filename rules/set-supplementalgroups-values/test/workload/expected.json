@@ -1,15 +1,17 @@
 [
   {
-    "alertMessage": "Workload: my-deployment does not set 'securityContext.supplementalGroups'",
+    "alertMessage": "Workload: my-deployment uses disallowed supplemental group '0'",
     "packagename": "armo_builtins",
     "alertScore": 7,
+    "failedPaths": [
+      "spec.template.spec.securityContext.supplementalGroups"
+    ],
     "fixPaths": [
       {
         "path": "spec.template.spec.securityContext.supplementalGroups",
-        "value": "YOUR_VALUE"
+        "value": "REMOVE_GROUP_0"
       }
     ],
-    "ruleStatus": "",
     "alertObject": {
       "k8sApiObjects": [
         {
