@@ -2,26 +2,37 @@ package armo_builtins
 
 import future.keywords.in
 
+# Memoize by type for better performance
+serviceaccounts := [sa |
+    sa := input[_]
+	sa.kind == "ServiceAccount"
+]
+roles := [r |
+	r := input[_]
+	r.kind in ["Role", "ClusterRole"]
+]
+rolebindings := [rb |
+	rb := input[_]
+	rb.kind in ["RoleBinding", "ClusterRoleBinding"]
+]
+
 deny[msga] {
     wl := input[_]
     start_of_path := get_start_of_path(wl)
     wl_spec := object.get(wl, start_of_path, [])
 
     # get service account wl is using
-    sa := input[_]
-    sa.kind == "ServiceAccount"
+    sa := serviceaccounts[_]
     is_same_sa(wl_spec, sa.metadata, wl.metadata)
 
     # check service account token is mounted
     is_sa_auto_mounted(wl_spec, sa)
 
     # check if sa has administrative roles
-    role := input[_]
-    role.kind in ["Role", "ClusterRole"]
+	role := roles[_]
     is_administrative_role(role)
 
-    rolebinding := input[_]
-	rolebinding.kind in ["RoleBinding", "ClusterRoleBinding"] 
+    rolebinding := rolebindings[_]
     rolebinding.roleRef.name == role.metadata.name
     rolebinding.subjects[j].kind == "ServiceAccount"
     rolebinding.subjects[j].name == sa.metadata.name
@@ -89,7 +100,7 @@ is_same_sa(wl_spec, sa_metadata, wl_metadata) {
 }
 
 is_same_sa(wl_spec, sa_metadata, wl_metadata) {
-    not wl_spec.serviceAccountName 
+    not wl_spec.serviceAccountName
     sa_metadata.name == "default"
     is_same_namespace(sa_metadata , wl_metadata)
 }
@@ -120,10 +131,10 @@ is_administrative_role(role){
     administrative_resources := ["*"]
     administrative_verbs := ["*"]
     administrative_api_groups := ["", "*"]
-    
-    administrative_rule := [rule | rule = role.rules[i] ; 
-                        rule.resources[a] in administrative_resources ; 
-                        rule.verbs[b] in administrative_verbs ; 
+
+    administrative_rule := [rule | rule = role.rules[i] ;
+                        rule.resources[a] in administrative_resources ;
+                        rule.verbs[b] in administrative_verbs ;
                         rule.apiGroups[c] in administrative_api_groups]
     count(administrative_rule) > 0
 }
