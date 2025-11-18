@@ -8,17 +8,6 @@
     "match": [
         {
           "apiGroups": [
-            ""
-          ],
-          "apiVersions": [
-            "v1"
-          ],
-          "resources": [
-            "Service"
-          ]
-        },
-        {
-          "apiGroups": [
             "networking.k8s.io"
           ],
           "apiVersions": [
