@@ -4,36 +4,63 @@ import future.keywords.in
 
 # fails if user can can delete important resources
 deny[msga] {
-	subjectVector := input[_]
+	# Use 'some' for explicit iteration - more efficient
+	some subjectVector in input
+	
+	# Early filtering: check for required relatedObjects structure
+	count(subjectVector.relatedObjects) > 0
+	
+	# Find role and rolebinding with explicit iteration
+	some i
 	role := subjectVector.relatedObjects[i]
-	rolebinding := subjectVector.relatedObjects[j]
 	endswith(role.kind, "Role")
+	
+	some j
+	rolebinding := subjectVector.relatedObjects[j]
 	endswith(rolebinding.kind, "Binding")
-
+	
+	# Find matching rule - iterate only over role.rules
+	some p
 	rule := role.rules[p]
+	
+	# Check permissions early - fail fast if not matching
+	# Use sets for O(1) membership checks
+	verbs_set := {"delete", "deletecollection", "*"}
+	some verb in rule.verbs
+	verb in verbs_set
+	
+	api_groups_set := {"", "*", "apps", "batch"}
+	some apiGroup in rule.apiGroups
+	apiGroup in api_groups_set
+	
+	resources_set := {"secrets", "pods", "services", "deployments", "replicasets", "daemonsets", "statefulsets", "jobs", "cronjobs", "*"}
+	some resource in rule.resources
+	resource in resources_set
+	
+	# Only check subjects if permissions match
+	some k
 	subject := rolebinding.subjects[k]
 	is_same_subjects(subjectVector, subject)
-
-rule_path := sprintf("relatedObjects[%d].rules[%d]", [i, p])
-
-	verbs := ["delete", "deletecollection", "*"]
-	verb_path := [sprintf("%s.verbs[%d]", [rule_path, l]) | verb = rule.verbs[l]; verb in verbs]
-	count(verb_path) > 0
-
-	api_groups := ["", "*", "apps", "batch"]
-	api_groups_path := [sprintf("%s.apiGroups[%d]", [rule_path, a]) | apiGroup = rule.apiGroups[a]; apiGroup in api_groups]
-	count(api_groups_path) > 0
-
-	resources := ["secrets", "pods", "services", "deployments", "replicasets", "daemonsets", "statefulsets", "jobs", "cronjobs", "*"]
-	resources_path := [sprintf("%s.resources[%d]", [rule_path, l]) | resource = rule.resources[l]; resource in resources]
-	count(resources_path) > 0
-
-	path := array.concat(resources_path, verb_path)
-	path2 := array.concat(path, api_groups_path)
-	finalpath := array.concat(path2, [
-		sprintf("relatedObjects[%d].subjects[%d]", [j, k]),
-		sprintf("relatedObjects[%d].roleRef.name", [j]),
-	])
+	
+	# Build paths only after all checks pass - lazy evaluation
+	rule_path := sprintf("relatedObjects[%d].rules[%d]", [i, p])
+	
+	verb_path := [sprintf("%s.verbs[%d]", [rule_path, l]) | 
+		some l; verb := rule.verbs[l]; verb in verbs_set]
+	
+	api_groups_path := [sprintf("%s.apiGroups[%d]", [rule_path, a]) | 
+		some a; apiGroup := rule.apiGroups[a]; apiGroup in api_groups_set]
+	
+	resources_path := [sprintf("%s.resources[%d]", [rule_path, l]) | 
+		some l; resource := rule.resources[l]; resource in resources_set]
+	
+	finalpath := array.concat(
+		array.concat(resources_path, verb_path),
+		array.concat(api_groups_path, [
+			sprintf("relatedObjects[%d].subjects[%d]", [j, k]),
+			sprintf("relatedObjects[%d].roleRef.name", [j]),
+		])
+	)
 
 	msga := {
 		"alertMessage": sprintf("Subject: %s-%s can delete important resources", [subjectVector.kind, subjectVector.name]),

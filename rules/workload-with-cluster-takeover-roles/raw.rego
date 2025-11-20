@@ -3,30 +3,38 @@ package armo_builtins
 import future.keywords.in
 
 deny[msga] {
-    wl := input[_]
+    # Use 'some' for explicit iteration - more efficient
+    some wl in input
     start_of_path := get_start_of_path(wl)
     wl_spec := object.get(wl, start_of_path, [])
 
+    # Early exit: check service account token is mounted before searching
+    is_sa_auto_mounted_early(wl_spec)
+
     # get service account wl is using
-    sa := input[_]
+    some sa in input
     sa.kind == "ServiceAccount"
     is_same_sa(wl_spec, sa.metadata, wl.metadata)
 
-    # check service account token is mounted
+    # Final check service account token is mounted
     is_sa_auto_mounted(wl_spec, sa)
 
-    # check if sa has cluster takeover roles
-    role := input[_]
-    role.kind in ["Role", "ClusterRole"]
-    is_takeover_role(role)
-
-    rolebinding := input[_]
-	rolebinding.kind in ["RoleBinding", "ClusterRoleBinding"] 
-    rolebinding.roleRef.name == role.metadata.name
-    rolebinding.roleRef.kind == role.kind
+    # check if sa has cluster takeover roles - filter rolebindings first
+    some rolebinding in input
+	rolebinding.kind in ["RoleBinding", "ClusterRoleBinding"]
+    
+    # Use 'some' for subject iteration - check subjects early
+    some j
     rolebinding.subjects[j].kind == "ServiceAccount"
     rolebinding.subjects[j].name == sa.metadata.name
     rolebinding.subjects[j].namespace == sa.metadata.namespace
+
+    # Only now check the role (after confirming SA is bound)
+    some role in input
+    role.kind in ["Role", "ClusterRole"]
+    rolebinding.roleRef.name == role.metadata.name
+    rolebinding.roleRef.kind == role.kind
+    is_takeover_role(role)
 
     deletePath := sprintf("subjects[%d]", [j])
 
@@ -67,6 +75,11 @@ get_start_of_path(workload) = start_of_path {
     start_of_path := ["spec", "jobTemplate", "spec", "template", "spec"]
 }
 
+
+# Early check without SA - fail fast if explicitly disabled in workload
+is_sa_auto_mounted_early(wl_spec) {
+    not wl_spec.automountServiceAccountToken == false
+}
 
 is_sa_auto_mounted(wl_spec, sa)    {
     # automountServiceAccountToken not in pod spec
@@ -117,27 +130,38 @@ is_same_namespace(metadata1, metadata2) {
 
 # look for rule allowing create/update workloads
 is_takeover_role(role){
-    takeover_resources := ["pods", "*"]
-    takeover_verbs := ["create", "update", "patch", "*"]
-    takeover_api_groups := ["", "*"]
+    # Use sets for O(1) membership checks
+    takeover_resources_set := {"pods", "*"}
+    takeover_verbs_set := {"create", "update", "patch", "*"}
+    takeover_api_groups_set := {"", "*"}
     
-    takeover_rule := [rule | rule = role.rules[i] ; 
-                        rule.resources[a] in takeover_resources ; 
-                        rule.verbs[b] in takeover_verbs ; 
-                        rule.apiGroups[c] in takeover_api_groups]
-    count(takeover_rule) > 0
+    # Direct membership checks - more efficient than array comprehension
+    # Check in order of most selective first
+    some i
+    rule := role.rules[i]
+    some apiGroup in rule.apiGroups
+    apiGroup in takeover_api_groups_set
+    some verb in rule.verbs
+    verb in takeover_verbs_set
+    some resource in rule.resources
+    resource in takeover_resources_set
 }
 
 # look for rule allowing secret access
 is_takeover_role(role){
-    rule := role.rules[i]
-    takeover_resources := ["secrets", "*"]
-    takeover_verbs :=  ["get", "list", "watch", "*"]
-    takeover_api_groups := ["", "*"]
+    # Use sets for O(1) membership checks
+    takeover_resources_set := {"secrets", "*"}
+    takeover_verbs_set := {"get", "list", "watch", "*"}
+    takeover_api_groups_set := {"", "*"}
     
-    takeover_rule := [rule | rule = role.rules[i] ; 
-                        rule.resources[a] in takeover_resources ; 
-                        rule.verbs[b] in takeover_verbs ; 
-                        rule.apiGroups[c] in takeover_api_groups]
-    count(takeover_rule) > 0
+    # Direct membership checks - more efficient than array comprehension
+    # Check in order of most selective first
+    some i
+    rule := role.rules[i]
+    some apiGroup in rule.apiGroups
+    apiGroup in takeover_api_groups_set
+    some resource in rule.resources
+    resource in takeover_resources_set
+    some verb in rule.verbs
+    verb in takeover_verbs_set
 }
