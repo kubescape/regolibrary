@@ -8,29 +8,33 @@ deny[msga] {
     start_of_path := get_start_of_path(wl)
     wl_spec := object.get(wl, start_of_path, [])
 
+    # Early exit: check service account token is mounted before searching
+    is_sa_auto_mounted_early(wl_spec)
+
     # get service account wl is using
     some sa in input
     sa.kind == "ServiceAccount"
     is_same_sa(wl_spec, sa.metadata, wl.metadata)
 
-    # check service account token is mounted
+    # Final check service account token is mounted
     is_sa_auto_mounted(wl_spec, sa)
 
-    # check if sa has cluster takeover roles
-    some role in input
-    role.kind in ["Role", "ClusterRole"]
-    is_takeover_role(role)
-
+    # check if sa has cluster takeover roles - filter rolebindings first
     some rolebinding in input
 	rolebinding.kind in ["RoleBinding", "ClusterRoleBinding"]
-    rolebinding.roleRef.name == role.metadata.name
-    rolebinding.roleRef.kind == role.kind
     
-    # Use 'some' for subject iteration
+    # Use 'some' for subject iteration - check subjects early
     some j
     rolebinding.subjects[j].kind == "ServiceAccount"
     rolebinding.subjects[j].name == sa.metadata.name
     rolebinding.subjects[j].namespace == sa.metadata.namespace
+
+    # Only now check the role (after confirming SA is bound)
+    some role in input
+    role.kind in ["Role", "ClusterRole"]
+    rolebinding.roleRef.name == role.metadata.name
+    rolebinding.roleRef.kind == role.kind
+    is_takeover_role(role)
 
     deletePath := sprintf("subjects[%d]", [j])
 
@@ -71,6 +75,11 @@ get_start_of_path(workload) = start_of_path {
     start_of_path := ["spec", "jobTemplate", "spec", "template", "spec"]
 }
 
+
+# Early check without SA - fail fast if explicitly disabled in workload
+is_sa_auto_mounted_early(wl_spec) {
+    not wl_spec.automountServiceAccountToken == false
+}
 
 is_sa_auto_mounted(wl_spec, sa)    {
     # automountServiceAccountToken not in pod spec
@@ -127,14 +136,15 @@ is_takeover_role(role){
     takeover_api_groups_set := {"", "*"}
     
     # Direct membership checks - more efficient than array comprehension
+    # Check in order of most selective first
     some i
     rule := role.rules[i]
-    some resource in rule.resources
-    resource in takeover_resources_set
-    some verb in rule.verbs
-    verb in takeover_verbs_set
     some apiGroup in rule.apiGroups
     apiGroup in takeover_api_groups_set
+    some verb in rule.verbs
+    verb in takeover_verbs_set
+    some resource in rule.resources
+    resource in takeover_resources_set
 }
 
 # look for rule allowing secret access
@@ -145,12 +155,13 @@ is_takeover_role(role){
     takeover_api_groups_set := {"", "*"}
     
     # Direct membership checks - more efficient than array comprehension
+    # Check in order of most selective first
     some i
     rule := role.rules[i]
+    some apiGroup in rule.apiGroups
+    apiGroup in takeover_api_groups_set
     some resource in rule.resources
     resource in takeover_resources_set
     some verb in rule.verbs
     verb in takeover_verbs_set
-    some apiGroup in rule.apiGroups
-    apiGroup in takeover_api_groups_set
 }
