@@ -1,7 +1,8 @@
 package armo_builtins
 
 deny[msga] {
-    wl := input[_]
+    # Use 'some' for explicit iteration - more efficient
+    some wl in input
     start_of_path := get_beginning_of_path(wl)
 
     msga := {

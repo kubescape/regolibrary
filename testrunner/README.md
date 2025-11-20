@@ -80,5 +80,5 @@ You can create as many tests as you wish
 
 Inside the `rego_test.go` file, in the `testrunner` directory, you can run tests from a specific directory using the `TestSingleRule` function. Just change the variable `dir` to the name of your test folder.
 <br />  
-For running a single regoe locally, you can use the `TestSingleRego` function. It will take as input the files inside the `input` folder, in the `test-single-rego` directory. Just change the `testDir` variable to the name of your test. The result will be printed.  
+For running a single rego locally, you can use the `TestSingleRego` function. It will take as input the files inside the `input` folder, in the `test-single-rego` directory. Just change the `testDir` variable to the name of your test. The result will be printed.  
 So no more need for rego playground, and this is especially helpful when using aggregation

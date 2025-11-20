@@ -3,12 +3,13 @@ package armo_builtins
 import future.keywords.in
 
 deny[msga] {
-    wl := input[_]
+    # Use 'some' for explicit iteration - more efficient
+    some wl in input
     start_of_path := get_start_of_path(wl)
     wl_spec := object.get(wl, start_of_path, [])
 
     # get service account wl is using
-    sa := input[_]
+    some sa in input
     sa.kind == "ServiceAccount"
     is_same_sa(wl_spec, sa.metadata, wl.metadata)
 
@@ -16,14 +17,17 @@ deny[msga] {
     is_sa_auto_mounted(wl_spec, sa)
 
     # check if sa has cluster takeover roles
-    role := input[_]
+    some role in input
     role.kind in ["Role", "ClusterRole"]
     is_takeover_role(role)
 
-    rolebinding := input[_]
-	rolebinding.kind in ["RoleBinding", "ClusterRoleBinding"] 
+    some rolebinding in input
+	rolebinding.kind in ["RoleBinding", "ClusterRoleBinding"]
     rolebinding.roleRef.name == role.metadata.name
     rolebinding.roleRef.kind == role.kind
+    
+    # Use 'some' for subject iteration
+    some j
     rolebinding.subjects[j].kind == "ServiceAccount"
     rolebinding.subjects[j].name == sa.metadata.name
     rolebinding.subjects[j].namespace == sa.metadata.namespace
@@ -117,27 +121,36 @@ is_same_namespace(metadata1, metadata2) {
 
 # look for rule allowing create/update workloads
 is_takeover_role(role){
-    takeover_resources := ["pods", "*"]
-    takeover_verbs := ["create", "update", "patch", "*"]
-    takeover_api_groups := ["", "*"]
+    # Use sets for O(1) membership checks
+    takeover_resources_set := {"pods", "*"}
+    takeover_verbs_set := {"create", "update", "patch", "*"}
+    takeover_api_groups_set := {"", "*"}
     
-    takeover_rule := [rule | rule = role.rules[i] ; 
-                        rule.resources[a] in takeover_resources ; 
-                        rule.verbs[b] in takeover_verbs ; 
-                        rule.apiGroups[c] in takeover_api_groups]
-    count(takeover_rule) > 0
+    # Direct membership checks - more efficient than array comprehension
+    some i
+    rule := role.rules[i]
+    some resource in rule.resources
+    resource in takeover_resources_set
+    some verb in rule.verbs
+    verb in takeover_verbs_set
+    some apiGroup in rule.apiGroups
+    apiGroup in takeover_api_groups_set
 }
 
 # look for rule allowing secret access
 is_takeover_role(role){
-    rule := role.rules[i]
-    takeover_resources := ["secrets", "*"]
-    takeover_verbs :=  ["get", "list", "watch", "*"]
-    takeover_api_groups := ["", "*"]
+    # Use sets for O(1) membership checks
+    takeover_resources_set := {"secrets", "*"}
+    takeover_verbs_set := {"get", "list", "watch", "*"}
+    takeover_api_groups_set := {"", "*"}
     
-    takeover_rule := [rule | rule = role.rules[i] ; 
-                        rule.resources[a] in takeover_resources ; 
-                        rule.verbs[b] in takeover_verbs ; 
-                        rule.apiGroups[c] in takeover_api_groups]
-    count(takeover_rule) > 0
+    # Direct membership checks - more efficient than array comprehension
+    some i
+    rule := role.rules[i]
+    some resource in rule.resources
+    resource in takeover_resources_set
+    some verb in rule.verbs
+    verb in takeover_verbs_set
+    some apiGroup in rule.apiGroups
+    apiGroup in takeover_api_groups_set
 }
