@@ -1,0 +1,19 @@
+{
+  "name": "CVE-2025-1974-nginx-ingress-arbitrary-code-execution",
+  "attributes": {
+    "controlTypeTags": ["security", "compliance"]
+  },
+  "description": "CVE-2025-1974 is a critical vulnerability in ingress-nginx controller that allows arbitrary code execution in the context of the ingress-nginx controller, enabling attackers to access Kubernetes Secrets.",
+  "remediation": "Upgrade ingress-nginx to v1.11.5, v1.12.1, or newer versions. Before patching, organizations can temporarily disable the Validating Admission Controller functionality as a mitigation.",
+  "test": "The control checks for vulnerable versions of ingress-nginx controller (all versions prior to v1.11.0, v1.11.0 through v1.11.4, and v1.12.0) when the Validating Admission Webhook is enabled.",
+  "rulesNames": ["nginx-ingress-arbitrary-code-execution"],
+  "long_description": "CVE-2025-1974 is a critical security flaw affecting ingress-nginx with a CVSS v3.1 score of 9.8. The vulnerability allows arbitrary code execution in the context of the ingress-nginx controller when an unauthenticated attacker has access to the pod network. Successful exploitation enables attackers to access Kubernetes Secrets that the controller can read. In default deployments, the ingress-nginx controller has cluster-wide access to all secrets, making the potential impact severe. The vulnerability affects all versions prior to v1.11.0, versions v1.11.0 through v1.11.4, and version v1.12.0. The vulnerability requires the Validating Admission Webhook to be enabled.",
+  "controlID": "C-0290",
+  "baseScore": 9.8,
+  "category": {
+    "name": "Workload"
+  },
+  "scanningScope": {
+    "matches": ["cluster", "file"]
+  }
+}
