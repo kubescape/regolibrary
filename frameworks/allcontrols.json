@@ -10,7 +10,9 @@
             "file"
         ]
     },
-    "typeTags": ["compliance"],
+    "typeTags": [
+        "compliance"
+    ],
     "activeControls": [
         {
             "controlID": "C-0002",
@@ -370,6 +372,12 @@
             "controlID": "C-0271",
             "patch": {
                 "name": "Ensure memory limits are set"
+            }
+        },
+        {
+            "controlID": "C-0290",
+            "patch": {
+                "name": "CVE-2025-1974-nginx-ingress-arbitrary-code-execution"
             }
         }
     ]
