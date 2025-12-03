@@ -55,12 +55,3 @@ deny[msga] {
 is_nginx_ingress_image(image) {
 	contains(image, "ingress-nginx/controller")
 }
-
-is_nginx_ingress_image(image) {
-	contains(image, "nginx-ingress-controller")
-}
-
-is_nginx_ingress_image(image) {
-	contains(image, "ingress-controller")
-	contains(image, "nginx")
-}
