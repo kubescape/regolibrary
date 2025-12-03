@@ -1,0 +1,19 @@
+[
+  {
+    "alertMessage": "Deployment ingress-nginx/ingress-nginx-controller uses ingress-nginx which will reach end-of-life in March 2026. No further releases, bugfixes, or security updates will be provided after that date. Consider migrating to Gateway API or an alternative Ingress controller.",
+    "failedPaths": ["spec.template.spec.containers[0].image"],
+    "reviewPaths": ["spec.template.spec.containers[0].image"],
+    "fixPaths": [],
+    "alertObject": {
+      "k8SApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "ingress-nginx-controller"
+          }
+        }
+      ]
+    }
+  }
+]

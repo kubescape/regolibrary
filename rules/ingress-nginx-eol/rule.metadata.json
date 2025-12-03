@@ -1,0 +1,16 @@
+{
+  "name": "ingress-nginx-end-of-life",
+  "attributes": {},
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": ["apps"],
+      "apiVersions": ["v1"],
+      "resources": ["Deployment", "DaemonSet", "StatefulSet"]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Detects usage of ingress-nginx controller which will reach end-of-life in March 2026. After this date, no further releases, bugfixes, or security updates will be provided.",
+  "remediation": "Migrate to Gateway API (the modern replacement for Ingress) or choose an alternative Ingress controller. See https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/ for a list of alternatives.",
+  "ruleQuery": "armo_builtins"
+}
