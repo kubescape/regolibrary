@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+spec:
+  selector:
+    matchLabels:
+      app: ingress-nginx
+  template:
+    metadata:
+      labels:
+        app: ingress-nginx
+    spec:
+      containers:
+        - name: controller
+          image: k8s.gcr.io/ingress-nginx/controller:v1.10.0
+          ports:
+            - containerPort: 80
+            - containerPort: 443

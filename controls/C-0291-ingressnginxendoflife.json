@@ -1,0 +1,19 @@
+{
+  "name": "ingress-nginx-end-of-life",
+  "attributes": {
+    "controlTypeTags": ["security", "compliance"]
+  },
+  "description": "Detects usage of ingress-nginx controller which will reach end-of-life in March 2026, after which no further releases, bugfixes, or security updates will be provided.",
+  "remediation": "Migrate to Gateway API (the modern replacement for Ingress) or choose an alternative Ingress controller from the Kubernetes documentation. Existing deployments will continue to function, but will not receive security updates after March 2026.",
+  "test": "The control checks for workloads (Deployments, DaemonSets, StatefulSets) running ingress-nginx controller images.",
+  "rulesNames": ["ingress-nginx-end-of-life"],
+  "long_description": "Kubernetes SIG Network and the Security Response Committee have announced the upcoming retirement of Ingress NGINX. Best-effort maintenance will continue until March 2026. Afterward, there will be no further releases, no bugfixes, and no updates to resolve any security vulnerabilities that may be discovered. Existing deployments of Ingress NGINX will continue to function and installation artifacts will remain available. Organizations using ingress-nginx should plan migration to Gateway API (the modern successor to Ingress) or select from the many alternative Ingress controllers available in the Kubernetes ecosystem. Continuing to use ingress-nginx after March 2026 without updates poses a security risk as any newly discovered vulnerabilities will not be patched.",
+  "controlID": "C-0291",
+  "baseScore": 2.0,
+  "category": {
+    "name": "Workload"
+  },
+  "scanningScope": {
+    "matches": ["cluster", "file"]
+  }
+}
