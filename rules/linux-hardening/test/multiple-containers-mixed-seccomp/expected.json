@@ -1,0 +1,37 @@
+[
+    {
+        "alertMessage": "Pod: linkerd-pod does not define any linux security hardening",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[1].securityContext.seccompProfile",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.containers[1].securityContext.seLinuxOptions",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.containers[1].securityContext.capabilities.drop[0]",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "myapp"
+                        },
+                        "name": "linkerd-pod"
+                    }
+                }
+            ]
+        }
+    }
+]
