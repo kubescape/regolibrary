@@ -43,7 +43,7 @@ are_unsafe_specs(obj, specs_path, anotation_path) := paths {
 
 	# Check both regular containers and initContainers
 	fix_fields := ["seccompProfile", "seLinuxOptions", "capabilities.drop[0]"]
-	
+
 	# Regular containers
 	containers_path := array.concat(specs_path, ["containers"])
 	containers := object.get(obj, containers_path, [])
