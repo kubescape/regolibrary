@@ -488,6 +488,7 @@ def create_cvs_file(header, rows, filename, output_path):
         raise TypeError(e)
     
 """function adds framework references to controls
+
 :param controls_list: list of controls to augment
 :param frameworks_list: list of frameworks to extract control-framework relationships from
 """
@@ -497,13 +498,20 @@ def add_framework_references_to_controls(controls_list: list, frameworks_list: l
     # Build a mapping from controlID to list of framework names
     control_to_frameworks = {}
     for framework in frameworks_list:
-        framework_name = framework.get('name', '')
+        framework_name = framework.get('name')
+        if not framework_name:
+            logging.warning(f"Framework without name found, skipping")
+            continue
+            
         for control in framework.get('controls', []):
-            control_id = control.get('controlID', '')
-            if control_id:
-                if control_id not in control_to_frameworks:
-                    control_to_frameworks[control_id] = []
-                control_to_frameworks[control_id].append(framework_name)
+            control_id = control.get('controlID')
+            if not control_id:
+                logging.warning(f"Control without controlID in framework '{framework_name}', skipping")
+                continue
+                
+            if control_id not in control_to_frameworks:
+                control_to_frameworks[control_id] = []
+            control_to_frameworks[control_id].append(framework_name)
     
     # Add frameworks field to each control
     for control in controls_list:

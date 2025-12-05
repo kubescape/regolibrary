@@ -69,6 +69,9 @@ def test_framework_references():
                 return False
             
             # Validate specific known controls
+            # NOTE: These test cases verify that the framework reference feature works correctly.
+            # If these controls are removed or their framework membership changes in the future,
+            # these test cases should be updated accordingly.
             test_cases = {
                 'C-0056': ['AllControls', 'DevOpsBest'],  # Should be in DevOpsBest
                 'C-0284': ['cis-v1.10.0'],  # CIS control
