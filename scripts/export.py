@@ -487,6 +487,35 @@ def create_cvs_file(header, rows, filename, output_path):
         logging.error(f"failed to open path: '{output_path}'")
         raise TypeError(e)
     
+"""function adds framework references to controls
+:param controls_list: list of controls to augment
+:param frameworks_list: list of frameworks to extract control-framework relationships from
+"""
+def add_framework_references_to_controls(controls_list: list, frameworks_list: list):
+    logging.info("Adding framework references to controls")
+    
+    # Build a mapping from controlID to list of framework names
+    control_to_frameworks = {}
+    for framework in frameworks_list:
+        framework_name = framework.get('name', '')
+        for control in framework.get('controls', []):
+            control_id = control.get('controlID', '')
+            if control_id:
+                if control_id not in control_to_frameworks:
+                    control_to_frameworks[control_id] = []
+                control_to_frameworks[control_id].append(framework_name)
+    
+    # Add frameworks field to each control
+    for control in controls_list:
+        control_id = control.get('controlID', '')
+        if control_id in control_to_frameworks:
+            control['frameworks'] = sorted(control_to_frameworks[control_id])
+        else:
+            control['frameworks'] = []
+    
+    return controls_list
+
+
 """main function
 """
 if __name__ == '__main__':
@@ -504,6 +533,10 @@ if __name__ == '__main__':
     default_config_inputs = load_default_config_inputs()  # load default config json file
     attack_tracks_list = load_attack_tracks()   # load attack tracks data
     exceptions_list = load_exceptions() # load exceptions from exceptions folder
+    
+    # Add framework references to controls
+    all_frameworks_list = compliance_frameworks_list + security_frameworks_list
+    controls_list = add_framework_references_to_controls(controls_list, all_frameworks_list)
     
 
     # create full framework json files
