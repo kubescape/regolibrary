@@ -84,7 +84,9 @@ is_dangerous_volume(volume, start_of_path, i) = path {
     path = sprintf("%vvolumes[%v]", [start_of_path, format_int(i, 10)])
 }
 
-volume_mounts(name, volume_mounts, str) = [path] {
-	name == volume_mounts[j].name
-	path := sprintf("%s.volumeMounts[%v]", [str, j])
-} else = []
+volume_mounts(name, volume_mounts, str) = paths {
+	paths := [path |
+		volume_mounts[j].name == name
+		path := sprintf("%s.volumeMounts[%v]", [str, j])
+	]
+}
