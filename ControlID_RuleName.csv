@@ -227,3 +227,4 @@ CIS-5.7.4,pods-in-default-namespace
 CIS-5.7.4,resources-notpods-in-default-namespace
 C-0290,nginx-ingress-arbitrary-code-execution
 C-0291,ingress-nginx-end-of-life
+C-0291,mongodb-zlib-memory-read

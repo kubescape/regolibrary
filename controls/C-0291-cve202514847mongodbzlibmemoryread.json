@@ -1,0 +1,19 @@
+{
+  "name": "CVE-2025-14847-mongodb-zlib-memory-read",
+  "attributes": {
+    "controlTypeTags": ["security", "compliance"]
+  },
+  "description": "CVE-2025-14847 is a high-severity vulnerability in MongoDB Server's Zlib compressed protocol that allows an unauthenticated client to read uninitialized heap memory due to mismatched length fields in protocol headers.",
+  "remediation": "Upgrade MongoDB to patched versions: v7.0.28+, v8.0.17+, v8.2.3+, v6.0.27+, v5.0.32+, or v4.4.30+. For v4.2, v4.0, and v3.6, all versions are vulnerable and should be upgraded to a supported patched version.",
+  "test": "The control checks for vulnerable versions of MongoDB Server, including all v3.6.x, v4.0.x, v4.2.x versions, and unpatched versions of v4.4, v5.0, v6.0, v7.0, v8.0, and v8.2.",
+  "rulesNames": ["mongodb-zlib-memory-read"],
+  "long_description": "CVE-2025-14847 is a high-severity security flaw affecting MongoDB Server with a CVSS v4 score of 8.7. The vulnerability exists in the Zlib compressed protocol handler where mismatched length fields in protocol headers may allow an unauthenticated client to read uninitialized heap memory. This could lead to information disclosure as attackers can access sensitive data from memory without authentication. The vulnerability affects a wide range of MongoDB versions: all v3.6.x, v4.0.x, and v4.2.x versions are vulnerable, as well as unpatched versions of v4.4 (prior to 4.4.30), v5.0 (prior to 5.0.32), v6.0 (prior to 6.0.27), v7.0 (prior to 7.0.28), v8.0 (prior to 8.0.17), and v8.2 (prior to 8.2.3).",
+  "controlID": "C-0291",
+  "baseScore": 8.7,
+  "category": {
+    "name": "Workload"
+  },
+  "scanningScope": {
+    "matches": ["cluster", "file"]
+  }
+}
