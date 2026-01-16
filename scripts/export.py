@@ -500,7 +500,7 @@ def add_framework_references_to_controls(controls_list: list, frameworks_list: l
     for framework in frameworks_list:
         framework_name = framework.get('name')
         if not framework_name:
-            logging.warning(f"Framework without name found, skipping")
+            logging.warning("Framework without name found, skipping")
             continue
             
         for control in framework.get('controls', []):
