@@ -101,6 +101,8 @@ Example of a control:
 
 * See [control go struct](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructures.go#L56) for more control fields
 
+**Note**: When controls are exported to `controls.json` by the release process, each control will have an additional `frameworks` field added automatically. This field contains a sorted list of framework names that include the control, enabling better metrics and observability in Kubescape.
+
 ### Add a rule:
 
 1. Add to `/rules` a new directory with the rule name
