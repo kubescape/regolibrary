@@ -6,5 +6,5 @@ jobs:
  test_ks_misconfigurations:  
     uses: kubescape/workflows/.github/workflows/ks-ga-flow.yaml@main
     with:
-      FRAMEWORKS: "nsa,mitre,cis-eks-t1.7.0,cis-v1.10.0,cis-v1.12.0"
+      FRAMEWORKS: "nsa,mitre,cis-eks-t1.7.0,cis-eks-t1.8.0,cis-aks-t1.8.0,cis-v1.10.0,cis-v1.12.0"
     secrets: inherit
