@@ -5,15 +5,15 @@ import future.keywords.in
 # Memoize by type for better performance
 serviceaccounts := [sa |
     sa := input[_]
-	sa.kind == "ServiceAccount"
+    sa.kind == "ServiceAccount"
 ]
 roles := [r |
-	r := input[_]
-	r.kind in ["Role", "ClusterRole"]
+    r := input[_]
+    r.kind in ["Role", "ClusterRole"]
 ]
 rolebindings := [rb |
-	rb := input[_]
-	rb.kind in ["RoleBinding", "ClusterRoleBinding"]
+    rb := input[_]
+    rb.kind in ["RoleBinding", "ClusterRoleBinding"]
 ]
 
 deny[msga] {
@@ -29,7 +29,7 @@ deny[msga] {
     is_sa_auto_mounted(wl_spec, sa)
 
     # check if sa has administrative roles
-	role := roles[_]
+    role := roles[_]
     is_administrative_role(role)
 
     rolebinding := rolebindings[_]
@@ -53,7 +53,7 @@ deny[msga] {
         },
         {
             "object": rolebinding,
-		    "reviewPaths": [reviewPath],
+            "reviewPaths": [reviewPath],
             "deletePaths": [deletePath],
         },
         {
