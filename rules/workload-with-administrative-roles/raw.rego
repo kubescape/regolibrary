@@ -2,37 +2,26 @@ package armo_builtins
 
 import future.keywords.in
 
-# Memoize by type for better performance
-serviceaccounts := [sa |
-    sa := input[_]
-    sa.kind == "ServiceAccount"
-]
-roles := [r |
-    r := input[_]
-    r.kind in ["Role", "ClusterRole"]
-]
-rolebindings := [rb |
-    rb := input[_]
-    rb.kind in ["RoleBinding", "ClusterRoleBinding"]
-]
-
 deny[msga] {
     wl := input[_]
     start_of_path := get_start_of_path(wl)
     wl_spec := object.get(wl, start_of_path, [])
 
     # get service account wl is using
-    sa := serviceaccounts[_]
+    sa := input[_]
+    sa.kind == "ServiceAccount"
     is_same_sa(wl_spec, sa.metadata, wl.metadata)
 
     # check service account token is mounted
     is_sa_auto_mounted(wl_spec, sa)
 
     # check if sa has administrative roles
-    role := roles[_]
+    role := input[_]
+    role.kind in ["Role", "ClusterRole"]
     is_administrative_role(role)
 
-    rolebinding := rolebindings[_]
+    rolebinding := input[_]
+    rolebinding.kind in ["RoleBinding", "ClusterRoleBinding"]
     rolebinding.roleRef.name == role.metadata.name
     rolebinding.subjects[j].kind == "ServiceAccount"
     rolebinding.subjects[j].name == sa.metadata.name
