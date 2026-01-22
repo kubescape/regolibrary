@@ -8,7 +8,9 @@
     "references": [],
     "attributes": {
     },
-    "rulesNames": [],
+    "rulesNames": [
+        "ensure-that-the-kube-proxy-metrics-service-is-bound-to-localhost"
+    ],
     "baseScore": 5,
     "impact_statement": "Metrics will only be accessible locally on each node. Monitoring solutions that rely on remotely scraping kube-proxy metrics will need to be reconfigured.",
     "default_value": "By default, kube-proxy metrics may be bound to all interfaces (0.0.0.0).",
