@@ -1,8 +1,8 @@
 {
-    "name": "cis-v1.10.0",
-    "description": "Testing CIS for Kubernetes as suggested by CIS in https://workbench.cisecurity.org/benchmarks/17568",
+    "name": "cis-v1.12.0",
+    "description": "CIS Kubernetes Benchmark v1.12.0 - https://workbench.cisecurity.org/benchmarks",
     "attributes": {
-        "version": "v1.10.0",
+        "version": "v1.12.0",
         "builtin": true
     },
     "scanningScope": {
@@ -78,7 +78,8 @@
                         "C-0141",
                         "C-0142",
                         "C-0277",
-                        "C-0283"
+                        "C-0283",
+                        "C-0290"
                     ]
                 },
                 "3": {
@@ -178,6 +179,13 @@
                         "C-0184",
                         "C-0284"
                     ]
+                },
+                "3": {
+                    "name": "kube-proxy",
+                    "id": "4.3",
+                    "controlsIDs": [
+                        "C-0291"
+                    ]
                 }
             }
         },
@@ -268,9 +276,7 @@
                 "long_description": "A container running in the host's network namespace could access the local loopback device, and could access network traffic to and from other pods.\n\n There should be at least one admission control policy defined which does not permit containers to share the host network namespace.\n\n If you need to run containers which require access to the host's network namesapces, this should be defined in a separate policy and you should carefully check to ensure that only limited service accounts and users are given permission to use that policy.",
                 "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of `hostNetwork` containers.",
                 "manual_test": "To fetch hostNetwork from each pod.\n\n \n```\nget pods -A -o=jsonpath=$'{range .items[*]}{@.metadata.name}: {@.spec.hostNetwork}\\n{end}'\n\n```",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633390/recommendations/4261972"
-                ],
+                "references": [],
                 "impact_statement": "Pods defined with `spec.hostNetwork: true` will not be permitted unless they are run under a specific policy.",
                 "default_value": "By default, there are no restrictions on the creation of `hostNetwork` containers."
             }
@@ -279,108 +285,84 @@
             "controlID": "C-0092",
             "patch": {
                 "name": "CIS-1.1.1 Ensure that the API server pod specification file permissions are set to 600 or more restrictive",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261911"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0093",
             "patch": {
                 "name": "CIS-1.1.2 Ensure that the API server pod specification file ownership is set to root:root",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261912"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0094",
             "patch": {
                 "name": "CIS-1.1.3 Ensure that the controller manager pod specification file permissions are set to 600 or more restrictive",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261913"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0095",
             "patch": {
                 "name": "CIS-1.1.4 Ensure that the controller manager pod specification file ownership is set to root:root",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261914"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0096",
             "patch": {
                 "name": "CIS-1.1.5 Ensure that the scheduler pod specification file permissions are set to 600 or more restrictive",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261915"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0097",
             "patch": {
                 "name": "CIS-1.1.6 Ensure that the scheduler pod specification file ownership is set to root:root",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261917"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0098",
             "patch": {
                 "name": "CIS-1.1.7 Ensure that the etcd pod specification file permissions are set to 600 or more restrictive",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261918"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0099",
             "patch": {
                 "name": "CIS-1.1.8 Ensure that the etcd pod specification file ownership is set to root:root",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261920"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0100",
             "patch": {
                 "name": "CIS-1.1.9 Ensure that the Container Network Interface file permissions are set to 600 or more restrictive",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261922"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0101",
             "patch": {
                 "name": "CIS-1.1.10 Ensure that the Container Network Interface file ownership is set to root:root",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261923"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0102",
             "patch": {
                 "name": "CIS-1.1.11 Ensure that the etcd data directory permissions are set to 700 or more restrictive",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261924"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0103",
             "patch": {
                 "name": "CIS-1.1.12 Ensure that the etcd data directory ownership is set to etcd:etcd",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261926"
-                ]
+                "references": []
             }
         },
         {
@@ -391,9 +373,7 @@
                 "long_description": "As part of initial cluster setup, default kubeconfig files are created to be used by the administrator of the cluster. These files contain private keys and certificates which allow for privileged access to the cluster. You should restrict their file permissions to maintain the integrity and confidentiality of the file(s). The file(s) should be readable and writable by only the administrators on the system.",
                 "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchmod 600 /etc/kubernetes/admin.conf\n\n```\n On Kubernetes 1.29+ the `super-admin.conf` file should also be modified, if present. For example,\n\n \n```\nchmod 600 /etc/kubernetes/super-admin.conf\n\n```",
                 "manual_test": "Run the following command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nstat -c %a /etc/kubernetes/admin.conf\n\n```\n On Kubernetes version 1.29 and higher run the following command as well :-\n\n \n```\nstat -c %a /etc/kubernetes/super-admin.conf\n\n```\n Verify that the permissions are `600` or more restrictive.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261927"
-                ],
+                "references": [],
                 "default_value": "By default, admin.conf and super-admin.conf have permissions of `600`."
             }
         },
@@ -405,9 +385,7 @@
                 "long_description": "As part of initial cluster setup, default kubeconfig files are created to be used by the administrator of the cluster. These files contain private keys and certificates which allow for privileged access to the cluster. You should set their file ownership to maintain the integrity and confidentiality of the file. The file(s) should be owned by root:root.",
                 "remediation": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nchown root:root /etc/kubernetes/admin.conf\n\n```\n On Kubernetes 1.29+ the super-admin.conf file should also be modified, if present. For example,\n\n \n```\nchown root:root /etc/kubernetes/super-admin.conf\n\n```",
                 "manual_test": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nstat -c %U:%G /etc/kubernetes/admin.conf\n\n```\n On Kubernetes version 1.29 and higher run the following command as well :-\n\n \n```\nstat -c %U:%G /etc/kubernetes/super-admin.conf\n\n```\n Verify that the ownership is set to `root:root`.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261929"
-                ],
+                "references": [],
                 "default_value": "By default, `admin.conf` and `super-admin.conf` file ownership is set to `root:root`."
             }
         },
@@ -415,56 +393,45 @@
             "controlID": "C-0106",
             "patch": {
                 "name": "CIS-1.1.15 Ensure that the scheduler.conf file permissions are set to 600 or more restrictive",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261931"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0107",
             "patch": {
                 "name": "CIS-1.1.16 Ensure that the scheduler.conf file ownership is set to root:root",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261933"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0108",
             "patch": {
                 "name": "CIS-1.1.17 Ensure that the controller-manager.conf file permissions are set to 600 or more restrictive",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261939"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0109",
             "patch": {
                 "name": "CIS-1.1.18 Ensure that the controller-manager.conf file ownership is set to root:root",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261942"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0110",
             "patch": {
                 "name": "CIS-1.1.19 Ensure that the Kubernetes PKI directory and file ownership is set to root:root",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261946"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0111",
             "patch": {
-                "name": "CIS-1.1.20 Ensure that the Kubernetes PKI certificate file permissions are set to 600 or more restrictive",
-                "long_description": "Kubernetes makes use of a number of certificate files as part of the operation of its components. The permissions on these files should be set to `600` or more restrictive to protect their integrity and confidentiality.",
-                "manual_test": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nstat -c '%a' /etc/kubernetes/pki/*.crt\n\n```\n Verify that the permissions are `600` or more restrictive.\n\n or\n\n \n```\nls -l /etc/kubernetes/pki/*.crt\n\n```\n Verify -rw------",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261948"
-                ]
+                "name": "CIS-1.1.20 Ensure that the Kubernetes PKI certificate file permissions are set to 644 or more restrictive",
+                "description": "Ensure that Kubernetes PKI certificate files have permissions of `644` or more restrictive.",
+                "long_description": "Kubernetes makes use of a number of certificate files as part of the operation of its components. The permissions on these files should be set to `644` or more restrictive to protect their integrity and confidentiality.",
+                "manual_test": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nstat -c '%a' /etc/kubernetes/pki/*.crt\n\n```\n Verify that the permissions are `644` or more restrictive.\n\n or\n\n \n```\nls -l /etc/kubernetes/pki/*.crt\n\n```\n Verify -rw-r--r-- or more restrictive",
+                "references": []
             }
         },
         {
@@ -472,9 +439,7 @@
             "patch": {
                 "name": "CIS-1.1.21 Ensure that the Kubernetes PKI key file permissions are set to 600",
                 "manual_test": "Run the below command (based on the file location on your system) on the Control Plane node. For example,\n\n \n```\nstat -c '%a' /etc/kubernetes/pki/*.key\n\n```\n Verify that the permissions are `600` or more restrictive.\n\n or\n\n \n```\nls -l /etc/kubernetes/pki/*.key\n\n```\n Verify -rw------",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633380/recommendations/4261949"
-                ]
+                "references": []
             }
         },
         {
@@ -482,9 +447,7 @@
             "patch": {
                 "name": "CIS-1.2.1 Ensure that the --anonymous-auth argument is set to false",
                 "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--anonymous-auth` argument is set to `false`.\n\n Alternative Audit\n\n kubectl get pod -nkube-system -lcomponent=kube-apiserver -o=jsonpath='{range .items[*]}{.spec.containers[*].command} {\"\\n\"}{end}' | grep '--anonymous-auth' | grep -i false\n\n If the exit code is '1', then the control isn't present / failed",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4261951"
-                ]
+                "references": []
             }
         },
         {
@@ -492,9 +455,7 @@
             "patch": {
                 "name": "CIS-1.2.2 Ensure that the --token-auth-file parameter is not set",
                 "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--token-auth-file` argument does not exist.\n\n Alternative Audit Method\n\n kubectl get pod -nkube-system -lcomponent=kube-apiserver -o=jsonpath='{range .items[*]}{.spec.containers[*].command} {\"\\n\"}{end}' | grep '--token-auth-file' | grep -i false\n\n If the exit code is '1', then the control isn't present / failed",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4261952"
-                ]
+                "references": []
             }
         },
         {
@@ -502,9 +463,7 @@
             "patch": {
                 "name": "CIS-1.2.4 Ensure that the --kubelet-client-certificate and --kubelet-client-key arguments are set as appropriate",
                 "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--kubelet-client-certificate` and `--kubelet-client-key` arguments exist and they are set as appropriate.\n\n Alternative Audit\n\n kubectl get pod -nkube-system -lcomponent=kube-apiserver -o=jsonpath='{range .items[]}{.spec.containers[].command} {\"\\n\"}{end}' | grep '--kubelet-client-certificate' | grep -i false\n\n If the exit code is '1', then the control isn't present / failed",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4261960"
-                ]
+                "references": []
             }
         },
         {
@@ -512,36 +471,28 @@
             "patch": {
                 "name": "CIS-1.2.5 Ensure that the --kubelet-certificate-authority argument is set as appropriate",
                 "manual_test": "Run the following command on the Control Plane node:\n\n \n```\nps -ef | grep kube-apiserver\n\n```\n Verify that the `--kubelet-certificate-authority` argument exists and is set as appropriate.\n\n Alternative Audit\n\n kubectl get pod -nkube-system -lcomponent=kube-apiserver -o=jsonpath='{range .items[]}{.spec.containers[].command} {\"\\n\"}{end}' | grep '--kubelet-certificate-authority' | grep -i false\n\n If the exit code is '1', then the control isn't present / failed",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4261970"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0118",
             "patch": {
                 "name": "CIS-1.2.6 Ensure that the --authorization-mode argument is not set to AlwaysAllow",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4261973"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0119",
             "patch": {
                 "name": "CIS-1.2.7 Ensure that the --authorization-mode argument includes Node",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4261976"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0120",
             "patch": {
                 "name": "CIS-1.2.8 Ensure that the --authorization-mode argument includes RBAC",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4261981"
-                ]
+                "references": []
             }
         },
         {
@@ -549,27 +500,21 @@
             "patch": {
                 "name": "CIS-1.2.9 Ensure that the admission control plugin EventRateLimit is set",
                 "long_description": "Using `EventRateLimit` admission control enforces a limit on the number of events that the API Server will accept in a given time slice. A misbehaving workload could overwhelm and DoS the API Server, making it unavailable. This particularly applies to a multi-tenant cluster, where there might be a small percentage of misbehaving tenants which could have a significant impact on the performance of the cluster overall. Hence, it is recommended to limit the rate of events that the API server will accept.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4261984"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0122",
             "patch": {
                 "name": "CIS-1.2.10 Ensure that the admission control plugin AlwaysAdmit is not set",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4261991"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0123",
             "patch": {
                 "name": "CIS-1.2.11 Ensure that the admission control plugin AlwaysPullImages is set",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4261998"
-                ],
+                "references": [],
                 "impact_statement": "Credentials would be required to pull the private images every time. Also, in trusted environments, this might increases load on network, registry, and decreases speed.\n\n This setting could impact offline or isolated clusters, which have images pre-loaded and do not have access to a registry to pull in-use images. This setting is not appropriate for clusters which use this configuration."
             }
         },
@@ -577,117 +522,91 @@
             "controlID": "C-0125",
             "patch": {
                 "name": "CIS-1.2.12 Ensure that the admission control plugin ServiceAccount is set",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262002"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0126",
             "patch": {
                 "name": "CIS-1.2.13 Ensure that the admission control plugin NamespaceLifecycle is set",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262004"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0127",
             "patch": {
                 "name": "CIS-1.2.14 Ensure that the admission control plugin NodeRestriction is set",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262005"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0129",
             "patch": {
                 "name": "CIS-1.2.15 Ensure that the --profiling argument is set to false",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262009"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0130",
             "patch": {
                 "name": "CIS-1.2.16 Ensure that the --audit-log-path argument is set",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262011"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0131",
             "patch": {
                 "name": "CIS-1.2.17 Ensure that the --audit-log-maxage argument is set to 30 or as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262015"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0132",
             "patch": {
                 "name": "CIS-1.2.18 Ensure that the --audit-log-maxbackup argument is set to 10 or as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262016"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0133",
             "patch": {
                 "name": "CIS-1.2.19 Ensure that the --audit-log-maxsize argument is set to 100 or as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262018"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0134",
             "patch": {
                 "name": "CIS-1.2.20 Ensure that the --request-timeout argument is set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262022"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0135",
             "patch": {
                 "name": "CIS-1.2.21 Ensure that the --service-account-lookup argument is set to true",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262023"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0136",
             "patch": {
                 "name": "CIS-1.2.22 Ensure that the --service-account-key-file argument is set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262024"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0137",
             "patch": {
                 "name": "CIS-1.2.23 Ensure that the --etcd-certfile and --etcd-keyfile arguments are set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262025"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0138",
             "patch": {
                 "name": "CIS-1.2.24 Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262026"
-                ],
+                "references": [],
                 "default_value": "By default, `--tls-cert-file` and `--tls-private-key-file` are presented and created for use."
             }
         },
@@ -695,63 +614,49 @@
             "controlID": "C-0139",
             "patch": {
                 "name": "CIS-1.2.25 Ensure that the --client-ca-file argument is set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262027"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0140",
             "patch": {
                 "name": "CIS-1.2.26 Ensure that the --etcd-cafile argument is set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262028"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0141",
             "patch": {
                 "name": "CIS-1.2.27 Ensure that the --encryption-provider-config argument is set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262029"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0142",
             "patch": {
                 "name": "CIS-1.2.28 Ensure that encryption providers are appropriately configured",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633389/recommendations/4262030"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0144",
             "patch": {
                 "name": "CIS-1.3.1 Ensure that the --terminated-pod-gc-threshold argument is set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633397/recommendations/4262032"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0145",
             "patch": {
                 "name": "CIS-1.3.2 Ensure that the --profiling argument is set to false",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633397/recommendations/4262033"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0146",
             "patch": {
                 "name": "CIS-1.3.3 Ensure that the --use-service-account-credentials argument is set to true",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633397/recommendations/4262034"
-                ],
+                "references": [],
                 "impact_statement": "Whatever authorizer is configured for the cluster, it must grant sufficient permissions to the service accounts to perform their intended tasks. When using the RBAC authorizer, those roles are created and bound to the appropriate service accounts in the `kube-system` namespace automatically with default roles and rolebindings that are auto-reconciled on startup.\n\n If using other authorization methods (ABAC, Webhook, etc), the cluster deployer is responsible for granting appropriate permissions to the service accounts (the required permissions can be seen by inspecting the `controller-roles.yaml` and `controller-role-bindings.yaml` files for the RBAC roles."
             }
         },
@@ -759,90 +664,70 @@
             "controlID": "C-0147",
             "patch": {
                 "name": "CIS-1.3.4 Ensure that the --service-account-private-key-file argument is set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633397/recommendations/4262035"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0148",
             "patch": {
                 "name": "CIS-1.3.5 Ensure that the --root-ca-file argument is set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633397/recommendations/4262036"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0149",
             "patch": {
                 "name": "CIS-1.3.6 Ensure that the RotateKubeletServerCertificate argument is set to true",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633397/recommendations/4262037"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0150",
             "patch": {
                 "name": "CIS-1.3.7 Ensure that the --bind-address argument is set to 127.0.0.1",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633397/recommendations/4262038"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0151",
             "patch": {
                 "name": "CIS-1.4.1 Ensure that the --profiling argument is set to false",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633398/recommendations/4262039"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0152",
             "patch": {
                 "name": "CIS-1.4.2 Ensure that the --bind-address argument is set to 127.0.0.1",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633398/recommendations/4262040"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0153",
             "patch": {
                 "name": "CIS-2.1 Ensure that the --cert-file and --key-file arguments are set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633381/recommendations/4261916"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0154",
             "patch": {
                 "name": "CIS-2.2 Ensure that the --client-cert-auth argument is set to true",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633381/recommendations/4261919"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0155",
             "patch": {
                 "name": "CIS-2.3 Ensure that the --auto-tls argument is not set to true",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633381/recommendations/4261921"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0156",
             "patch": {
                 "name": "CIS-2.4 Ensure that the --peer-cert-file and --peer-key-file arguments are set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633381/recommendations/4261925"
-                ],
+                "references": [],
                 "default_value": "**Note:** This recommendation is applicable only for etcd clusters. If you are using only one etcd server in your environment then this recommendation is not applicable.\n\n By default, peer communication over TLS is not configured."
             }
         },
@@ -852,9 +737,7 @@
                 "name": "CIS-2.5 Ensure that the --peer-client-cert-auth argument is set to true",
                 "remediation": "Edit the etcd pod specification file `/etc/kubernetes/manifests/etcd.yaml` on the master node and set the below parameter.\n\n \n```\n--peer-client-cert-auth=true\n\n```",
                 "manual_test": "Run the following command on the etcd server node:\n\n \n```\nps -ef | grep etcd\n\n```\n Verify that the `--peer-client-cert-auth` argument is set to `true`.\n\n **Note:** This recommendation is applicable only for etcd clusters. If you are using only one etcd server in your environment then this recommendation is not applicable.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633381/recommendations/4261928"
-                ],
+                "references": [],
                 "default_value": "**Note:** This recommendation is applicable only for etcd clusters. If you are using only one etcd server in your environment then this recommendation is not applicable.\n\n By default, `--peer-client-cert-auth` argument is set to `false`."
             }
         },
@@ -862,36 +745,28 @@
             "controlID": "C-0158",
             "patch": {
                 "name": "CIS-2.6 Ensure that the --peer-auto-tls argument is not set to true",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633381/recommendations/4261930"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0159",
             "patch": {
                 "name": "CIS-2.7 Ensure that a unique Certificate Authority is used for etcd",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633381/recommendations/4261932"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0160",
             "patch": {
                 "name": "CIS-3.2.1 Ensure that a minimal audit policy is created",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633386/recommendations/4261938"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0161",
             "patch": {
                 "name": "CIS-3.2.2 Ensure that the audit policy covers key security concerns",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633386/recommendations/4261940"
-                ]
+                "references": []
             }
         },
         {
@@ -899,9 +774,7 @@
             "patch": {
                 "name": "CIS-4.1.1 Ensure that the kubelet service file permissions are set to 600 or more restrictive",
                 "manual_test": "Automated AAC auditing has been modified to allow CIS-CAT to input a variable for the <PATH>/<FILENAME> of the kubelet service config file.\n\n Please set $kubelet\\_service\\_config=<PATH> based on the file location on your system\n\n for example:\n\n \n```\nexport kubelet_service_config=/etc/systemd/system/kubelet.service.d/kubeadm.conf\n\n```\n To perform the audit manually:\nRun the below command (based on the file location on your system) on the each worker node. For example,\n\n \n```\nstat -c %a /etc/systemd/system/kubelet.service.d/10-kubeadm.conf\n\n```\n Verify that the permissions are `600` or more restrictive.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633385/recommendations/4261937"
-                ]
+                "references": []
             }
         },
         {
@@ -909,27 +782,21 @@
             "patch": {
                 "name": "CIS-4.1.2 Ensure that the kubelet service file ownership is set to root:root",
                 "manual_test": "Automated AAC auditing has been modified to allow CIS-CAT to input a variable for the <PATH>/<FILENAME> of the kubelet service config file.\n\n Please set $kubelet\\_service\\_config=<PATH> based on the file location on your system\n\n for example:\n\n \n```\nexport kubelet_service_config=/etc/systemd/system/kubelet.service.d/kubeadm.conf\n\n```\n To perform the audit manually:\nRun the below command (based on the file location on your system) on the each worker node. For example,\n\n \n```\nstat -c %U:%G /etc/systemd/system/kubelet.service.d/10-kubeadm.conf\n\n```\n Verify that the ownership is set to `root:root`.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633385/recommendations/4261945"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0164",
             "patch": {
                 "name": "CIS-4.1.3 If proxy kubeconfig file exists ensure permissions are set to 600 or more restrictive",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633385/recommendations/4261954"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0165",
             "patch": {
                 "name": "CIS-4.1.4 If proxy kubeconfig file exists ensure ownership is set to root:root",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633385/recommendations/4261955"
-                ]
+                "references": []
             }
         },
         {
@@ -937,9 +804,7 @@
             "patch": {
                 "name": "CIS-4.1.5 Ensure that the --kubeconfig kubelet.conf file permissions are set to 600 or more restrictive",
                 "manual_test": "Automated AAC auditing has been modified to allow CIS-CAT to input a variable for the <PATH>/<FILENAME> of the kubelet config file.\n\n Please set $kubelet\\_config=<PATH> based on the file location on your system\n\n for example:\n\n \n```\nexport kubelet_config=/etc/kubernetes/kubelet.conf\n\n```\n To perform the audit manually:\nRun the below command (based on the file location on your system) on the each worker node. For example,\n\n \n```\nstat -c %a /etc/kubernetes/kubelet.conf\n\n```\n Verify that the ownership is set to `root:root`.Verify that the permissions are `600` or more restrictive.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633385/recommendations/4261964"
-                ]
+                "references": []
             }
         },
         {
@@ -947,27 +812,24 @@
             "patch": {
                 "name": "CIS-4.1.6 Ensure that the --kubeconfig kubelet.conf file ownership is set to root:root",
                 "manual_test": "Automated AAC auditing has been modified to allow CIS-CAT to input a variable for the <PATH>/<FILENAME> of the kubelet config file.\n\n Please set $kubelet\\_config=<PATH> based on the file location on your system\n\n for example:\n\n \n```\nexport kubelet_config=/etc/kubernetes/kubelet.conf\n\n```\n To perform the audit manually:\nRun the below command (based on the file location on your system) on the each worker node. For example,\n\n \n```\nstat -c %U:%G /etc/kubernetes/kubelet.conf\n\n```\n Verify that the ownership is set to `root:root`.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633385/recommendations/4261971"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0168",
             "patch": {
-                "name": "CIS-4.1.7 Ensure that the certificate authorities file permissions are set to 600 or more restrictive",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633385/recommendations/4261977"
-                ]
+                "name": "CIS-4.1.7 Ensure that the certificate authorities file permissions are set to 644 or more restrictive",
+                "description": "Ensure that the certificate authorities file has permissions of `644` or more restrictive.",
+                "long_description": "The certificate authorities file controls the authorities used to validate API requests. You should restrict its file permissions to maintain the integrity of the file. The file should be readable by only the administrators on the system.",
+                "manual_test": "Run the following command:\n\n \n```\nps -ef | grep kubelet\n\n```\n Find the file specified by the `--client-ca-file` argument.\n\n Run the following command:\n\n \n```\nstat -c %a <filename>\n\n```\n Verify that the permissions are `644` or more restrictive.",
+                "references": []
             }
         },
         {
             "controlID": "C-0169",
             "patch": {
                 "name": "CIS-4.1.8 Ensure that the client certificate authorities file ownership is set to root:root",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633385/recommendations/4261978"
-                ]
+                "references": []
             }
         },
         {
@@ -975,9 +837,7 @@
             "patch": {
                 "name": "CIS-4.1.9 If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive",
                 "manual_test": "Automated AAC auditing has been modified to allow CIS-CAT to input a variable for the <PATH>/<FILENAME> of the kubelet config yaml file.\n\n Please set $kubelet\\_config\\_yaml=<PATH> based on the file location on your system\n\n for example:\n\n \n```\nexport kubelet_config_yaml=/var/lib/kubelet/config.yaml\n\n\n```\n To perform the audit manually:\nRun the below command (based on the file location on your system) on the each worker node. For example,\n\n \n```\nstat -c %a /var/lib/kubelet/config.yaml\n\n```\n Verify that the permissions are `600` or more restrictive.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633385/recommendations/4261979"
-                ]
+                "references": []
             }
         },
         {
@@ -985,72 +845,56 @@
             "patch": {
                 "name": "CIS-4.1.10 If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root",
                 "manual_test": "Automated AAC auditing has been modified to allow CIS-CAT to input a variable for the <PATH>/<FILENAME> of the kubelet config yaml file.\n\n Please set $kubelet\\_config\\_yaml=<PATH> based on the file location on your system\n\n for example:\n\n \n```\nexport kubelet_config_yaml=/var/lib/kubelet/config.yaml\n\n\n```\n To perform the audit manually:\nRun the below command (based on the file location on your system) on the each worker node. For example,\n\n \n```\nstat -c %U:%G /var/lib/kubelet/config.yaml\n```Verify that the ownership is set to `root:root`.\n\n```",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633385/recommendations/4261985"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0172",
             "patch": {
                 "name": "CIS-4.2.1 Ensure that the --anonymous-auth argument is set to false",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633393/recommendations/4261993"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0173",
             "patch": {
                 "name": "CIS-4.2.2 Ensure that the --authorization-mode argument is not set to AlwaysAllow",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633393/recommendations/4262001"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0174",
             "patch": {
                 "name": "CIS-4.2.3 Ensure that the --client-ca-file argument is set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633393/recommendations/4262003"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0175",
             "patch": {
                 "name": "CIS-4.2.4 Verify that the --read-only-port argument is set to 0",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633393/recommendations/4262006"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0176",
             "patch": {
                 "name": "CIS-4.2.5 Ensure that the --streaming-connection-idle-timeout argument is not set to 0",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633393/recommendations/4262007"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0178",
             "patch": {
                 "name": "CIS-4.2.6 Ensure that the --make-iptables-util-chains argument is set to true",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633393/recommendations/4262008"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0179",
             "patch": {
                 "name": "CIS-4.2.7 Ensure that the --hostname-override argument is not set",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633393/recommendations/4262010"
-                ]
+                "references": []
             }
         },
         {
@@ -1060,9 +904,7 @@
                 "description": "Security relevant information should be captured. The eventRecordQPS on the Kubelet configuration can be used to limit the rate at which events are gathered and sets the maximum event creations per second. Setting this too low could result in relevant events not being logged, however the unlimited setting of `0` could result in a denial of service on the kubelet.",
                 "remediation": "If using a Kubelet config file, edit the file to set `eventRecordQPS:` to an appropriate level.\n\n If using command line arguments, edit the kubelet service file `/etc/systemd/system/kubelet.service.d/10-kubeadm.conf` on each worker node and set the below parameter in `KUBELET_ARGS` variable.\n\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```",
                 "manual_test": "Run the following command on each node:\n\n \n```\nsudo grep \"eventRecordQPS\" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf\n\n```\n or If using command line arguments, kubelet service file is located /etc/systemd/system/kubelet.service.d/10-kubelet-args.conf\n\n \n```\nsudo grep \"eventRecordQPS\" /etc/systemd/system/kubelet.service.d/10-kubelet-args.conf\n\n```\n Review the value set for the argument and determine whether this has been set to an appropriate level for the cluster.\n\n If the argument does not exist, check that there is a Kubelet config file specified by `--config` and review the value in this location.\n\n If using command line arguments",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633393/recommendations/4262012"
-                ],
+                "references": [],
                 "default_value": "By default, eventRecordQPS argument is set to `5`."
             }
         },
@@ -1070,9 +912,7 @@
             "controlID": "C-0181",
             "patch": {
                 "name": "CIS-4.2.9 Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633393/recommendations/4262013"
-                ]
+                "references": []
             }
         },
         {
@@ -1081,45 +921,35 @@
                 "name": "CIS-4.2.10 Ensure that the --rotate-certificates argument is not set to false",
                 "remediation": "If using a Kubelet config file, edit the file to add the line `rotateCertificates: true` or remove it altogether to use the default value.\n\n If using command line arguments, edit the kubelet service file `/etc/kubernetes/kubelet.conf` on each worker node and remove `--rotate-certificates=false` argument from the `KUBELET_CERTIFICATE_ARGS` variable or set --rotate-certificates=true .\n\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```",
                 "manual_test": "Run the following command on each node:\n\n \n```\nps -ef | grep kubelet\n\n```\n Verify that the `--rotate-certificates` argument is not present, or is set to `true`.\n\n If the RotateKubeletServerCertificate argument is not present, verify that if there is a Kubelet config file specified by `--config`, that file does not contain `RotateKubeletServerCertificate: false`.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633393/recommendations/4262014"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0183",
             "patch": {
                 "name": "CIS-4.2.11 Verify that the RotateKubeletServerCertificate argument is set to true",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633393/recommendations/4262017"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0184",
             "patch": {
                 "name": "CIS-4.2.12 Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633393/recommendations/4262019"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0185",
             "patch": {
                 "name": "CIS-5.1.1 Ensure that the cluster-admin role is only used where required",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633388/recommendations/4261941"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0186",
             "patch": {
                 "name": "CIS-5.1.2 Minimize access to secrets",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633388/recommendations/4261943"
-                ],
+                "references": [],
                 "default_value": "By default in a kubeadm cluster the following list of principals have `get` privileges on `secret` objects\n\n \n```\nCLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACE\ncluster-admin                                         system:masters                      Group           \nsystem:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-system\nsystem:controller:expand-controller                   expand-controller                   ServiceAccount  kube-system\nsystem:controller:generic-garbage-collector           generic-garbage-collector           ServiceAccount  kube-system\nsystem:controller:namespace-controller                namespace-controller                ServiceAccount  kube-system\nsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-system\nsystem:kube-controller-manager                        system:kube-controller-manager      User \n\n```"
             }
         },
@@ -1127,18 +957,14 @@
             "controlID": "C-0187",
             "patch": {
                 "name": "CIS-5.1.3 Minimize wildcard use in Roles and ClusterRoles",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633388/recommendations/4261944"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0188",
             "patch": {
                 "name": "CIS-5.1.4 Minimize access to create pods",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633388/recommendations/4261947"
-                ],
+                "references": [],
                 "default_value": "By default in a kubeadm cluster the following list of principals have `create` privileges on `pod` objects\n\n \n```\nCLUSTERROLEBINDING                                    SUBJECT                             TYPE            SA-NAMESPACE\ncluster-admin                                         system:masters                      Group           \nsystem:controller:clusterrole-aggregation-controller  clusterrole-aggregation-controller  ServiceAccount  kube-system\nsystem:controller:daemon-set-controller               daemon-set-controller               ServiceAccount  kube-system\nsystem:controller:job-controller                      job-controller                      ServiceAccount  kube-system\nsystem:controller:persistent-volume-binder            persistent-volume-binder            ServiceAccount  kube-system\nsystem:controller:replicaset-controller               replicaset-controller               ServiceAccount  kube-system\nsystem:controller:replication-controller              replication-controller              ServiceAccount  kube-system\nsystem:controller:statefulset-controller              statefulset-controller              ServiceAccount  kube-system\n\n```"
             }
         },
@@ -1146,27 +972,21 @@
             "controlID": "C-0189",
             "patch": {
                 "name": "CIS-5.1.5 Ensure that default service accounts are not actively used.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633388/recommendations/4261950"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0190",
             "patch": {
                 "name": "CIS-5.1.6 Ensure that Service Account Tokens are only mounted where necessary",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633388/recommendations/4261953"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0191",
             "patch": {
                 "name": "CIS-5.1.8 Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633388/recommendations/4261957"
-                ]
+                "references": []
             }
         },
         {
@@ -1174,9 +994,7 @@
             "patch": {
                 "name": "CIS-5.2.1 Ensure that the cluster has at least one active policy control mechanism in place",
                 "manual_test": "Review the workloads deployed to the cluster to understand if Pod Security Admission or external admission control systems are in place.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633390/recommendations/4261966"
-                ]
+                "references": []
             }
         },
         {
@@ -1184,9 +1002,7 @@
             "patch": {
                 "name": "CIS-5.2.2 Minimize the admission of privileged containers",
                 "manual_test": "Run the following command:\n\n \n```\nget pods -A -o=jsonpath=$'{range .items[*]}{@.metadata.name}: {@..securityContext}\\n{end}'\n\n```\n It will produce an inventory of all the privileged use on the cluster, if any (please, refer to a sample below). Further grepping can be done to automate each specific violation detection.\n\n calico-kube-controllers-57b57c56f-jtmk4: {} << No Elevated Privileges calico-node-c4xv4: {} {\"privileged\":true} {\"privileged\":true} {\"privileged\":true} {\"privileged\":true} << Violates 5.2.2 dashboard-metrics-scraper-7bc864c59-2m2xw: {\"seccompProfile\":{\"type\":\"RuntimeDefault\"}} {\"allowPrivilegeEscalation\":false,\"readOnlyRootFilesystem\":true,\"runAsGroup\":2001,\"runAsUser\":1001}",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633390/recommendations/4261967"
-                ]
+                "references": []
             }
         },
         {
@@ -1195,9 +1011,7 @@
                 "name": "CIS-5.2.6 Minimize the admission of containers with allowPrivilegeEscalation",
                 "remediation": "Add policies to each namespace in the cluster which has user workloads to restrict the admission of conatiners with `securityContext: allowPrivilegeEscalation: true`",
                 "manual_test": "List the policies in use for each namespace in the cluster, ensure that each policy disallows the admission of containers which allow privilege escalation.\nTo fetch hostNetwork from each pod.\n\n `get pods -A -o=jsonpath=$'{range .items[*]}{@.metadata.name}: {@..securityContext}\\n{end}'`",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633390/recommendations/4261974"
-                ],
+                "references": [],
                 "impact_statement": "Pods defined with `securityContext: allowPrivilegeEscalation: true`  will not be permitted unless they are run under a specific policy."
             }
         },
@@ -1205,18 +1019,14 @@
             "controlID": "C-0198",
             "patch": {
                 "name": "CIS-5.2.7 Minimize the admission of root containers",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633390/recommendations/4261975"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0199",
             "patch": {
                 "name": "CIS-5.2.8 Minimize the admission of containers with the NET\\_RAW capability",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633390/recommendations/4261980"
-                ]
+                "references": []
             }
         },
         {
@@ -1224,9 +1034,7 @@
             "patch": {
                 "name": "CIS-5.2.9 Minimize the admission of containers with added capabilities",
                 "manual_test": "Ensure that allowedCapabilities is not present in policies for the cluster unless it is set to an empty array.\n\n \n```\nget pods -A -o=jsonpath=$'{range .items[*]}{@.metadata.name}: {@..securityContext}\\n{end}'\n\n```",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633390/recommendations/4261982"
-                ]
+                "references": []
             }
         },
         {
@@ -1234,45 +1042,35 @@
             "patch": {
                 "name": "CIS-5.2.10 Minimize the admission of containers with capabilities assigned",
                 "remediation": "Review the use of capabilities in applications running on your cluster. Where a namespace contains applications which do not require any Linux capabilities to operate consider adding a policy which forbids the admission of containers which do not drop all capabilities.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633390/recommendations/4261983"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0202",
             "patch": {
                 "name": "CIS-5.2.11 Minimize the admission of Windows HostProcess Containers",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633390/recommendations/4261986"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0203",
             "patch": {
                 "name": "CIS-5.2.12 Minimize the admission of HostPath volumes",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633390/recommendations/4261987"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0204",
             "patch": {
                 "name": "CIS-5.2.13 Minimize the admission of containers which use HostPorts",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633390/recommendations/4261988"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0205",
             "patch": {
                 "name": "CIS-5.3.1 Ensure that the CNI in use supports Network Policies",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633391/recommendations/4261989"
-                ]
+                "references": []
             }
         },
         {
@@ -1280,18 +1078,14 @@
             "patch": {
                 "name": "CIS-5.3.2 Ensure that all Namespaces have Network Policies defined",
                 "manual_test": "Run the below command and review the `NetworkPolicy` objects created in the cluster.\n\n \n```\nkubectl get networkpolicy --all-namespaces\n\n```\n Ensure that each namespace defined in the cluster has at least one Network Policy.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633391/recommendations/4261990"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0207",
             "patch": {
                 "name": "CIS-5.4.1 Prefer using secrets as files over secrets as environment variables",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633392/recommendations/4261992"
-                ]
+                "references": []
             }
         },
         {
@@ -1299,18 +1093,14 @@
             "patch": {
                 "name": "CIS-5.4.2 Consider external secret storage",
                 "long_description": "Kubernetes supports secrets as first-class objects, but care needs to be taken to ensure that access to secrets is carefully limited. Using an external secrets provider can ease the management of access to secrets, especially where secrests are used across both Kubernetes and non-Kubernetes environments.",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633392/recommendations/4261994"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0209",
             "patch": {
                 "name": "CIS-5.7.1 Create administrative boundaries between resources using namespaces",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633395/recommendations/4261996"
-                ],
+                "references": [],
                 "default_value": "By default, Kubernetes starts with 4 initial namespaces:\n\n 1. `default` - The default namespace for objects with no other namespace\n2. `kube-system` - The namespace for objects created by the Kubernetes system\n3. `kube-node-lease` - Namespace used for node heartbeats\n4. `kube-public` - Namespace used for public information in a cluster"
             }
         },
@@ -1318,27 +1108,21 @@
             "controlID": "C-0210",
             "patch": {
                 "name": "CIS-5.7.2 Ensure that the seccomp profile is set to docker/default in your pod definitions",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633395/recommendations/4261997"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0211",
             "patch": {
                 "name": "CIS-5.7.3 Apply Security Context to Your Pods and Containers",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633395/recommendations/4261999"
-                ]
+                "references": []
             }
         },
         {
             "controlID": "C-0212",
             "patch": {
                 "name": "CIS-5.7.4 The default namespace should not be used",
-                "references": [
-                    "https://workbench.cisecurity.org/sections/2633395/recommendations/4262000"
-                ]
+                "references": []
             }
         },
         {
@@ -1470,6 +1254,32 @@
             "controlID": "C-0289",
             "patch": {
                 "name": "CIS-5.5.1 Configure Image Provenance using ImagePolicyWebhook admission controller"
+            }
+        },
+        {
+            "controlID": "C-0290",
+            "patch": {
+                "name": "CIS-1.2.30 Ensure that the --service-account-extend-token-expiration parameter is set to false",
+                "description": "By default Kubernetes extends service account token lifetimes to one year. This should be set to false for security.",
+                "long_description": "The `--service-account-extend-token-expiration` parameter controls whether the API Server will extend the lifetime of auto-generated service account tokens beyond the default of one hour. Setting this to false ensures tokens expire according to the shorter default lifetime, reducing the window of opportunity for token misuse if compromised.",
+                "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the below parameter.\n\n```\n--service-account-extend-token-expiration=false\n```",
+                "manual_test": "Run the following command on the Control Plane node:\n\n```\nps -ef | grep kube-apiserver\n```\n\nVerify that the `--service-account-extend-token-expiration` argument is set to `false`.",
+                "references": [],
+                "impact_statement": "Service account tokens will expire according to the default shorter lifetime. Workloads using long-lived tokens may need to be updated to handle token refresh.",
+                "default_value": "By default, `--service-account-extend-token-expiration` is set to `true`."
+            }
+        },
+        {
+            "controlID": "C-0291",
+            "patch": {
+                "name": "CIS-4.3.1 Ensure that the kube-proxy metrics service is bound to localhost",
+                "description": "Do not bind the kube-proxy metrics port to non-loopback addresses.",
+                "long_description": "The kube-proxy metrics service exposes internal cluster metrics that could provide information useful to an attacker. By binding the metrics service to localhost (127.0.0.1), you ensure that these metrics are only accessible from the local node and cannot be accessed remotely.",
+                "remediation": "If running kube-proxy with a configuration file, edit the kube-proxy configuration file and set the metricsBindAddress to `127.0.0.1:10249`.\n\nIf running kube-proxy with command line arguments, set `--metrics-bind-address=127.0.0.1:10249`.\n\nRestart kube-proxy for changes to take effect.",
+                "manual_test": "Run the following command on each worker node:\n\n```\nps -ef | grep kube-proxy\n```\n\nVerify that the `--metrics-bind-address` argument is set to `127.0.0.1:10249` or is bound to localhost.\n\nAlternatively, check the kube-proxy ConfigMap:\n\n```\nkubectl get configmap kube-proxy -n kube-system -o yaml | grep metricsBindAddress\n```",
+                "references": [],
+                "impact_statement": "Metrics will only be accessible locally on each node. Monitoring solutions that rely on remotely scraping kube-proxy metrics will need to be reconfigured.",
+                "default_value": "By default, kube-proxy metrics may be bound to all interfaces (0.0.0.0)."
             }
         }
     ]
