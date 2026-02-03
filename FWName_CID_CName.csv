@@ -280,3 +280,7 @@ cis-v1.23-t1.0.1,CIS-5.7.1,Create administrative boundaries between resources us
 cis-v1.23-t1.0.1,CIS-5.7.2,Ensure that the seccomp profile is set to docker/default in your pod definitions
 cis-v1.23-t1.0.1,CIS-5.7.3,Apply Security Context to Your Pods and Containers
 cis-v1.23-t1.0.1,CIS-5.7.4,The default namespace should not be used
+security,C-0292,Nginx Ingress Controller End of Life
+DevOpsBest,C-0292,Nginx Ingress Controller End of Life
+ArmoBest,C-0292,Nginx Ingress Controller End of Life
+nsa,C-0292,Nginx Ingress Controller End of Life
