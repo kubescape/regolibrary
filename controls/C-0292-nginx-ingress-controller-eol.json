@@ -8,7 +8,7 @@
         ]
     },
     "description": "The nginx ingress controller project reaches End of Life (EOL) in March 2026. After this date, no security patches or functional updates will be provided. This control identifies workloads using nginx ingress controllers to help users plan migration to supported alternatives.",
-    "remediation": "Migrate to a supported ingress controller solution: 1) ingress-nginx (community-maintained fork at https://kubernetes.github.io/ingress-nginx), 2) HAProxy Ingress, 3) Traefik, 4) Cloud-native solutions (AWS ALB Ingress Controller, GKE Ingress, Azure Application Gateway Ingress Controller). Plan your migration before the EOL date to ensure continued security and support.",
+    "remediation": "Migrate to a supported ingress controller solution: 1) F5 NGINX Ingress Controller (https://docs.nginx.com/nginx-ingress-controller/) for a supported NGINX-based option, 2) Kubernetes Gateway API for a cloud-native approach, 3) HAProxy Ingress, 4) Traefik, 5) Cloud-native solutions (AWS ALB Ingress Controller, GKE Ingress, Azure Application Gateway Ingress Controller). Plan your migration before the EOL date to ensure continued security and support.",
     "rulesNames": [
         "detect-nginx-ingress-controller-eol"
     ],
