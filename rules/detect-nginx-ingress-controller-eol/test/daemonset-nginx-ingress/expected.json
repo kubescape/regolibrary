@@ -1,0 +1,30 @@
+[
+    {
+        "alertMessage": "DaemonSet 'nginx-ingress-controller' uses nginx ingress controller which reaches End of Life on March 26, 2026. No security or functional fixes will be available after this date.",
+        "reviewPaths": [
+            "spec.template.spec.containers[0].image"
+        ],
+        "failedPaths": [
+            "spec.template.spec.containers[0].image"
+        ],
+        "fixPaths": [],
+        "fixCommand": "",
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "DaemonSet",
+                    "metadata": {
+                        "name": "nginx-ingress-controller",
+                        "labels": {
+                            "app": "nginx-ingress"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+]
