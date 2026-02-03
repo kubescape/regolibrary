@@ -9,9 +9,9 @@ deny[msga] {
 	
 	path := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
 	msga := {
-		"alertMessage": sprintf("Deployment '%v' uses nginx ingress controller which reaches End of Life on March 26, 2026. No security or functional fixes will be available after this date.", [workload.metadata.name]),
+		"alertMessage": sprintf("Deployment '%v' uses nginx ingress controller which reaches End of Life in March 2026. No security or functional fixes will be available after this date.", [workload.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 7,
+		"alertScore": 6,
 		"reviewPaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
@@ -31,9 +31,9 @@ deny[msga] {
 	
 	path := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
 	msga := {
-		"alertMessage": sprintf("DaemonSet '%v' uses nginx ingress controller which reaches End of Life on March 26, 2026. No security or functional fixes will be available after this date.", [workload.metadata.name]),
+		"alertMessage": sprintf("DaemonSet '%v' uses nginx ingress controller which reaches End of Life in March 2026. No security or functional fixes will be available after this date.", [workload.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 7,
+		"alertScore": 6,
 		"reviewPaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
@@ -53,9 +53,9 @@ deny[msga] {
 	
 	path := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
 	msga := {
-		"alertMessage": sprintf("StatefulSet '%v' uses nginx ingress controller which reaches End of Life on March 26, 2026. No security or functional fixes will be available after this date.", [workload.metadata.name]),
+		"alertMessage": sprintf("StatefulSet '%v' uses nginx ingress controller which reaches End of Life in March 2026. No security or functional fixes will be available after this date.", [workload.metadata.name]),
 		"packagename": "armo_builtins",
-		"alertScore": 7,
+		"alertScore": 6,
 		"reviewPaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
@@ -66,34 +66,19 @@ deny[msga] {
 	}
 }
 
-# Helper function: Check if image is nginx ingress controller
-# Matches various naming patterns used across different registries
-is_nginx_ingress_image(image) {
-	contains(image, "nginx-ingress-controller")
-}
-
-is_nginx_ingress_image(image) {
-	contains(image, "nginx-controller")
-}
-
+# Helper function: Check if image is community ingress-nginx controller
+# Only matches the community ingress-nginx project that reaches EOL in March 2026
+# Does not match NGINX Inc commercial products which have different support lifecycles
 is_nginx_ingress_image(image) {
 	contains(image, "ingress-nginx/controller")
 }
 
 is_nginx_ingress_image(image) {
-	contains(image, "ingress-nginx-controller")
-}
-
-is_nginx_ingress_image(image) {
-	contains(image, "kubernetes-ingress-controller/nginx")
-}
-
-is_nginx_ingress_image(image) {
-	# Match the official k8s nginx ingress controller images
+	# Match the official k8s community ingress-nginx images
 	contains(image, "k8s.gcr.io/ingress-nginx")
 }
 
 is_nginx_ingress_image(image) {
-	# Match the new official registry
+	# Match the new official registry for community ingress-nginx
 	contains(image, "registry.k8s.io/ingress-nginx")
 }

@@ -7,12 +7,12 @@
             "devops"
         ]
     },
-    "description": "The nginx ingress controller project reaches End of Life (EOL) on March 26, 2026. After this date, no security patches or functional updates will be provided. This control identifies workloads using nginx ingress controllers to help users plan migration to supported alternatives.",
-    "remediation": "Migrate to a supported ingress controller solution: 1) ingress-nginx (community-maintained fork at kubernetes.github.io/ingress-nginx), 2) HAProxy Ingress, 3) Traefik, 4) Cloud-native solutions (AWS ALB Ingress Controller, GKE Ingress, Azure Application Gateway Ingress Controller). Plan your migration before the EOL date to ensure continued security and support.",
+    "description": "The nginx ingress controller project reaches End of Life (EOL) in March 2026. After this date, no security patches or functional updates will be provided. This control identifies workloads using nginx ingress controllers to help users plan migration to supported alternatives.",
+    "remediation": "Migrate to a supported ingress controller solution: 1) ingress-nginx (community-maintained fork at https://kubernetes.github.io/ingress-nginx), 2) HAProxy Ingress, 3) Traefik, 4) Cloud-native solutions (AWS ALB Ingress Controller, GKE Ingress, Azure Application Gateway Ingress Controller). Plan your migration before the EOL date to ensure continued security and support.",
     "rulesNames": [
         "detect-nginx-ingress-controller-eol"
     ],
-    "long_description": "The nginx ingress controller is a widely-used component for managing external access to services in Kubernetes clusters. However, the project has announced its End of Life (EOL) on March 26, 2026. After this date, the project will no longer receive security patches, bug fixes, or feature updates, potentially exposing clusters to security vulnerabilities and operational risks. This control scans Deployments, DaemonSets, and StatefulSets to identify any workloads running nginx ingress controllers. Organizations should proactively plan migration to supported alternatives to maintain security posture and operational stability.",
+    "long_description": "The nginx ingress controller is a widely-used component for managing external access to services in Kubernetes clusters. However, the project has announced its End of Life (EOL) in March 2026. After this date, the project will no longer receive security patches, bug fixes, or feature updates, potentially exposing clusters to security vulnerabilities and operational risks. This control scans Deployments, DaemonSets, and StatefulSets to identify any workloads running nginx ingress controllers. Organizations should proactively plan migration to supported alternatives to maintain security posture and operational stability.",
     "test": "Check if any Deployment, DaemonSet, or StatefulSet is using nginx ingress controller images (including patterns like nginx-ingress-controller, ingress-nginx/controller, k8s.gcr.io/ingress-nginx, registry.k8s.io/ingress-nginx)",
     "controlID": "C-0292",
     "baseScore": 6.0,
