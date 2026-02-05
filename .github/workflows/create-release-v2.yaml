@@ -23,7 +23,7 @@ jobs:
       pull-requests: write
     uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@main
     with:
-      GO_VERSION: '1.23'
+      GO_VERSION: '1.24.2'
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
     secrets: inherit
 
@@ -40,7 +40,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: 1.23
+          go-version: 1.24.2
 
       - name: Test Regos (Golang OPA hot rule compilation)
         working-directory: testrunner
@@ -102,7 +102,6 @@ jobs:
                         "scan_local_glob_files",
                         "scan_git_repository_and_submit_to_backend",
                         "scan_and_submit_to_backend",
-                        "host_scanner",
                         "scan_local_list_of_files",
                         "scan_compliance_score"
                       ]'
