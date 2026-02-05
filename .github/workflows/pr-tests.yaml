@@ -128,7 +128,6 @@ jobs:
                         "scan_local_glob_files", 
                         "scan_git_repository_and_submit_to_backend",
                         "scan_and_submit_to_backend",
-                        "host_scanner",
                         "scan_local_list_of_files",
                         "scan_compliance_score"
                       ]'
