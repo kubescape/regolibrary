@@ -1,6 +1,7 @@
 linters-settings:
   govet:
-    check-shadowing: true
+    enable:
+      - shadow
   dupl:
     threshold: 200
   goconst:
@@ -42,6 +43,8 @@ linters:
     - gochecknoinits
     - gochecknoglobals
 issues:
+  exclude-dirs:
+    - git2go
   exclude-rules:
     - linters:
       - revive
@@ -52,6 +55,3 @@ issues:
     - linters:
       - stylecheck
       text: "ST1003"
-run:
-  skip-dirs:
-    - git2go
