@@ -28,12 +28,7 @@ jobs:
   build-and-rego-test:
     name: Build and test rego artifacts
     runs-on: ubuntu-latest
-    if: |
-        ${{ (always() && 
-        (contains(needs.*.result, 'success')) && 
-        !(contains(needs.*.result, 'skipped')) && 
-        !(contains(needs.*.result, 'failure')) && 
-        !(contains(needs.*.result, 'cancelled'))) }}
+    needs: [test_pr_checks]
     outputs:
       REGO_ARTIFACT_KEY_NAME: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_KEY_NAME }}
       REGO_ARTIFACT_PATH: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_PATH }}
@@ -111,12 +106,6 @@ jobs:
   # test kubescape with regolibrary artifacts
   ks-and-rego-test:
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
-    if: |
-      ${{ (always() && 
-      (contains(needs.*.result, 'success')) && 
-      !(contains(needs.*.result, 'skipped')) && 
-      !(contains(needs.*.result, 'failure')) && 
-      !(contains(needs.*.result, 'cancelled'))) }}
     needs: [build-and-rego-test]
     with:
       DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
