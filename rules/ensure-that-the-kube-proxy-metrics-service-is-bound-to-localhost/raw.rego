@@ -75,17 +75,20 @@ is_kube_proxy_configmap(configmap) {
 }
 
 # Helper: Get config data from ConfigMap (try different field names)
-get_config_data(configmap) := data {
-	data := configmap.data["config.conf"]
+get_config_data(configmap) := value {
+	value := object.get(configmap.data, "config.conf", "")
+	value != ""
 }
 
-get_config_data(configmap) := data {
+get_config_data(configmap) := value {
 	not configmap.data["config.conf"]
-	data := configmap.data["kubeconfig.conf"]
+	value := object.get(configmap.data, "kubeconfig.conf", "")
+	value != ""
 }
 
-get_config_data(configmap) := data {
+get_config_data(configmap) := value {
 	not configmap.data["config.conf"]
 	not configmap.data["kubeconfig.conf"]
-	data := configmap.data["config"]
+	value := object.get(configmap.data, "config", "")
+	value != ""
 }
