@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mixed-security-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+  - name: container-with-seccomp
+    image: nginx:latest
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
+  - name: container-with-selinux-no-seccomp
+    image: app:latest
+    securityContext:
+      seLinuxOptions:
+        level: "s0:c123,c456"
+      # Missing seccomp - should this be flagged?
+  - name: container-without-any
+    image: redis:latest
+    # No security context at all

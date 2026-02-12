@@ -1,0 +1,37 @@
+[
+    {
+        "alertMessage": "Pod: test-pod-with-unsafe-init does not define any linux security hardening",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.initContainers[0].securityContext.seccompProfile",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.initContainers[0].securityContext.seLinuxOptions",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.initContainers[0].securityContext.capabilities.drop[0]",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "myapp"
+                        },
+                        "name": "test-pod-with-unsafe-init"
+                    }
+                }
+            ]
+        }
+    }
+]
