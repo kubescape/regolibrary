@@ -143,7 +143,7 @@ deny[msga] {
         "alertMessage": sprintf("%v: %v in %v: %v has dangerous capabilities", [
             t.container_label,
             container.name,
-            t.target_label,
+            obj.kind,
             obj.metadata.name,
         ]),
         "packagename": "armo_builtins",
