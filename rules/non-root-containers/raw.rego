@@ -1,5 +1,6 @@
 package armo_builtins
 
+workload_template_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 
 deny[msga] {
     pod := input[_]
@@ -66,8 +67,7 @@ deny[msga] {
 
 deny[msga] {
     wl := input[_]
-    spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-    spec_template_spec_patterns[wl.kind]
+    workload_template_kinds[wl.kind]
     container := wl.spec.template.spec.containers[i]
     start_of_path := "spec.template.spec"
     run_as_user_fixpath := evaluate_workload_run_as_user(container, wl.spec.template, start_of_path)
@@ -88,8 +88,7 @@ deny[msga] {
 
 deny[msga] {
     wl := input[_]
-    spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-    spec_template_spec_patterns[wl.kind]
+    workload_template_kinds[wl.kind]
     container := wl.spec.template.spec.initContainers[i]
     start_of_path := "spec.template.spec"
     run_as_user_fixpath := evaluate_workload_run_as_user(container, wl.spec.template, start_of_path)
@@ -110,8 +109,7 @@ deny[msga] {
 
 deny[msga] {
     wl := input[_]
-    spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-    spec_template_spec_patterns[wl.kind]
+    workload_template_kinds[wl.kind]
     container := wl.spec.template.spec.ephemeralContainers[i]
     start_of_path := "spec.template.spec"
     run_as_user_fixpath := evaluate_workload_run_as_user(container, wl.spec.template, start_of_path)
@@ -193,17 +191,23 @@ deny[msga] {
     }
 }
 
-get_fixed_paths(all_fixpaths, i) = [{"path": replace(all_fixpaths[0].path, "container_ndx", format_int(i, 10)), "value": all_fixpaths[0].value}, {"path": replace(all_fixpaths[1].path, "container_ndx", format_int(i, 10)), "value": all_fixpaths[1].value}] {
-    count(all_fixpaths) == 2
-} else = [{"path": replace(all_fixpaths[0].path, "container_ndx", format_int(i, 10)), "value": all_fixpaths[0].value}]
+rewrite_fixpaths(all_fixpaths, i, container_key) = [
+    {
+        "path": replace(
+            replace(fp.path, "container_ndx", format_int(i, 10)),
+            "containers[",
+            sprintf("%v[", [container_key])
+        ),
+        "value": fp.value
+    } |
+    fp := all_fixpaths[_]
+]
 
-get_fixed_paths_init(all_fixpaths, i) = [{"path": replace(replace(all_fixpaths[0].path, "container_ndx", format_int(i, 10)), "containers[", "initContainers["), "value": all_fixpaths[0].value}, {"path": replace(replace(all_fixpaths[1].path, "container_ndx", format_int(i, 10)), "containers[", "initContainers["), "value": all_fixpaths[1].value}] {
-    count(all_fixpaths) == 2
-} else = [{"path": replace(replace(all_fixpaths[0].path, "container_ndx", format_int(i, 10)), "containers[", "initContainers["), "value": all_fixpaths[0].value}]
+get_fixed_paths(all_fixpaths, i) = rewrite_fixpaths(all_fixpaths, i, "containers")
 
-get_fixed_paths_ephemeral(all_fixpaths, i) = [{"path": replace(replace(all_fixpaths[0].path, "container_ndx", format_int(i, 10)), "containers[", "ephemeralContainers["), "value": all_fixpaths[0].value}, {"path": replace(replace(all_fixpaths[1].path, "container_ndx", format_int(i, 10)), "containers[", "ephemeralContainers["), "value": all_fixpaths[1].value}] {
-    count(all_fixpaths) == 2
-} else = [{"path": replace(replace(all_fixpaths[0].path, "container_ndx", format_int(i, 10)), "containers[", "ephemeralContainers["), "value": all_fixpaths[0].value}]
+get_fixed_paths_init(all_fixpaths, i) = rewrite_fixpaths(all_fixpaths, i, "initContainers")
+
+get_fixed_paths_ephemeral(all_fixpaths, i) = rewrite_fixpaths(all_fixpaths, i, "ephemeralContainers")
 
 evaluate_workload_run_as_user(container, pod, start_of_path) = fixPath {
     runAsNonRootValue := get_run_as_non_root_value(container, pod, start_of_path)

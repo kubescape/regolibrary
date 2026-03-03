@@ -1,5 +1,7 @@
 package armo_builtins
 
+workload_template_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+
 # Fails if pod has container with mutable filesystem
 deny[msga] {
     pod := input[_]
@@ -57,8 +59,7 @@ deny[msga] {
 # Fails if workload has container with mutable filesystem
 deny[msga] {
     wl := input[_]
-    spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-    spec_template_spec_patterns[wl.kind]
+    workload_template_kinds[wl.kind]
     container := wl.spec.template.spec.containers[i]
     start_of_path := "spec.template.spec."
     is_mutable_filesystem(container)
@@ -76,8 +77,7 @@ deny[msga] {
 # Fails if workload has initContainer with mutable filesystem
 deny[msga] {
     wl := input[_]
-    spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-    spec_template_spec_patterns[wl.kind]
+    workload_template_kinds[wl.kind]
     container := wl.spec.template.spec.initContainers[i]
     start_of_path := "spec.template.spec."
     is_mutable_filesystem(container)
@@ -95,8 +95,7 @@ deny[msga] {
 # Fails if workload has ephemeralContainer with mutable filesystem
 deny[msga] {
     wl := input[_]
-    spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-    spec_template_spec_patterns[wl.kind]
+    workload_template_kinds[wl.kind]
     container := wl.spec.template.spec.ephemeralContainers[i]
     start_of_path := "spec.template.spec."
     is_mutable_filesystem(container)
