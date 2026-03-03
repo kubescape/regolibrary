@@ -1,6 +1,8 @@
 package armo_builtins
 import data.cautils
 
+workload_template_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+
 deny[msga] {
     pod := input[_]
     pod.kind == "Pod"
