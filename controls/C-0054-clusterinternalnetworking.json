@@ -9,13 +9,13 @@
             "compliance"
         ]
     },
-    "description": "If no network policy is defined, attackers who gain access to a container may use it to move laterally in the cluster. This control lists namespaces in which no network policy is defined.",
-    "remediation": "Define Kubernetes network policies or use alternative products to protect cluster network.",
+    "description": "If no network policy is defined, attackers who gain access to a container may use it to move laterally in the cluster. This control lists namespaces in which no network policy (NetworkPolicy, CiliumNetworkPolicy, or qualifying CiliumClusterwideNetworkPolicy) is defined.",
+    "remediation": "Define Kubernetes NetworkPolicy, CiliumNetworkPolicy, or CiliumClusterwideNetworkPolicy resources to protect cluster network.",
     "rulesNames": [
         "internal-networking"
     ],
-    "long_description": "Kubernetes networking behavior allows traffic between pods in the cluster as a default behavior. Attackers who gain access to a single container may use it for network reachability to another container in the cluster.",
-    "test": "Check for each namespace if there is a network policy defined.",
+    "long_description": "Kubernetes networking behavior allows traffic between pods in the cluster as a default behavior. Attackers who gain access to a single container may use it for network reachability to another container in the cluster. This control supports standard Kubernetes NetworkPolicy, CiliumNetworkPolicy (namespaced), and CiliumClusterwideNetworkPolicy (cluster-wide, only qualifying policies that select all endpoints and enforce default-deny).",
+    "test": "Check for each namespace if there is a network policy defined (NetworkPolicy, CiliumNetworkPolicy, or qualifying CiliumClusterwideNetworkPolicy).",
     "controlID": "C-0054",
     "baseScore": 4.0,
     "category": {
