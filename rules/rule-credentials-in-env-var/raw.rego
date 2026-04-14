@@ -16,6 +16,7 @@
     	not is_allowed_key_name(env.name)
 
 		is_not_reference(env)
+		is_not_file_path(env.value)
 
 		paths := [sprintf("spec.containers[%v].env[%v].name", [i, j]),
 				  sprintf("spec.containers[%v].env[%v].value", [i, j])]
@@ -51,6 +52,7 @@
     	not is_allowed_key_name(env.name)
 
 		is_not_reference(env)
+		is_not_file_path(env.value)
 
 		paths := [sprintf("spec.template.spec.containers[%v].env[%v].name", [i, j]),
 				sprintf("spec.template.spec.containers[%v].env[%v].value", [i, j])]
@@ -84,6 +86,7 @@
     	not is_allowed_key_name(env.name)
 
 		is_not_reference(env)
+		is_not_file_path(env.value)
 
 		paths := [sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [i, j]),
 				  sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].value", [i, j])]
@@ -117,6 +120,7 @@ deny[msga] {
     	not is_allowed_key_name(env.name)
 
 		is_not_reference(env)
+		is_not_file_path(env.value)
 
 		paths := [sprintf("spec.containers[%v].env[%v].name", [i, j]),
 				  sprintf("spec.containers[%v].env[%v].value", [i, j])]
@@ -151,6 +155,7 @@ deny[msga] {
     	not is_allowed_key_name(env.name)
 
 		is_not_reference(env)
+		is_not_file_path(env.value)
 
 		paths := [sprintf("spec.template.spec.containers[%v].env[%v].name", [i, j]),
 				sprintf("spec.template.spec.containers[%v].env[%v].value", [i, j])]
@@ -183,6 +188,7 @@ deny[msga] {
     	not is_allowed_key_name(env.name)
 
 		is_not_reference(env)
+		is_not_file_path(env.value)
 
 		paths := [sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].name", [i, j]),
 				  sprintf("spec.jobTemplate.spec.template.spec.containers[%v].env[%v].value", [i, j])]
@@ -215,4 +221,8 @@ is_allowed_value(value) {
 is_allowed_key_name(key_name) {
     allow_key := data.postureControlInputs.sensitiveKeyNamesAllowed[_]
     contains(lower(key_name), lower(allow_key))
+}
+
+is_not_file_path(value) {
+    not startswith(value, "/")
 }
