@@ -1,5 +1,8 @@
 package armo_builtins
 
+import future.keywords.every
+import future.keywords.in
+
 # Check if encryption in etcd in enabled for AKS
 deny[msga] {
 	cluster_config := input[_]
@@ -91,5 +94,15 @@ is_encrypted_EKS(config) {
 }
 
 isEncryptedAKS(cluster_config) {
-	cluster_config.properties.agentPoolProfiles.enableEncryptionAtHost == true
+	profiles := cluster_config.properties.agentPoolProfiles
+	count(profiles) > 0
+	every p in profiles { p.enableEncryptionAtHost == true }
+}
+
+isEncryptedAKS(cluster_config) {
+	cluster_config.properties.securityProfile.azureKeyVaultKms.enabled == true
+}
+
+isEncryptedAKS(cluster_config) {
+	cluster_config.properties.securityProfile.kubernetesResourceObjectEncryptionProfile.infrastructureEncryption == "Enabled"
 }
