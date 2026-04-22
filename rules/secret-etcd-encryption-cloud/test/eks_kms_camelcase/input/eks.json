@@ -1,0 +1,24 @@
+{
+    "kind": "ClusterDescribe",
+    "apiVersion": "eks.amazonaws.com/v1",
+    "metadata": {
+        "name": "random-eks-3",
+        "provider": "eks"
+    },
+    "data": {
+        "cluster": {
+            "arn": "arn:aws:eks:eu-west-1:015253967648:cluster/random",
+            "encryptionConfig": [
+                {
+                    "resources": ["secrets"],
+                    "provider": {
+                        "keyArn": "arn:aws:kms:us-east-2:000000000000:key/abcd-efgh"
+                    }
+                }
+            ],
+            "name": "random-eks-dev",
+            "status": "ACTIVE",
+            "version": "1.30"
+        }
+    }
+}
