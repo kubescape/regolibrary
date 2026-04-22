@@ -1,7 +1,7 @@
 [{
-    "alertMessage": "the following service account: default in the following namespace: default mounts service account tokens in pods by default",
-    "deletePaths": ["automountServiceAccountToken"],
-    "failedPaths": ["automountServiceAccountToken"],
+    "alertMessage": "Pod: test-pd in the following namespace: default mounts service account tokens by default",
+    "deletePaths": ["spec.automountServiceAccountToken"],
+    "failedPaths": ["spec.automountServiceAccountToken"],
     "fixPaths": [],
     "ruleStatus": "",
     "packagename": "armo_builtins",
@@ -9,9 +9,9 @@
     "alertObject": {
         "k8sApiObjects": [{
             "apiVersion": "v1",
-            "kind": "ServiceAccount",
+            "kind": "Pod",
             "metadata": {
-                "name": "default"
+                "name": "test-pd"
             }
         }]
     }

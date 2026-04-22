@@ -1,0 +1,18 @@
+[{
+    "alertMessage": "CronJob: test-cron in the following namespace: kubescape-test mounts service account tokens by default",
+    "deletePaths": ["spec.jobTemplate.spec.template.spec.automountServiceAccountToken"],
+    "failedPaths": ["spec.jobTemplate.spec.template.spec.automountServiceAccountToken"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "batch/v1",
+            "kind": "CronJob",
+            "metadata": {
+                "name": "test-cron"
+            }
+        }]
+    }
+}]

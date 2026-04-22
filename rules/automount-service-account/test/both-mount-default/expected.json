@@ -1,9 +1,9 @@
 [{
-    "alertMessage": "the following service account: default in the following namespace: default mounts service account tokens in pods by default",
+    "alertMessage": "Pod: test-pd in the following namespace: default mounts service account tokens by default",
     "failedPaths": [],
     "deletePaths": [],
     "fixPaths": [{
-        "path": "automountServiceAccountToken",
+        "path": "spec.automountServiceAccountToken",
         "value": "false"
     }],
     "ruleStatus": "",
@@ -12,9 +12,9 @@
     "alertObject": {
         "k8sApiObjects": [{
             "apiVersion": "v1",
-            "kind": "ServiceAccount",
+            "kind": "Pod",
             "metadata": {
-                "name": "default"
+                "name": "test-pd"
             }
         }]
     }
