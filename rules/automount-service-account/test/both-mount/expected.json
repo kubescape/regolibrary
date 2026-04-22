@@ -1,8 +1,10 @@
 [{
     "alertMessage": "Pod: test-pd in the following namespace: default mounts service account tokens by default",
-    "deletePaths": ["spec.automountServiceAccountToken"],
     "failedPaths": ["spec.automountServiceAccountToken"],
-    "fixPaths": [],
+    "fixPaths": [{
+        "path": "spec.automountServiceAccountToken",
+        "value": "false"
+    }],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 9,

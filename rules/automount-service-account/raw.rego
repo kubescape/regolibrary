@@ -22,7 +22,6 @@ deny[msga] {
 		"alertScore": 9,
 		"packagename": "armo_builtins",
 		"fixPaths": fixed_path,
-		"deletePaths": failed_path,
 		"failedPaths": failed_path,
 		"alertObject": {"k8sApiObjects": [pod]},
 	}
@@ -45,7 +44,6 @@ deny[msga] {
 		"alertScore": 7,
 		"packagename": "armo_builtins",
 		"fixPaths": fixed_path,
-		"deletePaths": failed_path,
 		"failedPaths": failed_path,
 		"alertObject": {"k8sApiObjects": [wl]},
 	}
@@ -67,7 +65,6 @@ deny[msga] {
 		"alertScore": 7,
 		"packagename": "armo_builtins",
 		"fixPaths": fixed_path,
-		"deletePaths": failed_path,
 		"failedPaths": failed_path,
 		"alertObject": {"k8sApiObjects": [wl]},
 	}
@@ -77,12 +74,14 @@ deny[msga] {
 # ----- decision helpers -----
 
 # Branch 1: pod spec explicitly sets automountServiceAccountToken: true.
-# Pod-level wins over SA, so this always mounts. Failed path is the pod field.
+# Pod-level wins over SA, so this always mounts. Fix by setting the pod
+# field to false - deleting it is unsafe because it falls back to the SA,
+# which may also enable auto-mount.
 is_sa_auto_mounted(spec, start_of_path, wl_namespace) = [failed_path, fix_path] {
 	spec.automountServiceAccountToken == true
 
 	failed_path := sprintf("%vautomountServiceAccountToken", [start_of_path])
-	fix_path := ""
+	fix_path := {"path": sprintf("%vautomountServiceAccountToken", [start_of_path]), "value": "false"}
 }
 
 # Branch 2: pod spec does not set automountServiceAccountToken, and the
