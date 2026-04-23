@@ -12,7 +12,6 @@ concurrency:
 env:
   REGO_ARTIFACT_KEY_NAME: rego_artifact
   REGO_ARTIFACT_PATH: releaseDev
-  GH_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
 jobs:
   # main job of testing and building the env.
@@ -35,8 +34,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         name: checkout repo content
-        with:
-          token: ${{ env.GH_ACCESS_TOKEN }}
 
       # Test using Golang OPA hot rule compilation
       - name: Set up Go
@@ -130,7 +127,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         name: checkout repo content
-        with:
-          token: ${{ env.GH_ACCESS_TOKEN }}
       - name: Remove pre-release folder
         run: rm -r -f pre-release
