@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: typo-pod
+  namespace: default
+  labels:
+    app: fooo
+spec:
+  containers:
+    - name: app
+      image: nginx:1.25
