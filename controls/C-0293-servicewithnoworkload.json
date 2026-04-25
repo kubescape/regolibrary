@@ -1,0 +1,25 @@
+{
+    "name": "Service with no workload",
+    "attributes": {
+        "controlTypeTags": [
+            "devops"
+        ]
+    },
+    "description": "A Service whose selector does not match any workload pod is dangling. It typically results from a workload being renamed or deleted, or from a typo in the selector or pod labels. Dangling Services consume cluster names and can cause silent routing failures.",
+    "remediation": "Verify the Service selector matches the labels of an existing workload in the same namespace, or remove the Service if it is no longer needed.",
+    "rulesNames": [
+        "service-with-no-workload"
+    ],
+    "test": "Check that every Service with a selector has at least one workload in the same namespace whose pod template labels are a superset of the selector.",
+    "controlID": "C-0293",
+    "baseScore": 3.0,
+    "category": {
+        "name": "Workload"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}
