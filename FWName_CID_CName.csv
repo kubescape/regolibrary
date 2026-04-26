@@ -284,3 +284,5 @@ security,C-0292,Nginx Ingress Controller End of Life
 DevOpsBest,C-0292,Nginx Ingress Controller End of Life
 ArmoBest,C-0292,Nginx Ingress Controller End of Life
 nsa,C-0292,Nginx Ingress Controller End of Life
+DevOpsBest,C-0293,Service with no workload
+AllControls,C-0293,Service with no workload
