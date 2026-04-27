@@ -1,173 +1,146 @@
 package armo_builtins
 
-# Fails if user account mount tokens in pod by default
-deny [msga]{
-    service_accounts := [service_account |  service_account= input[_]; service_account.kind == "ServiceAccount"]
-    service_account := service_accounts[_]
-    result := is_auto_mount(service_account)
-	failed_path := get_failed_path(result)
-    fixed_path := get_fixed_path(result)
-
-    msga := {
-	    "alertMessage": sprintf("the following service account: %v in the following namespace: %v mounts service account tokens in pods by default", [service_account.metadata.name, service_account.metadata.namespace]),
-		"alertScore": 9,
-		"packagename": "armo_builtins",
-		"fixPaths": fixed_path,
-		"deletePaths": failed_path,
-		"failedPaths": failed_path,
-		"alertObject": {
-			"k8sApiObjects": [service_account]
-		}
-	}
-}    
+# This rule honours Kubernetes precedence: pod.spec.automountServiceAccountToken
+# overrides serviceAccount.automountServiceAccountToken. It alerts only on
+# workloads that will actually mount a token (pod-level true, or pod-level
+# unset with an SA that does not explicitly disable).
 
 
- #  -- ----     For workloads     -- ----   
-# Fails if pod mount tokens  by default (either by its config or by its SA config)
-
- # POD  
-deny [msga]{
-    pod := input[_]
+# POD
+deny[msga] {
+	pod := input[_]
 	pod.kind == "Pod"
 
 	start_of_path := "spec."
-	wl_namespace := pod.metadata.namespace
+	wl_namespace := pod_namespace(pod)
 	result := is_sa_auto_mounted(pod.spec, start_of_path, wl_namespace)
 	failed_path := get_failed_path(result)
-    fixed_path := get_fixed_path(result)
+	fixed_path := get_fixed_path(result)
 
-    msga := {
-	    "alertMessage": sprintf("Pod: %v in the following namespace: %v mounts service account tokens by default", [pod.metadata.name, pod.metadata.namespace]),
+	msga := {
+		"alertMessage": sprintf("Pod: %v in the following namespace: %v mounts service account tokens by default", [pod.metadata.name, wl_namespace]),
 		"alertScore": 9,
 		"packagename": "armo_builtins",
 		"fixPaths": fixed_path,
-		"deletePaths": failed_path,
 		"failedPaths": failed_path,
-		"alertObject": {
-			"k8sApiObjects": [pod]
-		}
+		"alertObject": {"k8sApiObjects": [pod]},
 	}
-}    
+}
 
-# WORKLOADS
+# WORKLOADS: Deployment / ReplicaSet / DaemonSet / StatefulSet / Job
 deny[msga] {
-    wl := input[_]
-	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	wl := input[_]
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	spec_template_spec_patterns[wl.kind]
-	start_of_path := "spec.template.spec."
 
-	wl_namespace := wl.metadata.namespace
+	start_of_path := "spec.template.spec."
+	wl_namespace := pod_namespace(wl)
 	result := is_sa_auto_mounted(wl.spec.template.spec, start_of_path, wl_namespace)
 	failed_path := get_failed_path(result)
-    fixed_path := get_fixed_path(result)
+	fixed_path := get_fixed_path(result)
 
 	msga := {
-		"alertMessage":  sprintf("%v: %v in the following namespace: %v mounts service account tokens by default", [wl.kind, wl.metadata.name, wl.metadata.namespace]),
-		"packagename": "armo_builtins",
+		"alertMessage": sprintf("%v: %v in the following namespace: %v mounts service account tokens by default", [wl.kind, wl.metadata.name, wl_namespace]),
 		"alertScore": 7,
+		"packagename": "armo_builtins",
 		"fixPaths": fixed_path,
-		"deletePaths": failed_path,
 		"failedPaths": failed_path,
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
 # CRONJOB
 deny[msga] {
-  	wl := input[_]
+	wl := input[_]
 	wl.kind == "CronJob"
-	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	start_of_path := "spec.jobTemplate.spec.template.spec."
-   
-	wl_namespace := wl.metadata.namespace
-	result := is_sa_auto_mounted(wl.spec.jobTemplate.spec.template.spec, start_of_path, wl.metadata)
-	failed_path := get_failed_path(result)
-    fixed_path := get_fixed_path(result)
 
-    msga := {
-		"alertMessage": sprintf("%v: %v in the following namespace: %v mounts service account tokens by default", [wl.kind, wl.metadata.name, wl.metadata.namespace]),
-		"packagename": "armo_builtins",
+	start_of_path := "spec.jobTemplate.spec.template.spec."
+	wl_namespace := pod_namespace(wl)
+	result := is_sa_auto_mounted(wl.spec.jobTemplate.spec.template.spec, start_of_path, wl_namespace)
+	failed_path := get_failed_path(result)
+	fixed_path := get_fixed_path(result)
+
+	msga := {
+		"alertMessage": sprintf("%v: %v in the following namespace: %v mounts service account tokens by default", [wl.kind, wl.metadata.name, wl_namespace]),
 		"alertScore": 7,
+		"packagename": "armo_builtins",
 		"fixPaths": fixed_path,
-		"deletePaths": failed_path,
 		"failedPaths": failed_path,
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
 
+# ----- decision helpers -----
 
- #  -- ----     For workloads     -- ----     
-is_sa_auto_mounted(spec, start_of_path, wl_metadata) = [failed_path, fix_path]   {
-	# automountServiceAccountToken not in pod spec
+# Branch 1: pod spec explicitly sets automountServiceAccountToken: true.
+# Pod-level wins over SA, so this always mounts. Fix by setting the pod
+# field to false - deleting it is unsafe because it falls back to the SA,
+# which may also enable auto-mount.
+is_sa_auto_mounted(spec, start_of_path, wl_namespace) = [failed_path, fix_path] {
+	spec.automountServiceAccountToken == true
+
+	failed_path := sprintf("%vautomountServiceAccountToken", [start_of_path])
+	fix_path := {"path": sprintf("%vautomountServiceAccountToken", [start_of_path]), "value": "false"}
+}
+
+# Branch 2: pod spec does not set automountServiceAccountToken, and the
+# referenced SA exists and does not explicitly disable auto-mount. Token
+# will mount by default. Fix by setting pod-level to false.
+is_sa_auto_mounted(spec, start_of_path, wl_namespace) = [failed_path, fix_path] {
 	not spec.automountServiceAccountToken == false
 	not spec.automountServiceAccountToken == true
 
-	# check if SA  automount by default
 	sa := input[_]
+	sa.kind == "ServiceAccount"
 	is_same_sa(spec, sa.metadata.name)
-	is_same_namespace(sa.metadata , wl_metadata)
+	is_same_namespace(sa.metadata.namespace, wl_namespace)
 	not sa.automountServiceAccountToken == false
 
-	# path is pod spec
-	fix_path = { "path": sprintf("%vautomountServiceAccountToken", [start_of_path]), "value": "false"}
-	failed_path = ""
+	fix_path := {"path": sprintf("%vautomountServiceAccountToken", [start_of_path]), "value": "false"}
+	failed_path := ""
 }
+
+# Branch 3: pod spec does not set automountServiceAccountToken, and no
+# matching SA is in the input (YAML scan, or SA not scanned). Kubernetes
+# default is to mount, so flag it.
+is_sa_auto_mounted(spec, start_of_path, wl_namespace) = [failed_path, fix_path] {
+	not spec.automountServiceAccountToken == false
+	not spec.automountServiceAccountToken == true
+
+	not matching_sa_exists(spec, wl_namespace)
+
+	fix_path := {"path": sprintf("%vautomountServiceAccountToken", [start_of_path]), "value": "false"}
+	failed_path := ""
+}
+
+# No branch when spec.automountServiceAccountToken == false: pod-level
+# disable wins over any SA setting, so no deny.
+
+
+matching_sa_exists(spec, wl_namespace) {
+	sa := input[_]
+	sa.kind == "ServiceAccount"
+	is_same_sa(spec, sa.metadata.name)
+	is_same_namespace(sa.metadata.namespace, wl_namespace)
+}
+
 
 get_failed_path(paths) = [paths[0]] {
 	paths[0] != ""
 } else = []
 
-
 get_fixed_path(paths) = [paths[1]] {
 	paths[1] != ""
 } else = []
 
-is_sa_auto_mounted(spec, start_of_path, wl_namespace) =  [failed_path, fix_path]  {
-	# automountServiceAccountToken set to true in pod spec
-	spec.automountServiceAccountToken == true
-	
-	# SA automount by default
-	service_accounts := [service_account | service_account = input[_]; service_account.kind == "ServiceAccount"]
-	count(service_accounts) > 0
-	sa := service_accounts[_]
-	is_same_sa(spec, sa.metadata.name)
-	is_same_namespace(sa.metadata , wl_namespace)
-	not sa.automountServiceAccountToken == false
 
-	failed_path = sprintf("%vautomountServiceAccountToken", [start_of_path])
-	fix_path = ""
-}
+# ----- matching helpers -----
 
-is_sa_auto_mounted(spec, start_of_path, wl_namespace) =  [failed_path, fix_path]  {
-	# automountServiceAccountToken set to true in pod spec
-	spec.automountServiceAccountToken == true
-	
-	# No SA (yaml scan)
-	service_accounts := [service_account | service_account = input[_]; service_account.kind == "ServiceAccount"]
-	count(service_accounts) == 0
-	failed_path = sprintf("%vautomountServiceAccountToken", [start_of_path])
-	fix_path = ""
-}
-
-
-
- #  -- ----     For SAs     -- ----     
-is_auto_mount(service_account)  =  [failed_path, fix_path]  {
-	service_account.automountServiceAccountToken == true
-	failed_path = "automountServiceAccountToken"
-	fix_path = ""
-}
-
-is_auto_mount(service_account)=  [failed_path, fix_path]  {
-	not service_account.automountServiceAccountToken == false
-	not service_account.automountServiceAccountToken == true
-	fix_path = {"path": "automountServiceAccountToken", "value": "false"}
-	failed_path = ""
+pod_namespace(obj) = ns {
+	ns := obj.metadata.namespace
+} else = "default" {
+	true
 }
 
 is_same_sa(spec, serviceAccountName) {
@@ -175,26 +148,20 @@ is_same_sa(spec, serviceAccountName) {
 }
 
 is_same_sa(spec, serviceAccountName) {
-	not spec.serviceAccountName 
+	not spec.serviceAccountName
 	serviceAccountName == "default"
 }
 
-
-is_same_namespace(metadata1, metadata2) {
-	metadata1.namespace == metadata2.namespace
+is_same_namespace(ns1, ns2) {
+	ns1 == ns2
 }
 
-is_same_namespace(metadata1, metadata2) {
-	not metadata1.namespace
-	not metadata2.namespace
+is_same_namespace(ns1, ns2) {
+	not ns1
+	ns2 == "default"
 }
 
-is_same_namespace(metadata1, metadata2) {
-	not metadata2.namespace
-	metadata1.namespace == "default"
-}
-
-is_same_namespace(metadata1, metadata2) {
-	not metadata1.namespace
-	metadata2.namespace == "default"
+is_same_namespace(ns1, ns2) {
+	not ns2
+	ns1 == "default"
 }

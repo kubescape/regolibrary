@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deploy
+  namespace: kubescape-test
+spec:
+  selector:
+    matchLabels:
+      app: test-deploy
+  template:
+    metadata:
+      labels:
+        app: test-deploy
+    spec:
+      serviceAccountName: test-sa
+      automountServiceAccountToken: true
+      containers:
+        - name: busybox
+          image: busybox:latest

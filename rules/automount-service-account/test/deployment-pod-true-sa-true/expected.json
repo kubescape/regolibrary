@@ -1,0 +1,20 @@
+[{
+    "alertMessage": "Deployment: test-deploy in the following namespace: kubescape-test mounts service account tokens by default",
+    "failedPaths": ["spec.template.spec.automountServiceAccountToken"],
+    "fixPaths": [{
+        "path": "spec.template.spec.automountServiceAccountToken",
+        "value": "false"
+    }],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "name": "test-deploy"
+            }
+        }]
+    }
+}]
