@@ -1,0 +1,29 @@
+[
+    {
+        "alertMessage": "Pod: envfrom-secret-pod has secrets in environment variables",
+        "deletePaths": [
+            "spec.containers[1].envFrom[0].secretRef"
+        ],
+        "failedPaths": [
+            "spec.containers[1].envFrom[0].secretRef"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "envfrom-secret-pod"
+                        },
+                        "name": "envfrom-secret-pod"
+                    }
+                }
+            ]
+        }
+    }
+]
