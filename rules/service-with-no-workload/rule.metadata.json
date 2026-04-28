@@ -7,7 +7,7 @@
         {
             "apiGroups": [""],
             "apiVersions": ["v1"],
-            "resources": ["Service", "Pod"]
+            "resources": ["Service", "Pod", "ReplicationController"]
         },
         {
             "apiGroups": ["apps"],

@@ -33,7 +33,7 @@ has_matching_workload(service, all) {
 }
 
 is_workload(wl) {
-	workload_kinds := {"Pod", "Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "CronJob"}
+	workload_kinds := {"Pod", "Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "CronJob", "ReplicationController"}
 	workload_kinds[wl.kind]
 }
 
@@ -43,7 +43,7 @@ pod_template_labels(wl) = labels {
 }
 
 pod_template_labels(wl) = labels {
-	controller_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	controller_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "ReplicationController"}
 	controller_kinds[wl.kind]
 	labels := object.get(wl.spec.template.metadata, "labels", {})
 }
