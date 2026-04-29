@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: initcontainer-secret-pod
+  labels:
+    app: initcontainer-secret-pod
+spec:
+  initContainers:
+  - name: init-secret
+    image: busybox:latest
+    envFrom:
+    - secretRef:
+        name: my-secret
+    command: ["sh", "-c", "echo initializing"]
+  containers:
+  - name: main-container
+    image: nginx:1.25

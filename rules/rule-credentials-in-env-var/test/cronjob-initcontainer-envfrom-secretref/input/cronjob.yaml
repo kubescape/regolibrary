@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: initcontainer-secret-cronjob
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+          - name: init-secret
+            image: busybox:latest
+            envFrom:
+            - secretRef:
+                name: my-secret
+            command: ["sh", "-c", "echo initializing"]
+          containers:
+          - name: main-container
+            image: busybox:latest
+            command:
+            - /bin/sh
+            - -c
+            - date; echo hello
