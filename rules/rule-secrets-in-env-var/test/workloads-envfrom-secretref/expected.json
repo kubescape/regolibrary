@@ -1,6 +1,6 @@
 [
     {
-        "alertMessage": "Deployment: envfrom-secret-deploy has secrets in environment variables",
+        "alertMessage": "Deployment: envfrom-secret-deploy has secrets in environment variables (via envFrom.secretRef)",
         "deletePaths": [
             "spec.template.spec.containers[0].envFrom[0].secretRef"
         ],

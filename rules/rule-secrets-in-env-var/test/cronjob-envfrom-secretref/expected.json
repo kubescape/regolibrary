@@ -1,6 +1,6 @@
 [
     {
-        "alertMessage": "Cronjob: envfrom-secret-cronjob has secrets in environment variables",
+        "alertMessage": "Cronjob: envfrom-secret-cronjob has secrets in environment variables (via envFrom.secretRef)",
         "deletePaths": [
             "spec.jobTemplate.spec.template.spec.containers[0].envFrom[0].secretRef"
         ],

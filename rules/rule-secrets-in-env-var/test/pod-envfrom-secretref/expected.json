@@ -1,6 +1,6 @@
 [
     {
-        "alertMessage": "Pod: envfrom-secret-pod has secrets in environment variables",
+        "alertMessage": "Pod: envfrom-secret-pod has secrets in environment variables (via envFrom.secretRef)",
         "deletePaths": [
             "spec.containers[1].envFrom[0].secretRef"
         ],
