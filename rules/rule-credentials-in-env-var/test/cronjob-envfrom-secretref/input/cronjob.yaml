@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: envfrom-secret-cronjob
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: secret-container
+            image: busybox:latest
+            envFrom:
+            - secretRef:
+                name: my-secret
+            command:
+            - /bin/sh
+            - -c
+            - date; echo hello
