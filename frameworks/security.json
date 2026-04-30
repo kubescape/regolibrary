@@ -229,6 +229,12 @@
             "patch": {
                 "name": "Verify Authenticated Service"
             }
+        },
+        {
+            "controlID": "C-0292",
+            "patch": {
+                "name": "Nginx Ingress Controller End of Life"
+            }
         }
     ]
 }

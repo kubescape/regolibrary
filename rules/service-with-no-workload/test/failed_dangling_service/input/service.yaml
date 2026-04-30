@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: orphan-svc
+  namespace: default
+spec:
+  selector:
+    app: ghost
+  ports:
+    - port: 80
+      targetPort: 8080

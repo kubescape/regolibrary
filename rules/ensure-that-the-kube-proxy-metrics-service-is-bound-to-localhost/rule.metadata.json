@@ -1,0 +1,24 @@
+{
+   "name": "ensure-that-the-kube-proxy-metrics-service-is-bound-to-localhost",
+   "attributes": {
+      "armoBuiltin": true
+   },
+   "ruleLanguage": "Rego",
+   "match": [
+      {
+         "apiGroups": [
+            ""
+         ],
+         "apiVersions": [
+            "v1"
+         ],
+         "resources": [
+            "ConfigMap"
+         ]
+      }
+   ],
+   "ruleDependencies": [],
+   "description": "Do not bind the kube-proxy metrics port to non-loopback addresses. The kube-proxy metrics service exposes internal cluster metrics that could provide information useful to an attacker.",
+   "remediation": "If running kube-proxy with a configuration file, edit the kube-proxy configuration file and set the metricsBindAddress to `127.0.0.1:10249`.\n\nIf running kube-proxy with command line arguments, set `--metrics-bind-address=127.0.0.1:10249`.\n\nRestart kube-proxy for changes to take effect.",
+   "ruleQuery": "armo_builtins"
+}

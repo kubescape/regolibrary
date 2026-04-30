@@ -1,0 +1,42 @@
+[
+    {
+        "alertMessage": "kube-proxy metrics service is bound to all interfaces (0.0.0.0:10249) instead of localhost",
+        "alertScore": 7,
+        "failedPaths": [
+            "data"
+        ],
+        "fixPaths": [],
+        "packagename": "armo_builtins",
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "ConfigMap",
+                    "metadata": {
+                        "name": "kube-proxy"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "kube-proxy metrics service binding address is not configured (may default to all interfaces)",
+        "alertScore": 7,
+        "failedPaths": [
+            "data"
+        ],
+        "fixPaths": [],
+        "packagename": "armo_builtins",
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "ConfigMap",
+                    "metadata": {
+                        "name": "kube-proxy"
+                    }
+                }
+            ]
+        }
+    }
+]

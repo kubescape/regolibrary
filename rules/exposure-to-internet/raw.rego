@@ -100,10 +100,13 @@ wl_connected_to_service(wl, svc) {
 
 # check if service is connected to ingress
 svc_connected_to_ingress(svc, ingress) = result {
-    rule := ingress.spec.rules[i]
-    paths := rule.http.paths[j]
-    svc.metadata.name == paths.backend.service.name
-    result := [sprintf("spec.rules[%d].http.paths[%d].backend.service.name", [i,j])]
+    result := [path |
+        rule := ingress.spec.rules[i]
+        paths := rule.http.paths[j]
+        svc.metadata.name == paths.backend.service.name
+        path := sprintf("spec.rules[%d].http.paths[%d].backend.service.name", [i,j])
+    ]
+    count(result) > 0
 }
 
 

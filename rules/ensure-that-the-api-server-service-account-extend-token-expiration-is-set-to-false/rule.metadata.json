@@ -1,0 +1,24 @@
+{
+    "name": "ensure-that-the-api-server-service-account-extend-token-expiration-is-set-to-false",
+    "attributes": {
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        }
+    ],
+    "dynamicMatch": [],
+    "ruleDependencies": [],
+    "description": "Ensure that the --service-account-extend-token-expiration parameter is set to false to use shorter token lifetimes.",
+    "remediation": "Edit the API server pod specification file `/etc/kubernetes/manifests/kube-apiserver.yaml` on the Control Plane node and set the below parameter.\n\n```\n--service-account-extend-token-expiration=false\n```\n\n#### Impact Statement\nService account tokens will expire according to the default shorter lifetime. Workloads using long-lived tokens may need to be updated to handle token refresh.\n\n#### Default Value\nBy default, `--service-account-extend-token-expiration` is set to `true`.",
+    "ruleQuery": ""
+}

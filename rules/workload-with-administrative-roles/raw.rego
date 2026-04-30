@@ -21,7 +21,7 @@ deny[msga] {
     is_administrative_role(role)
 
     rolebinding := input[_]
-	rolebinding.kind in ["RoleBinding", "ClusterRoleBinding"] 
+    rolebinding.kind in ["RoleBinding", "ClusterRoleBinding"]
     rolebinding.roleRef.name == role.metadata.name
     rolebinding.subjects[j].kind == "ServiceAccount"
     rolebinding.subjects[j].name == sa.metadata.name
@@ -42,7 +42,7 @@ deny[msga] {
         },
         {
             "object": rolebinding,
-		    "reviewPaths": [reviewPath],
+            "reviewPaths": [reviewPath],
             "deletePaths": [deletePath],
         },
         {

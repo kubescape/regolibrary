@@ -1,0 +1,27 @@
+{
+    "name": "service-with-no-workload",
+    "attributes": {
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [""],
+            "apiVersions": ["v1"],
+            "resources": ["Service", "Pod", "ReplicationController"]
+        },
+        {
+            "apiGroups": ["apps"],
+            "apiVersions": ["v1"],
+            "resources": ["Deployment", "ReplicaSet", "DaemonSet", "StatefulSet"]
+        },
+        {
+            "apiGroups": ["batch"],
+            "apiVersions": ["*"],
+            "resources": ["Job", "CronJob"]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "fails if a Service has a selector that does not match any workload in the same namespace",
+    "remediation": "Verify the Service selector matches the labels of an existing workload in the same namespace, or remove the Service if it is no longer needed.",
+    "ruleQuery": "armo_builtins"
+}

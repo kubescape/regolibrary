@@ -26,17 +26,6 @@
                 "ALL",
                 "BPF"
             ],
-            "listOfDangerousArtifacts": [
-                "bin/bash",
-                "sbin/sh",
-                "bin/ksh",
-                "bin/tcsh",
-                "bin/zsh",
-                "usr/bin/scsh",
-                "bin/csh",
-                "bin/busybox",
-                "usr/bin/busybox"
-            ],
             "publicRegistries": [],
             "sensitiveInterfaces": [
                 "nifi",

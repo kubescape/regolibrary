@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test-cron
+  namespace: kubescape-test
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: test-sa
+          automountServiceAccountToken: true
+          restartPolicy: Never
+          containers:
+            - name: busybox
+              image: busybox:latest

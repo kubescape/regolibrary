@@ -95,6 +95,18 @@
             "patch": {
                 "name": "Ensure memory limits are set"
             }
+        },
+        {
+            "controlID": "C-0292",
+            "patch": {
+                "name": "Nginx Ingress Controller End of Life"
+            }
+        },
+        {
+            "controlID": "C-0293",
+            "patch": {
+                "name": "Service with no workload"
+            }
         }
     ]
 }

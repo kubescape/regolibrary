@@ -1,0 +1,113 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: myapp-prod-api-be:apps/Deployment:myapp-api/myapp-api-backend
+    deployment.kubernetes.io/revision: '26'
+  creationTimestamp: '2025-09-16T05:05:57Z'
+  generation: 29
+  name: myapp-api-backend
+  namespace: myapp-api
+  resourceVersion: '74861477'
+  uid: c0f83f28-dc06-4d5c-b0fa-52a9fd87d06d
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 6
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: myapp-api
+      tier: backend
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: myapp-api
+        tier: backend
+    spec:
+      containers:
+      - args:
+        - run-program
+        - gunicorn
+        - app.wsgi:application
+        - -b
+        - 0.0.0.0:8000
+        - -t
+        - '60'
+        - -w
+        - '4'
+        - --max-requests
+        - '30000'
+        - --max-requests-jitter
+        - '2000'
+        - --log-level
+        - info
+        - --access-logfile
+        - '-'
+        - --error-logfile
+        - '-'
+        - --capture-output
+        - --access-logformat
+        - '%(h)s %({schema}i)s %(r)s %(q)s %(s)s %(f)s %(a)s'
+        command:
+        - newrelic-admin
+        env:
+        - name: PYTHONUNBUFFERED
+          value: XXXXXX
+        - name: TYPE_SERVER
+          value: XXXXXX
+        - name: NEW_RELIC_CONFIG_FILE
+          value: XXXXXX
+        - name: NEW_RELIC_ENVIRONMENT
+          value: XXXXXX
+        envFrom:
+        - secretRef:
+            name: myapp-api-secretenv
+        - secretRef:
+            name: sm-myapp-prod-api-main-01-db-password
+        image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/ecr-shared-services-myapp-api:prod-e8c1aabc8ab759665417770046bfa7d1a5a29b50
+        imagePullPolicy: IfNotPresent
+        name: myapp-api-http-server
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        resources:
+          limits:
+            cpu: '2'
+            memory: 3Gi
+          requests:
+            cpu: '1'
+            memory: 3Gi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      serviceAccount: myapp-prod.myapp-api-backend-s3-access.sa
+      serviceAccountName: myapp-prod.myapp-api-backend-s3-access.sa
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 6
+  conditions:
+  - lastTransitionTime: '2025-12-16T21:22:16Z'
+    lastUpdateTime: '2025-12-16T21:22:16Z'
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: 'True'
+    type: Available
+  - lastTransitionTime: '2025-09-28T12:08:47Z'
+    lastUpdateTime: '2025-12-24T19:55:35Z'
+    message: ReplicaSet "myapp-api-backend-7f585d48f9" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: 'True'
+    type: Progressing
+  observedGeneration: 29
+  readyReplicas: 6
+  replicas: 6
+  updatedReplicas: 6
