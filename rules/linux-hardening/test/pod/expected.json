@@ -6,14 +6,6 @@
             {
                 "path": "spec.containers[0].securityContext.seccompProfile",
                 "value": "YOUR_VALUE"
-            },
-            {
-                "path": "spec.containers[0].securityContext.seLinuxOptions",
-                "value": "YOUR_VALUE"
-            },
-            {
-                "path": "spec.containers[0].securityContext.capabilities.drop[0]",
-                "value": "YOUR_VALUE"
             }
         ],
         "ruleStatus": "",

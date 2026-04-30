@@ -20,6 +20,8 @@ spec:
           name : mysql
           image : mysql
           securityContext:
+            seccompProfile:
+              type: RuntimeDefault
             capabilities:
               drop:
                 - NET_RAW
@@ -59,6 +61,8 @@ spec:
           name : mysql
           image : mysql
           securityContext:
+            seccompProfile:
+              type: RuntimeDefault
             readOnlyRootFilesystem: false
           env :
             -
@@ -90,6 +94,8 @@ spec:
       securityContext:
         seLinuxOptions:
           level: "s0:c123,c456"
+        seccompProfile:
+          type: RuntimeDefault
       containers :
         -
           name : mysql
