@@ -67,10 +67,6 @@ same_namespace(a, b) {
 	service_namespace(a) == workload_namespace(b)
 }
 
-service_namespace(svc) = ns {
-	ns := object.get(svc.metadata, "namespace", "default")
-}
+service_namespace(svc) := object.get(svc.metadata, "namespace", "default")
 
-workload_namespace(wl) = ns {
-	ns := object.get(wl.metadata, "namespace", "default")
-}
+workload_namespace(wl) := object.get(wl.metadata, "namespace", "default")
