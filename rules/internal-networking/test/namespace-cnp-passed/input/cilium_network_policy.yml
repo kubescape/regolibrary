@@ -1,0 +1,12 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: test-cilium-policy
+  namespace: test
+spec:
+  endpointSelector:
+    matchLabels:
+      purpose: demonstrate-command
+  egress:
+  - toEndpoints:
+    - matchLabels: {}

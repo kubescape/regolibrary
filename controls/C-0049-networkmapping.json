@@ -9,13 +9,13 @@
             "compliance"
         ]
     },
-    "description": "If no network policy is defined, attackers who gain access to a single container may use it to probe the network. This control lists all namespaces in which no network policies are defined.",
-    "remediation": "Define network policies or use similar network protection mechanisms.",
+    "description": "If no network policy is defined, attackers who gain access to a single container may use it to probe the network. This control lists all namespaces in which no network policies (NetworkPolicy, CiliumNetworkPolicy, or qualifying CiliumClusterwideNetworkPolicy) are defined.",
+    "remediation": "Define NetworkPolicy, CiliumNetworkPolicy, or CiliumClusterwideNetworkPolicy resources, or use similar network protection mechanisms.",
     "rulesNames": [
         "internal-networking"
     ],
-    "long_description": "Attackers may try to map the cluster network to get information on the running applications, including scanning for known vulnerabilities. By default, there is no restriction on pods communication in Kubernetes. Therefore, attackers who gain access to a single container, may use it to probe the network.",
-    "test": "Check for each namespace if there is a network policy defined.",
+    "long_description": "Attackers may try to map the cluster network to get information on the running applications, including scanning for known vulnerabilities. By default, there is no restriction on pods communication in Kubernetes. Therefore, attackers who gain access to a single container, may use it to probe the network. This control supports standard Kubernetes NetworkPolicy, CiliumNetworkPolicy, and qualifying CiliumClusterwideNetworkPolicy resources.",
+    "test": "Check for each namespace if there is a network policy defined (NetworkPolicy, CiliumNetworkPolicy, or qualifying CiliumClusterwideNetworkPolicy).",
     "controlID": "C-0049",
     "baseScore": 3.0,
     "example": "@controls/examples/c049.yaml",

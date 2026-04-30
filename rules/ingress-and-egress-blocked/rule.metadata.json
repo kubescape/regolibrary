@@ -51,6 +51,18 @@
         "resources": [
             "NetworkPolicy"
         ]
+      },
+      {
+        "apiGroups": [
+          "cilium.io"
+        ],
+        "apiVersions": [
+          "v2"
+        ],
+        "resources": [
+            "CiliumNetworkPolicy",
+            "CiliumClusterwideNetworkPolicy"
+        ]
       }
     ],
     "ruleDependencies": [
