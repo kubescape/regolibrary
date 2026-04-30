@@ -371,6 +371,12 @@
             "patch": {
                 "name": "Ensure memory limits are set"
             }
+        },
+        {
+            "controlID": "C-0293",
+            "patch": {
+                "name": "Service with no workload"
+            }
         }
     ]
 }

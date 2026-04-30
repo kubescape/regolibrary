@@ -1,0 +1,20 @@
+[
+  {
+    "alertMessage": "Service 'orphan-svc' selector matches no workloads in namespace 'default'",
+    "packagename": "armo_builtins",
+    "failedPaths": ["spec.selector"],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Service",
+          "metadata": {
+            "name": "orphan-svc"
+          }
+        }
+      ]
+    }
+  }
+]
