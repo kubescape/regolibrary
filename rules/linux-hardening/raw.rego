@@ -22,57 +22,59 @@ deny[msga] {
 
 is_unsafe_obj(obj) := fix_paths {
 	obj.kind == "Pod"
-	fix_paths := are_unsafe_specs(obj, ["spec"], ["metadata", "annotations"])
+	fix_paths := are_unsafe_specs(obj, ["spec"])
 } else := fix_paths {
 	obj.kind == "CronJob"
-	fix_paths := are_unsafe_specs(obj, ["spec", "jobTemplate", "spec", "template", "spec"], ["spec", "jobTemplate", "spec", "template", "metadata", "annotations"])
+	fix_paths := are_unsafe_specs(obj, ["spec", "jobTemplate", "spec", "template", "spec"])
 } else := fix_paths {
 	obj.kind in ["Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"]
-	fix_paths := are_unsafe_specs(obj, ["spec", "template", "spec"], ["spec", "template", "metadata", "annotations"])
+	fix_paths := are_unsafe_specs(obj, ["spec", "template", "spec"])
 }
 
-are_unsafe_specs(obj, specs_path, anotation_path) := paths {
+are_unsafe_specs(obj, specs_path) := paths {
 	# spec
 	specs := object.get(obj, specs_path, null)
 	specs != null
-	are_seccomp_and_selinux_disabled(specs)
 
-	# annotation
-	annotations := object.get(obj, anotation_path, [])
-	app_armor_annotations := [annotations[i] | annotation = i; startswith(i, "container.apparmor.security.beta.kubernetes.io")]
-	count(app_armor_annotations) == 0
+	# Check both regular containers and initContainers
+	fix_fields := ["seccompProfile"]
 
-	# container
+	# Regular containers
 	containers_path := array.concat(specs_path, ["containers"])
 	containers := object.get(obj, containers_path, [])
-
-	# Psuedo code explanation:
-	# for i, container in containers
-	#  		if is_unsafe_container:
-	# 			fix_paths += [(containers_path[i] + field) for j, field in fix_fields]
-	# 
-	# At the end we get [[<container1_path1>, <container1_path2>, ...], ...]
 	containers_fix_path := concat(".", containers_path)
-	fix_fields := ["seccompProfile", "seLinuxOptions", "capabilities.drop[0]"]
-	paths := [[{
+	container_paths := [[{
 		"path": sprintf("%s[%d].securityContext.%s", [containers_fix_path, i, field]),
 		"value": "YOUR_VALUE",
 	} |
 		field := fix_fields[j]
 	] |
 		container = containers[i]
-		is_unsafe_container(container)
+		is_unsafe_container(specs, container)
 	]
 
+	# Init containers
+	init_containers_path := array.concat(specs_path, ["initContainers"])
+	init_containers := object.get(obj, init_containers_path, [])
+	init_containers_fix_path := concat(".", init_containers_path)
+	init_container_paths := [[{
+		"path": sprintf("%s[%d].securityContext.%s", [init_containers_fix_path, i, field]),
+		"value": "YOUR_VALUE",
+	} |
+		field := fix_fields[j]
+	] |
+		init_container = init_containers[i]
+		is_unsafe_container(specs, init_container)
+	]
+
+	# Combine both sets of paths
+	paths := array.concat(container_paths, init_container_paths)
 	count(paths) > 0
 }
 
-are_seccomp_and_selinux_disabled(obj) {
-	not obj.securityContext.seccompProfile
-	not obj.securityContext.seLinuxOptions
-}
-
-is_unsafe_container(container) {
-	are_seccomp_and_selinux_disabled(container)
-	not container.securityContext.capabilities.drop
+# A container is unsafe if it has no seccomp profile defined
+# at either pod level or container level
+is_unsafe_container(pod_spec, container) {
+	not pod_spec.securityContext.seccompProfile
+	not container.securityContext.seccompProfile
 }

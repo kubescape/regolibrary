@@ -1,10 +1,10 @@
 [
     {
-        "alertMessage": "Deployment: my-deployment does not define any linux security hardening",
+        "alertMessage": "Pod: mixed-security-pod does not define any linux security hardening",
         "failedPaths": [],
         "fixPaths": [
             {
-                "path": "spec.template.spec.containers[1].securityContext.seccompProfile",
+                "path": "spec.containers[1].securityContext.seccompProfile",
                 "value": "YOUR_VALUE"
             }
         ],
@@ -14,24 +14,24 @@
         "alertObject": {
             "k8sApiObjects": [
                 {
-                    "apiVersion": "apps/v1",
-                    "kind": "Deployment",
+                    "apiVersion": "v1",
+                    "kind": "Pod",
                     "metadata": {
                         "labels": {
-                            "app": "goproxy"
+                            "app": "myapp"
                         },
-                        "name": "my-deployment"
+                        "name": "mixed-security-pod"
                     }
                 }
             ]
         }
     },
     {
-        "alertMessage": "Deployment: my-deployment does not define any linux security hardening",
+        "alertMessage": "Pod: mixed-security-pod does not define any linux security hardening",
         "failedPaths": [],
         "fixPaths": [
             {
-                "path": "spec.template.spec.containers[0].securityContext.seccompProfile",
+                "path": "spec.containers[2].securityContext.seccompProfile",
                 "value": "YOUR_VALUE"
             }
         ],
@@ -41,13 +41,13 @@
         "alertObject": {
             "k8sApiObjects": [
                 {
-                    "apiVersion": "apps/v1",
-                    "kind": "Deployment",
+                    "apiVersion": "v1",
+                    "kind": "Pod",
                     "metadata": {
                         "labels": {
-                            "app": "goproxy"
+                            "app": "myapp"
                         },
-                        "name": "my-deployment"
+                        "name": "mixed-security-pod"
                     }
                 }
             ]

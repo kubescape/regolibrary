@@ -9,6 +9,8 @@ spec:
   - name: test-container
     image: hashicorp/http-echo:0.2.3
     securityContext:
+      seccompProfile:
+        type: RuntimeDefault
       capabilities:
         drop:
           - NET_RAW
@@ -26,6 +28,9 @@ spec:
   containers:
   - name: test-container
     image: hashicorp/http-echo:0.2.3
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
 ---
 apiVersion: v1
 kind: Pod
@@ -37,6 +42,8 @@ spec:
   securityContext:
     seLinuxOptions:
       level: "s0:c123,c456"
+    seccompProfile:
+      type: RuntimeDefault
   containers:
   - name: test-container
     image: hashicorp/http-echo:0.2.3

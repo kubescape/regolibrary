@@ -47,6 +47,8 @@ spec:
           securityContext:
             seLinuxOptions:
               level: "s0:c123,c456"
+            seccompProfile:
+              type: RuntimeDefault
           hostNetwork: true
           containers:
             - name: mysql
@@ -87,6 +89,9 @@ spec:
           containers:
             - name: mysql
               image: mysql
+              securityContext:
+                seccompProfile:
+                  type: RuntimeDefault
               env:
                 - name: MYSQL_ROOT_PASSWORD
                   value: "rootpasswd"
@@ -96,6 +101,9 @@ spec:
                   subPath: mysql
             - name: php
               image: php:7.0-apache
+              securityContext:
+                seccompProfile:
+                  type: RuntimeDefault
               volumeMounts:
                 - mountPath: /var/www/html
                   name: site-data
@@ -151,6 +159,8 @@ spec:
             - name: mysql
               image: mysql
               securityContext:
+                seccompProfile:
+                  type: RuntimeDefault
                 capabilities:
                   drop:
                     - NET_RAW

@@ -1,10 +1,10 @@
 [
     {
-        "alertMessage": "Pod: audit-pod does not define any linux security hardening",
+        "alertMessage": "Pod: test-pod-with-unsafe-init does not define any linux security hardening",
         "failedPaths": [],
         "fixPaths": [
             {
-                "path": "spec.containers[0].securityContext.seccompProfile",
+                "path": "spec.initContainers[0].securityContext.seccompProfile",
                 "value": "YOUR_VALUE"
             }
         ],
@@ -18,9 +18,9 @@
                     "kind": "Pod",
                     "metadata": {
                         "labels": {
-                            "app": "audit-pod"
+                            "app": "myapp"
                         },
-                        "name": "audit-pod"
+                        "name": "test-pod-with-unsafe-init"
                     }
                 }
             ]
