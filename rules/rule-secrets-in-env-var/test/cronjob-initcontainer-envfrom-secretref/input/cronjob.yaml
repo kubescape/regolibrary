@@ -11,14 +11,14 @@ spec:
           restartPolicy: OnFailure
           initContainers:
           - name: init-secret
-            image: busybox:latest
+            image: busybox:1.36.1
             envFrom:
             - secretRef:
                 name: my-secret
             command: ["sh", "-c", "echo initializing"]
           containers:
           - name: main-container
-            image: busybox:latest
+            image: busybox:1.36.1
             command:
             - /bin/sh
             - -c

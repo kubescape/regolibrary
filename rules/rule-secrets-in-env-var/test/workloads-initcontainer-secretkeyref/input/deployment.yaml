@@ -1,23 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: initcontainer-secret-deploy
+  name: initcontainer-secretkeyref-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: initcontainer-secret-deploy
+      app: initcontainer-secretkeyref-deploy
   template:
     metadata:
       labels:
-        app: initcontainer-secret-deploy
+        app: initcontainer-secretkeyref-deploy
     spec:
       initContainers:
       - name: init-secret
         image: busybox:1.36.1
-        envFrom:
-        - secretRef:
-            name: db-credentials
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: password
         command: ["sh", "-c", "echo initializing"]
       containers:
       - name: main-container

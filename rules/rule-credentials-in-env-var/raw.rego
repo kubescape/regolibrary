@@ -216,7 +216,7 @@ deny[msga] {
 	envFrom := container.envFrom[j]
 	envFrom.secretRef
 
-	path := sprintf("spec.containers[%v].envFrom[%v].secretRef", [format_int(i, 10), format_int(j, 10)])
+	path := sprintf("spec.containers[%v].envFrom[%v].secretRef", [i, j])
 
 	msga := {
 		"alertMessage": sprintf("Pod: %v has sensitive information in environment variables (via envFrom.secretRef)", [pod.metadata.name]),
@@ -239,7 +239,7 @@ deny[msga] {
 	envFrom := container.envFrom[j]
 	envFrom.secretRef
 
-	path := sprintf("spec.template.spec.containers[%v].envFrom[%v].secretRef", [format_int(i, 10), format_int(j, 10)])
+	path := sprintf("spec.template.spec.containers[%v].envFrom[%v].secretRef", [i, j])
 
 	msga := {
 		"alertMessage": sprintf("%v: %v has sensitive information in environment variables (via envFrom.secretRef)", [wl.kind, wl.metadata.name]),
@@ -261,7 +261,7 @@ deny[msga] {
 	envFrom := container.envFrom[j]
 	envFrom.secretRef
 
-	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].envFrom[%v].secretRef", [format_int(i, 10), format_int(j, 10)])
+	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].envFrom[%v].secretRef", [i, j])
 
 	msga := {
 		"alertMessage": sprintf("Cronjob: %v has sensitive information in environment variables (via envFrom.secretRef)", [wl.metadata.name]),
@@ -284,7 +284,7 @@ deny[msga] {
 	envFrom := container.envFrom[j]
 	envFrom.secretRef
 
-	path := sprintf("spec.initContainers[%v].envFrom[%v].secretRef", [format_int(i, 10), format_int(j, 10)])
+	path := sprintf("spec.initContainers[%v].envFrom[%v].secretRef", [i, j])
 
 	msga := {
 		"alertMessage": sprintf("Pod: %v has sensitive information in environment variables (in initContainer via envFrom.secretRef)", [pod.metadata.name]),
@@ -307,7 +307,7 @@ deny[msga] {
 	envFrom := container.envFrom[j]
 	envFrom.secretRef
 
-	path := sprintf("spec.template.spec.initContainers[%v].envFrom[%v].secretRef", [format_int(i, 10), format_int(j, 10)])
+	path := sprintf("spec.template.spec.initContainers[%v].envFrom[%v].secretRef", [i, j])
 
 	msga := {
 		"alertMessage": sprintf("%v: %v has sensitive information in environment variables (in initContainer via envFrom.secretRef)", [wl.kind, wl.metadata.name]),
@@ -329,7 +329,7 @@ deny[msga] {
 	envFrom := container.envFrom[j]
 	envFrom.secretRef
 
-	path := sprintf("spec.jobTemplate.spec.template.spec.initContainers[%v].envFrom[%v].secretRef", [format_int(i, 10), format_int(j, 10)])
+	path := sprintf("spec.jobTemplate.spec.template.spec.initContainers[%v].envFrom[%v].secretRef", [i, j])
 
 	msga := {
 		"alertMessage": sprintf("Cronjob: %v has sensitive information in environment variables (in initContainer via envFrom.secretRef)", [wl.metadata.name]),

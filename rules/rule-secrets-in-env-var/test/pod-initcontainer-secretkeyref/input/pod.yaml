@@ -1,16 +1,19 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: initcontainer-secret-pod
+  name: initcontainer-secretkeyref-pod
   labels:
-    app: initcontainer-secret-pod
+    app: initcontainer-secretkeyref-pod
 spec:
   initContainers:
   - name: init-secret
     image: busybox:1.36.1
-    envFrom:
-    - secretRef:
-        name: my-secret
+    env:
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: db-credentials
+          key: password
     command: ["sh", "-c", "echo initializing"]
   containers:
   - name: main-container
