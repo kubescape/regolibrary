@@ -63,6 +63,17 @@
         "resources": [
           "CiliumNetworkPolicy"
         ]
+      },
+      {
+        "apiGroups": [
+          "cilium.io"
+        ],
+        "apiVersions": [
+          "v2"
+        ],
+        "resources": [
+          "CiliumClusterwideNetworkPolicy"
+        ]
       }
     ],
     "description": "fails if no networkpolicy configured in workload labels",
