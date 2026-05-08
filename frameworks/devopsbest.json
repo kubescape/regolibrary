@@ -107,6 +107,12 @@
             "patch": {
                 "name": "Service with no workload"
             }
+        },
+        {
+            "controlID": "C-0294",
+            "patch": {
+                "name": "Deprecated serviceAccount field"
+            }
         }
     ]
 }
