@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: deprecated-sa-job
+spec:
+  template:
+    spec:
+      serviceAccount: app-sa
+      restartPolicy: Never
+      containers:
+        - name: nginx
+          image: nginx
