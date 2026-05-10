@@ -228,3 +228,4 @@ CIS-5.7.4,resources-notpods-in-default-namespace
 C-0292,detect-nginx-ingress-controller-eol
 C-0293,service-with-no-workload
 C-0294,deprecated-service-account-field
+C-0295,duplicate-env-var

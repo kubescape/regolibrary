@@ -1,0 +1,25 @@
+{
+    "name": "Duplicate environment variable",
+    "attributes": {
+        "controlTypeTags": [
+            "devops"
+        ]
+    },
+    "description": "A container with duplicate environment variable names can behave unexpectedly because later values override earlier values. Duplicate entries usually indicate configuration drift or copy-paste mistakes.",
+    "remediation": "Remove or rename duplicate environment variable entries so each container defines each environment variable name only once.",
+    "rulesNames": [
+        "duplicate-env-var"
+    ],
+    "test": "Check every container in Pods, pod-template workloads, and CronJobs for repeated env[].name values within the same container.",
+    "controlID": "C-0295",
+    "baseScore": 3.0,
+    "category": {
+        "name": "Workload"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}
