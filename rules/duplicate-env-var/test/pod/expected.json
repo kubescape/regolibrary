@@ -1,0 +1,22 @@
+[
+  {
+    "alertMessage": "Pod: duplicate-env-pod container app has duplicate environment variable LOG_LEVEL",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.containers[0].env[1].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "duplicate-env-pod"
+          }
+        }
+      ]
+    }
+  }
+]

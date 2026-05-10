@@ -1,0 +1,22 @@
+[
+  {
+    "alertMessage": "Job: duplicate-env-job container worker has duplicate environment variable WORKER_MODE",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.template.spec.containers[0].env[1].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+            "name": "duplicate-env-job"
+          }
+        }
+      ]
+    }
+  }
+]
