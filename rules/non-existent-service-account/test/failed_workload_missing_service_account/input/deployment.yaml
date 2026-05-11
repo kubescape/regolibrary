@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: missing-sa-deployment
+  namespace: app
+spec:
+  selector:
+    matchLabels:
+      app: missing-sa
+  template:
+    metadata:
+      labels:
+        app: missing-sa
+    spec:
+      serviceAccountName: worker
+      containers:
+      - name: app
+        image: nginx

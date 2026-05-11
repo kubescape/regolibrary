@@ -1,0 +1,22 @@
+[
+  {
+    "alertMessage": "Pod: missing-sa-pod in namespace app references missing ServiceAccount api-runner",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.serviceAccountName"
+    ],
+    "fixPaths": [],
+    "alertScore": 5,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "missing-sa-pod"
+          }
+        }
+      ]
+    }
+  }
+]

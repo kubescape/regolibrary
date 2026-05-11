@@ -1,0 +1,22 @@
+[
+  {
+    "alertMessage": "CronJob: missing-sa-cronjob in namespace batch references missing ServiceAccount batch-runner",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.jobTemplate.spec.template.spec.serviceAccountName"
+    ],
+    "fixPaths": [],
+    "alertScore": 5,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "missing-sa-cronjob"
+          }
+        }
+      ]
+    }
+  }
+]
