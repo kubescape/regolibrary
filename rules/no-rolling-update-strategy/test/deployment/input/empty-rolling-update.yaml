@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empty-rolling-update
+  labels:
+    app: empty-rolling-update
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: {}
+  selector:
+    matchLabels:
+      app: empty-rolling-update
+  template:
+    metadata:
+      labels:
+        app: empty-rolling-update
+    spec:
+      containers:
+        - name: app
+          image: nginx:1.25

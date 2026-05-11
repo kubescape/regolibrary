@@ -1,0 +1,24 @@
+{
+    "name": "no-rolling-update-strategy",
+    "attributes": {
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                "apps"
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Deployment"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "Fails if a Deployment does not define a usable rolling update strategy.",
+    "remediation": "Set spec.strategy.type to RollingUpdate and configure spec.strategy.rollingUpdate with a non-zero maxSurge or maxUnavailable value.",
+    "ruleQuery": "armo_builtins"
+}
