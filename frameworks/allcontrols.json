@@ -377,12 +377,6 @@
             "patch": {
                 "name": "Service with no workload"
             }
-        },
-        {
-            "controlID": "C-0298",
-            "patch": {
-                "name": "No rolling update strategy"
-            }
         }
     ]
 }

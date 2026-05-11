@@ -287,4 +287,3 @@ nsa,C-0292,Nginx Ingress Controller End of Life
 DevOpsBest,C-0293,Service with no workload
 AllControls,C-0293,Service with no workload
 DevOpsBest,C-0298,No rolling update strategy
-AllControls,C-0298,No rolling update strategy
