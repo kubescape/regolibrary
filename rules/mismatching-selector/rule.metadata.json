@@ -1,0 +1,17 @@
+{
+    "name": "mismatching-selector",
+    "attributes": {
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": ["apps"],
+            "apiVersions": ["v1"],
+            "resources": ["Deployment", "ReplicaSet", "DaemonSet", "StatefulSet"]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "fails if a workload selector does not match the pod template labels",
+    "remediation": "Update spec.selector.matchLabels or spec.template.metadata.labels so the selector labels match the pod template labels.",
+    "ruleQuery": "armo_builtins"
+}
