@@ -11,6 +11,8 @@ spec:
       value: info
     - name: LOG_LEVEL
       value: debug
+    - name: LOG_LEVEL
+      value: trace
   - name: sidecar
     image: busybox
     env:

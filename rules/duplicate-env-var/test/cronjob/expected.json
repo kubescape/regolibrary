@@ -1,9 +1,49 @@
 [
   {
-    "alertMessage": "CronJob: duplicate-env-cronjob container job has duplicate environment variable RETRY_COUNT",
+    "alertMessage": "CronJob: duplicate-env-cronjob container job has duplicate environment variable name RETRY_COUNT at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.jobTemplate.spec.template.spec.containers[0].env[0].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "duplicate-env-cronjob"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "CronJob: duplicate-env-cronjob container job has duplicate environment variable name RETRY_COUNT at this entry",
     "packagename": "armo_builtins",
     "failedPaths": [
       "spec.jobTemplate.spec.template.spec.containers[0].env[1].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "duplicate-env-cronjob"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "CronJob: duplicate-env-cronjob container job has duplicate environment variable name RETRY_COUNT at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.jobTemplate.spec.template.spec.containers[0].env[2].name"
     ],
     "fixPaths": [],
     "alertScore": 3,

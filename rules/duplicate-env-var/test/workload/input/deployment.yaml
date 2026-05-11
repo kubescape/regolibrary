@@ -19,3 +19,5 @@ spec:
           value: production
         - name: APP_MODE
           value: staging
+        - name: APP_MODE
+          value: debug

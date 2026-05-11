@@ -14,3 +14,5 @@ spec:
           value: batch
         - name: WORKER_MODE
           value: retry
+        - name: WORKER_MODE
+          value: debug
