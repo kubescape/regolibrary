@@ -1,18 +1,18 @@
 [
     {
-        "alertMessage": "Review webhook: test-webhook ensure that it defines the required policy",
+        "alertMessage": "Namespace: my-baseline-namespace does not enable restricted pod security admission",
         "failedPaths": [],
-        "fixPaths": [],
+        "fixPaths": [{"path":"metadata.labels[pod-security.kubernetes.io/enforce]", "value":"restricted"}],
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 7,
         "alertObject": {
             "k8sApiObjects": [
                 {
-                    "apiVersion": "admissionregistration.k8s.io/v1",
-                    "kind": "MutatingWebhookConfiguration",
+                    "apiVersion": "v1",
+                    "kind": "Namespace",
                     "metadata": {
-                        "name": "test-webhook"
+                        "name": "my-baseline-namespace"
                     }
                 }
             ]
