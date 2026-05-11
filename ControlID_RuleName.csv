@@ -229,3 +229,4 @@ C-0292,detect-nginx-ingress-controller-eol
 C-0293,service-with-no-workload
 C-0294,deprecated-service-account-field
 C-0295,duplicate-env-var
+C-0296,mismatching-selector
