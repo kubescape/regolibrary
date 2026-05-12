@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    purpose: demonstrate-command
+spec:
+  selector:
+    matchLabels:
+      purpose: demonstrate-command
+  template:
+    metadata:
+      labels:
+        purpose: demonstrate-command
+    spec:
+      initContainers:
+        - name: init-container
+          image: k8s.gcr.io/test-webserver
+          volumeMounts:
+            - mountPath: /test-pd
+              readOnly: false
+              name: test-volume
+      containers:
+        - name: test-container
+          image: k8s.gcr.io/test-webserver
+      volumes:
+        - name: test-volume
+          hostPath:
+            path: /var
