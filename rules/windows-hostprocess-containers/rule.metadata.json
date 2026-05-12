@@ -1,0 +1,50 @@
+{
+    "name": "windows-hostprocess-containers",
+    "attributes": {
+        "m$K8sThreatMatrix": "Privilege Escalation::hostProcess container"
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+      {
+        "apiGroups": [
+          ""
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+          "Pod"
+        ]
+      },
+      {
+        "apiGroups": [
+          "apps"
+        ],
+        "apiVersions": [
+          "v1"
+        ],
+        "resources": [
+            "Deployment",
+            "ReplicaSet",
+            "DaemonSet",
+            "StatefulSet"
+        ]
+      },
+      {
+        "apiGroups": [
+          "batch"
+        ],
+        "apiVersions": [
+          "*"
+        ],
+        "resources": [
+            "Job",
+            "CronJob"
+        ]
+      }
+    ],
+    "ruleDependencies": [],
+    "description": "Containers should not run with hostProcess enabled. A Windows HostProcess container runs directly on the host and has root-level access, similar to privileged containers on Linux. Enabling hostProcess bypasses container isolation and gives the process unrestricted access to the Windows node.",
+    "remediation": "Remove or set to false the securityContext.windowsOptions.hostProcess field in each container spec.",
+    "ruleQuery": "armo_builtins"
+}

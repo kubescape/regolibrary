@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: win-deployment
+  labels:
+    app: win-app
+spec:
+  selector:
+    matchLabels:
+      app: win-app
+  template:
+    metadata:
+      labels:
+        app: win-app
+    spec:
+      containers:
+      - name: win-container
+        image: mcr.microsoft.com/windows/servercore:ltsc2022
+        securityContext:
+          windowsOptions:
+            hostProcess: true
+      - name: sidecar
+        image: busybox
