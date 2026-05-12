@@ -1,0 +1,29 @@
+[
+    {
+        "alertMessage": "the following pods are defined as privileged: priv-initcontainer-pod",
+        "fixPaths": [],
+        "deletePaths": [
+            "spec.initContainers[0].securityContext.privileged"
+        ],
+        "failedPaths": [
+            "spec.initContainers[0].securityContext.privileged"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "priv-initcontainer-pod"
+                        },
+                        "name": "priv-initcontainer-pod"
+                    }
+                }
+            ]
+        }
+    }
+]

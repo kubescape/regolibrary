@@ -1,0 +1,29 @@
+[
+    {
+        "alertMessage": "Deployment: priv-initcontainer-deploy is defined as privileged:",
+        "fixPaths": [],
+        "deletePaths": [
+            "spec.template.spec.initContainers[0].securityContext.privileged"
+        ],
+        "failedPaths": [
+            "spec.template.spec.initContainers[0].securityContext.privileged"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "priv-initcontainer-deploy"
+                        },
+                        "name": "priv-initcontainer-deploy"
+                    }
+                }
+            ]
+        }
+    }
+]

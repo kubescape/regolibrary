@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: priv-initcontainer-cronjob
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+          - name: setup
+            image: busybox
+            securityContext:
+              capabilities:
+                add: ["SYS_ADMIN"]
+          containers:
+          - name: app
+            image: nginx
+            securityContext:
+              privileged: false

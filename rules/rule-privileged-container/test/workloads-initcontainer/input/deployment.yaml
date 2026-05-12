@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: priv-initcontainer-deploy
+  labels:
+    app: priv-initcontainer-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: priv-initcontainer-deploy
+  template:
+    metadata:
+      labels:
+        app: priv-initcontainer-deploy
+    spec:
+      initContainers:
+      - name: setup
+        image: busybox
+        securityContext:
+          privileged: true
+      containers:
+      - name: app
+        image: nginx
+        securityContext:
+          privileged: false

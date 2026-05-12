@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "the following cronjobs are defined as privileged: priv-initcontainer-cronjob",
+        "fixPaths": [],
+        "deletePaths": [
+            "spec.jobTemplate.spec.template.spec.initContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.initContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "priv-initcontainer-cronjob"
+                    }
+                }
+            ]
+        }
+    }
+]
