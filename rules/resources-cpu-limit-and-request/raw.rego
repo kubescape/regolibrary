@@ -344,83 +344,22 @@ is_min_request_exceeded_cpu(cpu_req) {
 ##############
 # helpers
 
-# Compare according to unit - max
+# Compare two Kubernetes CPU quantities by normalizing both sides to millicores.
+# Supports the milli suffix ("m") and unitless whole/fractional cores.
 compare_max(max, given) {
-	endswith(max, "Mi")
-	endswith(given, "Mi")
-	split_max :=  split(max, "Mi")[0]
-	split_given :=  split(given, "Mi")[0]
-	to_number(split_given) > to_number(split_max)
-}
-
-compare_max(max, given) {
-	endswith(max, "M")
-	endswith(given, "M")
-	split_max :=  split(max, "M")[0]
-	split_given :=  split(given, "M")[0]
-	to_number(split_given) > to_number(split_max)
-}
-
-compare_max(max, given) {
-	endswith(max, "m")
-	endswith(given, "m")
-	split_max :=  split(max, "m")[0]
-	split_given :=  split(given, "m")[0]
-	to_number(split_given) > to_number(split_max)
-}
-
-compare_max(max, given) {
-	not is_special_measure(max)
-	not is_special_measure(given)
-	to_number(given) > to_number(max)
-}
-
-
-
-################
-# Compare according to unit - min
-compare_min(min, given) {
-	endswith(min, "Mi")
-	endswith(given, "Mi")
-	split_min :=  split(min, "Mi")[0]
-	split_given :=  split(given, "Mi")[0]
-	to_number(split_given) < to_number(split_min)
+	cpu_to_millicores(given) > cpu_to_millicores(max)
 }
 
 compare_min(min, given) {
-	endswith(min, "M")
-	endswith(given, "M")
-	split_min :=  split(min, "M")[0]
-	split_given :=  split(given, "M")[0]
-	to_number(split_given) < to_number(split_min)
+	cpu_to_millicores(given) < cpu_to_millicores(min)
 }
 
-compare_min(min, given) {
-	endswith(min, "m")
-	endswith(given, "m")
-	split_min :=  split(min, "m")[0]
-	split_given :=  split(given, "m")[0]
-	to_number(split_given) < to_number(split_min)
-
-}
-
-compare_min(min, given) {
-	not is_special_measure(min)
-	not is_special_measure(given)
-	to_number(given) < to_number(min)
-
-}
-
-
-# Check that is same unit
-is_special_measure(unit) {
-	endswith(unit, "m")
-}
-
-is_special_measure(unit) {
-	endswith(unit, "M")
-}
-
-is_special_measure(unit) {
-	endswith(unit, "Mi")
+# Parse a Kubernetes CPU quantity string into millicores.
+# "500m" -> 500, "1" -> 1000, "0.5" -> 500.
+cpu_to_millicores(q) = n {
+	s := sprintf("%v", [q])
+	endswith(s, "m")
+	n := to_number(trim_suffix(s, "m"))
+} else = n {
+	n := to_number(q) * 1000
 }

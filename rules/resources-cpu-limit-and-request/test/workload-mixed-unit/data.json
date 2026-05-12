@@ -1,0 +1,8 @@
+{
+    "postureControlInputs": {
+        "cpu_request_max": ["1"],
+        "cpu_request_min": ["0"],
+        "cpu_limit_max":   ["1"],
+        "cpu_limit_min":   ["0"]
+    }
+}

@@ -1,0 +1,56 @@
+[
+    {
+        "alertMessage": "Container: c in Deployment: hot exceeds CPU-limit or request",
+        "reviewPaths": [
+            "spec.template.spec.containers[0].resources.limits.cpu"
+        ],
+        "failedPaths": [
+            "spec.template.spec.containers[0].resources.limits.cpu"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "hot"
+                        },
+                        "name": "hot"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Container: c in Deployment: hot exceeds CPU-limit or request",
+        "reviewPaths": [
+            "spec.template.spec.containers[0].resources.requests.cpu"
+        ],
+        "failedPaths": [
+            "spec.template.spec.containers[0].resources.requests.cpu"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "hot"
+                        },
+                        "name": "hot"
+                    }
+                }
+            ]
+        }
+    }
+]

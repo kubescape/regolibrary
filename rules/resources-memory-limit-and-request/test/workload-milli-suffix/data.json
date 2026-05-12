@@ -1,0 +1,8 @@
+{
+    "postureControlInputs": {
+        "memory_request_max": ["300m"],
+        "memory_request_min": ["0m"],
+        "memory_limit_max":   ["300m"],
+        "memory_limit_min":   ["0m"]
+    }
+}

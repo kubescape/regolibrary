@@ -300,81 +300,75 @@ is_min_request_exceeded_memory(memory_req) {
 ##############
 # helpers
 
-# Compare according to unit - max
+# Compare two Kubernetes memory quantities by normalizing both sides to bytes.
+# Supports binary (Ki/Mi/Gi/Ti/Pi/Ei), decimal (k/K/M/G/T/P/E) and unitless byte counts.
 compare_max(max, given) {
-	endswith(max, "Mi")
-	endswith(given, "Mi")
-	split_max := split(max, "Mi")[0]
-	split_given := split(given, "Mi")[0]
-    to_number(split_given) > to_number(split_max)
-}
-
-compare_max(max, given) {
-	endswith(max, "M")
-	endswith(given, "M")
-	split_max := split(max, "M")[0]
-	split_given := split(given, "M")[0]
-    to_number(split_given) > to_number(split_max)
-}
-
-compare_max(max, given) {
-	endswith(max, "m")
-	endswith(given, "m")
-	split_max := split(max, "m")[0]
-	split_given := split(given, "m")[0]
-    to_number(split_given) > to_number(split_max)
-}
-
-compare_max(max, given) {
-	not is_special_measure(max)
-	not is_special_measure(given)
-	given > max
-}
-
-################
-# Compare according to unit - min
-compare_min(min, given) {
-	endswith(min, "Mi")
-	endswith(given, "Mi")
-	split_min := split(min, "Mi")[0]
-	split_given := split(given, "Mi")[0]
-	to_number(split_given) < to_number(split_min)
+	mem_to_bytes(given) > mem_to_bytes(max)
 }
 
 compare_min(min, given) {
-	endswith(min, "M")
-	endswith(given, "M")
-	split_min := split(min, "M")[0]
-	split_given := split(given, "M")[0]
-	to_number(split_given) < to_number(split_min)
-
+	mem_to_bytes(given) < mem_to_bytes(min)
 }
 
-compare_min(min, given) {
-	endswith(min, "m")
-	endswith(given, "m")
-	split_min := split(min, "m")[0]
-	split_given := split(given, "m")[0]
-	to_number(split_given) < to_number(split_min)
-
-}
-
-compare_min(min, given) {
-	not is_special_measure(min)
-	not is_special_measure(given)
-	to_number(given) < to_number(min)
-
-}
-
-# Check that is same unit
-is_special_measure(unit) {
-	endswith(unit, "m")
-}
-
-is_special_measure(unit) {
-	endswith(unit, "M")
-}
-
-is_special_measure(unit) {
-	endswith(unit, "Mi")
+# Parse a Kubernetes memory quantity string into bytes.
+# Order matters: binary two-char suffixes are checked before single-char decimal
+# suffixes so "Mi" is not misread as "M".
+mem_to_bytes(q) = n {
+	s := sprintf("%v", [q])
+	endswith(s, "Ki")
+	n := to_number(trim_suffix(s, "Ki")) * 1024
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "Mi")
+	n := to_number(trim_suffix(s, "Mi")) * 1048576
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "Gi")
+	n := to_number(trim_suffix(s, "Gi")) * 1073741824
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "Ti")
+	n := to_number(trim_suffix(s, "Ti")) * 1099511627776
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "Pi")
+	n := to_number(trim_suffix(s, "Pi")) * 1125899906842624
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "Ei")
+	n := to_number(trim_suffix(s, "Ei")) * 1152921504606846976
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "m")
+	n := to_number(trim_suffix(s, "m")) / 1000
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "k")
+	n := to_number(trim_suffix(s, "k")) * 1000
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "K")
+	n := to_number(trim_suffix(s, "K")) * 1000
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "M")
+	n := to_number(trim_suffix(s, "M")) * 1000000
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "G")
+	n := to_number(trim_suffix(s, "G")) * 1000000000
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "T")
+	n := to_number(trim_suffix(s, "T")) * 1000000000000
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "P")
+	n := to_number(trim_suffix(s, "P")) * 1000000000000000
+} else = n {
+	s := sprintf("%v", [q])
+	endswith(s, "E")
+	n := to_number(trim_suffix(s, "E")) * 1000000000000000000
+} else = n {
+	n := to_number(q)
 }

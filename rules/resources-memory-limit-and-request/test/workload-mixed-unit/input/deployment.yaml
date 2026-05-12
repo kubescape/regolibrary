@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: huge
+  namespace: default
+  labels:
+    app: huge
+spec:
+  selector:
+    matchLabels:
+      app: huge
+  template:
+    metadata:
+      labels:
+        app: huge
+    spec:
+      containers:
+        - name: c
+          image: nginx
+          resources:
+            requests:
+              memory: "2048Mi"
+            limits:
+              memory: "4096Mi"
