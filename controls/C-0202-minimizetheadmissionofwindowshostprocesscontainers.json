@@ -12,8 +12,7 @@
     },
     "rulesNames": [
         "pod-security-admission-baseline-applied-1",
-        "pod-security-admission-baseline-applied-2",
-        "windows-hostprocess-containers"
+        "pod-security-admission-baseline-applied-2"
     ],
     "baseScore": 7,
     "impact_statement": "Pods defined with `securityContext.windowsOptions.hostProcess: true` will not be permitted unless they are run under a specific policy.",

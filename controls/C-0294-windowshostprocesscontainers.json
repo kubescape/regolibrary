@@ -1,0 +1,29 @@
+{
+    "name": "Windows HostProcess containers",
+    "attributes": {
+        "controlTypeTags": [
+            "security",
+            "compliance"
+        ]
+    },
+    "description": "Potential attackers who gain access to a Windows HostProcess container inherit unrestricted access to the underlying Windows node. HostProcess containers run directly on the host and bypass container isolation, which is equivalent to privileged containers on Linux. This control identifies all workloads with securityContext.windowsOptions.hostProcess set to true.",
+    "remediation": "Remove or set to false the securityContext.windowsOptions.hostProcess field in each container spec. If HostProcess containers are required for a specific workload, ensure they are gated by an admission policy and that only authorised service accounts are permitted to use that policy.",
+    "rulesNames": [
+        "windows-hostprocess-containers"
+    ],
+    "test": "Check container specs (containers, initContainers, ephemeralContainers) for securityContext.windowsOptions.hostProcess == true.",
+    "controlID": "C-0294",
+    "baseScore": 8.0,
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Node escape"
+        }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}
