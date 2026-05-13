@@ -2,6 +2,7 @@ package armo_builtins
 
 deny[msga] {
     resource := input[_]
+	not is_kubernetes_default_resource(resource)
 	result := is_default_namespace(resource.metadata)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
@@ -38,4 +39,12 @@ get_fixed_path(paths) = [paths[1]] {
 	paths[1] != ""
 } else = []
 
-
+# EndpointSlices backing the kubernetes Service are auto-created by Kubernetes
+# in the default namespace for API server discovery and are excluded by the
+# CIS benchmark (CIS 5.7.4: kubescape/regolibrary#644). Match by the
+# kubernetes.io/service-name label since slice names may carry a hash suffix.
+is_kubernetes_default_resource(resource) {
+	resource.kind == "EndpointSlice"
+	resource.metadata.namespace == "default"
+	resource.metadata.labels["kubernetes.io/service-name"] == "kubernetes"
+}

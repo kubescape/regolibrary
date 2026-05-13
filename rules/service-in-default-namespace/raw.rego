@@ -2,6 +2,7 @@ package armo_builtins
 
 deny[msga] {
     resource := input[_]
+	not is_kubernetes_default_resource(resource)
 	result := is_default_namespace(resource.metadata)
 	failed_path := get_failed_path(result)
     fixed_path := get_fixed_path(result)
@@ -38,4 +39,11 @@ get_fixed_path(paths) = [paths[1]] {
 	paths[1] != ""
 } else = []
 
-
+# The kubernetes Service is auto-created by Kubernetes in the default
+# namespace for API server discovery and is excluded by the CIS benchmark
+# (CIS 5.7.4: kubescape/regolibrary#644).
+is_kubernetes_default_resource(resource) {
+	resource.kind == "Service"
+	resource.metadata.name == "kubernetes"
+	resource.metadata.namespace == "default"
+}
