@@ -1,0 +1,18 @@
+[{
+    "alertMessage": "Pod: win-init-pod has an init container with hostProcess enabled",
+    "deletePaths": ["spec.initContainers[0].securityContext.windowsOptions.hostProcess"],
+    "failedPaths": ["spec.initContainers[0].securityContext.windowsOptions.hostProcess"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 9,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "v1",
+            "kind": "Pod",
+            "metadata": {
+                "name": "win-init-pod"
+            }
+        }]
+    }
+}]

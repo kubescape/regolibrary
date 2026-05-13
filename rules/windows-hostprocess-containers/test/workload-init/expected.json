@@ -1,0 +1,18 @@
+[{
+    "alertMessage": "Job: win-job has an init container with hostProcess enabled",
+    "deletePaths": ["spec.template.spec.initContainers[0].securityContext.windowsOptions.hostProcess"],
+    "failedPaths": ["spec.template.spec.initContainers[0].securityContext.windowsOptions.hostProcess"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 9,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "batch/v1",
+            "kind": "Job",
+            "metadata": {
+                "name": "win-job"
+            }
+        }]
+    }
+}]
