@@ -1,0 +1,27 @@
+[
+    {
+        "alertMessage": "ephemeralContainer: debug-container in Deployment: test-deployment may run as root",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.ephemeralContainers[0].securityContext.runAsNonRoot",
+                "value": "true"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "test-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "initContainer: init-container in CronJob: test-cronjob has mutable filesystem",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.initContainers[0].securityContext.readOnlyRootFilesystem",
+                "value": "true"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "test-cronjob"
+                    }
+                }
+            ]
+        }
+    }
+]

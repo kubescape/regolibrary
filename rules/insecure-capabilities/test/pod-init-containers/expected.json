@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "initContainer: init-container in Pod: test-pod has dangerous capabilities",
+        "deletePaths": [
+            "spec.initContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "failedPaths": [
+            "spec.initContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test-pod"
+                    }
+                }
+            ]
+        }
+    }
+]

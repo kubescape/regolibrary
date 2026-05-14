@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test-cronjob
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          ephemeralContainers:
+            - name: debug-container
+              image: busybox
+              securityContext:
+                runAsNonRoot: false
+                runAsGroup: 2000
+          containers:
+            - name: app
+              image: nginx
+              securityContext:
+                runAsNonRoot: true
+                runAsGroup: 1000
+          restartPolicy: OnFailure

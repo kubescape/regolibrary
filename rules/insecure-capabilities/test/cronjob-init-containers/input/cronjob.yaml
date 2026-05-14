@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test-cronjob
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          initContainers:
+            - name: init-container
+              image: busybox
+              securityContext:
+                capabilities:
+                  add: ["NET_ADMIN"]
+          containers:
+            - name: app
+              image: nginx
+          restartPolicy: OnFailure

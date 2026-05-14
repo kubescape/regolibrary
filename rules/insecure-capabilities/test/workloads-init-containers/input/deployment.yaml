@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment
+spec:
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      initContainers:
+        - name: init-container
+          image: busybox
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]
+      containers:
+        - name: app
+          image: nginx

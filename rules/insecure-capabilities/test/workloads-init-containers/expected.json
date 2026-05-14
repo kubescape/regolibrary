@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "initContainer: init-container in Deployment: test-deployment has dangerous capabilities",
+        "deletePaths": [
+            "spec.template.spec.initContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "failedPaths": [
+            "spec.template.spec.initContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "test-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]

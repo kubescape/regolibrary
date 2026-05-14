@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment
+spec:
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      initContainers:
+        - name: init-container
+          image: busybox
+          securityContext:
+            runAsNonRoot: false
+            runAsGroup: 2000
+      containers:
+        - name: app
+          image: nginx
+          securityContext:
+            runAsNonRoot: true
+            runAsGroup: 1000
