@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: win-cronjob-ephemeral
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: app
+            image: busybox
+          ephemeralContainers:
+          - name: debug
+            image: mcr.microsoft.com/windows/servercore:ltsc2022
+            securityContext:
+              windowsOptions:
+                hostProcess: true
+          restartPolicy: OnFailure

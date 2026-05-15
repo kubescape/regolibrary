@@ -1,0 +1,18 @@
+[{
+    "alertMessage": "Deployment: win-ephemeral-deployment has an ephemeral container with hostProcess enabled",
+    "deletePaths": ["spec.template.spec.ephemeralContainers[0].securityContext.windowsOptions.hostProcess"],
+    "failedPaths": ["spec.template.spec.ephemeralContainers[0].securityContext.windowsOptions.hostProcess"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 9,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "name": "win-ephemeral-deployment"
+            }
+        }]
+    }
+}]

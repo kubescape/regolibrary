@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: win-cronjob-init
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          initContainers:
+          - name: win-init
+            image: mcr.microsoft.com/windows/servercore:ltsc2022
+            securityContext:
+              windowsOptions:
+                hostProcess: true
+          containers:
+          - name: app
+            image: busybox
+          restartPolicy: OnFailure

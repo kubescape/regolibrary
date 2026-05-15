@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: win-ephemeral-pod
+spec:
+    containers:
+    - name: app
+      image: busybox
+    ephemeralContainers:
+    - name: debug
+      image: mcr.microsoft.com/windows/servercore:ltsc2022
+      securityContext:
+        windowsOptions:
+          hostProcess: true
