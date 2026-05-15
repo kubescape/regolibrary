@@ -1,0 +1,12 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: cluster-baseline-specs
+specs:
+  - endpointSelector: {}
+    ingress:
+      - fromEndpoints:
+          - {}
+    egress:
+      - toEndpoints:
+          - {}

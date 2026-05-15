@@ -1,0 +1,19 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: selective
+  namespace: default
+spec:
+  endpointSelector:
+    matchLabels: {}
+    matchExpressions:
+      - key: role
+        operator: In
+        values:
+          - frontend
+  ingress:
+    - fromEndpoints:
+        - {}
+  egress:
+    - toEndpoints:
+        - {}

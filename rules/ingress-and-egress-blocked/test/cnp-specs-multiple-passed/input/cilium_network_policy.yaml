@@ -1,0 +1,16 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: split-rules
+  namespace: my-ns
+specs:
+  - endpointSelector:
+      matchLabels: {}
+    egress:
+      - toEndpoints:
+          - {}
+  - endpointSelector:
+      matchLabels: {}
+    ingress:
+      - fromEndpoints:
+          - {}

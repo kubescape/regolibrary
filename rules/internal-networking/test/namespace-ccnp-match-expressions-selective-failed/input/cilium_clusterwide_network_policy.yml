@@ -1,0 +1,18 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: selective-ccnp
+spec:
+  endpointSelector:
+    matchLabels: {}
+    matchExpressions:
+      - key: role
+        operator: In
+        values:
+          - frontend
+  ingress:
+    - fromEndpoints:
+        - matchLabels: {}
+  egress:
+    - toEndpoints:
+        - matchLabels: {}

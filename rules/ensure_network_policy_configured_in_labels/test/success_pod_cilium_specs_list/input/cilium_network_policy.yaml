@@ -1,0 +1,14 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: baseline-specs
+  namespace: production
+specs:
+  - endpointSelector:
+      matchLabels: {}
+    ingress:
+      - fromEndpoints:
+          - {}
+    egress:
+      - toEndpoints:
+          - {}
