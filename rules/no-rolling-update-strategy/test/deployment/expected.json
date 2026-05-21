@@ -1,50 +1,18 @@
 [
   {
-    "alertMessage": "Deployment: missing-strategy does not define a usable rolling update strategy",
+    "alertMessage": "Deployment: recreate-strategy does not use a rolling update strategy",
     "packagename": "armo_builtins",
     "alertScore": 3,
     "reviewPaths": [
-      "spec.strategy"
+      "spec.strategy.type"
     ],
     "failedPaths": [
-      "spec.strategy"
+      "spec.strategy.type"
     ],
     "fixPaths": [
       {
-        "path": "spec.strategy",
-        "value": "RollingUpdate strategy with non-zero maxSurge or maxUnavailable"
-      }
-    ],
-    "ruleStatus": "",
-    "alertObject": {
-      "k8sApiObjects": [
-        {
-          "apiVersion": "apps/v1",
-          "kind": "Deployment",
-          "metadata": {
-            "labels": {
-              "app": "missing-strategy"
-            },
-            "name": "missing-strategy"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "alertMessage": "Deployment: recreate-strategy does not define a usable rolling update strategy",
-    "packagename": "armo_builtins",
-    "alertScore": 3,
-    "reviewPaths": [
-      "spec.strategy"
-    ],
-    "failedPaths": [
-      "spec.strategy"
-    ],
-    "fixPaths": [
-      {
-        "path": "spec.strategy",
-        "value": "RollingUpdate strategy with non-zero maxSurge or maxUnavailable"
+        "path": "spec.strategy.type",
+        "value": "RollingUpdate"
       }
     ],
     "ruleStatus": "",
@@ -58,70 +26,6 @@
               "app": "recreate-strategy"
             },
             "name": "recreate-strategy"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "alertMessage": "Deployment: empty-rolling-update does not define a usable rolling update strategy",
-    "packagename": "armo_builtins",
-    "alertScore": 3,
-    "reviewPaths": [
-      "spec.strategy"
-    ],
-    "failedPaths": [
-      "spec.strategy"
-    ],
-    "fixPaths": [
-      {
-        "path": "spec.strategy",
-        "value": "RollingUpdate strategy with non-zero maxSurge or maxUnavailable"
-      }
-    ],
-    "ruleStatus": "",
-    "alertObject": {
-      "k8sApiObjects": [
-        {
-          "apiVersion": "apps/v1",
-          "kind": "Deployment",
-          "metadata": {
-            "labels": {
-              "app": "empty-rolling-update"
-            },
-            "name": "empty-rolling-update"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "alertMessage": "Deployment: zero-rolling-update does not define a usable rolling update strategy",
-    "packagename": "armo_builtins",
-    "alertScore": 3,
-    "reviewPaths": [
-      "spec.strategy"
-    ],
-    "failedPaths": [
-      "spec.strategy"
-    ],
-    "fixPaths": [
-      {
-        "path": "spec.strategy",
-        "value": "RollingUpdate strategy with non-zero maxSurge or maxUnavailable"
-      }
-    ],
-    "ruleStatus": "",
-    "alertObject": {
-      "k8sApiObjects": [
-        {
-          "apiVersion": "apps/v1",
-          "kind": "Deployment",
-          "metadata": {
-            "labels": {
-              "app": "zero-rolling-update"
-            },
-            "name": "zero-rolling-update"
           }
         }
       ]

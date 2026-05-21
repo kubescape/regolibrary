@@ -18,7 +18,7 @@
     ],
     "ruleDependencies": [
     ],
-    "description": "Fails if a Deployment does not define a usable rolling update strategy.",
-    "remediation": "Set spec.strategy.type to RollingUpdate and configure spec.strategy.rollingUpdate with a non-zero maxSurge or maxUnavailable value.",
+    "description": "Fails if a Deployment explicitly defines a non-rolling update strategy.",
+    "remediation": "Set spec.strategy.type to RollingUpdate.",
     "ruleQuery": "armo_builtins"
 }

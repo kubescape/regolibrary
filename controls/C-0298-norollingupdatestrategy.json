@@ -5,12 +5,12 @@
             "devops"
         ]
     },
-    "description": "A Deployment without a usable rolling update strategy can cause avoidable service interruption during workload updates.",
-    "remediation": "Set spec.strategy.type to RollingUpdate and configure spec.strategy.rollingUpdate with a non-zero maxSurge or maxUnavailable value.",
+    "description": "A Deployment that explicitly uses a non-rolling update strategy can cause avoidable service interruption during workload updates.",
+    "remediation": "Set spec.strategy.type to RollingUpdate.",
     "rulesNames": [
         "no-rolling-update-strategy"
     ],
-    "test": "Check that every Deployment defines a usable RollingUpdate strategy with at least one non-zero rolling update value.",
+    "test": "Check that Deployments with an explicit strategy type use a rolling update strategy.",
     "controlID": "C-0298",
     "baseScore": 3.0,
     "category": {
