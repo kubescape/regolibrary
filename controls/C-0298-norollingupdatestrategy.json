@@ -1,0 +1,25 @@
+{
+    "name": "No rolling update strategy",
+    "attributes": {
+        "controlTypeTags": [
+            "devops"
+        ]
+    },
+    "description": "A Deployment that explicitly uses a non-rolling update strategy can cause avoidable service interruption during workload updates.",
+    "remediation": "Set spec.strategy.type to RollingUpdate.",
+    "rulesNames": [
+        "no-rolling-update-strategy"
+    ],
+    "test": "Check that Deployments with an explicit strategy type use a rolling update strategy.",
+    "controlID": "C-0298",
+    "baseScore": 3.0,
+    "category": {
+        "name": "Workload"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "alertMessage": "Deployment: recreate-strategy does not use a rolling update strategy",
+    "packagename": "armo_builtins",
+    "alertScore": 3,
+    "reviewPaths": [
+      "spec.strategy.type"
+    ],
+    "failedPaths": [
+      "spec.strategy.type"
+    ],
+    "fixPaths": [
+      {
+        "path": "spec.strategy.type",
+        "value": "RollingUpdate"
+      }
+    ],
+    "ruleStatus": "",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "labels": {
+              "app": "recreate-strategy"
+            },
+            "name": "recreate-strategy"
+          }
+        }
+      ]
+    }
+  }
+]

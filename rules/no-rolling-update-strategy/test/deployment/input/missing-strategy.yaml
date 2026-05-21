@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: missing-strategy
+  labels:
+    app: missing-strategy
+spec:
+  strategy: null
+  selector:
+    matchLabels:
+      app: missing-strategy
+  template:
+    metadata:
+      labels:
+        app: missing-strategy
+    spec:
+      containers:
+        - name: app
+          image: nginx:1.25

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recreate-strategy
+  labels:
+    app: recreate-strategy
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: recreate-strategy
+  template:
+    metadata:
+      labels:
+        app: recreate-strategy
+    spec:
+      containers:
+        - name: app
+          image: nginx:1.25
