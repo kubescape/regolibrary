@@ -1,0 +1,22 @@
+[
+  {
+    "alertMessage": "Deployment: mismatching-selector-missing-template-metadata selector does not match pod template labels",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.selector.matchLabels"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "mismatching-selector-missing-template-metadata"
+          }
+        }
+      ]
+    }
+  }
+]

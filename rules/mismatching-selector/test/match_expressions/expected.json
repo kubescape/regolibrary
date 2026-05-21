@@ -1,0 +1,82 @@
+[
+  {
+    "alertMessage": "Deployment: mismatching-selector-expressions selector does not match pod template labels",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.selector.matchExpressions"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "mismatching-selector-expressions"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Deployment: mismatching-selector-notin selector does not match pod template labels",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.selector.matchExpressions"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "mismatching-selector-notin"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Deployment: mismatching-selector-doesnotexist selector does not match pod template labels",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.selector.matchExpressions"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "mismatching-selector-doesnotexist"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Deployment: mismatching-selector-exists selector does not match pod template labels",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.selector.matchExpressions"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "mismatching-selector-exists"
+          }
+        }
+      ]
+    }
+  }
+]

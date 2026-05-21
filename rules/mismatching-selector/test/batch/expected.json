@@ -1,0 +1,42 @@
+[
+  {
+    "alertMessage": "CronJob: mismatching-selector-cronjob selector does not match pod template labels",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.jobTemplate.spec.selector.matchLabels"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "mismatching-selector-cronjob"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Job: mismatching-selector-job selector does not match pod template labels",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.selector.matchLabels"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+            "name": "mismatching-selector-job"
+          }
+        }
+      ]
+    }
+  }
+]

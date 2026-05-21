@@ -6,11 +6,11 @@
         ]
     },
     "description": "A workload selector that does not match its pod template labels can prevent the controller from managing the intended pods. This usually results from label drift or copy-paste mistakes.",
-    "remediation": "Update spec.selector.matchLabels or spec.template.metadata.labels so the selector labels match the pod template labels.",
+    "remediation": "Update spec.selector, spec.jobTemplate.spec.selector, or the pod template labels so the selector matches the pod template labels.",
     "rulesNames": [
         "mismatching-selector"
     ],
-    "test": "Check that every Deployment, ReplicaSet, DaemonSet, and StatefulSet selector matches the workload pod template labels.",
+    "test": "Check that every Deployment, ReplicaSet, DaemonSet, StatefulSet, ReplicationController, Job, and CronJob selector matches the workload pod template labels.",
     "controlID": "C-0296",
     "baseScore": 3.0,
     "category": {
