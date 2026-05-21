@@ -1,15 +1,15 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-# check if the EKS cluster is configured with the Cluster Access Manager API 
+# check if the EKS cluster is configured with the Cluster Access Manager API
 # by checking in the ClusterDescribe resource if accessConfig.AuthenticationMode is set to 'CONFIG_MAP'
 # If "authenticationmode": "API" or "authenticationmode": "API_AND_CONFIG_MAP", it means the Cluster Access Manager API is enabled.
-deny[msga] {
+deny contains msga if {
 	cluster_config := input[_]
 	cluster_config.apiVersion == "eks.amazonaws.com/v1"
 	cluster_config.kind == "ClusterDescribe"
-    cluster_config.metadata.provider == "eks"
+	cluster_config.metadata.provider == "eks"
 	config := cluster_config.data
 
 	config.Cluster.AccessConfig.AuthenticationMode == "CONFIG_MAP"
@@ -22,7 +22,7 @@ deny[msga] {
 		"fixPaths": [],
 		"alertObject": {
 			"k8sApiObjects": [],
-            "externalObjects": cluster_config
-		}
+			"externalObjects": cluster_config,
+		},
 	}
 }

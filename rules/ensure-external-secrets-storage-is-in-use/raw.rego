@@ -1,14 +1,13 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 import data.kubernetes.api.client
 
 # deny workloads that doesn't support external service provider (secretProviderClass)
 # reference - https://secrets-store-csi-driver.sigs.k8s.io/concepts.html
-deny[msga] {
-
-    resources := input[_]
+deny contains msga if {
+	resources := input[_]
 
 	# get volume paths for each resource
 	volumes_path := get_volumes_path(resources)
@@ -18,13 +17,12 @@ deny[msga] {
 
 	# continue if secretProviderClass not found in resource
 	having_secretProviderClass := {i | volumes[i].csi.volumeAttributes.secretProviderClass}
-  	count(having_secretProviderClass) == 0
-
+	count(having_secretProviderClass) == 0
 
 	# prepare message data.
-	alert_message :=  sprintf("%s: %v is not using external secret storage", [resources.kind, resources.metadata.name])
+	alert_message := sprintf("%s: %v is not using external secret storage", [resources.kind, resources.metadata.name])
 	failed_paths := []
-	fixed_paths := [{"path":sprintf("%s[0].csi.volumeAttributes.secretProviderClass",[concat(".", volumes_path)]), "value":"YOUR_VALUE"}]
+	fixed_paths := [{"path": sprintf("%s[0].csi.volumeAttributes.secretProviderClass", [concat(".", volumes_path)]), "value": "YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": alert_message,
@@ -32,28 +30,25 @@ deny[msga] {
 		"alertScore": 7,
 		"failedPaths": failed_paths,
 		"fixPaths": fixed_paths,
-		"alertObject": {
-			"k8sApiObjects": [resources]
-		}
+		"alertObject": {"k8sApiObjects": [resources]},
 	}
 }
 
-
 # get_volume_path - get resource volumes paths for {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-get_volumes_path(resources) := result {
-	resources_kinds := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+get_volumes_path(resources) := result if {
+	resources_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	resources_kinds[resources.kind]
 	result = ["spec", "template", "spec", "volumes"]
 }
 
 # get_volumes_path - get resource volumes paths for "Pod"
-get_volumes_path(resources) := result {
+get_volumes_path(resources) := result if {
 	resources.kind == "Pod"
 	result = ["spec", "volumes"]
 }
 
 # get_volumes_path - get resource volumes paths for "CronJob"
-get_volumes_path(resources) := result {
+get_volumes_path(resources) := result if {
 	resources.kind == "CronJob"
 	result = ["spec", "jobTemplate", "spec", "template", "spec", "volumes"]
 }

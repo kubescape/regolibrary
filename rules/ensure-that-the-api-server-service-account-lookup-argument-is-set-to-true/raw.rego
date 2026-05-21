@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msg] {
+deny contains msg if {
 	obj = input[_]
 	is_api_server(obj)
 	result = invalid_flag(obj.spec.containers[0].command)
@@ -17,7 +17,7 @@ deny[msg] {
 	}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
@@ -27,14 +27,14 @@ is_api_server(obj) {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) := invalid_flags[0] {
+invalid_flag(cmd) := invalid_flags[0] if {
 	invalid_flags := [flag |
 		some i, c in cmd
 		flag := get_result(c, i)
 	]
 }
 
-get_result(cmd, i) = result {
+get_result(cmd, i) := result if {
 	cmd == "--service-account-lookup=false"
 	result = {
 		"failed_paths": [sprintf("spec.containers[0].command[%v]", [i])],
@@ -42,7 +42,7 @@ get_result(cmd, i) = result {
 	}
 }
 
-get_result(cmd, i) = result {
+get_result(cmd, i) := result if {
 	cmd != "--service-account-lookup=false"
 	contains(cmd, "--service-account-lookup=false")
 	path = sprintf("spec.containers[0].command[%v]", [i])

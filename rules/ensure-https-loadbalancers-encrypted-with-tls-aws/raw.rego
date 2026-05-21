@@ -1,16 +1,17 @@
 package armo_builtins
 
+import rego.v1
+
 import data.kubernetes.api.client
 
 # deny LoadBalancer services that are configured for ssl connection (port: 443), but don't have TLS certificate set.
-deny[msga] {
-
+deny contains msga if {
 	wl_kind := "Service"
 	wl_type := "LoadBalancer"
 	wl_required_annotation := "service.beta.kubernetes.io/aws-load-balancer-ssl-cert"
 
 	# filterring LoadBalancers
-	wl := 	input[_]
+	wl := input[_]
 	wl.kind == wl_kind
 	wl.spec.type == wl_type
 
@@ -23,7 +24,7 @@ deny[msga] {
 	count(ssl_cert_annotations) == 0
 
 	# prepare message data.
-	alert_message :=  sprintf("LoadBalancer '%v' has no TLS configured", [wl.metadata.name])
+	alert_message := sprintf("LoadBalancer '%v' has no TLS configured", [wl.metadata.name])
 	failed_paths := []
 	fixed_paths := [{"path": sprintf("metadata.annotations['%v']", [wl_required_annotation]), "value": "AWS_LOADBALANCER_SSL_CERT"}]
 
@@ -35,8 +36,7 @@ deny[msga] {
 		"fixPaths": fixed_paths,
 		"alertObject": {
 			"k8sApiObjects": [],
-            "externalObjects": wl
-		}
+			"externalObjects": wl,
+		},
 	}
 }
-

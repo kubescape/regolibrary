@@ -1,10 +1,10 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 import data.cautils
 
-deny[msg] {
+deny contains msg if {
 	# Filter out irrelevent resources
 	obj = input[_]
 	is_kubelet_info(obj)
@@ -45,16 +45,16 @@ deny[msg] {
 	}
 }
 
-is_kubelet_info(obj) {
+is_kubelet_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "KubeletInfo"
 }
 
-allowed_ownership(ownership, user, group) {
+allowed_ownership(ownership, user, group) if {
 	ownership.error # Do not fail if ownership is not found
 }
 
-allowed_ownership(ownership, user, group) {
+allowed_ownership(ownership, user, group) if {
 	ownership.username == user
 	ownership.groupname == group
 }

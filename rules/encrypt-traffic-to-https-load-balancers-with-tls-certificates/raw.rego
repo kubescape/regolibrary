@@ -1,25 +1,25 @@
 package armo_builtins
 
+import rego.v1
+
 # fails in case of 'Services' of type 'LoadBalancer' are not found.
-deny[msga] {
+deny contains msga if {
 	svc := input[_]
 	svc.kind == "Service"
 	svc.spec.type != "LoadBalancer"
 
 	msga := {
 		"alertMessage": "No LoadBalancer service found.",
-    	"packagename": "armo_builtins",
-    	"alertScore": 7,
-    	"failedPaths": [],
-    	"fixPaths":[],
-		"alertObject": {
-			"k8sApiObjects": [svc]
-		}
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"failedPaths": [],
+		"fixPaths": [],
+		"alertObject": {"k8sApiObjects": [svc]},
 	}
 }
 
 # fails in case 'Service' object has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.
-deny[msga] {
+deny contains msga if {
 	svc := input[_]
 	svc.kind == "Service"
 	svc.spec.type == "LoadBalancer"
@@ -27,19 +27,17 @@ deny[msga] {
 	path := "metadata.annotations[service.beta.kubernetes.io/azure-load-balancer-internal]"
 
 	msga := {
-    	"alertMessage": "Service object LoadBalancer has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.",
-    	"packagename": "armo_builtins",
-    	"alertScore": 7,
-    	"failedPaths": [],
-    	"fixPaths":[{"path": path, "value": "true"}],
-    	"alertObject": {
-			"k8sApiObjects": [svc]
-        }
-    }
+		"alertMessage": "Service object LoadBalancer has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.",
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"failedPaths": [],
+		"fixPaths": [{"path": path, "value": "true"}],
+		"alertObject": {"k8sApiObjects": [svc]},
+	}
 }
 
 # fails in case 'Service' object has annotation 'service.beta.kubernetes.io/azure-load-balancer-internal' != 'true'.
-deny[msga] {
+deny contains msga if {
 	svc := input[_]
 	svc.kind == "Service"
 	svc.spec.type == "LoadBalancer"
@@ -47,19 +45,17 @@ deny[msga] {
 	path := "metadata.annotations[service.beta.kubernetes.io/azure-load-balancer-internal]"
 
 	msga := {
-    	"alertMessage": "Service object LoadBalancer has annotation 'service.beta.kubernetes.io/azure-load-balancer-internal' != 'true'.",
-    	"packagename": "armo_builtins",
-    	"alertScore": 7,
-    	"failedPaths": [],
-    	"fixPaths":[{"path": path, "value": "true"}],
-    	"alertObject": {
-			"k8sApiObjects": [svc]
-        }
-    }
+		"alertMessage": "Service object LoadBalancer has annotation 'service.beta.kubernetes.io/azure-load-balancer-internal' != 'true'.",
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"failedPaths": [],
+		"fixPaths": [{"path": path, "value": "true"}],
+		"alertObject": {"k8sApiObjects": [svc]},
+	}
 }
 
 # fails in case 'Ingress' object has spec.tls value not set.
-deny[msga] {
+deny contains msga if {
 	svc := input[_]
 	svc.kind == "Service"
 	svc.spec.type == "LoadBalancer"
@@ -70,20 +66,18 @@ deny[msga] {
 	not isTLSSet(ingress.spec)
 
 	msga := {
-    	"alertMessage": "Ingress object has 'spec.tls' value not set.",
-    	"packagename": "armo_builtins",
-    	"alertScore": 7,
+		"alertMessage": "Ingress object has 'spec.tls' value not set.",
+		"packagename": "armo_builtins",
+		"alertScore": 7,
 		"reviewPaths": ["spec.tls"],
-    	"failedPaths": ["spec.tls"],
-    	"fixPaths":[],
-    	"alertObject": {
-			"k8sApiObjects": [ingress]
-        }
-    }
+		"failedPaths": ["spec.tls"],
+		"fixPaths": [],
+		"alertObject": {"k8sApiObjects": [ingress]},
+	}
 }
 
 # fails in case 'Ingress' object has annotation 'kubernetes.io/ingress.class' != 'azure/application-gateway'.
-deny[msga] {
+deny contains msga if {
 	svc := input[_]
 	svc.kind == "Service"
 	svc.spec.type == "LoadBalancer"
@@ -97,18 +91,16 @@ deny[msga] {
 	path := "metadata.annotations[kubernetes.io/ingress.class]"
 
 	msga := {
-    	"alertMessage": "Ingress object has annotation 'kubernetes.io/ingress.class' != 'azure/application-gateway'.",
-    	"packagename": "armo_builtins",
-    	"alertScore": 7,
-    	"failedPaths": [],
-    	"fixPaths":[{"path": path, "value": "azure/application-gateway"}],
-        "fixCommand": "",
-    	"alertObject": {
-			"k8sApiObjects": [ingress]
-        }
-    }
+		"alertMessage": "Ingress object has annotation 'kubernetes.io/ingress.class' != 'azure/application-gateway'.",
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"failedPaths": [],
+		"fixPaths": [{"path": path, "value": "azure/application-gateway"}],
+		"fixCommand": "",
+		"alertObject": {"k8sApiObjects": [ingress]},
+	}
 }
 
-isTLSSet(spec) {
+isTLSSet(spec) if {
 	count(spec.tls) > 0
 }

@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msg] {
+deny contains msg if {
 	obj = input[_]
 	is_api_server(obj)
 	contains(obj.spec.containers[0].command[i], "--secure-port=0")
@@ -17,7 +17,7 @@ deny[msg] {
 	}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"

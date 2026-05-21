@@ -1,10 +1,12 @@
 package armo_builtins
 
+import rego.v1
+
 # input: network policies
 # apiversion: networking.k8s.io/v1
 # fails if no network policies are defined in a certain namespace
 
-deny[msga] {
+deny contains msga if {
 	namespaces := [namespace | namespace = input[_]; namespace.kind == "Namespace"]
 	namespace := namespaces[_]
 	policy_names := [policy.metadata.namespace | policy = input[_]; policy.kind == "NetworkPolicy"]
@@ -16,13 +18,11 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [namespace]
-		}
+		"alertObject": {"k8sApiObjects": [namespace]},
 	}
 }
 
-list_contains(list, element) {
-  some i
-  list[i] == element
+list_contains(list, element) if {
+	some i
+	list[i] == element
 }

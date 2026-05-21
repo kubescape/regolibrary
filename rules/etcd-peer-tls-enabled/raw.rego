@@ -1,7 +1,9 @@
 package armo_builtins
 
+import rego.v1
+
 # Check if peer tls is enabled in etcd cluster
-deny[msga] {
+deny contains msga if {
 	obj = input[_]
 	is_etcd_pod(obj)
 	result = invalid_flag(obj.spec.containers[0].command)
@@ -17,7 +19,7 @@ deny[msga] {
 	}
 }
 
-is_etcd_pod(obj) {
+is_etcd_pod(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	count(obj.spec.containers) == 1
@@ -25,7 +27,7 @@ is_etcd_pod(obj) {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	full_cmd = concat(" ", cmd)
 	wanted = [
 		["--peer-cert-file", "<path/to/tls-certificate-file.crt>"],

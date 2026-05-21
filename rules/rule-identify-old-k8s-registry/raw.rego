@@ -1,6 +1,8 @@
 package armo_builtins
 
-deprecatedK8sRepo[msga] {
+import rego.v1
+
+deprecatedK8sRepo contains msga if {
 	pod := input[_]
 	pod.metadata.namespace == "kube-system"
 	k := pod.kind
@@ -8,7 +10,7 @@ deprecatedK8sRepo[msga] {
 	container := pod.spec.containers[i]
 	path := sprintf("spec.containers[%v].image", [format_int(i, 10)])
 	image := container.image
-    deprecated_registry(image)
+	deprecated_registry(image)
 
 	msga := {
 		"alertMessage": sprintf("image '%v' in container '%s' comes from the deprecated k8s.gcr.io", [image, container.name]),
@@ -17,21 +19,19 @@ deprecatedK8sRepo[msga] {
 		"fixPaths": [],
 		"reviewPaths": [path],
 		"failedPaths": [path],
-         "alertObject": {
-			"k8sApiObjects": [pod]
-		}
-    }
+		"alertObject": {"k8sApiObjects": [pod]},
+	}
 }
 
-deprecatedK8sRepo[msga] {
+deprecatedK8sRepo contains msga if {
 	wl := input[_]
 	wl.metadata.namespace == "kube-system"
-	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 	path := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
 	image := container.image
-    deprecated_registry(image)
+	deprecated_registry(image)
 
 	msga := {
 		"alertMessage": sprintf("image '%v' in container '%s' comes from the deprecated k8s.gcr.io", [image, container.name]),
@@ -40,20 +40,18 @@ deprecatedK8sRepo[msga] {
 		"fixPaths": [],
 		"reviewPaths": [path],
 		"failedPaths": [path],
-         "alertObject": {
-			"k8sApiObjects": [wl]
-		}
-    }
+		"alertObject": {"k8sApiObjects": [wl]},
+	}
 }
 
-deprecatedK8sRepo[msga] {
+deprecatedK8sRepo contains msga if {
 	wl := input[_]
 	wl.metadata.namespace == "kube-system"
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)])
 	image := container.image
-    deprecated_registry(image)
+	deprecated_registry(image)
 
 	msga := {
 		"alertMessage": sprintf("image '%v' in container '%s' comes from the deprecated k8s.gcr.io", [image, container.name]),
@@ -62,12 +60,10 @@ deprecatedK8sRepo[msga] {
 		"fixPaths": [],
 		"reviewPaths": [path],
 		"failedPaths": [path],
-        "alertObject": {
-			"k8sApiObjects": [wl]
-		}
-    }
+		"alertObject": {"k8sApiObjects": [wl]},
+	}
 }
 
-deprecated_registry(image){
+deprecated_registry(image) if {
 	startswith(image, "k8s.gcr.io/")
 }

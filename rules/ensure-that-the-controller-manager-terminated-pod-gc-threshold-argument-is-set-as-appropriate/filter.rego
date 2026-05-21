@@ -1,12 +1,14 @@
 package armo_builtins
 
-deny[msg] {
+import rego.v1
+
+deny contains msg if {
 	obj = input[_]
 	is_controller_manager(obj)
 	msg := {"alertObject": {"k8sApiObjects": [obj]}}
 }
 
-is_controller_manager(obj) {
+is_controller_manager(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"

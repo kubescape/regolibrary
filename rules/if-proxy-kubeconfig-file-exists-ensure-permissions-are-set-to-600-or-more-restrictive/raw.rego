@@ -1,10 +1,10 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 import data.cautils
 
-deny[msg] {
+deny contains msg if {
 	# Filter out irrelevent resources
 	obj = input[_]
 	is_kubproxy_info(obj)
@@ -37,7 +37,7 @@ deny[msg] {
 	}
 }
 
-is_kubproxy_info(obj) {
+is_kubproxy_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "KubeProxyInfo"
 }

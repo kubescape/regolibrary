@@ -1,12 +1,14 @@
 package armo_builtins
 
-deny[msg] {
+import rego.v1
+
+deny contains msg if {
 	obj = input[_]
 	is_etcd_pod(obj)
 	msg := {"alertObject": {"k8sApiObjects": [obj]}}
 }
 
-is_etcd_pod(obj) {
+is_etcd_pod(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	count(obj.spec.containers) == 1

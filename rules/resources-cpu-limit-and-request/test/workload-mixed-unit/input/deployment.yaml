@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hot
+  namespace: default
+  labels:
+    app: hot
+spec:
+  selector:
+    matchLabels:
+      app: hot
+  template:
+    metadata:
+      labels:
+        app: hot
+    spec:
+      containers:
+        - name: c
+          image: nginx
+          resources:
+            requests:
+              cpu: "1500m"
+            limits:
+              cpu: "2000m"

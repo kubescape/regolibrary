@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: milli
+  namespace: default
+  labels:
+    app: milli
+spec:
+  selector:
+    matchLabels:
+      app: milli
+  template:
+    metadata:
+      labels:
+        app: milli
+    spec:
+      containers:
+        - name: c
+          image: nginx
+          resources:
+            requests:
+              memory: "400m"
+            limits:
+              memory: "500m"

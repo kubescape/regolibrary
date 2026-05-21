@@ -1,6 +1,8 @@
 package armo_builtins
 
-_builtin_safe_sysctl(name) {
+import rego.v1
+
+_builtin_safe_sysctl(name) if {
 	# NOTE: This set mirrors Kubernetes' safe sysctls. During each
 	# Armo/Kubescape release, compare it with the upstream list in
 	# pkg/kubelet/sysctl/safe_sysctls.go and update any changes.
@@ -21,11 +23,11 @@ _builtin_safe_sysctl(name) {
 	builtin_safe_sysctls[name]
 }
 
-safe_sysctl(name) {
+safe_sysctl(name) if {
 	_builtin_safe_sysctl(name)
 }
 
-_deny_sysctls_msg(kind_label, obj, sysctls, path) = msga {
+_deny_sysctls_msg(kind_label, obj, sysctls, path) := msga if {
 	count(sysctls) > 0
 	unsafe_sysctls := [sysctl.name |
 		sysctl := sysctls[_]
@@ -47,7 +49,7 @@ _deny_sysctls_msg(kind_label, obj, sysctls, path) = msga {
 ### POD ###
 
 # Fails if securityContext.sysctls contains values outside the safe list
-deny[msga] {
+deny contains msga if {
 	# verify the object kind
 	pod := input[_]
 	pod.kind == "Pod"
@@ -60,10 +62,10 @@ deny[msga] {
 ### WORKLOAD ###
 
 # Fails if securityContext.sysctls contains values outside the safe list
-deny[msga] {
+deny contains msga if {
 	# verify the object kind
 	wl := input[_]
-	manifest_kind := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	manifest_kind[wl.kind]
 
 	sysctls := wl.spec.template.spec.securityContext.sysctls
@@ -74,7 +76,7 @@ deny[msga] {
 ### CRONJOB ###
 
 # Fails if securityContext.sysctls contains values outside the safe list
-deny[msga] {
+deny contains msga if {
 	# verify the object kind
 	cj := input[_]
 	cj.kind == "CronJob"

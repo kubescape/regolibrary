@@ -1,11 +1,11 @@
 package armo_builtins
 
-import future.keywords.if
+import rego.v1
 
 ### POD ###
 
 # Fails if securityContext.fsGroup does not have a values >= 0
-deny[msga] {
+deny contains msga if {
 	# verify the object kind
 	pod := input[_]
 	pod.kind = "Pod"
@@ -29,7 +29,7 @@ deny[msga] {
 ### CRONJOB ###
 
 # Fails if securityContext.fsGroup does not have a values >= 0
-deny[msga] {
+deny contains msga if {
 	# verify the object kind
 	cj := input[_]
 	cj.kind == "CronJob"
@@ -53,7 +53,7 @@ deny[msga] {
 ### WORKLOAD ###
 
 # Fails if securityContext.fsGroup does not have a values >= 0
-deny[msga] {
+deny contains msga if {
 	# verify the object kind
 	wl := input[_]
 	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}

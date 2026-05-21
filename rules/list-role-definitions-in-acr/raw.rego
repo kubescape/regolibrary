@@ -1,7 +1,9 @@
 package armo_builtins
 
+import rego.v1
+
 # return ListEntitiesForPolicies resource in azure
-deny[msg] {
+deny contains msg if {
 	resources := input[_]
 	resources.kind == "ListEntitiesForPolicies"
 	resources.apiVersion == "management.azure.com/v1"
@@ -13,8 +15,6 @@ deny[msg] {
 		"alertScore": 7,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"externalObjects": resources
-		}
+		"alertObject": {"externalObjects": resources},
 	}
 }

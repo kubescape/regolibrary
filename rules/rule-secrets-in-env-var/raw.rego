@@ -1,6 +1,8 @@
 package armo_builtins
 
-deny[msga] {
+import rego.v1
+
+deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
 
@@ -17,15 +19,13 @@ deny[msga] {
 		"deletePaths": [path],
 		"failedPaths": [path],
 		"packagename": "armo_builtins",
-		"alertObject": {
-			"k8sApiObjects": [pod]
-		}
+		"alertObject": {"k8sApiObjects": [pod]},
 	}
 }
 
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
-	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 	env := container.env[j]
@@ -40,13 +40,11 @@ deny[msga] {
 		"deletePaths": [path],
 		"failedPaths": [path],
 		"packagename": "armo_builtins",
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
@@ -62,8 +60,6 @@ deny[msga] {
 		"deletePaths": [path],
 		"failedPaths": [path],
 		"packagename": "armo_builtins",
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
