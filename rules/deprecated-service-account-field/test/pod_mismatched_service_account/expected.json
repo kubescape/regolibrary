@@ -1,0 +1,25 @@
+[
+  {
+    "alertMessage": "Pod: mismatched-sa-pod has deprecated field 'spec.serviceAccount' (old-sa) and 'spec.serviceAccountName' (new-sa) with non-matching values; remove 'spec.serviceAccount' or make the values match",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.serviceAccount"
+    ],
+    "deletePaths": [
+      "spec.serviceAccount"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "mismatched-sa-pod"
+          }
+        }
+      ]
+    }
+  }
+]

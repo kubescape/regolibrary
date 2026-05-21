@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mismatched-sa-cronjob
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccount: old-sa
+          serviceAccountName: new-sa
+          restartPolicy: OnFailure
+          containers:
+            - name: job
+              image: busybox
+              command: ["echo", "hello"]
