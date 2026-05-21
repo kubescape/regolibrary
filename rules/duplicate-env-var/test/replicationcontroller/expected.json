@@ -1,0 +1,42 @@
+[
+  {
+    "alertMessage": "ReplicationController: duplicate-env-replicationcontroller container app has duplicate environment variable name RC_MODE at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.template.spec.containers[0].env[0].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "ReplicationController",
+          "metadata": {
+            "name": "duplicate-env-replicationcontroller"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "ReplicationController: duplicate-env-replicationcontroller container app has duplicate environment variable name RC_MODE at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.template.spec.containers[0].env[1].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "ReplicationController",
+          "metadata": {
+            "name": "duplicate-env-replicationcontroller"
+          }
+        }
+      ]
+    }
+  }
+]

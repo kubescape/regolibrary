@@ -1,0 +1,122 @@
+[
+  {
+    "alertMessage": "Pod: duplicate-env-all-container-types container app has duplicate environment variable name APP_MODE at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.containers[0].env[0].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "duplicate-env-all-container-types"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Pod: duplicate-env-all-container-types container app has duplicate environment variable name APP_MODE at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.containers[0].env[1].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "duplicate-env-all-container-types"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Pod: duplicate-env-all-container-types container debug has duplicate environment variable name DEBUG_MODE at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.ephemeralContainers[0].env[0].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "duplicate-env-all-container-types"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Pod: duplicate-env-all-container-types container debug has duplicate environment variable name DEBUG_MODE at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.ephemeralContainers[0].env[1].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "duplicate-env-all-container-types"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Pod: duplicate-env-all-container-types container setup has duplicate environment variable name SETUP_MODE at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.initContainers[0].env[0].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "duplicate-env-all-container-types"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Pod: duplicate-env-all-container-types container setup has duplicate environment variable name SETUP_MODE at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.initContainers[0].env[1].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "duplicate-env-all-container-types"
+          }
+        }
+      ]
+    }
+  }
+]
