@@ -89,8 +89,8 @@ is_encrypted_GKE(config) {
 
 is_encrypted_EKS(config) {
 	encryption := config.Cluster.EncryptionConfig[_]
-	encryption.provider.keyArn != ""
-	count(encryption.resources) > 0
+	encryption.Provider.KeyArn != ""
+	count(encryption.Resources) > 0
 }
 
 # Accept the camelCase shape too. kubescape's cloud collector normally
