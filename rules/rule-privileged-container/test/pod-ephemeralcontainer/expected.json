@@ -1,0 +1,29 @@
+[
+    {
+        "alertMessage": "the following pods are defined as privileged: priv-ephemeral-pod",
+        "fixPaths": [],
+        "deletePaths": [
+            "spec.ephemeralContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "failedPaths": [
+            "spec.ephemeralContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "priv-ephemeral-pod"
+                        },
+                        "name": "priv-ephemeral-pod"
+                    }
+                }
+            ]
+        }
+    }
+]
