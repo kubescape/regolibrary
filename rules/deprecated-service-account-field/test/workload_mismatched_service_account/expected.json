@@ -1,0 +1,25 @@
+[
+  {
+    "alertMessage": "Deployment: mismatched-sa-deployment has deprecated field 'spec.template.spec.serviceAccount' (old-sa) and 'spec.template.spec.serviceAccountName' (new-sa) with non-matching values; remove 'spec.template.spec.serviceAccount' or make the values match",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.template.spec.serviceAccount"
+    ],
+    "deletePaths": [
+      "spec.template.spec.serviceAccount"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "mismatched-sa-deployment"
+          }
+        }
+      ]
+    }
+  }
+]

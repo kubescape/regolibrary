@@ -1,0 +1,25 @@
+[
+  {
+    "alertMessage": "CronJob: mismatched-sa-cronjob has deprecated field 'spec.jobTemplate.spec.template.spec.serviceAccount' (old-sa) and 'spec.jobTemplate.spec.template.spec.serviceAccountName' (new-sa) with non-matching values; remove 'spec.jobTemplate.spec.template.spec.serviceAccount' or make the values match",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.jobTemplate.spec.template.spec.serviceAccount"
+    ],
+    "deletePaths": [
+      "spec.jobTemplate.spec.template.spec.serviceAccount"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "mismatched-sa-cronjob"
+          }
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: deprecated-sa-rc
+spec:
+  template:
+    spec:
+      serviceAccount: app-sa
+      containers:
+        - name: nginx
+          image: nginx

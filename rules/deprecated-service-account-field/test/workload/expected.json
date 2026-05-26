@@ -1,0 +1,86 @@
+[
+  {
+    "alertMessage": "Deployment: deprecated-sa-deployment uses deprecated field 'spec.template.spec.serviceAccount'; use 'spec.template.spec.serviceAccountName' instead",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.template.spec.serviceAccount"
+    ],
+    "deletePaths": [
+      "spec.template.spec.serviceAccount"
+    ],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.serviceAccountName",
+        "value": "app-sa"
+      }
+    ],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "deprecated-sa-deployment"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Job: deprecated-sa-job uses deprecated field 'spec.template.spec.serviceAccount'; use 'spec.template.spec.serviceAccountName' instead",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.template.spec.serviceAccount"
+    ],
+    "deletePaths": [
+      "spec.template.spec.serviceAccount"
+    ],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.serviceAccountName",
+        "value": "app-sa"
+      }
+    ],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+            "name": "deprecated-sa-job"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "ReplicationController: deprecated-sa-rc uses deprecated field 'spec.template.spec.serviceAccount'; use 'spec.template.spec.serviceAccountName' instead",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.template.spec.serviceAccount"
+    ],
+    "deletePaths": [
+      "spec.template.spec.serviceAccount"
+    ],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.serviceAccountName",
+        "value": "app-sa"
+      }
+    ],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "ReplicationController",
+          "metadata": {
+            "name": "deprecated-sa-rc"
+          }
+        }
+      ]
+    }
+  }
+]

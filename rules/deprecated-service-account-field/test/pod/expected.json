@@ -1,0 +1,30 @@
+[
+  {
+    "alertMessage": "Pod: deprecated-sa-pod uses deprecated field 'spec.serviceAccount'; use 'spec.serviceAccountName' instead",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.serviceAccount"
+    ],
+    "deletePaths": [
+      "spec.serviceAccount"
+    ],
+    "fixPaths": [
+      {
+        "path": "spec.serviceAccountName",
+        "value": "app-sa"
+      }
+    ],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "deprecated-sa-pod"
+          }
+        }
+      ]
+    }
+  }
+]

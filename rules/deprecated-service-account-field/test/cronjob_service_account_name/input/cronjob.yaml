@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: matching-service-accounts-cronjob
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccount: job-sa
+          serviceAccountName: job-sa
+          restartPolicy: OnFailure
+          containers:
+            - name: job
+              image: busybox
+              command: ["echo", "hello"]

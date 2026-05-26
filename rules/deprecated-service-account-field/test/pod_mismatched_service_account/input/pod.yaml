@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mismatched-sa-pod
+spec:
+  serviceAccount: old-sa
+  serviceAccountName: new-sa
+  containers:
+    - name: nginx
+      image: nginx

@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: deprecated-sa-cronjob
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccount: job-sa
+          restartPolicy: OnFailure
+          containers:
+            - name: job
+              image: busybox
+              command: ["echo", "hello"]

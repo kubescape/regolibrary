@@ -1,0 +1,30 @@
+[
+  {
+    "alertMessage": "CronJob: deprecated-sa-cronjob uses deprecated field 'spec.jobTemplate.spec.template.spec.serviceAccount'; use 'spec.jobTemplate.spec.template.spec.serviceAccountName' instead",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.jobTemplate.spec.template.spec.serviceAccount"
+    ],
+    "deletePaths": [
+      "spec.jobTemplate.spec.template.spec.serviceAccount"
+    ],
+    "fixPaths": [
+      {
+        "path": "spec.jobTemplate.spec.template.spec.serviceAccountName",
+        "value": "job-sa"
+      }
+    ],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "deprecated-sa-cronjob"
+          }
+        }
+      ]
+    }
+  }
+]
