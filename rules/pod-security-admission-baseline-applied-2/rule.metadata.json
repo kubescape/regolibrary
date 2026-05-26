@@ -14,21 +14,10 @@
             "resources": [
                 "Namespace"
             ]
-        },
-        {
-            "apiGroups": [
-                "admissionregistration.k8s.io"
-            ],
-            "apiVersions": [
-                "*"
-            ],
-            "resources": [
-                "MutatingWebhookConfiguration"
-            ]
         }
     ],
     "ruleDependencies": [],
-    "description": "Checks that every namespace enabled baseline pod security admission, or if there are external policies applied for namespaced resources (validating/mutating webhooks) - returns them to be reviewed",
-    "remediation": "",
+    "description": "Checks that every namespace has baseline pod security admission enabled via the pod-security.kubernetes.io/enforce label set to baseline or restricted",
+    "remediation": "Add the label pod-security.kubernetes.io/enforce=baseline (or stricter) to every namespace that contains user workloads.\n\n#### Impact Statement\nWhere policy control systems are in place, there is a risk that workloads required for the operation of the cluster may be stopped from running. Care is required when implementing admission control policies to ensure that this does not occur.\n\n#### Default Value\nBy default, Pod Security Admission is enabled but no policies are in place.",
     "ruleQuery": "armo_builtins"
 }
