@@ -37,5 +37,3 @@ get_failed_path(paths) = [paths[0]] {
 get_fixed_path(paths) = [paths[1]] {
 	paths[1] != ""
 } else = []
-
-

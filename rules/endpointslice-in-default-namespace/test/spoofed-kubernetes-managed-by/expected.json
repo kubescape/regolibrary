@@ -1,0 +1,30 @@
+[
+    {
+        "alertMessage": "EndpointSlice: kubernetes-fake-managed-by is in the 'default' namespace",
+        "reviewPaths": [
+            "metadata.namespace"
+        ],
+        "failedPaths": [
+            "metadata.namespace"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "discovery.k8s.io/v1",
+                    "kind": "EndpointSlice",
+                    "metadata": {
+                        "labels": {
+                            "endpointslice.kubernetes.io/managed-by": "fake-controller",
+                            "kubernetes.io/service-name": "kubernetes"
+                        },
+                        "name": "kubernetes-fake-managed-by"
+                    }
+                }
+            ]
+        }
+    }
+]
