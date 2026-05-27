@@ -18,7 +18,7 @@
                     "kind": "EndpointSlice",
                     "metadata": {
                         "labels": {
-                            "kubernetes.io/managed-by": "fake-controller",
+                            "endpointslice.kubernetes.io/managed-by": "fake-controller",
                             "kubernetes.io/service-name": "kubernetes"
                         },
                         "name": "kubernetes-fake-managed-by"

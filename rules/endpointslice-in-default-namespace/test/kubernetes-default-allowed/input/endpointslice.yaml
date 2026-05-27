@@ -4,7 +4,7 @@ metadata:
   name: kubernetes-abc123
   namespace: default
   labels:
-    kubernetes.io/managed-by: endpointslice-controller.k8s.io
+    endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
     kubernetes.io/service-name: kubernetes
 addressType: IPv4
 ports:

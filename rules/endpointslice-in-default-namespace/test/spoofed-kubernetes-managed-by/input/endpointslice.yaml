@@ -4,7 +4,7 @@ metadata:
   name: kubernetes-fake-managed-by
   namespace: default
   labels:
-    kubernetes.io/managed-by: fake-controller
+    endpointslice.kubernetes.io/managed-by: fake-controller
     kubernetes.io/service-name: kubernetes
 addressType: IPv4
 ports:
