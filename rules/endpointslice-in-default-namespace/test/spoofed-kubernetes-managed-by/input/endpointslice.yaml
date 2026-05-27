@@ -1,10 +1,10 @@
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
-  name: kubernetes-abc123
+  name: kubernetes-fake-managed-by
   namespace: default
   labels:
-    kubernetes.io/managed-by: endpointslice-controller.k8s.io
+    kubernetes.io/managed-by: fake-controller
     kubernetes.io/service-name: kubernetes
 addressType: IPv4
 ports:
@@ -12,6 +12,6 @@ ports:
     protocol: TCP
     port: 6443
 endpoints:
-  - addresses: ["10.0.0.1"]
+  - addresses: ["10.0.0.3"]
     conditions:
       ready: true
