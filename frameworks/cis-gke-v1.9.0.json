@@ -1,0 +1,398 @@
+{
+    "name": "cis-gke-v1.9.0",
+    "description": "CIS Benchmark for Google Kubernetes Engine (GKE) v1.9.0 as suggested by CIS benchmark: https://workbench.cisecurity.org/benchmarks/24112",
+    "attributes": {
+        "version": "v1.9.0",
+        "builtin": true
+    },
+    "scanningScope": {
+        "matches": [
+            "GKE"
+        ]
+    },
+    "typeTags": [
+        "compliance"
+    ],
+    "activeControls": [
+        {
+            "controlID": "C-0164",
+            "patch": {
+                "name": "CIS-3.1.1 Ensure that the kubeconfig file permissions are set to 644 or more restrictive",
+                "description": "Ensure that the kubeconfig file on worker nodes has permissions of 644 or more restrictive.",
+                "remediation": "SSH to each worker node and run:\n\n```\nchmod 644 <kubeconfig file>\n```",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/concepts/node-pools"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0165",
+            "patch": {
+                "name": "CIS-3.1.2 Ensure that the kubelet kubeconfig file ownership is set to root:root",
+                "description": "Ensure that the kubelet kubeconfig file ownership is set to root:root.",
+                "remediation": "SSH to each worker node and run:\n\n```\nchown root:root <kubelet kubeconfig file>\n```",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/concepts/node-pools"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0235",
+            "patch": {
+                "name": "CIS-3.1.3 Ensure that the kubelet configuration file has permissions set to 644 or more restrictive",
+                "remediation": "SSH to each worker node and run:\n\n```\nchmod 644 /var/lib/kubelet/config.yaml\n```",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/concepts/node-pools"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0171",
+            "patch": {
+                "name": "CIS-3.1.4 Ensure that the kubelet configuration file ownership is set to root:root",
+                "remediation": "SSH to each worker node and run:\n\n```\nchown root:root /var/lib/kubelet/config.yaml\n```",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/concepts/node-pools"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0185",
+            "patch": {
+                "name": "CIS-4.1.1 Ensure that the cluster-admin role is only used where required"
+            }
+        },
+        {
+            "controlID": "C-0186",
+            "patch": {
+                "name": "CIS-4.1.2 Minimize access to secrets"
+            }
+        },
+        {
+            "controlID": "C-0187",
+            "patch": {
+                "name": "CIS-4.1.3 Minimize wildcard use in Roles and ClusterRoles"
+            }
+        },
+        {
+            "controlID": "C-0189",
+            "patch": {
+                "name": "CIS-4.1.4 Ensure that default service accounts are not actively used"
+            }
+        },
+        {
+            "controlID": "C-0190",
+            "patch": {
+                "name": "CIS-4.1.5 Ensure that Service Account Tokens are only mounted where necessary"
+            }
+        },
+        {
+            "controlID": "C-0246",
+            "patch": {
+                "name": "CIS-4.1.6 Avoid use of system:masters group"
+            }
+        },
+        {
+            "controlID": "C-0191",
+            "patch": {
+                "name": "CIS-4.1.7 Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster"
+            }
+        },
+        {
+            "controlID": "C-0262",
+            "patch": {
+                "name": "CIS-4.1.8 Avoid bindings to system:anonymous"
+            }
+        },
+        {
+            "controlID": "C-0265",
+            "patch": {
+                "name": "CIS-4.1.10 Avoid non-default bindings to system:authenticated"
+            }
+        },
+        {
+            "controlID": "C-0192",
+            "patch": {
+                "name": "CIS-4.2.1 Ensure that the cluster enforces Pod Security Standard Baseline profile or stricter for all namespaces",
+                "description": "Ensure that all namespaces in the cluster enforce at least the Pod Security Standard Baseline profile using Pod Security Admission.",
+                "remediation": "Enable Pod Security Admission and apply at minimum the Baseline profile to all namespaces:\n\n```\nkubectl label namespace NAMESPACE \\\n  pod-security.kubernetes.io/enforce=baseline \\\n  pod-security.kubernetes.io/enforce-version=latest\n```\n\nFor GKE clusters, ensure PodSecurity admission controller is active and namespaces are labelled appropriately.",
+                "references": [
+                    "https://kubernetes.io/docs/concepts/security/pod-security-standards/",
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/podsecurityadmission"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0205",
+            "patch": {
+                "name": "CIS-4.3.1 Ensure that the CNI in use supports Network Policies"
+            }
+        },
+        {
+            "controlID": "C-0206",
+            "patch": {
+                "name": "CIS-4.3.2 Ensure that all Namespaces have Network Policies defined"
+            }
+        },
+        {
+            "controlID": "C-0207",
+            "patch": {
+                "name": "CIS-4.4.1 Prefer using secrets as files over secrets as environment variables"
+            }
+        },
+        {
+            "controlID": "C-0234",
+            "patch": {
+                "name": "CIS-4.4.2 Consider external secret storage"
+            }
+        },
+        {
+            "controlID": "C-0289",
+            "patch": {
+                "name": "CIS-4.5.1 Configure Image Provenance using ImagePolicyWebhook admission controller"
+            }
+        },
+        {
+            "controlID": "C-0209",
+            "patch": {
+                "name": "CIS-4.6.1 Create administrative boundaries between resources using namespaces"
+            }
+        },
+        {
+            "controlID": "C-0210",
+            "patch": {
+                "name": "CIS-4.6.2 Ensure that the seccomp profile is set to RuntimeDefault in the pod definitions",
+                "description": "Enable RuntimeDefault seccomp profile in pod definitions to reduce the attack surface by limiting the system calls available to containers.",
+                "remediation": "Add a seccomp profile to your pod spec:\n\n```yaml\nsecurityContext:\n  seccompProfile:\n    type: RuntimeDefault\n```\n\nOn GKE, ensure you are using a GKE version that supports RuntimeDefault seccomp profiles.",
+                "references": [
+                    "https://kubernetes.io/docs/tutorials/security/seccomp/"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0211",
+            "patch": {
+                "name": "CIS-4.6.3 Apply Security Context to Pods and Containers"
+            }
+        },
+        {
+            "controlID": "C-0212",
+            "patch": {
+                "name": "CIS-4.6.4 The default namespace should not be used"
+            }
+        },
+        {
+            "controlID": "C-0221",
+            "patch": {
+                "name": "CIS-5.1.1 Ensure Image Vulnerability Scanning is enabled",
+                "description": "Enable container image vulnerability scanning using Google Artifact Analysis (formerly Container Analysis) or a third-party provider.",
+                "long_description": "Scanning container images for vulnerabilities before and after deployment helps identify and remediate security risks early. Google Artifact Registry and Container Registry support automated vulnerability scanning via Artifact Analysis.",
+                "remediation": "**From Google Cloud Console:**\n\n1. Go to Artifact Registry > Repositories.\n2. Select the repository and enable 'Vulnerability scanning'.\n\n**From gcloud CLI:**\n\n```\ngcloud services enable containerscanning.googleapis.com\n```\n\nFor on-demand scanning:\n\n```\ngcloud artifacts docker images scan IMAGE_URI\n```",
+                "references": [
+                    "https://cloud.google.com/artifact-analysis/docs/vulnerability-scanning",
+                    "https://cloud.google.com/container-registry/docs/vulnerability-scanning"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0222",
+            "patch": {
+                "name": "CIS-5.1.2 Minimize user access to Container Image repositories",
+                "description": "Restrict IAM permissions on Google Artifact Registry and Container Registry to the minimum required roles.",
+                "long_description": "Overly permissive access to container registries increases the risk of malicious or unauthorised images being pushed and deployed. Use IAM roles to grant only the necessary permissions.",
+                "remediation": "**From Google Cloud Console:**\n\n1. Go to Artifact Registry > Repositories.\n2. Select the repository and click 'Permissions'.\n3. Remove any overly permissive roles (e.g. roles/artifactregistry.admin) from users who do not require them.\n4. Apply the principle of least privilege using roles such as roles/artifactregistry.reader or roles/artifactregistry.writer.\n\n**From gcloud CLI:**\n\n```\ngcloud artifacts repositories get-iam-policy REPOSITORY \\\n  --location=LOCATION \\\n  --project=PROJECT_ID\n```",
+                "references": [
+                    "https://cloud.google.com/artifact-registry/docs/access-control",
+                    "https://cloud.google.com/container-registry/docs/access-control"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0223",
+            "patch": {
+                "name": "CIS-5.1.3 Minimize cluster access to read-only for Container Image repositories",
+                "description": "Grant GKE node service accounts only read access to Artifact Registry or Container Registry.",
+                "long_description": "GKE nodes need to pull images but do not need write access to registries. Granting only the roles/artifactregistry.reader role to the node service account reduces the risk of unauthorised image pushes from a compromised node.",
+                "remediation": "**From gcloud CLI:**\n\nGrant the node service account read-only access:\n\n```\ngcloud projects add-iam-policy-binding PROJECT_ID \\\n  --member=serviceAccount:NODE_SA_EMAIL \\\n  --role=roles/artifactregistry.reader\n```\n\nRemove any broader roles (e.g. roles/artifactregistry.writer) from the node service account.",
+                "references": [
+                    "https://cloud.google.com/artifact-registry/docs/access-control",
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0078",
+            "patch": {
+                "name": "CIS-5.1.4 Ensure only trusted container images are used",
+                "description": "Use Binary Authorization to ensure only images from trusted registries that meet your policy are deployed to GKE clusters.",
+                "long_description": "Binary Authorization is a deploy-time security control that ensures only trusted container images are deployed. Policies can require attestations from trusted authorities before an image is deployed.",
+                "remediation": "**From Google Cloud Console:**\n\n1. Go to Security > Binary Authorization.\n2. Create or update a policy to allow images only from approved registries.\n3. Enable Binary Authorization on your GKE cluster under Cluster > Security.\n\n**From gcloud CLI:**\n\n```\ngcloud container clusters update CLUSTER_NAME \\\n  --enable-binauthz \\\n  --region REGION\n```",
+                "references": [
+                    "https://cloud.google.com/binary-authorization/docs"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0225",
+            "patch": {
+                "name": "CIS-5.2.2 Prefer using dedicated GCP Service Accounts and Workload Identity",
+                "description": "Use Workload Identity to bind Kubernetes service accounts to dedicated GCP service accounts with the minimum required IAM permissions.",
+                "long_description": "Workload Identity is the recommended way to access Google Cloud APIs from GKE. It eliminates the need for service account key files and provides per-workload identity, enabling fine-grained IAM permissions for individual workloads.",
+                "remediation": "**Enable Workload Identity on the cluster:**\n\n```\ngcloud container clusters update CLUSTER_NAME \\\n  --workload-pool=PROJECT_ID.svc.id.goog \\\n  --region REGION\n```\n\n**Enable on node pools:**\n\n```\ngcloud container node-pools update NODE_POOL \\\n  --cluster=CLUSTER_NAME \\\n  --workload-metadata=GKE_METADATA \\\n  --region REGION\n```\n\n**Bind a Kubernetes SA to a GCP SA:**\n\n```\ngcloud iam service-accounts add-iam-policy-binding GCP_SA_EMAIL \\\n  --role=roles/iam.workloadIdentityUser \\\n  --member=serviceAccount:PROJECT_ID.svc.id.goog[NAMESPACE/KSA_NAME]\n```",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0066",
+            "patch": {
+                "name": "CIS-5.3.1 Ensure Kubernetes Secrets are encrypted using keys managed in Cloud KMS",
+                "description": "Enable application-layer secrets encryption using a Cloud KMS customer-managed key (CMEK) for GKE Secrets stored in etcd.",
+                "long_description": "By default, GKE encrypts Secrets at rest using Google-managed keys. Enabling application-layer encryption with a customer-managed Cloud KMS key provides an additional layer of control and auditability over Secret encryption.",
+                "remediation": "**Create a Cloud KMS key:**\n\n```\ngcloud kms keyrings create KEYRING_NAME --location=LOCATION\ngcloud kms keys create KEY_NAME \\\n  --location=LOCATION \\\n  --keyring=KEYRING_NAME \\\n  --purpose=encryption\n```\n\n**Enable on an existing cluster:**\n\n```\ngcloud container clusters update CLUSTER_NAME \\\n  --database-encryption-key=projects/PROJECT_ID/locations/LOCATION/keyRings/KEYRING_NAME/cryptoKeys/KEY_NAME \\\n  --region REGION\n```",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/encrypting-secrets",
+                    "https://cloud.google.com/kms/docs"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0226",
+            "patch": {
+                "name": "CIS-5.5.1 Ensure Container-Optimized OS (cos_containerd) is used for GKE Node images",
+                "description": "Use Container-Optimized OS (cos_containerd) as the node image for GKE node pools.",
+                "long_description": "Container-Optimized OS is a hardened operating system image optimised for running containers. It has a minimal footprint, read-only root filesystem, and includes built-in security features. cos_containerd is the recommended variant using containerd as the container runtime.",
+                "remediation": "**From Google Cloud Console:**\n\n1. Go to Kubernetes Engine > Clusters.\n2. Click the cluster, then select the node pool.\n3. Set 'Image type' to 'Container-Optimized OS with containerd (cos_containerd)'.\n\n**From gcloud CLI:**\n\n```\ngcloud container node-pools create NODE_POOL \\\n  --image-type=COS_CONTAINERD \\\n  --cluster=CLUSTER_NAME \\\n  --region REGION\n```",
+                "references": [
+                    "https://cloud.google.com/container-optimized-os/docs/concepts/features-and-benefits",
+                    "https://cloud.google.com/kubernetes-engine/docs/concepts/node-images"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0227",
+            "patch": {
+                "name": "CIS-5.6.3 Ensure Control Plane Authorized Networks is Enabled",
+                "description": "Enable authorized networks to restrict access to the GKE control plane endpoint to specific CIDR ranges.",
+                "long_description": "By default the GKE control plane is accessible from any IP address. Enabling authorized networks restricts access to the Kubernetes API server to trusted IP ranges, reducing the attack surface.",
+                "remediation": "**From Google Cloud Console:**\n\n1. Go to Kubernetes Engine > Clusters.\n2. Click the cluster name, then click 'Edit'.\n3. Under 'Networking', enable 'Control plane authorized networks'.\n4. Add the trusted CIDR ranges.\n\n**From gcloud CLI:**\n\n```\ngcloud container clusters update CLUSTER_NAME \\\n  --enable-master-authorized-networks \\\n  --master-authorized-networks CIDR_RANGE \\\n  --region REGION\n```",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/authorized-networks"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0228",
+            "patch": {
+                "name": "CIS-5.6.4 Ensure clusters are created with Private Endpoint Enabled and Public Access Disabled",
+                "description": "Create GKE clusters with the control plane accessible only via a private endpoint and public access disabled.",
+                "long_description": "Disabling public access to the GKE control plane ensures that the Kubernetes API server is only reachable from within the VPC or via authorised private connections, significantly reducing the attack surface.",
+                "remediation": "**From gcloud CLI (cluster creation):**\n\n```\ngcloud container clusters create CLUSTER_NAME \\\n  --enable-private-endpoint \\\n  --enable-private-nodes \\\n  --master-ipv4-cidr 172.16.0.32/28 \\\n  --region REGION\n```\n\nNote: This setting can only be configured at cluster creation time.",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0229",
+            "patch": {
+                "name": "CIS-5.6.5 Ensure clusters are created with Private Nodes",
+                "description": "Create GKE node pools with private nodes so that worker nodes do not have public IP addresses.",
+                "long_description": "Worker nodes with public IP addresses are directly reachable from the internet. Using private nodes ensures that worker nodes only have internal IP addresses, limiting exposure and reducing the blast radius of a compromised node.",
+                "remediation": "**From gcloud CLI (cluster creation):**\n\n```\ngcloud container clusters create CLUSTER_NAME \\\n  --enable-private-nodes \\\n  --master-ipv4-cidr 172.16.0.32/28 \\\n  --region REGION\n```\n\nNote: Private nodes must be enabled at cluster creation.",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0231",
+            "patch": {
+                "name": "CIS-5.6.7 Ensure use of Google-managed SSL Certificates",
+                "description": "Use Google-managed SSL certificates for HTTPS load balancers fronting GKE workloads.",
+                "long_description": "Google-managed SSL certificates are automatically provisioned, renewed, and managed by Google. Using them ensures HTTPS load balancers always have valid, up-to-date certificates without manual certificate lifecycle management.",
+                "remediation": "Create a ManagedCertificate resource and attach it to your Ingress:\n\n```yaml\napiVersion: networking.gke.io/v1\nkind: ManagedCertificate\nmetadata:\n  name: managed-cert\nspec:\n  domains:\n    - example.com\n```\n\nAnnotate your Ingress:\n\n```yaml\nannotations:\n  networking.gke.io/managed-certificates: managed-cert\n```",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/managed-certs"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0067",
+            "patch": {
+                "name": "CIS-5.7.1 Ensure Logging and Cloud Monitoring is Enabled",
+                "description": "Ensure Cloud Logging and Cloud Monitoring are enabled for the GKE cluster.",
+                "long_description": "Cloud Logging collects and stores logs from GKE system components and workloads. Cloud Monitoring provides metrics and alerting. Together they provide the observability required to detect and respond to security incidents.",
+                "remediation": "**From Google Cloud Console:**\n\n1. Go to Kubernetes Engine > Clusters.\n2. Click the cluster name and click 'Edit'.\n3. Under 'Telemetry', set 'Cloud Logging' and 'Cloud Monitoring' to 'System and workloads'.\n\n**From gcloud CLI:**\n\n```\ngcloud container clusters update CLUSTER_NAME \\\n  --enable-cloud-logging \\\n  --enable-cloud-monitoring \\\n  --region REGION\n```",
+                "references": [
+                    "https://cloud.google.com/stackdriver/docs/solutions/gke/observing",
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/logging"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0286",
+            "patch": {
+                "name": "CIS-5.8.1 Ensure authentication using Client Certificates is Disabled",
+                "description": "Disable client certificate authentication to the GKE API server and use stronger authentication mechanisms.",
+                "long_description": "Client certificate authentication is a legacy mechanism that is harder to manage and rotate than modern alternatives such as OIDC or Workload Identity. Disabling it reduces the risk of compromised long-lived credentials.",
+                "remediation": "Client certificate authentication cannot be disabled on existing clusters. Create new clusters with the flag:\n\n```\ngcloud container clusters create CLUSTER_NAME \\\n  --no-enable-basic-auth \\\n  --region REGION\n```\n\nVerify no client certificates are issued:\n\n```\ngcloud container clusters describe CLUSTER_NAME \\\n  --region REGION \\\n  --format='value(masterAuth.clientCertificate)'\n```\n\nThe output should be empty.",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster#restrict_access_to_cluster_api",
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0232",
+            "patch": {
+                "name": "CIS-5.8.2 Manage Kubernetes RBAC users for GKE with Google groups in Google Workspace",
+                "description": "Use Google Groups for GKE (G Suite groups) to manage RBAC access, binding ClusterRoles to Google Workspace groups instead of individual user accounts.",
+                "long_description": "Binding Kubernetes RBAC roles to Google Workspace groups rather than individual user accounts simplifies access management. When a user joins or leaves a group, their cluster access is automatically updated without needing to modify RBAC bindings.",
+                "remediation": "**Enable Google Groups for RBAC at cluster creation:**\n\n```\ngcloud container clusters create CLUSTER_NAME \\\n  --security-group=gke-security-groups@DOMAIN.com \\\n  --region REGION\n```\n\n**Bind a ClusterRole to a Google Group:**\n\n```yaml\napiVersion: rbac.authorization.k8s.io/v1\nkind: ClusterRoleBinding\nmetadata:\n  name: group-binding\nroleRef:\n  apiGroup: rbac.authorization.k8s.io\n  kind: ClusterRole\n  name: view\nsubjects:\n- apiGroup: rbac.authorization.k8s.io\n  kind: Group\n  name: GROUP_EMAIL@DOMAIN.com\n```",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/google-groups-rbac"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0088",
+            "patch": {
+                "name": "CIS-5.8.3 Ensure Legacy Authorization (ABAC) is Disabled",
+                "description": "Ensure that legacy Attribute-Based Access Control (ABAC) is disabled and RBAC is used for cluster authorization.",
+                "long_description": "ABAC is a legacy authorization mechanism that is less flexible and auditable than RBAC. On GKE, ABAC is disabled by default on clusters running Kubernetes 1.8 and later. Verify it is not re-enabled.",
+                "remediation": "**From gcloud CLI:**\n\nVerify ABAC is disabled:\n\n```\ngcloud container clusters describe CLUSTER_NAME \\\n  --region REGION \\\n  --format='value(legacyAbac.enabled)'\n```\n\nThe output should be empty or 'False'. To disable if enabled:\n\n```\ngcloud container clusters update CLUSTER_NAME \\\n  --no-enable-legacy-authorization \\\n  --region REGION\n```",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster#leave_abac_disabled_default_for_110"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0014",
+            "patch": {
+                "name": "CIS-5.10.1 Ensure Kubernetes Web UI is Disabled",
+                "description": "Disable the Kubernetes Dashboard on GKE clusters.",
+                "long_description": "The Kubernetes Dashboard provides a web-based UI for managing cluster resources. It can be a security risk if exposed or improperly secured. GKE disables it by default on newer cluster versions; ensure it is not re-enabled.",
+                "remediation": "**From gcloud CLI:**\n\nVerify the dashboard is disabled:\n\n```\ngcloud container clusters describe CLUSTER_NAME \\\n  --region REGION \\\n  --format='value(addonsConfig.kubernetesDashboard.disabled)'\n```\n\nThe output should be 'True'. If the dashboard addon is enabled:\n\n```\ngcloud container clusters update CLUSTER_NAME \\\n  --update-addons=KubernetesDashboard=DISABLED \\\n  --region REGION\n```",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/concepts/dashboards",
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster#disable_dashboard"
+                ]
+            }
+        },
+        {
+            "controlID": "C-0233",
+            "patch": {
+                "name": "CIS-5.10.3 Consider GKE Sandbox for running untrusted workloads",
+                "description": "Use GKE Sandbox (powered by gVisor) to provide stronger isolation for untrusted or multi-tenant workloads.",
+                "long_description": "GKE Sandbox provides an additional layer of security between containerised workloads and the host kernel using gVisor. It is recommended for running untrusted code, multi-tenant workloads, or workloads processing sensitive data.",
+                "remediation": "**Enable GKE Sandbox on a node pool:**\n\n```\ngcloud container node-pools create SANDBOX_POOL \\\n  --cluster=CLUSTER_NAME \\\n  --sandbox type=gvisor \\\n  --region REGION\n```\n\n**Schedule workloads on sandbox nodes using a RuntimeClass:**\n\n```yaml\napiVersion: node.k8s.io/v1\nkind: RuntimeClass\nmetadata:\n  name: gvisor\nhandler: runsc\n```",
+                "references": [
+                    "https://cloud.google.com/kubernetes-engine/docs/how-to/sandbox-pods",
+                    "https://gvisor.dev/docs/"
+                ]
+            }
+        }
+    ]
+}
