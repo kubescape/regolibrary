@@ -1,7 +1,7 @@
 apiVersion: discovery.k8s.io/v1
 kind: EndpointSlice
 metadata:
-  name: kubernetes-abc123
+  name: kubernetes-spoof-both-labels
   namespace: default
   labels:
     endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
@@ -12,6 +12,6 @@ ports:
     protocol: TCP
     port: 6443
 endpoints:
-  - addresses: ["10.0.0.1"]
+  - addresses: ["10.0.0.4"]
     conditions:
       ready: true
