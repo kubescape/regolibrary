@@ -383,6 +383,12 @@
             "patch": {
                 "name": "Deprecated serviceAccount field"
             }
+        },
+        {
+            "controlID": "C-0295",
+            "patch": {
+                "name": "Duplicate environment variable"
+            }
         }
     ]
 }

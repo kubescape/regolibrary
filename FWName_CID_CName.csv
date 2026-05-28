@@ -288,3 +288,5 @@ DevOpsBest,C-0293,Service with no workload
 AllControls,C-0293,Service with no workload
 DevOpsBest,C-0294,Deprecated serviceAccount field
 AllControls,C-0294,Deprecated serviceAccount field
+DevOpsBest,C-0295,Duplicate environment variable
+AllControls,C-0295,Duplicate environment variable

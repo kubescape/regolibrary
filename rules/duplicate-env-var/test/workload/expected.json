@@ -1,0 +1,62 @@
+[
+  {
+    "alertMessage": "Deployment: duplicate-env-deployment container app has duplicate environment variable name APP_MODE at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.template.spec.containers[0].env[0].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "duplicate-env-deployment"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Deployment: duplicate-env-deployment container app has duplicate environment variable name APP_MODE at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.template.spec.containers[0].env[1].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "duplicate-env-deployment"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Deployment: duplicate-env-deployment container app has duplicate environment variable name APP_MODE at this entry",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.template.spec.containers[0].env[2].name"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "duplicate-env-deployment"
+          }
+        }
+      ]
+    }
+  }
+]
