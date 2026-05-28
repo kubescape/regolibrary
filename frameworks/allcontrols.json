@@ -5,10 +5,7 @@
         "builtin": true
     },
     "scanningScope": {
-        "matches": [
-            "cluster",
-            "file"
-        ]
+        "matches": ["cluster", "file"]
     },
     "typeTags": ["compliance"],
     "activeControls": [
@@ -388,6 +385,12 @@
             "controlID": "C-0295",
             "patch": {
                 "name": "Duplicate environment variable"
+            }
+        },
+        {
+            "controlID": "C-0296",
+            "patch": {
+                "name": "Mismatching selector"
             }
         }
     ]

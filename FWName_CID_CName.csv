@@ -290,3 +290,5 @@ DevOpsBest,C-0294,Deprecated serviceAccount field
 AllControls,C-0294,Deprecated serviceAccount field
 DevOpsBest,C-0295,Duplicate environment variable
 AllControls,C-0295,Duplicate environment variable
+DevOpsBest,C-0296,Mismatching selector
+AllControls,C-0296,Mismatching selector

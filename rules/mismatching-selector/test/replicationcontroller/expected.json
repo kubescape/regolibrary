@@ -1,0 +1,22 @@
+[
+  {
+    "alertMessage": "ReplicationController: mismatching-selector-rc selector does not match pod template labels",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.selector"
+    ],
+    "fixPaths": [],
+    "alertScore": 3,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "ReplicationController",
+          "metadata": {
+            "name": "mismatching-selector-rc"
+          }
+        }
+      ]
+    }
+  }
+]
