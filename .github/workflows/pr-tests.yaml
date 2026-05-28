@@ -102,6 +102,7 @@ jobs:
 
   # test kubescape with regolibrary artifacts
   ks-and-rego-test:
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.head.repo.fork }}
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     needs: [build-and-rego-test]
     with:
