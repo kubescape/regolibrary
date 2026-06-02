@@ -114,6 +114,10 @@ jobs:
     if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
     name: create release and upload assets
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      # required because the tagged commit touches files under .github/workflows/
+      workflows: write
     steps:
       - uses: actions/checkout@v4
         name: Checkout repository
