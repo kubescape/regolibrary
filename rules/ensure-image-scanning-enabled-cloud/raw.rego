@@ -1,8 +1,9 @@
 package armo_builtins
-import future.keywords.in
+
+import rego.v1
 
 # Check if image scanning enabled for EKS
-deny[msga] {
+deny contains msga if {
 	describe_repositories := input[_]
 	describe_repositories.apiVersion == "eks.amazonaws.com/v1"
 	describe_repositories.kind == "DescribeRepositories"
@@ -10,7 +11,6 @@ deny[msga] {
 	repos := describe_repositories.data.Repositories
 	some repo in repos
 	not image_scanning_configured(repo)
-	
 
 	msga := {
 		"alertMessage": "image scanning is not enabled",
@@ -26,6 +26,6 @@ deny[msga] {
 	}
 }
 
-image_scanning_configured(repo) {
+image_scanning_configured(repo) if {
 	repo.ImageScanningConfiguration.ScanOnPush == true
 }

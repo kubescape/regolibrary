@@ -1,8 +1,6 @@
 package armo_builtins
 
-import future.keywords.contains
-import future.keywords.if
-import future.keywords.in
+import rego.v1
 
 same_name_at_other_index(envs, j, name) if {
 	k != j
@@ -123,7 +121,5 @@ make_alert(obj, kind, name, container, env_name, path) := {
 	"failedPaths": [path],
 	"fixPaths": [],
 	"alertScore": 3,
-	"alertObject": {
-		"k8sApiObjects": [obj],
-	},
+	"alertObject": {"k8sApiObjects": [obj]},
 }

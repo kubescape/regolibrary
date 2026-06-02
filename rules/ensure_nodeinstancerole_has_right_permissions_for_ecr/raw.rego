@@ -1,6 +1,6 @@
 package armo_builtins
 
-import future.keywords.every
+import rego.v1
 
 # deny if a NodeInstanceRole has a policies not compliant with the following:
 # {
@@ -18,7 +18,7 @@ import future.keywords.every
 #        }
 #    ]
 # }
-deny[msga] {
+deny contains msga if {
 	resources := input[_]
 	resources.kind == "ListEntitiesForPolicies"
 	resources.metadata.provider == "eks"
@@ -33,8 +33,8 @@ deny[msga] {
 
 	# node_instance_role_policies := ["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]
 	some policy in node_instance_role_policies
-		some stat, _ in policies.data.policiesDocuments[policy].Statement
-			not isPolicyCompliant(policies, policy, stat)
+	some stat, _ in policies.data.policiesDocuments[policy].Statement
+	not isPolicyCompliant(policies, policy, stat)
 
 	msga := {
 		"alertMessage": "Cluster has none read-only access to ECR; Review AWS ECS worker node IAM role (NodeInstanceRole) IAM Policy Permissions to verify that they are set and the minimum required level.",
@@ -42,18 +42,18 @@ deny[msga] {
 		"alertScore": 7,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"externalObjects": resources
-		}
+		"alertObject": {"externalObjects": resources},
 	}
 }
 
-isPolicyCompliant(policies, policy, stat) {
+isPolicyCompliant(policies, policy, stat) if {
 	# allowed action provided by the CIS
-	allowed_actions := ["ecr:BatchCheckLayerAvailability",
-                	    "ecr:BatchGetImage",
-                	    "ecr:GetAuthorizationToken",
-                	    "ecr:GetDownloadUrlForLayer"]
+	allowed_actions := [
+		"ecr:BatchCheckLayerAvailability",
+		"ecr:BatchGetImage",
+		"ecr:GetAuthorizationToken",
+		"ecr:GetDownloadUrlForLayer",
+	]
 	policies.data.policiesDocuments[policy].Statement[stat].Effect == "Allow"
 	policies.data.policiesDocuments[policy].Statement[stat].Resource == "*"
 	sorted_actions := sort(policies.data.policiesDocuments[policy].Statement[stat].Action)
