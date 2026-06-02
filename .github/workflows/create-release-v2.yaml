@@ -114,10 +114,6 @@ jobs:
     if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
     name: create release and upload assets
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      # required because the tagged commit touches files under .github/workflows/
-      workflows: write
     steps:
       - uses: actions/checkout@v4
         name: Checkout repository
@@ -135,7 +131,11 @@ jobs:
         with:
           tag: ${{ steps.generate_tag.outputs.NEW_TAG }}
           force_push_tag: false
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Use PAT (with `workflow` scope) instead of GITHUB_TOKEN: the tagged
+          # commit may modify files under .github/workflows/, which GITHUB_TOKEN
+          # cannot push (the `workflows` GitHub App permission is not available
+          # via the Actions `permissions:` block).
+          github_token: ${{ secrets.ARMOSEC_ACCESS_KEY }}
 
       - name: Generate Short Tag
         id: short_tag
@@ -149,7 +149,11 @@ jobs:
         with:
           tag: ${{ env.SHORT_TAG }}
           force_push_tag: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Use PAT (with `workflow` scope) instead of GITHUB_TOKEN: the tagged
+          # commit may modify files under .github/workflows/, which GITHUB_TOKEN
+          # cannot push (the `workflows` GitHub App permission is not available
+          # via the Actions `permissions:` block).
+          github_token: ${{ secrets.ARMOSEC_ACCESS_KEY }}
 
       - uses: actions/download-artifact@v4
         id: download-artifact
