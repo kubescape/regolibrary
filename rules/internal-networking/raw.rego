@@ -1,9 +1,11 @@
 package armo_builtins
 
+import rego.v1
+
 # input: network policies (NetworkPolicy, CiliumNetworkPolicy, CiliumClusterwideNetworkPolicy)
 # fails if no network policies are defined in a certain namespace
 
-deny[msga] {
+deny contains msga if {
 	namespaces := [namespace | namespace = input[_]; namespace.kind == "Namespace"]
 	namespace := namespaces[_]
 
@@ -23,24 +25,22 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [namespace],
-		},
+		"alertObject": {"k8sApiObjects": [namespace]},
 	}
 }
 
-is_network_policy_namespaced(policy) {
+is_network_policy_namespaced(policy) if {
 	policy.kind == "NetworkPolicy"
 }
 
-is_network_policy_namespaced(policy) {
+is_network_policy_namespaced(policy) if {
 	policy.kind == "CiliumNetworkPolicy"
 }
 
 # Returns the list of CiliumNetworkPolicySpec entries, unifying the
 # `spec:` (single) and `specs:` (list) forms documented for CNP/CCNP CRDs.
 # Either field may be present; both is also legal in Cilium.
-cilium_policy_specs(policy) = specs {
+cilium_policy_specs(policy) := specs if {
 	from_spec := [s | s := policy.spec]
 	from_specs := object.get(policy, "specs", [])
 	specs := array.concat(from_spec, from_specs)
@@ -52,7 +52,7 @@ cilium_policy_specs(policy) = specs {
 # 3. Has at least ingress or egress rules defined
 # (enableDefaultDeny, endpointSelector, ingress, egress are all per-CiliumNetworkPolicySpec.)
 
-is_ccnp_cluster_wide_coverage(policy) {
+is_ccnp_cluster_wide_coverage(policy) if {
 	policy.kind == "CiliumClusterwideNetworkPolicy"
 	spec := cilium_policy_specs(policy)[_]
 	ccnp_spec_selects_all_endpoints(spec)
@@ -62,26 +62,26 @@ is_ccnp_cluster_wide_coverage(policy) {
 
 # Covers both `endpointSelector: {}` and `endpointSelector: { matchLabels: {} }`
 # (and tolerates an empty `matchExpressions: []`).
-ccnp_spec_selects_all_endpoints(spec) {
+ccnp_spec_selects_all_endpoints(spec) if {
 	count(object.get(spec.endpointSelector, "matchLabels", {})) == 0
 	count(object.get(spec.endpointSelector, "matchExpressions", [])) == 0
 }
 
 # enableDefaultDeny explicitly disables both directions on this spec
-ccnp_spec_default_deny_disabled(spec) {
+ccnp_spec_default_deny_disabled(spec) if {
 	spec.enableDefaultDeny.ingress == false
 	spec.enableDefaultDeny.egress == false
 }
 
-ccnp_spec_has_ingress_or_egress(spec) {
+ccnp_spec_has_ingress_or_egress(spec) if {
 	spec.ingress
 }
 
-ccnp_spec_has_ingress_or_egress(spec) {
+ccnp_spec_has_ingress_or_egress(spec) if {
 	spec.egress
 }
 
-list_contains(list, element) {
+list_contains(list, element) if {
 	some i
 	list[i] == element
 }

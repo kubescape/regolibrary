@@ -1,7 +1,9 @@
 package armo_builtins
 
+import rego.v1
+
 # CIS 3.2.1 https://workbench.cisecurity.org/sections/1126657/recommendations/1838582
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_api_server(obj)
 	cmd := obj.spec.containers[0].command
@@ -20,7 +22,7 @@ deny[msga] {
 	}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"

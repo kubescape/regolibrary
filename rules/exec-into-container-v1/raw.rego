@@ -1,11 +1,11 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 # input: regoResponseVectorObject
 # returns subjects that can exec into container
 
-deny[msga] {
+deny contains msga if {
 	subjectVector := input[_]
 	role := subjectVector.relatedObjects[i]
 	rolebinding := subjectVector.relatedObjects[j]
@@ -53,14 +53,14 @@ deny[msga] {
 }
 
 # for service accounts
-is_same_subjects(subjectVector, subject) {
+is_same_subjects(subjectVector, subject) if {
 	subjectVector.kind == subject.kind
 	subjectVector.name == subject.name
 	subjectVector.namespace == subject.namespace
 }
 
 # for users/ groups
-is_same_subjects(subjectVector, subject) {
+is_same_subjects(subjectVector, subject) if {
 	subjectVector.kind == subject.kind
 	subjectVector.name == subject.name
 	subjectVector.apiGroup == subject.apiGroup
