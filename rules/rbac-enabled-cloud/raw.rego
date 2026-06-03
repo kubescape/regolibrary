@@ -1,6 +1,8 @@
 package armo_builtins
 
-deny[msga] {
+import rego.v1
+
+deny contains msga if {
 	cluster_config := input[_]
 	cluster_config.apiVersion == "management.azure.com/v1"
 	cluster_config.kind == "ClusterDescribe"
@@ -16,11 +18,6 @@ deny[msga] {
 		"failedPaths": ["data.properties.enableRBAC"],
 		"fixCommand": "",
 		"fixPaths": [],
-		"alertObject": {
-            		"externalObjects": cluster_config
-		}
+		"alertObject": {"externalObjects": cluster_config},
 	}
 }
-
-
-

@@ -1,9 +1,9 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 # fails if user has access to proxy subresources
-deny[msga] {
+deny contains msga if {
 	subjectVector := input[_]
 	role := subjectVector.relatedObjects[i]
 	rolebinding := subjectVector.relatedObjects[j]
@@ -15,10 +15,10 @@ deny[msga] {
 	subject := rolebinding.subjects[k]
 	is_same_subjects(subjectVector, subject)
 
-is_same_subjects(subjectVector, subject)
+	is_same_subjects(subjectVector, subject)
 	rule_path := sprintf("relatedObjects[%d].rules[%d]", [i, p])
 
-	verbs := ["get", "create", "connect","*"]
+	verbs := ["get", "create", "connect", "*"]
 	verb_path := [sprintf("%s.verbs[%d]", [rule_path, l]) | verb = rule.verbs[l]; verb in verbs]
 	count(verb_path) > 0
 
@@ -52,14 +52,14 @@ is_same_subjects(subjectVector, subject)
 }
 
 # for service accounts
-is_same_subjects(subjectVector, subject) {
+is_same_subjects(subjectVector, subject) if {
 	subjectVector.kind == subject.kind
 	subjectVector.name == subject.name
 	subjectVector.namespace == subject.namespace
 }
 
 # for users/ groups
-is_same_subjects(subjectVector, subject) {
+is_same_subjects(subjectVector, subject) if {
 	subjectVector.kind == subject.kind
 	subjectVector.name == subject.name
 	subjectVector.apiGroup == subject.apiGroup

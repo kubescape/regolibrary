@@ -1,8 +1,10 @@
 package armo_builtins
 
+import rego.v1
+
 #  ================================== no memory limits ==================================
 # Fails if pod does not have container with memory-limits
-deny[msga] {
+deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
@@ -20,7 +22,7 @@ deny[msga] {
 }
 
 # Fails if workload does not have container with memory-limits
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	spec_template_spec_patterns[wl.kind]
@@ -39,7 +41,7 @@ deny[msga] {
 }
 
 # Fails if cronjob does not have container with memory-limits
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
@@ -58,7 +60,7 @@ deny[msga] {
 
 #  ================================== no memory requests ==================================
 # Fails if pod does not have container with memory requests
-deny[msga] {
+deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
@@ -76,7 +78,7 @@ deny[msga] {
 }
 
 # Fails if workload does not have container with memory requests
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	spec_template_spec_patterns[wl.kind]
@@ -95,7 +97,7 @@ deny[msga] {
 }
 
 # Fails if cronjob does not have container with memory requests
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
@@ -112,11 +114,10 @@ deny[msga] {
 	}
 }
 
-
 # ============================================= memory requests exceed min/max =============================================
 
 # Fails if pod exceeds memory request
-deny[msga] {
+deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
@@ -138,7 +139,7 @@ deny[msga] {
 }
 
 # Fails if workload exceeds memory request
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	spec_template_spec_patterns[wl.kind]
@@ -162,14 +163,14 @@ deny[msga] {
 }
 
 # Fails if cronjob exceeds memory request
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
-	path := "resources.requests.memory" 
+	path := "resources.requests.memory"
 
 	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
 
@@ -186,8 +187,8 @@ deny[msga] {
 
 # ============================================= memory limits exceed min/max =============================================
 
-# Fails if pod exceeds memory-limit 
-deny[msga] {
+# Fails if pod exceeds memory-limit
+deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
@@ -208,8 +209,8 @@ deny[msga] {
 	}
 }
 
-# Fails if workload exceeds memory-limit 
-deny[msga] {
+# Fails if workload exceeds memory-limit
+deny contains msga if {
 	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	spec_template_spec_patterns[wl.kind]
@@ -232,8 +233,8 @@ deny[msga] {
 	}
 }
 
-# Fails if cronjob exceeds memory-limit 
-deny[msga] {
+# Fails if cronjob exceeds memory-limit
+deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
@@ -257,118 +258,116 @@ deny[msga] {
 
 ######################################################################################################
 
-
-is_limit_exceeded_memory(memory_limit) {
+is_limit_exceeded_memory(memory_limit) if {
 	is_min_limit_exceeded_memory(memory_limit)
 }
 
-is_limit_exceeded_memory(memory_limit) {
+is_limit_exceeded_memory(memory_limit) if {
 	is_max_limit_exceeded_memory(memory_limit)
 }
 
-is_req_exceeded_memory(memory_req) {
+is_req_exceeded_memory(memory_req) if {
 	is_max_request_exceeded_memory(memory_req)
 }
 
-is_req_exceeded_memory(memory_req) {
+is_req_exceeded_memory(memory_req) if {
 	is_min_request_exceeded_memory(memory_req)
 }
 
 # helpers
 
-is_max_limit_exceeded_memory(memory_limit) {
+is_max_limit_exceeded_memory(memory_limit) if {
 	memory_limit_max := data.postureControlInputs.memory_limit_max[_]
 	compare_max(memory_limit_max, memory_limit)
 }
 
-is_min_limit_exceeded_memory(memory_limit) {
+is_min_limit_exceeded_memory(memory_limit) if {
 	memory_limit_min := data.postureControlInputs.memory_limit_min[_]
 	compare_min(memory_limit_min, memory_limit)
 }
 
-is_max_request_exceeded_memory(memory_req) {
+is_max_request_exceeded_memory(memory_req) if {
 	memory_req_max := data.postureControlInputs.memory_request_max[_]
 	compare_max(memory_req_max, memory_req)
 }
 
-is_min_request_exceeded_memory(memory_req) {
+is_min_request_exceeded_memory(memory_req) if {
 	memory_req_min := data.postureControlInputs.memory_request_min[_]
 	compare_min(memory_req_min, memory_req)
 }
-
 
 ##############
 # helpers
 
 # Compare two Kubernetes memory quantities by normalizing both sides to bytes.
 # Supports binary (Ki/Mi/Gi/Ti/Pi/Ei), decimal (k/K/M/G/T/P/E) and unitless byte counts.
-compare_max(max, given) {
+compare_max(max, given) if {
 	mem_to_bytes(given) > mem_to_bytes(max)
 }
 
-compare_min(min, given) {
+compare_min(min, given) if {
 	mem_to_bytes(given) < mem_to_bytes(min)
 }
 
 # Parse a Kubernetes memory quantity string into bytes.
 # Order matters: binary two-char suffixes are checked before single-char decimal
 # suffixes so "Mi" is not misread as "M".
-mem_to_bytes(q) = n {
+mem_to_bytes(q) := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "Ki")
 	n := to_number(trim_suffix(s, "Ki")) * 1024
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "Mi")
 	n := to_number(trim_suffix(s, "Mi")) * 1048576
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "Gi")
 	n := to_number(trim_suffix(s, "Gi")) * 1073741824
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "Ti")
 	n := to_number(trim_suffix(s, "Ti")) * 1099511627776
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "Pi")
 	n := to_number(trim_suffix(s, "Pi")) * 1125899906842624
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "Ei")
 	n := to_number(trim_suffix(s, "Ei")) * 1152921504606846976
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "m")
 	n := to_number(trim_suffix(s, "m")) / 1000
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "k")
 	n := to_number(trim_suffix(s, "k")) * 1000
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "K")
 	n := to_number(trim_suffix(s, "K")) * 1000
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "M")
 	n := to_number(trim_suffix(s, "M")) * 1000000
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "G")
 	n := to_number(trim_suffix(s, "G")) * 1000000000
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "T")
 	n := to_number(trim_suffix(s, "T")) * 1000000000000
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "P")
 	n := to_number(trim_suffix(s, "P")) * 1000000000000000
-} else = n {
+} else := n if {
 	s := sprintf("%v", [q])
 	endswith(s, "E")
 	n := to_number(trim_suffix(s, "E")) * 1000000000000000000
-} else = n {
+} else := n if {
 	n := to_number(q)
 }
