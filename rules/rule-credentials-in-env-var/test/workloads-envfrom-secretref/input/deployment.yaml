@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: envfrom-secret-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: envfrom-secret-deploy
+  template:
+    metadata:
+      labels:
+        app: envfrom-secret-deploy
+    spec:
+      containers:
+      - name: secret-container
+        image: nginx:1.25
+        envFrom:
+        - secretRef:
+            name: db-credentials

@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Cronjob: initcontainer-secretkeyref-cronjob has secrets in environment variables",
+        "deletePaths": [
+            "spec.jobTemplate.spec.template.spec.initContainers[0].env[0].name"
+        ],
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.initContainers[0].env[0].name"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "initcontainer-secretkeyref-cronjob"
+                    }
+                }
+            ]
+        }
+    }
+]
