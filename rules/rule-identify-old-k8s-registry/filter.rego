@@ -1,11 +1,10 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msg] {
+deny contains msg if {
 	# find aggregated API APIServices
 	obj = input[_]
 	obj.metadata.namespace == "kube-system"
 	msg := {"alertObject": {"k8sApiObjects": [obj]}}
 }
-

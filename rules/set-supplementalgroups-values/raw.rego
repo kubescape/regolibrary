@@ -1,6 +1,8 @@
 package armo_builtins
 
-_deny_supplemental_groups_msg(kind_label, obj, groups, path) = msga {
+import rego.v1
+
+_deny_supplemental_groups_msg(kind_label, obj, groups, path) := msga if {
 	# regal ignore: use-in-operator
 	groups[_] == 0
 
@@ -17,7 +19,7 @@ _deny_supplemental_groups_msg(kind_label, obj, groups, path) = msga {
 ### POD ###
 
 # Fails if securityContext.supplementalGroups contains the root group (0)
-deny[msga] {
+deny contains msga if {
 	# verify the object kind
 	pod := input[_]
 	pod.kind == "Pod"
@@ -30,7 +32,7 @@ deny[msga] {
 ### WORKLOAD ###
 
 # Fails if securityContext.supplementalGroups contains the root group (0)
-deny[msga] {
+deny contains msga if {
 	# verify the object kind
 	wl := input[_]
 	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
@@ -44,7 +46,7 @@ deny[msga] {
 ### CRONJOB ###
 
 # Fails if securityContext.supplementalGroups contains the root group (0)
-deny[msga] {
+deny contains msga if {
 	# verify the object kind
 	cj := input[_]
 	cj.kind == "CronJob"

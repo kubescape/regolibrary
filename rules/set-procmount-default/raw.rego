@@ -1,9 +1,9 @@
 package armo_builtins
 
-import future.keywords.if
+import rego.v1
 
 # Fails if container does not define the "procMount" parameter as "Default"
-deny[msga] {
+deny contains msga if {
 	# checks at first if we the procMountType feature gate is enabled on the api-server
 	obj := input[_]
 	is_control_plane_info(obj)
@@ -27,7 +27,7 @@ deny[msga] {
 	}
 }
 
-deny[msga] {
+deny contains msga if {
 	# checks at first if we the procMountType feature gate is enabled on the api-server
 	obj := input[_]
 	is_control_plane_info(obj)
@@ -52,7 +52,7 @@ deny[msga] {
 	}
 }
 
-deny[msga] {
+deny contains msga if {
 	# checks at first if we the procMountType feature gate is enabled on the api-server
 	obj := input[_]
 	is_control_plane_info(obj)
