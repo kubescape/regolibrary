@@ -1,63 +1,63 @@
 package armo_builtins
 
-deny[msga] {
-  pods    := [ x | x = input[_]; x.kind == "Pod" ]
-  vulns   := [ x | x = input[_]; x.kind == "ImageVulnerabilities"]
+import rego.v1
 
-  pod     := pods[_]
-  vuln    := vulns[_]
+deny contains msga if {
+	pods := [x | x = input[_]; x.kind == "Pod"]
+	vulns := [x | x = input[_]; x.kind == "ImageVulnerabilities"]
 
-  # vuln data is relevant
-  count(vuln.data) > 0
+	pod := pods[_]
+	vuln := vulns[_]
 
-  # get container image name
-  container := pod.spec.containers[i]
+	# vuln data is relevant
+	count(vuln.data) > 0
 
-  # image has vulnerabilities
-  container.image == vuln.metadata.name
+	# get container image name
+	container := pod.spec.containers[i]
 
-  # Has ^ amount of vulnerabilities
-  check_num_vulnerabilities(vuln)
+	# image has vulnerabilities
+	container.image == vuln.metadata.name
 
-  related_objects := [pod, vuln]
+	# Has ^ amount of vulnerabilities
+	check_num_vulnerabilities(vuln)
 
-  path := sprintf("status.containerStatuses[%v].imageID", [format_int(i, 10)])
+	related_objects := [pod, vuln]
 
-  metadata = {
-  	"name": pod.metadata.name,
-  	"namespace": pod.metadata.namespace
-  }
+	path := sprintf("status.containerStatuses[%v].imageID", [format_int(i, 10)])
 
-  external_objects = {
-  	"apiVersion": "result.vulnscan.com/v1",
-  	"kind": pod.kind,
-  	"metadata": metadata,
-  	"relatedObjects": related_objects
-  }
+	metadata = {
+		"name": pod.metadata.name,
+		"namespace": pod.metadata.namespace,
+	}
 
-  msga := {
-  	"alertMessage": sprintf("pod '%v' exposed with critical vulnerabilities", [pod.metadata.name]),
-  	"packagename": "armo_builtins",
-  	"alertScore": 7,
-    "reviewPaths": [path],
-  	"failedPaths": [path],
-  	"fixPaths": [],
-  	"alertObject": {
-      "externalObjects": external_objects
-  	}
-  }
+	external_objects = {
+		"apiVersion": "result.vulnscan.com/v1",
+		"kind": pod.kind,
+		"metadata": metadata,
+		"relatedObjects": related_objects,
+	}
+
+	msga := {
+		"alertMessage": sprintf("pod '%v' exposed with critical vulnerabilities", [pod.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"reviewPaths": [path],
+		"failedPaths": [path],
+		"fixPaths": [],
+		"alertObject": {"externalObjects": external_objects},
+	}
 }
 
-check_num_vulnerabilities(vuln) {
-  exists := count([ x | x = vuln.data[_]; x.severity == "Critical" ])
+check_num_vulnerabilities(vuln) if {
+	exists := count([x | x = vuln.data[_]; x.severity == "Critical"])
 
-  str_max := data.postureControlInputs.max_critical_vulnerabilities[_]
-  exists > to_number(str_max)
+	str_max := data.postureControlInputs.max_critical_vulnerabilities[_]
+	exists > to_number(str_max)
 }
 
-check_num_vulnerabilities(vuln) {
-  exists := count([ x | x = vuln.data[_]; x.severity == "High" ])
+check_num_vulnerabilities(vuln) if {
+	exists := count([x | x = vuln.data[_]; x.severity == "High"])
 
-  str_max := data.postureControlInputs.max_high_vulnerabilities[_]
-  exists > to_number(str_max)
+	str_max := data.postureControlInputs.max_high_vulnerabilities[_]
+	exists > to_number(str_max)
 }

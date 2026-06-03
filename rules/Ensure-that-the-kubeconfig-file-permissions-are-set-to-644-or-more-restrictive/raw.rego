@@ -1,10 +1,9 @@
 package armo_builtins
 
-import future.keywords.in
-
 import data.cautils
+import rego.v1
 
-deny[msg] {
+deny contains msg if {
 	# Filter out irrelevent resources
 	obj = input[_]
 	is_kubelet_info(obj)
@@ -22,11 +21,13 @@ deny[msg] {
 		concat("/", file_obj_path),
 		"apiVersion",
 		"kind",
-		"metadata"
+		"metadata",
 	])
 
-	alert := sprintf("The permissions of %s are too permissive. maximum allowed: %o. actual: %o",
-	[file.path, allowed_perms, file.permissions])
+	alert := sprintf(
+		"The permissions of %s are too permissive. maximum allowed: %o. actual: %o",
+		[file.path, allowed_perms, file.permissions],
+	)
 
 	msg := {
 		"alertMessage": alert,
@@ -38,7 +39,7 @@ deny[msg] {
 	}
 }
 
-is_kubelet_info(obj) {
+is_kubelet_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "KubeletInfo"
 }
