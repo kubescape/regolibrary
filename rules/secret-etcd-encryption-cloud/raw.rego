@@ -89,6 +89,18 @@ is_encrypted_GKE(config) {
 
 is_encrypted_EKS(config) {
 	encryption := config.Cluster.EncryptionConfig[_]
+	encryption.Provider.KeyArn != ""
+	count(encryption.Resources) > 0
+}
+
+# Accept the camelCase shape too. kubescape's cloud collector normally
+# feeds this rule the aws-sdk-go v2 DescribeClusterOutput struct which
+# marshals to PascalCase (Cluster.EncryptionConfig). Environments that
+# hand the raw AWS CLI / describe-cluster JSON (cluster.encryptionConfig)
+# would otherwise always trip the C-0066 deny even with KMS actually
+# enabled (kubescape/kubescape#1959).
+is_encrypted_EKS(config) {
+	encryption := config.cluster.encryptionConfig[_]
 	encryption.provider.keyArn != ""
 	count(encryption.resources) > 0
 }
