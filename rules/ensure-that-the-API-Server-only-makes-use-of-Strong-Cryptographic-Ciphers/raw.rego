@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msg] {
+deny contains msg if {
 	obj = input[_]
 	is_api_server(obj)
 	wanted = [
@@ -40,7 +40,7 @@ deny[msg] {
 	}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
@@ -49,7 +49,7 @@ is_api_server(obj) {
 	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
 }
 
-get_flag_values(cmd) = {"origin": origin, "values": values} {
+get_flag_values(cmd) := {"origin": origin, "values": values} if {
 	re := " ?--tls-cipher-suites=(.+?)(?: |$)"
 	matchs := regex.find_all_string_submatch_n(re, cmd, -1)
 	count(matchs) == 1
@@ -57,9 +57,8 @@ get_flag_values(cmd) = {"origin": origin, "values": values} {
 	origin := matchs[0][0]
 }
 
-
 # Assume flag set only once
-invalid_flag(cmd, wanted) = result {
+invalid_flag(cmd, wanted) := result if {
 	flag := get_flag_values(cmd[i])
 
 	# value check
@@ -81,7 +80,7 @@ invalid_flag(cmd, wanted) = result {
 	}
 }
 
-invalid_flag(cmd, wanted) = result {
+invalid_flag(cmd, wanted) := result if {
 	full_cmd := concat(" ", cmd)
 	not contains(full_cmd, "--tls-cipher-suites")
 

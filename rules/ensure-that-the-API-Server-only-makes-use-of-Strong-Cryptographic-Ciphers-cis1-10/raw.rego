@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msg] {
+deny contains msg if {
 	obj = input[_]
 	is_api_server(obj)
 	dontwanted = [
@@ -17,7 +17,7 @@ deny[msg] {
 		"TLS_RSA_WITH_AES_128_GCM_SHA256",
 		"TLS_RSA_WITH_AES_256_CBC_SHA",
 		"TLS_RSA_WITH_AES_256_GCM_SHA384",
-		"TLS_RSA_WITH_RC4_128_SHA"
+		"TLS_RSA_WITH_RC4_128_SHA",
 	]
 
 	result = invalid_flag(obj.spec.containers[0].command, dontwanted)
@@ -27,13 +27,12 @@ deny[msg] {
 		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
 		"fixPaths": result.fix_paths,
-
 		"packagename": "armo_builtins",
 		"alertObject": {"k8sApiObjects": [obj]},
 	}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
@@ -42,7 +41,7 @@ is_api_server(obj) {
 	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
 }
 
-get_flag_values(cmd) = {"origin": origin, "values": values} {
+get_flag_values(cmd) := {"origin": origin, "values": values} if {
 	re := " ?--tls-cipher-suites=(.+?)(?: |$)"
 	matchs := regex.find_all_string_submatch_n(re, cmd, -1)
 	count(matchs) == 1
@@ -50,22 +49,19 @@ get_flag_values(cmd) = {"origin": origin, "values": values} {
 	origin := matchs[0][0]
 }
 
-
 # Assume flag set only once
-invalid_flag(cmd, dontwanted) = result {
+invalid_flag(cmd, dontwanted) := result if {
 	flag := get_flag_values(cmd[i])
 
 	# value check
 	dontuse = [x | x = dontwanted[_]; x in flag.values]
 	count(dontuse) > 0
 
-
 	# get fixed and failed paths
 	fixed_values := array.concat(flag.values, dontuse)
 	fixed_flag = sprintf("%s=%s", ["--tls-cipher-suites", concat(",", fixed_values)])
 	fixed_cmd = replace(cmd[i], flag.origin, fixed_flag)
 	path := sprintf("spec.containers[0].command[%d]", [i])
-
 
 	result := {
 		"failed_paths": [path],
@@ -76,7 +72,7 @@ invalid_flag(cmd, dontwanted) = result {
 	}
 }
 
-invalid_flag(cmd, wanted) = result {
+invalid_flag(cmd, wanted) := result if {
 	full_cmd := concat(" ", cmd)
 	not contains(full_cmd, "--tls-cipher-suites")
 
