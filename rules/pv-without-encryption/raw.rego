@@ -1,7 +1,9 @@
 package armo_builtins
 
+import rego.v1
+
 # Checks if Ingress is connected to a service and a workload to expose something
-deny[msga] {
+deny contains msga if {
 	pv := input[_]
 	pv.kind == "PersistentVolume"
 
@@ -19,28 +21,27 @@ deny[msga] {
 		"failedPaths": [],
 		"fixPaths": [{
 			"path": "spec.storageClassName",
-			"value": "<your encrypted storage class>"
-        }],
+			"value": "<your encrypted storage class>",
+		}],
 		"alertScore": 7,
-		"alertObject": {"k8sApiObjects": [pv]}
+		"alertObject": {"k8sApiObjects": [pv]},
 	}
 }
 
 # Storage class is encrypted - AWS
-is_storage_class_encrypted(storageclass) {
+is_storage_class_encrypted(storageclass) if {
 	storageclass.parameters.encrypted == "true"
 }
 
 # Storage class is encrypted - Azure
-is_storage_class_encrypted(storageclass) {
+is_storage_class_encrypted(storageclass) if {
 	storageclass.provisioner
-	contains(storageclass.provisioner,"azure")
+	contains(storageclass.provisioner, "azure")
 }
 
 # Storage class is encrypted - GCP
-is_storage_class_encrypted(storageclass) {
+is_storage_class_encrypted(storageclass) if {
 	# GKE encryption is enabled by default https://cloud.google.com/blog/products/containers-kubernetes/exploring-container-security-use-your-own-keys-to-protect-your-data-on-gke
 	storageclass.provisioner
-	contains(storageclass.provisioner,"csi.storage.gke.io")
+	contains(storageclass.provisioner, "csi.storage.gke.io")
 }
-

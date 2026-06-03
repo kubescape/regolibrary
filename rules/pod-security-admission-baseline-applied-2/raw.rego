@@ -1,8 +1,9 @@
 package armo_builtins
-import future.keywords.in
+
+import rego.v1
 
 # Fails if namespace does not have baseline pod security admission label
-deny[msga] {
+deny contains msga if {
 	namespace := input[_]
 	namespace.kind == "Namespace"
 	not baseline_admission_policy_enabled(namespace)
@@ -14,12 +15,10 @@ deny[msga] {
 		"alertScore": 7,
 		"failedPaths": [],
 		"fixPaths": [fix_path],
-		"alertObject": {
-			"k8sApiObjects": [namespace]
-		}
+		"alertObject": {"k8sApiObjects": [namespace]},
 	}
 }
 
-baseline_admission_policy_enabled(namespace){
+baseline_admission_policy_enabled(namespace) if {
 	namespace.metadata.labels["pod-security.kubernetes.io/enforce"] in ["baseline", "restricted"]
 }

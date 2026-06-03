@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.every
+import rego.v1
 
-deny[msga] {
+deny contains msga if {
 	# only fail resources if all PSPs don't have requiredDropCapabilities
 	# if even one PSP has requiredDropCapabilities, then the rule will not fail
 	every psp in input {
@@ -15,7 +15,7 @@ deny[msga] {
 	psp.kind == "PodSecurityPolicy"
 	not has_requiredDropCapabilities(psp.spec)
 
-	fixpath := {"path":"spec.requiredDropCapabilities[0]", "value":"ALL"}
+	fixpath := {"path": "spec.requiredDropCapabilities[0]", "value": "ALL"}
 	msga := {
 		"alertMessage": sprintf("PodSecurityPolicy: '%v' doesn't have requiredDropCapabilities.", [psp.metadata.name]),
 		"packagename": "armo_builtins",
@@ -25,6 +25,6 @@ deny[msga] {
 	}
 }
 
-has_requiredDropCapabilities(spec) {
+has_requiredDropCapabilities(spec) if {
 	count(spec.requiredDropCapabilities) > 0
 }

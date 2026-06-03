@@ -1,9 +1,10 @@
 package armo_builtins
 
+import rego.v1
 
 # Fails if workload is Pod
-deny[msga] {
-    pod := input[_]
+deny contains msga if {
+	pod := input[_]
 	pod.kind == "Pod"
 	not pod.metadata.ownerReferences
 	msga := {
@@ -12,10 +13,6 @@ deny[msga] {
 		"alertScore": 3,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [pod]
-		}
+		"alertObject": {"k8sApiObjects": [pod]},
 	}
 }
-
-

@@ -1,18 +1,17 @@
 package armo_builtins
 
+import rego.v1
 
-deny [msga] {
-    admissionwebhooks := [admissionwebhook | admissionwebhook = input[_]; admissionwebhook.kind == "ValidatingWebhookConfiguration"]
-    admissionwebhook := admissionwebhooks[_]
+deny contains msga if {
+	admissionwebhooks := [admissionwebhook | admissionwebhook = input[_]; admissionwebhook.kind == "ValidatingWebhookConfiguration"]
+	admissionwebhook := admissionwebhooks[_]
 
-    	msga := {
+	msga := {
 		"alertMessage": sprintf("The following validating webhook configuration should be checked %v.", [admissionwebhook.metadata.name]),
 		"alertScore": 6,
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [admissionwebhook]
-		}
+		"alertObject": {"k8sApiObjects": [admissionwebhook]},
 	}
 }

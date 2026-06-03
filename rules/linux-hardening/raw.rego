@@ -1,9 +1,9 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-# Fails if pod does not define linux security hardening 
-deny[msga] {
+# Fails if pod does not define linux security hardening
+deny contains msga if {
 	obj := input[_]
 	fix_paths := is_unsafe_obj(obj)
 	count(fix_paths) > 0
@@ -20,18 +20,18 @@ deny[msga] {
 	}
 }
 
-is_unsafe_obj(obj) := fix_paths {
+is_unsafe_obj(obj) := fix_paths if {
 	obj.kind == "Pod"
 	fix_paths := are_unsafe_specs(obj, ["spec"])
-} else := fix_paths {
+} else := fix_paths if {
 	obj.kind == "CronJob"
 	fix_paths := are_unsafe_specs(obj, ["spec", "jobTemplate", "spec", "template", "spec"])
-} else := fix_paths {
+} else := fix_paths if {
 	obj.kind in ["Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"]
 	fix_paths := are_unsafe_specs(obj, ["spec", "template", "spec"])
 }
 
-are_unsafe_specs(obj, specs_path) := paths {
+are_unsafe_specs(obj, specs_path) := paths if {
 	# spec
 	specs := object.get(obj, specs_path, null)
 	specs != null
@@ -74,7 +74,7 @@ are_unsafe_specs(obj, specs_path) := paths {
 
 # A container is unsafe if it has no seccomp profile defined
 # at either pod level or container level
-is_unsafe_container(pod_spec, container) {
+is_unsafe_container(pod_spec, container) if {
 	not pod_spec.securityContext.seccompProfile
 	not container.securityContext.seccompProfile
 }

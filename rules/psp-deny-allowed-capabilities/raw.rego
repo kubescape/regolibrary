@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.every
+import rego.v1
 
-deny[msga] {
+deny contains msga if {
 	# only fail resources if all PSPs have allowedCapabilities
 	# if even one PSP has allowedCapabilities as an empty list, then the rule will not fail
 	every psp in input {
