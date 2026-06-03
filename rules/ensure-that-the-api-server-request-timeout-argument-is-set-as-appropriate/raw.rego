@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msg] {
+deny contains msg if {
 	obj = input[_]
 	is_api_server(obj)
 	result = invalid_flag(obj.spec.containers[0].command)
@@ -17,7 +17,7 @@ deny[msg] {
 	}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
@@ -27,7 +27,7 @@ is_api_server(obj) {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	contains(cmd[i], "--request-timeout")
 	result = {
 		"alert": "Please validate the request timeout flag is set to an appropriate value",
