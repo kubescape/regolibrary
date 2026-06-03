@@ -117,6 +117,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         name: Checkout repository
+        with:
+          # Avoid persisting GITHUB_TOKEN as a git http.extraheader, which would
+          # override the explicit ARMOSEC_ACCESS_KEY passed to the tag-push steps
+          # below and re-introduce the workflows-permission failure.
+          persist-credentials: false
 
       - name: 'Generate Release Tag'
         id: generate_tag
@@ -131,7 +136,11 @@ jobs:
         with:
           tag: ${{ steps.generate_tag.outputs.NEW_TAG }}
           force_push_tag: false
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Use PAT (with `workflow` scope) instead of GITHUB_TOKEN: the tagged
+          # commit may modify files under .github/workflows/, which GITHUB_TOKEN
+          # cannot push (the `workflows` GitHub App permission is not available
+          # via the Actions `permissions:` block).
+          github_token: ${{ secrets.ARMOSEC_ACCESS_KEY }}
 
       - name: Generate Short Tag
         id: short_tag
@@ -145,7 +154,11 @@ jobs:
         with:
           tag: ${{ env.SHORT_TAG }}
           force_push_tag: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Use PAT (with `workflow` scope) instead of GITHUB_TOKEN: the tagged
+          # commit may modify files under .github/workflows/, which GITHUB_TOKEN
+          # cannot push (the `workflows` GitHub App permission is not available
+          # via the Actions `permissions:` block).
+          github_token: ${{ secrets.ARMOSEC_ACCESS_KEY }}
 
       - uses: actions/download-artifact@v4
         id: download-artifact
