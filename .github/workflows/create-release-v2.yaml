@@ -117,6 +117,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         name: Checkout repository
+        with:
+          # Avoid persisting GITHUB_TOKEN as a git http.extraheader, which would
+          # override the explicit ARMOSEC_ACCESS_KEY passed to the tag-push steps
+          # below and re-introduce the workflows-permission failure.
+          persist-credentials: false
 
       - name: 'Generate Release Tag'
         id: generate_tag
