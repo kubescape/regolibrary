@@ -57,7 +57,7 @@ jobs:
       - name: Set up Regal
         uses: StyraInc/setup-regal@v1
         with:
-          version: latest
+          version: v0.41.1
 
       - name: Lint Rego
         run: regal lint --format github rules
