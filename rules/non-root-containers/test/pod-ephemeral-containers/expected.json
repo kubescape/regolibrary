@@ -1,0 +1,27 @@
+[
+    {
+        "alertMessage": "ephemeralContainer: debug-container in pod: test-pod may run as root",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.ephemeralContainers[0].securityContext.runAsNonRoot",
+                "value": "true"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test-pod"
+                    }
+                }
+            ]
+        }
+    }
+]

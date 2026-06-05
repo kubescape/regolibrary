@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "ephemeralContainer: debug-container in CronJob: test-cronjob has dangerous capabilities",
+        "deletePaths": [
+            "spec.jobTemplate.spec.template.spec.ephemeralContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.ephemeralContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "test-cronjob"
+                    }
+                }
+            ]
+        }
+    }
+]

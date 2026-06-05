@@ -1,0 +1,27 @@
+[
+    {
+        "alertMessage": "initContainer: init-container in CronJob: test-cronjob may run as root",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.initContainers[0].securityContext.runAsNonRoot",
+                "value": "true"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "test-cronjob"
+                    }
+                }
+            ]
+        }
+    }
+]
