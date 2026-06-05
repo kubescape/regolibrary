@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -5,6 +6,7 @@ import rego.v1
 # Fails if container has a hostPath volume which is not readOnly
 
 deny contains msga if {
+	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
 	volumes := pod.spec.volumes
@@ -13,9 +15,7 @@ deny contains msga if {
 	container := pod.spec.containers[i]
 	volume_mount := container.volumeMounts[k]
 	volume_mount.name == volume.name
-	start_of_path := "spec."
 	fix_path := is_rw_mount(volume_mount, start_of_path, i, k)
-
 	podname := pod.metadata.name
 
 	msga := {
@@ -29,8 +29,9 @@ deny contains msga if {
 
 # handles majority of workload resources
 deny contains msga if {
-	wl := input[_]
+	start_of_path := "spec.template.spec."
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	volumes := wl.spec.template.spec.volumes
 	volume := volumes[_]
@@ -38,7 +39,6 @@ deny contains msga if {
 	container := wl.spec.template.spec.containers[i]
 	volume_mount := container.volumeMounts[k]
 	volume_mount.name == volume.name
-	start_of_path := "spec.template.spec."
 	fix_path := is_rw_mount(volume_mount, start_of_path, i, k)
 
 	msga := {
@@ -52,6 +52,7 @@ deny contains msga if {
 
 # handles CronJobs
 deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
 	volumes := wl.spec.jobTemplate.spec.template.spec.volumes
@@ -61,7 +62,6 @@ deny contains msga if {
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 	volume_mount := container.volumeMounts[k]
 	volume_mount.name == volume.name
-	start_of_path := "spec.jobTemplate.spec.template.spec."
 	fix_path := is_rw_mount(volume_mount, start_of_path, i, k)
 
 	msga := {
@@ -73,13 +73,9 @@ deny contains msga if {
 	}
 }
 
-is_rw_mount(mount, start_of_path, i, k) := fix_path if {
-	not mount.readOnly == true
-	fix_path = {"path": sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [start_of_path, i, k]), "value": "true"}
-}
-
 # handles initContainers for Pod
 deny contains msga if {
+	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
 	volumes := pod.spec.volumes
@@ -88,7 +84,6 @@ deny contains msga if {
 	container := pod.spec.initContainers[i]
 	volume_mount := container.volumeMounts[k]
 	volume_mount.name == volume.name
-	start_of_path := "spec."
 	fix_path := is_rw_mount_init(volume_mount, start_of_path, i, k)
 	podname := pod.metadata.name
 	msga := {
@@ -102,8 +97,9 @@ deny contains msga if {
 
 # handles initContainers for majority of workload resources
 deny contains msga if {
-	wl := input[_]
+	start_of_path := "spec.template.spec."
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	volumes := wl.spec.template.spec.volumes
 	volume := volumes[_]
@@ -111,7 +107,6 @@ deny contains msga if {
 	container := wl.spec.template.spec.initContainers[i]
 	volume_mount := container.volumeMounts[k]
 	volume_mount.name == volume.name
-	start_of_path := "spec.template.spec."
 	fix_path := is_rw_mount_init(volume_mount, start_of_path, i, k)
 	msga := {
 		"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
@@ -124,6 +119,7 @@ deny contains msga if {
 
 # handles initContainers for CronJobs
 deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
 	volumes := wl.spec.jobTemplate.spec.template.spec.volumes
@@ -132,7 +128,6 @@ deny contains msga if {
 	container = wl.spec.jobTemplate.spec.template.spec.initContainers[i]
 	volume_mount := container.volumeMounts[k]
 	volume_mount.name == volume.name
-	start_of_path := "spec.jobTemplate.spec.template.spec."
 	fix_path := is_rw_mount_init(volume_mount, start_of_path, i, k)
 	msga := {
 		"alertMessage": sprintf("%v: %v has: %v as hostPath volume", [wl.kind, wl.metadata.name, volume.name]),
@@ -141,6 +136,11 @@ deny contains msga if {
 		"fixPaths": [fix_path],
 		"alertObject": {"k8sApiObjects": [wl]},
 	}
+}
+
+is_rw_mount(mount, start_of_path, i, k) := fix_path if {
+	not mount.readOnly == true
+	fix_path = {"path": sprintf("%vcontainers[%v].volumeMounts[%v].readOnly", [start_of_path, i, k]), "value": "true"}
 }
 
 is_rw_mount_init(mount, start_of_path, i, k) := fix_path if {

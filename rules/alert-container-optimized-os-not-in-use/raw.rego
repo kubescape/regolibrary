@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -6,6 +7,11 @@ import rego.v1
 # "Container-Optimized OS" prefixes are configured in 'container_optimized_os_prefixes'.
 # deny if 'nodes.status.nodeInfo.osImage' not starting with at least one item in 'container_optimized_os_prefixes'.
 deny contains msga if {
+	# prepare message data.
+	alert_message := "Prefer using Container-Optimized OS when possible"
+
+	failedPaths := ["status.nodeInfo.osImage"]
+
 	nodes := input[_]
 	nodes.kind == "Node"
 
@@ -15,11 +21,6 @@ deny contains msga if {
 	# check if osImage starts with at least one prefix
 	some str in container_optimized_os_prefixes
 	not startswith(nodes.status.nodeInfo.osImage, str)
-
-	# prepare message data.
-	alert_message := "Prefer using Container-Optimized OS when possible"
-
-	failedPaths := ["status.nodeInfo.osImage"]
 
 	msga := {
 		"alertMessage": alert_message,

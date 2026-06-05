@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -22,8 +23,8 @@ untrusted_image_repo contains msga if {
 }
 
 untrusted_image_repo contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 	image := container.image

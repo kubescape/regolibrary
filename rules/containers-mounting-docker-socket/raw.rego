@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -24,8 +25,8 @@ deny contains msga if {
 }
 
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	volume := wl.spec.template.spec.volumes[i]
 	host_path := volume.hostPath
@@ -66,27 +67,6 @@ deny contains msga if {
 	}
 }
 
-volume_mounts(name, volume_mounts, str) := [path] if {
-	name == volume_mounts[j].name
-	path := sprintf("%s.volumeMounts[%v]", [str, j])
-} else := []
-
-is_runtime_socket_mounting(host_path) if {
-	host_path.path == "/var/run/docker.sock"
-}
-
-is_runtime_socket_mounting(host_path) if {
-	host_path.path == "/var/run/docker"
-}
-
-is_runtime_socket_mounting(host_path) if {
-	host_path.path == "/run/containerd/containerd.sock"
-}
-
-is_runtime_socket_mounting(host_path) if {
-	host_path.path == "/var/run/crio/crio.sock"
-}
-
 # handles initContainers for Pod
 deny contains msga if {
 	pod := input[_]
@@ -111,8 +91,8 @@ deny contains msga if {
 
 # handles initContainers for majority of workload resources
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	volume := wl.spec.template.spec.volumes[i]
 	host_path := volume.hostPath
@@ -152,4 +132,25 @@ deny contains msga if {
 		"alertScore": 5,
 		"alertObject": {"k8sApiObjects": [wl]},
 	}
+}
+
+volume_mounts(name, volume_mounts, str) := [path] if {
+	name == volume_mounts[j].name
+	path := sprintf("%s.volumeMounts[%v]", [str, j])
+} else := []
+
+is_runtime_socket_mounting(host_path) if {
+	host_path.path == "/var/run/docker.sock"
+}
+
+is_runtime_socket_mounting(host_path) if {
+	host_path.path == "/var/run/docker"
+}
+
+is_runtime_socket_mounting(host_path) if {
+	host_path.path == "/run/containerd/containerd.sock"
+}
+
+is_runtime_socket_mounting(host_path) if {
+	host_path.path == "/var/run/crio/crio.sock"
 }

@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -9,10 +10,10 @@ import rego.v1
 
 # POD
 deny contains msga if {
+	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
 
-	start_of_path := "spec."
 	wl_namespace := pod_namespace(pod)
 	result := is_sa_auto_mounted(pod.spec, start_of_path, wl_namespace)
 	failed_path := get_failed_path(result)
@@ -30,11 +31,11 @@ deny contains msga if {
 
 # WORKLOADS: Deployment / ReplicaSet / DaemonSet / StatefulSet / Job
 deny contains msga if {
-	wl := input[_]
+	start_of_path := "spec.template.spec."
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 
-	start_of_path := "spec.template.spec."
 	wl_namespace := pod_namespace(wl)
 	result := is_sa_auto_mounted(wl.spec.template.spec, start_of_path, wl_namespace)
 	failed_path := get_failed_path(result)
@@ -52,10 +53,10 @@ deny contains msga if {
 
 # CRONJOB
 deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
 
-	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl_namespace := pod_namespace(wl)
 	result := is_sa_auto_mounted(wl.spec.jobTemplate.spec.template.spec, start_of_path, wl_namespace)
 	failed_path := get_failed_path(result)
@@ -88,6 +89,8 @@ is_sa_auto_mounted(spec, start_of_path, wl_namespace) := [failed_path, fix_path]
 # referenced SA exists and does not explicitly disable auto-mount. Token
 # will mount by default. Fix by setting pod-level to false.
 is_sa_auto_mounted(spec, start_of_path, wl_namespace) := [failed_path, fix_path] if {
+	failed_path := ""
+	fix_path := {"path": sprintf("%vautomountServiceAccountToken", [start_of_path]), "value": "false"}
 	not spec.automountServiceAccountToken == false
 	not spec.automountServiceAccountToken == true
 
@@ -97,8 +100,6 @@ is_sa_auto_mounted(spec, start_of_path, wl_namespace) := [failed_path, fix_path]
 	is_same_namespace(sa.metadata.namespace, wl_namespace)
 	not sa.automountServiceAccountToken == false
 
-	fix_path := {"path": sprintf("%vautomountServiceAccountToken", [start_of_path]), "value": "false"}
-	failed_path := ""
 }
 
 # Branch 3: pod spec does not set automountServiceAccountToken, and no

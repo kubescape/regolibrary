@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -66,36 +67,30 @@ fix_path(path) := result if {
 } else := path
 
 # eks unsafe paths
-unsafe_paths(x) := [
+unsafe_paths("eks") := [
 	"/.aws/",
 	"/.aws/config/",
 	"/.aws/credentials/",
-] if {
-	x == "eks"
-}
+]
 
 # aks unsafe paths
-unsafe_paths(x) := [
+unsafe_paths("aks") := [
 	"/etc/",
 	"/etc/kubernetes/",
 	"/etc/kubernetes/azure.json",
 	"/.azure/",
 	"/.azure/credentials/",
 	"/etc/kubernetes/azure.json",
-] if {
-	x == "aks"
-}
+]
 
 # gke unsafe paths
-unsafe_paths(x) := [
+unsafe_paths("gke") := [
 	"/.config/gcloud/",
 	"/.config/",
 	"/gcloud/",
 	"/.config/gcloud/application_default_credentials.json",
 	"/gcloud/application_default_credentials.json",
-] if {
-	x == "gke"
-}
+]
 
 volume_mounts(name, volume_mounts, str) := [path] if {
 	name == volume_mounts[j].name

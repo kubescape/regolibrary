@@ -1,13 +1,14 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 # Fails if pod has container with hostPort
 deny contains msga if {
+	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	start_of_path := "spec."
 	path := is_host_port(container, i, start_of_path)
 	msga := {
 		"alertMessage": sprintf("Container: %v has Host-port", [container.name]),
@@ -22,11 +23,11 @@ deny contains msga if {
 
 # Fails if workload has container with hostPort
 deny contains msga if {
-	wl := input[_]
+	start_of_path := "spec.template.spec."
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
-	start_of_path := "spec.template.spec."
 	path := is_host_port(container, i, start_of_path)
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   has Host-port", [container.name, wl.kind, wl.metadata.name]),
@@ -41,10 +42,10 @@ deny contains msga if {
 
 # Fails if cronjob has container with hostPort
 deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	start_of_path := "spec.jobTemplate.spec.template.spec."
 	path := is_host_port(container, i, start_of_path)
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   has Host-port", [container.name, wl.kind, wl.metadata.name]),
