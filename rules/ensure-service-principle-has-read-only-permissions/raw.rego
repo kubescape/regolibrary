@@ -1,9 +1,10 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
-import future.keywords.every
+import rego.v1
 
 # deny if servicePrincipal has permissions that are not read-only
-deny[msga] {
+deny contains msga if {
 	resources := input[_]
 	resources.kind == "ListEntitiesForPolicies"
 	resources.metadata.provider == "aks"
@@ -19,8 +20,9 @@ deny[msga] {
 	policy.id == roleAssignment.properties.roleDefinitionId
 
 	# check if policy has at least one action that is not read
-	some action in policy.properties.permissions[_].actions
-		not endswith(action, "read")
+    permission := policy.properties.permissions[_]
+    action := permission.actions[_]
+    not endswith(action, "read")
 
 	msga := {
 		"alertMessage": "ServicePrincipal has permissions that are not read-only to ACR.",
@@ -28,8 +30,6 @@ deny[msga] {
 		"alertScore": 7,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"externalObjects": resources
-		}
+		"alertObject": {"externalObjects": resources},
 	}
 }

@@ -1,7 +1,10 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
+import rego.v1
+
 # deny if policies are not present on AWS
-deny[msg] {
+deny contains msg if {
 	policies := input[_]
 	policies.kind == "PolicyVersion"
 	policies.metadata.provider == "eks"
@@ -12,8 +15,6 @@ deny[msg] {
 		"alertScore": 7,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"externalObjects": policies
-		}
+		"alertObject": {"externalObjects": policies},
 	}
 }

@@ -1,19 +1,21 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-# Fails if pod does not drop the capability NET_RAW 
-deny[msga] {
+# Fails if pod does not drop the capability NET_RAW
+deny contains msga if {
+	path_to_containers := ["spec", "containers"]
+	path_to_search := ["securityContext", "capabilities"]
 	wl := input[_]
 	wl.kind == "Pod"
-	path_to_containers := ["spec", "containers"]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 
-	path_to_search := ["securityContext", "capabilities"]
+	
 	result := container_doesnt_drop_NET_RAW(container, i, path_to_containers, path_to_search)
 	failedPaths := get_failed_path(result)
-    fixPaths := get_fixed_path(result)
+	fixPaths := get_fixed_path(result)
 
 	msga := {
 		"alertMessage": sprintf("Pod: %s does not drop the capability NET_RAW", [wl.metadata.name]),
@@ -27,18 +29,19 @@ deny[msga] {
 }
 
 # Fails if workload does not drop the capability NET_RAW
-deny[msga] {
-	wl := input[_]
-	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
-	spec_template_spec_patterns[wl.kind]
+deny contains msga if {
 	path_to_containers := ["spec", "template", "spec", "containers"]
+	path_to_search := ["securityContext", "capabilities"]
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
+	spec_template_spec_patterns[wl.kind]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 
-	path_to_search := ["securityContext", "capabilities"]
+	
 	result := container_doesnt_drop_NET_RAW(container, i, path_to_containers, path_to_search)
 	failedPaths := get_failed_path(result)
-    fixPaths := get_fixed_path(result)
+	fixPaths := get_fixed_path(result)
 
 	msga := {
 		"alertMessage": sprintf("Workload: %v does not drop the capability NET_RAW", [wl.metadata.name]),
@@ -52,17 +55,17 @@ deny[msga] {
 }
 
 # Fails if CronJob does not drop the capability NET_RAW
-deny[msga] {
+deny contains msga if {
+	path_to_search := ["securityContext", "capabilities"]
+	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
 	wl := input[_]
 	wl.kind == "CronJob"
-	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
-
-	path_to_search := ["securityContext", "capabilities"]
+	
 	result := container_doesnt_drop_NET_RAW(container, i, path_to_containers, path_to_search)
 	failedPaths := get_failed_path(result)
-    fixPaths := get_fixed_path(result)
+	fixPaths := get_fixed_path(result)
 
 	msga := {
 		"alertMessage": sprintf("Cronjob: %v does not drop the capability NET_RAW", [wl.metadata.name]),
@@ -76,7 +79,7 @@ deny[msga] {
 }
 
 # Checks if workload does not drop the capability NET_RAW
-container_doesnt_drop_NET_RAW(container, i, path_to_containers, path_to_search) = [failed_path, fix_path] {
+container_doesnt_drop_NET_RAW(container, i, path_to_containers, path_to_search) := [failed_path, fix_path] if {
 	path_to_drop := array.concat(path_to_search, ["drop"])
 	drop_list := object.get(container, path_to_drop, [])
 	not "NET_RAW" in drop_list
@@ -88,7 +91,7 @@ container_doesnt_drop_NET_RAW(container, i, path_to_containers, path_to_search) 
 }
 
 # Checks if workload drops all capabilities but adds NET_RAW capability
-container_doesnt_drop_NET_RAW(container, i, path_to_containers, path_to_search) = [failed_path, fix_path] {
+container_doesnt_drop_NET_RAW(container, i, path_to_containers, path_to_search) := [failed_path, fix_path] if {
 	path_to_drop := array.concat(path_to_search, ["drop"])
 	drop_list := object.get(container, path_to_drop, [])
 	all_in_list(drop_list)
@@ -99,21 +102,18 @@ container_doesnt_drop_NET_RAW(container, i, path_to_containers, path_to_search) 
 	fix_path := ""
 }
 
-all_in_list(list) {
+all_in_list(list) if {
 	"all" in list
 }
 
-all_in_list(list) {
+all_in_list(list) if {
 	"ALL" in list
 }
 
-
-get_failed_path(paths) = paths[0] {
+get_failed_path(paths) := paths[0] if {
 	paths[0] != ""
-} else = []
+} else := []
 
-
-get_fixed_path(paths) = paths[1] {
+get_fixed_path(paths) := paths[1] if {
 	paths[1] != ""
-} else = []
-
+} else := []
