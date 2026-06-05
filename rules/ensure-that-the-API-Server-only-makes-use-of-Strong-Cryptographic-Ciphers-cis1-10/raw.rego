@@ -1,9 +1,10 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 deny contains msg if {
-	obj = input[_]
+	some obj in input
 	is_api_server(obj)
 	dontwanted = [
 		"TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256",
@@ -72,16 +73,16 @@ invalid_flag(cmd, dontwanted) := result if {
 	}
 }
 
-invalid_flag(cmd, wanted) := result if {
+invalid_flag(cmd, dontwanted) := result if {
 	full_cmd := concat(" ", cmd)
 	not contains(full_cmd, "--tls-cipher-suites")
 
-	path = sprintf("spec.containers[0].command[%d]", [count(cmd)])
-	result = {
+	path := sprintf("spec.containers[0].command[%d]", [count(cmd)])
+	result := {
 		"failed_paths": [],
 		"fix_paths": [{
 			"path": path,
-			"value": sprintf("--tls-cipher-suites=%s", [concat(",", wanted)]),
+			"value": sprintf("--tls-cipher-suites=%s", [concat(",", dontwanted)]),
 		}],
 	}
 }
