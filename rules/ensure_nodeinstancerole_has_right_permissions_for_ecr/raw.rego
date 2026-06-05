@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -47,6 +48,9 @@ deny contains msga if {
 }
 
 isPolicyCompliant(policies, policy, stat) if {
+	policies.data.policiesDocuments[policy].Statement[stat].Effect == "Allow"
+	policies.data.policiesDocuments[policy].Statement[stat].Resource == "*"
+	sorted_actions := sort(policies.data.policiesDocuments[policy].Statement[stat].Action)
 	# allowed action provided by the CIS
 	allowed_actions := [
 		"ecr:BatchCheckLayerAvailability",
@@ -54,8 +58,5 @@ isPolicyCompliant(policies, policy, stat) if {
 		"ecr:GetAuthorizationToken",
 		"ecr:GetDownloadUrlForLayer",
 	]
-	policies.data.policiesDocuments[policy].Statement[stat].Effect == "Allow"
-	policies.data.policiesDocuments[policy].Statement[stat].Resource == "*"
-	sorted_actions := sort(policies.data.policiesDocuments[policy].Statement[stat].Action)
 	sorted_actions == allowed_actions
 }

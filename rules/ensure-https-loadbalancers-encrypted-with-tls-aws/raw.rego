@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -25,15 +26,13 @@ deny contains msga if {
 
 	# prepare message data.
 	alert_message := sprintf("LoadBalancer '%v' has no TLS configured", [wl.metadata.name])
-	failed_paths := []
-	fixed_paths := [{"path": sprintf("metadata.annotations['%v']", [wl_required_annotation]), "value": "AWS_LOADBALANCER_SSL_CERT"}]
 
 	msga := {
 		"alertMessage": alert_message,
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": failed_paths,
-		"fixPaths": fixed_paths,
+		"failedPaths": [],
+		"fixPaths": [{"path": sprintf("metadata.annotations['%v']", [wl_required_annotation]), "value": "AWS_LOADBALANCER_SSL_CERT"}],
 		"alertObject": {
 			"k8sApiObjects": [],
 			"externalObjects": wl,

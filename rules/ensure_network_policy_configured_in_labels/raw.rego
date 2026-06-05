@@ -1,10 +1,11 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 deny contains msga if {
-	workload := input[_]
 	workload_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "Pod", "CronJob"}
+	workload := input[_]
 	workload_kinds[workload.kind]
 
 	networkpolicies := [networkpolicy | networkpolicy = input[_]; is_network_policy(networkpolicy)]

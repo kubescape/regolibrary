@@ -1,11 +1,12 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 # deny if a default ServiceAccount has rules bound to it that are not defaults.
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"RoleBinding", "ClusterRoleBinding"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 
 	# filter service accounts

@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -19,8 +20,9 @@ deny contains msga if {
 	policy.id == roleAssignment.properties.roleDefinitionId
 
 	# check if policy has at least one action that is not read
-	some action in policy.properties.permissions[_].actions
-	not endswith(action, "read")
+    permission := policy.properties.permissions[_]
+    action := permission.actions[_]
+    not endswith(action, "read")
 
 	msga := {
 		"alertMessage": "ServicePrincipal has permissions that are not read-only to ACR.",

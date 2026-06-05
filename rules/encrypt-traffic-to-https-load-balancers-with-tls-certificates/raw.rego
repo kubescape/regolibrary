@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -20,11 +21,11 @@ deny contains msga if {
 
 # fails in case 'Service' object has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.
 deny contains msga if {
+	path := "metadata.annotations[service.beta.kubernetes.io/azure-load-balancer-internal]"
 	svc := input[_]
 	svc.kind == "Service"
 	svc.spec.type == "LoadBalancer"
 	not svc.metadata.annotations["service.beta.kubernetes.io/azure-load-balancer-internal"]
-	path := "metadata.annotations[service.beta.kubernetes.io/azure-load-balancer-internal]"
 
 	msga := {
 		"alertMessage": "Service object LoadBalancer has not 'service.beta.kubernetes.io/azure-load-balancer-internal' annotation.",
@@ -38,11 +39,11 @@ deny contains msga if {
 
 # fails in case 'Service' object has annotation 'service.beta.kubernetes.io/azure-load-balancer-internal' != 'true'.
 deny contains msga if {
+	path := "metadata.annotations[service.beta.kubernetes.io/azure-load-balancer-internal]"
 	svc := input[_]
 	svc.kind == "Service"
 	svc.spec.type == "LoadBalancer"
 	svc.metadata.annotations["service.beta.kubernetes.io/azure-load-balancer-internal"] != "true"
-	path := "metadata.annotations[service.beta.kubernetes.io/azure-load-balancer-internal]"
 
 	msga := {
 		"alertMessage": "Service object LoadBalancer has annotation 'service.beta.kubernetes.io/azure-load-balancer-internal' != 'true'.",
@@ -78,6 +79,7 @@ deny contains msga if {
 
 # fails in case 'Ingress' object has annotation 'kubernetes.io/ingress.class' != 'azure/application-gateway'.
 deny contains msga if {
+	path := "metadata.annotations[kubernetes.io/ingress.class]"
 	svc := input[_]
 	svc.kind == "Service"
 	svc.spec.type == "LoadBalancer"
@@ -88,7 +90,6 @@ deny contains msga if {
 	isTLSSet(ingress.spec)
 	ingress.metadata.annotations["kubernetes.io/ingress.class"] != "azure/application-gateway"
 
-	path := "metadata.annotations[kubernetes.io/ingress.class]"
 
 	msga := {
 		"alertMessage": "Ingress object has annotation 'kubernetes.io/ingress.class' != 'azure/application-gateway'.",

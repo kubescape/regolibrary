@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import data.kubernetes.api.client
@@ -15,19 +16,19 @@ deny contains msga if {
 	volumes := object.get(resources, volumes_path, [])
 
 	# continue if secretProviderClass not found in resource
-	having_secretProviderClass := {i | volumes[i].csi.volumeAttributes.secretProviderClass}
-	count(having_secretProviderClass) == 0
+	# regal ignore:use-object-keys
+    having_secretProviderClass := {i | volumes[i].csi.volumeAttributes.secretProviderClass}    
+    count(having_secretProviderClass) == 0
 
 	# prepare message data.
 	alert_message := sprintf("%s: %v is not using external secret storage", [resources.kind, resources.metadata.name])
-	failed_paths := []
 	fixed_paths := [{"path": sprintf("%s[0].csi.volumeAttributes.secretProviderClass", [concat(".", volumes_path)]), "value": "YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": alert_message,
 		"packagename": "armo_builtins",
 		"alertScore": 7,
-		"failedPaths": failed_paths,
+		"failedPaths": [],
 		"fixPaths": fixed_paths,
 		"alertObject": {"k8sApiObjects": [resources]},
 	}
