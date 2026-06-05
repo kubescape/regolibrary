@@ -1,9 +1,10 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msg] {
-	obj = input[_]
+deny contains msg if {
+	some obj in input
 	is_api_server(obj)
 	result = invalid_flag(obj.spec.containers[0].command)
 	msg := {
@@ -17,7 +18,7 @@ deny[msg] {
 	}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
@@ -27,7 +28,7 @@ is_api_server(obj) {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	contains(cmd[i], "--audit-log-maxbackup")
 	result = {
 		"alert": "Please validate that the audit log max backup is set to an appropriate value",
@@ -36,7 +37,7 @@ invalid_flag(cmd) = result {
 	}
 }
 
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	full_cmd = concat(" ", cmd)
 	not contains(full_cmd, "--audit-log-maxbackup")
 	path = sprintf("spec.containers[0].command[%v]", [count(cmd)])

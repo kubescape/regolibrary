@@ -1,10 +1,11 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 # Encryption config is not set at all
-deny[msg] {
-	obj = input[_]
+deny contains msg if {
+	some obj in input
 	is_api_server(obj)
 
 	cmd := obj.spec.containers[0].command
@@ -24,8 +25,8 @@ deny[msg] {
 }
 
 # Encryption config is set but not covering secrets
-deny[msg] {
-	obj = input[_]
+deny contains msg if {
+	some obj in input
 	is_control_plane_info(obj)
 	config_file := obj.data.APIServerInfo.encryptionProviderConfigFile
 	config_file_content = decode_config_file(base64.decode(config_file.content))
@@ -51,7 +52,7 @@ deny[msg] {
 	}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
@@ -60,11 +61,11 @@ is_api_server(obj) {
 	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
 }
 
-is_control_plane_info(obj) {
+is_control_plane_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "ControlPlaneInfo"
 }
 
-decode_config_file(content) := parsed {
+decode_config_file(content) := parsed if {
 	parsed := yaml.unmarshal(content)
 } else := json.unmarshal(content)

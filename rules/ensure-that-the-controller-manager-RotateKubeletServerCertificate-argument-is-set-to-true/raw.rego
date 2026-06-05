@@ -1,8 +1,8 @@
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msg] {
+deny contains msg if {
 	obj = input[_]
 	is_controller_manager(obj)
 	result = invalid_flag(obj.spec.containers[0].command)
@@ -17,7 +17,7 @@ deny[msg] {
 	}
 }
 
-is_controller_manager(obj) {
+is_controller_manager(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
@@ -27,7 +27,7 @@ is_controller_manager(obj) {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	contains(cmd[i], "RotateKubeletServerCertificate=false")
 	fixed = replace(cmd[i], "RotateKubeletServerCertificate=false", "RotateKubeletServerCertificate=true")
 	path := sprintf("spec.containers[0].command[%d]", [i])

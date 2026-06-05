@@ -1,12 +1,15 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
-deny[msg] {
-	obj = input[_]
+import rego.v1
+
+deny contains msg if {
+	some obj in input
 	is_api_server(obj)
 	msg := {"alertObject": {"k8sApiObjects": [obj]}}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"

@@ -1,13 +1,14 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msg] {
-	obj = input[_]
+deny contains msg if {
+	some obj in input
 	is_api_server(obj)
 	result = invalid_flag(obj.spec.containers[0].command)
 	msg := {
-		"alertMessage":"The SecurityContextDeny addmission controller is not enabled. This could allow for privilege escalation in the cluster", 
+		"alertMessage": "The SecurityContextDeny addmission controller is not enabled. This could allow for privilege escalation in the cluster",
 		"alertScore": 2,
 		"reviewPaths": result.failed_paths,
 		"failedPaths": result.failed_paths,
@@ -17,7 +18,7 @@ deny[msg] {
 	}
 }
 
-is_api_server(obj) {
+is_api_server(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
@@ -26,7 +27,7 @@ is_api_server(obj) {
 	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
 }
 
-get_flag_values(cmd) = {"origin": origin, "values": values} {
+get_flag_values(cmd) := {"origin": origin, "values": values} if {
 	re := " ?--enable-admission-plugins=(.+?)(?: |$)"
 	matchs := regex.find_all_string_submatch_n(re, cmd, -1)
 	count(matchs) == 1
@@ -35,7 +36,7 @@ get_flag_values(cmd) = {"origin": origin, "values": values} {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	flag := get_flag_values(cmd[i])
 
 	# value check
@@ -57,7 +58,7 @@ invalid_flag(cmd) = result {
 	}
 }
 
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	full_cmd := concat(" ", cmd)
 	not contains(full_cmd, "--enable-admission-plugins")
 
