@@ -1,8 +1,10 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 deny contains msga if {
+	path := "spec.runAsUser.rule"
 	# only fail resources if all PSPs permit containers to run as the root user
 	# if even one PSP restricts containers to run as the root user, then the rule will not fail
 	every psp in input {
@@ -15,7 +17,6 @@ deny contains msga if {
 	psp.kind == "PodSecurityPolicy"
 	not deny_run_as_root(psp.spec.runAsUser)
 
-	path := "spec.runAsUser.rule"
 	msga := {
 		"alertMessage": sprintf("PodSecurityPolicy: '%v' permits containers to run as the root user.", [psp.metadata.name]),
 		"packagename": "armo_builtins",

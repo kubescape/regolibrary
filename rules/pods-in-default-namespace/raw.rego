@@ -1,10 +1,11 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "CronJob", "Pod"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	result := is_default_namespace(wl.metadata)
 	failed_path := get_failed_path(result)

@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -5,7 +6,7 @@ import rego.v1
 # CIS 4.2.5 https://workbench.cisecurity.org/sections/1126668/recommendations/1838646
 
 deny contains msga if {
-	obj := input[_]
+	some obj in input
 	is_kubelet_info(obj)
 
 	command := obj.data.cmdLine

@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -5,11 +6,11 @@ import rego.v1
 ################################################################################
 # Rules
 deny contains msga if {
+	start_of_path := "spec"
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
 
-	start_of_path := "spec"
 	run_as_user_fixpath := evaluate_workload_run_as_user(container, pod, start_of_path)
 	run_as_group_fixpath := evaluate_workload_run_as_group(container, pod, start_of_path)
 	all_fixpaths := array.concat(run_as_user_fixpath, run_as_group_fixpath)
@@ -28,12 +29,12 @@ deny contains msga if {
 }
 
 deny contains msga if {
-	wl := input[_]
+	start_of_path := "spec.template.spec"
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 
-	start_of_path := "spec.template.spec"
 	run_as_user_fixpath := evaluate_workload_run_as_user(container, wl.spec.template, start_of_path)
 	run_as_group_fixpath := evaluate_workload_run_as_group(container, wl.spec.template, start_of_path)
 	all_fixpaths := array.concat(run_as_user_fixpath, run_as_group_fixpath)
@@ -53,11 +54,11 @@ deny contains msga if {
 
 # Fails if cronjob has a container configured to run as root
 deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec"
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
-	start_of_path := "spec.jobTemplate.spec.template.spec"
 	run_as_user_fixpath := evaluate_workload_run_as_user(container, wl.spec.jobTemplate.spec.template, start_of_path)
 	run_as_group_fixpath := evaluate_workload_run_as_group(container, wl.spec.jobTemplate.spec.template, start_of_path)
 	all_fixpaths := array.concat(run_as_user_fixpath, run_as_group_fixpath)
@@ -136,7 +137,6 @@ get_run_as_group_value(container, pod, start_of_path) := runAsGroup if {
 	"defined": false,
 }
 
-choose_first_if_defined(l1, l2) := c if {
+choose_first_if_defined(l1, l2) := l1 if {
 	l1.defined
-	c := l1
 } else := l2

@@ -1,13 +1,14 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 deny contains msga if {
+	path := "status.nodeInfo.kubeletVersion"
 	node := input[_]
 	node.kind == "Node"
 	current_version := node.status.nodeInfo.kubeletVersion
 	has_outdated_version(current_version)
-	path := "status.nodeInfo.kubeletVersion"
 	msga := {
 		"alertMessage": sprintf("Your kubelet version: %s, in node: %s is outdated", [current_version, node.metadata.name]),
 		"reviewPaths": [path],

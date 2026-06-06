@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -35,13 +36,11 @@ is_storage_class_encrypted(storageclass) if {
 
 # Storage class is encrypted - Azure
 is_storage_class_encrypted(storageclass) if {
-	storageclass.provisioner
 	contains(storageclass.provisioner, "azure")
 }
 
 # Storage class is encrypted - GCP
 is_storage_class_encrypted(storageclass) if {
 	# GKE encryption is enabled by default https://cloud.google.com/blog/products/containers-kubernetes/exploring-container-security-use-your-own-keys-to-protect-your-data-on-gke
-	storageclass.provisioner
 	contains(storageclass.provisioner, "csi.storage.gke.io")
 }

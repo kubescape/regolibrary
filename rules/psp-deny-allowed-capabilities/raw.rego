@@ -1,8 +1,10 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 deny contains msga if {
+	path := "spec.allowedCapabilities"
 	# only fail resources if all PSPs have allowedCapabilities
 	# if even one PSP has allowedCapabilities as an empty list, then the rule will not fail
 	every psp in input {
@@ -15,7 +17,6 @@ deny contains msga if {
 	psp.kind == "PodSecurityPolicy"
 	count(psp.spec.allowedCapabilities) > 0
 
-	path := "spec.allowedCapabilities"
 	msga := {
 		"alertMessage": sprintf("PodSecurityPolicy: '%v' has allowedCapabilities.", [psp.metadata.name]),
 		"packagename": "armo_builtins",

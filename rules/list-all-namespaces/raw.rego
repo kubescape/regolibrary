@@ -1,10 +1,11 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 # returns all namespace objects in cluster
 deny contains msga if {
-	namespace = input[_]
+    some namespace in input
 	namespace.kind == "Namespace"
 
 	msga := {
