@@ -1,18 +1,20 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import data.cautils
 import rego.v1
 
 deny contains msg if {
-	# Filter out irrelevent resources
-	obj = input[_]
-	is_kubelet_info(obj)
-
 	file_obj_path := ["data", "kubeConfigFile"]
-	file := object.get(obj, file_obj_path, false)
-
 	# Actual permissions test. num. configured from Octal (644) to Decimal num.
 	allowed_perms := 420
+	
+	# Filter out irrelevent resources
+	some obj in input
+	is_kubelet_info(obj)
+
+	file := object.get(obj, file_obj_path, false)
+
 	not cautils.unix_permissions_allow(allowed_perms, file.permissions)
 
 	# Build the message

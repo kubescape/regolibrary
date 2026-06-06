@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
@@ -40,7 +41,8 @@ filter_input(obj, res) if {
 
 get_argument_value(command, argument) := value if {
 	args := split(command, "=")
-	some i, sprintf("%v", [argument]) in args
+	some i, val in args
+	val == sprintf("%v", [argument])
 	value := args[i + 1]
 }
 

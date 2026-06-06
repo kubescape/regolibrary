@@ -1,9 +1,10 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
 
 deny contains msg if {
-	obj = input[_]
+	some obj in input
 	is_etcd_pod(obj)
 	msg := {"alertObject": {"k8sApiObjects": [obj]}}
 }

@@ -1,10 +1,11 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
 
 # Check if --auto-tls is not set to true
 deny contains msga if {
-	obj = input[_]
+	some obj in input
 	is_etcd_pod(obj)
 	commands := obj.spec.containers[0].command
 	result := invalid_flag(commands)
