@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -6,7 +7,7 @@ import rego.v1
 
 deny contains msg if {
 	# Filter out irrelevent resources
-	obj = input[_]
+	some obj in input
 
 	is_CNIInfo(obj)
 

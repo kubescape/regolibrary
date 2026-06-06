@@ -1,19 +1,21 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import data.cautils
 import rego.v1
 
 deny contains msg if {
+	file_obj_path := ["data", "etcdConfigFile"]
+	allowed_user := "root"
+	allowed_group := "root"
+
 	# Filter out irrelevent resources
-	obj = input[_]
+	some obj in input
 	is_control_plane_info(obj)
 
-	file_obj_path := ["data", "etcdConfigFile"]
 	file := object.get(obj, file_obj_path, false)
 
 	# Actual ownership check
-	allowed_user := "root"
-	allowed_group := "root"
 	not allowed_ownership(file.ownership, allowed_user, allowed_group)
 
 	# Build the message

@@ -1,9 +1,10 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 deny contains msg if {
-	obj = input[_]
+	some obj in input
 	is_api_server(obj)
 	contains(obj.spec.containers[0].command[i], "--secure-port=0")
 	msg := {
