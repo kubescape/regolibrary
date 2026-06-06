@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -6,7 +7,7 @@ import rego.v1
 
 # if --event-qps is present rule should pass
 deny contains msga if {
-	obj := input[_]
+	some obj in input
 	is_kubelet_info(obj)
 
 	command := obj.data.cmdLine

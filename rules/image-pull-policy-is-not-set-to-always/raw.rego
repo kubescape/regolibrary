@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -20,8 +21,8 @@ deny contains msga if {
 }
 
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 	paths = [sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)]), sprintf("spec.template.spec.containers[%v].imagePullPolicy", [format_int(i, 10)])]
@@ -56,12 +57,12 @@ deny contains msga if {
 
 # image tag is latest
 is_bad_container(container) if {
+	not_image_pull_policy(container)
 	reg := ":[\\w][\\w.-]{0,127}(\/)?"
 	version := regex.find_all_string_submatch_n(reg, container.image, -1)
 	v := version[_]
 	img := v[_]
 	img == ":latest"
-	not_image_pull_policy(container)
 }
 
 # No image tag or digest (== latest)
@@ -94,10 +95,10 @@ is_tag_image(image) if {
 
 # The image has a tag, and contains only letters
 is_tag_image_only_letters(image) if {
+	reg1 := "^:[a-zA-Z]{1,127}$"
 	reg := ":[\\w][\\w.-]{0,127}(\/)?"
 	version := regex.find_all_string_submatch_n(reg, image, -1)
 	v := version[_]
 	img := v[_]
-	reg1 := "^:[a-zA-Z]{1,127}$"
 	regex.match(reg1, img)
 }

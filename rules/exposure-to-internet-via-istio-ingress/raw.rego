@@ -1,8 +1,10 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 deny contains msga if {
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
 	virtualservice := input[_]
 	virtualservice.kind == "VirtualService"
 
@@ -34,11 +36,11 @@ deny contains msga if {
 	connected_service.kind == "Service"
 	fqsn := get_fqsn(get_namespace(virtualservice), virtualservice.spec.http[i].route[j].destination.host)
 	target_ns := split(fqsn, ".")[1]
-	target_name := split(fqsn, ".")[0]
 
 	# Check if the service is in the same namespace as the VirtualService
 	get_namespace(connected_service) == target_ns
 
+    target_name := split(fqsn, ".")[0]
 	# Check if the service is the target of the VirtualService
 	connected_service.metadata.name == target_name
 
@@ -47,7 +49,6 @@ deny contains msga if {
 	# Check if the service is connected to a workload
 	wl := input[_]
 	is_same_namespace(connected_service, wl)
-	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
 	spec_template_spec_patterns[wl.kind]
 	pod := get_pod_spec(wl).spec
 	wl_connected_to_service(pod, connected_service)
@@ -95,9 +96,10 @@ is_gateway_public(gateway, inputs) := svc if {
 	is_exposed_service(inputs[i])
 	svc := inputs[i]
 }
-
+ 
 get_namespace(obj) := namespace if {
 	obj.metadata
+	# regal ignore:redundant-existence-check
 	obj.metadata.namespace
 	namespace := obj.metadata.namespace
 }
@@ -107,18 +109,14 @@ get_namespace(obj) := namespace if {
 	namespace := "default"
 }
 
-get_vs_gw_ns(vs_ns, vs_gw_name) := {"name": name, "namespace": ns} if {
-	# Check if there is a / in the gateway name
+get_vs_gw_ns(vs_ns, vs_gw_name) := result if {
 	count(split(vs_gw_name, "/")) == 2
-	ns := split(vs_gw_name, "/")[0]
-	name := split(vs_gw_name, "/")[1]
+	parts := split(vs_gw_name, "/")
+	result := {"name": parts[1], "namespace": parts[0]}
 }
 
-get_vs_gw_ns(vs_ns, vs_gw_name) := {"name": name, "namespace": ns} if {
-	# Check if there is no / in the gateway name
+get_vs_gw_ns(vs_ns, vs_gw_name) := {"name": vs_gw_name, "namespace": vs_ns} if {
 	count(split(vs_gw_name, "/")) == 1
-	ns := vs_ns
-	name := vs_gw_name
 }
 
 is_same_namespace(obj1, obj2) if {
@@ -177,9 +175,8 @@ get_fqsn(ns, dest_host) := fqsn if {
 	fqsn := sprintf("%v.svc.cluster.local", [dest_host])
 }
 
-get_fqsn(ns, dest_host) := fqsn if {
+get_fqsn(ns, dest_host) := dest_host if {
 	count(split(".", dest_host)) == 4
-	fqsn := dest_host
 }
 
 # get_volume - get resource spec paths for {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}

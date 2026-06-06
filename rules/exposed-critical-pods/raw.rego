@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -31,14 +32,12 @@ deny contains msga if {
 	# At least one critical vulnerabilities
 	filter_critical_vulnerabilities(vuln)
 
-	related_objects := [pod, vuln]
-
-	path := sprintf("status.containerStatuses[%v].imageID", [format_int(i, 10)])
-
 	metadata = {
 		"name": pod.metadata.name,
 		"namespace": pod.metadata.namespace,
 	}
+
+	related_objects := [pod, vuln]
 
 	external_objects = {
 		"apiVersion": "result.vulnscan.com/v1",
@@ -46,6 +45,8 @@ deny contains msga if {
 		"metadata": metadata,
 		"relatedObjects": related_objects,
 	}
+
+	path := sprintf("status.containerStatuses[%v].imageID", [format_int(i, 10)])
 
 	msga := {
 		"alertMessage": sprintf("pod '%v' exposed with critical vulnerabilities", [pod.metadata.name]),

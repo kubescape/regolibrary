@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -5,12 +6,12 @@ import rego.v1
 import data.kubernetes.api.client
 
 deny contains msga if {
+	wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl := input[_]
 	workload_types = {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "Pod", "CronJob"}
 	workload_types[wl.kind]
 
 	# see default-config-inputs.json for list values
-	wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl_name := wl_names[_]
 	contains(wl.metadata.name, wl_name)
 

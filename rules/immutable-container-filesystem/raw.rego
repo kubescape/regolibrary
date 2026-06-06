@@ -1,13 +1,14 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 # Fails if pods has container with mutable filesystem
 deny contains msga if {
+	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	start_of_path := "spec."
 	is_mutable_filesystem(container)
 	fixPath = {"path": sprintf("%vcontainers[%d].securityContext.readOnlyRootFilesystem", [start_of_path, i]), "value": "true"}
 	msga := {
@@ -22,11 +23,11 @@ deny contains msga if {
 
 # Fails if workload has  container with mutable filesystem
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	start_of_path := "spec.template.spec."
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
-	start_of_path := "spec.template.spec."
 	is_mutable_filesystem(container)
 	fixPath = {"path": sprintf("%vcontainers[%d].securityContext.readOnlyRootFilesystem", [start_of_path, i]), "value": "true"}
 	msga := {
@@ -41,10 +42,10 @@ deny contains msga if {
 
 # Fails if cronjob has  container with mutable filesystem
 deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	start_of_path := "spec.jobTemplate.spec.template.spec."
 	is_mutable_filesystem(container)
 	fixPath = {"path": sprintf("%vcontainers[%d].securityContext.readOnlyRootFilesystem", [start_of_path, i]), "value": "true"}
 

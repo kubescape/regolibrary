@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -12,11 +13,11 @@ deny contains msga if {
 	# Collect namespaces from all namespaced policies (NP + CNP)
 	policy_names := [policy.metadata.namespace | policy = input[_]; is_network_policy_namespaced(policy)]
 
-	# Collect clusterwide policies that legitimately protect all namespaces
-	qualifying_ccnps := [policy | policy = input[_]; is_ccnp_cluster_wide_coverage(policy)]
-
 	# Fail if: no namespaced policy in this namespace AND no qualifying CCNPs exist
 	not list_contains(policy_names, namespace.metadata.name)
+	
+	# Collect clusterwide policies that legitimately protect all namespaces
+	qualifying_ccnps := [policy | policy = input[_]; is_ccnp_cluster_wide_coverage(policy)]
 	count(qualifying_ccnps) == 0
 
 	msga := {

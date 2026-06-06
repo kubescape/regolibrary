@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -6,12 +7,12 @@ import data.kubernetes.api.client
 
 # loadbalancer
 deny contains msga if {
+	wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl := input[_]
 	workload_types = {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "Pod", "CronJob"}
 	workload_types[wl.kind]
 
 	# see default-config-inputs.json for list values
-	wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl_name := wl_names[_]
 	contains(wl.metadata.name, wl_name)
 
@@ -22,6 +23,7 @@ deny contains msga if {
 	result := wl_connectedto_service(wl, service)
 
 	# externalIP := service.spec.externalIPs[_]
+	# regal ignore:defer-assignment
 	externalIP := service.status.loadBalancer.ingress[0].ip
 
 	wlvector = {
@@ -49,11 +51,11 @@ deny contains msga if {
 # get a pod connected to that service, get nodeIP (hostIP?)
 # use ip + nodeport
 deny contains msga if {
+	wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl := input[_]
 	wl.kind == "Pod"
 
 	# see default-config-inputs.json for list values
-	wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl_name := wl_names[_]
 	contains(wl.metadata.name, wl_name)
 
@@ -61,14 +63,14 @@ deny contains msga if {
 	service.kind == "Service"
 	service.spec.type == "NodePort"
 
-	result := wl_connectedto_service(wl, service)
-
 	wlvector = {
 		"name": wl.metadata.name,
 		"namespace": wl.metadata.namespace,
 		"kind": wl.kind,
 		"relatedObjects": [service],
 	}
+
+	result := wl_connectedto_service(wl, service)
 
 	msga := {
 		"alertMessage": sprintf("service: %v is exposed", [service.metadata.name]),
@@ -88,12 +90,12 @@ deny contains msga if {
 # get a workload connected to that service, get nodeIP (hostIP?)
 # use ip + nodeport
 deny contains msga if {
-	wl := input[_]
+	wl_names := data.postureControlInputs.sensitiveInterfaces
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job", "CronJob"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 
 	# see default-config-inputs.json for list values
-	wl_names := data.postureControlInputs.sensitiveInterfaces
 	wl_name := wl_names[_]
 	contains(wl.metadata.name, wl_name)
 
@@ -101,14 +103,14 @@ deny contains msga if {
 	service.kind == "Service"
 	service.spec.type == "NodePort"
 
-	result := wl_connectedto_service(wl, service)
-
 	wlvector = {
 		"name": wl.metadata.name,
 		"namespace": wl.metadata.namespace,
 		"kind": wl.kind,
 		"relatedObjects": [service],
 	}
+
+	result := wl_connectedto_service(wl, service)
 
 	msga := {
 		"alertMessage": sprintf("service: %v is exposed", [service.metadata.name]),

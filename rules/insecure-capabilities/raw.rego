@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -5,10 +6,10 @@ import rego.v1
 import data.cautils
 
 deny contains msga if {
+	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	start_of_path := "spec."
 	result := is_dangerous_capabilities(container, start_of_path, i)
 	msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  have dangerous capabilities", [container.name, pod.metadata.name]),
@@ -22,11 +23,11 @@ deny contains msga if {
 }
 
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	start_of_path := "spec.template.spec."
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
-	start_of_path := "spec.template.spec."
 	result := is_dangerous_capabilities(container, start_of_path, i)
 	msga := {
 		"alertMessage": sprintf("container: %v in workload: %v  have dangerous capabilities", [container.name, wl.metadata.name]),
@@ -40,10 +41,10 @@ deny contains msga if {
 }
 
 deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
-	start_of_path := "spec.jobTemplate.spec.template.spec."
 	result := is_dangerous_capabilities(container, start_of_path, i)
 	msga := {
 		"alertMessage": sprintf("container: %v in cronjob: %v  have dangerous capabilities", [container.name, wl.metadata.name]),

@@ -1,8 +1,10 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 deny contains msga if {
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
 	httproute := input[_]
 	httproute.kind in ["HTTPRoute", "TCPRoute", "UDPRoute"]
 
@@ -18,7 +20,6 @@ deny contains msga if {
 
 	wl := input[_]
 	is_same_namespace(wl.metadata, svc.metadata)
-	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
 	spec_template_spec_patterns[wl.kind]
 	pod := get_pod_spec(wl).spec
 	wl_connected_to_service(pod, svc)

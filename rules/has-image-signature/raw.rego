@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -23,8 +24,8 @@ deny contains msga if {
 }
 
 deny contains msga if {
-	wl := input[_]
 	wl_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	wl_kinds[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 

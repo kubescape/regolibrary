@@ -1,13 +1,14 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 # Fails if pod has hostPID enabled
 deny contains msga if {
+	path := "spec.hostPID"
 	pod := input[_]
 	pod.kind == "Pod"
 	is_host_pid(pod.spec)
-	path := "spec.hostPID"
 	msga := {
 		"alertMessage": sprintf("Pod: %v has hostPID enabled", [pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -21,10 +22,10 @@ deny contains msga if {
 
 # Fails if pod has hostIPC enabled
 deny contains msga if {
+	path := "spec.hostIPC"
 	pod := input[_]
 	pod.kind == "Pod"
 	is_host_ipc(pod.spec)
-	path := "spec.hostIPC"
 	msga := {
 		"alertMessage": sprintf("Pod: %v has hostIPC enabled", [pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -38,10 +39,10 @@ deny contains msga if {
 
 # Fails if workload has hostPID enabled
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
-	is_host_pid(wl.spec.template.spec)
 	path := "spec.template.spec.hostPID"
+	wl := input[_]
+	is_host_pid(wl.spec.template.spec)
 	msga := {
 		"alertMessage": sprintf("%v: %v has a pod with hostPID enabled", [wl.kind, wl.metadata.name]),
 		"alertScore": 9,
@@ -55,10 +56,10 @@ deny contains msga if {
 
 # Fails if workload has hostIPC enabled
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
-	is_host_ipc(wl.spec.template.spec)
 	path := "spec.template.spec.hostIPC"
+	wl := input[_]
+	is_host_ipc(wl.spec.template.spec)
 	msga := {
 		"alertMessage": sprintf("%v: %v has a pod with hostIPC enabled", [wl.kind, wl.metadata.name]),
 		"alertScore": 9,
@@ -72,10 +73,10 @@ deny contains msga if {
 
 # Fails if cronjob has hostPID enabled
 deny contains msga if {
+	path := "spec.jobTemplate.spec.template.spec.hostPID"
 	wl := input[_]
 	wl.kind == "CronJob"
 	is_host_pid(wl.spec.jobTemplate.spec.template.spec)
-	path := "spec.jobTemplate.spec.template.spec.hostPID"
 	msga := {
 		"alertMessage": sprintf("CronJob: %v has a pod with hostPID enabled", [wl.metadata.name]),
 		"alertScore": 9,
@@ -89,10 +90,10 @@ deny contains msga if {
 
 # Fails if cronjob has hostIPC enabled
 deny contains msga if {
+	path := "spec.jobTemplate.spec.template.spec.hostIPC"
 	wl := input[_]
 	wl.kind == "CronJob"
 	is_host_ipc(wl.spec.jobTemplate.spec.template.spec)
-	path := "spec.jobTemplate.spec.template.spec.hostIPC"
 	msga := {
 		"alertMessage": sprintf("CronJob: %v has a pod with hostIPC enabled", [wl.metadata.name]),
 		"alertScore": 9,

@@ -1,10 +1,11 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 # Encryption config is not using a recommended provider for KMS
 deny contains msg if {
-	obj = input[_]
+	some obj in input
 	is_control_plane_info(obj)
 	config_file := obj.data.APIServerInfo.encryptionProviderConfigFile
 	config_file_content = decode_config_file(base64.decode(config_file.content))

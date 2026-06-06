@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
@@ -20,11 +21,11 @@ deny contains msga if {
 }
 
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	beggining_of_pod_path := "spec.template."
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	podSpec := wl.spec.template
-	beggining_of_pod_path := "spec.template."
 	fixPath := no_K8s_label_usage(wl, podSpec, beggining_of_pod_path)
 
 	msga := {
@@ -38,11 +39,11 @@ deny contains msga if {
 }
 
 # handles cronjob
-deny contains msga if {
+deny contains msga if {	
+	beggining_of_pod_path := "spec.jobTemplate.spec.template."
 	wl := input[_]
 	wl.kind == "CronJob"
 	podSpec := wl.spec.jobTemplate.spec.template
-	beggining_of_pod_path := "spec.jobTemplate.spec.template."
 	fixPath := no_K8s_label_usage(wl, podSpec, beggining_of_pod_path)
 
 	msga := {

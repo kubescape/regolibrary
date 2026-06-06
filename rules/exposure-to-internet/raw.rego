@@ -1,20 +1,21 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import rego.v1
 
 # Checks if NodePort or LoadBalancer is connected to a workload to expose something
 deny contains msga if {
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
+	failPath := ["spec.type"]
 	service := input[_]
 	service.kind == "Service"
 	is_exposed_service(service)
 
 	wl := input[_]
-	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
 	spec_template_spec_patterns[wl.kind]
 	is_same_namespace(wl.metadata, service.metadata)
 	pod := get_pod_spec(wl).spec
 	wl_connected_to_service(pod, service)
-	failPath := ["spec.type"]
 	msga := {
 		"alertMessage": sprintf("workload '%v' is exposed through service '%v'", [wl.metadata.name, service.metadata.name]),
 		"packagename": "armo_builtins",
@@ -32,6 +33,7 @@ deny contains msga if {
 
 # Checks if Ingress is connected to a service and a workload to expose something
 deny contains msga if {
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
 	ingress := input[_]
 	ingress.kind == "Ingress"
 
@@ -46,7 +48,6 @@ deny contains msga if {
 	not is_exposed_service(svc)
 
 	wl := input[_]
-	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
 	spec_template_spec_patterns[wl.kind]
 	is_same_namespace(wl.metadata, svc.metadata)
 	wl_connected_to_service(wl, svc)
