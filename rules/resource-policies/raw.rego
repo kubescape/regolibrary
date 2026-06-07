@@ -1,14 +1,15 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
 
 # Check if container has limits
 deny contains msga if {
+	start_of_path := "spec."
 	pods := [pod | pod = input[_]; pod.kind == "Pod"]
 	pod := pods[_]
 	container := pod.spec.containers[i]
 
-	start_of_path := "spec."
 	fixPath := is_no_cpu_and_memory_limits_defined(container, start_of_path, i)
 
 	msga := {
@@ -25,12 +26,12 @@ deny contains msga if {
 # If there is no limits specified in the workload, we check the namespace, since if limits are only specified for namespace
 # and not in workload, it won't be on the yaml
 deny contains msga if {
-	wl := input[_]
+	start_of_path := "spec.template.spec."
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 
-	start_of_path := "spec.template.spec."
 	fixPath := is_no_cpu_and_memory_limits_defined(container, start_of_path, i)
 
 	msga := {
@@ -47,11 +48,11 @@ deny contains msga if {
 # If there is no limits specified in the cronjob, we check the namespace, since if limits are only specified for namespace
 # and not in cronjob, it won't be on the yaml
 deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 
-	start_of_path := "spec.jobTemplate.spec.template.spec."
 	fixPath := is_no_cpu_and_memory_limits_defined(container, start_of_path, i)
 
 	msga := {

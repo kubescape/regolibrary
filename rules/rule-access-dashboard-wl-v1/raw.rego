@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
@@ -27,8 +28,8 @@ deny contains msga if {
 # fails if workload that is not dashboard is associated to dashboard service account
 
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	wl.spec.template.spec.serviceAccountName == "kubernetes-dashboard"
 	not startswith(wl.metadata.name, "kubernetes-dashboard")

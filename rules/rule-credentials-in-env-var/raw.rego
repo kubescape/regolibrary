@@ -1,13 +1,14 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
 
 deny contains msga if {
+	sensitive_key_names := data.postureControlInputs.sensitiveKeyName
 	pod := input[_]
 	pod.kind == "Pod"
 
 	# see default-config-inputs.json for list values
-	sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
 	key_name := sensitive_key_names[_]
 	container := pod.spec.containers[i]
 	env := container.env[j]
@@ -39,12 +40,12 @@ deny contains msga if {
 }
 
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 
 	# see default-config-inputs.json for list values
-	sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
 	key_name := sensitive_key_names[_]
 	container := wl.spec.template.spec.containers[i]
 	env := container.env[j]
@@ -76,11 +77,11 @@ deny contains msga if {
 }
 
 deny contains msga if {
+	sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
 	wl := input[_]
 	wl.kind == "CronJob"
 
 	# see default-config-inputs.json for list values
-	sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
 	key_name := sensitive_key_names[_]
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 	env := container.env[j]
@@ -113,11 +114,11 @@ deny contains msga if {
 
 # check sensitive values
 deny contains msga if {
+	sensitive_values := data.postureControlInputs.sensitiveValues
 	pod := input[_]
 	pod.kind == "Pod"
 
 	# see default-config-inputs.json for list values
-	sensitive_values := data.postureControlInputs.sensitiveValues
 	value := sensitive_values[_]
 	container := pod.spec.containers[i]
 	env := container.env[j]
@@ -148,12 +149,12 @@ deny contains msga if {
 }
 
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	sensitive_values := data.postureControlInputs.sensitiveValues
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 
 	# see default-config-inputs.json for list values
-	sensitive_values := data.postureControlInputs.sensitiveValues
 	value := sensitive_values[_]
 	container := wl.spec.template.spec.containers[i]
 	env := container.env[j]
@@ -184,11 +185,11 @@ deny contains msga if {
 }
 
 deny contains msga if {
+	sensitive_values := data.postureControlInputs.sensitiveValues
 	wl := input[_]
 	wl.kind == "CronJob"
 
 	# see default-config-inputs.json for list values
-	sensitive_values := data.postureControlInputs.sensitiveValues
 	value := sensitive_values[_]
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 	env := container.env[j]

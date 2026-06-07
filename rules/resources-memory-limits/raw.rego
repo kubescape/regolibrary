@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
@@ -23,8 +24,8 @@ deny contains msga if {
 
 # Fails if workload does not have container with memory-limits
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 	not container.resources.limits.memory

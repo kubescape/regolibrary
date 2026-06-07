@@ -1,9 +1,13 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
 
 # fails if user has create access to persistent volumes
 deny contains msga if {
+	verbs := ["create", "*"]
+	api_groups := ["", "*"]
+	resources := ["persistentvolumes", "*"]
 	subjectVector := input[_]
 	role := subjectVector.relatedObjects[i]
 	rolebinding := subjectVector.relatedObjects[j]
@@ -18,15 +22,12 @@ deny contains msga if {
 	is_same_subjects(subjectVector, subject)
 	rule_path := sprintf("relatedObjects[%d].rules[%d]", [i, p])
 
-	verbs := ["create", "*"]
 	verb_path := [sprintf("%s.verbs[%d]", [rule_path, l]) | verb = rule.verbs[l]; verb in verbs]
 	count(verb_path) > 0
 
-	api_groups := ["", "*"]
 	api_groups_path := [sprintf("%s.apiGroups[%d]", [rule_path, a]) | apiGroup = rule.apiGroups[a]; apiGroup in api_groups]
 	count(api_groups_path) > 0
 
-	resources := ["persistentvolumes", "*"]
 	resources_path := [sprintf("%s.resources[%d]", [rule_path, l]) | resource = rule.resources[l]; resource in resources]
 	count(resources_path) > 0
 

@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1

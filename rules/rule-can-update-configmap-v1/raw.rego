@@ -1,9 +1,13 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
 
 # Fails if user can modify all configmaps
 deny contains msga if {
+	verbs := ["update", "patch", "*"]
+	api_groups := ["", "*"]
+	resources := ["configmaps", "*"]
 	subjectVector := input[_]
 	role := subjectVector.relatedObjects[i]
 	rolebinding := subjectVector.relatedObjects[j]
@@ -16,15 +20,12 @@ deny contains msga if {
 
 	rule_path := sprintf("relatedObjects[%d].rules[%d]", [i, p])
 
-	verbs := ["update", "patch", "*"]
 	verb_path := [sprintf("%s.verbs[%d]", [rule_path, l]) | verb = rule.verbs[l]; verb in verbs]
 	count(verb_path) > 0
 
-	api_groups := ["", "*"]
 	api_groups_path := [sprintf("%s.apiGroups[%d]", [rule_path, a]) | apiGroup = rule.apiGroups[a]; apiGroup in api_groups]
 	count(api_groups_path) > 0
 
-	resources := ["configmaps", "*"]
 	not rule.resourceNames
 	resources_path := [sprintf("%s.resources[%d]", [rule_path, l]) | resource = rule.resources[l]; resource in resources]
 	count(resources_path) > 0
@@ -52,6 +53,9 @@ deny contains msga if {
 
 # Fails if user  can modify the 'coredns' configmap (default for coredns)
 deny contains msga if {
+	verbs := ["update", "patch", "*"]
+	api_groups := ["", "*"]
+	resources := ["configmaps", "*"]
 	subjectVector := input[_]
 	role := subjectVector.relatedObjects[i]
 	rolebinding := subjectVector.relatedObjects[j]
@@ -64,15 +68,12 @@ deny contains msga if {
 
 	rule_path := sprintf("relatedObjects[%d].rules[%d]", [i, p])
 
-	verbs := ["update", "patch", "*"]
 	verb_path := [sprintf("%s.verbs[%d]", [rule_path, l]) | verb = rule.verbs[l]; verb in verbs]
 	count(verb_path) > 0
 
-	api_groups := ["", "*"]
 	api_groups_path := [sprintf("%s.apiGroups[%d]", [rule_path, a]) | apiGroup = rule.apiGroups[a]; apiGroup in api_groups]
 	count(api_groups_path) > 0
 
-	resources := ["configmaps", "*"]
 	"coredns" in rule.resourceNames
 	resources_path := [sprintf("%s.resources[%d]", [rule_path, l]) | resource = rule.resources[l]; resource in resources]
 	count(resources_path) > 0

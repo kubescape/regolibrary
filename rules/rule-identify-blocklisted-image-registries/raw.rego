@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
@@ -25,8 +26,8 @@ untrustedImageRepo contains msga if {
 }
 
 untrustedImageRepo contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 	path := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])

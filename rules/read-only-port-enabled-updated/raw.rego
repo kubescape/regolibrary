@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
@@ -29,9 +30,8 @@ deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
-	command := obj.data.cmdLine
-
 	not contains(obj, "--read-only-port")
+	command := obj.data.cmdLine
 	contains(command, "--config")
 
 	decodedConfigContent := base64.decode(obj.data.configFile.content)
@@ -61,9 +61,8 @@ deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
-	command := obj.data.cmdLine
-
 	not contains(obj, "--read-only-port")
+	command := obj.data.cmdLine
 	contains(command, "--config")
 
 	not obj.data.configFile.content

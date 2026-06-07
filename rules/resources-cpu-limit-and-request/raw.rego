@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
@@ -25,8 +26,8 @@ deny contains msga if {
 
 # Fails if workload does not have container with CPU requests
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 	not container.resources.requests.cpu
@@ -87,8 +88,8 @@ deny contains msga if {
 
 # Fails if workload does not have container with CPU-limits
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 	not container.resources.limits.cpu
@@ -130,10 +131,10 @@ deny contains msga if {
 
 # Fails if pod exceeds CPU-limit or request
 deny contains msga if {
+	path := "resources.limits.cpu"
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	path := "resources.limits.cpu"
 	cpu_limit := container.resources.limits.cpu
 	is_limit_exceeded_cpu(cpu_limit)
 
@@ -152,12 +153,12 @@ deny contains msga if {
 
 # Fails if workload exceeds CPU-limit or request
 deny contains msga if {
-	wl := input[_]
+	path := "resources.limits.cpu"
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 
-	path := "resources.limits.cpu"
 	cpu_limit := container.resources.limits.cpu
 	is_limit_exceeded_cpu(cpu_limit)
 
@@ -176,11 +177,11 @@ deny contains msga if {
 
 # Fails if cronjob doas exceeds CPU-limit or request
 deny contains msga if {
+	path := "resources.limits.cpu"
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
-	path := "resources.limits.cpu"
 	cpu_limit := container.resources.limits.cpu
 	is_limit_exceeded_cpu(cpu_limit)
 
@@ -201,10 +202,10 @@ deny contains msga if {
 
 # Fails if pod exceeds CPU-limit or request
 deny contains msga if {
+	path := "resources.requests.cpu"
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	path := "resources.requests.cpu"
 	cpu_req := container.resources.requests.cpu
 	is_req_exceeded_cpu(cpu_req)
 
@@ -223,12 +224,12 @@ deny contains msga if {
 
 # Fails if workload exceeds CPU-limit or request
 deny contains msga if {
-	wl := input[_]
+	path := "resources.requests.cpu"
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 
-	path := "resources.requests.cpu"
 	cpu_req := container.resources.requests.cpu
 	is_req_exceeded_cpu(cpu_req)
 
@@ -247,11 +248,11 @@ deny contains msga if {
 
 # Fails if cronjob doas exceeds CPU-limit or request
 deny contains msga if {
+	path := "resources.requests.cpu"
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 
-	path := "resources.requests.cpu"
 	cpu_req := container.resources.requests.cpu
 	is_req_exceeded_cpu(cpu_req)
 
@@ -319,12 +320,11 @@ is_min_request_exceeded_cpu(cpu_req) if {
 
 # Compare two Kubernetes CPU quantities by normalizing both sides to millicores.
 # Supports the milli suffix ("m") and unitless whole/fractional cores.
-compare_max(max, given) if {
-	cpu_to_millicores(given) > cpu_to_millicores(max)
+compare_max(limit, given) if {
+	cpu_to_millicores(given) > cpu_to_millicores(limit)
 }
-
-compare_min(min, given) if {
-	cpu_to_millicores(given) < cpu_to_millicores(min)
+compare_min(threshold, given) if {
+	cpu_to_millicores(given) < cpu_to_millicores(threshold)
 }
 
 # Parse a Kubernetes CPU quantity string into millicores.

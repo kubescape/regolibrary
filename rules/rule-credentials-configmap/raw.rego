@@ -1,14 +1,15 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
 
 # fails if config map has keys with suspicious name
 deny contains msga if {
+	sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
 	configmap := input[_]
 	configmap.kind == "ConfigMap"
 
 	# see default-config-inputs.json for list values
-	sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
 	key_name := sensitive_key_names[_]
 	map_secret := configmap.data[map_key]
 	map_secret != ""

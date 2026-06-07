@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
 import rego.v1
@@ -7,13 +8,13 @@ import rego.v1
 # does:	returns the external facing services of that pod
 
 deny contains msga if {
+	path := "metadata.labels"
 	pod := input[_]
 	pod.kind == "Pod"
 	podns := pod.metadata.namespace
 	podname := pod.metadata.name
 	labels := pod.metadata.labels
 	filtered_labels := json.remove(labels, ["pod-template-hash"])
-	path := "metadata.labels"
 	service := input[_]
 	service.kind == "Service"
 	service.metadata.namespace == podns
@@ -38,11 +39,12 @@ deny contains msga if {
 }
 
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	path := "spec.template.metadata.labels"
+
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	labels := wl.spec.template.metadata.labels
-	path := "spec.template.metadata.labels"
 	service := input[_]
 	service.kind == "Service"
 	service.metadata.namespace == wl.metadata.namespace
@@ -68,10 +70,10 @@ deny contains msga if {
 }
 
 deny contains msga if {
+	path := "spec.jobTemplate.spec.template.metadata.labels"
 	wl := input[_]
 	wl.kind == "CronJob"
 	labels := wl.spec.jobTemplate.spec.template.metadata.labels
-	path := "spec.jobTemplate.spec.template.metadata.labels"
 	service := input[_]
 	service.kind == "Service"
 	service.metadata.namespace == wl.metadata.namespace
