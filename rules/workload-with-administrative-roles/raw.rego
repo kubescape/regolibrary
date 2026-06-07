@@ -1,8 +1,10 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
 
 deny contains msga if {
+	reviewPath := "roleRef"
 	wl := input[_]
 	start_of_path := get_start_of_path(wl)
 	wl_spec := object.get(wl, start_of_path, [])
@@ -27,7 +29,6 @@ deny contains msga if {
 	rolebinding.subjects[j].name == sa.metadata.name
 	rolebinding.subjects[j].namespace == sa.metadata.namespace
 
-	reviewPath := "roleRef"
 	deletePath := sprintf("subjects[%d]", [j])
 
 	msga := {

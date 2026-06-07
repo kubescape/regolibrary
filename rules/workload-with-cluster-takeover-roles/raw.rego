@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
@@ -124,10 +125,10 @@ is_takeover_role(role) if {
 
 # look for rule allowing secret access
 is_takeover_role(role) if {
-	rule := role.rules[i]
 	takeover_resources := ["secrets", "*"]
 	takeover_verbs := ["get", "list", "watch", "*"]
 	takeover_api_groups := ["", "*"]
+	rule := role.rules[i]
 
 	takeover_rule := [rule |
 		rule = role.rules[i]

@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
@@ -20,12 +21,12 @@ _deny_supplemental_groups_msg(kind_label, obj, groups, path) := msga if {
 
 # Fails if securityContext.supplementalGroups contains the root group (0)
 deny contains msga if {
+	path := "spec.securityContext.supplementalGroups"
 	# verify the object kind
 	pod := input[_]
 	pod.kind == "Pod"
 
 	groups := pod.spec.securityContext.supplementalGroups
-	path := "spec.securityContext.supplementalGroups"
 	msga := _deny_supplemental_groups_msg("Pod", pod, groups, path)
 }
 
@@ -33,13 +34,13 @@ deny contains msga if {
 
 # Fails if securityContext.supplementalGroups contains the root group (0)
 deny contains msga if {
+	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	path := "spec.template.spec.securityContext.supplementalGroups"
 	# verify the object kind
 	wl := input[_]
-	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	manifest_kind[wl.kind]
 
 	groups := wl.spec.template.spec.securityContext.supplementalGroups
-	path := "spec.template.spec.securityContext.supplementalGroups"
 	msga := _deny_supplemental_groups_msg("Workload", wl, groups, path)
 }
 
@@ -47,11 +48,11 @@ deny contains msga if {
 
 # Fails if securityContext.supplementalGroups contains the root group (0)
 deny contains msga if {
+	path := "spec.jobTemplate.spec.template.spec.securityContext.supplementalGroups"
 	# verify the object kind
 	cj := input[_]
 	cj.kind == "CronJob"
 
 	groups := cj.spec.jobTemplate.spec.template.spec.securityContext.supplementalGroups
-	path := "spec.jobTemplate.spec.template.spec.securityContext.supplementalGroups"
 	msga := _deny_supplemental_groups_msg("CronJob", cj, groups, path)
 }

@@ -1,17 +1,17 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
 
 # Fails if pod does not define seccompProfile as RuntimeDefault
 deny contains msga if {
+	path_to_containers := ["spec", "containers"]
+	path_to_search := ["securityContext", "seccompProfile", "type"]
 	wl := input[_]
 	wl.kind == "Pod"
 	wl_spec := wl.spec
-	path_to_containers := ["spec", "containers"]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
-
-	path_to_search := ["securityContext", "seccompProfile", "type"]
 
 	seccompProfile_result := get_seccompProfile_definition(wl_spec, container, i, path_to_containers, path_to_search)
 	seccompProfile_result.failed == true
@@ -29,15 +29,14 @@ deny contains msga if {
 
 # Fails if workload does not define seccompProfile as RuntimeDefault
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	path_to_containers := ["spec", "template", "spec", "containers"]
+	path_to_search := ["securityContext", "seccompProfile", "type"]
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	wl_spec := wl.spec.template.spec
-	path_to_containers := ["spec", "template", "spec", "containers"]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
-
-	path_to_search := ["securityContext", "seccompProfile", "type"]
 
 	seccompProfile_result := get_seccompProfile_definition(wl_spec, container, i, path_to_containers, path_to_search)
 	seccompProfile_result.failed == true
@@ -55,14 +54,13 @@ deny contains msga if {
 
 # Fails if CronJob does not define seccompProfile as RuntimeDefault
 deny contains msga if {
+	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
+	path_to_search := ["securityContext", "seccompProfile", "type"]	
 	wl := input[_]
 	wl.kind == "CronJob"
 	wl_spec := wl.spec.jobTemplate.spec.template.spec
-	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
-
-	path_to_search := ["securityContext", "seccompProfile", "type"]
 
 	seccompProfile_result := get_seccompProfile_definition(wl_spec, container, i, path_to_containers, path_to_search)
 	seccompProfile_result.failed == true

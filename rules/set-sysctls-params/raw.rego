@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
@@ -50,12 +51,12 @@ _deny_sysctls_msg(kind_label, obj, sysctls, path) := msga if {
 
 # Fails if securityContext.sysctls contains values outside the safe list
 deny contains msga if {
+	path := "spec.securityContext.sysctls"
 	# verify the object kind
 	pod := input[_]
 	pod.kind == "Pod"
 
 	sysctls := pod.spec.securityContext.sysctls
-	path := "spec.securityContext.sysctls"
 	msga := _deny_sysctls_msg("Pod", pod, sysctls, path)
 }
 
@@ -63,13 +64,13 @@ deny contains msga if {
 
 # Fails if securityContext.sysctls contains values outside the safe list
 deny contains msga if {
+	path := "spec.template.spec.securityContext.sysctls"
+	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	# verify the object kind
 	wl := input[_]
-	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	manifest_kind[wl.kind]
 
 	sysctls := wl.spec.template.spec.securityContext.sysctls
-	path := "spec.template.spec.securityContext.sysctls"
 	msga := _deny_sysctls_msg("Workload", wl, sysctls, path)
 }
 
@@ -77,11 +78,11 @@ deny contains msga if {
 
 # Fails if securityContext.sysctls contains values outside the safe list
 deny contains msga if {
+	path := "spec.jobTemplate.spec.template.spec.securityContext.sysctls"
 	# verify the object kind
 	cj := input[_]
 	cj.kind == "CronJob"
 
 	sysctls := cj.spec.jobTemplate.spec.template.spec.securityContext.sysctls
-	path := "spec.jobTemplate.spec.template.spec.securityContext.sysctls"
 	msga := _deny_sysctls_msg("CronJob", cj, sysctls, path)
 }

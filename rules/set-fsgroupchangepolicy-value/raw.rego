@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
@@ -8,7 +9,7 @@ import rego.v1
 deny contains msga if {
 	# verify the object kind
 	pod := input[_]
-	pod.kind = "Pod"
+	pod.kind == "Pod"
 
 	# check securityContext has fsGroupChangePolicy set
 	not fsGroupChangePolicySetProperly(pod.spec.securityContext)
@@ -27,9 +28,9 @@ deny contains msga if {
 
 # Fails if securityContext.fsGroupChangePolicy does not have an allowed value
 deny contains msga if {
+	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	# verify the object kind
 	wl := input[_]
-	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	manifest_kind[wl.kind]
 
 	# check securityContext has fsGroupChangePolicy set

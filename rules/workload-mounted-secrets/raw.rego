@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
@@ -17,7 +18,6 @@ deny contains msga if {
 	containers_path := get_containers_path(resource)
 	containers := object.get(resource, containers_path, [])
 	container := containers[j]
-	container.volumeMounts
 
 	# check if volume is mounted
 	container.volumeMounts[k].name == volume.name
@@ -62,6 +62,7 @@ get_containers_path(resource) := result if {
 }
 
 # get_volumes_path - get resource volumes paths for "Pod"
+# regal ignore:messy-rule
 get_volumes_path(resource) := result if {
 	resource.kind == "Pod"
 	result = ["spec", "volumes"]

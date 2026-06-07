@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
@@ -92,7 +93,7 @@ is_encrypted_EKS(config) if {
 # hand the raw AWS CLI / describe-cluster JSON (cluster.encryptionConfig)
 # would otherwise always trip the C-0066 deny even with KMS actually
 # enabled (kubescape/kubescape#1959).
-is_encrypted_EKS(config) {
+is_encrypted_EKS(config) if {
 	encryption := config.cluster.encryptionConfig[_]
 	encryption.provider.keyArn != ""
 	count(encryption.resources) > 0

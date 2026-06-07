@@ -1,13 +1,14 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
 
 deny contains msga if {
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
 	service := input[_]
 	service.kind == "Service"
 
 	wl := input[_]
-	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Pod", "Job", "CronJob"}
 	spec_template_spec_patterns[wl.kind]
 	is_same_namespace(wl, service)
 	wl_connected_to_service(wl, service)

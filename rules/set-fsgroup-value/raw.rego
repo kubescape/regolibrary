@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
@@ -6,14 +7,13 @@ import rego.v1
 
 # Fails if securityContext.fsGroup does not have a values >= 0
 deny contains msga if {
+	securityContextPath := "spec.securityContext"
 	# verify the object kind
 	pod := input[_]
-	pod.kind = "Pod"
+	pod.kind == "Pod"
 
 	# check securityContext has fsGroup set properly
 	not fsGroupSetProperly(pod.spec.securityContext)
-
-	securityContextPath := "spec.securityContext"
 
 	fixPaths = [{"path": sprintf("%v.fsGroup", [securityContextPath]), "value": "YOUR_VALUE"}]
 
@@ -30,14 +30,13 @@ deny contains msga if {
 
 # Fails if securityContext.fsGroup does not have a values >= 0
 deny contains msga if {
+	securityContextPath := "spec.jobTemplate.spec.template.spec.securityContext"
 	# verify the object kind
 	cj := input[_]
 	cj.kind == "CronJob"
 
 	# check securityContext has fsGroup set properly
 	not fsGroupSetProperly(cj.spec.jobTemplate.spec.template.spec.securityContext)
-
-	securityContextPath := "spec.jobTemplate.spec.template.spec.securityContext"
 
 	fixPaths = [{"path": sprintf("%v.fsGroup", [securityContextPath]), "value": "YOUR_VALUE"}]
 
@@ -54,15 +53,15 @@ deny contains msga if {
 
 # Fails if securityContext.fsGroup does not have a values >= 0
 deny contains msga if {
+	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	securityContextPath := "spec.template.spec.securityContext"
 	# verify the object kind
 	wl := input[_]
-	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	manifest_kind[wl.kind]
 
 	# check securityContext has fsGroup set properly
 	not fsGroupSetProperly(wl.spec.template.spec.securityContext)
 
-	securityContextPath := "spec.template.spec.securityContext"
 	fixPaths = [{"path": sprintf("%v.fsGroup", [securityContextPath]), "value": "YOUR_VALUE"}]
 
 	msga := {

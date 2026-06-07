@@ -1,16 +1,17 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
 
 # Fails if pod does not define seccompProfile
 deny contains msga if {
+	path_to_containers := ["spec", "containers"]
+	path_to_search := ["securityContext", "seccompProfile"]
 	wl := input[_]
 	wl.kind == "Pod"
 	spec := wl.spec
-	path_to_search := ["securityContext", "seccompProfile"]
 	seccompProfile_not_defined(spec, path_to_search)
 
-	path_to_containers := ["spec", "containers"]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 	seccompProfile_not_defined(container, path_to_search)
@@ -30,14 +31,14 @@ deny contains msga if {
 
 # Fails if workload does not define seccompProfile
 deny contains msga if {
-	wl := input[_]
+	path_to_containers := ["spec", "template", "spec", "containers"]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	path_to_search := ["securityContext", "seccompProfile"]
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	spec := wl.spec.template.spec
-	path_to_search := ["securityContext", "seccompProfile"]
 	seccompProfile_not_defined(spec, path_to_search)
 
-	path_to_containers := ["spec", "template", "spec", "containers"]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 	seccompProfile_not_defined(container, path_to_search)
@@ -57,13 +58,13 @@ deny contains msga if {
 
 # Fails if CronJob does not define seccompProfile
 deny contains msga if {
+	path_to_search := ["securityContext", "seccompProfile"]
+	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
 	wl := input[_]
 	wl.kind == "CronJob"
 	spec := wl.spec.jobTemplate.spec.template.spec
-	path_to_search := ["securityContext", "seccompProfile"]
 	seccompProfile_not_defined(spec, path_to_search)
 
-	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 	seccompProfile_not_defined(container, path_to_search)

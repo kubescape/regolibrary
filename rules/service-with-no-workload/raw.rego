@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
@@ -23,8 +24,8 @@ deny contains msga if {
 	}
 }
 
-has_matching_workload(service, all) if {
-	wl := all[_]
+has_matching_workload(service, workloads) if {
+	wl := workloads[_]
 	is_workload(wl)
 	same_namespace(service, wl)
 	labels_match(service.spec.selector, pod_template_labels(wl))

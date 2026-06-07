@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
 import rego.v1
@@ -6,10 +7,10 @@ import rego.v1
 
 # privileged pods — containers
 deny contains msga if {
+	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	start_of_path := "spec."
 	path := isPrivilegedContainer(container, i, "containers", start_of_path)
 
 	msga := {
@@ -25,10 +26,10 @@ deny contains msga if {
 
 # privileged pods — initContainers
 deny contains msga if {
+	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.initContainers[i]
-	start_of_path := "spec."
 	path := isPrivilegedContainer(container, i, "initContainers", start_of_path)
 
 	msga := {
@@ -44,10 +45,10 @@ deny contains msga if {
 
 # privileged pods — ephemeralContainers
 deny contains msga if {
+	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.ephemeralContainers[i]
-	start_of_path := "spec."
 	path := isPrivilegedContainer(container, i, "ephemeralContainers", start_of_path)
 
 	msga := {
@@ -63,11 +64,11 @@ deny contains msga if {
 
 # handles majority of workload resources — containers
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	start_of_path := "spec.template.spec."
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
-	start_of_path := "spec.template.spec."
 	path := isPrivilegedContainer(container, i, "containers", start_of_path)
 
 	msga := {
@@ -83,11 +84,11 @@ deny contains msga if {
 
 # handles majority of workload resources — initContainers
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	start_of_path := "spec.template.spec."
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.initContainers[i]
-	start_of_path := "spec.template.spec."
 	path := isPrivilegedContainer(container, i, "initContainers", start_of_path)
 
 	msga := {
@@ -103,11 +104,11 @@ deny contains msga if {
 
 # handles majority of workload resources — ephemeralContainers
 deny contains msga if {
-	wl := input[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	start_of_path := "spec.template.spec."
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.ephemeralContainers[i]
-	start_of_path := "spec.template.spec."
 	path := isPrivilegedContainer(container, i, "ephemeralContainers", start_of_path)
 
 	msga := {
@@ -123,10 +124,10 @@ deny contains msga if {
 
 # handles cronjob — containers
 deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
-	start_of_path := "spec.jobTemplate.spec.template.spec."
 	path := isPrivilegedContainer(container, i, "containers", start_of_path)
 
 	msga := {
@@ -142,10 +143,10 @@ deny contains msga if {
 
 # handles cronjob — initContainers
 deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.initContainers[i]
-	start_of_path := "spec.jobTemplate.spec.template.spec."
 	path := isPrivilegedContainer(container, i, "initContainers", start_of_path)
 
 	msga := {
@@ -161,10 +162,10 @@ deny contains msga if {
 
 # handles cronjob — ephemeralContainers
 deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.ephemeralContainers[i]
-	start_of_path := "spec.jobTemplate.spec.template.spec."
 	path := isPrivilegedContainer(container, i, "ephemeralContainers", start_of_path)
 
 	msga := {
