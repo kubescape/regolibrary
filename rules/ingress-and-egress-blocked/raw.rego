@@ -1,29 +1,32 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
+import rego.v1
+
 # Helper to identify all network policy types
-is_network_policy(obj) {
+is_network_policy(obj) if {
 	obj.kind == "NetworkPolicy"
 }
 
-is_network_policy(obj) {
+is_network_policy(obj) if {
 	obj.kind == "CiliumNetworkPolicy"
 }
 
-is_network_policy(obj) {
+is_network_policy(obj) if {
 	obj.kind == "CiliumClusterwideNetworkPolicy"
 }
 
 # Returns the list of CiliumNetworkPolicySpec entries, unifying the
 # `spec:` (single) and `specs:` (list) forms documented for CNP/CCNP CRDs.
 # Either field may be present; both is also legal in Cilium.
-cilium_policy_specs(policy) = specs {
+cilium_policy_specs(policy) := specs if {
 	from_spec := [s | s := policy.spec]
 	from_specs := object.get(policy, "specs", [])
 	specs := array.concat(from_spec, from_specs)
 }
 
 # For pods
-deny[msga] {
+deny contains msga if {
 	pods := [pod | pod = input[_]; pod.kind == "Pod"]
 	networkpolicies := [networkpolicie | networkpolicie = input[_]; is_network_policy(networkpolicie)]
 	pod := pods[_]
@@ -38,14 +41,12 @@ deny[msga] {
 		"alertScore": 7,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [pod],
-		},
+		"alertObject": {"k8sApiObjects": [pod]},
 	}
 }
 
 # For pods
-deny[msga] {
+deny contains msga if {
 	pods := [pod | pod = input[_]; pod.kind == "Pod"]
 	networkpolicies := [networkpolicie | networkpolicie = input[_]; is_network_policy(networkpolicie)]
 	pod := pods[_]
@@ -58,16 +59,14 @@ deny[msga] {
 		"alertScore": 7,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [pod],
-		},
+		"alertObject": {"k8sApiObjects": [pod]},
 	}
 }
 
 # For workloads
-deny[msga] {
-	wl := input[_]
+deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	networkpolicies := [networkpolicie | networkpolicie = input[_]; is_network_policy(networkpolicie)]
 	network_policies_connected_to_pod := [networkpolicie | networkpolicie = networkpolicies[_]; wlConnectedToNetworkPolicy(wl, networkpolicie)]
@@ -81,16 +80,14 @@ deny[msga] {
 		"alertScore": 7,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [wl],
-		},
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
 # For workloads
-deny[msga] {
-	wl := input[_]
+deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	networkpolicies := [networkpolicie | networkpolicie = input[_]; is_network_policy(networkpolicie)]
 	network_policies_connected_to_pod := [networkpolicie | networkpolicie = networkpolicies[_]; wlConnectedToNetworkPolicy(wl, networkpolicie)]
@@ -102,14 +99,12 @@ deny[msga] {
 		"alertScore": 7,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [wl],
-		},
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
 # For Cronjobs
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
 	networkpolicies := [networkpolicie | networkpolicie = input[_]; is_network_policy(networkpolicie)]
@@ -124,14 +119,12 @@ deny[msga] {
 		"alertScore": 7,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [wl],
-		},
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
 # For Cronjobs
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
 	networkpolicies := [networkpolicie | networkpolicie = input[_]; is_network_policy(networkpolicie)]
@@ -144,27 +137,25 @@ deny[msga] {
 		"alertScore": 7,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [wl],
-		},
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
-is_same_namespace(metadata1, metadata2) {
+is_same_namespace(metadata1, metadata2) if {
 	metadata1.namespace == metadata2.namespace
 }
 
-is_same_namespace(metadata1, metadata2) {
+is_same_namespace(metadata1, metadata2) if {
 	not metadata1.namespace
 	not metadata2.namespace
 }
 
-is_same_namespace(metadata1, metadata2) {
+is_same_namespace(metadata1, metadata2) if {
 	not metadata2.namespace
 	metadata1.namespace == "default"
 }
 
-is_same_namespace(metadata1, metadata2) {
+is_same_namespace(metadata1, metadata2) if {
 	not metadata1.namespace
 	metadata2.namespace == "default"
 }
@@ -172,7 +163,7 @@ is_same_namespace(metadata1, metadata2) {
 # --- Cilium endpointSelector match (shared across pod/workload/cronjob) ---
 
 # matchLabels with keys: every key on the selector must equal the corresponding label.
-cilium_endpoint_selector_matches(spec, labels) {
+cilium_endpoint_selector_matches(spec, labels) if {
 	count(spec.endpointSelector.matchLabels) > 0
 	count({x | spec.endpointSelector.matchLabels[x] == labels[x]}) == count(spec.endpointSelector.matchLabels)
 }
@@ -180,7 +171,7 @@ cilium_endpoint_selector_matches(spec, labels) {
 # Selects-all: covers `endpointSelector: {}` and `endpointSelector: { matchLabels: {} }`.
 # A non-empty matchExpressions makes the selector selective, NOT match-all
 # (per Kubernetes LabelSelector: matchLabels AND matchExpressions must both match).
-cilium_endpoint_selector_matches(spec, _) {
+cilium_endpoint_selector_matches(spec, _) if {
 	count(object.get(spec.endpointSelector, "matchLabels", {})) == 0
 	count(object.get(spec.endpointSelector, "matchExpressions", [])) == 0
 }
@@ -188,7 +179,7 @@ cilium_endpoint_selector_matches(spec, _) {
 # --- Pod connection checks ---
 
 # Standard NetworkPolicy with podSelector (with labels)
-pod_connected_to_network_policy(pod, networkpolicie) {
+pod_connected_to_network_policy(pod, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(networkpolicie.metadata, pod.metadata)
 	count(networkpolicie.spec.podSelector) > 0
@@ -196,14 +187,14 @@ pod_connected_to_network_policy(pod, networkpolicie) {
 }
 
 # Standard NetworkPolicy with empty podSelector (selects all pods in namespace)
-pod_connected_to_network_policy(pod, networkpolicie) {
+pod_connected_to_network_policy(pod, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(networkpolicie.metadata, pod.metadata)
 	count(networkpolicie.spec.podSelector) == 0
 }
 
 # CiliumNetworkPolicy: any spec (singular `spec:` or any entry of `specs:`) matches the pod
-pod_connected_to_network_policy(pod, networkpolicie) {
+pod_connected_to_network_policy(pod, networkpolicie) if {
 	networkpolicie.kind == "CiliumNetworkPolicy"
 	is_same_namespace(networkpolicie.metadata, pod.metadata)
 	spec := cilium_policy_specs(networkpolicie)[_]
@@ -211,7 +202,7 @@ pod_connected_to_network_policy(pod, networkpolicie) {
 }
 
 # CiliumClusterwideNetworkPolicy: same, no namespace check
-pod_connected_to_network_policy(pod, networkpolicie) {
+pod_connected_to_network_policy(pod, networkpolicie) if {
 	networkpolicie.kind == "CiliumClusterwideNetworkPolicy"
 	spec := cilium_policy_specs(networkpolicie)[_]
 	cilium_endpoint_selector_matches(spec, object.get(pod.metadata, "labels", {}))
@@ -220,14 +211,14 @@ pod_connected_to_network_policy(pod, networkpolicie) {
 # --- Workload connection checks ---
 
 # Standard NetworkPolicy with empty podSelector
-wlConnectedToNetworkPolicy(wl, networkpolicie) {
+wlConnectedToNetworkPolicy(wl, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(wl.metadata, networkpolicie.metadata)
 	count(networkpolicie.spec.podSelector) == 0
 }
 
 # Standard NetworkPolicy with podSelector (with labels)
-wlConnectedToNetworkPolicy(wl, networkpolicie) {
+wlConnectedToNetworkPolicy(wl, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(wl.metadata, networkpolicie.metadata)
 	count(networkpolicie.spec.podSelector) > 0
@@ -235,7 +226,7 @@ wlConnectedToNetworkPolicy(wl, networkpolicie) {
 }
 
 # CiliumNetworkPolicy
-wlConnectedToNetworkPolicy(wl, networkpolicie) {
+wlConnectedToNetworkPolicy(wl, networkpolicie) if {
 	networkpolicie.kind == "CiliumNetworkPolicy"
 	is_same_namespace(wl.metadata, networkpolicie.metadata)
 	spec := cilium_policy_specs(networkpolicie)[_]
@@ -243,7 +234,7 @@ wlConnectedToNetworkPolicy(wl, networkpolicie) {
 }
 
 # CiliumClusterwideNetworkPolicy
-wlConnectedToNetworkPolicy(wl, networkpolicie) {
+wlConnectedToNetworkPolicy(wl, networkpolicie) if {
 	networkpolicie.kind == "CiliumClusterwideNetworkPolicy"
 	spec := cilium_policy_specs(networkpolicie)[_]
 	cilium_endpoint_selector_matches(spec, object.get(wl.spec.template.metadata, "labels", {}))
@@ -252,14 +243,14 @@ wlConnectedToNetworkPolicy(wl, networkpolicie) {
 # --- CronJob connection checks ---
 
 # Standard NetworkPolicy with empty podSelector
-cronjob_connected_to_network_policy(cj, networkpolicie) {
+cronjob_connected_to_network_policy(cj, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(cj.metadata, networkpolicie.metadata)
 	count(networkpolicie.spec.podSelector) == 0
 }
 
 # Standard NetworkPolicy with podSelector (with labels)
-cronjob_connected_to_network_policy(cj, networkpolicie) {
+cronjob_connected_to_network_policy(cj, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(cj.metadata, networkpolicie.metadata)
 	count(networkpolicie.spec.podSelector) > 0
@@ -267,7 +258,7 @@ cronjob_connected_to_network_policy(cj, networkpolicie) {
 }
 
 # CiliumNetworkPolicy
-cronjob_connected_to_network_policy(cj, networkpolicie) {
+cronjob_connected_to_network_policy(cj, networkpolicie) if {
 	networkpolicie.kind == "CiliumNetworkPolicy"
 	is_same_namespace(cj.metadata, networkpolicie.metadata)
 	spec := cilium_policy_specs(networkpolicie)[_]
@@ -275,7 +266,7 @@ cronjob_connected_to_network_policy(cj, networkpolicie) {
 }
 
 # CiliumClusterwideNetworkPolicy
-cronjob_connected_to_network_policy(cj, networkpolicie) {
+cronjob_connected_to_network_policy(cj, networkpolicie) if {
 	networkpolicie.kind == "CiliumClusterwideNetworkPolicy"
 	spec := cilium_policy_specs(networkpolicie)[_]
 	cilium_endpoint_selector_matches(spec, object.get(cj.spec.jobTemplate.spec.template.metadata, "labels", {}))
@@ -284,43 +275,43 @@ cronjob_connected_to_network_policy(cj, networkpolicie) {
 # --- Ingress/Egress policy checks ---
 
 # Standard NetworkPolicy: check policyTypes
-is_ingerss_egress_policy(networkpolicie) {
+is_ingerss_egress_policy(networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	list_contains(networkpolicie.spec.policyTypes, "Ingress")
 }
 
-is_ingerss_egress_policy(networkpolicie) {
+is_ingerss_egress_policy(networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	list_contains(networkpolicie.spec.policyTypes, "Egress")
 }
 
 # CiliumNetworkPolicy / CCNP: presence of `ingress`/`egress` on any spec entry
 # determines direction (CNP/CCNP have no `policyTypes`).
-is_ingerss_egress_policy(networkpolicie) {
+is_ingerss_egress_policy(networkpolicie) if {
 	networkpolicie.kind == "CiliumNetworkPolicy"
 	spec := cilium_policy_specs(networkpolicie)[_]
 	spec.ingress
 }
 
-is_ingerss_egress_policy(networkpolicie) {
+is_ingerss_egress_policy(networkpolicie) if {
 	networkpolicie.kind == "CiliumNetworkPolicy"
 	spec := cilium_policy_specs(networkpolicie)[_]
 	spec.egress
 }
 
-is_ingerss_egress_policy(networkpolicie) {
+is_ingerss_egress_policy(networkpolicie) if {
 	networkpolicie.kind == "CiliumClusterwideNetworkPolicy"
 	spec := cilium_policy_specs(networkpolicie)[_]
 	spec.ingress
 }
 
-is_ingerss_egress_policy(networkpolicie) {
+is_ingerss_egress_policy(networkpolicie) if {
 	networkpolicie.kind == "CiliumClusterwideNetworkPolicy"
 	spec := cilium_policy_specs(networkpolicie)[_]
 	spec.egress
 }
 
-list_contains(list, element) {
+list_contains(list, element) if {
 	some i
 	list[i] == element
 }

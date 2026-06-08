@@ -1,76 +1,77 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
+import rego.v1
+
 # regal ignore:rule-length
-deny[msga] {
-  services := [ x | x = input[_]; x.kind == "Service" ]
-  pods     := [ x | x = input[_]; x.kind == "Pod" ]
-  vulns    := [ x | x = input[_]; x.kind == "ImageVulnerabilities" ]
+deny contains msga if {
+	services := [x | x = input[_]; x.kind == "Service"]
+	pods := [x | x = input[_]; x.kind == "Pod"]
+	vulns := [x | x = input[_]; x.kind == "ImageVulnerabilities"]
 
-  pod     := pods[_]
-  service := services[_]
-  vuln    := vulns[_]
+	pod := pods[_]
+	service := services[_]
+	vuln := vulns[_]
 
-  # vuln data is relevant
-  count(vuln.data) > 0
+	# vuln data is relevant
+	count(vuln.data) > 0
 
-  # service is external-facing
-  filter_external_access(service)
+	# service is external-facing
+	filter_external_access(service)
 
-  # pod has the current service
-  service_to_pod(service, pod) > 0
+	# pod has the current service
+	service_to_pod(service, pod) > 0
 
-  # get container image name
-  container := pod.spec.containers[i]
+	# get container image name
+	container := pod.spec.containers[i]
 
-  # image has vulnerabilities
-  container.image == vuln.metadata.name
+	# image has vulnerabilities
+	container.image == vuln.metadata.name
 
-  # At least one rce vulnerability
-  filter_rce_vulnerabilities(vuln)
+	# At least one rce vulnerability
+	filter_rce_vulnerabilities(vuln)
 
-  related_objects := [pod, vuln]
+	metadata = {
+		"name": pod.metadata.name,
+		"namespace": pod.metadata.namespace,
+	}
 
-  path := sprintf("status.containerStatuses[%v].imageID", [format_int(i, 10)])
+	related_objects := [pod, vuln]
 
-  metadata = {
-    "name": pod.metadata.name,
-    "namespace": pod.metadata.namespace
-  }
+	external_objects = {
+		"apiVersion": "result.vulnscan.com/v1",
+		"kind": pod.kind,
+		"metadata": metadata,
+		"relatedObjects": related_objects,
+	}
 
-  external_objects = {
-    "apiVersion": "result.vulnscan.com/v1",
-    "kind": pod.kind,
-    "metadata": metadata,
-    "relatedObjects": related_objects
-  }
+	path := sprintf("status.containerStatuses[%v].imageID", [format_int(i, 10)])
 
-  msga := {
-    "alertMessage": sprintf("pod '%v' exposed with rce vulnerability", [pod.metadata.name]),
-    "packagename": "armo_builtins",
-    "alertScore": 8,
+	msga := {
+		"alertMessage": sprintf("pod '%v' exposed with rce vulnerability", [pod.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 8,
 		"reviewPaths": [path],
-   "failedPaths": [path],
-    "fixPaths": [],
-    "alertObject": {
-      "externalObjects": external_objects
-    }
-  }
+		"failedPaths": [path],
+		"fixPaths": [],
+		"alertObject": {"externalObjects": external_objects},
+	}
 }
 
-filter_rce_vulnerabilities(vuln) {
-  data := vuln.data[_]
-  data.categories.isRce == true
+filter_rce_vulnerabilities(vuln) if {
+	vuln_data := vuln.data[_]
+	vuln_data.categories.isRce == true
 }
 
-filter_external_access(service) {
-  service.spec.type != "ClusterIP"
+filter_external_access(service) if {
+	service.spec.type != "ClusterIP"
 }
 
-service_to_pod(service, pod) = res {
-  # Make sure we're looking on the same namespace
-  service.metadata.namespace == pod.metadata.namespace
+service_to_pod(service, pod) := res if {
+	# Make sure we're looking on the same namespace
+	service.metadata.namespace == pod.metadata.namespace
 
-  service_selectors := [ x | x = service.spec.selector[_] ]
+	service_selectors := [x | x = service.spec.selector[_]]
 
-  res := count([ x | x = pod.metadata.labels[_]; x == service_selectors[_] ])
+	res := count([x | x = pod.metadata.labels[_]; x == service_selectors[_]])
 }

@@ -1,15 +1,17 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
+
+import rego.v1
 
 import data.cautils
 
 # Check if audit logs is  enabled for native k8s
-deny[msga] {
-	apiserverpod := input[_]
-    cmd := apiserverpod.spec.containers[0].command
-	audit_policy :=  [ command |command := cmd[_] ; contains(command, "--audit-policy-file=")]
-    count(audit_policy) < 1
+deny contains msga if {
 	path := "spec.containers[0].command"
-
+	apiserverpod := input[_]
+	cmd := apiserverpod.spec.containers[0].command
+	audit_policy := [command | command := cmd[_]; contains(command, "--audit-policy-file=")]
+	count(audit_policy) < 1
 
 	msga := {
 		"alertMessage": "audit logs is not enabled",
@@ -18,9 +20,6 @@ deny[msga] {
 		"reviewPaths": [path],
 		"failedPaths": [path],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [apiserverpod],
-
-		}
+		"alertObject": {"k8sApiObjects": [apiserverpod]},
 	}
 }

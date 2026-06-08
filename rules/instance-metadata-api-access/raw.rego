@@ -1,12 +1,13 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
+import rego.v1
 
-deny[msg] {
-	obj = input[_]
+deny contains msg if {
+	some obj in input
 	is_cloud_provider_info(obj)
 
 	obj.data.providerMetaDataAPIAccess == true
-
 
 	msg := {
 		"alertMessage": sprintf("Node '%s' has access to Instance Metadata Services of cloud provider.", [obj.metadata.name]),
@@ -14,17 +15,12 @@ deny[msg] {
 		"alertScore": 1,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"externalObjects": obj
-		},
-		"packagename": "armo_builtins"
+		"alertObject": {"externalObjects": obj},
+		"packagename": "armo_builtins",
 	}
-
 }
 
-
-
-is_cloud_provider_info(obj) {
+is_cloud_provider_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "cloudProviderInfo"
 }
