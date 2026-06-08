@@ -13,6 +13,11 @@ rules:
   imports:
     prefer-package-imports:
       level: ignore
+    unresolved-import:
+      # data.cautils and other shared libraries are injected by kubescape at
+      # runtime and are not part of the linted rules/ tree, so Regal cannot
+      # resolve them statically (same case as unresolved-reference below).
+      level: ignore
     unresolved-reference:
       level: ignore
   style:
