@@ -1,7 +1,10 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
-deny[msga] {
-    resource := input[_]
+import rego.v1
+
+deny contains msga if {
+	resource := input[_]
 	resource.kind == "Role"
 
 	msga := {
@@ -10,8 +13,6 @@ deny[msga] {
 		"alertScore": 7,
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"externalObjects": resource
-		}
+		"alertObject": {"externalObjects": resource},
 	}
 }

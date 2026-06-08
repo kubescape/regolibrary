@@ -1,13 +1,15 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
+import rego.v1
 
 # Fails if pod has container  that allow privilege escalation
-deny[msga] {
-    pod := input[_]
-    pod.kind == "Pod"
-	container := pod.spec.containers[i]
+deny contains msga if {
 	start_of_path := "spec."
-    is_allow_privilege_escalation_container(container)
+	pod := input[_]
+	pod.kind == "Pod"
+	container := pod.spec.containers[i]
+	is_allow_privilege_escalation_container(container)
 	fixPath := get_fix_path(i, start_of_path)
 
 	msga := {
@@ -15,87 +17,78 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"fixPaths": fixPath,
-		"alertObject": {
-			"k8sApiObjects": [pod]
-		}
+		"alertObject": {"k8sApiObjects": [pod]},
 	}
 }
 
-
 # Fails if workload has a container that allow privilege escalation
-deny[msga] {
-    wl := input[_]
-	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-	spec_template_spec_patterns[wl.kind]
-    container := wl.spec.template.spec.containers[i]
+deny contains msga if {
 	start_of_path := "spec.template.spec."
-    is_allow_privilege_escalation_container(container)
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
+	spec_template_spec_patterns[wl.kind]
+	container := wl.spec.template.spec.containers[i]
+	is_allow_privilege_escalation_container(container)
 	fixPath := get_fix_path(i, start_of_path)
 
-    msga := {
+	msga := {
 		"alertMessage": sprintf("container :%v in %v: %v  allow privilege escalation", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"fixPaths": fixPath,
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
-
 # Fails if cronjob has a container that allow privilege escalation
-deny[msga] {
+deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
-	start_of_path := "spec.jobTemplate.spec.template.spec."
 	is_allow_privilege_escalation_container(container)
 	fixPath := get_fix_path(i, start_of_path)
 
-    msga := {
+	msga := {
 		"alertMessage": sprintf("container :%v in %v: %v allow privilege escalation", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"fixPaths": fixPath,
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
-
-
-is_allow_privilege_escalation_container(container) {
-    not container.securityContext.allowPrivilegeEscalation == false
+is_allow_privilege_escalation_container(container) if {
+	not container.securityContext.allowPrivilegeEscalation == false
 	not container.securityContext.allowPrivilegeEscalation == true
-	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
+	psps := [psp | psp = input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) == 0
 }
 
-is_allow_privilege_escalation_container(container) {
-    not container.securityContext.allowPrivilegeEscalation == false
+is_allow_privilege_escalation_container(container) if {
+	not container.securityContext.allowPrivilegeEscalation == false
 	not container.securityContext.allowPrivilegeEscalation == true
-	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
+	psps := [psp | psp = input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) > 0
 	psp := psps[_]
 	not psp.spec.allowPrivilegeEscalation == false
 }
 
-
-is_allow_privilege_escalation_container(container) {
-    container.securityContext.allowPrivilegeEscalation == true
-	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
+is_allow_privilege_escalation_container(container) if {
+	container.securityContext.allowPrivilegeEscalation == true
+	psps := [psp | psp = input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) == 0
 }
 
-is_allow_privilege_escalation_container(container) {
-    container.securityContext.allowPrivilegeEscalation == true
-	psps := [psp |  psp= input[_]; psp.kind == "PodSecurityPolicy"]
+is_allow_privilege_escalation_container(container) if {
+	container.securityContext.allowPrivilegeEscalation == true
+	psps := [psp | psp = input[_]; psp.kind == "PodSecurityPolicy"]
 	count(psps) > 0
 	psp := psps[_]
 	not psp.spec.allowPrivilegeEscalation == false
 }
 
-get_fix_path(i, start_of_path) = [{"path": sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [start_of_path, i]), "value":"false"},
-	{"path": sprintf("%vcontainers[%v].securityContext.privileged", [start_of_path, i]), "value":"false"}]
+get_fix_path(i, start_of_path) := [
+	{"path": sprintf("%vcontainers[%v].securityContext.allowPrivilegeEscalation", [start_of_path, i]), "value": "false"},
+	{"path": sprintf("%vcontainers[%v].securityContext.privileged", [start_of_path, i]), "value": "false"},
+]

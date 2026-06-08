@@ -1,8 +1,11 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
+
+import rego.v1
 
 #  ================================== no memory requests ==================================
 # Fails if pod does not have container with memory requests
-deny[msga] {
+deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
@@ -20,9 +23,9 @@ deny[msga] {
 }
 
 # Fails if workload does not have container with memory requests
-deny[msga] {
-	wl := input[_]
+deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
 	not container.resources.requests.memory
@@ -39,7 +42,7 @@ deny[msga] {
 }
 
 # Fails if cronjob does not have container with memory requests
-deny[msga] {
+deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
@@ -55,4 +58,3 @@ deny[msga] {
 		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
-

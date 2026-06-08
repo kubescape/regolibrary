@@ -1,9 +1,12 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
+
+import rego.v1
 
 # input: regoResponseVectorObject
 # fails if a subject that is not dashboard service account is bound to dashboard role
 
-deny[msga] {
+deny contains msga if {
 	subjectVector := input[_]
 	role := subjectVector.relatedObjects[i]
 	rolebinding := subjectVector.relatedObjects[j]
@@ -14,7 +17,7 @@ deny[msga] {
 	subjectVector.name != "kubernetes-dashboard"
 
 	subject := rolebinding.subjects[k]
-    path := [sprintf("relatedObjects[%v].subjects[%v]", [format_int(j, 10), format_int(k, 10)])]
+	path := [sprintf("relatedObjects[%v].subjects[%v]", [format_int(j, 10), format_int(k, 10)])]
 	finalpath := array.concat(path, [sprintf("relatedObjects[%v].roleRef.name", [format_int(j, 10)])])
 	msga := {
 		"alertMessage": sprintf("Subject: %v-%v is bound to dashboard role/clusterrole", [subjectVector.kind, subjectVector.name]),
@@ -25,7 +28,7 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"alertObject": {
 			"k8sApiObjects": [],
-			"externalObjects": subjectVector
-		}
+			"externalObjects": subjectVector,
+		},
 	}
 }
