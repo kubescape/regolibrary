@@ -1,11 +1,12 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 # CIS 4.3.1 - Ensure that the kube-proxy metrics service is bound to localhost
 
 # Deny if metricsBindAddress is exposed on all interfaces (0.0.0.0)
-deny[msga] {
+deny contains msga if {
 	configmap := input[_]
 	is_kube_proxy_configmap(configmap)
 
@@ -28,7 +29,7 @@ deny[msga] {
 }
 
 # Deny if metricsBindAddress is missing (may default to 0.0.0.0)
-deny[msga] {
+deny contains msga if {
 	configmap := input[_]
 	is_kube_proxy_configmap(configmap)
 
@@ -48,7 +49,7 @@ deny[msga] {
 }
 
 # Deny if metricsBindAddress is empty string
-deny[msga] {
+deny contains msga if {
 	configmap := input[_]
 	is_kube_proxy_configmap(configmap)
 
@@ -68,25 +69,25 @@ deny[msga] {
 }
 
 # Helper: Check if this is the kube-proxy ConfigMap
-is_kube_proxy_configmap(configmap) {
+is_kube_proxy_configmap(configmap) if {
 	configmap.kind == "ConfigMap"
 	configmap.metadata.name == "kube-proxy"
 	configmap.metadata.namespace == "kube-system"
 }
 
 # Helper: Get config data from ConfigMap (try different field names)
-get_config_data(configmap) := value {
+get_config_data(configmap) := value if {
 	value := object.get(configmap.data, "config.conf", "")
 	value != ""
 }
 
-get_config_data(configmap) := value {
+get_config_data(configmap) := value if {
 	not configmap.data["config.conf"]
 	value := object.get(configmap.data, "kubeconfig.conf", "")
 	value != ""
 }
 
-get_config_data(configmap) := value {
+get_config_data(configmap) := value if {
 	not configmap.data["config.conf"]
 	not configmap.data["kubeconfig.conf"]
 	value := object.get(configmap.data, "config", "")

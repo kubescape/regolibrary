@@ -1,8 +1,11 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
+import rego.v1
+
 # Check if tls is configured in a etcd service
-deny[msga] {
-	obj = input[_]
+deny contains msga if {
+	some obj in input
 	is_etcd_pod(obj)
 
 	result = invalid_flag(obj.spec.containers[0].command)
@@ -18,7 +21,7 @@ deny[msga] {
 	}
 }
 
-is_etcd_pod(obj) {
+is_etcd_pod(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	count(obj.spec.containers) == 1
@@ -26,7 +29,7 @@ is_etcd_pod(obj) {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	full_cmd = concat(" ", cmd)
 	wanted = [
 		["--cert-file", "<path/to/tls-certificate-file.crt>"],

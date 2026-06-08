@@ -1,8 +1,11 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
+import rego.v1
+
 # Check if --auto-tls is not set to true
-deny[msga] {
-	obj = input[_]
+deny contains msga if {
+	some obj in input
 	is_etcd_pod(obj)
 	commands := obj.spec.containers[0].command
 	result := invalid_flag(commands)
@@ -18,14 +21,14 @@ deny[msga] {
 	}
 }
 
-is_etcd_pod(obj) {
+is_etcd_pod(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	count(obj.spec.containers) == 1
 	endswith(split(obj.spec.containers[0].command[0], " ")[0], "etcd")
 }
 
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	contains(cmd[i], "--peer-auto-tls=true")
 	fixed = replace(cmd[i], "--peer-auto-tls=true", "--peer-auto-tls=false")
 	path := sprintf("spec.containers[0].command[%d]", [i])

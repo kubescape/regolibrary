@@ -1,19 +1,20 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
-import future.keywords.in
-
 import data.cautils
+import rego.v1
 
-deny[msg] {
-	# Filter out irrelevent resources
-	obj = input[_]
-	is_kubelet_info(obj)
-
+deny contains msg if {
 	file_obj_path := ["data", "kubeConfigFile"]
-	file := object.get(obj, file_obj_path, false)
-
 	# Actual permissions test. num. configured from Octal (644) to Decimal num.
 	allowed_perms := 420
+	
+	# Filter out irrelevent resources
+	some obj in input
+	is_kubelet_info(obj)
+
+	file := object.get(obj, file_obj_path, false)
+
 	not cautils.unix_permissions_allow(allowed_perms, file.permissions)
 
 	# Build the message
@@ -22,11 +23,13 @@ deny[msg] {
 		concat("/", file_obj_path),
 		"apiVersion",
 		"kind",
-		"metadata"
+		"metadata",
 	])
 
-	alert := sprintf("The permissions of %s are too permissive. maximum allowed: %o. actual: %o",
-	[file.path, allowed_perms, file.permissions])
+	alert := sprintf(
+		"The permissions of %s are too permissive. maximum allowed: %o. actual: %o",
+		[file.path, allowed_perms, file.permissions],
+	)
 
 	msg := {
 		"alertMessage": alert,
@@ -38,7 +41,7 @@ deny[msg] {
 	}
 }
 
-is_kubelet_info(obj) {
+is_kubelet_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "KubeletInfo"
 }

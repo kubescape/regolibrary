@@ -1,9 +1,10 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
-deny[msg] {
-	obj = input[_]
+deny contains msg if {
+	some obj in input
 	is_scheduler(obj)
 	result = invalid_flag(obj.spec.containers[0].command)
 
@@ -18,7 +19,7 @@ deny[msg] {
 	}
 }
 
-is_scheduler(obj) {
+is_scheduler(obj) if {
 	obj.apiVersion == "v1"
 	obj.kind == "Pod"
 	obj.metadata.namespace == "kube-system"
@@ -27,7 +28,7 @@ is_scheduler(obj) {
 	endswith(obj.spec.containers[0].command[0], "kube-scheduler")
 }
 
-get_flag_value(cmd) = value {
+get_flag_value(cmd) := value if {
 	re := " ?--bind-address=(.+?)(?: |$)"
 	matchs := regex.find_all_string_submatch_n(re, cmd, 1)
 	count(matchs) == 1
@@ -35,7 +36,7 @@ get_flag_value(cmd) = value {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	val = get_flag_value(cmd[i])
 	val != "127.0.0.1"
 	path = sprintf("spec.containers[0].command[%d]", [i])
@@ -45,7 +46,7 @@ invalid_flag(cmd) = result {
 	}
 }
 
-invalid_flag(cmd) = result {
+invalid_flag(cmd) := result if {
 	full_cmd = concat(" ", cmd)
 	not contains(full_cmd, "--bind-address")
 	path = sprintf("spec.containers[0].command[%d]", [count(cmd)])

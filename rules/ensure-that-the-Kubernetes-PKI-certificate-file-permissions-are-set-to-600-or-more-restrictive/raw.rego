@@ -1,21 +1,22 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
-import future.keywords.in
-
 import data.cautils
+import rego.v1
 
-deny[msg] {
+deny contains msg if {
+	file_obj_path := ["data", "PKIFiles"]
+    allowed_perms := 384 # == 0o600
+
 	# Filter out irrelevent resources
-	obj = input[_]
+	some obj in input
 	is_control_plane_info(obj)
 
-	file_obj_path := ["data", "PKIFiles"]
 	files := object.get(obj, file_obj_path, false)
 	file := files[file_index]
 	endswith(file.path, ".crt")
 
 	# Actual permissions test
-	allowed_perms := 384 # == 0o600
 	not cautils.unix_permissions_allow(allowed_perms, file.permissions)
 
 	# Build the message
@@ -38,7 +39,7 @@ deny[msg] {
 	}
 }
 
-is_control_plane_info(obj) {
+is_control_plane_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "ControlPlaneInfo"
 }

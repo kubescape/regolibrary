@@ -1,20 +1,20 @@
+# regal ignore:directory-package-mismatch 
 package armo_builtins
 
-import future.keywords.in
-
 import data.cautils
+import rego.v1
 
-deny[msg] {
+deny contains msg if {
+	file_obj_path := ["data", "schedulerInfo", "configFile"]
+    allowed_user := "root"
+	allowed_group := "root"
 	# Filter out irrelevent resources
-	obj = input[_]
+	some obj in input
 	is_control_plane_info(obj)
 
-	file_obj_path := ["data", "schedulerInfo", "configFile"]
 	file := object.get(obj, file_obj_path, false)
 
 	# Actual ownership check
-	allowed_user := "root"
-	allowed_group := "root"
 	not allowed_ownership(file.ownership, allowed_user, allowed_group)
 
 	# Build the message
@@ -45,16 +45,16 @@ deny[msg] {
 	}
 }
 
-is_control_plane_info(obj) {
+is_control_plane_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 	obj.kind == "ControlPlaneInfo"
 }
 
-allowed_ownership(ownership, user, group) {
+allowed_ownership(ownership, user, group) if {
 	ownership.error # Do not fail if ownership is not found
 }
 
-allowed_ownership(ownership, user, group) {
+allowed_ownership(ownership, user, group) if {
 	ownership.username == user
 	ownership.groupname == group
 }
