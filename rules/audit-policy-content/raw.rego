@@ -1,11 +1,11 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
-import future.keywords.if
-import future.keywords.in
+import rego.v1
 
 # CIS 3.2.2 https://workbench.cisecurity.org/sections/1126657/recommendations/1838583
 
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_api_server_info(obj)
 	api_server_info := obj.data.APIServerInfo
@@ -27,7 +27,7 @@ deny[msga] {
 	}
 }
 
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_api_server_info(obj)
 
@@ -140,7 +140,7 @@ is_rule_concering_seeked_resource(rule, seeked_resource) if {
 validate_rule_audit_level(rule, value_of_seeked_resource) := result if {
 	value_of_seeked_resource.mode == "equal"
 	result := rule.level == value_of_seeked_resource.auditLevel
-} else := result {
+} else := result if {
 	result := rule.level != value_of_seeked_resource.auditLevel
 }
 
