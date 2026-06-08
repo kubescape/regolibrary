@@ -1,17 +1,14 @@
-
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
-deny[msga] {
+import rego.v1
 
-	msga := {
-    	"alertMessage": "Please check it manually.",
-    	"packagename": "armo_builtins",
-    	"alertScore": 2,
-    	"failedPaths": [],
-    	"fixPaths":[],
-        "fixCommand": "",
-    	"alertObject": {
-			"k8sObject": []
-        }
-    }
-}
+deny contains {
+		"alertMessage": "Please check it manually.",
+		"packagename": "armo_builtins",
+		"alertScore": 2,
+		"failedPaths": [],
+		"fixPaths": [],
+		"fixCommand": "",
+		"alertObject": {"k8sObject": []},
+	}

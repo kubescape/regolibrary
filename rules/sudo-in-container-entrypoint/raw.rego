@@ -1,12 +1,14 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
+import rego.v1
 
-deny[msga] {
-    pod := input[_]
-    pod.kind == "Pod"
-	container := pod.spec.containers[i]
+deny contains msga if {
 	start_of_path := "spec."
-    result := is_sudo_entrypoint(container, start_of_path, i)
+	pod := input[_]
+	pod.kind == "Pod"
+	container := pod.spec.containers[i]
+	result := is_sudo_entrypoint(container, start_of_path, i)
 	msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  have sudo in entrypoint", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -14,19 +16,17 @@ deny[msga] {
 		"fixPaths": [],
 		"reviewPaths": result,
 		"failedPaths": result,
-		"alertObject": {
-			"k8sApiObjects": [pod]
-		}
+		"alertObject": {"k8sApiObjects": [pod]},
 	}
 }
 
-deny[msga] {
-    wl := input[_]
-	spec_template_spec_patterns := {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+deny contains msga if {
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	start_of_path := "spec.template.spec."
+	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
-	start_of_path := "spec.template.spec."
-    result := is_sudo_entrypoint(container, start_of_path, i)
+	result := is_sudo_entrypoint(container, start_of_path, i)
 	msga := {
 		"alertMessage": sprintf("container: %v in %v: %v  have sudo in entrypoint", [container.name, wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -34,17 +34,15 @@ deny[msga] {
 		"fixPaths": [],
 		"reviewPaths": result,
 		"failedPaths": result,
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
-deny[msga] {
-    wl := input[_]
+deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
+	wl := input[_]
 	wl.kind == "CronJob"
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
-	start_of_path := "spec.jobTemplate.spec.template.spec."
 	result := is_sudo_entrypoint(container, start_of_path, i)
 	msga := {
 		"alertMessage": sprintf("container: %v in cronjob: %v  have sudo in entrypoint", [container.name, wl.metadata.name]),
@@ -53,13 +51,11 @@ deny[msga] {
 		"fixPaths": [],
 		"reviewPaths": result,
 		"failedPaths": result,
-		"alertObject": {
-			"k8sApiObjects": [wl]
-		}
+		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
 
-is_sudo_entrypoint(container, start_of_path, i) = path {
-	path = [sprintf("%vcontainers[%v].command[%v]", [start_of_path, format_int(i, 10), format_int(k, 10)]) |  command = container.command[k];  contains(command, "sudo")]
+is_sudo_entrypoint(container, start_of_path, i) := path if {
+	path = [sprintf("%vcontainers[%v].command[%v]", [start_of_path, format_int(i, 10), format_int(k, 10)]) | command = container.command[k]; contains(command, "sudo")]
 	count(path) > 0
 }

@@ -1,19 +1,19 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
-import future.keywords.if
+import rego.v1
 
 ### POD ###
 
 # Fails if securityContext.fsGroup does not have a values >= 0
-deny[msga] {
+deny contains msga if {
+	securityContextPath := "spec.securityContext"
 	# verify the object kind
 	pod := input[_]
-	pod.kind = "Pod"
+	pod.kind == "Pod"
 
 	# check securityContext has fsGroup set properly
 	not fsGroupSetProperly(pod.spec.securityContext)
-
-	securityContextPath := "spec.securityContext"
 
 	fixPaths = [{"path": sprintf("%v.fsGroup", [securityContextPath]), "value": "YOUR_VALUE"}]
 
@@ -29,15 +29,14 @@ deny[msga] {
 ### CRONJOB ###
 
 # Fails if securityContext.fsGroup does not have a values >= 0
-deny[msga] {
+deny contains msga if {
+	securityContextPath := "spec.jobTemplate.spec.template.spec.securityContext"
 	# verify the object kind
 	cj := input[_]
 	cj.kind == "CronJob"
 
 	# check securityContext has fsGroup set properly
 	not fsGroupSetProperly(cj.spec.jobTemplate.spec.template.spec.securityContext)
-
-	securityContextPath := "spec.jobTemplate.spec.template.spec.securityContext"
 
 	fixPaths = [{"path": sprintf("%v.fsGroup", [securityContextPath]), "value": "YOUR_VALUE"}]
 
@@ -53,16 +52,16 @@ deny[msga] {
 ### WORKLOAD ###
 
 # Fails if securityContext.fsGroup does not have a values >= 0
-deny[msga] {
+deny contains msga if {
+	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	securityContextPath := "spec.template.spec.securityContext"
 	# verify the object kind
 	wl := input[_]
-	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	manifest_kind[wl.kind]
 
 	# check securityContext has fsGroup set properly
 	not fsGroupSetProperly(wl.spec.template.spec.securityContext)
 
-	securityContextPath := "spec.template.spec.securityContext"
 	fixPaths = [{"path": sprintf("%v.fsGroup", [securityContextPath]), "value": "YOUR_VALUE"}]
 
 	msga := {

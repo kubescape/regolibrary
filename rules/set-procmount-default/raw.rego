@@ -1,9 +1,10 @@
+# regal ignore:directory-package-mismatch  
 package armo_builtins
 
-import future.keywords.if
+import rego.v1
 
 # Fails if container does not define the "procMount" parameter as "Default"
-deny[msga] {
+deny contains msga if {
 	# checks at first if we the procMountType feature gate is enabled on the api-server
 	obj := input[_]
 	is_control_plane_info(obj)
@@ -11,7 +12,7 @@ deny[msga] {
 
 	# checks if procMount paramenter has the right value in containers
 	pod := input[_]
-	pod.kind = "Pod"
+	pod.kind == "Pod"
 
 	# retrieve container list
 	container := pod.spec.containers[i]
@@ -27,7 +28,8 @@ deny[msga] {
 	}
 }
 
-deny[msga] {
+deny contains msga if {
+	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	# checks at first if we the procMountType feature gate is enabled on the api-server
 	obj := input[_]
 	is_control_plane_info(obj)
@@ -35,7 +37,6 @@ deny[msga] {
 
 	# checks if we are managing the right workload kind
 	wl := input[_]
-	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	manifest_kind[wl.kind]
 
 	# retrieve container list
@@ -52,7 +53,7 @@ deny[msga] {
 	}
 }
 
-deny[msga] {
+deny contains msga if {
 	# checks at first if we the procMountType feature gate is enabled on the api-server
 	obj := input[_]
 	is_control_plane_info(obj)
@@ -60,7 +61,7 @@ deny[msga] {
 
 	# checks if we are managing the right workload kind
 	cj := input[_]
-	cj.kind = "CronJob"
+	cj.kind == "CronJob"
 
 	# retrieve container list
 	container := cj.spec.jobTemplate.spec.template.spec.containers[i]
