@@ -13,6 +13,8 @@ rules:
   imports:
     prefer-package-imports:
       level: ignore
+    unresolved-reference:
+      level: ignore
   style:
     avoid-get-and-list-prefix:
       level: ignore
