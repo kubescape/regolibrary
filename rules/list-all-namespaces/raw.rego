@@ -1,8 +1,11 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
+import rego.v1
+
 # returns all namespace objects in cluster
-deny[msga] {
-	namespace = input[_]
+deny contains msga if {
+    some namespace in input
 	namespace.kind == "Namespace"
 
 	msga := {
@@ -11,8 +14,6 @@ deny[msga] {
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"fixPaths": [],
-		"alertObject": {
-			"k8sApiObjects": [namespace]
-		}
+		"alertObject": {"k8sApiObjects": [namespace]},
 	}
 }

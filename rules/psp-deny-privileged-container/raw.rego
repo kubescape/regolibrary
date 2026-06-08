@@ -1,8 +1,10 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
-import future.keywords.every
+import rego.v1
 
-deny[msga] {
+deny contains msga if {
+	path := "spec.privileged"
 	# only fail resources if there all PSPs have privileged set to true
 	# if even one PSP has privileged set to false, then the rule will not fail
 	every psp in input {
@@ -15,7 +17,6 @@ deny[msga] {
 	psp.kind == "PodSecurityPolicy"
 	psp.spec.privileged == true
 
-	path := "spec.privileged"
 	msga := {
 		"alertMessage": sprintf("PodSecurityPolicy: '%v' has privileged set as true.", [psp.metadata.name]),
 		"packagename": "armo_builtins",

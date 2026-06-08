@@ -1,11 +1,12 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
-import future.keywords.in
+import rego.v1
 
 # CIS 4.2.13 https://workbench.cisecurity.org/sections/1126668/recommendations/1838663
 
-deny[msga] {
-	obj := input[_]
+deny contains msga if {
+	some obj in input
 	is_kubelet_info(obj)
 
 	command := obj.data.cmdLine
@@ -27,7 +28,7 @@ deny[msga] {
 	}
 }
 
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
@@ -58,7 +59,7 @@ deny[msga] {
 	}
 }
 
-deny[msga] {
+deny contains msga if {
 	obj := input[_]
 	is_kubelet_info(obj)
 
@@ -80,7 +81,7 @@ deny[msga] {
 	}
 }
 
-has_strong_cipher_set_via_cli(command) {
+has_strong_cipher_set_via_cli(command) if {
 	contains(command, "--tls-cipher-suites=")
 
 	strong_cliphers := [
@@ -98,7 +99,7 @@ has_strong_cipher_set_via_cli(command) {
 	contains(command, sprintf("%v%v", ["--tls-cipher-suites=", strong_cliphers[i]]))
 }
 
-is_value_in_strong_cliphers_set(value) {
+is_value_in_strong_cliphers_set(value) if {
 	strong_cliphers := [
 		"TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256",
 		"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
@@ -114,7 +115,7 @@ is_value_in_strong_cliphers_set(value) {
 	strong_cliphers[x] == value
 }
 
-is_kubelet_info(obj) {
+is_kubelet_info(obj) if {
 	obj.kind == "KubeletInfo"
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 }
