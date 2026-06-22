@@ -34,7 +34,17 @@
                 "kubeflow",
                 "kubernetes-dashboard",
                 "jenkins",
-                "prometheus-deployment"
+                "prometheus-deployment",
+                "ollama",
+                "vllm",
+                "kserve",
+                "triton-inference-server",
+                "ray-dashboard",
+                "ray-head",
+                "mlflow",
+                "jupyterhub",
+                "seldon",
+                "bentoml"
             ],
             "max_critical_vulnerabilities": ["5"],
             "max_high_vulnerabilities": ["10"],

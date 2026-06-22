@@ -1,0 +1,43 @@
+[{
+    "alertMessage": "service: vllm-service is exposed",
+    "reviewPaths": ["spec.selector.matchLabels", "spec.selector"],
+    "failedPaths": ["spec.selector.matchLabels", "spec.selector"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "externalObjects": {
+            "kind": "Deployment",
+            "name": "vllm",
+            "namespace": "ml-serving",
+            "relatedObjects": [{
+                "apiVersion": "v1",
+                "kind": "Service",
+                "metadata": {
+                    "name": "vllm-service",
+                    "namespace": "ml-serving"
+                },
+                "spec": {
+                    "clusterIP": "10.0.171.240",
+                    "ports": [{
+                        "port": 8000,
+                        "protocol": "TCP",
+                        "targetPort": 8000
+                    }],
+                    "selector": {
+                        "app": "vllm"
+                    },
+                    "type": "LoadBalancer"
+                },
+                "status": {
+                    "loadBalancer": {
+                        "ingress": [{
+                            "ip": "192.0.2.200"
+                        }]
+                    }
+                }
+            }]
+        }
+    }
+}]
