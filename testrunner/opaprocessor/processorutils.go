@@ -306,7 +306,10 @@ func RunSingleTest(t *testing.T, dir string, policyRule *reporthandling.PolicyRu
 
 	filterExpectedPath := path.Join(dir, expectedFilterFilename)
 	if _, err := os.Stat(filterExpectedPath); err != nil {
-		return nil
+		if errors.Is(err, os.ErrNotExist) {
+			return nil
+		}
+		return err
 	}
 
 	filterRego, err := GetFilterRego(regoDir)
