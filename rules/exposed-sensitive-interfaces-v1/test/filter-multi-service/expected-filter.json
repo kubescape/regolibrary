@@ -1,0 +1,49 @@
+[{
+    "alertMessage": "wl: kubernetes-dashboard is in the cluster",
+    "failedPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "externalObjects": {
+            "kind": "Pod",
+            "name": "kubernetes-dashboard",
+            "namespace": "repro-c0021",
+            "relatedObjects": [{
+                "apiVersion": "v1",
+                "kind": "Service",
+                "metadata": {
+                    "name": "dashboard-svc-a",
+                    "namespace": "repro-c0021"
+                },
+                "spec": {
+                    "ports": [{
+                        "port": 443,
+                        "targetPort": 8443
+                    }],
+                    "selector": {
+                        "app": "kubernetes-dashboard"
+                    },
+                    "type": "LoadBalancer"
+                }
+            }, {
+                "apiVersion": "v1",
+                "kind": "Service",
+                "metadata": {
+                    "name": "dashboard-svc-b",
+                    "namespace": "repro-c0021"
+                },
+                "spec": {
+                    "ports": [{
+                        "port": 80,
+                        "targetPort": 9090
+                    }],
+                    "selector": {
+                        "app": "kubernetes-dashboard"
+                    },
+                    "type": "ClusterIP"
+                }
+            }]
+        }
+    }
+}]

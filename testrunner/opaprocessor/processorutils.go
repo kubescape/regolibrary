@@ -22,8 +22,9 @@ import (
 )
 
 var (
-	RelativeRulesPath = "../rules"
-	expectedFilename  = "expected.json"
+	RelativeRulesPath      = "../rules"
+	expectedFilename       = "expected.json"
+	expectedFilterFilename = "expected-filter.json"
 )
 
 func convertYamlToJson(i interface{}) interface{} {
@@ -185,7 +186,11 @@ func SetPolicyRule(policy string, rego string) (*reporthandling.PolicyRule, erro
 }
 
 func GetExpectedResults(dir string) ([]reporthandling.RuleResponse, error) {
-	expected, err := os.ReadFile(fmt.Sprintf("%v/%v", dir, expectedFilename))
+	return GetExpectedResultsFromFile(fmt.Sprintf("%v/%v", dir, expectedFilename))
+}
+
+func GetExpectedResultsFromFile(filename string) ([]reporthandling.RuleResponse, error) {
+	expected, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
@@ -253,7 +258,7 @@ func RunAllTestsForRule(t *testing.T, ruleDir string) error {
 		t.Run(
 			fmt.Sprintf("%s/%s", ruleName, testFile), func(t *testing.T) {
 				dir := fmt.Sprintf("%v/test/%v", ruleDir, testFile)
-				assert.NoError(t, RunSingleTest(t, dir, policyRule))
+				assert.NoError(t, RunSingleTest(t, dir, policyRule, regoDir))
 			},
 		)
 	}
@@ -268,7 +273,7 @@ func GetCurrentTest(dir string) string {
 	return ""
 }
 
-func RunSingleTest(t *testing.T, dir string, policyRule *reporthandling.PolicyRule) error {
+func RunSingleTest(t *testing.T, dir string, policyRule *reporthandling.PolicyRule, regoDir string) error {
 
 	data, err := GetData(dir, policyRule)
 	if err != nil {
@@ -295,5 +300,32 @@ func RunSingleTest(t *testing.T, dir string, policyRule *reporthandling.PolicyRu
 	}
 
 	err = AssertResponses(t, responses, expectedResponses)
-	return err
+	if err != nil {
+		return err
+	}
+
+	filterExpectedPath := path.Join(dir, expectedFilterFilename)
+	if _, err := os.Stat(filterExpectedPath); err != nil {
+		return nil
+	}
+
+	filterRego, err := GetFilterRego(regoDir)
+	if err != nil {
+		return err
+	}
+
+	filterPolicyRule := *policyRule
+	filterPolicyRule.Rule = filterRego
+
+	filterResponses, err := RunSingleRego(&filterPolicyRule, inputRawResources, data)
+	if err != nil {
+		return err
+	}
+
+	expectedFilterResponses, err := GetExpectedResultsFromFile(filterExpectedPath)
+	if err != nil {
+		return fmt.Errorf("expected-filter.json doesn't match: %v", err)
+	}
+
+	return AssertResponses(t, filterResponses, expectedFilterResponses)
 }
