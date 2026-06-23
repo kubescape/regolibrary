@@ -36,19 +36,16 @@ deny contains msga if {
 	}
 }
 
-get_wl_connectedto_service(wl) := s if {
-	service := input[_]
-	service.kind == "Service"
-	wl_connectedto_service(wl, service)
-	s = [service]
-}
-
-get_wl_connectedto_service(wl) := s if {
-	services := [service | service = input[_]; service.kind == "Service"]
-	count({i | services[i]; wl_connectedto_service(wl, services[i])}) == 0
-	s = []
+get_wl_connectedto_service(wl) := services if {
+	services := [service |
+		service := input[_]
+		service.kind == "Service"
+		wl_connectedto_service(wl, service)
+	]
 }
 
 wl_connectedto_service(wl, service) if {
-	count({x | service.spec.selector[x] == wl.metadata.labels[x]}) == count(service.spec.selector)
+	wl.metadata.namespace == service.metadata.namespace
+	count(service.spec.selector) > 0
+	count({key | service.spec.selector[key] == wl.metadata.labels[key]}) == count(service.spec.selector)
 }

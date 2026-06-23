@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubernetes-dashboard
+  namespace: repro-c0021
+  labels:
+    app: kubernetes-dashboard
+spec:
+  containers:
+    - name: dashboard
+      image: nginx:alpine

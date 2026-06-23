@@ -24,6 +24,7 @@ type OPAProcessor struct {
 }
 
 var regoFile = "raw.rego"
+var filterRegoFile = "filter.rego"
 var metadataFile = "rule.metadata.json"
 
 func NewOPAProcessorMock() *OPAProcessor {
@@ -42,6 +43,15 @@ func GetRego(regoDir string) (string, error) {
 	}
 	return string(rego), err
 
+}
+
+func GetFilterRego(regoDir string) (string, error) {
+	dir := fmt.Sprintf("%v/%v", regoDir, filterRegoFile)
+	rego, err := os.ReadFile(dir)
+	if err != nil {
+		return "", err
+	}
+	return string(rego), nil
 }
 
 func GetPolicy(currentDirectoryOfTest string) (string, error) {

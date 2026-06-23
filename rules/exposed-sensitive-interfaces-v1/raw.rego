@@ -129,11 +129,15 @@ deny contains msga if {
 # ====================================================================================
 
 wl_connectedto_service(wl, service) := paths if {
+	wl.metadata.namespace == service.metadata.namespace
+	count(service.spec.selector) > 0
 	count({x | service.spec.selector[x] == wl.metadata.labels[x]}) == count(service.spec.selector)
 	paths = ["spec.selector.matchLabels", "spec.selector"]
 }
 
 wl_connectedto_service(wl, service) := paths if {
+	wl.metadata.namespace == service.metadata.namespace
+	count(service.spec.selector) > 0
 	wl.spec.selector.matchLabels == service.spec.selector
 	paths = ["spec.selector.matchLabels", "spec.selector"]
 }
