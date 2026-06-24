@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm
+  namespace: ml-serving
+spec:
+  selector:
+    matchLabels:
+      app: vllm
+  template:
+    metadata:
+      labels:
+        app: vllm
+    spec:
+      containers:
+      - args:
+        - --model
+        - meta-llama/Llama-3-8B-Instruct
+        image: vllm/vllm-openai:latest
+        name: vllm
+        ports:
+        - containerPort: 8000
