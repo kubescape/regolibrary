@@ -230,3 +230,4 @@ C-0293,service-with-no-workload
 C-0294,deprecated-service-account-field
 C-0295,duplicate-env-var
 C-0296,mismatching-selector
+C-0297,non-existent-service-account

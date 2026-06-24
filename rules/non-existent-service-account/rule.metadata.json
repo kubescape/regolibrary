@@ -1,0 +1,27 @@
+{
+    "name": "non-existent-service-account",
+    "attributes": {
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [""],
+            "apiVersions": ["v1"],
+            "resources": ["Pod", "ServiceAccount"]
+        },
+        {
+            "apiGroups": ["apps"],
+            "apiVersions": ["v1"],
+            "resources": ["Deployment", "ReplicaSet", "DaemonSet", "StatefulSet"]
+        },
+        {
+            "apiGroups": ["batch"],
+            "apiVersions": ["*"],
+            "resources": ["Job", "CronJob"]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "fails if a workload explicitly references a ServiceAccount that does not exist in the same namespace",
+    "remediation": "Create the referenced ServiceAccount in the workload namespace, update serviceAccountName to an existing ServiceAccount, or remove the explicit serviceAccountName if the workload should use the default service account.",
+    "ruleQuery": "armo_builtins"
+}

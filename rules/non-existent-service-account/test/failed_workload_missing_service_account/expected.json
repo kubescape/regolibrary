@@ -1,0 +1,22 @@
+[
+  {
+    "alertMessage": "Deployment: missing-sa-deployment in namespace app references missing ServiceAccount worker",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.template.spec.serviceAccountName"
+    ],
+    "fixPaths": [],
+    "alertScore": 5,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "missing-sa-deployment"
+          }
+        }
+      ]
+    }
+  }
+]
