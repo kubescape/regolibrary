@@ -29,7 +29,7 @@ deny contains msg if {
 		"TLS_RSA_WITH_AES_256_CBC_SHA",
 		"TLS_RSA_WITH_AES_256_GCM_SHA384",
 	]
-	result = invalid_flag(obj.spec.containers[0].command, wanted)
+	result = invalid_flag(get_flags(obj.spec.containers[0]), wanted)
 	msg := {
 		"alertMessage": "The API server is not configured to use strong cryptographic ciphers",
 		"alertScore": 2,
@@ -94,3 +94,8 @@ invalid_flag(cmd, wanted) := result if {
 		}],
 	}
 }
+
+# Combine command and args so flags are detected regardless of where the
+# distribution places them. kubeadm puts flags in command; RKE2/k3s keep
+# command as ["kube-apiserver"] and pass all flags via args.
+get_flags(container) := array.concat(container.command, object.get(container, "args", []))

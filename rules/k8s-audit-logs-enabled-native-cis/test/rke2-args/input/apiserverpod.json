@@ -1,0 +1,32 @@
+{
+    "apiVersion": "v1",
+    "kind": "Pod",
+    "metadata": {
+        "labels": {
+            "component": "kube-apiserver",
+            "tier": "control-plane"
+        },
+        "name": "kube-apiserver-rke2-server",
+        "namespace": "kube-system"
+    },
+    "spec": {
+        "containers": [
+            {
+                "command": [
+                    "kube-apiserver"
+                ],
+                "args": [
+                    "--audit-policy-file=randomfile",
+                    "--advertise-address=192.168.49.2",
+                    "--allow-privileged=true",
+                    "--authorization-mode=Node,RBAC",
+                    "--secure-port=6443"
+                ],
+                "image": "index.docker.io/rancher/hardened-kubernetes:v1.32.11-rke2r1",
+                "name": "kube-apiserver"
+            }
+        ],
+        "hostNetwork": true,
+        "nodeName": "rke2-server"
+    }
+}
