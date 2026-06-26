@@ -8,7 +8,7 @@ deny contains msga if {
 	some obj in input
 	is_etcd_pod(obj)
 
-	result = invalid_flag(obj.spec.containers[0].command)
+	result = invalid_flag(get_flags(obj.spec.containers[0]))
 
 	msga := {
 		"alertMessage": "etcd encryption is not enabled",
@@ -27,6 +27,11 @@ is_etcd_pod(obj) if {
 	count(obj.spec.containers) == 1
 	endswith(split(obj.spec.containers[0].command[0], " ")[0], "etcd")
 }
+
+# Combine command and args so flags are detected regardless of where the
+# distribution places them. kubeadm puts flags in command; RKE2/k3s keep
+# command as ["etcd"] and pass all flags via args.
+get_flags(container) := array.concat(container.command, object.get(container, "args", []))
 
 # Assume flag set only once
 invalid_flag(cmd) := result if {

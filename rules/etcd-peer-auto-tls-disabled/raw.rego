@@ -7,7 +7,7 @@ import rego.v1
 deny contains msga if {
 	some obj in input
 	is_etcd_pod(obj)
-	commands := obj.spec.containers[0].command
+	commands := get_flags(obj.spec.containers[0])
 	result := invalid_flag(commands)
 
 	msga := {
@@ -37,3 +37,8 @@ invalid_flag(cmd) := result if {
 		"fix_paths": [{"path": path, "value": fixed}],
 	}
 }
+
+# Combine command and args so flags are detected regardless of where the
+# distribution places them. kubeadm puts flags in command; RKE2/k3s keep
+# command as ["etcd"] and pass all flags via args.
+get_flags(container) := array.concat(container.command, object.get(container, "args", []))

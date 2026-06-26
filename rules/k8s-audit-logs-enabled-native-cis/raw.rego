@@ -7,7 +7,7 @@ import rego.v1
 deny contains msga if {
 	obj := input[_]
 	is_api_server(obj)
-	cmd := obj.spec.containers[0].command
+	cmd := get_flags(obj.spec.containers[0])
 	audit_policy := [command | command := cmd[_]; contains(command, "--audit-policy-file=")]
 	count(audit_policy) < 1
 	path := sprintf("spec.containers[0].command[%v]", [count(cmd)])
@@ -31,3 +31,8 @@ is_api_server(obj) if {
 	count(obj.spec.containers[0].command) > 0
 	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
 }
+
+# Combine command and args so flags are detected regardless of where the
+# distribution places them. kubeadm puts flags in command; RKE2/k3s keep
+# command as ["kube-apiserver"] and pass all flags via args.
+get_flags(container) := array.concat(container.command, object.get(container, "args", []))

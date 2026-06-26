@@ -6,7 +6,7 @@ import rego.v1
 deny contains msg if {
 	some obj in input
 	is_scheduler(obj)
-	result = invalid_flag(obj.spec.containers[0].command)
+	result = invalid_flag(get_flags(obj.spec.containers[0]))
 
 	msg := {
 		"alertMessage": "the kube scheduler is not bound to a localhost interface only",
@@ -55,3 +55,8 @@ invalid_flag(cmd) := result if {
 		"fix_paths": [{"path": path, "value": "--bind-address=127.0.0.1"}],
 	}
 }
+
+# Combine command and args so flags are detected regardless of where the
+# distribution places them. kubeadm puts flags in command; RKE2/k3s keep
+# command as ["kube-scheduler"] and pass all flags via args.
+get_flags(container) := array.concat(container.command, object.get(container, "args", []))
