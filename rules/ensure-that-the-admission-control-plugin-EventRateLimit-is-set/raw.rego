@@ -6,7 +6,7 @@ import rego.v1
 deny contains msg if {
 	some obj in input
 	is_api_server(obj)
-	result = invalid_flag(obj.spec.containers[0].command)
+	result = invalid_flag(get_flags(obj.spec.containers[0]))
 
 	msg := {
 		"alertMessage": "The API server is not configured to limit the rate at which it accepts requests. This could lead to a denial of service attack",
@@ -71,3 +71,8 @@ invalid_flag(cmd) := result if {
 		}],
 	}
 }
+
+# Combine command and args so flags are detected regardless of where the
+# distribution places them. kubeadm puts flags in command; RKE2/k3s keep
+# command as ["kube-apiserver"] and pass all flags via args.
+get_flags(container) := array.concat(container.command, object.get(container, "args", []))

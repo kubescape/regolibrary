@@ -8,7 +8,7 @@ deny contains msg if {
 	some obj in input
 	is_api_server(obj)
 
-	cmd := obj.spec.containers[0].command
+	cmd := get_flags(obj.spec.containers[0])
 	not contains(concat(" ", cmd), "--encryption-provider-config")
 
 	msg := {
@@ -69,3 +69,8 @@ is_control_plane_info(obj) if {
 decode_config_file(content) := parsed if {
 	parsed := yaml.unmarshal(content)
 } else := json.unmarshal(content)
+
+# Combine command and args so flags are detected regardless of where the
+# distribution places them. kubeadm puts flags in command; RKE2/k3s keep
+# command as ["kube-apiserver"] and pass all flags via args.
+get_flags(container) := array.concat(container.command, object.get(container, "args", []))
