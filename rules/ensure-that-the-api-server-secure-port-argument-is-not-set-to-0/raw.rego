@@ -11,8 +11,8 @@ deny contains msg if {
 	msg := {
 		"alertMessage": "the secure port is disabled",
 		"alertScore": 2,
-		"reviewPaths": [sprintf("spec.containers[0].command[%v]", [i])],
-		"failedPaths": [sprintf("spec.containers[0].command[%v]", [i])],
+		"reviewPaths": [flag_path(obj.spec.containers[0], i)],
+		"failedPaths": [flag_path(obj.spec.containers[0], i)],
 		"fixPaths": [],
 		"packagename": "armo_builtins",
 		"alertObject": {"k8sApiObjects": [obj]},
@@ -30,5 +30,12 @@ is_api_server(obj) if {
 
 # Combine command and args so flags are detected regardless of where the
 # distribution places them. kubeadm puts flags in command; RKE2/k3s keep
-# command as ["kube-apiserver"] and pass all flags via args.
-get_flags(container) := array.concat(container.command, object.get(container, "args", []))
+# command as ["kube-apiserver"] and pass all flags via args. The comprehension
+# over args is null-safe (an explicit `args: null` yields [] rather than erroring).
+get_flags(container) := array.concat(container.command, [arg | arg := container.args[_]])
+
+# Map an index into the combined command+args list back to the real path, so
+# findings on RKE2/k3s point at args[j] instead of a non-existent command[i].
+flag_path(container, i) := sprintf("spec.containers[0].command[%d]", [i]) if {
+	i < count(container.command)
+} else := sprintf("spec.containers[0].args[%d]", [i - count(container.command)])

@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "certificate based kubelet authentication is not enabled",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[2]",
+                "value": "--kubelet-client-certificate=<path/to/appropriate/file>"
+            },
+            {
+                "path": "spec.containers[0].args[3]",
+                "value": "--kubelet-client-key=<path/to/appropriate/file>"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]

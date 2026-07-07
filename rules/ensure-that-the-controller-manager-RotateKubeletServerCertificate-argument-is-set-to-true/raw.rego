@@ -6,7 +6,7 @@ import rego.v1
 deny contains msg if {
 	some obj in input
 	is_controller_manager(obj)
-	result = invalid_flag(get_flags(obj.spec.containers[0]))
+	result = invalid_flag(obj.spec.containers[0])
 	msg := {
 		"alertMessage": "`RotateKubeletServerCertificate` is set to false on the controller manager",
 		"alertScore": 2,
@@ -28,10 +28,11 @@ is_controller_manager(obj) if {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) := result if {
+invalid_flag(container) := result if {
+	cmd := get_flags(container)
 	contains(cmd[i], "RotateKubeletServerCertificate=false")
 	fixed = replace(cmd[i], "RotateKubeletServerCertificate=false", "RotateKubeletServerCertificate=true")
-	path := sprintf("spec.containers[0].command[%d]", [i])
+	path := flag_path(container, i)
 	result = {
 		"failed_paths": [path],
 		"fix_paths": [{"path": path, "value": fixed}],
@@ -41,4 +42,10 @@ invalid_flag(cmd) := result if {
 # Combine command and args so flags are detected regardless of where the
 # distribution places them. kubeadm puts flags in command; RKE2/k3s keep
 # command as ["kube-controller-manager"] and pass all flags via args.
-get_flags(container) := array.concat(container.command, object.get(container, "args", []))
+get_flags(container) := array.concat(container.command, [arg | arg := container.args[_]])
+
+# Map an index into the combined command+args list back to the real path, so
+# findings on RKE2/k3s point at args[j] instead of a non-existent command[i].
+flag_path(container, i) := sprintf("spec.containers[0].command[%d]", [i]) if {
+	i < count(container.command)
+} else := sprintf("spec.containers[0].args[%d]", [i - count(container.command)])

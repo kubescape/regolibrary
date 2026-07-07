@@ -7,10 +7,10 @@ import rego.v1
 
 deny contains msga if {
 	etcdPod := [pod | pod := input[_]; filter_input(pod, "etcd")]
-	etcdCheckResult := get_argument_value_with_path(get_flags(etcdPod[0].spec.containers[0]), "--trusted-ca-file")
+	etcdCheckResult := get_argument_value_with_path(etcdPod[0].spec.containers[0], "--trusted-ca-file")
 
 	apiserverPod := [pod | pod := input[_]; filter_input(pod, "kube-apiserver")]
-	apiserverCheckResult := get_argument_value_with_path(get_flags(apiserverPod[0].spec.containers[0]), "--client-ca-file")
+	apiserverCheckResult := get_argument_value_with_path(apiserverPod[0].spec.containers[0], "--client-ca-file")
 
 	etcdCheckResult.value == apiserverCheckResult.value
 	msga := {
@@ -46,10 +46,11 @@ get_argument_value(command, argument) := value if {
 	value := args[i + 1]
 }
 
-get_argument_value_with_path(cmd, argument) := result if {
+get_argument_value_with_path(container, argument) := result if {
+	cmd := get_flags(container)
 	contains(cmd[i], argument)
 	argumentValue := get_argument_value(cmd[i], argument)
-	path := sprintf("spec.containers[0].command[%d]", [i])
+	path := flag_path(container, i)
 	result = {
 		"path": path,
 		"value": argumentValue,
@@ -60,4 +61,10 @@ get_argument_value_with_path(cmd, argument) := result if {
 # Combine command and args so flags are detected regardless of where the
 # distribution places them. kubeadm puts flags in command; RKE2/k3s keep
 # command as ["<binary>"] and pass all flags via args.
-get_flags(container) := array.concat(container.command, object.get(container, "args", []))
+get_flags(container) := array.concat(container.command, [arg | arg := container.args[_]])
+
+# Map an index into the combined command+args list back to the real path, so
+# findings on RKE2/k3s point at args[j] instead of a non-existent command[i].
+flag_path(container, i) := sprintf("spec.containers[0].command[%d]", [i]) if {
+	i < count(container.command)
+} else := sprintf("spec.containers[0].args[%d]", [i - count(container.command)])

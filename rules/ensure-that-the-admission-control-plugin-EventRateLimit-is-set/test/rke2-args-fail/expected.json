@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "The API server is not configured to limit the rate at which it accepts requests. This could lead to a denial of service attack",
+        "reviewPaths": [
+            "spec.containers[0].args[1]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].args[1]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[1]",
+                "value": "--enable-admission-plugins=NodeRestriction,EventRateLimit"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]

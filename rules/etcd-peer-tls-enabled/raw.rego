@@ -7,7 +7,7 @@ import rego.v1
 deny contains msga if {
 	some obj in input
 	is_etcd_pod(obj)
-	result = invalid_flag(get_flags(obj.spec.containers[0]))
+	result = invalid_flag(obj.spec.containers[0])
 
 	msga := {
 		"alertMessage": "Etcd encryption for peer connection is not enabled.",
@@ -30,10 +30,11 @@ is_etcd_pod(obj) if {
 # Combine command and args so flags are detected regardless of where the
 # distribution places them. kubeadm puts flags in command; RKE2/k3s keep
 # command as ["etcd"] and pass all flags via args.
-get_flags(container) := array.concat(container.command, object.get(container, "args", []))
+get_flags(container) := array.concat(container.command, [arg | arg := container.args[_]])
 
 # Assume flag set only once
-invalid_flag(cmd) := result if {
+invalid_flag(container) := result if {
+	cmd := get_flags(container)
 	full_cmd = concat(" ", cmd)
 	wanted = [
 		["--peer-cert-file", "<path/to/tls-certificate-file.crt>"],
@@ -41,7 +42,7 @@ invalid_flag(cmd) := result if {
 	]
 
 	fix_paths = [{
-		"path": sprintf("spec.containers[0].command[%d]", [count(cmd) + i]),
+		"path": append_path(container, i),
 		"value": sprintf("%s=%s", wanted[i]),
 	} |
 		not contains(full_cmd, wanted[i][0])
@@ -50,7 +51,19 @@ invalid_flag(cmd) := result if {
 	count(fix_paths) > 0
 
 	result = {
-		"failed_paths": ["spec.containers[0].command"],
+		"failed_paths": [flags_field(container)],
 		"fix_paths": fix_paths,
 	}
 }
+
+# Bare field (no index) at which the relevant flags live, so an "not set"
+# finding on RKE2/k3s points at args rather than command.
+flags_field(container) := "spec.containers[0].args" if {
+	count([arg | arg := container.args[_]]) > 0
+} else := "spec.containers[0].command"
+
+# Path at which to add the k-th missing flag. RKE2/k3s carry flags in args,
+# kubeadm in command, so the fix must target whichever array the container uses.
+append_path(container, k) := sprintf("spec.containers[0].args[%d]", [count([arg | arg := container.args[_]]) + k]) if {
+	count([arg | arg := container.args[_]]) > 0
+} else := sprintf("spec.containers[0].command[%d]", [count(container.command) + k])

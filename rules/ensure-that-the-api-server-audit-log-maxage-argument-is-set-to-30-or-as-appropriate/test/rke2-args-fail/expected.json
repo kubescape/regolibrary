@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "Audit log retention period is 5 days, which is too small (should be at least 30 days)",
+        "reviewPaths": [
+            "spec.containers[0].args[1]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].args[1]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[1]",
+                "value": "--audit-log-maxage=30"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]

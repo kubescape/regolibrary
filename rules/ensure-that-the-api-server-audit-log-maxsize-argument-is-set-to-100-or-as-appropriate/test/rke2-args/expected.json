@@ -2,10 +2,10 @@
     {
         "alertMessage": "Please validate that audit-log-maxsize has an appropriate value",
         "reviewPaths": [
-            "spec.containers[0].command[26]"
+            "spec.containers[0].args[25]"
         ],
         "failedPaths": [
-            "spec.containers[0].command[26]"
+            "spec.containers[0].args[25]"
         ],
         "fixPaths": [],
         "ruleStatus": "",

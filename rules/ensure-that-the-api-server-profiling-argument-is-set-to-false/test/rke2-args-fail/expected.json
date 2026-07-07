@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "profiling is enabled. This could potentially be exploited to uncover system and program details.",
+        "reviewPaths": [
+            "spec.containers[0].args[1]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].args[1]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[1]",
+                "value": "--profiling=false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]
