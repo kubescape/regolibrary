@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pd
+spec:
+  containers:
+  - image: k8s.gcr.io/test-webserver
+    name: test-container
+    volumeMounts:
+    # same hostPath volume mounted twice in one container (via subPath) -
+    # a valid Kubernetes pattern that previously crashed the rule
+    - mountPath: /conf
+      name: test-volume
+      subPath: conf
+    - mountPath: /state
+      name: test-volume
+      subPath: state
+  volumes:
+  - name: test-volume
+    hostPath:
+      path: /var
