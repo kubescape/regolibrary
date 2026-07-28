@@ -19,9 +19,47 @@ import os
 import json
 import re
 
+def raise_api_error(response, action: str):
+    """
+    Function to raise a uniform, diagnosable error for a failed Readme API call.
+
+    Reports the request method, the URL, the HTTP status code and whatever the
+    Readme API returned in its body. Readme answers failures with a JSON object
+    carrying `error`, `message` and `suggestion` fields, and those are what tell
+    you whether the key was rejected, the endpoint no longer exists or the
+    project is misconfigured. Raising a bare message instead throws all of that
+    away and leaves the CI log with nothing to act on.
+
+    The API key is sent as basic auth, so it is not part of the logged URL.
+    """
+    detail = response.text.strip()
+
+    try:
+        body = response.json()
+    except ValueError:
+        body = None
+
+    if isinstance(body, dict):
+        fields = [str(body[key]) for key in ('error', 'message', 'suggestion') if body.get(key)]
+        if fields:
+            detail = ' | '.join(fields)
+
+    if len(detail) > 500:
+        detail = detail[:500] + '... (truncated)'
+
+    message = 'Failed to %s: %s %s returned %d' % (
+        action,
+        response.request.method,
+        response.url,
+        response.status_code,
+    )
+
+    raise Exception('%s - %s' % (message, detail) if detail else message)
+
+
 class ReadmeApi(object):
     """
-    The script uses the ReadmeApi class to interact with the Readme API. This class has methods to authenticate, get categories, 
+    The script uses the ReadmeApi class to interact with the Readme API. This class has methods to authenticate, get categories,
     get docs in a category, get a specific doc, delete a doc, create a doc, and update a doc.
     """
     def __init__(self):
@@ -30,11 +68,11 @@ class ReadmeApi(object):
 
     def authenticate(self, api_key):
         """
-        Function to authenticate with the Readme API 
+        Function to authenticate with the Readme API
         """
         r = requests.get('https://dash.readme.com/api/v1', auth=(api_key, ''))
         if r.status_code != 200:
-            raise Exception('Failed to authenticate')
+            raise_api_error(r, 'authenticate')
         auth_response = r.json()
         self.jwt = auth_response['jwtSecret']
         self.base_url = auth_response['baseUrl']
@@ -57,7 +95,7 @@ class ReadmeApi(object):
         r = requests.request("GET", url, params=querystring, auth=(self.api_key, ''))
 
         if r.status_code != 200:
-            raise Exception('Failed to get categories')
+            raise_api_error(r, 'get categories')
 
         return r.json()
 
@@ -70,7 +108,7 @@ class ReadmeApi(object):
         r = requests.request("GET", url,headers={"Accept": "application/json"}, auth=(self.api_key, ''))
 
         if r.status_code != 200:
-            raise Exception('Failed to get categories')
+            raise_api_error(r, 'get category "%s"' % category_slug)
 
         return r.json()
 
@@ -83,7 +121,7 @@ class ReadmeApi(object):
         r = requests.request("GET", url, headers={"Accept":"application/json"}, auth=(self.api_key, ''))
 
         if r.status_code != 200:
-            raise Exception('Failed to docs for category')
+            raise_api_error(r, 'get docs for category "%s"' % category_slug)
 
         return r.json()
 
@@ -98,7 +136,7 @@ class ReadmeApi(object):
         if r.status_code == 404:
             return None
         if r.status_code < 200 or 299 < r.status_code:
-            raise Exception(f'Failed to docs for category, status_code: {r.status_code}, url: {url}')
+            raise_api_error(r, 'get doc "%s"' % doc_slug)
 
         return r.json()
 
@@ -111,7 +149,7 @@ class ReadmeApi(object):
         r = requests.request("DELETE", url, headers={"Accept":"application/json"}, auth=(self.api_key, ''))
 
         if r.status_code < 200 or 299 < r.status_code:
-            raise Exception('Failed to delete doc (%d)'%r.status_code)
+            raise_api_error(r, 'delete doc "%s"' % doc_slug)
     
     def create_doc(self, slug: str, parent_id: str, order: any, title: str, body: str, category: str):
         """
@@ -138,7 +176,7 @@ class ReadmeApi(object):
 
 
         if r.status_code < 200 or 299 < r.status_code:
-            raise Exception('Failed to create doc: %s'%r.text)
+            raise_api_error(r, 'create doc "%s"' % slug)
 
         return r.json()
 
@@ -163,7 +201,7 @@ class ReadmeApi(object):
         r = requests.request("PUT", url, json=payload, headers=headers, auth=(self.api_key, ''))
 
         if r.status_code < 200 or 299 < r.status_code:
-            raise Exception('Failed to update doc: %s'%r.text)
+            raise_api_error(r, 'update doc "%s"' % doc_slug)
 
         return r.json()
 
