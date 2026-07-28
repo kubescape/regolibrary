@@ -166,6 +166,10 @@ jobs:
           name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
           path: ${{ env.REGO_ARTIFACT_PATH }}
 
+      # Rolling release for the short tag (v2) - the default source for
+      # consumers that do not pin a version. Unchanged behaviour, and kept
+      # first so the default path is never gated behind the versioned upload
+      # below: if that one fails, v2 has already been refreshed.
       - name: Create or Update Release and Upload Assets
         uses: softprops/action-gh-release@v2
         with:
@@ -177,6 +181,30 @@ jobs:
           draft: false
           fail_on_unmatched_files: true
           prerelease: false
+          make_latest: "false"
+
+      # Immutable release for the full version tag (e.g. v2.0.31). Without this
+      # the artifacts only ever land on the rolling short tag, so every
+      # `releases/download/v2.0.x/<artifact>` URL 404s and consumers have no
+      # stable release to pin to (`kubescape scan --controls-version v2.0.31`).
+      - name: Create or Update Versioned Release and Upload Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.generate_tag.outputs.NEW_TAG }}
+          name: ${{ steps.generate_tag.outputs.NEW_TAG }}
+          body: "Automated release for ${{ steps.generate_tag.outputs.NEW_TAG }}"
+          files: ${{ env.REGO_ARTIFACT_PATH }}/*
+          draft: false
+          fail_on_unmatched_files: true
+          prerelease: false
+          # A published version must never change underneath a consumer that
+          # pinned it. If an asset already exists on this tag it is left alone
+          # (the action skips it and continues, it does not fail), so re-running
+          # the job cannot silently rewrite an already-released artifact.
+          overwrite_files: false
+          # Keep the "Latest" pointer on the rolling short tag so the
+          # `releases/latest/download` path keeps resolving as it does today.
           make_latest: "false"
 
   # Update regolibrary documentation with latest controls and rules.
