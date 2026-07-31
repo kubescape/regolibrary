@@ -9,12 +9,12 @@
             "compliance"
         ]
     },
-    "description": "Exposing a sensitive interface to the internet poses a security risk. It might enable attackers to run malicious code or deploy containers in the cluster. This control checks if known components (e.g. Kubeflow, Argo Workflows, etc.) are deployed and exposed services externally.",
+    "description": "Exposing a sensitive interface to the internet poses a security risk. It might enable attackers to run malicious code or deploy containers in the cluster. This control checks if known components (e.g. Kubeflow, Argo Workflows, AI/ML inference servers such as Ollama, vLLM, KServe and Triton, or MLOps interfaces such as MLflow, Ray and JupyterHub) are deployed and exposed services externally.",
     "remediation": "Consider blocking external interfaces or protect them with appropriate security tools.",
     "rulesNames": [
         "exposed-sensitive-interfaces-v1"
     ],
-    "long_description": "Exposing a sensitive interface to the internet poses a security risk. Some popular frameworks were not intended to be exposed to the internet, and therefore don\u2019t require authentication by default. Thus, exposing them to the internet allows unauthenticated access to a sensitive interface which might enable running code or deploying containers in the cluster by a malicious actor. Examples of such interfaces that were seen exploited include Apache NiFi, Kubeflow, Argo Workflows, Weave Scope, and the Kubernetes dashboard.",
+    "long_description": "Exposing a sensitive interface to the internet poses a security risk. Some popular frameworks were not intended to be exposed to the internet, and therefore don\u2019t require authentication by default. Thus, exposing them to the internet allows unauthenticated access to a sensitive interface which might enable running code or deploying containers in the cluster by a malicious actor. Examples of such interfaces that were seen exploited include Apache NiFi, Kubeflow, Argo Workflows, Weave Scope, and the Kubernetes dashboard. The same exposure pattern increasingly applies to AI/ML inference and MLOps interfaces \u2014 such as Ollama, vLLM, KServe, NVIDIA Triton Inference Server, the Ray dashboard, MLflow, JupyterHub, Seldon and BentoML \u2014 which commonly ship without authentication and, when exposed, can leak models and prompts or allow remote code execution on cluster nodes.",
     "test": "Checking if a service of type nodeport/loadbalancer to one of the known exploited interfaces (Apache NiFi, Kubeflow, Argo Workflows, Weave Scope Kubernetes dashboard) exists. Needs to add user config",
     "controlID": "C-0021",
     "baseScore": 6.0,
