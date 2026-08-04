@@ -1,0 +1,1 @@
+[{"alertMessage":"Sandbox must select an approved sandbox RuntimeClass","packagename":"armo_builtins","failedPaths":["spec.podTemplate.spec.runtimeClassName"],"fixPaths":[],"alertScore":9,"alertObject":{"k8sApiObjects":[{"apiVersion":"agents.x-k8s.io/v1beta1","kind":"Sandbox","metadata":{"name":"unsafe-runtime"}}]}}]

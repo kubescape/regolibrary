@@ -1,0 +1,1 @@
+{"name":"agent-sandbox-claim-overrides","attributes":{},"ruleLanguage":"Rego","match":[{"apiGroups":["extensions.agents.x-k8s.io"],"apiVersions":["v1alpha1","v1beta1"],"resources":["SandboxTemplate"]}],"ruleDependencies":[],"description":"rejects dangerous claim-time Overrides policies","remediation":"Use Disallowed or Allowed instead of Overrides.","ruleQuery":"armo_builtins"}

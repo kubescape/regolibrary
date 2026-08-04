@@ -292,3 +292,25 @@ DevOpsBest,C-0295,Duplicate environment variable
 AllControls,C-0295,Duplicate environment variable
 DevOpsBest,C-0296,Mismatching selector
 AllControls,C-0296,Mismatching selector
+AgentRuntimeHardening,C-0297,Agent Sandbox runtime isolation
+AgentRuntimeHardening,C-0298,Agent Sandbox service account token automount
+AgentRuntimeHardening,C-0299,Agent Sandbox container resource limits
+AgentRuntimeHardening,C-0300,Agent runtime image digest pinning
+AgentRuntimeHardening,C-0301,Agent runtime image registries
+AgentRuntimeHardening,C-0302,Agent Sandbox managed network policy
+AgentRuntimeHardening,C-0303,Agent Sandbox strict egress policy
+AgentRuntimeHardening,C-0304,Agent Sandbox claim override restrictions
+AgentRuntimeHardening,C-0305,Agent Substrate Worker Pod resource ceilings
+AgentRuntimeHardening,C-0306,ActorTemplate snapshot secret references
+AgentRuntimeHardening,C-0307,Actor snapshot location allowlist
+AllControls,C-0297,Agent Sandbox runtime isolation
+AllControls,C-0298,Agent Sandbox service account token automount
+AllControls,C-0299,Agent Sandbox container resource limits
+AllControls,C-0300,Agent runtime image digest pinning
+AllControls,C-0301,Agent runtime image registries
+AllControls,C-0302,Agent Sandbox managed network policy
+AllControls,C-0303,Agent Sandbox strict egress policy
+AllControls,C-0304,Agent Sandbox claim override restrictions
+AllControls,C-0305,Agent Substrate Worker Pod resource ceilings
+AllControls,C-0306,ActorTemplate snapshot secret references
+AllControls,C-0307,Actor snapshot location allowlist

@@ -1,0 +1,5 @@
+apiVersion: ate.dev/v1alpha1
+kind: WorkerPool
+metadata: {name: wrong-registry}
+spec:
+  ateomImage: evil.example/ateom@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

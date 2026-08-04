@@ -1,0 +1,6 @@
+apiVersion: ate.dev/v1alpha1
+kind: ActorTemplate
+metadata: {name: wrong-location}
+spec:
+  snapshotsConfig:
+    location: file:///tmp/snapshot

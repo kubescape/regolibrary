@@ -1,0 +1,12 @@
+{
+    "name": "Agent Sandbox strict egress policy",
+    "attributes": {"controlTypeTags": ["security"]},
+    "description": "When agentSandboxEgressMode is strict, SandboxTemplate must carry an explicit managed NetworkPolicy with no egress rules. The ordinary managed default still allows public internet and does not satisfy this control.",
+    "remediation": "Keep networkPolicyManagement Managed and set spec.networkPolicy with an empty egress list, then add only the explicit egress destinations required by the workload.",
+    "rulesNames": ["agent-sandbox-strict-egress"],
+    "test": "Enforces explicit default-deny egress only when strict mode is selected in control configuration.",
+    "controlID": "C-0303",
+    "baseScore": 8.0,
+    "category": {"name": "Network"},
+    "scanningScope": {"matches": ["cluster", "file"]}
+}

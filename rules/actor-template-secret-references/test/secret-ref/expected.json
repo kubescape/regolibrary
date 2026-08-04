@@ -1,0 +1,1 @@
+[{"alertMessage":"ActorTemplate container \"actor\" references a Secret that can be captured in the golden snapshot","packagename":"armo_builtins","failedPaths":["spec.containers[0].env[0].valueFrom.secretKeyRef"],"fixPaths":[],"alertScore":9,"alertObject":{"k8sApiObjects":[{"apiVersion":"ate.dev/v1alpha1","kind":"ActorTemplate","metadata":{"name":"snapshotted-secret"}}]}}]

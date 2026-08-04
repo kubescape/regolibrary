@@ -1,0 +1,7 @@
+apiVersion: ate.dev/v1alpha1
+kind: WorkerPool
+metadata: {name: oversized-worker}
+spec:
+  template:
+    resources:
+      limits: {cpu: "2"}
