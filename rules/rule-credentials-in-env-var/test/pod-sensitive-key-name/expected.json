@@ -1,0 +1,31 @@
+[
+    {
+        "alertMessage": "Pod: creds-pod has sensitive information in environment variables",
+        "deletePaths": [
+            "spec.containers[0].env[0].name",
+            "spec.containers[0].env[0].value"
+        ],
+        "failedPaths": [
+            "spec.containers[0].env[0].name",
+            "spec.containers[0].env[0].value"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "creds-pod"
+                        },
+                        "name": "creds-pod"
+                    }
+                }
+            ]
+        }
+    }
+]
