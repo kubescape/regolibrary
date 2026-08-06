@@ -4,7 +4,7 @@ package armo_builtins
 import rego.v1
 
 deny contains msga if {
-	sensitive_key_names := data.postureControlInputs.sensitiveKeyName
+	sensitive_key_names := data.postureControlInputs.sensitiveKeyNames
 	pod := input[_]
 	pod.kind == "Pod"
 
