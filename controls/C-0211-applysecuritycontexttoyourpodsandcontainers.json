@@ -36,10 +36,9 @@
         "set-sysctls-params",
         "set-supplementalgroups-values",
         "rule-allow-privilege-escalation",
-        "set-gmsacredentialspec-value",
         "set-gmsacredentialspecname-value",
         "set-hostprocess-true",
-        "runAsUserName"
+        "set-runasusername-value"
     ],
     "baseScore": 8,
     "impact_statement": "If you incorrectly apply security contexts, you may have trouble running the pods.",

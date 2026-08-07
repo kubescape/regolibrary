@@ -5,6 +5,8 @@ metadata:
   labels:
     app: windows-pod
 spec:
+  os:
+    name: windows
   containers:
   - name: test-container
     image: mcr.microsoft.com/windows/servercore:ltsc2019
@@ -15,4 +17,4 @@ spec:
     securityContext:
       allowPrivilegeEscalation: false
       windowsOptions:
-        gmsaCredentialSpecName: "<credSpecContents>"
+        gmsaCredentialSpecName: "gmsa-webapp1"

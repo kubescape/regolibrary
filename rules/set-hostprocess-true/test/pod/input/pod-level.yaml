@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: windows-hostprocess-pod
+spec:
+  os:
+    name: windows
+  securityContext:
+    windowsOptions:
+      hostProcess: true
+      runAsUserName: "NT AUTHORITY\\SYSTEM"
+  hostNetwork: true
+  containers:
+  - name: test-container
+    image: mcr.microsoft.com/windows/servercore:ltsc2019

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: windows-hostprocess-deployment
+spec:
+  selector:
+    matchLabels:
+      app: windows-hostprocess-deployment
+  template:
+    metadata:
+      labels:
+        app: windows-hostprocess-deployment
+    spec:
+      os:
+        name: windows
+      hostNetwork: true
+      securityContext:
+        windowsOptions:
+          hostProcess: true
+          runAsUserName: "NT AUTHORITY\\SYSTEM"
+      containers:
+      - name: test-container
+        image: mcr.microsoft.com/windows/servercore:ltsc2019

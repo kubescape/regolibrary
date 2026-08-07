@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: plain-linux-cronjob
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            kubernetes.io/os: linux
+          containers:
+          - name: nginx
+            image: nginx:1.25
+            securityContext:
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
+          restartPolicy: OnFailure

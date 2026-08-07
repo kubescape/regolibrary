@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: windows-cronjob
+  name: windows-hostprocess-cronjob
 spec:
   schedule: "*/1 * * * *"
   jobTemplate:
@@ -10,15 +10,12 @@ spec:
         spec:
           os:
             name: windows
+          hostNetwork: true
+          securityContext:
+            windowsOptions:
+              hostProcess: true
+              runAsUserName: "NT AUTHORITY\\SYSTEM"
           containers:
           - name: test-container
             image: mcr.microsoft.com/windows/servercore:ltsc2019
-            securityContext:
-              windowsOptions:
-                hostProcess: false
-          - name: test-container2
-            image: mcr.microsoft.com/windows/servercore:ltsc2019
-            securityContext:
-              windowsOptions:
-                hostProcess: true
           restartPolicy: OnFailure

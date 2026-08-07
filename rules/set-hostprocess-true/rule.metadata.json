@@ -6,17 +6,6 @@
     "match": [
         {
             "apiGroups": [
-                "hostdata.kubescape.cloud"
-            ],
-            "apiVersions": [
-                "v1beta0"
-            ],
-            "resources": [
-                "ControlPlaneInfo"
-            ]
-        },
-        {
-            "apiGroups": [
                 ""
             ],
             "apiVersions": [
@@ -55,7 +44,7 @@
     ],
     "ruleDependencies": [
     ],
-    "description": "Fails if the WindowsHostProcessContainers feature-gate is enabled on the API server and a pod or container sets securityContext.windowsOptions.hostProcess to true.",
-    "remediation": "Avoid setting securityContext.windowsOptions.hostProcess to true unless explicitly required, and restrict its use through admission control.",
+    "description": "Fails if a pod, or a container/initContainer/ephemeralContainer within it, sets securityContext.windowsOptions.hostProcess to true. HostProcess containers run with privileged access to the underlying Windows node.",
+    "remediation": "Avoid setting securityContext.windowsOptions.hostProcess to true unless explicitly required, and restrict its use through admission control (e.g. Pod Security Admission at the baseline/restricted level).",
     "ruleQuery": "armo_builtins"
 }
