@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "etcd is not configured to use TLS properly",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[2]",
+                "value": "--etcd-certfile=<path/to/client-certificate-file.crt>"
+            },
+            {
+                "path": "spec.containers[0].args[3]",
+                "value": "--etcd-keyfile=<path/to/client-key-file.key>"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]

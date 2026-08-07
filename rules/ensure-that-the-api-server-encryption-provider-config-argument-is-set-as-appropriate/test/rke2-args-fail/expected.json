@@ -1,0 +1,30 @@
+[
+    {
+        "alertMessage": "Encryption provider config file not set",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[2]",
+                "value": "--encryption-provider-config=<path/to/encryption-config.yaml>"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]

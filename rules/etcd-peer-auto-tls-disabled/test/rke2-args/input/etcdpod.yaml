@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    component: etcd
+    tier: control-plane
+  name: etcd-rke2-server
+  namespace: kube-system
+spec:
+  containers:
+    - command:
+        - etcd
+      args:
+        - '--peer-auto-tls=false'
+        - '--advertise-client-urls=https://192.168.49.2:2379'
+        - '--data-dir=/var/lib/rancher/rke2/server/db/etcd'
+        - '--name=rke2-server'
+      image: index.docker.io/rancher/hardened-etcd:v3.5.21-k3s1
+      name: etcd
+  hostNetwork: true
+  nodeName: rke2-server

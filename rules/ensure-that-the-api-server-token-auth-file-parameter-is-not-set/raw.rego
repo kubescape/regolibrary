@@ -6,7 +6,7 @@ import rego.v1
 deny contains msg if {
 	some obj in input
 	is_api_server(obj)
-	result = invalid_flag(obj.spec.containers[0].command)
+	result = invalid_flag(obj.spec.containers[0])
 	msg := {
 		"alertMessage": "API server TLS is not configured",
 		"alertScore": 2,
@@ -28,12 +28,13 @@ is_api_server(obj) if {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) := result if {
+invalid_flag(container) := result if {
+	cmd := get_flags(container)
 	re := " ?--token-auth-file=(.+?)(?: |$)"
 	matchs := regex.find_all_string_submatch_n(re, cmd[i], -1)
 	count(matchs) > 0
 	fixed = replace(cmd[i], matchs[0][0], "")
-	result = get_result(sprintf("spec.containers[0].command[%d]", [i]), fixed)
+	result = get_result(flag_path(container, i), fixed)
 }
 
 # Get fix and failed paths
@@ -55,3 +56,15 @@ get_result(path, fixed) := result if {
 		}],
 	}
 }
+
+# Combine command and args so flags are detected regardless of where the
+# distribution places them. kubeadm puts flags in command; RKE2/k3s keep
+# command as ["kube-apiserver"] and pass all flags via args. The comprehension
+# over args is null-safe (an explicit `args: null` yields [] rather than erroring).
+get_flags(container) := array.concat(container.command, [arg | arg := container.args[_]])
+
+# Map an index into the combined command+args list back to the real path, so
+# findings on RKE2/k3s point at args[j] instead of a non-existent command[i].
+flag_path(container, i) := sprintf("spec.containers[0].command[%d]", [i]) if {
+	i < count(container.command)
+} else := sprintf("spec.containers[0].args[%d]", [i - count(container.command)])

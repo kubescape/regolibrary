@@ -6,7 +6,7 @@ import rego.v1
 deny contains msg if {
 	some obj in input
 	is_api_server(obj)
-	result = invalid_flag(obj.spec.containers[0].command)
+	result = invalid_flag(obj.spec.containers[0])
 	msg := {
 		"alertMessage": "admission control plugin AlwaysAdmit is enabled. This is equal to turning off all admission controllers",
 		"alertScore": 2,
@@ -36,7 +36,8 @@ get_flag_values(cmd) := {"origin": origin, "values": values} if {
 }
 
 # Assume flag set only once
-invalid_flag(cmd) := result if {
+invalid_flag(container) := result if {
+	cmd := get_flags(container)
 	flag := get_flag_values(cmd[i])
 
 	# value check
@@ -44,20 +45,20 @@ invalid_flag(cmd) := result if {
 
 	# get fixed and failed paths
 	fixed_values := [val | val := flag.values[j]; val != "NamespaceLifecycle"]
-	result = get_retsult(fixed_values, i)
+	result = get_retsult(container, fixed_values, i)
 }
 
-get_retsult(fixed_values, i) := result if {
+get_retsult(container, fixed_values, i) := result if {
 	count(fixed_values) == 0
 	result = {
-		"failed_paths": [sprintf("spec.containers[0].command[%v]", [i])],
+		"failed_paths": [flag_path(container, i)],
 		"fix_paths": [],
 	}
 }
 
-get_retsult(fixed_values, i) := result if {
+get_retsult(container, fixed_values, i) := result if {
 	count(fixed_values) > 0
-	path = sprintf("spec.containers[0].command[%v]", [i])
+	path = flag_path(container, i)
 	result = {
 		"failed_paths": [path],
 		"fix_paths": [{
@@ -66,3 +67,14 @@ get_retsult(fixed_values, i) := result if {
 		}],
 	}
 }
+
+# Combine command and args so flags are detected regardless of where the
+# distribution places them. kubeadm puts flags in command; RKE2/k3s keep
+# command as ["kube-apiserver"] and pass all flags via args.
+get_flags(container) := array.concat(container.command, [arg | arg := container.args[_]])
+
+# Map an index into the combined command+args list back to the real path, so
+# findings on RKE2/k3s point at args[j] instead of a non-existent command[i].
+flag_path(container, i) := sprintf("spec.containers[0].command[%d]", [i]) if {
+	i < count(container.command)
+} else := sprintf("spec.containers[0].args[%d]", [i - count(container.command)])

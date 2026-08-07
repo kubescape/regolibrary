@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "Etcd server is not requiring a valid client certificate.",
+        "reviewPaths": [
+            "spec.containers[0].args[10]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].args[10]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[10]",
+                "value": "--peer-client-cert-auth=true"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "etcd",
+                            "tier": "control-plane"
+                        },
+                        "name": "etcd-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]
