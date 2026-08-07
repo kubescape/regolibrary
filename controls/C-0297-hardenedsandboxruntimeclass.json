@@ -1,0 +1,25 @@
+{
+    "name": "Agent Sandbox hardened runtime class",
+    "attributes": {
+        "controlTypeTags": [
+            "security"
+        ]
+    },
+    "description": "Ensure Agent Sandbox SandboxTemplate resources use an approved hardened runtimeClassName to isolate untrusted workloads from the host kernel.",
+    "remediation": "Set spec.podTemplate.spec.runtimeClassName on the SandboxTemplate to an approved hardened runtime.",
+    "rulesNames": [
+        "agent-sandbox-hardened-runtime-class"
+    ],
+    "test": "Check that each Agent Sandbox SandboxTemplate defines spec.podTemplate.spec.runtimeClassName and that the value is included in the configured hardened runtime allowlist.",
+    "controlID": "C-0297",
+    "baseScore": 7.0,
+    "category": {
+        "name": "Workload"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}
