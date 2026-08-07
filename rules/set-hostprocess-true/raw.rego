@@ -7,11 +7,11 @@ import rego.v1
 
 # Fails if pod-level securityContext sets windowsOptions.hostProcess to true
 deny contains msga if {
+	path := "spec.securityContext.windowsOptions.hostProcess"
+
 	pod := input[_]
 	pod.kind == "Pod"
 	is_hostprocess_true(pod.spec.securityContext)
-
-	path := "spec.securityContext.windowsOptions.hostProcess"
 
 	msga := {
 		"alertMessage": sprintf("Pod: %v sets 'securityContext.windowsOptions.hostProcess' to true", [pod.metadata.name]),
@@ -50,11 +50,11 @@ deny contains msga if {
 # Fails if pod-template-level securityContext sets windowsOptions.hostProcess to true
 deny contains msga if {
 	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	path := "spec.template.spec.securityContext.windowsOptions.hostProcess"
+
 	wl := input[_]
 	manifest_kind[wl.kind]
 	is_hostprocess_true(wl.spec.template.spec.securityContext)
-
-	path := "spec.template.spec.securityContext.windowsOptions.hostProcess"
 
 	msga := {
 		"alertMessage": sprintf("Workload: %v sets 'securityContext.windowsOptions.hostProcess' to true", [wl.metadata.name]),
@@ -93,11 +93,11 @@ deny contains msga if {
 
 # Fails if pod-template-level securityContext sets windowsOptions.hostProcess to true
 deny contains msga if {
+	path := "spec.jobTemplate.spec.template.spec.securityContext.windowsOptions.hostProcess"
+
 	cj := input[_]
 	cj.kind == "CronJob"
 	is_hostprocess_true(cj.spec.jobTemplate.spec.template.spec.securityContext)
-
-	path := "spec.jobTemplate.spec.template.spec.securityContext.windowsOptions.hostProcess"
 
 	msga := {
 		"alertMessage": sprintf("CronJob: %v sets 'securityContext.windowsOptions.hostProcess' to true", [cj.metadata.name]),
