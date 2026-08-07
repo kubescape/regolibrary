@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "CronJob: windows-cronjob does not define 'securityContext.windowsOptions.gmsaCredentialSpecName'",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[0].securityContext.windowsOptions.gmsaCredentialSpecName",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "windows-cronjob"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,29 @@
+[
+    {
+        "alertMessage": "Workload: windows-deployment does not define 'securityContext.windowsOptions.runAsUserName'",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[0].securityContext.windowsOptions.runAsUserName",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "windows-deployment"
+                        },
+                        "name": "windows-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,29 @@
+[
+    {
+        "alertMessage": "Pod: windows-pod does not define 'securityContext.windowsOptions.runAsUserName'",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].securityContext.windowsOptions.runAsUserName",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "windows-pod"
+                        },
+                        "name": "windows-pod"
+                    }
+                }
+            ]
+        }
+    }
+]

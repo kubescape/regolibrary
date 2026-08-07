@@ -1,0 +1,61 @@
+{
+    "name": "set-hostprocess-true",
+    "attributes": {
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                "hostdata.kubescape.cloud"
+            ],
+            "apiVersions": [
+                "v1beta0"
+            ],
+            "resources": [
+                "ControlPlaneInfo"
+            ]
+        },
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        },
+        {
+            "apiGroups": [
+                "apps"
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Deployment",
+                "ReplicaSet",
+                "DaemonSet",
+                "StatefulSet"
+            ]
+        },
+        {
+            "apiGroups": [
+                "batch"
+            ],
+            "apiVersions": [
+                "*"
+            ],
+            "resources": [
+                "Job",
+                "CronJob"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "Fails if the WindowsHostProcessContainers feature-gate is enabled on the API server and a pod or container sets securityContext.windowsOptions.hostProcess to true.",
+    "remediation": "Avoid setting securityContext.windowsOptions.hostProcess to true unless explicitly required, and restrict its use through admission control.",
+    "ruleQuery": "armo_builtins"
+}

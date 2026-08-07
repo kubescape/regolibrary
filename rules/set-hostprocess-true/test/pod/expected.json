@@ -1,0 +1,28 @@
+[
+    {
+        "alertMessage": "Pod: windows-pod has a container that sets 'securityContext.windowsOptions.hostProcess' to true",
+        "fixPaths": [
+            {
+                "path": "spec.containers[1].securityContext.windowsOptions.hostProcess",
+                "value": "false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "windows-pod"
+                        },
+                        "name": "windows-pod"
+                    }
+                }
+            ]
+        }
+    }
+]

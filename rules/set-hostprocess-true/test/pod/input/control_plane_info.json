@@ -1,0 +1,12 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "ControlPlaneInfo",
+    "metadata": {
+        "name": "minikube"
+    },
+    "data": {
+        "APIServerInfo": {
+            "cmdLine": "kube-apiserver --advertise-address=192.168.49.2 --allow-privileged=true --authorization-mode=Node,RBAC --client-ca-file=/var/lib/minikube/certs/ca.crt --feature-gates=WindowsHostProcessContainers=true --secure-port=8443 --service-cluster-ip-range=10.96.0.0/12 "
+        }
+    }
+}

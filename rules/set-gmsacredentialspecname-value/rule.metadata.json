@@ -1,0 +1,50 @@
+{
+    "name": "set-gmsacredentialspecname-value",
+    "attributes": {
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        },
+        {
+            "apiGroups": [
+                "apps"
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Deployment",
+                "ReplicaSet",
+                "DaemonSet",
+                "StatefulSet"
+            ]
+        },
+        {
+            "apiGroups": [
+                "batch"
+            ],
+            "apiVersions": [
+                "*"
+            ],
+            "resources": [
+                "Job",
+                "CronJob"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "Fails if workload and container do not define securityContext.windowsOptions.gmsaCredentialSpecName.",
+    "remediation": "Make sure you set securityContext.windowsOptions.gmsaCredentialSpecName in the workload/container security context.",
+    "ruleQuery": "armo_builtins"
+}
