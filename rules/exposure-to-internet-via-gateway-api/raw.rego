@@ -97,9 +97,11 @@ get_pod_spec(resources) := result if {
 }
 
 svc_connected_to_httproute(svc, httproute) := result if {
-	rule := httproute.spec.rules[i]
-	ref := rule.backendRefs[j]
-	ref.kind == "Service"
-	svc.metadata.name == ref.name
-	result := [sprintf("spec.rules[%d].backendRefs[%d].name", [i, j])]
+	result := [
+		sprintf("spec.rules[%d].backendRefs[%d].name", [i, j]) |
+		rule := httproute.spec.rules[i]
+		ref := rule.backendRefs[j]
+		ref.kind == "Service"
+		svc.metadata.name == ref.name
+	]
 }
