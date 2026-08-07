@@ -122,6 +122,12 @@
             "patch": {
                 "name": "Mismatching selector"
             }
+        },
+        {
+            "controlID": "C-0297",
+            "patch": {
+                "name": "Non-existent service account"
+            }
         }
     ]
 }

@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: missing-sa-cronjob
+  namespace: batch
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: batch-runner
+          restartPolicy: OnFailure
+          containers:
+          - name: app
+            image: busybox
+            command:
+            - sh
+            - -c
+            - echo ok
