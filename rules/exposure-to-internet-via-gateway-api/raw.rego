@@ -96,12 +96,10 @@ get_pod_spec(resources) := result if {
 	result = {"spec": resources.spec.jobTemplate.spec.template.spec, "start_of_path": "spec.jobTemplate.spec.template.spec."}
 }
 
-svc_connected_to_httproute(svc, httproute) := result if {
-	result := [
-		sprintf("spec.rules[%d].backendRefs[%d].name", [i, j]) |
-		rule := httproute.spec.rules[i]
-		ref := rule.backendRefs[j]
-		ref.kind == "Service"
-		svc.metadata.name == ref.name
-	]
-}
+svc_connected_to_httproute(svc, httproute) := [
+	sprintf("spec.rules[%d].backendRefs[%d].name", [i, j]) |
+	rule := httproute.spec.rules[i]
+	ref := rule.backendRefs[j]
+	ref.kind == "Service"
+	svc.metadata.name == ref.name
+]
