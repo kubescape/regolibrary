@@ -1,0 +1,12 @@
+{
+    "name": "Agent Sandbox managed network policy",
+    "attributes": {"controlTypeTags": ["security"]},
+    "description": "SandboxTemplate networking should remain controller-managed. The managed default blocks private and internal destinations but still permits public internet; it is not strict default-deny egress.",
+    "remediation": "Set spec.networkPolicyManagement to Managed or omit it to use the API default. Use the separate strict-egress control when public internet must also be denied.",
+    "rulesNames": ["agent-sandbox-managed-networking"],
+    "test": "Flags SandboxTemplate resources that explicitly opt out with networkPolicyManagement: Unmanaged.",
+    "controlID": "C-0302",
+    "baseScore": 7.0,
+    "category": {"name": "Network"},
+    "scanningScope": {"matches": ["cluster", "file"]}
+}

@@ -1,0 +1,1 @@
+[{"alertMessage":"ActorTemplate snapshot location is outside agentSnapshotLocationAllowList; this check does not verify encryption","packagename":"armo_builtins","failedPaths":["spec.snapshotsConfig.location"],"fixPaths":[],"alertScore":6,"alertObject":{"k8sApiObjects":[{"apiVersion":"ate.dev/v1alpha1","kind":"ActorTemplate","metadata":{"name":"wrong-location"}}]}}]

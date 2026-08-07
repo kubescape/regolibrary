@@ -1,0 +1,12 @@
+{
+    "name": "Agent Substrate Worker Pod resource ceilings",
+    "attributes": {"controlTypeTags": ["security"]},
+    "description": "WorkerPool resource limits bound each worker Pod. They are not per-actor limits.",
+    "remediation": "Set spec.template.resources.limits.cpu and memory at or below configured cpu_limit_max and memory_limit_max values.",
+    "rulesNames": ["worker-pod-resource-ceilings"],
+    "test": "Checks the WorkerPool Pod-level CPU and memory limit fields against configured ceilings.",
+    "controlID": "C-0305",
+    "baseScore": 7.0,
+    "category": {"name": "Workload"},
+    "scanningScope": {"matches": ["cluster", "file"]}
+}

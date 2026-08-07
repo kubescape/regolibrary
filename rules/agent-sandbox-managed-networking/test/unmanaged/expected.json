@@ -1,0 +1,1 @@
+[{"alertMessage":"SandboxTemplate explicitly disables managed networking","packagename":"armo_builtins","failedPaths":["spec.networkPolicyManagement"],"fixPaths":[{"path":"spec.networkPolicyManagement","value":"Managed"}],"alertScore":7,"alertObject":{"k8sApiObjects":[{"apiVersion":"extensions.agents.x-k8s.io/v1beta1","kind":"SandboxTemplate","metadata":{"name":"unmanaged"}}]}}]

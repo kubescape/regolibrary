@@ -1,0 +1,1 @@
+[{"alertMessage":"WorkerPool image uses a registry outside imageRepositoryAllowList","packagename":"armo_builtins","failedPaths":["spec.ateomImage"],"fixPaths":[],"alertScore":8,"alertObject":{"k8sApiObjects":[{"apiVersion":"ate.dev/v1alpha1","kind":"WorkerPool","metadata":{"name":"wrong-registry"}}]}}]

@@ -1,0 +1,1 @@
+[{"alertMessage":"Worker Pod CPU limit is missing or exceeds the configured ceiling","packagename":"armo_builtins","failedPaths":["spec.template.resources.limits.cpu"],"fixPaths":[],"alertScore":7,"alertObject":{"k8sApiObjects":[{"apiVersion":"ate.dev/v1alpha1","kind":"WorkerPool","metadata":{"name":"oversized-worker"}}]}}]

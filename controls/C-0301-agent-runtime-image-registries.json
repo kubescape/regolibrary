@@ -1,0 +1,12 @@
+{
+    "name": "Agent runtime image registries",
+    "attributes": {"controlTypeTags": ["security"]},
+    "description": "Images used by Agent Sandbox and Agent Substrate resources should originate from an explicitly allowed registry.",
+    "remediation": "Use an image registry listed in imageRepositoryAllowList.",
+    "rulesNames": ["agent-runtime-image-registries"],
+    "test": "Checks the registry portion of every image reference exposed by the supported agent APIs.",
+    "controlID": "C-0301",
+    "baseScore": 8.0,
+    "category": {"name": "Supply Chain"},
+    "scanningScope": {"matches": ["cluster", "file"]}
+}

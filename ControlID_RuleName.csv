@@ -230,3 +230,14 @@ C-0293,service-with-no-workload
 C-0294,deprecated-service-account-field
 C-0295,duplicate-env-var
 C-0296,mismatching-selector
+C-0297,agent-sandbox-runtime-class
+C-0298,agent-sandbox-service-account-token
+C-0299,agent-sandbox-container-limits
+C-0300,agent-runtime-image-digests
+C-0301,agent-runtime-image-registries
+C-0302,agent-sandbox-managed-networking
+C-0303,agent-sandbox-strict-egress
+C-0304,agent-sandbox-claim-overrides
+C-0305,worker-pod-resource-ceilings
+C-0306,actor-template-secret-references
+C-0307,actor-snapshot-location

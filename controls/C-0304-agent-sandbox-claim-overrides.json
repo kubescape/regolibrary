@@ -1,0 +1,12 @@
+{
+    "name": "Agent Sandbox claim override restrictions",
+    "attributes": {"controlTypeTags": ["security"]},
+    "description": "SandboxTemplate should not let claims replace template environment variables or volume claim templates.",
+    "remediation": "Set envVarsInjectionPolicy and volumeClaimTemplatesPolicy to Disallowed or Allowed, not Overrides.",
+    "rulesNames": ["agent-sandbox-claim-overrides"],
+    "test": "Flags dangerous claim-time Overrides policies exposed by SandboxTemplate.",
+    "controlID": "C-0304",
+    "baseScore": 8.0,
+    "category": {"name": "Workload"},
+    "scanningScope": {"matches": ["cluster", "file"]}
+}
