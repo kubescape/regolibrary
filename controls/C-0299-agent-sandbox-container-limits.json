@@ -1,0 +1,12 @@
+{
+    "name": "Agent Sandbox container resource limits",
+    "attributes": {"controlTypeTags": ["security"]},
+    "description": "Every regular and init container in an Agent Sandbox embedded PodSpec should declare CPU and memory limits.",
+    "remediation": "Set resources.limits.cpu and resources.limits.memory on every container and init container under spec.podTemplate.spec.",
+    "rulesNames": ["agent-sandbox-container-limits"],
+    "test": "Checks CPU and memory limits on every embedded container and init container.",
+    "controlID": "C-0299",
+    "baseScore": 7.0,
+    "category": {"name": "Workload"},
+    "scanningScope": {"matches": ["cluster", "file"]}
+}

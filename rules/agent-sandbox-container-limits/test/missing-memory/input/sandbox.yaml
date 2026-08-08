@@ -1,0 +1,10 @@
+apiVersion: agents.x-k8s.io/v1beta1
+kind: Sandbox
+metadata: {name: missing-memory}
+spec:
+  podTemplate:
+    spec:
+      containers:
+      - name: actor
+        image: example.com/actor@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        resources: {limits: {cpu: 1}}

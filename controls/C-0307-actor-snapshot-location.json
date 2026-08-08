@@ -1,0 +1,12 @@
+{
+    "name": "Actor snapshot location allowlist",
+    "attributes": {"controlTypeTags": ["security"]},
+    "description": "ActorTemplate snapshot locations should use an approved URI scheme or prefix. This validates location only and does not prove encryption or access controls.",
+    "remediation": "Set spec.snapshotsConfig.location to a prefix listed in agentSnapshotLocationAllowList and separately verify storage encryption and access policy.",
+    "rulesNames": ["actor-snapshot-location"],
+    "test": "Checks the snapshot location string against configured prefixes without making encryption claims.",
+    "controlID": "C-0307",
+    "baseScore": 6.0,
+    "category": {"name": "Data Protection"},
+    "scanningScope": {"matches": ["cluster", "file"]}
+}

@@ -1,0 +1,6 @@
+apiVersion: ate.dev/v1alpha1
+kind: ActorTemplate
+metadata: {name: tagged-image}
+spec:
+  pauseImage: example.com/pause:latest
+  containers: []

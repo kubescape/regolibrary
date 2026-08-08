@@ -1,0 +1,12 @@
+{
+    "name": "Agent runtime image digest pinning",
+    "attributes": {"controlTypeTags": ["security"]},
+    "description": "Images used by Agent Sandbox and Agent Substrate resources should be pinned to an exact SHA-256 digest.",
+    "remediation": "Replace tags and partial digests with image references ending in @sha256 followed by exactly 64 hexadecimal characters.",
+    "rulesNames": ["agent-runtime-image-digests"],
+    "test": "Checks Agent Sandbox containers and init containers, WorkerPool ateomImage, and ActorTemplate pause and container images.",
+    "controlID": "C-0300",
+    "baseScore": 8.0,
+    "category": {"name": "Supply Chain"},
+    "scanningScope": {"matches": ["cluster", "file"]}
+}

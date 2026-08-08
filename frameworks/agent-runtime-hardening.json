@@ -1,0 +1,20 @@
+{
+    "name": "AgentRuntimeHardening",
+    "description": "Evidence-based posture checks for Agent Sandbox and Agent Substrate custom resources.",
+    "attributes": {"builtin": true},
+    "scanningScope": {"matches": ["cluster", "file"]},
+    "typeTags": ["compliance"],
+    "activeControls": [
+        {"controlID": "C-0297", "patch": {"name": "Agent Sandbox runtime isolation"}},
+        {"controlID": "C-0298", "patch": {"name": "Agent Sandbox service account token automount"}},
+        {"controlID": "C-0299", "patch": {"name": "Agent Sandbox container resource limits"}},
+        {"controlID": "C-0300", "patch": {"name": "Agent runtime image digest pinning"}},
+        {"controlID": "C-0301", "patch": {"name": "Agent runtime image registries"}},
+        {"controlID": "C-0302", "patch": {"name": "Agent Sandbox managed network policy"}},
+        {"controlID": "C-0303", "patch": {"name": "Agent Sandbox strict egress policy"}},
+        {"controlID": "C-0304", "patch": {"name": "Agent Sandbox claim override restrictions"}},
+        {"controlID": "C-0305", "patch": {"name": "Agent Substrate Worker Pod resource ceilings"}},
+        {"controlID": "C-0306", "patch": {"name": "ActorTemplate snapshot secret references"}},
+        {"controlID": "C-0307", "patch": {"name": "Actor snapshot location allowlist"}}
+    ]
+}

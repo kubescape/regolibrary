@@ -1,0 +1,11 @@
+apiVersion: ate.dev/v1alpha1
+kind: ActorTemplate
+metadata: {name: snapshotted-secret}
+spec:
+  containers:
+  - name: actor
+    image: example.com/actor@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    env:
+    - name: TOKEN
+      valueFrom:
+        secretKeyRef: {name: actor-token, key: token}

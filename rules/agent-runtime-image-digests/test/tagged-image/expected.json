@@ -1,0 +1,1 @@
+[{"alertMessage":"ActorTemplate image must be pinned to an exact SHA-256 digest","packagename":"armo_builtins","failedPaths":["spec.pauseImage"],"fixPaths":[],"alertScore":8,"alertObject":{"k8sApiObjects":[{"apiVersion":"ate.dev/v1alpha1","kind":"ActorTemplate","metadata":{"name":"tagged-image"}}]}}]

@@ -1,0 +1,1 @@
+[{"alertMessage":"SandboxTemplate envVarsInjectionPolicy permits claims to replace template values","packagename":"armo_builtins","failedPaths":["spec.envVarsInjectionPolicy"],"fixPaths":[],"alertScore":8,"alertObject":{"k8sApiObjects":[{"apiVersion":"extensions.agents.x-k8s.io/v1beta1","kind":"SandboxTemplate","metadata":{"name":"overrides"}}]}}]
