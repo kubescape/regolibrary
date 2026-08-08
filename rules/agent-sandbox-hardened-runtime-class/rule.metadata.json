@@ -1,0 +1,35 @@
+{
+  "name": "agent-sandbox-hardened-runtime-class",
+  "attributes": {
+    "hostSensorRule": "false",
+    "imageScanRelated": false
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "extensions.agents.x-k8s.io"
+      ],
+      "apiVersions": [
+        "v1beta1"
+      ],
+      "resources": [
+        "SandboxTemplate"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "configInputs": [
+    "settings.postureControlInputs.hardenedSandboxRuntimeClasses"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.hardenedSandboxRuntimeClasses",
+      "name": "Hardened sandbox runtime classes",
+      "description": "Approved runtimeClassName values for Agent Sandbox SandboxTemplate resources."
+    }
+  ],
+  "description": "Checks that Agent Sandbox SandboxTemplate resources use an approved hardened runtimeClassName.",
+  "remediation": "Set spec.podTemplate.spec.runtimeClassName to an approved hardened runtime such as gvisor.",
+  "ruleQuery": "armo_builtins"
+}
