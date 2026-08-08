@@ -1,0 +1,50 @@
+[
+    {
+        "alertMessage": "CronJob: windows-hostprocess-cronjob sets 'securityContext.windowsOptions.hostProcess' to true",
+        "failedPaths": ["spec.jobTemplate.spec.template.spec.securityContext.windowsOptions.hostProcess"],
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.securityContext.windowsOptions.hostProcess",
+                "value": "false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "windows-hostprocess-cronjob"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "CronJob: windows-cronjob has a container that sets 'securityContext.windowsOptions.hostProcess' to true",
+        "failedPaths": ["spec.jobTemplate.spec.template.spec.containers[1].securityContext.windowsOptions.hostProcess"],
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[1].securityContext.windowsOptions.hostProcess",
+                "value": "false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "windows-cronjob"
+                    }
+                }
+            ]
+        }
+    }
+]

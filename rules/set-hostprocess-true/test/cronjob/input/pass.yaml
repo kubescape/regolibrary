@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: compliant-windows-cronjob
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          os:
+            name: windows
+          securityContext:
+            windowsOptions:
+              hostProcess: false
+          containers:
+          - name: test-container
+            image: mcr.microsoft.com/windows/servercore:ltsc2019
+            securityContext:
+              windowsOptions:
+                hostProcess: false
+          restartPolicy: OnFailure

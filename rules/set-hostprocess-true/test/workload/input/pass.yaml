@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compliant-windows-deployment
+spec:
+  selector:
+    matchLabels:
+      app: compliant-windows-deployment
+  template:
+    metadata:
+      labels:
+        app: compliant-windows-deployment
+    spec:
+      os:
+        name: windows
+      securityContext:
+        windowsOptions:
+          hostProcess: false
+      containers:
+      - name: test-container
+        image: mcr.microsoft.com/windows/servercore:ltsc2019
+        securityContext:
+          windowsOptions:
+            hostProcess: false

@@ -1,0 +1,50 @@
+{
+    "name": "set-runasusername-value",
+    "attributes": {
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        },
+        {
+            "apiGroups": [
+                "apps"
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Deployment",
+                "ReplicaSet",
+                "DaemonSet",
+                "StatefulSet"
+            ]
+        },
+        {
+            "apiGroups": [
+                "batch"
+            ],
+            "apiVersions": [
+                "*"
+            ],
+            "resources": [
+                "Job",
+                "CronJob"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "Fails if a Windows pod/workload (identified via spec.os.name or the kubernetes.io/os nodeSelector) does not define securityContext.windowsOptions.runAsUserName at the pod level or on every container.",
+    "remediation": "Make sure you set securityContext.windowsOptions.runAsUserName in the workload/container security context.",
+    "ruleQuery": "armo_builtins"
+}

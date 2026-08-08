@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: windows-cronjob
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          os:
+            name: windows
+          containers:
+          - name: test-container
+            image: mcr.microsoft.com/windows/servercore:ltsc2019
+            securityContext:
+              allowPrivilegeEscalation: false
+          - name: test-container2
+            image: mcr.microsoft.com/windows/servercore:ltsc2019
+            securityContext:
+              allowPrivilegeEscalation: false
+              windowsOptions:
+                gmsaCredentialSpecName: "gmsa-webapp1"
+          restartPolicy: OnFailure

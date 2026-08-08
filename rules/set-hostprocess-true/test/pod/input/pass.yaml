@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: compliant-windows-pod
+spec:
+  os:
+    name: windows
+  securityContext:
+    windowsOptions:
+      hostProcess: false
+      runAsUserName: "ContainerUser"
+  containers:
+  - name: test-container
+    image: mcr.microsoft.com/windows/servercore:ltsc2019
+    securityContext:
+      windowsOptions:
+        hostProcess: false

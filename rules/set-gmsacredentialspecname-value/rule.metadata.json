@@ -1,0 +1,50 @@
+{
+    "name": "set-gmsacredentialspecname-value",
+    "attributes": {
+    },
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Pod"
+            ]
+        },
+        {
+            "apiGroups": [
+                "apps"
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Deployment",
+                "ReplicaSet",
+                "DaemonSet",
+                "StatefulSet"
+            ]
+        },
+        {
+            "apiGroups": [
+                "batch"
+            ],
+            "apiVersions": [
+                "*"
+            ],
+            "resources": [
+                "Job",
+                "CronJob"
+            ]
+        }
+    ],
+    "ruleDependencies": [
+    ],
+    "description": "Fails if a Windows pod/workload (identified via spec.os.name or the kubernetes.io/os nodeSelector) does not define securityContext.windowsOptions.gmsaCredentialSpecName at the pod level or on every container.",
+    "remediation": "If the workload requires Active Directory authentication via gMSA, make sure you set securityContext.windowsOptions.gmsaCredentialSpecName in the workload/container security context.",
+    "ruleQuery": "armo_builtins"
+}

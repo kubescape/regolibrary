@@ -1,0 +1,53 @@
+[
+    {
+        "alertMessage": "Workload: windows-hostprocess-deployment sets 'securityContext.windowsOptions.hostProcess' to true",
+        "failedPaths": ["spec.template.spec.securityContext.windowsOptions.hostProcess"],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.securityContext.windowsOptions.hostProcess",
+                "value": "false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "windows-hostprocess-deployment"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Workload: windows-deployment has a container that sets 'securityContext.windowsOptions.hostProcess' to true",
+        "failedPaths": ["spec.template.spec.containers[1].securityContext.windowsOptions.hostProcess"],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[1].securityContext.windowsOptions.hostProcess",
+                "value": "false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "windows-deployment"
+                        },
+                        "name": "windows-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]

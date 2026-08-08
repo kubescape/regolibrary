@@ -35,7 +35,10 @@
         "set-fsgroupchangepolicy-value",
         "set-sysctls-params",
         "set-supplementalgroups-values",
-        "rule-allow-privilege-escalation"
+        "rule-allow-privilege-escalation",
+        "set-gmsacredentialspecname-value",
+        "set-hostprocess-true",
+        "set-runasusername-value"
     ],
     "baseScore": 8,
     "impact_statement": "If you incorrectly apply security contexts, you may have trouble running the pods.",

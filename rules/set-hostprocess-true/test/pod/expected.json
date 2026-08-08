@@ -1,0 +1,98 @@
+[
+    {
+        "alertMessage": "Pod: windows-hostprocess-pod sets 'securityContext.windowsOptions.hostProcess' to true",
+        "failedPaths": ["spec.securityContext.windowsOptions.hostProcess"],
+        "fixPaths": [
+            {
+                "path": "spec.securityContext.windowsOptions.hostProcess",
+                "value": "false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "windows-hostprocess-pod"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Pod: windows-hostprocess-containers has a container that sets 'securityContext.windowsOptions.hostProcess' to true",
+        "failedPaths": ["spec.initContainers[0].securityContext.windowsOptions.hostProcess"],
+        "fixPaths": [
+            {
+                "path": "spec.initContainers[0].securityContext.windowsOptions.hostProcess",
+                "value": "false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "windows-hostprocess-containers"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Pod: windows-hostprocess-containers has a container that sets 'securityContext.windowsOptions.hostProcess' to true",
+        "failedPaths": ["spec.containers[1].securityContext.windowsOptions.hostProcess"],
+        "fixPaths": [
+            {
+                "path": "spec.containers[1].securityContext.windowsOptions.hostProcess",
+                "value": "false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "windows-hostprocess-containers"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Pod: windows-hostprocess-containers has a container that sets 'securityContext.windowsOptions.hostProcess' to true",
+        "failedPaths": ["spec.ephemeralContainers[0].securityContext.windowsOptions.hostProcess"],
+        "fixPaths": [
+            {
+                "path": "spec.ephemeralContainers[0].securityContext.windowsOptions.hostProcess",
+                "value": "false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "windows-hostprocess-containers"
+                    }
+                }
+            ]
+        }
+    }
+]
