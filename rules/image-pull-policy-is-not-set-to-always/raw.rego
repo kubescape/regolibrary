@@ -65,6 +65,13 @@ is_bad_container(container) if {
 	img == ":latest"
 }
 
+# Configured floating image tags are treated as latest-like.
+
+is_bad_container(container) if {
+    not_image_pull_policy(container)
+    is_floating_image_tag(container.image)
+}
+
 # No image tag or digest (== latest)
 is_bad_container(container) if {
 	not is_tag_image(container.image)
@@ -85,13 +92,6 @@ is_tag_image(image) if {
 	v := version[_]
 	img := v[_]
 	not endswith(img, "/")
-}
-
-# Configured floating image tags are treated as latest-like.
-
-is_bad_container(container) if {
-    not_image_pull_policy(container)
-    is_floating_image_tag(container.image)
 }
 
 is_floating_image_tag(image) if {
