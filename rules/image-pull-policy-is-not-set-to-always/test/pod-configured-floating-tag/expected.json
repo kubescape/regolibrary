@@ -1,0 +1,28 @@
+[
+  {
+    "alertMessage": "container: redis in pod: floating-tag-test  has 'latest' tag on image but imagePullPolicy is not set to 'Always'",
+    "reviewPaths": [
+      "spec.containers[0].image",
+      "spec.containers[0].imagePullPolicy"
+    ],
+    "failedPaths": [
+      "spec.containers[0].image",
+      "spec.containers[0].imagePullPolicy"
+    ],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 2,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "floating-tag-test"
+          }
+        }
+      ]
+    }
+  }
+]

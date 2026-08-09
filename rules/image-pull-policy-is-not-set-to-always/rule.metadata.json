@@ -42,7 +42,15 @@
         ]
       }
     ],
-    "ruleDependencies": [],
+   "ruleDependencies": [],
+   "configInputs": ["settings.postureControlInputs.floatingImageTags"],
+   "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.floatingImageTags",
+      "name": "Floating image tags",
+      "description": "Additional image tags that should be treated as mutable and require imagePullPolicy Always."
+    }
+  ],
     "description": "check imagePullPolicy filed, if imagePullPolicy = always pass, else fail.",
     "remediation": "",
     "ruleQuery": "armo_builtins"
