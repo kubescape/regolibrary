@@ -8,8 +8,8 @@
     },
     "settings": {
         "postureControlInputs": {
-            "imageRepositoryAllowList": [
-            ],
+            "imageRepositoryAllowList": [],
+            "floatingImageTags": [],
             "trustedCosignPublicKeys": [],
             "insecureCapabilities": [
                 "SETPCAP",

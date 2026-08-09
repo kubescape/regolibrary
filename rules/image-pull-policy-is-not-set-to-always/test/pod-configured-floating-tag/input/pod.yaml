@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: floating-tag-test
+spec:
+  containers:
+    - name: redis
+      image: redis:alpine
+      imagePullPolicy: IfNotPresent

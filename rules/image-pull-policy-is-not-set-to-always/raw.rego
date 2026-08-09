@@ -71,12 +71,6 @@ is_bad_container(container) if {
 	not_image_pull_policy(container)
 }
 
-# image tag is only letters (== latest)
-is_bad_container(container) if {
-	is_tag_image_only_letters(container.image)
-	not_image_pull_policy(container)
-}
-
 not_image_pull_policy(container) if {
 	container.imagePullPolicy == "Never"
 }
@@ -93,12 +87,19 @@ is_tag_image(image) if {
 	not endswith(img, "/")
 }
 
-# The image has a tag, and contains only letters
-is_tag_image_only_letters(image) if {
-	reg1 := "^:[a-zA-Z]{1,127}$"
-	reg := ":[\\w][\\w.-]{0,127}(\/)?"
-	version := regex.find_all_string_submatch_n(reg, image, -1)
-	v := version[_]
-	img := v[_]
-	regex.match(reg1, img)
+# Configured floating image tags are treated as latest-like.
+
+is_bad_container(container) if {
+    not_image_pull_policy(container)
+    is_floating_image_tag(container.image)
+}
+
+is_floating_image_tag(image) if {
+    not contains(image, "@")
+    parts := split(image, "/")
+    last := parts[count(parts) - 1]
+    tag_parts := split(last, ":")
+    count(tag_parts) == 2
+    tag := tag_parts[1]
+    tag in data.postureControlInputs.floatingImageTags
 }
