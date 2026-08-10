@@ -151,6 +151,13 @@ def top_level_entries(body: str):
     return entries
 
 
+def is_empty_array(value: str):
+    # An empty array carries no path. Collapse whitespace first so spaced or
+    # multi-line forms are recognised too, while an array holding anything at
+    # all still counts as a real path.
+    return "".join(value.split()) == "[]"
+
+
 def classify_alert(text: str):
     result = {}
     for entry in top_level_entries(text[1:-1]):
@@ -162,7 +169,7 @@ def classify_alert(text: str):
             rest = stripped[len(prefix):].lstrip()
             if rest.startswith(":"):
                 value = rest[1:].strip()
-                result[key] = PLACEHOLDER if value == "[]" else REAL
+                result[key] = PLACEHOLDER if is_empty_array(value) else REAL
     return result
 
 
@@ -202,7 +209,10 @@ def is_real(value):
 def load_control_map():
     mapping = {}
     if not os.path.exists(CONTROL_RULE_CSV):
-        return mapping
+        raise SystemExit(
+            "%s not found: run this from the repository root, otherwise every rule "
+            "is reported with an empty control list" % CONTROL_RULE_CSV
+        )
     with open(CONTROL_RULE_CSV, newline="", encoding="utf-8") as handle:
         for row in csv.DictReader(handle):
             control_id = (row.get("ControlID") or "").strip()
