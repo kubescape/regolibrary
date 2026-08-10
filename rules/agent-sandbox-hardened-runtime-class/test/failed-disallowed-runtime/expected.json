@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "SandboxTemplate 'disallowed-runtime-template' uses runtimeClassName 'runc', which is not in the approved hardened runtime list.",
+        "failedPaths": [
+            "spec.podTemplate.spec.runtimeClassName"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+                    "kind": "SandboxTemplate",
+                    "metadata": {
+                        "name": "disallowed-runtime-template"
+                    }
+                }
+            ]
+        }
+    }
+]
