@@ -20,7 +20,17 @@ spec:
       - name : random
         value : "Hello from the environment"
       - name: AWS_TOKEN_FILE
-        value: /etc/secret-volume/aws
+        value: hunter2
+      - name: DB_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: database-secret
+            key: password
+      - name: CONFIG_PASSWORD
+        valueFrom:
+          configMapKeyRef:
+            name: database-config
+            key: password
       - name: my_password
         value: my/secret/file/path
     image : hashicorp/http-echo:0.2.3
