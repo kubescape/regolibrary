@@ -31,11 +31,25 @@ _has_peer_selector(peer) if {
 _has_peer_selector(peer) if {
 	ps := object.get(peer, "podSelector", null)
 	is_object(ps)
+	_selector_non_empty(ps)
 }
 
 _has_peer_selector(peer) if {
 	ns := object.get(peer, "namespaceSelector", null)
 	is_object(ns)
+	_selector_non_empty(ns)
+}
+
+_selector_non_empty(sel) if {
+	ml := object.get(sel, "matchLabels", null)
+	is_object(ml)
+	count(ml) > 0
+}
+
+_selector_non_empty(sel) if {
+	me := object.get(sel, "matchExpressions", null)
+	is_array(me)
+	count(me) > 0
 }
 
 deny contains msga if {
