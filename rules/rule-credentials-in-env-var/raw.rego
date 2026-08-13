@@ -20,7 +20,6 @@ deny contains msga if {
 	not is_allowed_value(env.value)
 	not is_allowed_key_name(env.name)
 
-	is_not_reference(env)
 	is_not_file_path(env.value)
 
 	paths := [
@@ -57,7 +56,6 @@ deny contains msga if {
 	not is_allowed_value(env.value)
 	not is_allowed_key_name(env.name)
 
-	is_not_reference(env)
 	is_not_file_path(env.value)
 
 	paths := [
@@ -93,7 +91,6 @@ deny contains msga if {
 	not is_allowed_value(env.value)
 	not is_allowed_key_name(env.name)
 
-	is_not_reference(env)
 	is_not_file_path(env.value)
 
 	paths := [
@@ -129,7 +126,6 @@ deny contains msga if {
 	not is_allowed_value(env.value)
 	not is_allowed_key_name(env.name)
 
-	is_not_reference(env)
 	is_not_file_path(env.value)
 
 	paths := [
@@ -165,7 +161,6 @@ deny contains msga if {
 	not is_allowed_value(env.value)
 	not is_allowed_key_name(env.name)
 
-	is_not_reference(env)
 	is_not_file_path(env.value)
 
 	paths := [
@@ -200,7 +195,6 @@ deny contains msga if {
 	not is_allowed_value(env.value)
 	not is_allowed_key_name(env.name)
 
-	is_not_reference(env)
 	is_not_file_path(env.value)
 
 	paths := [
@@ -219,10 +213,6 @@ deny contains msga if {
 	}
 }
 
-is_not_reference(env) if {
-	not env.valueFrom.secretKeyRef
-	not env.valueFrom.configMapKeyRef
-}
 
 is_allowed_value(value) if {
 	allow_val := data.postureControlInputs.sensitiveValuesAllowed[_]
