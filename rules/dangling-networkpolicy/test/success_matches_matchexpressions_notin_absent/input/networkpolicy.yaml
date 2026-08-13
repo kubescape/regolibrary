@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: exp-notin-absent-policy
+  namespace: default
+spec:
+  podSelector:
+    matchExpressions:
+    - key: tier
+      operator: NotIn
+      values:
+      - prod
+  policyTypes:
+  - Ingress

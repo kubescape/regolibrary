@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: no-tier-pod
+  namespace: default
+  labels:
+    app: web
+spec:
+  containers:
+  - name: app
+    image: nginx:latest

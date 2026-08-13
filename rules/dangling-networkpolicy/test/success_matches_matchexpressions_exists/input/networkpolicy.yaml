@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: exp-exists-policy
+  namespace: default
+spec:
+  podSelector:
+    matchExpressions:
+    - key: app
+      operator: Exists
+  policyTypes:
+  - Ingress

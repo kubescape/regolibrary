@@ -1,0 +1,20 @@
+[
+  {
+    "alertMessage": "NetworkPolicy 'exp-dangling-policy' podSelector matches no workloads in namespace 'default'",
+    "packagename": "armo_builtins",
+    "failedPaths": ["spec.podSelector"],
+    "fixPaths": [],
+    "alertScore": 4,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "networking.k8s.io/v1",
+          "kind": "NetworkPolicy",
+          "metadata": {
+            "name": "exp-dangling-policy"
+          }
+        }
+      ]
+    }
+  }
+]

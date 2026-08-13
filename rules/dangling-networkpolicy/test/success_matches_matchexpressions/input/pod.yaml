@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-pod
+  namespace: default
+  labels:
+    app: web
+spec:
+  containers:
+  - name: web
+    image: nginx:latest
