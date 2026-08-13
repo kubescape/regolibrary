@@ -122,6 +122,18 @@
             "patch": {
                 "name": "Mismatching selector"
             }
+        },
+        {
+            "controlID": "C-0298",
+            "patch": {
+                "name": "Dangling Ingress backend"
+            }
+        },
+        {
+            "controlID": "C-0299",
+            "patch": {
+                "name": "Dangling NetworkPolicy"
+            }
         }
     ]
 }

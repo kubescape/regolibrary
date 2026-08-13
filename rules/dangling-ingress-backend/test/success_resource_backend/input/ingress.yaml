@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: resource-backend-ingress
+  namespace: default
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          resource:
+            apiGroup: k8s.example.com
+            kind: StorageBucket
+            name: icon-assets
