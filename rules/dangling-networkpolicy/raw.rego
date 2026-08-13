@@ -23,10 +23,11 @@ deny contains msga if {
 }
 
 has_matching_workload(policy, namespace, resources) if {
+	selector := object.get(policy.spec, "podSelector", {})
 	wl := resources[_]
 	is_workload(wl)
-	object.get(wl.metadata, "namespace", "default") == namespace
-	selector := object.get(policy.spec, "podSelector", {})
+	wl_namespace := object.get(wl.metadata, "namespace", "default")
+	wl_namespace == namespace
 	selector_matches(selector, pod_template_labels(wl))
 }
 

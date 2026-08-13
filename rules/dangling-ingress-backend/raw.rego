@@ -43,6 +43,7 @@ deny contains msga if {
 service_exists(name, namespace, resources) if {
 	svc := resources[_]
 	svc.kind == "Service"
-	object.get(svc.metadata, "namespace", "default") == namespace
+	svc_namespace := object.get(svc.metadata, "namespace", "default")
+	svc_namespace == namespace
 	svc.metadata.name == name
 }
