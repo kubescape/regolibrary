@@ -20,12 +20,27 @@ _egress_rule_scoped(rule) if {
 	count([peer | peer := to[_]; not _has_peer_selector(peer)]) == 0
 }
 
+_is_universal_cidr("0.0.0.0/0")
+
+_is_universal_cidr("::/0")
+
 _has_peer_selector(peer) if {
 	ipb := object.get(peer, "ipBlock", null)
 	is_object(ipb)
 	cidr := object.get(ipb, "cidr", "")
 	is_string(cidr)
 	cidr != ""
+	not _is_universal_cidr(cidr)
+}
+
+_has_peer_selector(peer) if {
+	ipb := object.get(peer, "ipBlock", null)
+	is_object(ipb)
+	cidr := object.get(ipb, "cidr", "")
+	_is_universal_cidr(cidr)
+	exc := object.get(ipb, "except", [])
+	is_array(exc)
+	count(exc) > 0
 }
 
 _has_peer_selector(peer) if {
