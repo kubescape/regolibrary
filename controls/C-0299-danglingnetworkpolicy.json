@@ -1,0 +1,25 @@
+{
+    "name": "Dangling NetworkPolicy",
+    "attributes": {
+        "controlTypeTags": [
+            "devops"
+        ]
+    },
+    "description": "A NetworkPolicy whose podSelector matches no workload in the same namespace gives a false sense of isolation — the policy exists but protects nothing. Note: matchLabels selectors are evaluated; matchExpressions are not.",
+    "remediation": "Verify the NetworkPolicy podSelector matches the labels of at least one workload in the same namespace, or remove the policy.",
+    "rulesNames": [
+        "dangling-networkpolicy"
+    ],
+    "test": "Check that every NetworkPolicy podSelector matches at least one workload in the same namespace.",
+    "controlID": "C-0299",
+    "baseScore": 4.0,
+    "category": {
+        "name": "Network"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

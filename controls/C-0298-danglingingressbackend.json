@@ -1,0 +1,25 @@
+{
+    "name": "Dangling Ingress backend",
+    "attributes": {
+        "controlTypeTags": [
+            "devops"
+        ]
+    },
+    "description": "An Ingress whose backend references a Service that does not exist in the same namespace produces broken routing with no traffic. It typically results from a Service being renamed, deleted, or a typo in the backend service name.",
+    "remediation": "Create the referenced Service or correct the Ingress backend service name.",
+    "rulesNames": [
+        "dangling-ingress-backend"
+    ],
+    "test": "Check that every Ingress backend Service exists in the same namespace.",
+    "controlID": "C-0298",
+    "baseScore": 4.0,
+    "category": {
+        "name": "Network"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "name": "dangling-ingress-backend",
+    "attributes": {},
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": ["networking.k8s.io"],
+            "apiVersions": ["v1"],
+            "resources": ["Ingress"]
+        },
+        {
+            "apiGroups": [""],
+            "apiVersions": ["v1"],
+            "resources": ["Service"]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "fails if an Ingress backend references a Service that does not exist in the same namespace",
+    "remediation": "Create the referenced Service or correct the Ingress backend service name.",
+    "ruleQuery": "armo_builtins"
+}
