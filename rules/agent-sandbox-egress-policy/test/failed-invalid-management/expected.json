@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "SandboxTemplate 'invalid-management-template' has networkPolicyManagement set to 'SemiManaged'; must be 'Managed' or omitted to enforce a policy.",
+        "failedPaths": [
+            "spec.networkPolicyManagement"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+                    "kind": "SandboxTemplate",
+                    "metadata": {
+                        "name": "invalid-management-template"
+                    }
+                }
+            ]
+        }
+    }
+]

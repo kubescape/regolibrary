@@ -1,0 +1,21 @@
+apiVersion: extensions.agents.x-k8s.io/v1beta1
+kind: SandboxTemplate
+metadata:
+  name: scoped-allowlist-template
+  namespace: default
+spec:
+  networkPolicyManagement: Managed
+  networkPolicy:
+    egress:
+    - to:
+      - ipBlock:
+          cidr: 10.0.0.0/24
+      ports:
+      - port: 443
+        protocol: TCP
+  podTemplate:
+    spec:
+      runtimeClassName: gvisor
+      containers:
+      - name: python-runtime
+        image: python:3.11-slim
