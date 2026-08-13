@@ -1,0 +1,12 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: custom-hpa
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: example.com/v1
+    kind: MyCustomScaler
+    name: my-scaler
+  minReplicas: 1
+  maxReplicas: 5
