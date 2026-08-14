@@ -10,7 +10,7 @@
     "rulesNames": [
         "dangling-gateway-backend"
     ],
-    "test": "Check that every Gateway API route backendRef resolves to an existing Service.",
+    "test": "Check that every Gateway API backendRef targeting a core Service resolves to an existing Service.",
     "controlID": "C-0301",
     "baseScore": 4.0,
     "category": {
