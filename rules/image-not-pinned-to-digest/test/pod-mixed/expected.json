@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Pod pod-mixed: container 'unpinned' image 'nginx:1.25' is not pinned to a digest",
+        "reviewPaths": [
+            "spec.containers[1].image"
+        ],
+        "failedPaths": [
+            "spec.containers[1].image"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "pod-mixed"
+                    }
+                }
+            ]
+        }
+    }
+]

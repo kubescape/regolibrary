@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Pod pod-ephemeralcontainer: container 'debugger' image 'busybox:1.36' is not pinned to a digest",
+        "reviewPaths": [
+            "spec.ephemeralContainers[0].image"
+        ],
+        "failedPaths": [
+            "spec.ephemeralContainers[0].image"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "pod-ephemeralcontainer"
+                    }
+                }
+            ]
+        }
+    }
+]

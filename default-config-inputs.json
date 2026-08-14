@@ -9,6 +9,7 @@
     "settings": {
         "postureControlInputs": {
             "imageRepositoryAllowList": [],
+            "imageDigestExemptRepositories": [],
             "floatingImageTags": [],
             "trustedCosignPublicKeys": [],
             "insecureCapabilities": [
