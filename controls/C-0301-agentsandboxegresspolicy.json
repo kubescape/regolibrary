@@ -11,7 +11,7 @@
         "agent-sandbox-egress-policy"
     ],
     "test": "Check that each Agent Sandbox SandboxTemplate enforces managed networking with default-deny or explicitly scoped egress destinations.",
-    "controlID": "C-0298",
+    "controlID": "C-0301",
     "baseScore": 7.0,
     "category": {
         "name": "Workload"

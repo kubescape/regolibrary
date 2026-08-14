@@ -34,16 +34,6 @@ _has_peer_selector(peer) if {
 }
 
 _has_peer_selector(peer) if {
-	ipb := object.get(peer, "ipBlock", null)
-	is_object(ipb)
-	cidr := object.get(ipb, "cidr", "")
-	_is_universal_cidr(cidr)
-	exc := object.get(ipb, "except", [])
-	is_array(exc)
-	count(exc) > 0
-}
-
-_has_peer_selector(peer) if {
 	ps := object.get(peer, "podSelector", null)
 	is_object(ps)
 	_selector_non_empty(ps)
