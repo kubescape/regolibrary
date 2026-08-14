@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  namespace: default
+spec:
+  ports:
+  - port: 8080

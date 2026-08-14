@@ -1,0 +1,20 @@
+[
+  {
+    "alertMessage": "TCPRoute 'db-route' backendRef 'ghost-db' does not exist in namespace 'default'",
+    "packagename": "armo_builtins",
+    "failedPaths": ["spec.rules[0].backendRefs[0].name"],
+    "fixPaths": [],
+    "alertScore": 4,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "gateway.networking.k8s.io/v1alpha2",
+          "kind": "TCPRoute",
+          "metadata": {
+            "name": "db-route"
+          }
+        }
+      ]
+    }
+  }
+]

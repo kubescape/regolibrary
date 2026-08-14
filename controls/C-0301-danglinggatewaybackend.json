@@ -1,0 +1,25 @@
+{
+    "name": "Dangling Gateway API backend",
+    "attributes": {
+        "controlTypeTags": [
+            "devops"
+        ]
+    },
+    "description": "A Gateway API route (HTTPRoute, TCPRoute, UDPRoute) whose backendRef references a Service that does not exist in the target namespace silently routes nowhere. Only Service backends are validated; non-Service backends (custom resources) are skipped.",
+    "remediation": "Create the referenced Service or correct the route backendRef.",
+    "rulesNames": [
+        "dangling-gateway-backend"
+    ],
+    "test": "Check that every Gateway API route backendRef resolves to an existing Service.",
+    "controlID": "C-0301",
+    "baseScore": 4.0,
+    "category": {
+        "name": "Network"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}
