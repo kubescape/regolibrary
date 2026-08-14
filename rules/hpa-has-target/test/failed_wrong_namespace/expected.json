@@ -1,0 +1,20 @@
+[
+  {
+    "alertMessage": "HorizontalPodAutoscaler 'ns-hpa' scaleTargetRef points to Deployment 'web' which does not exist in namespace 'default'",
+    "packagename": "armo_builtins",
+    "failedPaths": ["spec.scaleTargetRef.name"],
+    "fixPaths": [],
+    "alertScore": 4,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "autoscaling/v2",
+          "kind": "HorizontalPodAutoscaler",
+          "metadata": {
+            "name": "ns-hpa"
+          }
+        }
+      ]
+    }
+  }
+]

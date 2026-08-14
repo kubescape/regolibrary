@@ -1,0 +1,25 @@
+{
+    "name": "Dangling HPA target",
+    "attributes": {
+        "controlTypeTags": [
+            "devops"
+        ]
+    },
+    "description": "A HorizontalPodAutoscaler whose scaleTargetRef points to a workload that does not exist in the same namespace silently does nothing — no scaling occurs and the failure surfaces only under load. Only built-in scalable kinds (Deployment, StatefulSet, ReplicaSet, ReplicationController) are validated; custom scalable resources are skipped.",
+    "remediation": "Create the referenced workload or correct the HPA scaleTargetRef.",
+    "rulesNames": [
+        "hpa-has-target"
+    ],
+    "test": "Check that every HPA scaleTargetRef resolves to an existing workload in the same namespace.",
+    "controlID": "C-0300",
+    "baseScore": 4.0,
+    "category": {
+        "name": "Workload"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

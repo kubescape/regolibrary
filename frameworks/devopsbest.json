@@ -134,6 +134,12 @@
             "patch": {
                 "name": "Dangling NetworkPolicy"
             }
+        },
+        {
+            "controlID": "C-0300",
+            "patch": {
+                "name": "Dangling HPA target"
+            }
         }
     ]
 }

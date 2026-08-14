@@ -1,0 +1,26 @@
+{
+    "name": "hpa-has-target",
+    "attributes": {},
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": ["autoscaling"],
+            "apiVersions": ["*"],
+            "resources": ["HorizontalPodAutoscaler"]
+        },
+        {
+            "apiGroups": ["apps"],
+            "apiVersions": ["v1"],
+            "resources": ["Deployment", "ReplicaSet", "StatefulSet"]
+        },
+        {
+            "apiGroups": [""],
+            "apiVersions": ["v1"],
+            "resources": ["ReplicationController"]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "fails if a HorizontalPodAutoscaler scaleTargetRef points to a workload that does not exist in the same namespace",
+    "remediation": "Create the referenced workload or correct the HPA scaleTargetRef.",
+    "ruleQuery": "armo_builtins"
+}
