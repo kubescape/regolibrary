@@ -1,0 +1,10 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: db-route
+  namespace: default
+spec:
+  rules:
+  - backendRefs:
+    - name: ghost-db
+      port: 5432

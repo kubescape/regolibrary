@@ -140,6 +140,12 @@
             "patch": {
                 "name": "Dangling HPA target"
             }
+        },
+        {
+            "controlID": "C-0301",
+            "patch": {
+                "name": "Dangling Gateway API backend"
+            }
         }
     ]
 }

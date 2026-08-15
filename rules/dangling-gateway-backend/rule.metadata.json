@@ -1,0 +1,21 @@
+{
+    "name": "dangling-gateway-backend",
+    "attributes": {},
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": ["gateway.networking.k8s.io"],
+            "apiVersions": ["*"],
+            "resources": ["HTTPRoute", "TCPRoute", "UDPRoute"]
+        },
+        {
+            "apiGroups": [""],
+            "apiVersions": ["v1"],
+            "resources": ["Service"]
+        }
+    ],
+    "ruleDependencies": [],
+    "description": "fails if a Gateway API route backendRef references a Service that does not exist",
+    "remediation": "Create the referenced Service or correct the route backendRef.",
+    "ruleQuery": "armo_builtins"
+}

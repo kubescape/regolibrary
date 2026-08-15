@@ -1,0 +1,10 @@
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: UDPRoute
+metadata:
+  name: dns-route
+  namespace: default
+spec:
+  rules:
+  - backendRefs:
+    - name: ghost-dns
+      port: 53
