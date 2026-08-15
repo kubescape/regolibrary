@@ -1,0 +1,25 @@
+{
+    "name": "Agent Sandbox egress policy enforcement",
+    "attributes": {
+        "controlTypeTags": [
+            "security"
+        ]
+    },
+    "description": "Ensure Agent Sandbox SandboxTemplate resources enforce an explicitly scoped egress policy.",
+    "remediation": "Configure SandboxTemplate with an explicitly scoped egress policy.",
+    "rulesNames": [
+        "agent-sandbox-egress-policy"
+    ],
+    "test": "Check that each Agent Sandbox SandboxTemplate enforces managed networking with default-deny or explicitly scoped egress destinations.",
+    "controlID": "C-0301",
+    "baseScore": 7.0,
+    "category": {
+        "name": "Workload"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

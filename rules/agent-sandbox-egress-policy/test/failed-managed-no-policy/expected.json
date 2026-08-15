@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "SandboxTemplate 'managed-no-policy' does not define a custom networkPolicy; the Secure Default allows public-internet egress.",
+        "failedPaths": [
+            "spec.networkPolicy"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+                    "kind": "SandboxTemplate",
+                    "metadata": {
+                        "name": "managed-no-policy"
+                    }
+                }
+            ]
+        }
+    }
+]

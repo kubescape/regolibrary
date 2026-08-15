@@ -1,0 +1,17 @@
+apiVersion: extensions.agents.x-k8s.io/v1beta1
+kind: SandboxTemplate
+metadata:
+  name: universal-ipv6-with-except
+spec:
+  networkPolicyManagement: Managed
+  networkPolicy:
+    egress:
+      - to:
+          - ipBlock:
+              cidr: "::/0"
+              except:
+                - fc00::/7
+                - fe80::/10
+        ports:
+          - port: 443
+            protocol: TCP

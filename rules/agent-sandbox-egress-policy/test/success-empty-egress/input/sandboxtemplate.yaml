@@ -1,0 +1,15 @@
+apiVersion: extensions.agents.x-k8s.io/v1beta1
+kind: SandboxTemplate
+metadata:
+  name: empty-egress-template
+  namespace: default
+spec:
+  networkPolicyManagement: Managed
+  networkPolicy:
+    egress: []
+  podTemplate:
+    spec:
+      runtimeClassName: gvisor
+      containers:
+      - name: python-runtime
+        image: python:3.11-slim

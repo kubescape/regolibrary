@@ -1,0 +1,12 @@
+apiVersion: extensions.agents.x-k8s.io/v1beta1
+kind: SandboxTemplate
+metadata:
+  name: management-omitted-no-policy
+  namespace: default
+spec:
+  podTemplate:
+    spec:
+      runtimeClassName: gvisor
+      containers:
+      - name: python-runtime
+        image: python:3.11-slim

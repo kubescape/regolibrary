@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "SandboxTemplate 'malformed-network-policy' has a structurally invalid networkPolicy.",
+        "failedPaths": [
+            "spec.networkPolicy"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+                    "kind": "SandboxTemplate",
+                    "metadata": {
+                        "name": "malformed-network-policy"
+                    }
+                }
+            ]
+        }
+    }
+]

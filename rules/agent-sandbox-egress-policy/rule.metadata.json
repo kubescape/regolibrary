@@ -1,0 +1,27 @@
+{
+  "name": "agent-sandbox-egress-policy",
+  "attributes": {
+    "hostSensorRule": "false",
+    "imageScanRelated": false
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "extensions.agents.x-k8s.io"
+      ],
+      "apiVersions": [
+        "v1beta1"
+      ],
+      "resources": [
+        "SandboxTemplate"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "configInputs": [],
+  "controlConfigInputs": [],
+  "description": "Checks that Agent Sandbox SandboxTemplate resources enforce an explicitly scoped egress policy, rather than relying on the Secure Default or leaving networking unmanaged.",
+  "remediation": "Set spec.networkPolicyManagement to Managed and define spec.networkPolicy with scoped egress rules. Use egress: [] for default-deny, or specify explicit to selectors for each allowed destination.",
+  "ruleQuery": "armo_builtins"
+}
