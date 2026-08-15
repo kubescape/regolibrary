@@ -68,7 +68,11 @@
                 "JWT",
                 "Bearer",
                 "_key_",
-                "_secret_"
+                "_secret_",
+                "AKIA[0-9A-Z]{16}",
+                "ghp_[0-9A-Za-z]{36}",
+                "AIza[0-9A-Za-z\\-_]{35}",
+                "xox[baprs]-[0-9A-Za-z]{10,48}"
             ],
             "sensitiveKeyNamesAllowed": [],
             "sensitiveValuesAllowed": [],
