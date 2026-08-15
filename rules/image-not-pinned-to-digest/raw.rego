@@ -13,11 +13,24 @@ has_digest(image) if {
 
 # exempted_repository - true when the image belongs to a user-configured exempt repository
 # (see default-config-inputs.json for the imageDigestExemptRepositories list).
+# The match is enforced at a repository boundary so a near-miss prefix
+# (e.g. 'internal-registry-attacker') cannot bypass an exemption for 'internal-registry'.
 exempted_repository(image) if {
 	exempt_repos := data.postureControlInputs.imageDigestExemptRepositories
 	registry := exempt_repos[_]
 	startswith(image, registry)
+	boundary_ok(trim_prefix(image, registry))
 }
+
+# boundary_ok - the remainder after the exempt prefix must start at a repo/tag/digest
+# separator ('/', ':', '@') or be empty; anything else means a differently-named repo.
+boundary_ok("")
+
+boundary_ok(suffix) if startswith(suffix, "/")
+
+boundary_ok(suffix) if startswith(suffix, ":")
+
+boundary_ok(suffix) if startswith(suffix, "@")
 
 # base_paths - container spec path for the given resource kind.
 base_paths(resource) := ["spec"] if {
