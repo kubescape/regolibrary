@@ -120,7 +120,7 @@ deny contains msga if {
 	container := pod.spec.containers[i]
 	env := container.env[j]
 
-	contains(lower(env.value), lower(value))
+	regex.match(sprintf("(?i)%s", [value]), env.value)
 
 	# check that value or key weren't allowed by user
 	not is_allowed_value(env.value)
@@ -155,7 +155,7 @@ deny contains msga if {
 	container := wl.spec.template.spec.containers[i]
 	env := container.env[j]
 
-	contains(lower(env.value), lower(value))
+	regex.match(sprintf("(?i)%s", [value]), env.value)
 
 	# check that value or key weren't allowed by user
 	not is_allowed_value(env.value)
@@ -189,7 +189,7 @@ deny contains msga if {
 	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
 	env := container.env[j]
 
-	contains(lower(env.value), lower(value))
+	regex.match(sprintf("(?i)%s", [value]), env.value)
 
 	# check that value or key weren't allowed by user
 	not is_allowed_value(env.value)

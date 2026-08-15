@@ -1,0 +1,18 @@
+[{
+    "alertMessage": "this configmap has sensitive information: akia-key-configmap",
+    "deletePaths": ["data[DB_URL]"],
+    "failedPaths": ["data[DB_URL]"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 9,
+    "alertObject": {
+        "k8sApiObjects": [{
+            "apiVersion": "v1",
+            "kind": "ConfigMap",
+            "metadata": {
+                "name": "akia-key-configmap"
+            }
+        }]
+    }
+}]
