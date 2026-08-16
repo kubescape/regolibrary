@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "SandboxTemplate 'excessive-cpu-sandbox' container 'python-runtime' CPU limit '4000m' exceeds the configured maximum '1000m'.",
+        "failedPaths": [
+            "spec.podTemplate.spec.containers[0].resources.limits.cpu"
+        ],
+        "fixPaths": [],
+        "reviewPaths": [
+            "spec.podTemplate.spec.containers[0].resources.limits.cpu"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+                    "kind": "SandboxTemplate",
+                    "metadata": {
+                        "name": "excessive-cpu-sandbox"
+                    }
+                }
+            ]
+        }
+    }
+]

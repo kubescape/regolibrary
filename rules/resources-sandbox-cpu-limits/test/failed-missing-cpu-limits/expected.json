@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "SandboxTemplate 'no-cpu-limit-sandbox' container 'python-runtime' does not have CPU limits set.",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.podTemplate.spec.containers[0].resources.limits.cpu",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+                    "kind": "SandboxTemplate",
+                    "metadata": {
+                        "name": "no-cpu-limit-sandbox"
+                    }
+                }
+            ]
+        }
+    }
+]

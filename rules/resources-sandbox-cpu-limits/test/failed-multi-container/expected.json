@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "SandboxTemplate 'multi-container-sandbox' container 'sidecar' does not have CPU limits set.",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.podTemplate.spec.containers[1].resources.limits.cpu",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+                    "kind": "SandboxTemplate",
+                    "metadata": {
+                        "name": "multi-container-sandbox"
+                    }
+                }
+            ]
+        }
+    }
+]

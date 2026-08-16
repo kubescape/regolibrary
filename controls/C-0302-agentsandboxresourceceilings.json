@@ -1,0 +1,26 @@
+{
+    "name": "Agent Sandbox resource ceilings",
+    "attributes": {
+        "controlTypeTags": [
+            "security"
+        ]
+    },
+    "description": "Ensure Agent Sandbox SandboxTemplate containers have CPU and memory resource limits set and that they do not exceed configured ceilings. Unrestricted agent containers may consume excessive resources and negatively affect other workloads sharing the node.",
+    "remediation": "Set spec.podTemplate.spec.containers[].resources.limits.cpu and memory on the SandboxTemplate to values within the configured ceilings.",
+    "rulesNames": [
+        "resources-sandbox-cpu-limits",
+        "resources-sandbox-memory-limits"
+    ],
+    "test": "Check that each Agent Sandbox SandboxTemplate container defines CPU and memory limits, and that neither exceeds the configured maximum.",
+    "controlID": "C-0302",
+    "baseScore": 7.0,
+    "category": {
+        "name": "Workload"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}
