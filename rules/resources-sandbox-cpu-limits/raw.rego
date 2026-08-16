@@ -51,8 +51,40 @@ deny contains msga if {
 
 cpu_to_millicores(q) := n if {
 	s := sprintf("%v", [q])
+	endswith(s, "n")
+	n := to_number(trim_suffix(s, "n")) / 1000000
+} else := n if {
+	s := sprintf("%v", [q])
+	endswith(s, "u")
+	n := to_number(trim_suffix(s, "u")) / 1000
+} else := n if {
+	s := sprintf("%v", [q])
 	endswith(s, "m")
 	n := to_number(trim_suffix(s, "m"))
+} else := n if {
+	s := sprintf("%v", [q])
+	endswith(s, "k")
+	n := to_number(trim_suffix(s, "k")) * 1000000
+} else := n if {
+	s := sprintf("%v", [q])
+	endswith(s, "M")
+	n := to_number(trim_suffix(s, "M")) * 1000000000
+} else := n if {
+	s := sprintf("%v", [q])
+	endswith(s, "G")
+	n := to_number(trim_suffix(s, "G")) * 1000000000000
+} else := n if {
+	s := sprintf("%v", [q])
+	endswith(s, "T")
+	n := to_number(trim_suffix(s, "T")) * 1000000000000000
+} else := n if {
+	s := sprintf("%v", [q])
+	endswith(s, "P")
+	n := to_number(trim_suffix(s, "P")) * 1000000000000000000
+} else := n if {
+	s := sprintf("%v", [q])
+	endswith(s, "E")
+	n := to_number(trim_suffix(s, "E")) * 1000000000000000000000
 } else := n if {
 	n := to_number(q) * 1000
 }

@@ -1,0 +1,7 @@
+{
+    "postureControlInputs": {
+        "sandbox_cpu_limit_max": [
+            "1000m"
+        ]
+    }
+}
