@@ -5,9 +5,14 @@
         "builtin": true
     },
     "scanningScope": {
-        "matches": ["cluster", "file"]
+        "matches": [
+            "cluster",
+            "file"
+        ]
     },
-    "typeTags": ["compliance"],
+    "typeTags": [
+        "compliance"
+    ],
     "activeControls": [
         {
             "controlID": "C-0018",
@@ -142,7 +147,7 @@
             }
         },
         {
-            "controlID": "C-0301",
+            "controlID": "C-0302",
             "patch": {
                 "name": "Dangling Gateway API backend"
             }
