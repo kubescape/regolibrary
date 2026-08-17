@@ -16,14 +16,17 @@ import json
 import os
 import glob
 
-currDir = os.path.abspath(os.getcwd())
-controls_dir = os.path.join(currDir, 'controls')
-allcontrols_path = os.path.join(currDir, 'frameworks', 'allcontrols.json')
+repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+controls_dir = os.path.join(repo_root, 'controls')
+allcontrols_path = os.path.join(repo_root, 'frameworks', 'allcontrols.json')
 
 
 def main():
     active_controls = []
-    for filepath in sorted(glob.glob(os.path.join(controls_dir, '*.json'))):
+    control_files = sorted(glob.glob(os.path.join(controls_dir, '*.json')))
+    if not control_files:
+        raise SystemExit(f"ERROR: no control files found in {controls_dir}")
+    for filepath in control_files:
         with open(filepath) as f:
             control = json.load(f)
         active_controls.append({
