@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: usable-rolling-update
+  labels:
+    app: usable-rolling-update
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: usable-rolling-update
+  template:
+    metadata:
+      labels:
+        app: usable-rolling-update
+    spec:
+      containers:
+        - name: app
+          image: nginx:1.25

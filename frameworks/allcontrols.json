@@ -1663,6 +1663,12 @@
             "patch": {
                 "name": "Dangling Gateway API backend"
             }
+        },
+        {
+            "controlID": "C-0305",
+            "patch": {
+                "name": "No rolling update strategy"
+            }
         }
     ]
 }
