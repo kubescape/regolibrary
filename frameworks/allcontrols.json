@@ -5,14 +5,31 @@
         "builtin": true
     },
     "scanningScope": {
-        "matches": ["cluster", "file"]
+        "matches": [
+            "cluster",
+            "file"
+        ]
     },
-    "typeTags": ["compliance"],
+    "typeTags": [
+        "compliance"
+    ],
     "activeControls": [
+        {
+            "controlID": "C-0001",
+            "patch": {
+                "name": "Forbidden Container Registries"
+            }
+        },
         {
             "controlID": "C-0002",
             "patch": {
                 "name": "Prevent containers from allowing command execution"
+            }
+        },
+        {
+            "controlID": "C-0004",
+            "patch": {
+                "name": "Resources memory limit and request"
             }
         },
         {
@@ -25,6 +42,12 @@
             "controlID": "C-0007",
             "patch": {
                 "name": "Roles with delete capabilities"
+            }
+        },
+        {
+            "controlID": "C-0009",
+            "patch": {
+                "name": "Resource limits"
             }
         },
         {
@@ -118,6 +141,12 @@
             }
         },
         {
+            "controlID": "C-0037",
+            "patch": {
+                "name": "CoreDNS poisoning"
+            }
+        },
+        {
             "controlID": "C-0038",
             "patch": {
                 "name": "Host PID/IPC privileges"
@@ -169,6 +198,12 @@
             "controlID": "C-0049",
             "patch": {
                 "name": "Network mapping"
+            }
+        },
+        {
+            "controlID": "C-0050",
+            "patch": {
+                "name": "Resources CPU limit and request"
             }
         },
         {
@@ -322,6 +357,24 @@
             }
         },
         {
+            "controlID": "C-0083",
+            "patch": {
+                "name": "Workloads with Critical vulnerabilities exposed to external traffic"
+            }
+        },
+        {
+            "controlID": "C-0084",
+            "patch": {
+                "name": "Workloads with RCE vulnerabilities exposed to external traffic"
+            }
+        },
+        {
+            "controlID": "C-0085",
+            "patch": {
+                "name": "Workloads with excessive amount of vulnerabilities"
+            }
+        },
+        {
             "controlID": "C-0087",
             "patch": {
                 "name": "CVE-2022-23648-containerd-fs-escape"
@@ -331,6 +384,12 @@
             "controlID": "C-0088",
             "patch": {
                 "name": "RBAC enabled"
+            }
+        },
+        {
+            "controlID": "C-0089",
+            "patch": {
+                "name": "CVE-2022-3172-aggregated-API-server-redirect"
             }
         },
         {
@@ -346,15 +405,1065 @@
             }
         },
         {
+            "controlID": "C-0092",
+            "patch": {
+                "name": "Ensure that the API server pod specification file permissions are set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0093",
+            "patch": {
+                "name": "Ensure that the API server pod specification file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0094",
+            "patch": {
+                "name": "Ensure that the controller manager pod specification file permissions are set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0095",
+            "patch": {
+                "name": "Ensure that the controller manager pod specification file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0096",
+            "patch": {
+                "name": "Ensure that the scheduler pod specification file permissions are set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0097",
+            "patch": {
+                "name": "Ensure that the scheduler pod specification file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0098",
+            "patch": {
+                "name": "Ensure that the etcd pod specification file permissions are set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0099",
+            "patch": {
+                "name": "Ensure that the etcd pod specification file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0100",
+            "patch": {
+                "name": "Ensure that the Container Network Interface file permissions are set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0101",
+            "patch": {
+                "name": "Ensure that the Container Network Interface file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0102",
+            "patch": {
+                "name": "Ensure that the etcd data directory permissions are set to 700 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0103",
+            "patch": {
+                "name": "Ensure that the etcd data directory ownership is set to etcd:etcd"
+            }
+        },
+        {
+            "controlID": "C-0104",
+            "patch": {
+                "name": "Ensure that the admin.conf file permissions are set to 600"
+            }
+        },
+        {
+            "controlID": "C-0105",
+            "patch": {
+                "name": "Ensure that the admin.conf file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0106",
+            "patch": {
+                "name": "Ensure that the scheduler.conf file permissions are set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0107",
+            "patch": {
+                "name": "Ensure that the scheduler.conf file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0108",
+            "patch": {
+                "name": "Ensure that the controller-manager.conf file permissions are set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0109",
+            "patch": {
+                "name": "Ensure that the controller-manager.conf file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0110",
+            "patch": {
+                "name": "Ensure that the Kubernetes PKI directory and file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0111",
+            "patch": {
+                "name": "Ensure that the Kubernetes PKI certificate file permissions are set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0112",
+            "patch": {
+                "name": "Ensure that the Kubernetes PKI key file permissions are set to 600"
+            }
+        },
+        {
+            "controlID": "C-0113",
+            "patch": {
+                "name": "Ensure that the API Server --anonymous-auth argument is set to false"
+            }
+        },
+        {
+            "controlID": "C-0114",
+            "patch": {
+                "name": "Ensure that the API Server --token-auth-file parameter is not set"
+            }
+        },
+        {
+            "controlID": "C-0115",
+            "patch": {
+                "name": "Ensure that the API Server --DenyServiceExternalIPs is not set"
+            }
+        },
+        {
+            "controlID": "C-0116",
+            "patch": {
+                "name": "Ensure that the API Server --kubelet-client-certificate and --kubelet-client-key arguments are set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0117",
+            "patch": {
+                "name": "Ensure that the API Server --kubelet-certificate-authority argument is set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0118",
+            "patch": {
+                "name": "Ensure that the API Server --authorization-mode argument is not set to AlwaysAllow"
+            }
+        },
+        {
+            "controlID": "C-0119",
+            "patch": {
+                "name": "Ensure that the API Server --authorization-mode argument includes Node"
+            }
+        },
+        {
+            "controlID": "C-0120",
+            "patch": {
+                "name": "Ensure that the API Server --authorization-mode argument includes RBAC"
+            }
+        },
+        {
+            "controlID": "C-0121",
+            "patch": {
+                "name": "Ensure that the admission control plugin EventRateLimit is set"
+            }
+        },
+        {
+            "controlID": "C-0122",
+            "patch": {
+                "name": "Ensure that the admission control plugin AlwaysAdmit is not set"
+            }
+        },
+        {
+            "controlID": "C-0123",
+            "patch": {
+                "name": "Ensure that the admission control plugin AlwaysPullImages is set"
+            }
+        },
+        {
+            "controlID": "C-0124",
+            "patch": {
+                "name": "Ensure that the admission control plugin SecurityContextDeny is set if PodSecurityPolicy is not used"
+            }
+        },
+        {
+            "controlID": "C-0125",
+            "patch": {
+                "name": "Ensure that the admission control plugin ServiceAccount is set"
+            }
+        },
+        {
+            "controlID": "C-0126",
+            "patch": {
+                "name": "Ensure that the admission control plugin NamespaceLifecycle is set"
+            }
+        },
+        {
+            "controlID": "C-0127",
+            "patch": {
+                "name": "Ensure that the admission control plugin NodeRestriction is set"
+            }
+        },
+        {
+            "controlID": "C-0128",
+            "patch": {
+                "name": "Ensure that the API Server --secure-port argument is not set to 0"
+            }
+        },
+        {
+            "controlID": "C-0129",
+            "patch": {
+                "name": "Ensure that the API Server --profiling argument is set to false"
+            }
+        },
+        {
+            "controlID": "C-0130",
+            "patch": {
+                "name": "Ensure that the API Server --audit-log-path argument is set"
+            }
+        },
+        {
+            "controlID": "C-0131",
+            "patch": {
+                "name": "Ensure that the API Server --audit-log-maxage argument is set to 30 or as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0132",
+            "patch": {
+                "name": "Ensure that the API Server --audit-log-maxbackup argument is set to 10 or as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0133",
+            "patch": {
+                "name": "Ensure that the API Server --audit-log-maxsize argument is set to 100 or as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0134",
+            "patch": {
+                "name": "Ensure that the API Server --request-timeout argument is set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0135",
+            "patch": {
+                "name": "Ensure that the API Server --service-account-lookup argument is set to true"
+            }
+        },
+        {
+            "controlID": "C-0136",
+            "patch": {
+                "name": "Ensure that the API Server --service-account-key-file argument is set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0137",
+            "patch": {
+                "name": "Ensure that the API Server --etcd-certfile and --etcd-keyfile arguments are set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0138",
+            "patch": {
+                "name": "Ensure that the API Server --tls-cert-file and --tls-private-key-file arguments are set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0139",
+            "patch": {
+                "name": "Ensure that the API Server --client-ca-file argument is set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0140",
+            "patch": {
+                "name": "Ensure that the API Server --etcd-cafile argument is set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0141",
+            "patch": {
+                "name": "Ensure that the API Server --encryption-provider-config argument is set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0142",
+            "patch": {
+                "name": "Ensure that encryption providers are appropriately configured"
+            }
+        },
+        {
+            "controlID": "C-0143",
+            "patch": {
+                "name": "Ensure that the API Server only makes use of Strong Cryptographic Ciphers"
+            }
+        },
+        {
+            "controlID": "C-0144",
+            "patch": {
+                "name": "Ensure that the Controller Manager --terminated-pod-gc-threshold argument is set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0145",
+            "patch": {
+                "name": "Ensure that the Controller Manager --profiling argument is set to false"
+            }
+        },
+        {
+            "controlID": "C-0146",
+            "patch": {
+                "name": "Ensure that the Controller Manager --use-service-account-credentials argument is set to true"
+            }
+        },
+        {
+            "controlID": "C-0147",
+            "patch": {
+                "name": "Ensure that the Controller Manager --service-account-private-key-file argument is set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0148",
+            "patch": {
+                "name": "Ensure that the Controller Manager --root-ca-file argument is set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0149",
+            "patch": {
+                "name": "Ensure that the Controller Manager RotateKubeletServerCertificate argument is set to true"
+            }
+        },
+        {
+            "controlID": "C-0150",
+            "patch": {
+                "name": "Ensure that the Controller Manager --bind-address argument is set to 127.0.0.1"
+            }
+        },
+        {
+            "controlID": "C-0151",
+            "patch": {
+                "name": "Ensure that the Scheduler --profiling argument is set to false"
+            }
+        },
+        {
+            "controlID": "C-0152",
+            "patch": {
+                "name": "Ensure that the Scheduler --bind-address argument is set to 127.0.0.1"
+            }
+        },
+        {
+            "controlID": "C-0153",
+            "patch": {
+                "name": "Ensure that the --cert-file and --key-file arguments are set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0154",
+            "patch": {
+                "name": "Ensure that the --client-cert-auth argument is set to true"
+            }
+        },
+        {
+            "controlID": "C-0155",
+            "patch": {
+                "name": "Ensure that the --auto-tls argument is not set to true"
+            }
+        },
+        {
+            "controlID": "C-0156",
+            "patch": {
+                "name": "Ensure that the --peer-cert-file and --peer-key-file arguments are set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0157",
+            "patch": {
+                "name": "Ensure that the --peer-client-cert-auth argument is set to true"
+            }
+        },
+        {
+            "controlID": "C-0158",
+            "patch": {
+                "name": "Ensure that the --peer-auto-tls argument is not set to true"
+            }
+        },
+        {
+            "controlID": "C-0159",
+            "patch": {
+                "name": "Ensure that a unique Certificate Authority is used for etcd"
+            }
+        },
+        {
+            "controlID": "C-0160",
+            "patch": {
+                "name": "Ensure that a minimal audit policy is created"
+            }
+        },
+        {
+            "controlID": "C-0161",
+            "patch": {
+                "name": "Ensure that the audit policy covers key security concerns"
+            }
+        },
+        {
+            "controlID": "C-0162",
+            "patch": {
+                "name": "Ensure that the kubelet service file permissions are set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0163",
+            "patch": {
+                "name": "Ensure that the kubelet service file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0164",
+            "patch": {
+                "name": "If proxy kubeconfig file exists ensure permissions are set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0165",
+            "patch": {
+                "name": "If proxy kubeconfig file exists ensure ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0166",
+            "patch": {
+                "name": "Ensure that the --kubeconfig kubelet.conf file permissions are set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0167",
+            "patch": {
+                "name": "Ensure that the --kubeconfig kubelet.conf file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0168",
+            "patch": {
+                "name": "Ensure that the certificate authorities file permissions are set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0169",
+            "patch": {
+                "name": "Ensure that the client certificate authorities file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0170",
+            "patch": {
+                "name": "If the kubelet config.yaml configuration file is being used validate permissions set to 600 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0171",
+            "patch": {
+                "name": "If the kubelet config.yaml configuration file is being used validate file ownership is set to root:root"
+            }
+        },
+        {
+            "controlID": "C-0172",
+            "patch": {
+                "name": "Ensure that the --anonymous-auth argument is set to false"
+            }
+        },
+        {
+            "controlID": "C-0173",
+            "patch": {
+                "name": "Ensure that the --authorization-mode argument is not set to AlwaysAllow"
+            }
+        },
+        {
+            "controlID": "C-0174",
+            "patch": {
+                "name": "Ensure that the --client-ca-file argument is set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0175",
+            "patch": {
+                "name": "Verify that the --read-only-port argument is set to 0"
+            }
+        },
+        {
+            "controlID": "C-0176",
+            "patch": {
+                "name": "Ensure that the --streaming-connection-idle-timeout argument is not set to 0"
+            }
+        },
+        {
+            "controlID": "C-0177",
+            "patch": {
+                "name": "Ensure that the --protect-kernel-defaults argument is set to true"
+            }
+        },
+        {
+            "controlID": "C-0178",
+            "patch": {
+                "name": "Ensure that the --make-iptables-util-chains argument is set to true"
+            }
+        },
+        {
+            "controlID": "C-0179",
+            "patch": {
+                "name": "Ensure that the --hostname-override argument is not set"
+            }
+        },
+        {
+            "controlID": "C-0180",
+            "patch": {
+                "name": "Ensure that the --event-qps argument is set to 0 or a level which ensures appropriate event capture"
+            }
+        },
+        {
+            "controlID": "C-0181",
+            "patch": {
+                "name": "Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0182",
+            "patch": {
+                "name": "Ensure that the --rotate-certificates argument is not set to false"
+            }
+        },
+        {
+            "controlID": "C-0183",
+            "patch": {
+                "name": "Verify that the RotateKubeletServerCertificate argument is set to true"
+            }
+        },
+        {
+            "controlID": "C-0184",
+            "patch": {
+                "name": "Ensure that the Kubelet only makes use of Strong Cryptographic Ciphers"
+            }
+        },
+        {
+            "controlID": "C-0185",
+            "patch": {
+                "name": "Ensure that the cluster-admin role is only used where required"
+            }
+        },
+        {
+            "controlID": "C-0186",
+            "patch": {
+                "name": "Minimize access to secrets"
+            }
+        },
+        {
+            "controlID": "C-0187",
+            "patch": {
+                "name": "Minimize wildcard use in Roles and ClusterRoles"
+            }
+        },
+        {
+            "controlID": "C-0188",
+            "patch": {
+                "name": "Minimize access to create pods"
+            }
+        },
+        {
+            "controlID": "C-0189",
+            "patch": {
+                "name": "Ensure that default service accounts are not actively used"
+            }
+        },
+        {
+            "controlID": "C-0190",
+            "patch": {
+                "name": "Ensure that Service Account Tokens are only mounted where necessary"
+            }
+        },
+        {
+            "controlID": "C-0191",
+            "patch": {
+                "name": "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster"
+            }
+        },
+        {
+            "controlID": "C-0192",
+            "patch": {
+                "name": "Ensure that the cluster has at least one active policy control mechanism in place"
+            }
+        },
+        {
+            "controlID": "C-0193",
+            "patch": {
+                "name": "Minimize the admission of privileged containers"
+            }
+        },
+        {
+            "controlID": "C-0194",
+            "patch": {
+                "name": "Minimize the admission of containers wishing to share the host process ID namespace"
+            }
+        },
+        {
+            "controlID": "C-0195",
+            "patch": {
+                "name": "Minimize the admission of containers wishing to share the host IPC namespace"
+            }
+        },
+        {
+            "controlID": "C-0196",
+            "patch": {
+                "name": "Minimize the admission of containers wishing to share the host network namespace"
+            }
+        },
+        {
+            "controlID": "C-0197",
+            "patch": {
+                "name": "Minimize the admission of containers with allowPrivilegeEscalation"
+            }
+        },
+        {
+            "controlID": "C-0198",
+            "patch": {
+                "name": "Minimize the admission of root containers"
+            }
+        },
+        {
+            "controlID": "C-0199",
+            "patch": {
+                "name": "Minimize the admission of containers with the NET_RAW capability"
+            }
+        },
+        {
+            "controlID": "C-0200",
+            "patch": {
+                "name": "Minimize the admission of containers with added capabilities"
+            }
+        },
+        {
+            "controlID": "C-0201",
+            "patch": {
+                "name": "Minimize the admission of containers with capabilities assigned"
+            }
+        },
+        {
+            "controlID": "C-0202",
+            "patch": {
+                "name": "Minimize the admission of Windows HostProcess Containers"
+            }
+        },
+        {
+            "controlID": "C-0203",
+            "patch": {
+                "name": "Minimize the admission of HostPath volumes"
+            }
+        },
+        {
+            "controlID": "C-0204",
+            "patch": {
+                "name": "Minimize the admission of containers which use HostPorts"
+            }
+        },
+        {
+            "controlID": "C-0205",
+            "patch": {
+                "name": "Ensure that the CNI in use supports Network Policies"
+            }
+        },
+        {
+            "controlID": "C-0206",
+            "patch": {
+                "name": "Ensure that all Namespaces have Network Policies defined"
+            }
+        },
+        {
+            "controlID": "C-0207",
+            "patch": {
+                "name": "Prefer using secrets as files over secrets as environment variables"
+            }
+        },
+        {
+            "controlID": "C-0208",
+            "patch": {
+                "name": "Consider external secret storage"
+            }
+        },
+        {
+            "controlID": "C-0209",
+            "patch": {
+                "name": "Create administrative boundaries between resources using namespaces"
+            }
+        },
+        {
+            "controlID": "C-0210",
+            "patch": {
+                "name": "Ensure that the seccomp profile is set to docker/default in your pod definitions"
+            }
+        },
+        {
+            "controlID": "C-0211",
+            "patch": {
+                "name": "Apply Security Context to Your Pods and Containers"
+            }
+        },
+        {
+            "controlID": "C-0212",
+            "patch": {
+                "name": "The default namespace should not be used"
+            }
+        },
+        {
+            "controlID": "C-0213",
+            "patch": {
+                "name": "Minimize the admission of privileged containers"
+            }
+        },
+        {
+            "controlID": "C-0214",
+            "patch": {
+                "name": "Minimize the admission of containers wishing to share the host process ID namespace"
+            }
+        },
+        {
+            "controlID": "C-0215",
+            "patch": {
+                "name": "Minimize the admission of containers wishing to share the host IPC namespace"
+            }
+        },
+        {
+            "controlID": "C-0216",
+            "patch": {
+                "name": "Minimize the admission of containers wishing to share the host network namespace"
+            }
+        },
+        {
+            "controlID": "C-0217",
+            "patch": {
+                "name": "Minimize the admission of containers with allowPrivilegeEscalation"
+            }
+        },
+        {
+            "controlID": "C-0218",
+            "patch": {
+                "name": "Minimize the admission of root containers"
+            }
+        },
+        {
+            "controlID": "C-0219",
+            "patch": {
+                "name": "Minimize the admission of containers with added capabilities"
+            }
+        },
+        {
+            "controlID": "C-0220",
+            "patch": {
+                "name": "Minimize the admission of containers with capabilities assigned"
+            }
+        },
+        {
+            "controlID": "C-0221",
+            "patch": {
+                "name": "Ensure Image Vulnerability Scanning using Amazon ECR image scanning or a third party provider"
+            }
+        },
+        {
+            "controlID": "C-0222",
+            "patch": {
+                "name": "Minimize user access to Amazon ECR"
+            }
+        },
+        {
+            "controlID": "C-0223",
+            "patch": {
+                "name": "Minimize cluster access to read-only for Amazon ECR"
+            }
+        },
+        {
+            "controlID": "C-0225",
+            "patch": {
+                "name": "Prefer using dedicated EKS Service Accounts"
+            }
+        },
+        {
+            "controlID": "C-0226",
+            "patch": {
+                "name": "Prefer using a container-optimized OS when possible"
+            }
+        },
+        {
+            "controlID": "C-0227",
+            "patch": {
+                "name": "Restrict Access to the Control Plane Endpoint"
+            }
+        },
+        {
+            "controlID": "C-0228",
+            "patch": {
+                "name": "Ensure clusters are created with Private Endpoint Enabled and Public Access Disabled"
+            }
+        },
+        {
+            "controlID": "C-0229",
+            "patch": {
+                "name": "Ensure clusters are created with Private Nodes"
+            }
+        },
+        {
+            "controlID": "C-0230",
+            "patch": {
+                "name": "Ensure Network Policy is Enabled and set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0231",
+            "patch": {
+                "name": "Encrypt traffic to HTTPS load balancers with TLS certificates"
+            }
+        },
+        {
+            "controlID": "C-0232",
+            "patch": {
+                "name": "Manage Kubernetes RBAC users with AWS IAM Authenticator for Kubernetes or Upgrade to AWS CLI v1.16.156"
+            }
+        },
+        {
+            "controlID": "C-0233",
+            "patch": {
+                "name": "Consider Fargate for running untrusted workloads"
+            }
+        },
+        {
+            "controlID": "C-0234",
+            "patch": {
+                "name": "Consider external secret storage"
+            }
+        },
+        {
+            "controlID": "C-0235",
+            "patch": {
+                "name": "Ensure that the kubelet configuration file has permissions set to 644 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0236",
+            "patch": {
+                "name": "Verify image signature"
+            }
+        },
+        {
+            "controlID": "C-0237",
+            "patch": {
+                "name": "Check if signature exists"
+            }
+        },
+        {
+            "controlID": "C-0238",
+            "patch": {
+                "name": "Ensure that the kubeconfig file permissions are set to 644 or more restrictive"
+            }
+        },
+        {
+            "controlID": "C-0239",
+            "patch": {
+                "name": "Prefer using dedicated AKS Service Accounts"
+            }
+        },
+        {
+            "controlID": "C-0240",
+            "patch": {
+                "name": "Ensure Network Policy is Enabled and set as appropriate"
+            }
+        },
+        {
+            "controlID": "C-0241",
+            "patch": {
+                "name": "Use Azure RBAC for Kubernetes Authorization."
+            }
+        },
+        {
+            "controlID": "C-0242",
+            "patch": {
+                "name": "Hostile multi-tenant workloads"
+            }
+        },
+        {
+            "controlID": "C-0243",
+            "patch": {
+                "name": "Ensure Image Vulnerability Scanning using Azure Defender image scanning or a third party provider"
+            }
+        },
+        {
+            "controlID": "C-0244",
+            "patch": {
+                "name": "Ensure Kubernetes Secrets are encrypted"
+            }
+        },
+        {
+            "controlID": "C-0245",
+            "patch": {
+                "name": "Encrypt traffic to HTTPS load balancers with TLS certificates"
+            }
+        },
+        {
+            "controlID": "C-0246",
+            "patch": {
+                "name": "Avoid use of system:masters group"
+            }
+        },
+        {
+            "controlID": "C-0247",
+            "patch": {
+                "name": "Restrict Access to the Control Plane Endpoint"
+            }
+        },
+        {
+            "controlID": "C-0248",
+            "patch": {
+                "name": "Ensure clusters are created with Private Nodes"
+            }
+        },
+        {
+            "controlID": "C-0249",
+            "patch": {
+                "name": "Restrict untrusted workloads"
+            }
+        },
+        {
+            "controlID": "C-0250",
+            "patch": {
+                "name": "Minimize cluster access to read-only for Azure Container Registry (ACR)"
+            }
+        },
+        {
+            "controlID": "C-0251",
+            "patch": {
+                "name": "Minimize user access to Azure Container Registry (ACR)"
+            }
+        },
+        {
+            "controlID": "C-0252",
+            "patch": {
+                "name": "Ensure clusters are created with Private Endpoint Enabled and Public Access Disabled"
+            }
+        },
+        {
+            "controlID": "C-0253",
+            "patch": {
+                "name": "Deprecated Kubernetes image registry"
+            }
+        },
+        {
+            "controlID": "C-0254",
+            "patch": {
+                "name": "Enable audit Logs"
+            }
+        },
+        {
+            "controlID": "C-0255",
+            "patch": {
+                "name": "Workload with secret access"
+            }
+        },
+        {
+            "controlID": "C-0256",
+            "patch": {
+                "name": "External facing"
+            }
+        },
+        {
+            "controlID": "C-0257",
+            "patch": {
+                "name": "Workload with PVC access"
+            }
+        },
+        {
+            "controlID": "C-0258",
+            "patch": {
+                "name": "Workload with ConfigMap access"
+            }
+        },
+        {
+            "controlID": "C-0259",
+            "patch": {
+                "name": "Workload with credential access"
+            }
+        },
+        {
+            "controlID": "C-0260",
+            "patch": {
+                "name": "Missing network policy"
+            }
+        },
+        {
+            "controlID": "C-0261",
+            "patch": {
+                "name": "ServiceAccount token mounted"
+            }
+        },
+        {
             "controlID": "C-0262",
             "patch": {
-                "name": "Anonymous access enabled"
+                "name": "Anonymous user has RoleBinding"
+            }
+        },
+        {
+            "controlID": "C-0263",
+            "patch": {
+                "name": "Ingress uses TLS"
+            }
+        },
+        {
+            "controlID": "C-0264",
+            "patch": {
+                "name": "PersistentVolume without encyption"
             }
         },
         {
             "controlID": "C-0265",
             "patch": {
-                "name": "Authenticated user has sensitive permissions"
+                "name": "system:authenticated user has elevated roles"
+            }
+        },
+        {
+            "controlID": "C-0266",
+            "patch": {
+                "name": "Exposure to internet via Gateway API or Istio Ingress"
+            }
+        },
+        {
+            "controlID": "C-0267",
+            "patch": {
+                "name": "Workload with cluster takeover roles"
+            }
+        },
+        {
+            "controlID": "C-0268",
+            "patch": {
+                "name": "Ensure CPU requests are set"
+            }
+        },
+        {
+            "controlID": "C-0269",
+            "patch": {
+                "name": "Ensure memory requests are set"
             }
         },
         {
@@ -367,6 +1476,132 @@
             "controlID": "C-0271",
             "patch": {
                 "name": "Ensure memory limits are set"
+            }
+        },
+        {
+            "controlID": "C-0272",
+            "patch": {
+                "name": "Workload with administrative roles"
+            }
+        },
+        {
+            "controlID": "C-0273",
+            "patch": {
+                "name": "Outdated Kubernetes version"
+            }
+        },
+        {
+            "controlID": "C-0274",
+            "patch": {
+                "name": "Verify Authenticated Service"
+            }
+        },
+        {
+            "controlID": "C-0275",
+            "patch": {
+                "name": "Minimize the admission of containers wishing to share the host process ID namespace"
+            }
+        },
+        {
+            "controlID": "C-0276",
+            "patch": {
+                "name": "Minimize the admission of containers wishing to share the host IPC namespace"
+            }
+        },
+        {
+            "controlID": "C-0277",
+            "patch": {
+                "name": "Ensure that the API Server only makes use of Strong Cryptographic Ciphers"
+            }
+        },
+        {
+            "controlID": "C-0278",
+            "patch": {
+                "name": "Minimize access to create persistent volumes"
+            }
+        },
+        {
+            "controlID": "C-0279",
+            "patch": {
+                "name": "Minimize access to the proxy sub-resource of nodes"
+            }
+        },
+        {
+            "controlID": "C-0280",
+            "patch": {
+                "name": "Minimize access to the approval sub-resource of certificatesigningrequests objects"
+            }
+        },
+        {
+            "controlID": "C-0281",
+            "patch": {
+                "name": "Minimize access to webhook configuration objects"
+            }
+        },
+        {
+            "controlID": "C-0282",
+            "patch": {
+                "name": "Minimize access to the service account token creation"
+            }
+        },
+        {
+            "controlID": "C-0283",
+            "patch": {
+                "name": "Ensure that the API Server --DenyServiceExternalIPs is set"
+            }
+        },
+        {
+            "controlID": "C-0284",
+            "patch": {
+                "name": "Ensure that the Kubelet is configured to limit pod PIDS"
+            }
+        },
+        {
+            "controlID": "C-0285",
+            "patch": {
+                "name": "Cluster Access Manager API to streamline and enhance the management of access controls within EKS clusters"
+            }
+        },
+        {
+            "controlID": "C-0286",
+            "patch": {
+                "name": "Client certificate authentication should not be used for users"
+            }
+        },
+        {
+            "controlID": "C-0287",
+            "patch": {
+                "name": "Service account token authentication should not be used for users"
+            }
+        },
+        {
+            "controlID": "C-0288",
+            "patch": {
+                "name": "Bootstrap token authentication should not be used for users"
+            }
+        },
+        {
+            "controlID": "C-0289",
+            "patch": {
+                "name": "Configure Image Provenance using ImagePolicyWebhook admission controller"
+            }
+        },
+        {
+            "controlID": "C-0290",
+            "patch": {
+                "name": "Ensure that the --service-account-extend-token-expiration parameter is set to false"
+            }
+        },
+        {
+            "controlID": "C-0291",
+            "patch": {
+                "name": "Ensure that the kube-proxy metrics service is bound to localhost"
+            }
+        },
+        {
+            "controlID": "C-0292",
+            "patch": {
+                "name": "Nginx Ingress Controller End of Life"
             }
         },
         {
@@ -391,6 +1626,42 @@
             "controlID": "C-0296",
             "patch": {
                 "name": "Mismatching selector"
+            }
+        },
+        {
+            "controlID": "C-0297",
+            "patch": {
+                "name": "Agent Sandbox hardened runtime class"
+            }
+        },
+        {
+            "controlID": "C-0298",
+            "patch": {
+                "name": "Dangling Ingress backend"
+            }
+        },
+        {
+            "controlID": "C-0299",
+            "patch": {
+                "name": "Dangling NetworkPolicy"
+            }
+        },
+        {
+            "controlID": "C-0300",
+            "patch": {
+                "name": "Dangling HPA target"
+            }
+        },
+        {
+            "controlID": "C-0301",
+            "patch": {
+                "name": "Agent Sandbox egress policy enforcement"
+            }
+        },
+        {
+            "controlID": "C-0302",
+            "patch": {
+                "name": "Dangling Gateway API backend"
             }
         }
     ]
