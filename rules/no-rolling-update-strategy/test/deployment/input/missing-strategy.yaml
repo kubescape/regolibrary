@@ -5,7 +5,6 @@ metadata:
   labels:
     app: missing-strategy
 spec:
-  strategy: null
   selector:
     matchLabels:
       app: missing-strategy
