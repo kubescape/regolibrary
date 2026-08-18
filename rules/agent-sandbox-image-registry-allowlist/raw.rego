@@ -68,11 +68,13 @@ _image_matches_registry(image, registry) if {
 
 _image_matches_registry(image, registry) if {
 	not endswith(registry, "/")
+	contains(registry, "/")
 	startswith(image, sprintf("%s:", [registry]))
 }
 
 _image_matches_registry(image, registry) if {
 	not endswith(registry, "/")
+	contains(registry, "/")
 	startswith(image, sprintf("%s@", [registry]))
 }
 
