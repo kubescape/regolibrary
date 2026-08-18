@@ -1,0 +1,15 @@
+apiVersion: extensions.agents.x-k8s.io/v1beta1
+kind: SandboxTemplate
+metadata:
+  name: initcontainer-unapproved-template
+  namespace: default
+spec:
+  podTemplate:
+    spec:
+      runtimeClassName: gvisor
+      initContainers:
+      - name: setup
+        image: evil-registry.example.com/init-setup:1.0
+      containers:
+      - name: python-runtime
+        image: gcr.io/my-project/agent:1.0

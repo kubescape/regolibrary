@@ -12,7 +12,7 @@
         "resources-sandbox-memory-limits"
     ],
     "test": "Check that each Agent Sandbox SandboxTemplate container defines CPU and memory limits, and that neither exceeds the configured maximum.",
-    "controlID": "C-0302",
+    "controlID": "C-0303",
     "baseScore": 7.0,
     "category": {
         "name": "Workload"
