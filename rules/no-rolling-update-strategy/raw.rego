@@ -1,3 +1,4 @@
+# regal ignore:directory-package-mismatch
 package armo_builtins
 
 import future.keywords.contains
@@ -20,6 +21,4 @@ deny contains msga if {
 	}
 }
 
-usable_rolling_update_strategy(strategy_type) if {
-	strategy_type == "RollingUpdate"
-}
+usable_rolling_update_strategy("RollingUpdate")
