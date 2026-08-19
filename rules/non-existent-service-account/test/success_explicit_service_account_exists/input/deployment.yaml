@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: existing-sa-deployment
+  namespace: app
+spec:
+  selector:
+    matchLabels:
+      app: existing-sa
+  template:
+    metadata:
+      labels:
+        app: existing-sa
+    spec:
+      serviceAccountName: worker
+      containers:
+      - name: app
+        image: nginx

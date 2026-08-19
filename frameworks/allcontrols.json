@@ -1675,6 +1675,12 @@
             "patch": {
                 "name": "Images not pinned to digest"
             }
+        },
+        {
+            "controlID": "C-0307",
+            "patch": {
+                "name": "Non-existent service account"
+            }
         }
     ]
 }
