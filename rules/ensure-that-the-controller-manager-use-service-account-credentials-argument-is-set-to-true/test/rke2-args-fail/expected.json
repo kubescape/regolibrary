@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "--use-service-account-credentials is set to false in the controller manager",
+        "reviewPaths": [
+            "spec.containers[0].args[16]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].args[16]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[16]",
+                "value": "--use-service-account-credentials=true"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-controller-manager",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-controller-manager-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]

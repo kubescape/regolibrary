@@ -1,0 +1,51 @@
+[
+    {
+        "alertMessage": "Cert file is the same both for the api server and the etcd",
+        "alertScore": 8,
+        "packagename": "armo_builtins",
+        "reviewPaths": [
+            "spec.containers[0].args[3]",
+            "spec.containers[0].args[3]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].args[3]",
+            "spec.containers[0].args[3]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[3]",
+                "value": "<path/to/different-tls-certificate-file.crt>"
+            },
+            {
+                "path": "spec.containers[0].args[3]",
+                "value": "<path/to/different-tls-certificate-file.crt>"
+            }
+        ],
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "etcd",
+                            "tier": "control-plane"
+                        },
+                        "name": "etcd-rke2-server"
+                    }
+                },
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "Etcd encryption for peer connection is not enabled.",
+        "reviewPaths": [
+            "spec.containers[0].args"
+        ],
+        "failedPaths": [
+            "spec.containers[0].args"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[15]",
+                "value": "--peer-cert-file=<path/to/tls-certificate-file.crt>"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "etcd",
+                            "tier": "control-plane"
+                        },
+                        "name": "etcd-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]
