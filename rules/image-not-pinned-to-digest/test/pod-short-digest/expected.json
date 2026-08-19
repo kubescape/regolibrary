@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Pod pod-short-digest: container 'app' image 'nginx@sha256:abc' is not pinned to a digest",
+        "reviewPaths": [
+            "spec.containers[0].image"
+        ],
+        "failedPaths": [
+            "spec.containers[0].image"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "pod-short-digest"
+                    }
+                }
+            ]
+        }
+    }
+]

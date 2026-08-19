@@ -247,6 +247,12 @@
             "patch": {
                 "name": "Nginx Ingress Controller End of Life"
             }
+        },
+        {
+            "controlID": "C-0306",
+            "patch": {
+                "name": "Images not pinned to digest"
+            }
         }
     ]
 }
