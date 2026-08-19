@@ -1,0 +1,35 @@
+{
+  "name": "agent-sandbox-image-tag-provenance",
+  "attributes": {
+    "hostSensorRule": "false",
+    "imageScanRelated": false
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "extensions.agents.x-k8s.io"
+      ],
+      "apiVersions": [
+        "v1beta1"
+      ],
+      "resources": [
+        "SandboxTemplate"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "configInputs": [
+    "settings.postureControlInputs.floatingImageTags"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.floatingImageTags",
+      "name": "Floating image tags",
+      "description": "Additional mutable image tags (e.g. dev, nightly) that should be rejected alongside :latest and untagged images. Default is empty (opt-in)."
+    }
+  ],
+  "description": "Checks that container images in Agent Sandbox SandboxTemplate resources use an explicit non-latest tag or digest reference, rejecting mutable :latest, untagged images, and any tags listed in floatingImageTags.",
+  "remediation": "Pin container images to an explicit version tag (e.g. :1.2.3) or a digest reference (e.g. @sha256:...) instead of using :latest, omitting the tag, or using a configured floating tag.",
+  "ruleQuery": "armo_builtins"
+}

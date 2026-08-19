@@ -1,0 +1,14 @@
+apiVersion: extensions.agents.x-k8s.io/v1beta1
+kind: SandboxTemplate
+metadata:
+  name: mixed-registry-template
+  namespace: default
+spec:
+  podTemplate:
+    spec:
+      runtimeClassName: gvisor
+      containers:
+      - name: approved-container
+        image: gcr.io/my-project/agent:1.0
+      - name: unapproved-container
+        image: untrusted.io/bad/image:2.0

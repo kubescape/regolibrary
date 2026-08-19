@@ -1,0 +1,35 @@
+{
+  "name": "agent-sandbox-image-registry-allowlist",
+  "attributes": {
+    "hostSensorRule": "false",
+    "imageScanRelated": false
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "extensions.agents.x-k8s.io"
+      ],
+      "apiVersions": [
+        "v1beta1"
+      ],
+      "resources": [
+        "SandboxTemplate"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "configInputs": [
+    "settings.postureControlInputs.imageRepositoryAllowList"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.imageRepositoryAllowList",
+      "name": "Allowed image repositories",
+      "description": "Kubescape checks that all container images in Agent Sandbox SandboxTemplate resources are from repositories explicitly allowed in this list."
+    }
+  ],
+  "description": "Checks that container images in Agent Sandbox SandboxTemplate resources come from an approved image registry.",
+  "remediation": "Update the SandboxTemplate container images to use images from an approved registry, or add the registry to the imageRepositoryAllowList configuration.",
+  "ruleQuery": "armo_builtins"
+}
