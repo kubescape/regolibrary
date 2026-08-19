@@ -157,6 +157,12 @@
             "patch": {
                 "name": "No rolling update strategy"
             }
+        },
+        {
+            "controlID": "C-0306",
+            "patch": {
+                "name": "Non-existent service account"
+            }
         }
     ]
 }
