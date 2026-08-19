@@ -20,7 +20,7 @@ has_digest(image) if {
 
 # Keep generic validation for unregistered digest algorithms.
 has_digest(image) if {
-	regex.match(`@([a-z0-9]+([.+_-][a-z0-9]+)*):[a-zA-Z0-9=_-]{32,}$`, image)
+	regex.match(`@([a-z0-9]+([.+_-][a-z0-9]+)*):[a-zA-Z0-9=_-]+$`, image)
 	not regex.match(`@(sha256|sha512|blake3):`, image)
 }
 
