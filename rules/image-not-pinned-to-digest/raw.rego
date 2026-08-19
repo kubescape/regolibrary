@@ -3,12 +3,25 @@ package armo_builtins
 
 import rego.v1
 
-# has_digest - true when the image reference ends with a pinned digest (@<algorithm>:<encoded>).
-# The '@' separator makes registry ports safe (e.g. registry.example.com:5000/myapp has no '@'),
-# accepts the combined tag+digest form (myapp:1.2.3@sha256:...), and covers non-sha256
-# OCI digest algorithms. The {32,} lower bound rejects truncated/fake digests.
+# has_digest - true when the image reference ends with a valid pinned digest.
+# Registered OCI algorithms use their exact lowercase hexadecimal lengths;
+# unregistered algorithms use the generic digest grammar.
 has_digest(image) if {
-	regex.match(`@[a-z0-9]+([.+_-][a-z0-9]+)*:[a-zA-Z0-9=_-]{32,}$`, image)
+	regex.match(`@sha256:[a-f0-9]{64}$`, image)
+}
+
+has_digest(image) if {
+	regex.match(`@sha512:[a-f0-9]{128}$`, image)
+}
+
+has_digest(image) if {
+	regex.match(`@blake3:[a-f0-9]{64}$`, image)
+}
+
+# Keep generic validation for unregistered digest algorithms.
+has_digest(image) if {
+	regex.match(`@([a-z0-9]+([.+_-][a-z0-9]+)*):[a-zA-Z0-9=_-]{32,}$`, image)
+	not regex.match(`@(sha256|sha512|blake3):`, image)
 }
 
 # exempted_repository - true when the image belongs to a user-configured exempt repository
