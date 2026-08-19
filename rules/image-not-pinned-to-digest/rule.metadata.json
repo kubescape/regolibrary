@@ -1,0 +1,60 @@
+{
+  "name": "image-not-pinned-to-digest",
+  "attributes": {
+    "m$K8sThreatMatrix": "Initial Access::Compromised images in registry"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    },
+    {
+      "apiGroups": [
+        "apps"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet"
+      ]
+    },
+    {
+      "apiGroups": [
+        "batch"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Job",
+        "CronJob"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "configInputs": [
+    "settings.postureControlInputs.imageDigestExemptRepositories"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.imageDigestExemptRepositories",
+      "name": "Image digest exempt repositories",
+      "description": "Kubescape does not require images from these repositories to be pinned to a digest."
+    }
+  ],
+  "description": "Fails if container image is not pinned to a digest",
+  "remediation": "Pin the image to a digest (image@sha256:...) via `crane digest` and automated Renovate digest updates",
+  "ruleQuery": "armo_builtins"
+}

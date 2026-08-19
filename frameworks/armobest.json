@@ -231,6 +231,12 @@
             }
         },
         {
+            "controlID": "C-0302",
+            "patch": {
+                "name": "Images not pinned to digest"
+            }
+        },
+        {
             "controlID": "C-0270",
             "patch": {
                 "name": "Ensure CPU limits are set"

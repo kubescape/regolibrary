@@ -1,0 +1,38 @@
+{
+    "name": "Images not pinned to digest",
+    "attributes": {
+        "actionRequired": "configuration",
+        "microsoftMitreColumns": [
+            "Collection"
+        ],
+        "controlTypeTags": [
+            "security",
+            "compliance"
+        ]
+    },
+    "description": "Fails if a container image reference is not pinned to an immutable digest (image@sha256:...). Pinning makes the image reference immutable, closing the TOCTOU window where an image signature (C-0236) is verified against a mutable tag that can be re-pointed after verification, causing the kubelet to pull something that was never verified.",
+    "long_description": "Nothing in the current control set constrains image mutability: C-0078 constrains where an image comes from, and C-0236/C-0237 verify signature/provenance, but none of them stop an image reference from being re-pointed after the fact. Requiring a digest closes that window by making the reference immutable. Note that a pinned digest never picks up base-image CVE fixes on its own, and Rego has no way to tell a Renovate-managed digest (patched regularly via automation) from an abandoned one. This control is only meaningful when paired with an automated digest-bump process; it is not a substitute for patch hygiene.",
+    "remediation": "Pin container images to a digest (image@sha256:...) via `crane digest` and automated Renovate digest updates.",
+    "manual_test": "",
+    "references": [],
+    "rulesNames": [
+        "image-not-pinned-to-digest"
+    ],
+    "test": "Check that every container image reference is pinned to a digest.",
+    "controlID": "C-0302",
+    "baseScore": 3.0,
+    "impact_statement": "",
+    "default_value": "",
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Supply chain"
+        }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

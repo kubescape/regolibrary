@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: registry-with-port
+spec:
+  containers:
+  - name: app
+    image: registry.example.com:5000/myapp:1.0
