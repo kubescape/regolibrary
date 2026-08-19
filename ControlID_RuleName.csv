@@ -234,4 +234,4 @@ C-0303,resources-sandbox-cpu-limits
 C-0303,resources-sandbox-memory-limits
 C-0304,agent-sandbox-image-registry-allowlist
 C-0304,agent-sandbox-image-tag-provenance
-C-0306,non-existent-service-account
+C-0307,non-existent-service-account

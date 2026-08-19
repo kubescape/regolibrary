@@ -159,7 +159,7 @@
             }
         },
         {
-            "controlID": "C-0306",
+            "controlID": "C-0307",
             "patch": {
                 "name": "Non-existent service account"
             }
