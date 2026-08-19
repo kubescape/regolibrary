@@ -35,6 +35,7 @@ workload_info(wl) := {"spec": wl.spec.jobTemplate.spec.template.spec, "path": "s
 }
 
 service_account_exists("default", _) := true
+service_account_exists("", _) := true
 
 service_account_exists(name, wl_namespace) if {
 	sa := input[_]

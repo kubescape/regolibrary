@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: empty-sa-pod
+  namespace: app
+spec:
+  serviceAccountName: ""
+  containers:
+  - name: app
+    image: nginx
