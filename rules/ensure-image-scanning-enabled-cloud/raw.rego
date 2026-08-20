@@ -37,7 +37,7 @@ deny contains msga if {
 	describe_repositories.apiVersion == "container.googleapis.com/v1"
 	describe_repositories.kind == "DescribeRepositories"
 	describe_repositories.metadata.provider == "gke"
-	
+
 	repos := describe_repositories.data.registries
 	some repo in repos
 	not image_scanning_configured_gcp(repo)
@@ -57,5 +57,5 @@ deny contains msga if {
 }
 
 image_scanning_configured_gcp(repo) if {
-    repo.vulnerabilityScanningConfig.enableVulnerabilityScanning == true
+	repo.vulnerabilityScanningConfig.enableVulnerabilityScanning == true
 }

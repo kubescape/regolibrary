@@ -221,6 +221,12 @@
             }
         },
         {
+            "controlID": "C-0303",
+            "patch": {
+                "name": "CIS-5.1.3 Minimize cluster access to read-only for Container Image repositories"
+            }
+        },
+        {
             "controlID": "C-0078",
             "patch": {
                 "name": "CIS-5.1.4 Ensure only trusted container images are used",
