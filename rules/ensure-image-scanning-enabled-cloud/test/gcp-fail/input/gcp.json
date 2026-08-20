@@ -1,0 +1,19 @@
+{
+    "apiVersion": "container.googleapis.com/v1",
+    "kind": "DescribeRepositories",
+    "metadata": {
+        "provider": "gke",
+        "name": "kubescape-demo-01"
+    },
+    "data": {
+        "registries": [
+            {
+                "format": "DOCKER",
+                "createTime": "2023-11-14T22:13:20Z",
+                "vulnerabilityScanningConfig": {
+                    "enableVulnerabilityScanning": false
+                }
+            }
+        ]
+    }
+}

@@ -195,7 +195,7 @@
             }
         },
         {
-            "controlID": "C-0222",
+            "controlID": "C-0308",
             "patch": {
                 "name": "CIS-5.1.2 Minimize user access to Container Image repositories",
                 "description": "Restrict IAM permissions on Google Artifact Registry and Container Registry to the minimum required roles.",

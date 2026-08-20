@@ -1,23 +1,23 @@
 {
-  "name": "ensure-image-scanning-enabled-cloud",
-  "attributes": {
-  },
+  "name": "list-iam-policies-in-gcp",
+  "attributes": {},
   "ruleLanguage": "Rego",
   "dynamicMatch": [
     {
       "apiGroups": [
-        "eks.amazonaws.com",
         "container.googleapis.com"
       ],
       "apiVersions": [
         "v1"
       ],
       "resources": [
-        "DescribeRepositories"
+        "ListEntitiesForPolicies"
       ]
     }
   ],
-  "relevantCloudProviders": ["EKS", "GKE"],
+  "relevantCloudProviders": [
+    "GKE"
+  ],
   "ruleDependencies": [],
   "description": "",
   "remediation": "",

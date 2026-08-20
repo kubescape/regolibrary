@@ -1665,6 +1665,18 @@
             }
         },
         {
+            "controlID": "C-0303",
+            "patch": {
+                "name": "Agent Sandbox resource ceilings"
+            }
+        },
+        {
+            "controlID": "C-0304",
+            "patch": {
+                "name": "Agent Sandbox image provenance"
+            }
+        },
+        {
             "controlID": "C-0305",
             "patch": {
                 "name": "No rolling update strategy"
@@ -1680,6 +1692,12 @@
             "controlID": "C-0307",
             "patch": {
                 "name": "Non-existent service account"
+            }
+        },
+        {
+            "controlID": "C-0308",
+            "patch": {
+                "name": "Minimize user access to GCP Artifact Registry"
             }
         }
     ]

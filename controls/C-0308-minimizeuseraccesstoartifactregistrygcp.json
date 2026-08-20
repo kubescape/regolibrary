@@ -1,0 +1,21 @@
+{
+    "controlID": "C-0308",
+    "name": "Minimize user access to GCP Artifact Registry",
+    "description": "Restrict user access to GCP Artifact Registry, limiting interaction with build images to only authorized personnel and service accounts.",
+    "long_description": "Weak access control to GCP Artifact Registry may allow malicious users to replace built images with vulnerable containers.",
+    "remediation": "Review the IAM bindings for GCP Artifact Registry repositories and ensure that only authorized accounts have roles such as roles/artifactregistry.writer or roles/artifactregistry.admin.",
+    "manual_test": "",
+    "references": [],
+    "attributes": {},
+    "rulesNames": [
+        "list-iam-policies-in-gcp"
+    ],
+    "baseScore": 6,
+    "impact_statement": "Care should be taken not to remove access to GCP Artifact Registry for accounts that require this for their operation.",
+    "default_value": "",
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
+}
