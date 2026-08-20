@@ -1,5 +1,5 @@
 {
-    "controlID": "C-0303",
+    "controlID": "C-0308",
     "name": "Minimize user access to GCP Artifact Registry",
     "description": "Restrict user access to GCP Artifact Registry, limiting interaction with build images to only authorized personnel and service accounts.",
     "long_description": "Weak access control to GCP Artifact Registry may allow malicious users to replace built images with vulnerable containers.",
