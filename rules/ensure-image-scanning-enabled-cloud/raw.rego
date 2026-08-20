@@ -27,10 +27,6 @@ deny contains msga if {
 	}
 }
 
-image_scanning_configured(repo) if {
-	repo.ImageScanningConfiguration.ScanOnPush == true
-}
-
 # NEW GCP GAR check
 deny contains msga if {
 	describe_repositories := input[_]
@@ -54,6 +50,10 @@ deny contains msga if {
 			"externalObjects": describe_repositories,
 		},
 	}
+}
+
+image_scanning_configured(repo) if {
+	repo.ImageScanningConfiguration.ScanOnPush == true
 }
 
 image_scanning_configured_gcp(repo) if {
