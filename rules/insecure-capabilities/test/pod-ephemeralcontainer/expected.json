@@ -1,0 +1,24 @@
+[
+    {
+        "alertMessage": "container: debugger in pod: test  have dangerous capabilities",
+        "deletePaths": [],
+        "failedPaths": [
+            "spec.ephemeralContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

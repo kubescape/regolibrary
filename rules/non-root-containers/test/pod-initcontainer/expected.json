@@ -1,0 +1,31 @@
+[
+    {
+        "alertMessage": "container: init-setup in pod: test  may run as root",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.initContainers[0].securityContext.runAsNonRoot",
+                "value": "true"
+            },
+            {
+                "path": "spec.initContainers[0].securityContext.runAsGroup",
+                "value": "1000"
+            }
+        ],
+        "reviewPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

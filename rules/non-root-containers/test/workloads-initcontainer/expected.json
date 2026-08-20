@@ -1,0 +1,34 @@
+[
+    {
+        "alertMessage": "container: init-setup in Deployment: my-deployment may run as root",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.initContainers[0].securityContext.runAsNonRoot",
+                "value": "true"
+            },
+            {
+                "path": "spec.template.spec.initContainers[0].securityContext.runAsGroup",
+                "value": "1000"
+            }
+        ],
+        "reviewPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "goproxy"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,29 @@
+[
+    {
+        "alertMessage": "container: init-setup in workload: my-deployment  have dangerous capabilities",
+        "deletePaths": [
+            "spec.template.spec.initContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "failedPaths": [
+            "spec.template.spec.initContainers[0].securityContext.capabilities.add[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "labels": {
+                            "app": "goproxy"
+                        },
+                        "name": "my-deployment"
+                    }
+                }
+            ]
+        }
+    }
+]
