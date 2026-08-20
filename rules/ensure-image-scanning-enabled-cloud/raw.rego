@@ -48,7 +48,7 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"failedPaths": [],
 		"fixPaths": [],
-		"fixCommand": "gcloud artifacts repositories update $REPO_NAME --location=$LOCATION --vulnerability-scanning-config=ENABLE_VULNERABILITY_SCANNING",
+		"fixCommand": "gcloud artifacts repositories update $REPO_NAME --location=$LOCATION --allow-vulnerability-scanning",
 		"alertObject": {
 			"k8sApiObjects": [],
 			"externalObjects": describe_repositories,

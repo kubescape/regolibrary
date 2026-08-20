@@ -6,7 +6,7 @@
         "ruleStatus": "",
         "packagename": "armo_builtins",
         "alertScore": 3,
-        "fixCommand": "gcloud artifacts repositories update $REPO_NAME --location=$LOCATION --vulnerability-scanning-config=ENABLE_VULNERABILITY_SCANNING",
+        "fixCommand": "gcloud artifacts repositories update $REPO_NAME --location=$LOCATION --allow-vulnerability-scanning",
         "alertObject": {
             "externalObjects": {
                 "apiVersion": "container.googleapis.com/v1",
