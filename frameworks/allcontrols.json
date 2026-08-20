@@ -1,7 +1,18 @@
 {
-    "name": "allcontrols",
-    "description": "All Controls",
-    "attributes": {},
+    "name": "AllControls",
+    "description": "Contains all the controls from all the frameworks",
+    "attributes": {
+        "builtin": true
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    },
+    "typeTags": [
+        "compliance"
+    ],
     "activeControls": [
         {
             "controlID": "C-0001",
