@@ -1,0 +1,32 @@
+[
+    {
+        "alertMessage": "image scanning is not enabled for GCP Artifact Registry",
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "fixCommand": "gcloud artifacts repositories update $REPO_NAME --location=$LOCATION --vulnerability-scanning-config=ENABLE_VULNERABILITY_SCANNING",
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "container.googleapis.com/v1",
+                "kind": "DescribeRepositories",
+                "metadata": {
+                    "provider": "gke",
+                    "name": "kubescape-demo-01"
+                },
+                "data": {
+                    "registries": [
+                        {
+                            "format": "DOCKER",
+                            "createTime": "2023-11-14T22:13:20Z",
+                            "vulnerabilityScanningConfig": {
+                                "enableVulnerabilityScanning": false
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+]

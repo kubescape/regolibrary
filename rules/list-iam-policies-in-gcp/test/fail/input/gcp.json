@@ -1,0 +1,20 @@
+{
+    "apiVersion": "container.googleapis.com/v1",
+    "kind": "ListEntitiesForPolicies",
+    "metadata": {
+        "provider": "gke",
+        "name": "kubescape-demo-01"
+    },
+    "data": {
+        "rolesPolicies": {
+            "bindings": [
+                {
+                    "role": "roles/viewer",
+                    "members": [
+                        "user:test@example.com"
+                    ]
+                }
+            ]
+        }
+    }
+}

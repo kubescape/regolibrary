@@ -30,3 +30,32 @@ deny contains msga if {
 image_scanning_configured(repo) if {
 	repo.ImageScanningConfiguration.ScanOnPush == true
 }
+
+# NEW GCP GAR check
+deny contains msga if {
+	describe_repositories := input[_]
+	describe_repositories.apiVersion == "container.googleapis.com/v1"
+	describe_repositories.kind == "DescribeRepositories"
+	describe_repositories.metadata.provider == "gke"
+	
+	repos := describe_repositories.data.registries
+	some repo in repos
+	not image_scanning_configured_gcp(repo)
+
+	msga := {
+		"alertMessage": "image scanning is not enabled for GCP Artifact Registry",
+		"alertScore": 3,
+		"packagename": "armo_builtins",
+		"failedPaths": [],
+		"fixPaths": [],
+		"fixCommand": "gcloud artifacts repositories update $REPO_NAME --location=$LOCATION --vulnerability-scanning-config=ENABLE_VULNERABILITY_SCANNING",
+		"alertObject": {
+			"k8sApiObjects": [],
+			"externalObjects": describe_repositories,
+		},
+	}
+}
+
+image_scanning_configured_gcp(repo) if {
+    repo.vulnerabilityScanningConfig.enableVulnerabilityScanning == true
+}

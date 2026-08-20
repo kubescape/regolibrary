@@ -1,0 +1,32 @@
+[
+    {
+        "alertMessage": "",
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "externalObjects": {
+                "apiVersion": "container.googleapis.com/v1",
+                "kind": "ListEntitiesForPolicies",
+                "metadata": {
+                    "provider": "gke",
+                    "name": "kubescape-demo-01"
+                },
+                "data": {
+                    "rolesPolicies": {
+                        "bindings": [
+                            {
+                                "role": "roles/viewer",
+                                "members": [
+                                    "user:test@example.com"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+]
