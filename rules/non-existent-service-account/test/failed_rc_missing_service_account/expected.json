@@ -1,0 +1,22 @@
+[
+  {
+    "alertMessage": "ReplicationController: missing-sa-rc in namespace app references missing ServiceAccount rc-runner",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.template.spec.serviceAccountName"
+    ],
+    "fixPaths": [],
+    "alertScore": 5,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "ReplicationController",
+          "metadata": {
+            "name": "missing-sa-rc"
+          }
+        }
+      ]
+    }
+  }
+]

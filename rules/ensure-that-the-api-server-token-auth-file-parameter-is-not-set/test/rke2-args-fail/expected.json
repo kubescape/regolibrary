@@ -1,0 +1,30 @@
+[
+    {
+        "alertMessage": "API server TLS is not configured",
+        "reviewPaths": [
+            "spec.containers[0].args[1]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].args[1]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]

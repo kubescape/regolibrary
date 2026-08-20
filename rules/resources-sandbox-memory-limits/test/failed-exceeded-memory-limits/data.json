@@ -1,0 +1,7 @@
+{
+    "postureControlInputs": {
+        "sandbox_memory_limit_max": [
+            "512Mi"
+        ]
+    }
+}

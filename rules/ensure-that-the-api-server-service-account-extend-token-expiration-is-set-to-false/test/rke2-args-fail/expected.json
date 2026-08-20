@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "service account token expiration extension is enabled",
+        "reviewPaths": [
+            "spec.containers[0].args[1]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].args[1]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[1]",
+                "value": "--service-account-extend-token-expiration=false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]

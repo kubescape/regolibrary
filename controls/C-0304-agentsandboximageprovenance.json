@@ -1,0 +1,30 @@
+{
+    "name": "Agent Sandbox image provenance",
+    "attributes": {
+        "controlTypeTags": [
+            "security"
+        ]
+    },
+    "description": "Ensure Agent Sandbox SandboxTemplate resources use container images from approved registries and pin images to explicit version tags or digests, rejecting the mutable :latest tag.",
+    "remediation": "Update SandboxTemplate container images to use an approved registry from the imageRepositoryAllowList, and pin each image to an explicit version tag (e.g. :1.2.3) or digest reference (e.g. @sha256:...).",
+    "rulesNames": [
+        "agent-sandbox-image-registry-allowlist",
+        "agent-sandbox-image-tag-provenance"
+    ],
+    "long_description": "Agent Sandbox workloads execute untrusted, model-generated code, making supply chain integrity critical. This control ensures that all container images referenced in SandboxTemplate resources are pulled from explicitly approved registries and are pinned to immutable or versioned references. Using the mutable :latest tag or omitting a tag entirely risks running unvetted or tampered images in the sandbox environment.",
+    "test": "Check that each container image in an Agent Sandbox SandboxTemplate comes from an approved registry and uses an explicit non-latest tag or digest.",
+    "controlID": "C-0304",
+    "baseScore": 7.0,
+    "category": {
+        "name": "Workload",
+        "subCategory": {
+            "name": "Supply chain"
+        }
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

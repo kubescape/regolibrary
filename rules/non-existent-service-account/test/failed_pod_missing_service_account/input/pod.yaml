@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: missing-sa-pod
+  namespace: app
+spec:
+  serviceAccountName: api-runner
+  containers:
+  - name: app
+    image: nginx

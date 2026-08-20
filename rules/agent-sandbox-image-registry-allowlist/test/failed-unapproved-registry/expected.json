@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "SandboxTemplate 'unapproved-registry-template' container 'python-runtime' uses image 'evil-registry.example.com/malicious/agent:1.0' from a registry not in the allowed list.",
+        "failedPaths": [
+            "spec.podTemplate.spec.containers[0].image"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+                    "kind": "SandboxTemplate",
+                    "metadata": {
+                        "name": "unapproved-registry-template"
+                    }
+                }
+            ]
+        }
+    }
+]

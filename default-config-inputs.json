@@ -9,6 +9,7 @@
     "settings": {
         "postureControlInputs": {
             "imageRepositoryAllowList": [],
+            "imageDigestExemptRepositories": [],
             "floatingImageTags": [],
             "trustedCosignPublicKeys": [],
             "insecureCapabilities": [
@@ -94,6 +95,8 @@
             "cpu_request_min": ["0"],
             "cpu_limit_max": [],
             "cpu_limit_min": ["0"],
+            "sandbox_cpu_limit_max": [],
+            "sandbox_memory_limit_max": [],
             "wlKnownNames": [
                 "coredns",
                 "kube-proxy",

@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "SandboxTemplate 'excessive-memory-sandbox' container 'python-runtime' memory limit '1073741824000m' exceeds the configured maximum '512Mi'.",
+        "failedPaths": [
+            "spec.podTemplate.spec.containers[0].resources.limits.memory"
+        ],
+        "fixPaths": [],
+        "reviewPaths": [
+            "spec.podTemplate.spec.containers[0].resources.limits.memory"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+                    "kind": "SandboxTemplate",
+                    "metadata": {
+                        "name": "excessive-memory-sandbox"
+                    }
+                }
+            ]
+        }
+    }
+]

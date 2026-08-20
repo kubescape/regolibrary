@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "SandboxTemplate 'mixed-floating-template' container 'dev-container' uses image 'gcr.io/my-project/tools:dev' which is untagged, uses the mutable ':latest' tag, or uses a configured floating tag. Pin to an explicit version tag or digest.",
+        "failedPaths": [
+            "spec.podTemplate.spec.containers[1].image"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+                    "kind": "SandboxTemplate",
+                    "metadata": {
+                        "name": "mixed-floating-template"
+                    }
+                }
+            ]
+        }
+    }
+]

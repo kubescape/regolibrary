@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "profiling is enabled for the kube-controller-manager",
+        "reviewPaths": [
+            "spec.containers[0].args[0]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].args[0]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[0]",
+                "value": "--profiling=false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-controller-manager",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-controller-manager-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]

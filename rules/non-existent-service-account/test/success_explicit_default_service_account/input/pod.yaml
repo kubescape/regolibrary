@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: explicit-default-pod
+  namespace: app
+spec:
+  serviceAccountName: default
+  containers:
+  - name: app
+    image: nginx

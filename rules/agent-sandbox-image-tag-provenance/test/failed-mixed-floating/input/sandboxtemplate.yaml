@@ -1,0 +1,14 @@
+apiVersion: extensions.agents.x-k8s.io/v1beta1
+kind: SandboxTemplate
+metadata:
+  name: mixed-floating-template
+  namespace: default
+spec:
+  podTemplate:
+    spec:
+      runtimeClassName: gvisor
+      containers:
+      - name: stable-container
+        image: gcr.io/my-project/agent:v1.2.3
+      - name: dev-container
+        image: gcr.io/my-project/tools:dev

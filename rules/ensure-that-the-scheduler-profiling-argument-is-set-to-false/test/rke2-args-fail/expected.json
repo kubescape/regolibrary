@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "profiling is enabled for the kube-scheduler",
+        "reviewPaths": [
+            "spec.containers[0].args[0]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].args[0]"
+        ],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[0]",
+                "value": "--profiling=false"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-scheduler",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-scheduler-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]

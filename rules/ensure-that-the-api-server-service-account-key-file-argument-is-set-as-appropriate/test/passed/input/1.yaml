@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    component: kube-apiserver
+    tier: control-plane
+  name: kube-apiserver-minikube
+  namespace: kube-system
+spec:
+  containers:
+    - command:
+        - kube-apiserver
+        - '--advertise-address=192.168.49.2'
+        - '--secure-port=8443'
+        - '--service-account-key-file=/var/lib/minikube/certs/sa.pub'
+      image: k8s.gcr.io/kube-apiserver:v1.24.1
+      name: kube-apiserver
+  hostNetwork: true
+  nodeName: minikube

@@ -1668,6 +1668,21 @@
             "controlID": "C-0303",
             "patch": {
                 "name": "Minimize user access to GCP Artifact Registry"
+            "controlID": "C-0305",
+            "patch": {
+                "name": "No rolling update strategy"
+            }
+        },
+        {
+            "controlID": "C-0306",
+            "patch": {
+                "name": "Images not pinned to digest"
+            }
+        },
+        {
+            "controlID": "C-0307",
+            "patch": {
+                "name": "Non-existent service account"
             }
         }
     ]

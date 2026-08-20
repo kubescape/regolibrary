@@ -1,0 +1,23 @@
+[
+    {
+        "alertMessage": "SandboxTemplate 'alternate-port-template' container 'python-runtime' uses image 'gcr.io:5000/project/image:1.0' from a registry not in the allowed list.",
+        "failedPaths": [
+            "spec.podTemplate.spec.containers[0].image"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+                    "kind": "SandboxTemplate",
+                    "metadata": {
+                        "name": "alternate-port-template"
+                    }
+                }
+            ]
+        }
+    }
+]

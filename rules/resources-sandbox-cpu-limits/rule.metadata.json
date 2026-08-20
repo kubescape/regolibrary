@@ -1,0 +1,35 @@
+{
+  "name": "resources-sandbox-cpu-limits",
+  "attributes": {
+    "hostSensorRule": "false",
+    "imageScanRelated": false
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        "extensions.agents.x-k8s.io"
+      ],
+      "apiVersions": [
+        "v1beta1"
+      ],
+      "resources": [
+        "SandboxTemplate"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "configInputs": [
+    "settings.postureControlInputs.sandbox_cpu_limit_max"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.sandbox_cpu_limit_max",
+      "name": "sandbox_cpu_limit_max",
+      "description": "Maximum CPU limit allowed for Agent Sandbox SandboxTemplate containers."
+    }
+  ],
+  "description": "Checks that Agent Sandbox SandboxTemplate containers have CPU limits set and that they do not exceed the configured maximum.",
+  "remediation": "Set spec.podTemplate.spec.containers[].resources.limits.cpu to a value within the configured ceiling.",
+  "ruleQuery": "armo_builtins"
+}

@@ -1,0 +1,35 @@
+[
+    {
+        "alertMessage": "API server is not configured to serve only HTTPS traffic",
+        "reviewPaths": [],
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].args[3]",
+                "value": "--tls-cert-file=<path/to/tls-certificate-file.crt>"
+            },
+            {
+                "path": "spec.containers[0].args[4]",
+                "value": "--tls-private-key-file=<path/to/tls-key-file.key>"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-rke2-server"
+                    }
+                }
+            ]
+        }
+    }
+]
