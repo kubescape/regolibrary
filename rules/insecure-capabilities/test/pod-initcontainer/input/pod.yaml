@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: test
+spec:
+      initContainers:
+      - name: init-setup
+        image: busybox
+        securityContext:
+          capabilities:
+            add: ["SETPCAP", "MAC_OVERRIDE"]
+      containers:
+      - name: app
+        image: nginx

@@ -10,7 +10,7 @@ deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
 	container := pod.spec.containers[i]
-	result := is_dangerous_capabilities(container, start_of_path, i)
+	result := is_dangerous_capabilities(container, start_of_path, i, "containers")
 	msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  have dangerous capabilities", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -23,14 +23,84 @@ deny contains msga if {
 }
 
 deny contains msga if {
+	start_of_path := "spec."
+	pod := input[_]
+	pod.kind == "Pod"
+	container := pod.spec.initContainers[i]
+	result := is_dangerous_capabilities(container, start_of_path, i, "initContainers")
+	msga := {
+		"alertMessage": sprintf("container: %v in pod: %v  have dangerous capabilities", [container.name, pod.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"deletePaths": result,
+		"failedPaths": result,
+		"fixPaths": [],
+		"alertObject": {"k8sApiObjects": [pod]},
+	}
+}
+
+deny contains msga if {
+	start_of_path := "spec."
+	pod := input[_]
+	pod.kind == "Pod"
+	container := pod.spec.ephemeralContainers[i]
+	result := is_dangerous_capabilities(container, start_of_path, i, "ephemeralContainers")
+	msga := {
+		"alertMessage": sprintf("container: %v in pod: %v  have dangerous capabilities", [container.name, pod.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"deletePaths": [],
+		"failedPaths": result,
+		"fixPaths": [],
+		"alertObject": {"k8sApiObjects": [pod]},
+	}
+}
+
+deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	start_of_path := "spec.template.spec."
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	container := wl.spec.template.spec.containers[i]
-	result := is_dangerous_capabilities(container, start_of_path, i)
+	result := is_dangerous_capabilities(container, start_of_path, i, "containers")
 	msga := {
 		"alertMessage": sprintf("container: %v in workload: %v  have dangerous capabilities", [container.name, wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"deletePaths": result,
+		"failedPaths": result,
+		"fixPaths": [],
+		"alertObject": {"k8sApiObjects": [wl]},
+	}
+}
+
+deny contains msga if {
+	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	start_of_path := "spec.template.spec."
+	wl := input[_]
+	spec_template_spec_patterns[wl.kind]
+	container := wl.spec.template.spec.initContainers[i]
+	result := is_dangerous_capabilities(container, start_of_path, i, "initContainers")
+	msga := {
+		"alertMessage": sprintf("container: %v in workload: %v  have dangerous capabilities", [container.name, wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"deletePaths": result,
+		"failedPaths": result,
+		"fixPaths": [],
+		"alertObject": {"k8sApiObjects": [wl]},
+	}
+}
+
+
+deny contains msga if {
+	start_of_path := "spec.jobTemplate.spec.template.spec."
+	wl := input[_]
+	wl.kind == "CronJob"
+	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
+	result := is_dangerous_capabilities(container, start_of_path, i, "containers")
+	msga := {
+		"alertMessage": sprintf("container: %v in cronjob: %v  have dangerous capabilities", [container.name, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"deletePaths": result,
@@ -44,8 +114,8 @@ deny contains msga if {
 	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
-	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
-	result := is_dangerous_capabilities(container, start_of_path, i)
+	container := wl.spec.jobTemplate.spec.template.spec.initContainers[i]
+	result := is_dangerous_capabilities(container, start_of_path, i, "initContainers")
 	msga := {
 		"alertMessage": sprintf("container: %v in cronjob: %v  have dangerous capabilities", [container.name, wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -57,9 +127,10 @@ deny contains msga if {
 	}
 }
 
-is_dangerous_capabilities(container, start_of_path, i) := path if {
+
+is_dangerous_capabilities(container, start_of_path, i, container_type) := path if {
 	# see default-config-inputs.json for list values
 	insecureCapabilities := data.postureControlInputs.insecureCapabilities
-	path = [sprintf("%vcontainers[%v].securityContext.capabilities.add[%v]", [start_of_path, format_int(i, 10), format_int(k, 10)]) | capability = container.securityContext.capabilities.add[k]; cautils.list_contains(insecureCapabilities, capability)]
+	path = [sprintf("%v%v[%v].securityContext.capabilities.add[%v]", [start_of_path, container_type, format_int(i, 10), format_int(k, 10)]) | capability = container.securityContext.capabilities.add[k]; cautils.list_contains(insecureCapabilities, capability)]
 	count(path) > 0
 }

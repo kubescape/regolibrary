@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    app: goproxy
+spec:
+  selector:
+    matchLabels:
+      app: goproxy
+  template:
+    metadata:
+      name: goproxy
+      labels:
+        app: goproxy
+    spec:
+      initContainers:
+        - name: init-setup
+          image: busybox
+          securityContext:
+            capabilities:
+              add: ["SYS_ADMIN"]
+      containers:
+        - name: app
+          image: nginx

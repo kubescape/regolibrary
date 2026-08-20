@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  labels:
+    app: goproxy
+spec:
+  selector:
+    matchLabels:
+      app: goproxy
+  template:
+    metadata:
+      name: goproxy
+      labels:
+        app: goproxy
+    spec:
+      initContainers:
+        - name: init-setup
+          image: busybox
+      containers:
+        - name: app
+          image: nginx
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
