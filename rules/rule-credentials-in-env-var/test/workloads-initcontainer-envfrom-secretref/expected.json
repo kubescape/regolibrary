@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Deployment: initcontainer-secret-deploy has sensitive information in environment variables (in initContainer via envFrom.secretRef)",
+        "deletePaths": [
+            "spec.template.spec.initContainers[0].envFrom[0].secretRef"
+        ],
+        "failedPaths": [
+            "spec.template.spec.initContainers[0].envFrom[0].secretRef"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "initcontainer-secret-deploy"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Deployment: initcontainer-secretkeyref-deploy has secrets in environment variables",
+        "deletePaths": [
+            "spec.template.spec.initContainers[0].env[0].name"
+        ],
+        "failedPaths": [
+            "spec.template.spec.initContainers[0].env[0].name"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "initcontainer-secretkeyref-deploy"
+                    }
+                }
+            ]
+        }
+    }
+]
