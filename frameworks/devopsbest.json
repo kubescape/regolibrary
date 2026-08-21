@@ -142,7 +142,7 @@
             }
         },
         {
-            "controlID": "C-0301",
+            "controlID": "C-0303",
             "patch": {
                 "name": "Dangling Gateway API backend"
             }

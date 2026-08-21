@@ -11,7 +11,7 @@
         "dangling-gateway-backend"
     ],
     "test": "Check that every Gateway API backendRef targeting a core Service resolves to an existing Service.",
-    "controlID": "C-0301",
+    "controlID": "C-0303",
     "baseScore": 4.0,
     "category": {
         "name": "Network"
