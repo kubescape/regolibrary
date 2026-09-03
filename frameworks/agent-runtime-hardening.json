@@ -1,0 +1,30 @@
+{
+    "name": "AgentRuntimeHardening",
+    "description": "Security posture framework for agent-runtime workloads (GKE Agent Sandbox / Agent Substrate). It verifies that model-generated, untrusted agent code is confined to a hardened sandbox runtime and a default-deny egress posture, rather than sharing the host kernel or having open network access. Controls map to the OWASP Top 10 for LLM Applications (2025) and MITRE ATLAS (see the accompanying design note for the full mapping). Implements the static-posture half (Part A) of kubescape/kubescape#2557 and gives the already-merged agent-sandbox controls a named framework to run under.",
+    "attributes": {
+        "builtin": true
+    },
+    "typeTags": [
+        "security"
+    ],
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    },
+    "activeControls": [
+        {
+            "controlID": "C-0297",
+            "patch": {
+                "name": "Agent Sandbox hardened runtime class"
+            }
+        },
+        {
+            "controlID": "C-0301",
+            "patch": {
+                "name": "Agent Sandbox egress policy enforcement"
+            }
+        }
+    ]
+}
