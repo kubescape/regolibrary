@@ -16,6 +16,7 @@ deny contains msga if {
 	is_same_namespace(wl.metadata, service.metadata)
 	pod := get_pod_spec(wl).spec
 	wl_connected_to_service(pod, service)
+	service_target_port_resolves(pod, service)
 	msga := {
 		"alertMessage": sprintf("workload '%v' is exposed through service '%v'", [wl.metadata.name, service.metadata.name]),
 		"packagename": "armo_builtins",
@@ -95,6 +96,19 @@ wl_connected_to_service(wl, svc) if {
 }
 
 # check if service is connected to ingress
+service_target_port_resolves(pod, service) if {
+    port := service.spec.ports[_]
+    not is_string(port.targetPort)
+}
+
+service_target_port_resolves(pod, service) if {
+    port := service.spec.ports[_]
+    is_string(port.targetPort)
+    container := pod.spec.containers[_]
+    container_port := container.ports[_]
+    container_port.name == port.targetPort
+}
+
 svc_connected_to_ingress(svc, ingress) := result if {
 	result := [path |
 		rule := ingress.spec.rules[i]
