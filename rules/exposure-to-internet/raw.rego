@@ -154,5 +154,5 @@ get_pod_spec(resources) := result if {
 # get_volume - get resource spec paths for "CronJob"
 get_pod_spec(resources) := result if {
 	resources.kind == "CronJob"
-	result = {"spec": resources.spec.jobTemplate.spec.template.spec, "start_of_path": "spec.jobTemplate.spec.template.spec."}
+	result = {"spec": resources.spec.jobTemplate.spec.template, "start_of_path": "spec.jobTemplate.spec.template."}
 }
