@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: my-app
+  namespace: default
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: my-app
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: my-container
+              image: nginx:latest
+              ports:
+                - name: https
+                  containerPort: 443

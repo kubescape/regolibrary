@@ -1,7 +1,10 @@
 package gitregostore
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -31,7 +34,12 @@ const (
 	ControlRuleRelationsFileName      = "ControlID_RuleName.csv"
 	defaultConfigInputsFileName       = "default_config_inputs.json"
 	systemPostureExceptionFileName    = "exceptions.json"
+	checksumsFileName                 = "checksums.txt"
+)
 
+var errHTTPNotFound = errors.New("HTTP resource not found")
+
+const (
 	controlIDRegex                    = `^(?:[a-z]+|[A-Z]+)(?:[\-][v]?(?:[0-9][\.]?)+)(?:[\-]?[0-9][\.]?)+$`
 	earliestTagWithSecurityFrameworks = "v1.0.282-rc.0"
 )
@@ -137,16 +145,225 @@ func (gs *GitRegoStore) setObjects() error {
 }
 
 func (gs *GitRegoStore) setObjectsFromReleaseOnce() error {
+	checksums, err := gs.getReleaseChecksums()
+	verifyArtifacts := err == nil
+	if err != nil && !errors.Is(err, errHTTPNotFound) {
+		return err
+	}
 
 	for kind, storeSetterMappingFunc := range storeSetterMapping {
-		respStr, err := HttpGetter(gs.httpClient, fmt.Sprintf("%s/%s", gs.URL, gs.stripExtention(kind)))
-		if err != nil {
-			return fmt.Errorf("error getting: %s from: '%s' ,error: %s", kind, gs.URL, err)
+		var respStr string
+
+		if verifyArtifacts {
+			respStr, err = gs.getVerifiedReleaseArtifact(kind, checksums)
+		} else {
+			respStr, err = HttpGetter(
+				gs.httpClient,
+				fmt.Sprintf("%s/%s", gs.URL, gs.stripExtention(kind)),
+			)
 		}
+
+		if err != nil {
+			return err
+		}
+
+		if kind == frameworksJsonFileName {
+			if verifyArtifacts {
+				if err = gs.setFrameworksFromRelease(respStr, checksums); err != nil {
+					return err
+				}
+			} else {
+				if err = gs.setFrameworks(respStr); err != nil {
+					return err
+				}
+			}
+			continue
+		}
+
 		if err = storeSetterMappingFunc(gs, respStr); err != nil {
 			return err
 		}
 	}
+
+	return nil
+}
+
+func (gs *GitRegoStore) getReleaseChecksums() (map[string]string, error) {
+	respStr, err := HttpGetter(
+		gs.httpClient,
+		fmt.Sprintf("%s/%s", gs.URL, checksumsFileName),
+	)
+	if err != nil {
+		return nil, fmt.Errorf(
+			"error getting %s from: '%s': %w",
+			checksumsFileName,
+			gs.URL,
+			err,
+		)
+	}
+
+	checksums, err := parseChecksums(respStr)
+	if err != nil {
+		return nil, fmt.Errorf(
+			"error parsing %s: %w",
+			checksumsFileName,
+			err,
+		)
+	}
+
+	return checksums, nil
+}
+
+func (gs *GitRegoStore) getVerifiedReleaseArtifact(
+	filename string,
+	checksums map[string]string,
+) (string, error) {
+	artifactName := gs.stripExtention(filename)
+
+	expectedChecksum, ok := checksums[artifactName]
+	if !ok {
+		return "", fmt.Errorf(
+			"missing checksum for release artifact %q",
+			artifactName,
+		)
+	}
+
+	respStr, err := HttpGetter(
+		gs.httpClient,
+		fmt.Sprintf("%s/%s", gs.URL, artifactName),
+	)
+	if err != nil {
+		return "", fmt.Errorf(
+			"error getting: %s from: '%s': %w",
+			filename,
+			gs.URL,
+			err,
+		)
+	}
+
+	if err := verifyChecksum(respStr, expectedChecksum); err != nil {
+		return "", fmt.Errorf(
+			"checksum verification failed for %q: %w",
+			filename,
+			err,
+		)
+	}
+
+	return respStr, nil
+}
+
+func parseChecksums(data string) (map[string]string, error) {
+	checksums := make(map[string]string)
+
+	for lineNumber, line := range strings.Split(data, "\n") {
+		line = strings.TrimSpace(line)
+		if line == "" {
+			continue
+		}
+
+		fields := strings.Fields(line)
+		if len(fields) != 2 {
+			return nil, fmt.Errorf(
+				"invalid checksum entry on line %d",
+				lineNumber+1,
+			)
+		}
+
+		digest := strings.ToLower(fields[0])
+		filename := fields[1]
+
+		if len(digest) != sha256.Size*2 {
+			return nil, fmt.Errorf(
+				"invalid SHA-256 checksum for %q on line %d",
+				filename,
+				lineNumber+1,
+			)
+		}
+
+		if _, err := hex.DecodeString(digest); err != nil {
+			return nil, fmt.Errorf(
+				"invalid SHA-256 checksum for %q on line %d: %w",
+				filename,
+				lineNumber+1,
+				err,
+			)
+		}
+
+		if _, exists := checksums[filename]; exists {
+			return nil, fmt.Errorf(
+				"duplicate checksum entry for %q",
+				filename,
+			)
+		}
+
+		checksums[filename] = digest
+	}
+
+	if len(checksums) == 0 {
+		return nil, fmt.Errorf("checksum manifest is empty")
+	}
+
+	return checksums, nil
+}
+
+func verifyChecksum(content string, expectedChecksum string) error {
+	expectedChecksum = strings.ToLower(strings.TrimSpace(expectedChecksum))
+
+	if len(expectedChecksum) != sha256.Size*2 {
+		return fmt.Errorf("invalid expected SHA-256 checksum")
+	}
+
+	if _, err := hex.DecodeString(expectedChecksum); err != nil {
+		return fmt.Errorf(
+			"invalid expected SHA-256 checksum: %w",
+			err,
+		)
+	}
+
+	actual := sha256.Sum256([]byte(content))
+	actualChecksum := hex.EncodeToString(actual[:])
+
+	if actualChecksum != expectedChecksum {
+		return fmt.Errorf(
+			"SHA-256 checksum mismatch: expected %s, got %s",
+			expectedChecksum,
+			actualChecksum,
+		)
+	}
+
+	return nil
+}
+
+func (gs *GitRegoStore) setFrameworksFromRelease(
+	respStr string,
+	checksums map[string]string,
+) error {
+	frameworks := []opapolicy.Framework{}
+	if err := JSONDecoder(respStr).Decode(&frameworks); err != nil {
+		return err
+	}
+
+	if gs.versionHasSecurityFrameworks() {
+		respStr1, err := gs.getVerifiedReleaseArtifact(
+			securityFrameworksJsonFileName,
+			checksums,
+		)
+		if err != nil {
+			return err
+		}
+
+		securityFrameworks := []opapolicy.Framework{}
+		if err := JSONDecoder(respStr1).Decode(&securityFrameworks); err != nil {
+			return err
+		}
+
+		frameworks = append(frameworks, securityFrameworks...)
+	}
+
+	gs.frameworksLock.Lock()
+	defer gs.frameworksLock.Unlock()
+
+	gs.Frameworks = frameworks
 	return nil
 }
 
@@ -325,6 +542,9 @@ func HTTPRespToString(resp *http.Response) (string, error) {
 		return "", fmt.Errorf("HTTP request failed. URL: '%s', Read-ERROR: '%s', HTTP-CODE: '%s', BODY(top): '%s', HTTP-HEADERS: %v, HTTP-BODY-BUFFER-LENGTH: %v", resp.Request.URL.RequestURI(), err, resp.Status, respStr[:respStrNewLen], resp.Header, bytesNum)
 	}
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		if resp.StatusCode == http.StatusNotFound {
+			return respStr, errHTTPNotFound
+		}
 		respStrNewLen := len(respStr)
 		if respStrNewLen > 1024 {
 			respStrNewLen = 1024

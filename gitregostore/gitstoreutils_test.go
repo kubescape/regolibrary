@@ -1,7 +1,13 @@
 package gitregostore
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
@@ -367,5 +373,224 @@ func TestSetAttackTracks(t *testing.T) {
 	}
 	if len(store.AttackTracks) != 2 {
 		t.Errorf("Expected 2 attack tracks, but got: %d", len(store.AttackTracks))
+	}
+}
+
+func TestParseChecksums(t *testing.T) {
+	validHash := sha256.Sum256([]byte("artifact-content"))
+	validDigest := hex.EncodeToString(validHash[:])
+
+	tests := []struct {
+		name    string
+		input   string
+		wantLen int
+		wantErr bool
+	}{
+		{
+			name:    "valid manifest",
+			input:   fmt.Sprintf("%s frameworks\n%s rules\n", validDigest, validDigest),
+			wantLen: 2,
+		},
+		{
+			name:    "blank lines are ignored",
+			input:   fmt.Sprintf("\n%s frameworks\n\n%s rules\n", validDigest, validDigest),
+			wantLen: 2,
+		},
+		{
+			name:    "invalid field count",
+			input:   fmt.Sprintf("%s frameworks extra\n", validDigest),
+			wantErr: true,
+		},
+		{
+			name:    "invalid digest length",
+			input:   "abcd frameworks\n",
+			wantErr: true,
+		},
+		{
+			name:    "invalid digest encoding",
+			input:   fmt.Sprintf("%s frameworks\n", "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"),
+			wantErr: true,
+		},
+		{
+			name:    "duplicate artifact",
+			input:   fmt.Sprintf("%s frameworks\n%s frameworks\n", validDigest, validDigest),
+			wantErr: true,
+		},
+		{
+			name:    "empty manifest",
+			input:   "\n\n",
+			wantErr: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := parseChecksums(tt.input)
+
+			if tt.wantErr {
+				if err == nil {
+					t.Fatal("expected error, got nil")
+				}
+				return
+			}
+
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+
+			if len(got) != tt.wantLen {
+				t.Fatalf("got %d checksums, want %d", len(got), tt.wantLen)
+			}
+		})
+	}
+}
+
+func TestVerifyChecksum(t *testing.T) {
+	content := "artifact-content"
+	hash := sha256.Sum256([]byte(content))
+	validDigest := hex.EncodeToString(hash[:])
+
+	tests := []struct {
+		name           string
+		expectedDigest string
+		wantErr        bool
+	}{
+		{
+			name:           "matching checksum",
+			expectedDigest: validDigest,
+		},
+		{
+			name:           "uppercase checksum",
+			expectedDigest: strings.ToUpper(validDigest),
+		},
+		{
+			name: "mismatching checksum",
+			expectedDigest: func() string {
+				h := sha256.Sum256([]byte("tampered"))
+				return hex.EncodeToString(h[:])
+			}(),
+			wantErr: true,
+		},
+		{
+			name:           "invalid checksum",
+			expectedDigest: "invalid",
+			wantErr:        true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := verifyChecksum(content, tt.expectedDigest)
+
+			if tt.wantErr && err == nil {
+				t.Fatal("expected error, got nil")
+			}
+			if !tt.wantErr && err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+		})
+	}
+}
+
+func TestHTTPRespToStringNotFound(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.NotFound(w, r)
+	}))
+	defer server.Close()
+
+	req, err := http.NewRequest(http.MethodGet, server.URL, nil)
+	if err != nil {
+		t.Fatalf("failed to create request: %v", err)
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		t.Fatalf("failed to make request: %v", err)
+	}
+
+	_, err = HTTPRespToString(resp)
+	if !errors.Is(err, errHTTPNotFound) {
+		t.Fatalf("got error %v, want errHTTPNotFound", err)
+	}
+}
+
+func TestGetVerifiedReleaseArtifact(t *testing.T) {
+	content := "verified artifact"
+	hash := sha256.Sum256([]byte(content))
+	digest := hex.EncodeToString(hash[:])
+
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/frameworks" {
+			http.NotFound(w, r)
+			return
+		}
+		_, _ = w.Write([]byte(content))
+	}))
+	defer server.Close()
+
+	gs := &GitRegoStore{
+		URL:                 server.URL,
+		httpClient:          http.DefaultClient,
+		StripFilesExtension: true,
+	}
+
+	checksums := map[string]string{
+		"frameworks": digest,
+	}
+
+	got, err := gs.getVerifiedReleaseArtifact("frameworks.json", checksums)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if got != content {
+		t.Fatalf("got %q, want %q", got, content)
+	}
+}
+
+func TestGetVerifiedReleaseArtifactChecksumMismatch(t *testing.T) {
+	content := "tampered artifact"
+	expectedContent := "original artifact"
+	hash := sha256.Sum256([]byte(expectedContent))
+	digest := hex.EncodeToString(hash[:])
+
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_, _ = w.Write([]byte(content))
+	}))
+	defer server.Close()
+
+	gs := &GitRegoStore{
+		URL:                 server.URL,
+		httpClient:          http.DefaultClient,
+		StripFilesExtension: true,
+	}
+
+	checksums := map[string]string{
+		"frameworks": digest,
+	}
+
+	_, err := gs.getVerifiedReleaseArtifact("frameworks.json", checksums)
+	if err == nil {
+		t.Fatal("expected checksum mismatch error, got nil")
+	}
+}
+
+func TestGetVerifiedReleaseArtifactMissingChecksum(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		t.Fatal("artifact should not be downloaded when checksum is missing")
+	}))
+	defer server.Close()
+
+	gs := &GitRegoStore{
+		URL:        server.URL,
+		httpClient: http.DefaultClient,
+	}
+
+	_, err := gs.getVerifiedReleaseArtifact(
+		"frameworks.json",
+		map[string]string{},
+	)
+	if err == nil {
+		t.Fatal("expected missing checksum error, got nil")
 	}
 }

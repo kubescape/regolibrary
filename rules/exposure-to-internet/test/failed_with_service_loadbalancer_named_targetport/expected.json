@@ -1,0 +1,54 @@
+[
+    {
+        "alertMessage": "workload 'my-app' is exposed through service 'my-service'",
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "my-app"
+                    }
+                }
+            ]
+        },
+        "relatedObjects": [
+            {
+                "object": {
+                    "apiVersion": "v1",
+                    "kind": "Service",
+                    "metadata": {
+                        "name": "my-service",
+                        "namespace": "default"
+                    },
+                    "spec": {
+                        "ports": [
+                            {
+                                "name": "https",
+                                "port": 443,
+                                "targetPort": "https"
+                            }
+                        ],
+                        "selector": {
+                            "app": "my-app"
+                        },
+                        "type": "LoadBalancer"
+                    }
+                },
+                "failedPaths": [
+                    "spec.type"
+                ],
+                "reviewPaths": [
+                    "spec.type"
+                ],
+                "deletePaths": null,
+                "fixPaths": null
+            }
+        ]
+    }
+]
