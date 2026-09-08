@@ -119,13 +119,9 @@ service_target_port_resolves(pod, service) if {
     service_port_protocol(port) == container_port_protocol(container_port)
 }
 
-service_port_protocol(port) := protocol if {
-    protocol := object.get(port, "protocol", "TCP")
-}
+service_port_protocol(port) := object.get(port, "protocol", "TCP")
 
-container_port_protocol(port) := protocol if {
-    protocol := object.get(port, "protocol", "TCP")
-}
+container_port_protocol(port) := object.get(port, "protocol", "TCP")
 
 svc_connected_to_ingress(svc, ingress) := result if {
 	result := [path |
