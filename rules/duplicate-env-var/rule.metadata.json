@@ -2,7 +2,7 @@
     "name": "duplicate-env-var",
     "attributes": {
     },
-    "ruleLanguage": "Rego",
+    "ruleLanguage": "CEL",
     "match": [
         {
             "apiGroups": [""],

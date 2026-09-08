@@ -2,7 +2,7 @@
   "name": "rule-secrets-in-env-var",
   "attributes": {
   },
-  "ruleLanguage": "Rego",
+  "ruleLanguage": "CEL",
   "match": [
     {
       "apiGroups": [

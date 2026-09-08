@@ -4,7 +4,7 @@
       "hostSensorRule": false,
       "imageScanRelated": false
     },
-    "ruleLanguage": "Rego",
+    "ruleLanguage": "CEL",
     "match": [
         {
           "apiGroups": [
