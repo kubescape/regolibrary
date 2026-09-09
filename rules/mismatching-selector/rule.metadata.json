@@ -2,7 +2,7 @@
     "name": "mismatching-selector",
     "attributes": {
     },
-    "ruleLanguage": "Rego",
+    "ruleLanguage": "CEL",
     "match": [
         {
             "apiGroups": ["apps"],

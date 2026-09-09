@@ -2,7 +2,7 @@
     "name": "anonymous-access-enabled",
     "attributes": {
     },
-    "ruleLanguage": "Rego",
+    "ruleLanguage": "CEL",
     "match": [
         {
             "apiGroups": [

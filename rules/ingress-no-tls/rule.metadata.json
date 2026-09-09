@@ -2,7 +2,7 @@
   "name": "ingress-no-tls",
   "attributes": {
   },
-  "ruleLanguage": "Rego",
+  "ruleLanguage": "CEL",
   "match": [
     {
         "apiGroups": [
