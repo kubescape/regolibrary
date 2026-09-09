@@ -38,7 +38,10 @@ deny contains msga if {
 
 	decodedConfigContent := base64.decode(obj.data.configFile.content)
 	yamlConfig := yaml.unmarshal(decodedConfigContent)
-	not yamlConfig.makeIPTablesUtilChains == true
+
+	# --make-iptables-util-chains defaults to true, so an absent key must not fail this control.
+	# Only an explicit false is a violation.
+	yamlConfig.makeIPTablesUtilChains == false
 
 	msga := {
 		"alertMessage": "Property makeIPTablesUtilChains is not set to true",
