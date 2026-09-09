@@ -573,6 +573,10 @@ func TestGetVerifiedReleaseArtifactChecksumMismatch(t *testing.T) {
 	if err == nil {
 		t.Fatal("expected checksum mismatch error, got nil")
 	}
+
+	if !errors.Is(err, ErrChecksumVerification) {
+		t.Fatalf("expected checksum verification error, got %v", err)
+	}
 }
 
 func TestGetVerifiedReleaseArtifactMissingChecksum(t *testing.T) {
@@ -592,5 +596,30 @@ func TestGetVerifiedReleaseArtifactMissingChecksum(t *testing.T) {
 	)
 	if err == nil {
 		t.Fatal("expected missing checksum error, got nil")
+	}
+
+	if !errors.Is(err, ErrChecksumVerification) {
+		t.Fatalf("expected checksum verification error, got %v", err)
+	}
+}
+
+func TestGetReleaseChecksumsInvalidManifest(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_, _ = w.Write([]byte("not-a-valid-checksum-entry"))
+	}))
+	defer server.Close()
+
+	gs := &GitRegoStore{
+		URL:        server.URL,
+		httpClient: http.DefaultClient,
+	}
+
+	_, err := gs.getReleaseChecksums()
+	if err == nil {
+		t.Fatal("expected invalid checksum manifest error, got nil")
+	}
+
+	if !errors.Is(err, ErrChecksumVerification) {
+		t.Fatalf("expected checksum verification error, got %v", err)
 	}
 }
