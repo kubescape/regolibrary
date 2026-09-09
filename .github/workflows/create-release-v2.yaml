@@ -72,6 +72,13 @@ jobs:
           cd release
           find . -type f \( -name '*.json' -o -name '*.csv' \) | while read f; do mv "$f" "${f%.*}"; done
 
+      - name: Generate SHA-256 checksums
+        run: |
+          cd release
+          find . -type f ! -name 'checksums.txt' -print0 | sort -z | while IFS= read -r -d '' file; do
+            sha256sum "${file#./}"
+          done > checksums.txt
+
       - run: ls -laR
 
       - name: Set outputs

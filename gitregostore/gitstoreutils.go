@@ -1,6 +1,9 @@
 package gitregostore
 
 import (
+	"bufio"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -31,6 +34,7 @@ const (
 	ControlRuleRelationsFileName      = "ControlID_RuleName.csv"
 	defaultConfigInputsFileName       = "default_config_inputs.json"
 	systemPostureExceptionFileName    = "exceptions.json"
+	checksumsFileName                 = "checksums.txt"
 
 	controlIDRegex                    = `^(?:[a-z]+|[A-Z]+)(?:[\-][v]?(?:[0-9][\.]?)+)(?:[\-]?[0-9][\.]?)+$`
 	earliestTagWithSecurityFrameworks = "v1.0.282-rc.0"
@@ -137,16 +141,45 @@ func (gs *GitRegoStore) setObjects() error {
 }
 
 func (gs *GitRegoStore) setObjectsFromReleaseOnce() error {
+	var checksums map[string]string
+	var err error
+
+	if gs.StripFilesExtension {
+		checksums, err = gs.getReleaseChecksums()
+		if err != nil {
+			return err
+		}
+	}
 
 	for kind, storeSetterMappingFunc := range storeSetterMapping {
-		respStr, err := HttpGetter(gs.httpClient, fmt.Sprintf("%s/%s", gs.URL, gs.stripExtention(kind)))
+		artifactName := gs.stripExtention(kind)
+
+		var respStr string
+		if checksums != nil {
+			respStr, err = gs.getVerifiedArtifact(artifactName, checksums)
+		} else {
+			respStr, err = HttpGetter(
+				gs.httpClient,
+				fmt.Sprintf("%s/%s", gs.URL, artifactName),
+			)
+		}
+
 		if err != nil {
 			return fmt.Errorf("error getting: %s from: '%s' ,error: %s", kind, gs.URL, err)
 		}
+
+		if kind == frameworksJsonFileName && checksums != nil {
+			if err = gs.setFrameworksWithChecksums(respStr, checksums); err != nil {
+				return err
+			}
+			continue
+		}
+
 		if err = storeSetterMappingFunc(gs, respStr); err != nil {
 			return err
 		}
 	}
+
 	return nil
 }
 
@@ -155,23 +188,178 @@ func (gs *GitRegoStore) setFrameworks(respStr string) error {
 	if err := JSONDecoder(respStr).Decode(&frameworks); err != nil {
 		return err
 	}
-	// from a certain tag we have security frameworks
+
+	// From a certain tag we have security frameworks.
 	if gs.versionHasSecurityFrameworks() {
-		respStr1, err := HttpGetter(gs.httpClient, fmt.Sprintf("%s/%s", gs.URL, gs.stripExtention(securityFrameworksJsonFileName)))
+		respStr1, err := HttpGetter(
+			gs.httpClient,
+			fmt.Sprintf("%s/%s", gs.URL, gs.stripExtention(securityFrameworksJsonFileName)),
+		)
 		if err != nil {
 			return fmt.Errorf("error getting: %s from: '%s' ,error: %s", securityFrameworksJsonFileName, gs.URL, err)
 		}
+
 		securityFrameworks := []opapolicy.Framework{}
 		if err := JSONDecoder(respStr1).Decode(&securityFrameworks); err != nil {
 			return err
 		}
+
 		frameworks = append(frameworks, securityFrameworks...)
 	}
+
 	gs.frameworksLock.Lock()
 	defer gs.frameworksLock.Unlock()
 
 	gs.Frameworks = frameworks
 	return nil
+}
+
+func (gs *GitRegoStore) setFrameworksWithChecksums(respStr string, checksums map[string]string) error {
+	frameworks := []opapolicy.Framework{}
+	if err := JSONDecoder(respStr).Decode(&frameworks); err != nil {
+		return err
+	}
+
+	// From a certain tag we have security frameworks.
+	if gs.versionHasSecurityFrameworks() {
+		respStr1, err := gs.getVerifiedArtifact(gs.stripExtention(securityFrameworksJsonFileName), checksums)
+		if err != nil {
+			return fmt.Errorf("error getting or verifying %s from: '%s', error: %s", securityFrameworksJsonFileName, gs.URL, err)
+		}
+
+		securityFrameworks := []opapolicy.Framework{}
+		if err := JSONDecoder(respStr1).Decode(&securityFrameworks); err != nil {
+			return err
+		}
+
+		frameworks = append(frameworks, securityFrameworks...)
+	}
+
+	gs.frameworksLock.Lock()
+	defer gs.frameworksLock.Unlock()
+
+	gs.Frameworks = frameworks
+	return nil
+}
+
+func (gs *GitRegoStore) getReleaseChecksums() (map[string]string, error) {
+	respStr, err := HttpGetter(
+		gs.httpClient,
+		fmt.Sprintf("%s/%s", gs.URL, checksumsFileName),
+	)
+	if err != nil {
+		return nil, fmt.Errorf(
+			"error getting: %s from: '%s', error: %s",
+			checksumsFileName,
+			gs.URL,
+			err,
+		)
+	}
+
+	checksums, err := parseChecksums(respStr)
+	if err != nil {
+		return nil, fmt.Errorf(
+			"invalid %s from: '%s', error: %s",
+			checksumsFileName,
+			gs.URL,
+			err,
+		)
+	}
+
+	return checksums, nil
+}
+
+func (gs *GitRegoStore) getVerifiedArtifact(
+	artifactName string,
+	checksums map[string]string,
+) (string, error) {
+	expectedChecksum, ok := checksums[artifactName]
+	if !ok {
+		return "", fmt.Errorf(
+			"no checksum entry found for artifact %q",
+			artifactName,
+		)
+	}
+
+	respStr, err := HttpGetter(
+		gs.httpClient,
+		fmt.Sprintf("%s/%s", gs.URL, artifactName),
+	)
+	if err != nil {
+		return "", err
+	}
+
+	actualChecksum := sha256.Sum256([]byte(respStr))
+	actualChecksumHex := hex.EncodeToString(actualChecksum[:])
+
+	if !strings.EqualFold(actualChecksumHex, expectedChecksum) {
+		return "", fmt.Errorf(
+			"SHA-256 checksum mismatch for artifact %q: expected %s, got %s",
+			artifactName,
+			expectedChecksum,
+			actualChecksumHex,
+		)
+	}
+
+	return respStr, nil
+}
+
+func parseChecksums(content string) (map[string]string, error) {
+	checksums := make(map[string]string)
+	scanner := bufio.NewScanner(strings.NewReader(content))
+
+	lineNumber := 0
+	for scanner.Scan() {
+		lineNumber++
+
+		line := strings.TrimSpace(scanner.Text())
+		if line == "" {
+			continue
+		}
+
+		fields := strings.Fields(line)
+		if len(fields) != 2 {
+			return nil, fmt.Errorf(
+				"malformed checksum entry on line %d",
+				lineNumber,
+			)
+		}
+
+		checksum := fields[0]
+		filename := fields[1]
+
+		if len(checksum) != sha256.Size*2 {
+			return nil, fmt.Errorf(
+				"invalid SHA-256 checksum on line %d for artifact %q",
+				lineNumber,
+				filename,
+			)
+		}
+
+		if _, err := hex.DecodeString(checksum); err != nil {
+			return nil, fmt.Errorf(
+				"invalid SHA-256 checksum on line %d for artifact %q",
+				lineNumber,
+				filename,
+			)
+		}
+
+		if _, exists := checksums[filename]; exists {
+			return nil, fmt.Errorf(
+				"duplicate checksum entry for artifact %q on line %d",
+				filename,
+				lineNumber,
+			)
+		}
+
+		checksums[filename] = strings.ToLower(checksum)
+	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("error reading checksum manifest: %w", err)
+	}
+
+	return checksums, nil
 }
 
 func (gs *GitRegoStore) versionHasSecurityFrameworks() bool {

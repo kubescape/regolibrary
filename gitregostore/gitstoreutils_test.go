@@ -1,9 +1,237 @@
 package gitregostore
 
 import (
+	"crypto/sha256"
 	"errors"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"strings"
 	"testing"
 )
+
+func TestParseChecksums(t *testing.T) {
+	validChecksum := "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+
+	tests := []struct {
+		name        string
+		content     string
+		want        map[string]string
+		expectError bool
+	}{
+		{
+			name:    "valid checksum manifest",
+			content: fmt.Sprintf("%s  controls\n%s  frameworks\n", validChecksum, validChecksum),
+			want: map[string]string{
+				"controls":   validChecksum,
+				"frameworks": validChecksum,
+			},
+		},
+		{
+			name:        "malformed entry",
+			content:     "not-a-valid-entry",
+			expectError: true,
+		},
+		{
+			name:        "invalid checksum length",
+			content:     "0123456789abcdef  controls",
+			expectError: true,
+		},
+		{
+			name:        "invalid checksum characters",
+			content:     "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz  controls",
+			expectError: true,
+		},
+		{
+			name: "duplicate artifact",
+			content: fmt.Sprintf(
+				"%s  controls\n%s  controls\n",
+				validChecksum,
+				validChecksum,
+			),
+			expectError: true,
+		},
+		{
+			name:    "empty manifest",
+			content: "",
+			want:    map[string]string{},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := parseChecksums(tt.content)
+
+			if tt.expectError {
+				if err == nil {
+					t.Fatal("expected error, got nil")
+				}
+				return
+			}
+
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+
+			if len(got) != len(tt.want) {
+				t.Fatalf("got %d checksums, want %d", len(got), len(tt.want))
+			}
+
+			for filename, checksum := range tt.want {
+				if got[filename] != checksum {
+					t.Errorf(
+						"checksum for %q = %q, want %q",
+						filename,
+						got[filename],
+						checksum,
+					)
+				}
+			}
+		})
+	}
+}
+
+func TestGetVerifiedArtifact(t *testing.T) {
+	artifactName := "controls"
+	artifactContent := `{"name":"test-controls"}`
+	checksum := fmt.Sprintf("%x", sha256.Sum256([]byte(artifactContent)))
+
+	tests := []struct {
+		name          string
+		checksums     map[string]string
+		response      string
+		expectedError string
+	}{
+		{
+			name: "matching checksum",
+			checksums: map[string]string{
+				artifactName: checksum,
+			},
+			response: artifactContent,
+		},
+		{
+			name: "mismatching checksum",
+			checksums: map[string]string{
+				artifactName: "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+			},
+			response:      artifactContent,
+			expectedError: "SHA-256 checksum mismatch",
+		},
+		{
+			name:          "missing checksum entry",
+			checksums:     map[string]string{},
+			response:      artifactContent,
+			expectedError: "no checksum entry found",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/controls" {
+					t.Fatalf("unexpected request path: %s", r.URL.Path)
+				}
+				_, _ = w.Write([]byte(tt.response))
+			}))
+			defer server.Close()
+
+			gs := &GitRegoStore{
+				httpClient: server.Client(),
+				URL:        server.URL,
+			}
+
+			got, err := gs.getVerifiedArtifact(artifactName, tt.checksums)
+
+			if tt.expectedError != "" {
+				if err == nil {
+					t.Fatalf("expected error containing %q, got nil", tt.expectedError)
+				}
+				if !strings.Contains(err.Error(), tt.expectedError) {
+					t.Fatalf("error = %q, want substring %q", err.Error(), tt.expectedError)
+				}
+				return
+			}
+
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+
+			if got != artifactContent {
+				t.Fatalf("got %q, want %q", got, artifactContent)
+			}
+		})
+	}
+}
+
+func TestGetReleaseChecksums(t *testing.T) {
+	validChecksum := "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+
+	tests := []struct {
+		name          string
+		response      string
+		statusCode    int
+		expectedError string
+	}{
+		{
+			name:     "valid manifest",
+			response: fmt.Sprintf("%s  controls\n", validChecksum),
+		},
+		{
+			name:          "malformed manifest",
+			response:      "invalid checksum manifest",
+			expectedError: "invalid checksums.txt",
+		},
+		{
+			name:          "missing manifest",
+			response:      "not found",
+			statusCode:    http.StatusNotFound,
+			expectedError: "error getting: checksums.txt",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.URL.Path != "/checksums.txt" {
+					t.Fatalf("unexpected request path: %s", r.URL.Path)
+				}
+
+				if tt.statusCode != 0 {
+					http.Error(w, tt.response, tt.statusCode)
+					return
+				}
+
+				_, _ = w.Write([]byte(tt.response))
+			}))
+			defer server.Close()
+
+			gs := &GitRegoStore{
+				httpClient: server.Client(),
+				URL:        server.URL,
+			}
+
+			checksums, err := gs.getReleaseChecksums()
+
+			if tt.expectedError != "" {
+				if err == nil {
+					t.Fatalf("expected error containing %q, got nil", tt.expectedError)
+				}
+				if !strings.Contains(err.Error(), tt.expectedError) {
+					t.Fatalf("error = %q, want substring %q", err.Error(), tt.expectedError)
+				}
+				return
+			}
+
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+
+			if checksums["controls"] != validChecksum {
+				t.Fatalf("unexpected checksum: %q", checksums["controls"])
+			}
+		})
+	}
+}
 
 func Test_isControlID(t *testing.T) {
 	tests := []struct {
