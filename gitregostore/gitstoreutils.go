@@ -37,7 +37,10 @@ const (
 	checksumsFileName                 = "checksums.txt"
 )
 
-var errHTTPNotFound = errors.New("HTTP resource not found")
+var (
+	errHTTPNotFound         = errors.New("HTTP resource not found")
+	ErrChecksumVerification = errors.New("checksum verification failed")
+)
 
 const (
 	controlIDRegex                    = `^(?:[a-z]+|[A-Z]+)(?:[\-][v]?(?:[0-9][\.]?)+)(?:[\-]?[0-9][\.]?)+$`
@@ -205,7 +208,8 @@ func (gs *GitRegoStore) getReleaseChecksums() (map[string]string, error) {
 	checksums, err := parseChecksums(respStr)
 	if err != nil {
 		return nil, fmt.Errorf(
-			"error parsing %s: %w",
+			"%w: error parsing %s: %w",
+			ErrChecksumVerification,
 			checksumsFileName,
 			err,
 		)
@@ -223,7 +227,8 @@ func (gs *GitRegoStore) getVerifiedReleaseArtifact(
 	expectedChecksum, ok := checksums[artifactName]
 	if !ok {
 		return "", fmt.Errorf(
-			"missing checksum for release artifact %q",
+			"%w: missing checksum for release artifact %q",
+			ErrChecksumVerification,
 			artifactName,
 		)
 	}
@@ -243,7 +248,8 @@ func (gs *GitRegoStore) getVerifiedReleaseArtifact(
 
 	if err := verifyChecksum(respStr, expectedChecksum); err != nil {
 		return "", fmt.Errorf(
-			"checksum verification failed for %q: %w",
+			"%w for %q: %w",
+			ErrChecksumVerification,
 			filename,
 			err,
 		)
