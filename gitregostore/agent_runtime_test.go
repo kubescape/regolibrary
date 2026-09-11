@@ -15,6 +15,110 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
+type frameworkManifest struct {
+	Name           string                       `json:"name"`
+	ScanningScope  reporthandling.ScanningScope `json:"scanningScope"`
+	ActiveControls []struct {
+		ControlID string `json:"controlID"`
+	} `json:"activeControls"`
+}
+
+type controlManifest struct {
+	ControlID     string                       `json:"controlID"`
+	RulesNames    []string                     `json:"rulesNames"`
+	ScanningScope reporthandling.ScanningScope `json:"scanningScope"`
+}
+
+type agentRuntimeControlContract struct {
+	rule      string
+	resources []string
+}
+
+func TestAgentRuntimeFrameworkContract(t *testing.T) {
+	frameworkFile, err := os.ReadFile(filepath.Join("..", "frameworks", "agent-runtime-hardening.json"))
+	require.NoError(t, err)
+
+	var framework frameworkManifest
+	require.NoError(t, json.Unmarshal(frameworkFile, &framework))
+	require.Equal(t, "AgentRuntimeHardening", framework.Name)
+	require.ElementsMatch(t, []reporthandling.ScanningScopeType{
+		reporthandling.ScopeCluster,
+		reporthandling.ScopeFile,
+	}, framework.ScanningScope.Matches)
+
+	expected := map[string]agentRuntimeControlContract{
+		"C-0297": {"agent-sandbox-hardened-runtime-class", []string{"Sandbox", "SandboxTemplate"}},
+		"C-0309": {"agent-sandbox-service-account-token", []string{"Sandbox", "SandboxTemplate"}},
+		"C-0311": {"agent-sandbox-container-limits", []string{"Sandbox", "SandboxTemplate"}},
+		"C-0312": {"agent-runtime-image-digests", []string{"Sandbox", "SandboxTemplate", "WorkerPool"}},
+		"C-0313": {"agent-runtime-image-registries", []string{"Sandbox", "SandboxTemplate", "WorkerPool"}},
+		"C-0314": {"agent-sandbox-managed-networking", []string{"SandboxTemplate"}},
+		"C-0315": {"agent-sandbox-strict-egress", []string{"SandboxTemplate"}},
+		"C-0316": {"agent-sandbox-claim-overrides", []string{"SandboxTemplate"}},
+		"C-0317": {"worker-pod-resource-ceilings", []string{"WorkerPool"}},
+	}
+
+	actualControls := make(map[string]struct{}, len(framework.ActiveControls))
+	for _, activeControl := range framework.ActiveControls {
+		actualControls[activeControl.ControlID] = struct{}{}
+	}
+	require.Len(t, framework.ActiveControls, len(expected))
+	require.Equal(t, expectedControlIDs(expected), actualControls)
+
+	for controlID, want := range expected {
+		t.Run(controlID, func(t *testing.T) {
+			control := readAgentRuntimeControl(t, controlID)
+			require.ElementsMatch(t, []reporthandling.ScanningScopeType{
+				reporthandling.ScopeCluster,
+				reporthandling.ScopeFile,
+			}, control.ScanningScope.Matches)
+			require.Equal(t, []string{want.rule}, control.RulesNames)
+
+			rule := readAgentRuntimeRule(t, want.rule)
+			actualResources := make([]string, 0)
+			for _, match := range rule.Match {
+				actualResources = append(actualResources, match.Resources...)
+			}
+			require.ElementsMatch(t, want.resources, actualResources)
+		})
+	}
+}
+
+func expectedControlIDs(expected map[string]agentRuntimeControlContract) map[string]struct{} {
+	ids := make(map[string]struct{}, len(expected))
+	for controlID := range expected {
+		ids[controlID] = struct{}{}
+	}
+	return ids
+}
+
+func readAgentRuntimeControl(t *testing.T, controlID string) controlManifest {
+	t.Helper()
+	files, err := filepath.Glob(filepath.Join("..", "controls", "*.json"))
+	require.NoError(t, err)
+	for _, file := range files {
+		contents, err := os.ReadFile(file)
+		require.NoError(t, err)
+		var control controlManifest
+		require.NoError(t, json.Unmarshal(contents, &control))
+		if control.ControlID == controlID {
+			return control
+		}
+	}
+	t.Fatalf("control %q is not present in controls", controlID)
+	return controlManifest{}
+}
+
+func readAgentRuntimeRule(t *testing.T, ruleName string) reporthandling.PolicyRule {
+	t.Helper()
+	contents, err := os.ReadFile(filepath.Join("..", "rules", ruleName, "rule.metadata.json"))
+	require.NoError(t, err)
+	var rule reporthandling.PolicyRule
+	require.NoError(t, json.Unmarshal(contents, &rule))
+	require.Equal(t, ruleName, rule.Name)
+	return rule
+}
+
 // These fixtures must also work after the production processor filters inputs by
 // rule metadata; passing data.json straight to OPA misses missing declarations.
 func TestAgentRuntimeConfiguredInputs(t *testing.T) {

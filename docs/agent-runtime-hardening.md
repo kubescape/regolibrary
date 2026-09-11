@@ -50,3 +50,22 @@ security or encryption.
 The CEL companion policies use the same six self-contained controls: C-0297,
 C-0309, and C-0311 through C-0314. Their missing/empty allowlist behavior and
 Docker Hub resolution match the corresponding Rego rules.
+
+## Validation
+
+The focused framework contract check verifies that the published framework
+contains the intended controls, that each control targets file and cluster
+scans, and that its rule matches only the supported Agent Sandbox and Agent
+Substrate resources:
+
+```shell
+go test ./gitregostore -run TestAgentRuntimeFrameworkContract -count=1
+```
+
+The individual rule fixture suite remains the source of truth for policy
+behavior:
+
+```shell
+cd testrunner
+go test -tags=static rego_test.go -run TestAllRules
+```
