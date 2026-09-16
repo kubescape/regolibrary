@@ -116,6 +116,9 @@ jobs:
   # start release process
   create-new-tag-and-release:
     needs: [ks-and-rego-test]
+    permissions:
+      contents: write
+      id-token: write
     if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
     name: create release and upload assets
     runs-on: ubuntu-latest
@@ -170,6 +173,15 @@ jobs:
         with:
           name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
           path: ${{ env.REGO_ARTIFACT_PATH }}
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+      - name: Sign release checksum manifest
+        run: |
+          cosign sign-blob release/checksums.txt \
+            --bundle release/checksums.sigstore.json \
+            --yes
 
       # Rolling release for the short tag (v2) - the default source for
       # consumers that do not pin a version. Unchanged behaviour, and kept
