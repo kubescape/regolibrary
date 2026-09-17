@@ -69,13 +69,32 @@ is_kubelet_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 }
 
-# The gate token is unambiguous on its own, so this matches both
-# "--feature-gates=RotateKubeletServerCertificate=false" and the
-# space separated "--feature-gates RotateKubeletServerCertificate=false".
+# The individual gate assignments inside the --feature-gates argument, so that
+# the token is only ever matched where it actually configures a feature gate.
+# Handles both "--feature-gates=A=true,B=false" and "--feature-gates A=true,B=false".
+feature_gate_settings(command) := settings if {
+	args := regex.split(` +`, command)
+	settings := {trim_space(gate) |
+		some i, arg in args
+		value := feature_gates_value(args, i, arg)
+		some gate in split(value, ",")
+	}
+}
+
+feature_gates_value(_, _, arg) := trim_prefix(arg, "--feature-gates=") if {
+	startswith(arg, "--feature-gates=")
+}
+
+feature_gates_value(args, i, arg) := args[i + 1] if {
+	arg == "--feature-gates"
+}
+
 is_feature_gate_set_via_cli(command) if {
-	contains(command, "RotateKubeletServerCertificate=")
+	some setting in feature_gate_settings(command)
+	startswith(setting, "RotateKubeletServerCertificate=")
 }
 
 is_feature_gate_disabled_via_cli(command) if {
-	contains(command, "RotateKubeletServerCertificate=false")
+	some setting in feature_gate_settings(command)
+	setting == "RotateKubeletServerCertificate=false"
 }
