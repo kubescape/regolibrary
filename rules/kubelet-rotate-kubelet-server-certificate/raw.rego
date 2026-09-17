@@ -69,12 +69,13 @@ is_kubelet_info(obj) if {
 	obj.apiVersion == "hostdata.kubescape.cloud/v1beta0"
 }
 
+# The gate token is unambiguous on its own, so this matches both
+# "--feature-gates=RotateKubeletServerCertificate=false" and the
+# space separated "--feature-gates RotateKubeletServerCertificate=false".
 is_feature_gate_set_via_cli(command) if {
-	contains(command, "--feature-gates=")
 	contains(command, "RotateKubeletServerCertificate=")
 }
 
 is_feature_gate_disabled_via_cli(command) if {
-	contains(command, "--feature-gates=")
 	contains(command, "RotateKubeletServerCertificate=false")
 }
