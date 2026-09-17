@@ -1,6 +1,6 @@
 [
    {
-      "alertMessage": "RotateKubeletServerCertificate is not set to true",
+      "alertMessage": "RotateKubeletServerCertificate is set to false",
       "alertObject": {
          "externalObjects": {
             "apiVersion": "hostdata.kubescape.cloud/v1beta0",
@@ -14,6 +14,7 @@
          }
       },
       "alertScore": 6,
+      "reviewPaths": [],
       "failedPaths": [],
       "fixPaths": [],
       "packagename": "armo_builtins"

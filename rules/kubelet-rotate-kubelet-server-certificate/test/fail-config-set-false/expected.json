@@ -1,0 +1,28 @@
+[
+   {
+      "alertMessage": "Property featureGates.RotateKubeletServerCertificate is set to false",
+      "alertObject": {
+         "externalObjects": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "data": {
+               "configFile": {
+                  "content": "apiVersion: kubelet.config.k8s.io/v1beta1\nkind: KubeletConfiguration\nfeatureGates:\n  RotateKubeletServerCertificate: false\nauthentication:\n  anonymous:\n    enabled: false\nauthorization:\n  mode: Webhook\n"
+               }
+            },
+            "kind": "KubeletInfo",
+            "metadata": {
+               "name": ""
+            }
+         }
+      },
+      "alertScore": 6,
+      "reviewPaths": [
+         "featureGates.RotateKubeletServerCertificate"
+      ],
+      "failedPaths": [
+         "featureGates.RotateKubeletServerCertificate"
+      ],
+      "fixPaths": [],
+      "packagename": "armo_builtins"
+   }
+]

@@ -26,6 +26,6 @@
   ],
   "ruleDependencies": [],
   "description": "Verify that the RotateKubeletServerCertificate argument is set to true.",
-  "remediation": "Verify that the --rotate-certificates argument is not present, or is set to true. If the --rotate-certificates argument is not present, verify that if there is a Kubelet config file specified by --config, that file does not contain rotateCertificates: false.",
+  "remediation": "Verify that the RotateKubeletServerCertificate feature gate is not set to false. It is enabled by default, so no action is needed unless it has been explicitly disabled. If it has, edit the kubelet config file specified by --config and remove `RotateKubeletServerCertificate: false` from `featureGates`, or edit the kubelet service file on each worker node and remove `RotateKubeletServerCertificate=false` from the `--feature-gates` argument. Based on your system, restart the kubelet service. For example: `systemctl daemon-reload` and `systemctl restart kubelet.service`.",
   "ruleQuery": ""
 }
