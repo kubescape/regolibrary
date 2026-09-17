@@ -1,0 +1,10 @@
+{
+   "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+   "kind": "KubeletInfo",
+   "data": {
+      "cmdLine": "/usr/bin/kubelet --config=/var/lib/kubelet/config.yaml --feature-gates RotateKubeletServerCertificate=false",
+      "configFile": {
+         "content": "YXBpVmVyc2lvbjoga3ViZWxldC5jb25maWcuazhzLmlvL3YxYmV0YTEKa2luZDogS3ViZWxldENvbmZpZ3VyYXRpb24KYXV0aGVudGljYXRpb246CiAgYW5vbnltb3VzOgogICAgZW5hYmxlZDogZmFsc2UKYXV0aG9yaXphdGlvbjoKICBtb2RlOiBXZWJob29rCg=="
+      }
+   }
+}

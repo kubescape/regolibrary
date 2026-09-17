@@ -5,7 +5,7 @@
          "externalObjects": {
             "apiVersion": "hostdata.kubescape.cloud/v1beta0",
             "data": {
-               "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --feature-gates=GracefulNodeShutdown=true,RotateKubeletServerCertificate=false"
+               "cmdLine": "/usr/bin/kubelet --config=/var/lib/kubelet/config.yaml --feature-gates RotateKubeletServerCertificate=false"
             },
             "kind": "KubeletInfo",
             "metadata": {
