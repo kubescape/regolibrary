@@ -85,9 +85,7 @@ feature_gates_value(_, _, arg) := trim_prefix(arg, "--feature-gates=") if {
 	startswith(arg, "--feature-gates=")
 }
 
-feature_gates_value(args, i, arg) := args[i + 1] if {
-	arg == "--feature-gates"
-}
+feature_gates_value(args, i, "--feature-gates") := args[i + 1]
 
 is_feature_gate_set_via_cli(command) if {
 	some setting in feature_gate_settings(command)
