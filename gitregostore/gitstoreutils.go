@@ -1,6 +1,7 @@
 package gitregostore
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -18,6 +19,10 @@ import (
 	"github.com/go-gota/gota/dataframe"
 	opapolicy "github.com/kubescape/opa-utils/reporthandling"
 	"github.com/kubescape/opa-utils/reporthandling/attacktrack/v1alpha1"
+	"github.com/sigstore/sigstore-go/pkg/bundle"
+	"github.com/sigstore/sigstore-go/pkg/root"
+	"github.com/sigstore/sigstore-go/pkg/tuf"
+	"github.com/sigstore/sigstore-go/pkg/verify"
 	"go.uber.org/zap"
 )
 
@@ -35,6 +40,7 @@ const (
 	defaultConfigInputsFileName       = "default_config_inputs.json"
 	systemPostureExceptionFileName    = "exceptions.json"
 	checksumsFileName                 = "checksums.txt"
+	checksumsSignatureFileName        = "checksums.sigstore.json"
 )
 
 var (
@@ -205,6 +211,32 @@ func (gs *GitRegoStore) getReleaseChecksums() (map[string]string, error) {
 		)
 	}
 
+	signatureBundle, err := HttpGetter(
+		gs.httpClient,
+		fmt.Sprintf("%s/%s", gs.URL, checksumsSignatureFileName),
+	)
+	if err != nil {
+		return nil, fmt.Errorf(
+			"%w: error getting %s from: '%s': %s",
+			ErrChecksumVerification,
+			checksumsSignatureFileName,
+			gs.URL,
+			err,
+		)
+	}
+
+	if err := verifyChecksumManifestSignature(
+		[]byte(respStr),
+		[]byte(signatureBundle),
+	); err != nil {
+		return nil, fmt.Errorf(
+			"%w: error verifying %s: %w",
+			ErrChecksumVerification,
+			checksumsFileName,
+			err,
+		)
+	}
+
 	checksums, err := parseChecksums(respStr)
 	if err != nil {
 		return nil, fmt.Errorf(
@@ -216,6 +248,103 @@ func (gs *GitRegoStore) getReleaseChecksums() (map[string]string, error) {
 	}
 
 	return checksums, nil
+}
+
+var fetchTrustedRootFromSigstore = root.FetchTrustedRootWithOptions
+
+var trustedRootCache struct {
+	mu       sync.RWMutex
+	material *root.TrustedRoot
+	ok       bool
+}
+
+func fetchTrustedRoot() (*root.TrustedRoot, error) {
+	trustedRootCache.mu.RLock()
+	if trustedRootCache.ok {
+		material := trustedRootCache.material
+		trustedRootCache.mu.RUnlock()
+		return material, nil
+	}
+	trustedRootCache.mu.RUnlock()
+
+	trustedRootCache.mu.Lock()
+	defer trustedRootCache.mu.Unlock()
+
+	if trustedRootCache.ok {
+		return trustedRootCache.material, nil
+	}
+
+	opts := tuf.DefaultOptions()
+	opts.DisableLocalCache = true
+
+	material, err := fetchTrustedRootFromSigstore(opts)
+	if err != nil {
+		return nil, err
+	}
+
+	trustedRootCache.material = material
+	trustedRootCache.ok = true
+
+	return material, nil
+}
+
+func verifyChecksumManifestSignature(
+	manifest []byte,
+	signatureBundle []byte,
+) error {
+	var sigstoreBundle bundle.Bundle
+	if err := sigstoreBundle.UnmarshalJSON(signatureBundle); err != nil {
+		return fmt.Errorf("invalid Sigstore bundle: %w", err)
+	}
+
+	trustedRoot, err := fetchTrustedRoot()
+	if err != nil {
+		return fmt.Errorf("failed to fetch Sigstore trusted root: %w", err)
+	}
+
+	return verifyChecksumManifestSignatureWithTrustedMaterial(
+		manifest,
+		&sigstoreBundle,
+		trustedRoot,
+	)
+}
+
+func verifyChecksumManifestSignatureWithTrustedMaterial(
+	manifest []byte,
+	entity verify.SignedEntity,
+	trustedMaterial root.TrustedMaterial,
+) error {
+	identity, err := verify.NewShortCertificateIdentity(
+		"https://token.actions.githubusercontent.com",
+		"",
+		"",
+		`^https://github\.com/kubescape/regolibrary/\.github/workflows/create-release-v2\.yaml@refs/tags/v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+$`,
+	)
+	if err != nil {
+		return fmt.Errorf("failed to create signing identity: %w", err)
+	}
+
+	verifier, err := verify.NewVerifier(
+		trustedMaterial,
+		verify.WithTransparencyLog(1),
+		verify.WithIntegratedTimestamps(1),
+	)
+	if err != nil {
+		return fmt.Errorf("failed to create Sigstore verifier: %w", err)
+	}
+
+	_, err = verifier.Verify(
+		entity,
+		verify.NewPolicy(
+			verify.WithArtifact(bytes.NewReader(manifest)),
+			verify.WithCertificateIdentity(identity),
+		),
+	)
+	if err != nil {
+		return fmt.Errorf("Sigstore verification failed: %w", err)
+	}
+
+	return nil
 }
 
 func (gs *GitRegoStore) getVerifiedReleaseArtifact(
