@@ -222,7 +222,6 @@
                         "C-0197",
                         "C-0198",
                         "C-0199",
-                        "C-0200",
                         "C-0201",
                         "C-0202",
                         "C-0203",
@@ -254,9 +253,9 @@
                         "C-0289"
                     ]
                 },
-                "7": {
+                "6": {
                     "name": "General Policies",
-                    "id": "5.7",
+                    "id": "5.6",
                     "controlsIDs": [
                         "C-0209",
                         "C-0210",
@@ -1030,17 +1029,9 @@
             }
         },
         {
-            "controlID": "C-0200",
-            "patch": {
-                "name": "CIS-5.2.9 Minimize the admission of containers with added capabilities",
-                "manual_test": "Ensure that allowedCapabilities is not present in policies for the cluster unless it is set to an empty array.\n\n \n```\nget pods -A -o=jsonpath=$'{range .items[*]}{@.metadata.name}: {@..securityContext}\\n{end}'\n\n```",
-                "references": []
-            }
-        },
-        {
             "controlID": "C-0201",
             "patch": {
-                "name": "CIS-5.2.10 Minimize the admission of containers with capabilities assigned",
+                "name": "CIS-5.2.9 Minimize the admission of containers with capabilities assigned",
                 "remediation": "Review the use of capabilities in applications running on your cluster. Where a namespace contains applications which do not require any Linux capabilities to operate consider adding a policy which forbids the admission of containers which do not drop all capabilities.",
                 "references": []
             }
@@ -1048,21 +1039,21 @@
         {
             "controlID": "C-0202",
             "patch": {
-                "name": "CIS-5.2.11 Minimize the admission of Windows HostProcess Containers",
+                "name": "CIS-5.2.10 Minimize the admission of Windows HostProcess Containers",
                 "references": []
             }
         },
         {
             "controlID": "C-0203",
             "patch": {
-                "name": "CIS-5.2.12 Minimize the admission of HostPath volumes",
+                "name": "CIS-5.2.11 Minimize the admission of HostPath volumes",
                 "references": []
             }
         },
         {
             "controlID": "C-0204",
             "patch": {
-                "name": "CIS-5.2.13 Minimize the admission of containers which use HostPorts",
+                "name": "CIS-5.2.12 Minimize the admission of containers which use HostPorts",
                 "references": []
             }
         },
@@ -1099,7 +1090,7 @@
         {
             "controlID": "C-0209",
             "patch": {
-                "name": "CIS-5.7.1 Create administrative boundaries between resources using namespaces",
+                "name": "CIS-5.6.1 Create administrative boundaries between resources using namespaces",
                 "references": [],
                 "default_value": "By default, Kubernetes starts with 4 initial namespaces:\n\n 1. `default` - The default namespace for objects with no other namespace\n2. `kube-system` - The namespace for objects created by the Kubernetes system\n3. `kube-node-lease` - Namespace used for node heartbeats\n4. `kube-public` - Namespace used for public information in a cluster"
             }
@@ -1107,21 +1098,21 @@
         {
             "controlID": "C-0210",
             "patch": {
-                "name": "CIS-5.7.2 Ensure that the seccomp profile is set to docker/default in your pod definitions",
+                "name": "CIS-5.6.2 Ensure that the seccomp profile is set to docker/default in your pod definitions",
                 "references": []
             }
         },
         {
             "controlID": "C-0211",
             "patch": {
-                "name": "CIS-5.7.3 Apply Security Context to Your Pods and Containers",
+                "name": "CIS-5.6.3 Apply Security Context to Your Pods and Containers",
                 "references": []
             }
         },
         {
             "controlID": "C-0212",
             "patch": {
-                "name": "CIS-5.7.4 The default namespace should not be used",
+                "name": "CIS-5.6.4 The default namespace should not be used",
                 "references": []
             }
         },
