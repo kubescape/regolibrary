@@ -250,17 +250,16 @@ func (gs *GitRegoStore) getReleaseChecksums() (map[string]string, error) {
 	return checksums, nil
 }
 
-var fetchTrustedRootFromSigstore = root.FetchTrustedRootWithOptions
+var fetchTrustedRootFromSigstore = root.NewLiveTrustedRoot
 
 var trustedRootCache struct {
 	mu       sync.RWMutex
-	material *root.TrustedRoot
-	ok       bool
+	material *root.LiveTrustedRoot
 }
 
-func fetchTrustedRoot() (*root.TrustedRoot, error) {
+func fetchTrustedRoot() (*root.LiveTrustedRoot, error) {
 	trustedRootCache.mu.RLock()
-	if trustedRootCache.ok {
+	if trustedRootCache.material != nil {
 		material := trustedRootCache.material
 		trustedRootCache.mu.RUnlock()
 		return material, nil
@@ -270,7 +269,7 @@ func fetchTrustedRoot() (*root.TrustedRoot, error) {
 	trustedRootCache.mu.Lock()
 	defer trustedRootCache.mu.Unlock()
 
-	if trustedRootCache.ok {
+	if trustedRootCache.material != nil {
 		return trustedRootCache.material, nil
 	}
 
@@ -283,7 +282,6 @@ func fetchTrustedRoot() (*root.TrustedRoot, error) {
 	}
 
 	trustedRootCache.material = material
-	trustedRootCache.ok = true
 
 	return material, nil
 }
