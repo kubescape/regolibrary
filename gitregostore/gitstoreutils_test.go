@@ -711,7 +711,6 @@ func TestGetReleaseChecksumsMissingSignatureBundleIsVerificationFailure(t *testi
 func TestFetchTrustedRootRetriesAfterFailureAndCachesSuccess(t *testing.T) {
 	trustedRootCache.mu.Lock()
 	trustedRootCache.material = nil
-	trustedRootCache.ok = false
 	trustedRootCache.mu.Unlock()
 
 	originalFetcher := fetchTrustedRootFromSigstore
@@ -721,20 +720,19 @@ func TestFetchTrustedRootRetriesAfterFailureAndCachesSuccess(t *testing.T) {
 
 		trustedRootCache.mu.Lock()
 		trustedRootCache.material = nil
-		trustedRootCache.ok = false
 		trustedRootCache.mu.Unlock()
 	}()
 
 	var calls int
 
-	fetchTrustedRootFromSigstore = func(_ *tuf.Options) (*root.TrustedRoot, error) {
+	fetchTrustedRootFromSigstore = func(_ *tuf.Options) (*root.LiveTrustedRoot, error) {
 		calls++
 
 		if calls == 1 {
 			return nil, errors.New("temporary TUF failure")
 		}
 
-		return &root.TrustedRoot{}, nil
+		return &root.LiveTrustedRoot{TrustedRoot: &root.TrustedRoot{}}, nil
 	}
 
 	_, err := fetchTrustedRoot()
@@ -774,7 +772,6 @@ func TestFetchTrustedRootRetriesAfterFailureAndCachesSuccess(t *testing.T) {
 func TestFetchTrustedRootWithReadOnlyHome(t *testing.T) {
 	trustedRootCache.mu.Lock()
 	trustedRootCache.material = nil
-	trustedRootCache.ok = false
 	trustedRootCache.mu.Unlock()
 
 	originalFetcher := fetchTrustedRootFromSigstore
@@ -789,7 +786,6 @@ func TestFetchTrustedRootWithReadOnlyHome(t *testing.T) {
 
 		trustedRootCache.mu.Lock()
 		trustedRootCache.material = nil
-		trustedRootCache.ok = false
 		trustedRootCache.mu.Unlock()
 	}()
 
@@ -818,14 +814,14 @@ func TestFetchTrustedRootWithReadOnlyHome(t *testing.T) {
 
 	var called bool
 
-	fetchTrustedRootFromSigstore = func(opts *tuf.Options) (*root.TrustedRoot, error) {
+	fetchTrustedRootFromSigstore = func(opts *tuf.Options) (*root.LiveTrustedRoot, error) {
 		called = true
 
 		if !opts.DisableLocalCache {
 			t.Fatal("expected local TUF cache to be disabled")
 		}
 
-		return &root.TrustedRoot{}, nil
+		return &root.LiveTrustedRoot{TrustedRoot: &root.TrustedRoot{}}, nil
 	}
 
 	_, err = fetchTrustedRoot()
