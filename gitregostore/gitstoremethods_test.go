@@ -1,7 +1,6 @@
 package gitregostore
 
 import (
-	"os"
 	"strings"
 	"testing"
 
@@ -246,10 +245,6 @@ func gs_tests(t *testing.T, gs *GitRegoStore) {
 }
 
 func TestGetPoliciesMethodsNewV2(t *testing.T) {
-	if os.Getenv("RUN_LIVE_INTEGRATION_TESTS") != "1" {
-		t.Skip("skipping live GitHub release integration test; set RUN_LIVE_INTEGRATION_TESTS=1 to run")
-	}
-
 	t.Parallel()
 
 	gs := NewGitRegoStoreV2(-1)
