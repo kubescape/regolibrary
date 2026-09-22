@@ -1,0 +1,24 @@
+[
+   {
+      "alertMessage": "Neither argument --seccomp-default nor seccompDefault is set.",
+      "alertScore": 2,
+      "reviewPaths": [],
+      "failedPaths": [],
+      "fixPaths": [],
+      "packagename": "armo_builtins",
+      "alertObject": {
+         "externalObjects": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "kind": "KubeletInfo",
+            "metadata": {
+               "name": ""
+            },
+            "data": {
+               "configFile": {
+                  "content": "apiVersion: kubelet.config.k8s.io/v1beta1\nauthentication:\n  anonymous:\n    enabled: false\n"
+               }
+            }
+         }
+      }
+   }
+]
