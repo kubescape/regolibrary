@@ -1,0 +1,24 @@
+{
+    "controlID": "C-0318",
+    "name": "Ensure that the --seccomp-default parameter is set to true",
+    "description": "Enable the RuntimeDefault seccomp profile for all workloads that do not specify one.",
+    "long_description": "seccomp restricts the system calls a container may make. When seccompDefault is enabled, the kubelet applies the RuntimeDefault seccomp profile to every workload that does not set a profile of its own, rather than running it unconfined. Without it, a workload that omits a seccomp profile has the full system call surface available to it, which widens what an attacker can reach after a container compromise.\n\nCIS marks 4.2.14 as Manual and unscored, and its audit tests only that the parameter is set - on the command line or in the kubelet config - not that it holds a particular value. This control follows that, matching C-0284 (CIS 4.2.13), the adjacent Manual recommendation.",
+    "remediation": "Set the parameter, either via the `--seccomp-default` command line argument or the `seccompDefault` setting in the kubelet config file. Setting it to `true` enables the RuntimeDefault profile for workloads that do not declare one.\n\n Based on your system, restart the `kubelet` service. For example:\n\n \n```\nsystemctl daemon-reload\nsystemctl restart kubelet.service\n\n```",
+    "manual_test": "Run the following command on each node:\n\n \n```\nps -ef | grep kubelet\n\n```\n Verify that the `--seccomp-default` argument is set.\n\n If the `--seccomp-default` argument is not present, check that there is a Kubelet config file specified by `--config`, and that the file sets `seccompDefault`.",
+    "references": [],
+    "attributes": {},
+    "rulesNames": [
+        "kubelet-seccomp-default"
+    ],
+    "baseScore": 2,
+    "impact_statement": "Workloads that do not declare a seccomp profile will run under RuntimeDefault. A workload relying on a system call that RuntimeDefault blocks will fail until it declares a profile of its own.",
+    "default_value": "By default, `--seccomp-default` is not set, which is equivalent to false.",
+    "category": {
+        "name": "Control plane"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
+}

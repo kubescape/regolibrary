@@ -1747,6 +1747,12 @@
             "patch": {
                 "name": "Agent Substrate Worker Pod resource ceilings"
             }
+        },
+        {
+            "controlID": "C-0318",
+            "patch": {
+                "name": "Ensure that the --seccomp-default parameter is set to true"
+            }
         }
     ]
 }
