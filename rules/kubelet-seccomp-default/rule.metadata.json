@@ -1,0 +1,31 @@
+{
+  "name": "kubelet-seccomp-default",
+  "attributes": {
+    "hostSensorRule": "true"
+  },
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [],
+      "apiVersions": [],
+      "resources": []
+    }
+  ],
+  "dynamicMatch": [
+    {
+      "apiGroups": [
+        "hostdata.kubescape.cloud"
+      ],
+      "apiVersions": [
+        "v1beta0"
+      ],
+      "resources": [
+        "KubeletInfo"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "Determines if the --seccomp-default parameter is set, on the command line or in the kubelet config file.",
+  "remediation": "Set the parameter, either via the --seccomp-default command line argument or the seccompDefault setting in the kubelet config file.",
+  "ruleQuery": ""
+}

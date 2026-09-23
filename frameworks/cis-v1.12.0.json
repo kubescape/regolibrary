@@ -177,7 +177,8 @@
                         "C-0182",
                         "C-0183",
                         "C-0184",
-                        "C-0284"
+                        "C-0284",
+                        "C-0318"
                     ]
                 },
                 "3": {
@@ -1271,6 +1272,13 @@
                 "references": [],
                 "impact_statement": "Metrics will only be accessible locally on each node. Monitoring solutions that rely on remotely scraping kube-proxy metrics will need to be reconfigured.",
                 "default_value": "By default, kube-proxy metrics may be bound to all interfaces (0.0.0.0)."
+            }
+        },
+        {
+            "controlID": "C-0318",
+            "patch": {
+                "name": "CIS-4.2.14 Ensure that the --seccomp-default parameter is set to true",
+                "references": []
             }
         }
     ]
