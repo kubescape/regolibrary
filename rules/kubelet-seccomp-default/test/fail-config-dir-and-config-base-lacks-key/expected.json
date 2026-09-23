@@ -1,0 +1,22 @@
+[
+   {
+      "alertMessage": "Cannot determine whether seccompDefault is set: the kubelet is configured with --config-dir, and the host sensor does not collect drop-in configuration. Review the merged kubelet configuration manually.",
+      "alertObject": {
+         "externalObjects": {
+            "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+            "data": {
+               "cmdLine": "/var/lib/minikube/binaries/v1.35.5/kubelet --config=/var/lib/kubelet/config.yaml --config-dir=/etc/kubernetes/kubelet.conf.d",
+               "configFile": {
+                  "content": "YXBpVmVyc2lvbjoga3ViZWxldC5jb25maWcuazhzLmlvL3YxYmV0YTEKYXV0aGVudGljYXRpb246CiAgYW5vbnltb3VzOgogICAgZW5hYmxlZDogZmFsc2UK"
+               }
+            },
+            "kind": "KubeletInfo"
+         }
+      },
+      "alertScore": 2,
+      "failedPaths": [],
+      "fixPaths": [],
+      "packagename": "armo_builtins",
+      "reviewPaths": []
+   }
+]

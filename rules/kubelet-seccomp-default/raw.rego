@@ -18,7 +18,8 @@ deny contains msga if {
 	command := obj.data.cmdLine
 
 	not seccomp_default_flag_set(command)
-	contains(command, "--config")
+	not config_dir_flag_set(command)
+	config_flag_set(command)
 
 	decodedConfigContent := base64.decode(obj.data.configFile.content)
 	yamlConfig := yaml.unmarshal(decodedConfigContent)
@@ -47,7 +48,8 @@ deny contains msga if {
 	command := obj.data.cmdLine
 
 	not seccomp_default_flag_set(command)
-	not contains(command, "--config")
+	not config_dir_flag_set(command)
+	not config_flag_set(command)
 
 	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 
@@ -70,12 +72,57 @@ deny contains msga if {
 	command := obj.data.cmdLine
 
 	not seccomp_default_flag_set(command)
-	contains(command, "--config")
+	not config_dir_flag_set(command)
+	config_flag_set(command)
 
 	config_file_analysis_failed(obj)
 
 	msga := {
 		"alertMessage": "Failed to analyze config file",
+		"alertScore": 2,
+		"reviewPaths": [],
+		"failedPaths": [],
+		"fixPaths": [],
+		"packagename": "armo_builtins",
+		"alertObject": {"externalObjects": {
+			"apiVersion": obj.apiVersion,
+			"kind": obj.kind,
+			"data": obj.data,
+		}},
+	}
+}
+
+## Kubelet uses drop-in configuration the host sensor does not collect
+#
+# host-scanner and node-agent both resolve the config file with GetArg("--config"), which
+# matches only `--config=<path>` or `--config <path>`; `--config-dir` never matches it. When
+# `--config` is absent they fall back to a default path (/var/lib/kubelet/config.yaml, or the
+# EKS path), and neither collector reads or merges the drop-in directory.
+#
+# So for a kubelet using `--config-dir` the file we were handed is not the effective
+# configuration: with drop-ins only, it is a file the kubelet never read, and with both flags
+# it is the base layer without the overrides. Deciding compliance from it would assert a result
+# we cannot support in either direction. We report it for manual review instead, which keeps
+# the presence semantics honest until the sensor supplies merged configuration.
+deny contains msga if {
+	some obj in input
+	is_kubelet_info(obj)
+
+	command := obj.data.cmdLine
+
+	not seccomp_default_flag_set(command)
+	config_dir_flag_set(command)
+
+	# If the collected file is genuinely the base layer and already sets the parameter, the
+	# merged configuration sets it too - a drop-in can override the value but cannot remove the
+	# key - and presence is all this control asks about. That case is decidable, so it is not
+	# sent to manual review. The `--config` requirement is load-bearing: without it the file the
+	# sensor handed us is the fallback default, which a drop-in-only kubelet never reads, and
+	# crediting its contents is exactly the false pass this rule exists to prevent.
+	not seccomp_default_established_by_base_config(obj, command)
+
+	msga := {
+		"alertMessage": "Cannot determine whether seccompDefault is set: the kubelet is configured with --config-dir, and the host sensor does not collect drop-in configuration. Review the merged kubelet configuration manually.",
 		"alertScore": 2,
 		"reviewPaths": [],
 		"failedPaths": [],
@@ -107,24 +154,33 @@ config_file_parses(obj) if {
 	_ = yaml.unmarshal(decodedConfigContent)
 }
 
+seccomp_default_established_by_base_config(obj, command) if {
+	config_flag_set(command)
+	decodedConfigContent := base64.decode(obj.data.configFile.content)
+	yamlConfig := yaml.unmarshal(decodedConfigContent)
+	seccomp_default_is_set(yamlConfig)
+}
+
 # Existence check, not a truthiness check: `seccompDefault: false` is still set, and a
 # truthiness test would deny it.
 seccomp_default_is_set(yamlConfig) if {
 	_ = yamlConfig.seccompDefault
 }
 
-# Matched as a whole argument rather than with `contains`, so that an unrelated value that
-# merely embeds the text - a `--config` path containing "--seccomp-default", say - is not read
-# as the flag being present. Covers `--seccomp-default`, `--seccomp-default=true` and the
-# space-separated form.
-#
-# Note the deliberate asymmetry with the `--config` checks above, which stay substring matches:
-# kubelet also accepts `--config-dir` for drop-in configuration, and a kubelet started that way
-# still has a config file for the sensor to read. Narrowing `--config` to a whole-argument match
-# would push those hosts down the "no config file" branch and alert on them even when the
-# drop-in config sets seccompDefault.
+# Whole-argument matches rather than `contains`, so that a value which merely embeds the text -
+# a `--config` path containing "--seccomp-default", say - is not read as the flag being present,
+# and so that `--config-dir` is not mistaken for `--config`. The `--config` pattern deliberately
+# mirrors the collectors' own GetArg: `--config=<path>`, `--config <path>` or the bare flag.
 seccomp_default_flag_set(command) if {
 	regex.match(`(^|[[:space:]])--seccomp-default(=|[[:space:]]|$)`, command)
+}
+
+config_flag_set(command) if {
+	regex.match(`(^|[[:space:]])--config(=|[[:space:]]|$)`, command)
+}
+
+config_dir_flag_set(command) if {
+	regex.match(`(^|[[:space:]])--config-dir(=|[[:space:]]|$)`, command)
 }
 
 is_kubelet_info(obj) if {
