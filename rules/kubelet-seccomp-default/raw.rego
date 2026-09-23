@@ -104,6 +104,12 @@ deny contains msga if {
 # it is the base layer without the overrides. Deciding compliance from it would assert a result
 # we cannot support in either direction. We report it for manual review instead, which keeps
 # the presence semantics honest until the sensor supplies merged configuration.
+#
+# There is deliberately no exemption for a base file that already sets the parameter. Drop-ins
+# are applied with jsonpatch.MergePatch (cmd/kubelet/app/server.go), so under RFC 7386 a later
+# `.conf` containing `seccompDefault: null` removes the key outright; SeccompDefault is a *bool
+# that then defaults to false. Presence in the base file therefore does not imply presence in
+# the merged configuration, and treating it as decidable would reintroduce a false pass.
 deny contains msga if {
 	some obj in input
 	is_kubelet_info(obj)
@@ -112,14 +118,6 @@ deny contains msga if {
 
 	not seccomp_default_flag_set(command)
 	config_dir_flag_set(command)
-
-	# If the collected file is genuinely the base layer and already sets the parameter, the
-	# merged configuration sets it too - a drop-in can override the value but cannot remove the
-	# key - and presence is all this control asks about. That case is decidable, so it is not
-	# sent to manual review. The `--config` requirement is load-bearing: without it the file the
-	# sensor handed us is the fallback default, which a drop-in-only kubelet never reads, and
-	# crediting its contents is exactly the false pass this rule exists to prevent.
-	not seccomp_default_established_by_base_config(obj, command)
 
 	msga := {
 		"alertMessage": "Cannot determine whether seccompDefault is set: the kubelet is configured with --config-dir, and the host sensor does not collect drop-in configuration. Review the merged kubelet configuration manually.",
@@ -152,13 +150,6 @@ config_file_analysis_failed(obj) if {
 config_file_parses(obj) if {
 	decodedConfigContent := base64.decode(obj.data.configFile.content)
 	_ = yaml.unmarshal(decodedConfigContent)
-}
-
-seccomp_default_established_by_base_config(obj, command) if {
-	config_flag_set(command)
-	decodedConfigContent := base64.decode(obj.data.configFile.content)
-	yamlConfig := yaml.unmarshal(decodedConfigContent)
-	seccomp_default_is_set(yamlConfig)
 }
 
 # Existence check, not a truthiness check: `seccompDefault: false` is still set, and a
