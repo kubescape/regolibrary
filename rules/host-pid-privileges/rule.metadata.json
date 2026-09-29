@@ -2,7 +2,7 @@
     "name": "host-pid-privileges",
     "attributes": {
     },
-    "ruleLanguage": "CEL",
+    "ruleLanguage": "Rego",
     "match": [
       {
         "apiGroups": [

@@ -2,7 +2,7 @@
     "name": "host-ipc-privileges",
     "attributes": {
     },
-    "ruleLanguage": "CEL",
+    "ruleLanguage": "Rego",
     "match": [
       {
         "apiGroups": [
