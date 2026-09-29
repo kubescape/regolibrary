@@ -13,6 +13,7 @@
             "imageDigestExemptRepositories": [],
             "floatingImageTags": [],
             "trustedCosignPublicKeys": [],
+            "cosignRequireTransparencyLog": ["true"],
             "insecureCapabilities": [
                 "SETPCAP",
                 "NET_ADMIN",

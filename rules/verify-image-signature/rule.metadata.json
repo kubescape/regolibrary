@@ -54,6 +54,11 @@
       "path": "settings.postureControlInputs.trustedCosignPublicKeys",
       "name": "Trusted Cosign public keys",
       "description": "A list of trusted Cosign public keys that are used for validating container image signatures."
+    },
+    {
+      "path": "settings.postureControlInputs.cosignRequireTransparencyLog",
+      "name": "Require Cosign transparency log entry",
+      "description": "Whether a valid signature must also have a transparency log (Rekor) entry. Set to false to accept images signed with --tlog-upload=false, such as in private registries and air-gapped clusters; the key and signed image digest are still verified. Any other value, or no value, keeps the entry required."
     }
       ]
   }
