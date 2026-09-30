@@ -8,19 +8,23 @@ import rego.v1
 # noexec lets an attacker drop a binary, chmod +x and execute it even under
 # readOnlyRootFilesystem. Covers containers, initContainers and
 # ephemeralContainers across Pods, templated workloads and CronJobs.
-# readOnly mounts are exempt (already neutralized), as are mountPaths listed
-# in postureControlInputs.mountAllowList. hostPath-backed mounts score
-# higher: a writable hostPath without noexec is a node-escape vector.
+# Effectively read-only mounts are exempt: an explicit mount readOnly as
+# well as inherently read-only sources (configMap, secret, projected,
+# downwardAPI) that kubelet never mounts writable. Explicitly Windows
+# workloads are exempt: noexec has no effect on Windows. MountPaths listed
+# in postureControlInputs.mountAllowList are exempt. hostPath-backed mounts
+# score higher: a writable hostPath without noexec is a node-escape vector.
 
 deny contains msga if {
 	wl := input[_]
 	specinfo := workload_spec(wl)
 	podspec := specinfo.podspec
 	prefix := specinfo.prefix
+	not is_windows_workload(podspec)
 	listname := ["containers", "initContainers", "ephemeralContainers"][_]
 	container := podspec[listname][i]
 	mount := container.volumeMounts[k]
-	not mount.readOnly == true
+	not is_effectively_readonly(podspec, mount)
 	not allowlisted_mount(mount.mountPath)
 	not has_noexec_option(mount)
 	score := mount_score(podspec, mount)
@@ -49,6 +53,46 @@ workload_spec(wl) := {"podspec": wl.spec.jobTemplate.spec.template.spec, "prefix
 
 allowlisted_mount(mountpath) if {
 	mountpath == data.postureControlInputs.mountAllowList[_]
+}
+
+# A mount is effectively read-only when the mount itself is read-only or
+# when its source volume is one kubelet never mounts writable. The source
+# attribute dominates: an explicit readOnly: false on a configMap mount
+# does not make it writable.
+is_effectively_readonly(podspec, mount) if {
+	mount.readOnly == true
+}
+
+is_effectively_readonly(podspec, mount) if {
+	volume := podspec.volumes[_]
+	volume.name == mount.name
+	readonly_volume_source(volume)
+}
+
+readonly_volume_source(volume) if {
+	volume.configMap
+}
+
+readonly_volume_source(volume) if {
+	volume.secret
+}
+
+readonly_volume_source(volume) if {
+	volume.projected
+}
+
+readonly_volume_source(volume) if {
+	volume.downwardAPI
+}
+
+# noexec is Linux-only: skip workloads explicitly scheduled to Windows via
+# nodeSelector or the pod-level os field.
+is_windows_workload(podspec) if {
+	podspec.nodeSelector["kubernetes.io/os"] == "windows"
+}
+
+is_windows_workload(podspec) if {
+	podspec.os.name == "windows"
 }
 
 has_noexec_option(mount) if {

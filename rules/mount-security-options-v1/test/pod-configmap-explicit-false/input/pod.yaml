@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-false-pod
+spec:
+  containers:
+    - name: app
+      image: nginx:latest
+      volumeMounts:
+        - name: config
+          mountPath: /etc/config
+          readOnly: false
+  volumes:
+    - name: config
+      configMap:
+        name: app-config

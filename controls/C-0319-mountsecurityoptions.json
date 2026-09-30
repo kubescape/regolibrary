@@ -18,7 +18,7 @@
         ]
     },
     "description": "Writable volume mounts without the noexec bind mount option let attackers drop a binary, chmod +x and execute it even under a read-only root filesystem.",
-    "remediation": "Set bindMountOptions to [noexec, nosuid, nodev] on the volume mount, mark the mount readOnly, or exempt the mount path via the mount allow list input.",
+    "remediation": "Set bindMountOptions to [noexec, nosuid, nodev] on the volume mount, mark the mount readOnly, or exempt the mount path via the mount allow list input. Requires Kubernetes v1.37+ with the VolumeBindMountOptions feature gate enabled and a container runtime advertising mount_options support; the field alone does not enforce without both.",
     "rulesNames": [
         "mount-security-options-v1"
     ],

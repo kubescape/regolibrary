@@ -43,7 +43,7 @@
   ],
   "ruleDependencies": [],
   "description": "flags writable volume mounts that do not set the noexec bind mount option",
-  "remediation": "Set bindMountOptions to [noexec, nosuid, nodev] on the volume mount, or mark the mount readOnly",
+  "remediation": "Set bindMountOptions to [noexec, nosuid, nodev] on the volume mount, or mark the mount readOnly. Requires Kubernetes v1.37+ with the VolumeBindMountOptions feature gate enabled and a container runtime advertising mount_options support; the field alone does not enforce without both.",
   "ruleQuery": "armo_builtins",
   "configInputs": [
     "settings.postureControlInputs.mountAllowList"

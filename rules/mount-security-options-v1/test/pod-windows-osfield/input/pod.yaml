@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: windows-os-pod
+spec:
+  os:
+    name: windows
+  containers:
+    - name: app
+      image: mcr.microsoft.com/windows/servercore:ltsc2022
+      volumeMounts:
+        - name: tmp
+          mountPath: C:/tmp
+  volumes:
+    - name: tmp
+      emptyDir: {}
