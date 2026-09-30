@@ -1,0 +1,41 @@
+{
+    "name": "Mount security options",
+    "attributes": {
+        "controlTypeTags": [
+            "security",
+            "compliance",
+            "devops",
+            "security-impact",
+            "smartRemediation"
+        ],
+        "attackTracks": [
+            {
+                "attackTrack": "workload-external-track",
+                "categories": [
+                    "Privilege Escalation (Node)"
+                ]
+            }
+        ]
+    },
+    "description": "Writable volume mounts without the noexec bind mount option let attackers drop a binary, chmod +x and execute it even under a read-only root filesystem.",
+    "remediation": "Set bindMountOptions to [noexec, nosuid, nodev] on the volume mount, mark the mount readOnly, or exempt the mount path via the mount allow list input.",
+    "rulesNames": [
+        "mount-security-options-v1"
+    ],
+    "long_description": "Kubernetes 1.37 introduces bindMountOptions on volumeMounts (KEP-5855), applying standard Linux bind mount flags (noexec, nosuid, nodev) per container across all volume types. An attacker with write access to a mounted filesystem (e.g. an emptyDir tmpfs) can drop a binary, chmod +x and execute it even if the container enforces readOnlyRootFilesystem. Mounts backed by hostPath score higher: a writable hostPath without noexec is a node-escape vector.",
+    "test": "Checking in workload spec if any writable volume mount lacks noexec in bindMountOptions, we raise an alert.",
+    "controlID": "C-0319",
+    "baseScore": 7.0,
+    "category": {
+        "name" : "Workload",
+        "subCategory": {
+        "name": "Storage"
+        }
+   },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    }
+}

@@ -244,3 +244,4 @@ C-0315,agent-sandbox-strict-egress
 C-0316,agent-sandbox-claim-overrides
 C-0317,worker-pod-resource-ceilings
 C-0297,agent-sandbox-hardened-runtime-class
+C-0319,mount-security-options-v1
