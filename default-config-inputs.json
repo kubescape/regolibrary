@@ -120,7 +120,8 @@
             ],
             "recommendedLabels": ["app", "tier", "phase", "version", "owner", "env"],
             "k8sRecommendedLabels": ["app.kubernetes.io/name", "app.kubernetes.io/instance", "app.kubernetes.io/version", "app.kubernetes.io/component", "app.kubernetes.io/part-of", "app.kubernetes.io/managed-by", "app.kubernetes.io/created-by"],
-            "hardenedSandboxRuntimeClasses": ["gvisor"]
+            "hardenedSandboxRuntimeClasses": ["gvisor"],
+            "mountAllowList": []
         }
     }
 }
