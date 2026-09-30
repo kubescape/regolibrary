@@ -1,0 +1,58 @@
+{
+  "name": "mount-security-options-v1",
+  "attributes": {},
+  "ruleLanguage": "Rego",
+  "match": [
+    {
+      "apiGroups": [
+        ""
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Pod"
+      ]
+    },
+    {
+      "apiGroups": [
+        "apps"
+      ],
+      "apiVersions": [
+        "v1"
+      ],
+      "resources": [
+        "Deployment",
+        "ReplicaSet",
+        "DaemonSet",
+        "StatefulSet"
+      ]
+    },
+    {
+      "apiGroups": [
+        "batch"
+      ],
+      "apiVersions": [
+        "*"
+      ],
+      "resources": [
+        "Job",
+        "CronJob"
+      ]
+    }
+  ],
+  "ruleDependencies": [],
+  "description": "flags writable volume mounts that do not set the noexec bind mount option",
+  "remediation": "Set bindMountOptions to [noexec, nosuid, nodev] on the volume mount, or mark the mount readOnly",
+  "ruleQuery": "armo_builtins",
+  "configInputs": [
+    "settings.postureControlInputs.mountAllowList"
+  ],
+  "controlConfigInputs": [
+    {
+      "path": "settings.postureControlInputs.mountAllowList",
+      "name": "Mount allow list",
+      "description": "Mount paths exempt from the noexec bind mount option requirement (e.g. paths needing script execution)."
+    }
+  ]
+}

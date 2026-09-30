@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "container worker in CronJob nightly-job mounts /scratch without the noexec bind mount option",
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.containers[0].volumeMounts[0].bindMountOptions",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "failedPaths": [],
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "nightly-job"
+                    }
+                }
+            ]
+        }
+    }
+]
