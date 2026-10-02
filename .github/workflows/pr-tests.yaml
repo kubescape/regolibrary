@@ -1,4 +1,8 @@
 name: pr-tests
+
+# Default to read-only access; grant writes only to jobs that need them.
+permissions: read-all
+
 on:
   push:
     branches: [ master, main ]
@@ -17,6 +21,10 @@ jobs:
   # main job of testing and building the env.
   test_pr_checks:
     permissions:
+      contents: read
+      actions: read
+      # CodeQL uploads scan results; the shared tests also comment on PRs.
+      security-events: write
       pull-requests: write
     uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@main
     with:

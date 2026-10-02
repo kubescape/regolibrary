@@ -1,5 +1,8 @@
 name: Push to regolibrary-dev
 
+# Default to read-only access; grant writes only to jobs that need them.
+permissions: read-all
+
 on:
   push:
     branches: [master]

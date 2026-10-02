@@ -1,9 +1,17 @@
 name: Kubescape scanning for misconfigurations
 
+# Default to read-only access; grant writes only to jobs that need them.
+permissions: read-all
+
 on: [push]
 
 jobs:
  test_ks_misconfigurations:  
+    # Required by the reusable workflow to upload SARIF results.
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
     uses: kubescape/workflows/.github/workflows/ks-ga-flow.yaml@main
     with:
       FRAMEWORKS: "nsa,mitre,cis-eks-t1.7.0,cis-eks-t1.8.0,cis-aks-t1.8.0,cis-v1.10.0,cis-v1.12.0"
