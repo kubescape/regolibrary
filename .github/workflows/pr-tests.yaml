@@ -18,7 +18,7 @@ jobs:
   test_pr_checks:
     permissions:
       pull-requests: write
-    uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@main
+    uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@547a98f361e0713832308e3f34165bb89fd9b08c # main
     with:
       GO_VERSION: '1.25.13'
       BUILD_PATH: github.com/kubescape/regolibrary/gitregostore/...
@@ -32,12 +32,12 @@ jobs:
       REGO_ARTIFACT_KEY_NAME: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_KEY_NAME }}
       REGO_ARTIFACT_PATH: ${{ steps.set_outputs.outputs.REGO_ARTIFACT_PATH }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         name: checkout repo content
 
       # Test using Golang OPA hot rule compilation
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@7b8cf10d4e4a01d4992d18a89f4d7dc5a3e6d6f4 # v4.3.0
         with:
           go-version: '1.25.13'
 
@@ -55,7 +55,7 @@ jobs:
           GOPATH=$(go env GOPATH) make
 
       - name: Set up Regal
-        uses: open-policy-agent/setup-regal@v1
+        uses: open-policy-agent/setup-regal@33a142b1189004e0f14bf42b15972c67eecce776 # v1.0.0
         with:
           version: v0.41.1
 
@@ -63,7 +63,7 @@ jobs:
         run: regal lint --format github rules
 
       - name: setup python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: 3.10.6
       - name: Install dependencies
@@ -93,7 +93,7 @@ jobs:
           echo "REGO_ARTIFACT_KEY_NAME=${{ env.REGO_ARTIFACT_KEY_NAME }}" >> $GITHUB_OUTPUT
           echo "REGO_ARTIFACT_PATH=${{ env.REGO_ARTIFACT_PATH }}" >> $GITHUB_OUTPUT
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         name: Upload artifact
         with:
           name: ${{ env.REGO_ARTIFACT_KEY_NAME }}
@@ -107,7 +107,7 @@ jobs:
       actions: read
       contents: read
       id-token: write
-    uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
+    uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@547a98f361e0713832308e3f34165bb89fd9b08c # main
     needs: [build-and-rego-test]
     with:
       DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
@@ -130,7 +130,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ks-and-rego-test]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         name: checkout repo content
       - name: Remove pre-release folder
         run: rm -r -f pre-release
