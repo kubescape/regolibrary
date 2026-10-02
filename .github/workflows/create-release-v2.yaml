@@ -1,5 +1,8 @@
 name: 'Create and Publish Tags with Testing and Artifact Handling'
 
+# Default to read-only access; grant writes only to jobs that need them.
+permissions: read-all
+
 on:
   workflow_dispatch:
     inputs:
@@ -20,6 +23,10 @@ env:
 jobs:
   test_pr_checks:
     permissions:
+      contents: read
+      actions: read
+      # CodeQL uploads scan results; the shared tests also comment on PRs.
+      security-events: write
       pull-requests: write
     uses: kubescape/workflows/.github/workflows/go-basic-tests.yaml@main
     with:
@@ -94,6 +101,11 @@ jobs:
 
   # test kubescape e2e flow with tested artifacts
   ks-and-rego-test:
+    # Required by the reusable E2E workflow.
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
     uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@main
     needs: [build-and-rego-test]
     if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}

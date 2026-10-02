@@ -1,5 +1,8 @@
 name: PR Comment Trigger
 
+# Default to read-only access; grant writes only to jobs that need them.
+permissions: read-all
+
 on:
     workflow_call:
     # issue_comment:
