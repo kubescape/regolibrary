@@ -1,0 +1,139 @@
+{
+    "name": "ISM",
+    "description": "Kubernetes-observable evidence for controls in the Australian Signals Directorate's Information Security Manual (ISM), September 2026 (OSCAL v2026.09.4) - https://www.cyber.gov.au/ism. Findings are partial evidence only; they do not establish ISM compliance.",
+    "attributes": {
+        "version": "2026.09",
+        "builtin": true
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster",
+            "file"
+        ]
+    },
+    "typeTags": [
+        "compliance"
+    ],
+    "activeControls": [
+        {
+            "controlID": "C-0013",
+            "patch": {
+                "name": "Non-root containers (ISM-1246, ISM-1604)",
+                "description": "Containers run as a non-root user and group. Running as root is functionality most workloads do not need, and it weakens the container isolation boundary.",
+                "long_description": "ISM-1246: Server applications are hardened using ASD and vendor hardening guidance, with the most restrictive guidance taking precedence when conflicts occur. ISM-1604: When using a software-based isolation mechanism that consumes shared physical computing resources, the configuration of the isolation mechanism is hardened by removing unneeded functionality and restricting access to the administrative interface used to manage the isolation mechanism. Evidence boundary: A pass shows that scanned workloads do not run as root. It does not show that all ASD and vendor hardening guidance was identified, reconciled or implemented, and it does not assess the Kubernetes control plane, node runtime configuration or the administrative interfaces used to manage the isolation mechanism."
+            }
+        },
+        {
+            "controlID": "C-0016",
+            "patch": {
+                "name": "Allow privilege escalation (ISM-1246, ISM-1604)",
+                "description": "Containers set allowPrivilegeEscalation to false, so a process cannot gain more privileges than its parent.",
+                "long_description": "ISM-1246: Server applications are hardened using ASD and vendor hardening guidance, with the most restrictive guidance taking precedence when conflicts occur. ISM-1604: When using a software-based isolation mechanism that consumes shared physical computing resources, the configuration of the isolation mechanism is hardened by removing unneeded functionality and restricting access to the administrative interface used to manage the isolation mechanism. Evidence boundary: A pass shows that scanned containers block privilege escalation. It does not show that all ASD and vendor hardening guidance was identified, reconciled or implemented, and it does not assess the Kubernetes control plane, node runtime configuration or the administrative interfaces used to manage the isolation mechanism."
+            }
+        },
+        {
+            "controlID": "C-0017",
+            "patch": {
+                "name": "Immutable container filesystem (ISM-1246, ISM-1604)",
+                "description": "Containers use a read-only root filesystem, so a compromised process cannot change the container's files at runtime.",
+                "long_description": "ISM-1246: Server applications are hardened using ASD and vendor hardening guidance, with the most restrictive guidance taking precedence when conflicts occur. ISM-1604: When using a software-based isolation mechanism that consumes shared physical computing resources, the configuration of the isolation mechanism is hardened by removing unneeded functionality and restricting access to the administrative interface used to manage the isolation mechanism. Evidence boundary: A pass shows that scanned containers mount their root filesystem read-only. It does not show that all ASD and vendor hardening guidance was identified, reconciled or implemented, and it does not assess the Kubernetes control plane, node runtime configuration or the administrative interfaces used to manage the isolation mechanism."
+            }
+        },
+        {
+            "controlID": "C-0030",
+            "patch": {
+                "name": "Ingress and Egress blocked (ISM-1182, ISM-1416)",
+                "description": "Every pod is selected by a network policy that restricts its ingress or egress traffic. Pods that no policy selects are reported.",
+                "long_description": "ISM-1182: Network access controls are implemented to limit the flow of network traffic within and between network segments to only that required for business purposes. ISM-1416: A software firewall is implemented on workstations and servers to restrict inbound and outbound network connections to an organisation-approved set of applications and services. Evidence boundary: A pass shows that each scanned pod is selected by at least one NetworkPolicy, CiliumNetworkPolicy or CiliumClusterwideNetworkPolicy that restricts ingress or egress. A policy for one direction is enough to pass, so a pass does not show that both directions are restricted. NetworkPolicy matching uses matchLabels and ignores matchExpressions, so a policy can be counted for a pod it does not select. It does not show that the allowed flows match business need, that the cluster network plugin enforces the policies, or that host firewalls and an organisation-approved list of applications and services exist."
+            }
+        },
+        {
+            "controlID": "C-0038",
+            "patch": {
+                "name": "Host PID/IPC privileges (ISM-1246, ISM-1604)",
+                "description": "Pods do not share the host's process ID or IPC namespace, so containers cannot see or signal host processes.",
+                "long_description": "ISM-1246: Server applications are hardened using ASD and vendor hardening guidance, with the most restrictive guidance taking precedence when conflicts occur. ISM-1604: When using a software-based isolation mechanism that consumes shared physical computing resources, the configuration of the isolation mechanism is hardened by removing unneeded functionality and restricting access to the administrative interface used to manage the isolation mechanism. Evidence boundary: A pass shows that scanned pods set neither hostPID nor hostIPC. It does not show that all ASD and vendor hardening guidance was identified, reconciled or implemented, and it does not assess the Kubernetes control plane, node runtime configuration or the administrative interfaces used to manage the isolation mechanism."
+            }
+        },
+        {
+            "controlID": "C-0041",
+            "patch": {
+                "name": "HostNetwork access (ISM-1246, ISM-1604)",
+                "description": "Pods do not use the host's network namespace, so containers cannot reach host network interfaces directly.",
+                "long_description": "ISM-1246: Server applications are hardened using ASD and vendor hardening guidance, with the most restrictive guidance taking precedence when conflicts occur. ISM-1604: When using a software-based isolation mechanism that consumes shared physical computing resources, the configuration of the isolation mechanism is hardened by removing unneeded functionality and restricting access to the administrative interface used to manage the isolation mechanism. Evidence boundary: A pass shows that scanned pods do not set hostNetwork. It does not show that all ASD and vendor hardening guidance was identified, reconciled or implemented, and it does not assess the Kubernetes control plane, node runtime configuration or the administrative interfaces used to manage the isolation mechanism."
+            }
+        },
+        {
+            "controlID": "C-0044",
+            "patch": {
+                "name": "Container hostPort (ISM-1246, ISM-1604)",
+                "description": "Containers do not bind ports on the node, so workloads are reached through Services rather than directly on the host.",
+                "long_description": "ISM-1246: Server applications are hardened using ASD and vendor hardening guidance, with the most restrictive guidance taking precedence when conflicts occur. ISM-1604: When using a software-based isolation mechanism that consumes shared physical computing resources, the configuration of the isolation mechanism is hardened by removing unneeded functionality and restricting access to the administrative interface used to manage the isolation mechanism. Evidence boundary: A pass shows that scanned containers declare no hostPort. It does not show that all ASD and vendor hardening guidance was identified, reconciled or implemented, and it does not assess the Kubernetes control plane, node runtime configuration or the administrative interfaces used to manage the isolation mechanism."
+            }
+        },
+        {
+            "controlID": "C-0046",
+            "patch": {
+                "name": "Insecure capabilities (ISM-1246, ISM-1604, ISM-2128)",
+                "description": "Containers do not add Linux capabilities from the configured list of insecure capabilities (insecureCapabilities). The default list includes SYS_MODULE, which allows loading kernel modules.",
+                "long_description": "ISM-1246: Server applications are hardened using ASD and vendor hardening guidance, with the most restrictive guidance taking precedence when conflicts occur. ISM-1604: When using a software-based isolation mechanism that consumes shared physical computing resources, the configuration of the isolation mechanism is hardened by removing unneeded functionality and restricting access to the administrative interface used to manage the isolation mechanism. ISM-2128: The ability to install, load or modify kernel-mode code, including drivers, kernel modules and extensions, is limited to privileged users who require such abilities as part of their duties or functions. Evidence boundary: A pass shows that scanned containers add no capability on the configured insecure list. It does not show that containers drop every capability they do not need. It does not show that all ASD and vendor hardening guidance was identified, reconciled or implemented, and it does not assess the Kubernetes control plane, node runtime configuration or the administrative interfaces used to manage the isolation mechanism. For ISM-2128, a pass shows that no scanned container adds SYS_MODULE only while the insecureCapabilities list includes it, as the default list does. It does not assess node access or which privileged users may modify kernel-mode code."
+            }
+        },
+        {
+            "controlID": "C-0048",
+            "patch": {
+                "name": "HostPath mount (ISM-1246, ISM-1604)",
+                "description": "Pods do not mount directories from the node's filesystem, so containers cannot read or change host files.",
+                "long_description": "ISM-1246: Server applications are hardened using ASD and vendor hardening guidance, with the most restrictive guidance taking precedence when conflicts occur. ISM-1604: When using a software-based isolation mechanism that consumes shared physical computing resources, the configuration of the isolation mechanism is hardened by removing unneeded functionality and restricting access to the administrative interface used to manage the isolation mechanism. Evidence boundary: A pass shows that no scanned container mounts a hostPath volume. It does not show that all ASD and vendor hardening guidance was identified, reconciled or implemented, and it does not assess the Kubernetes control plane, node runtime configuration or the administrative interfaces used to manage the isolation mechanism."
+            }
+        },
+        {
+            "controlID": "C-0057",
+            "patch": {
+                "name": "Privileged container (ISM-1246, ISM-1490, ISM-1604, ISM-1657, ISM-1871, ISM-2128)",
+                "description": "Containers do not run privileged or with the SYS_ADMIN capability. A privileged container has access to the host's devices and kernel, so it can execute code outside the workload's isolation and execution restrictions.",
+                "long_description": "ISM-1246: Server applications are hardened using ASD and vendor hardening guidance, with the most restrictive guidance taking precedence when conflicts occur. ISM-1490: Application control is implemented on internet-facing servers. ISM-1604: When using a software-based isolation mechanism that consumes shared physical computing resources, the configuration of the isolation mechanism is hardened by removing unneeded functionality and restricting access to the administrative interface used to manage the isolation mechanism. ISM-1657: Application control restricts the execution of executables, libraries, scripts, installers, compiled HTML, HTML applications and control panel applets to an organisation-approved set. ISM-1871: Application control is applied to all locations other than user profiles and temporary folders used by operating systems, web browsers and email clients. ISM-2128: The ability to install, load or modify kernel-mode code, including drivers, kernel modules and extensions, is limited to privileged users who require such abilities as part of their duties or functions. Evidence boundary: A pass shows that no scanned container runs privileged or adds SYS_ADMIN, across the namespaces visible to the scan. This is the Kubernetes translation of application control. It does not show host or endpoint application control, does not inspect binaries inside images, and does not assess host filesystem locations. It does not show that all ASD and vendor hardening guidance was identified, reconciled or implemented, and it does not assess the Kubernetes control plane, node runtime configuration or the administrative interfaces used to manage the isolation mechanism. For ISM-2128, privileged mode grants every capability, including loading kernel modules. This control does not report a container that adds SYS_MODULE without privileged mode (C-0046 does), and it does not assess node access or which privileged users may modify kernel-mode code."
+            }
+        },
+        {
+            "controlID": "C-0078",
+            "patch": {
+                "name": "Images from allowed registry (ISM-1490, ISM-1657, ISM-1871)",
+                "description": "Container images come only from the organisation-approved registries listed in imageRepositoryAllowList. Kubescape skips this control until the list is set.",
+                "long_description": "ISM-1490: Application control is implemented on internet-facing servers. ISM-1657: Application control restricts the execution of executables, libraries, scripts, installers, compiled HTML, HTML applications and control panel applets to an organisation-approved set. ISM-1871: Application control is applied to all locations other than user profiles and temporary folders used by operating systems, web browsers and email clients. Evidence boundary: A pass shows that every regular container image in the scanned workloads starts with an entry in imageRepositoryAllowList, across the namespaces visible to the scan. It does not check init or ephemeral container images. This is the Kubernetes translation of application control. It does not show host or endpoint application control, does not inspect binaries inside images, and does not assess host filesystem locations."
+            }
+        },
+        {
+            "controlID": "C-0185",
+            "patch": {
+                "name": "Ensure that the cluster-admin role is only used where required (ISM-1883)",
+                "description": "Lists the subjects bound to the cluster-admin ClusterRole, so each binding can be checked against the duties that require it.",
+                "long_description": "ISM-1883: Privileged user accounts explicitly authorised to access online services are strictly limited to only what is required for users to undertake their duties or functions. Evidence boundary: This control runs on cluster scans only. Each finding names a subject bound to cluster-admin through a ClusterRoleBinding, which can include Kubernetes defaults such as the system:masters group. ISM-1883 concerns privileged user accounts, so service-account findings are context rather than direct evidence. The scan cannot establish which human accounts require access to online services, and it does not assess other broad RBAC grants, the authorisation workflow, human account lifecycle, or access to systems outside Kubernetes."
+            }
+        },
+        {
+            "controlID": "C-0187",
+            "patch": {
+                "name": "Minimize wildcard use in Roles and ClusterRoles (ISM-1883)",
+                "description": "Lists the subjects bound to a Role or ClusterRole that grants all verbs on all resources, in the core API group or in every API group, so administrator-equivalent access can be checked against the duties that require it.",
+                "long_description": "ISM-1883: Privileged user accounts explicitly authorised to access online services are strictly limited to only what is required for users to undertake their duties or functions. Evidence boundary: Each finding names a subject granted wildcard verbs on wildcard resources through a RoleBinding or ClusterRoleBinding, including roles other than cluster-admin. Rules that use a wildcard for only some of these fields are not reported. ISM-1883 concerns privileged user accounts, so service-account findings are context rather than direct evidence. The scan cannot establish which human accounts require access to online services, and it does not assess the authorisation workflow, human account lifecycle, or access to systems outside Kubernetes."
+            }
+        },
+        {
+            "controlID": "C-0189",
+            "patch": {
+                "name": "Ensure that default service accounts are not actively used (ISM-2143)",
+                "description": "Each namespace has a service account other than default, and the default service account does not mount its token into pods by default, so workloads are steered away from a shared namespace credential.",
+                "long_description": "ISM-2143: Applications and workloads use unique credentials that are not shared with other applications or workloads, or across development, testing, staging and production environments. Evidence boundary: A pass shows that scanned namespaces have a dedicated service account and that default service accounts set automountServiceAccountToken to false. It does not show that each workload uses its own service account, that credentials differ between environments, or anything about credentials held outside Kubernetes service accounts."
+            }
+        },
+        {
+            "controlID": "C-0210",
+            "patch": {
+                "name": "Ensure that the seccomp profile is set to docker/default in your pod definitions (ISM-1246, ISM-1604)",
+                "description": "Regular containers run with the RuntimeDefault seccomp profile, set at pod or container level, which limits the system calls a container can make to the host kernel.",
+                "long_description": "ISM-1246: Server applications are hardened using ASD and vendor hardening guidance, with the most restrictive guidance taking precedence when conflicts occur. ISM-1604: When using a software-based isolation mechanism that consumes shared physical computing resources, the configuration of the isolation mechanism is hardened by removing unneeded functionality and restricting access to the administrative interface used to manage the isolation mechanism. Evidence boundary: A pass shows that every regular container in the scanned workloads runs with seccompProfile type RuntimeDefault, set at pod or container level. Init and ephemeral containers are not checked. Workloads that use a Localhost profile are reported even when that profile is stricter. It does not show that all ASD and vendor hardening guidance was identified, reconciled or implemented, and it does not assess the Kubernetes control plane, node runtime configuration or the administrative interfaces used to manage the isolation mechanism."
+            }
+        }
+    ]
+}

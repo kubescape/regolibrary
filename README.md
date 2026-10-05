@@ -334,6 +334,8 @@ Reach out if you have any questions:
 
 - [CIS Framework](https://workbench.cisecurity.org/benchmarks/8973)
 
+- [ASD Information Security Manual (ISM)](https://www.cyber.gov.au/ism)
+
 ## Contributions
 
 Thanks to all our contributors! Check out our [CONTRIBUTING](https://github.com/kubescape/kubescape/blob/master/CONTRIBUTING.md) file to learn how to join them.
