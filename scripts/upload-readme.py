@@ -329,7 +329,7 @@ def create_md_for_control(control):
     # severity map: https://github.com/kubescape/opa-utils/blob/master/reporthandling/apis/severity.go#L34
     severity_map = {1:'Low',2:'Low',3:'Low',4:'Medium',5:'Medium',6:'Medium',7:'High',8:'High',9:'Critical',10:'Critical'}
     md_text += '%s\n' % severity_map[int(control['baseScore'])]
-    md_text += '## Description of the the issue\n'
+    md_text += '## Description of the issue\n'
     description = control['long_description'] if 'long_description' in control else control['description']
     if len(control_config_input):
         description += 'Note, this control is configurable. See below the details.'
