@@ -107,7 +107,7 @@ jobs:
       actions: read
       contents: read
       id-token: write
-    uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@547a98f361e0713832308e3f34165bb89fd9b08c # main
+    uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@7e8831291283402ff1936736b0b1fa00004e65a0 # main
     needs: [build-and-rego-test]
     with:
       DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
