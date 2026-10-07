@@ -107,7 +107,7 @@ jobs:
       actions: read
       contents: read
       id-token: write
-    uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@547a98f361e0713832308e3f34165bb89fd9b08c # main
+    uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@607f92f4fd876856a25a1bd8e24bb51b64d70385 # kubescape/workflows#103 head, repoint to its merge commit on main
     needs: [build-and-rego-test]
     with:
       DOWNLOAD_ARTIFACT_KEY_NAME: ${{ needs.build-and-rego-test.outputs.REGO_ARTIFACT_KEY_NAME }}
