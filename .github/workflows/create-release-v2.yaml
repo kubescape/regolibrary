@@ -94,7 +94,7 @@ jobs:
 
   # test kubescape e2e flow with tested artifacts
   ks-and-rego-test:
-    uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@607f92f4fd876856a25a1bd8e24bb51b64d70385 # kubescape/workflows#103 head, repoint to its merge commit on main
+    uses: kubescape/workflows/.github/workflows/kubescape-cli-e2e-tests.yaml@7e8831291283402ff1936736b0b1fa00004e65a0 # main
     needs: [build-and-rego-test]
     if: ${{ (always() && (contains(needs.*.result, 'success')) && !(contains(needs.*.result, 'skipped')) && !(contains(needs.*.result, 'failure')) && !(contains(needs.*.result, 'cancelled'))) }}
     with:
