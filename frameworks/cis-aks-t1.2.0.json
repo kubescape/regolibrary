@@ -47,7 +47,7 @@
                 "remediation": "Run the below command (based on the file location on your system) on each worker node. For example,\n\n \n```\nchown root:root <proxy kubeconfig file>\n\n```",
                 "manual_test": "SSH to the worker nodes\n\n To check to see if the Kubelet Service is running:\n\n \n```\nsudo systemctl status kubelet\n\n```\n The output should return `Active: active (running) since..`\n\n Run the following command on each node to find the appropriate kubeconfig file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--kubeconfig /var/lib/kubelet/kubeconfig` which is the location of the kubeconfig file.\n\n Run this command to obtain the kubeconfig file ownership:\n\n \n```\nstat -c %U:%G /var/lib/kubelet/kubeconfig\n\n```\n The output of the above command gives you the kubeconfig file's ownership. Verify that the ownership is set to `root:root`.",
                 "references": [
-                    "<https://kubernetes.io/docs/admin/kube-proxy/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
+                    "<https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
                 ],
                 "default_value": "See the Azure AKS documentation for the default value."
             }
@@ -60,7 +60,7 @@
                 "remediation": "Run the following command (using the config file location identified in the Audit step)\n\n \n```\nchown root:root /etc/kubernetes/kubelet/kubelet-config.json\n\n```",
                 "manual_test": "First, SSH to the relevant worker node:\n\n To check to see if the Kubelet Service is running:\n\n \n```\nsudo systemctl status kubelet\n\n```\n The output should return `Active: active (running) since..`\n\n Run the following command on each node to find the appropriate Kubelet config file:\n\n \n```\nps -ef | grep kubelet\n\n```\n The output of the above command should return something similar to `--config /etc/kubernetes/kubelet/kubelet-config.json` which is the location of the Kubelet config file.\n\n Run the following command:\n\n \n```\nstat -c %U:%G /etc/kubernetes/kubelet/kubelet-config.json\n\n```\n The output of the above command is the Kubelet config file's ownership. Verify that the ownership is set to `root:root`",
                 "references": [
-                    "<https://kubernetes.io/docs/admin/kube-proxy/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
+                    "<https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
                 ],
                 "default_value": "See the Azure AKS documentation for the default value."
             }
@@ -266,7 +266,7 @@
                 "remediation": "Review the use of capabilities in applications running on your cluster. Where a namespace contains applications which do not require any Linux capabilities to operate consider adding a PSP which forbids the admission of containers which do not drop all capabilities.",
                 "manual_test": "Get the set of PSPs with the following command:\n\n \n```\nkubectl get psp\n\n```\n For each PSP, check whether capabilities have been forbidden:\n\n \n```\nkubectl get psp <name> -o=jsonpath='{.spec.requiredDropCapabilities}'\n\n```",
                 "references": [
-                    "<https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies>\n\n  <https://www.nccgroup.trust/uk/our-research/abusing-privileged-and-unprivileged-linux-containers/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-privileged-access#pa-7-follow-just-enough-administration-least-privilege-principle>"
+                    "<https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies>\n\n  <https://www.nccgroup.com/research/abusing-privileged-and-unprivileged-linux-containers/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-privileged-access#pa-7-follow-just-enough-administration-least-privilege-principle>"
                 ],
                 "default_value": "By default, PodSecurityPolicies are not defined."
             }
@@ -407,7 +407,7 @@
             "patch": {
                 "name": "CIS-4.2.7 Minimize the admission of containers with added capabilities",
                 "references": [
-                    "<https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies>\n\n  <https://www.nccgroup.trust/uk/our-research/abusing-privileged-and-unprivileged-linux-containers/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-privileged-access#pa-7-follow-just-enough-administration-least-privilege-principle>"
+                    "<https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies>\n\n  <https://www.nccgroup.com/research/abusing-privileged-and-unprivileged-linux-containers/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-privileged-access#pa-7-follow-just-enough-administration-least-privilege-principle>"
                 ],
                 "default_value": "By default, PodSecurityPolicies are not defined."
             }
@@ -428,7 +428,7 @@
                 "name": "CIS-3.1.1 Ensure that the kubeconfig file permissions are set to 644 or more restrictive",
                 "description": "If `kubelet` is running, and if it is configured by a kubeconfig file, ensure that the proxy kubeconfig file has permissions of 644 or more restrictive.",
                 "references": [
-                    "<https://kubernetes.io/docs/admin/kube-proxy/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
+                    "<https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/>\n\n  <https://docs.microsoft.com/security/benchmark/azure/security-controls-v2-posture-vulnerability-management#pv-3-establish-secure-configurations-for-compute-resources>"
                 ],
                 "default_value": "See the Azure AKS documentation for the default value."
             }
