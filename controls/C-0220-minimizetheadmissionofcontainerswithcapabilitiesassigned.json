@@ -7,7 +7,7 @@
     "manual_test": "Get the set of PSPs with the following command:\n\n \n```\nkubectl get psp\n\n```\n For each PSP, check whether capabilities have been forbidden:\n\n \n```\nkubectl get psp <name> -o=jsonpath='{.spec.requiredDropCapabilities}'\n\n```",
     "references": [
         "https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies",
-        "https://www.nccgroup.trust/uk/our-research/abusing-privileged-and-unprivileged-linux-containers/"
+        "https://www.nccgroup.com/research/abusing-privileged-and-unprivileged-linux-containers/"
     ],
     "attributes": {
     },

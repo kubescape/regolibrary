@@ -7,7 +7,7 @@
     "manual_test": "Get the set of PSPs with the following command:\n\n \n```\nkubectl get psp\n\n```\n For each PSP, check whether privileged is enabled:\n\n \n```\nkubectl get psp -o json\n\n```\n Verify that there is at least one PSP which does not return `true`.\n\n `kubectl get psp <name> -o=jsonpath='{.spec.privileged}'`",
     "references": [
         "https://kubernetes.io/docs/concepts/policy/pod-security-policy/#enabling-pod-security-policies",
-        "https://aws.github.io/aws-eks-best-practices/pods/#restrict-the-containers-that-can-run-as-privileged"
+        "https://docs.aws.amazon.com/eks/latest/best-practices/pod-security.html#_restrict_the_containers_that_can_run_as_privileged"
     ],
     "attributes": {
     },
