@@ -1,0 +1,36 @@
+[
+    {
+        "name": "exclude-vmware-vks-supervisor-synced-bindings",
+        "policyType": "postureExceptionPolicy",
+        "actions": [
+            "alertOnly"
+        ],
+        "attributes": {
+            "systemException": true
+        },
+        "resources": [
+            {
+                "designatorType": "Attributes",
+                "attributes": {
+                    "kind": "ClusterRoleBinding",
+                    "name": "vmware-system-auth-sync-.*",
+                    "run.tanzu.vmware.com/vmware-system-synced-from-supervisor": ".*"
+                }
+            }
+        ],
+        "posturePolicies": [
+            {
+                "controlID": "C-0035"
+            },
+            {
+                "controlID": "C-0185"
+            },
+            {
+                "controlID": "C-0187"
+            },
+            {
+                "controlID": "C-0188"
+            }
+        ]
+    }
+]
