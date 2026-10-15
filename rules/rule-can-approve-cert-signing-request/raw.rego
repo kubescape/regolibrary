@@ -7,7 +7,7 @@ import rego.v1
 deny contains msga if {
 	verbs := ["update", "*"]
 	api_groups := ["certificates.k8s.io", "*"]
-	resources := ["certificatesigningrequests/approval", "*"]
+	resources := ["certificatesigningrequests/approval", "*/approval", "*"]
 	subjectVector := input[_]
 	role := subjectVector.relatedObjects[i]
 	rolebinding := subjectVector.relatedObjects[j]
