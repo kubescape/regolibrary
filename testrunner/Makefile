@@ -42,3 +42,4 @@ TAGS = "static"
 test:
 	go mod tidy
 	go test -v -tags=$(TAGS) rego_test.go -run TestAllRules
+	go test -v exceptions_test.go
