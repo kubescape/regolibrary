@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: app
+              image: nginx
+              securityContext:
+                capabilities:
+                  drop: ["NET_RAW"]
+          initContainers:
+            - name: init-setup
+              image: busybox
+              securityContext:
+                capabilities:
+                  drop: ["NET_ADMIN"]
