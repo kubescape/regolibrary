@@ -1,0 +1,12 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "KubeletInfo",
+    "metadata": {
+        "name": "minikube"
+    },
+    "data": {
+        "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet  --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --config=xxx",
+        "configFile": {
+        }
+    }
+}
