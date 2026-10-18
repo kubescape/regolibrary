@@ -26,7 +26,7 @@ deny contains msga if {
 
 	# Check if the role has access to workloads, exec, attach, portforward
 	rule := role.rules[p]
-	rule.resources[l] in ["*", "pods", "pods/exec", "pods/attach", "pods/portforward", "deployments", "statefulset", "daemonset", "jobs", "cronjobs", "nodes", "secrets"]
+	rule.resources[l] in ["*", "pods", "pods/exec", "*/exec", "pods/attach", "*/attach", "pods/portforward", "*/portforward", "deployments", "statefulset", "daemonset", "jobs", "cronjobs", "nodes", "secrets"]
 
 	finalpath := array.concat([""], [
 		sprintf("relatedObjects[%d].subjects[%d]", [j, k]),
