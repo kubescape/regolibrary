@@ -1,0 +1,27 @@
+[
+  {
+    "alertMessage": "Cronjob: test does not drop the capability NET_RAW",
+    "deletePaths": [],
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.jobTemplate.spec.template.spec.initContainers[0].securityContext.capabilities.drop[1]",
+        "value": "NET_RAW"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "test"
+          }
+        }
+      ]
+    }
+  }
+]
