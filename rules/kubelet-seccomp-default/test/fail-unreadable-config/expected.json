@@ -10,6 +10,9 @@
          "externalObjects": {
             "apiVersion": "hostdata.kubescape.cloud/v1beta0",
             "kind": "KubeletInfo",
+            "metadata": {
+                "name": ""
+            },
             "data": {
                "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet --config=/var/lib/kubelet/config.yaml",
                "configFile": {

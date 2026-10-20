@@ -8,7 +8,10 @@
                     "cmdLine": "  --config=/var/lib/kubelet/config.yaml",
                     "configFile": {}
                 },
-                "kind": "KubeletInfo"
+                "kind": "KubeletInfo",
+                "metadata": {
+                    "name": ""
+                }
             }
         },
         "alertScore": 6,

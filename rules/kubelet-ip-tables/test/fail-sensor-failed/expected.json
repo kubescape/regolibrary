@@ -8,7 +8,10 @@
                     "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet  --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --config=xxx",
                     "configFile": {}
                 },
-                "kind": "KubeletInfo"
+                "kind": "KubeletInfo",
+                "metadata": {
+                    "name": ""
+                }
             }
         },
         "alertScore": 6,
