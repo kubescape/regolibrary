@@ -10,7 +10,10 @@
                   "content": "YXBpVmVyc2lvbjoga3ViZWxldC5jb25maWcuazhzLmlvL3YxYmV0YTEKYXV0aGVudGljYXRpb246CiAgYW5vbnltb3VzOgogICAgZW5hYmxlZDogZmFsc2UK"
                }
             },
-            "kind": "KubeletInfo"
+            "kind": "KubeletInfo",
+            "metadata": {
+                "name": ""
+            }
          }
       },
       "alertScore": 2,

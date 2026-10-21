@@ -7,7 +7,10 @@
                 "data": {
                     "cmdLine": "/var/lib/minikube/binaries/v1.23.1/kubelet  --authorization-mode=AlwaysAllow"
                 },
-                "kind": "KubeletInfo"
+                "kind": "KubeletInfo",
+                "metadata": {
+                    "name": ""
+                }
             }
         },
         "alertScore": 6,

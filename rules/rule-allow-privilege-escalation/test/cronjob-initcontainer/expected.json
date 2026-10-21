@@ -1,0 +1,29 @@
+[
+  {
+    "alertMessage": "container :init-setup in CronJob: test allow privilege escalation",
+    "fixPaths": [
+      {
+        "path": "spec.jobTemplate.spec.template.spec.initContainers[0].securityContext.allowPrivilegeEscalation",
+        "value": "false"
+      },
+      {
+        "path": "spec.jobTemplate.spec.template.spec.initContainers[0].securityContext.privileged",
+        "value": "false"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "test"
+          }
+        }
+      ]
+    }
+  }
+]
