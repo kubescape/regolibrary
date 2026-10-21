@@ -4,7 +4,8 @@
     "hostSensorRule": "true"
   },
   "ruleLanguage": "Rego",
-  "match": [
+  "match": [],
+  "dynamicMatch": [
     {
       "apiGroups": [
         "hostdata.kubescape.cloud"
@@ -13,7 +14,7 @@
         "v1beta0"
       ],
       "resources": [
-        "APIServerInfo"
+        "ControlPlaneInfo"
       ]
     }
   ],
