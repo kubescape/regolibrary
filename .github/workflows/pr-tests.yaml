@@ -83,6 +83,12 @@ jobs:
       # validate control-ID duplications
       - run: python ./scripts/validations.py
 
+      - name: Test exported framework references
+        run: python ./scripts/test_export_framework_references.py
+
+      - name: Test MITRE membership and export changes
+        run: python ./scripts/test_mitre_framework.py
+
       # generating subsections ids
       - name: Update frameworks subsections
         run: python ./scripts/generate_subsections_ids.py
