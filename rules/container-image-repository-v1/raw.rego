@@ -5,7 +5,7 @@ import rego.v1
 
 untrustedImageRepo contains msga if {
 	wl := input[_]
-	containers_path := get_containers_path(wl)
+	containers_path := get_containers_path(wl)[_]
 	containers := object.get(wl, containers_path, [])
 	container := containers[i]
 	name := image.parse_normalized_name(container.image)
@@ -35,17 +35,27 @@ image_in_allowed_list(image) if {
 get_containers_path(resource) := result if {
 	resource_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	resource_kinds[resource.kind]
-	result = ["spec", "template", "spec", "containers"]
+	result = {
+		["spec", "template", "spec", "containers"],
+		["spec", "template", "spec", "initContainers"],
+	}
 }
 
 # get_containers_path - get resource containers paths for "Pod"
 get_containers_path(resource) := result if {
 	resource.kind == "Pod"
-	result = ["spec", "containers"]
+	result = {
+		["spec", "containers"],
+		["spec", "initContainers"],
+		["spec", "ephemeralContainers"],
+	}
 }
 
 # get_containers_path - get resource containers paths for  "CronJob"
 get_containers_path(resource) := result if {
 	resource.kind == "CronJob"
-	result = ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
+	result = {
+		["spec", "jobTemplate", "spec", "template", "spec", "containers"],
+		["spec", "jobTemplate", "spec", "template", "spec", "initContainers"],
+	}
 }
