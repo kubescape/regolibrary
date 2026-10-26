@@ -1,0 +1,74 @@
+[
+  {
+    "alertMessage": "Container: worker does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.containers[1].resources.limits.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "init-mixed-violations"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: sidecar does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.initContainers[1].resources.limits.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "init-mixed-violations"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.initContainers[2].resources.limits.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "init-mixed-violations"
+          }
+        }
+      ]
+    }
+  }
+]

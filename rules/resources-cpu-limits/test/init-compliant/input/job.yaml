@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-compliant-job
+spec:
+  template:
+    metadata:
+      labels:
+        app: init-compliant-job
+    spec:
+      containers:
+      - name: app
+        image: busybox:1.36
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+      initContainers:
+      - name: setup
+        image: busybox:1.36
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+      restartPolicy: OnFailure

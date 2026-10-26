@@ -1,0 +1,127 @@
+[
+  {
+    "alertMessage": "Container: setup in Deployment: init-limits-deployment   does not have CPU-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[1].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "init-limits-deployment"
+          }
+        }
+      ]
+    },
+    "reviewPaths": []
+  },
+  {
+    "alertMessage": "Container: setup in ReplicaSet: init-limits-replicaset   does not have CPU-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[1].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "ReplicaSet",
+          "metadata": {
+            "name": "init-limits-replicaset"
+          }
+        }
+      ]
+    },
+    "reviewPaths": []
+  },
+  {
+    "alertMessage": "Container: setup in DaemonSet: init-limits-daemonset   does not have CPU-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[1].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "DaemonSet",
+          "metadata": {
+            "name": "init-limits-daemonset"
+          }
+        }
+      ]
+    },
+    "reviewPaths": []
+  },
+  {
+    "alertMessage": "Container: setup in StatefulSet: init-limits-statefulset   does not have CPU-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[1].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "StatefulSet",
+          "metadata": {
+            "name": "init-limits-statefulset"
+          }
+        }
+      ]
+    },
+    "reviewPaths": []
+  },
+  {
+    "alertMessage": "Container: setup in Job: init-limits-job   does not have CPU-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[1].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+            "name": "init-limits-job"
+          }
+        }
+      ]
+    },
+    "reviewPaths": []
+  }
+]
