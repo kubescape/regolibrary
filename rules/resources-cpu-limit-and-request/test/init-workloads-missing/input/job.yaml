@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-workloads-job
+spec:
+  template:
+    metadata:
+      labels:
+        app: init-workloads-job
+    spec:
+      containers:
+      - name: app
+        image: busybox:1.36
+        resources:
+          requests:
+            cpu: 250m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 128Mi
+      initContainers:
+      - name: setup
+        image: busybox:1.36

@@ -3,14 +3,16 @@ package armo_builtins
 
 import rego.v1
 
+# Ephemeral containers are excluded because Kubernetes forbids their resources field.
 #  ================================== no memory limits ==================================
 # Fails if pod does not have container with memory-limits
 deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
-	container := pod.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container := pod.spec[container_type][i]
 	not container.resources.limits.memory
-	fixPaths := [{"path": sprintf("spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
+	fixPaths := [{"path": sprintf("spec.%v[%v].resources.limits.memory", [container_type, format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": sprintf("Container: %v does not have memory-limit or request", [container.name]),
@@ -27,9 +29,10 @@ deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container := wl.spec.template.spec[container_type][i]
 	not container.resources.limits.memory
-	fixPaths := [{"path": sprintf("spec.template.spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
+	fixPaths := [{"path": sprintf("spec.template.spec.%v[%v].resources.limits.memory", [container_type, format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have memory-limit or request", [container.name, wl.kind, wl.metadata.name]),
@@ -45,9 +48,10 @@ deny contains msga if {
 deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
-	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container = wl.spec.jobTemplate.spec.template.spec[container_type][i]
 	not container.resources.limits.memory
-	fixPaths := [{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources.limits.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
+	fixPaths := [{"path": sprintf("spec.jobTemplate.spec.template.spec.%v[%v].resources.limits.memory", [container_type, format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have memory-limit or request", [container.name, wl.kind, wl.metadata.name]),
@@ -64,9 +68,10 @@ deny contains msga if {
 deny contains msga if {
 	pod := input[_]
 	pod.kind == "Pod"
-	container := pod.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container := pod.spec[container_type][i]
 	not container.resources.requests.memory
-	fixPaths := [{"path": sprintf("spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
+	fixPaths := [{"path": sprintf("spec.%v[%v].resources.requests.memory", [container_type, format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": sprintf("Container: %v does not have memory-limit or request", [container.name]),
@@ -83,9 +88,10 @@ deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container := wl.spec.template.spec[container_type][i]
 	not container.resources.requests.memory
-	fixPaths := [{"path": sprintf("spec.template.spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
+	fixPaths := [{"path": sprintf("spec.template.spec.%v[%v].resources.requests.memory", [container_type, format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have memory-limit or request", [container.name, wl.kind, wl.metadata.name]),
@@ -101,9 +107,10 @@ deny contains msga if {
 deny contains msga if {
 	wl := input[_]
 	wl.kind == "CronJob"
-	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container = wl.spec.jobTemplate.spec.template.spec[container_type][i]
 	not container.resources.requests.memory
-	fixPaths := [{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%v].resources.requests.memory", [format_int(i, 10)]), "value": "YOUR_VALUE"}]
+	fixPaths := [{"path": sprintf("spec.jobTemplate.spec.template.spec.%v[%v].resources.requests.memory", [container_type, format_int(i, 10)]), "value": "YOUR_VALUE"}]
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v   does not have memory-limit or request", [container.name, wl.kind, wl.metadata.name]),
@@ -122,11 +129,12 @@ deny contains msga if {
 	path := "resources.requests.memory"
 	pod := input[_]
 	pod.kind == "Pod"
-	container := pod.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container := pod.spec[container_type][i]
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
 
-	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), path])
+	failed_paths := sprintf("spec.%v[%v].%v", [container_type, format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v exceeds memory request", [container.name]),
@@ -145,12 +153,13 @@ deny contains msga if {
 	path := "resources.requests.memory"
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container := wl.spec.template.spec[container_type][i]
 
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
 
-	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
+	failed_paths := sprintf("spec.template.spec.%v[%v].%v", [container_type, format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory request", [container.name, wl.kind, wl.metadata.name]),
@@ -168,12 +177,13 @@ deny contains msga if {
 	path := "resources.requests.memory"
 	wl := input[_]
 	wl.kind == "CronJob"
-	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container = wl.spec.jobTemplate.spec.template.spec[container_type][i]
 
 	memory_req := container.resources.requests.memory
 	is_req_exceeded_memory(memory_req)
 
-	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
+	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.%v[%v].%v", [container_type, format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory request", [container.name, wl.kind, wl.metadata.name]),
@@ -193,11 +203,12 @@ deny contains msga if {
 	path := "resources.limits.memory"
 	pod := input[_]
 	pod.kind == "Pod"
-	container := pod.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container := pod.spec[container_type][i]
 	memory_limit := container.resources.limits.memory
 	is_limit_exceeded_memory(memory_limit)
 
-	failed_paths := sprintf("spec.containers[%v].%v", [format_int(i, 10), path])
+	failed_paths := sprintf("spec.%v[%v].%v", [container_type, format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v exceeds memory-limit ", [container.name]),
@@ -216,12 +227,13 @@ deny contains msga if {
 	path := "resources.limits.memory"
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container := wl.spec.template.spec[container_type][i]
 
 	memory_limit := container.resources.limits.memory
 	is_limit_exceeded_memory(memory_limit)
 
-	failed_paths := sprintf("spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
+	failed_paths := sprintf("spec.template.spec.%v[%v].%v", [container_type, format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory-limit", [container.name, wl.kind, wl.metadata.name]),
@@ -239,12 +251,13 @@ deny contains msga if {
 	path := "resources.limits.memory"
 	wl := input[_]
 	wl.kind == "CronJob"
-	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container = wl.spec.jobTemplate.spec.template.spec[container_type][i]
 
 	memory_limit := container.resources.limits.memory
 	is_limit_exceeded_memory(memory_limit)
 
-	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].%v", [format_int(i, 10), path])
+	failed_paths := sprintf("spec.jobTemplate.spec.template.spec.%v[%v].%v", [container_type, format_int(i, 10), path])
 
 	msga := {
 		"alertMessage": sprintf("Container: %v in %v: %v exceeds memory-limit", [container.name, wl.kind, wl.metadata.name]),

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: init-workloads-deployment
+spec:
+  selector:
+    matchLabels:
+      app: init-workloads-deployment
+  template:
+    metadata:
+      labels:
+        app: init-workloads-deployment
+    spec:
+      containers:
+      - name: app
+        image: busybox:1.36
+        resources:
+          requests:
+            cpu: 250m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 128Mi
+      initContainers:
+      - name: setup
+        image: busybox:1.36
