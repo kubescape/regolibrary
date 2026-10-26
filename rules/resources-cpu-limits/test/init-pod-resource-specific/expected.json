@@ -1,0 +1,27 @@
+[
+  {
+    "alertMessage": "Container: memory-only does not have CPU-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.initContainers[1].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "init-pod-resource-specific"
+          }
+        }
+      ]
+    },
+    "reviewPaths": []
+  }
+]

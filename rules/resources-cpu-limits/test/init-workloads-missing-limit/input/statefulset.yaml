@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: init-limits-statefulset
+spec:
+  template:
+    metadata:
+      labels:
+        app: init-limits-statefulset
+    spec:
+      containers:
+      - name: app
+        image: busybox:1.36
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+      initContainers:
+      - name: already-limited
+        image: busybox:1.36
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+      - name: setup
+        image: busybox:1.36
+  selector:
+    matchLabels:
+      app: init-limits-statefulset
+  serviceName: init-limits-statefulset

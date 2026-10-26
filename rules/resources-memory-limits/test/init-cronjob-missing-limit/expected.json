@@ -1,0 +1,26 @@
+[
+  {
+    "alertMessage": "Container: setup in CronJob: init-limits-cronjob   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.jobTemplate.spec.template.spec.initContainers[1].resources.limits.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "init-limits-cronjob"
+          }
+        }
+      ]
+    }
+  }
+]

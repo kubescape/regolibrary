@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-pod-resource-specific
+spec:
+  containers:
+  - name: app
+    image: busybox:1.36
+    resources:
+      limits:
+        cpu: 500m
+        memory: 128Mi
+  initContainers:
+  - name: cpu-only
+    image: busybox:1.36
+    resources:
+      limits:
+        cpu: 100m
+  - name: memory-only
+    image: busybox:1.36
+    resources:
+      limits:
+        memory: 32Mi

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: init-limits-deployment
+spec:
+  template:
+    metadata:
+      labels:
+        app: init-limits-deployment
+    spec:
+      containers:
+      - name: app
+        image: busybox:1.36
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+      initContainers:
+      - name: already-limited
+        image: busybox:1.36
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+      - name: setup
+        image: busybox:1.36
+  selector:
+    matchLabels:
+      app: init-limits-deployment
