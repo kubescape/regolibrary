@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-compliant-pod
+spec:
+  containers:
+  - name: app
+    image: busybox:1.36
+    resources:
+      requests:
+        cpu: 250m
+        memory: 64Mi
+  initContainers:
+  - name: setup
+    image: busybox:1.36
+    resources:
+      requests:
+        cpu: 250m
+        memory: 64Mi

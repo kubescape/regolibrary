@@ -1,0 +1,27 @@
+[
+  {
+    "alertMessage": "Container: setup in CronJob: init-requests-cronjob   does not have CPU-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.jobTemplate.spec.template.spec.initContainers[1].resources.requests.cpu",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "init-requests-cronjob"
+          }
+        }
+      ]
+    },
+    "reviewPaths": []
+  }
+]

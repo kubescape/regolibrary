@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-requests-job
+spec:
+  template:
+    metadata:
+      labels:
+        app: init-requests-job
+    spec:
+      containers:
+      - name: app
+        image: busybox:1.36
+        resources:
+          requests:
+            cpu: 250m
+            memory: 64Mi
+      initContainers:
+      - name: already-requested
+        image: busybox:1.36
+        resources:
+          requests:
+            cpu: 250m
+            memory: 64Mi
+      - name: setup
+        image: busybox:1.36
+
+      restartPolicy: OnFailure
+  selector:
+    matchLabels:
+      app: init-requests-job
