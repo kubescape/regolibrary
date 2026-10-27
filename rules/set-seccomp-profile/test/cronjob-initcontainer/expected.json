@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Cronjob: test does not define seccompProfile",
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        },
+        "alertScore": 7,
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.initContainers[0].securityContext.seccompProfile",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "packagename": "armo_builtins",
+        "ruleStatus": ""
+    }
+]

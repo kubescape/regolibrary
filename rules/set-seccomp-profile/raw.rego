@@ -5,8 +5,9 @@ import rego.v1
 
 # Fails if pod does not define seccompProfile
 deny contains msga if {
-	path_to_containers := ["spec", "containers"]
 	path_to_search := ["securityContext", "seccompProfile"]
+	paths_to_containers := {["spec", "containers"], ["spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	wl.kind == "Pod"
 	spec := wl.spec
@@ -29,11 +30,36 @@ deny contains msga if {
 	}
 }
 
+# Fails if pod does not define seccompProfile in an ephemeral container.
+# Ephemeral containers cannot be modified once created, so no fix is offered for them.
+deny contains msga if {
+	path_to_containers := ["spec", "ephemeralContainers"]
+	path_to_search := ["securityContext", "seccompProfile"]
+	wl := input[_]
+	wl.kind == "Pod"
+	spec := wl.spec
+	seccompProfile_not_defined(spec, path_to_search)
+
+	containers := object.get(wl, path_to_containers, [])
+	container := containers[i]
+	seccompProfile_not_defined(container, path_to_search)
+
+	msga := {
+		"alertMessage": sprintf("Pod: %v does not define seccompProfile", [wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"failedPaths": [],
+		"fixPaths": [],
+		"alertObject": {"k8sApiObjects": [wl]},
+	}
+}
+
 # Fails if workload does not define seccompProfile
 deny contains msga if {
-	path_to_containers := ["spec", "template", "spec", "containers"]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	path_to_search := ["securityContext", "seccompProfile"]
+	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	spec := wl.spec.template.spec
@@ -59,7 +85,8 @@ deny contains msga if {
 # Fails if CronJob does not define seccompProfile
 deny contains msga if {
 	path_to_search := ["securityContext", "seccompProfile"]
-	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
+	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "containers"], ["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	wl.kind == "CronJob"
 	spec := wl.spec.jobTemplate.spec.template.spec

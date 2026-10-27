@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+spec:
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+        - name: app
+          image: nginx
+          securityContext:
+            seccompProfile:
+              type: RuntimeDefault
+      initContainers:
+        - name: init-setup
+          image: busybox
