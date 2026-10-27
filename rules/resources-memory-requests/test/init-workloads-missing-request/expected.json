@@ -1,0 +1,122 @@
+[
+  {
+    "alertMessage": "Container: setup in Deployment: init-requests-deployment   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[1].resources.requests.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "init-requests-deployment"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in ReplicaSet: init-requests-replicaset   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[1].resources.requests.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "ReplicaSet",
+          "metadata": {
+            "name": "init-requests-replicaset"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in DaemonSet: init-requests-daemonset   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[1].resources.requests.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "DaemonSet",
+          "metadata": {
+            "name": "init-requests-daemonset"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in StatefulSet: init-requests-statefulset   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[1].resources.requests.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "StatefulSet",
+          "metadata": {
+            "name": "init-requests-statefulset"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in Job: init-requests-job   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[1].resources.requests.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+            "name": "init-requests-job"
+          }
+        }
+      ]
+    }
+  }
+]
