@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-pod-exceeded
+spec:
+  containers:
+  - name: app
+    image: busybox:1.36
+    resources:
+      requests:
+        cpu: 250m
+        memory: 300Mi
+      limits:
+        cpu: 500m
+        memory: 300Mi
+  initContainers:
+  - name: setup
+    image: busybox:1.36
+    resources:
+      requests:
+        cpu: 250m
+        memory: 328Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi

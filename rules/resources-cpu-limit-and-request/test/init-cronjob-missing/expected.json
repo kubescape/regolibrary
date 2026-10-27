@@ -1,0 +1,52 @@
+[
+  {
+    "alertMessage": "Container: setup in CronJob: init-cronjob-missing   does not have CPU-limit or request",
+    "reviewPaths": [],
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.jobTemplate.spec.template.spec.initContainers[0].resources.requests.cpu",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "init-cronjob-missing"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in CronJob: init-cronjob-missing   does not have CPU-limit or request",
+    "reviewPaths": [],
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.jobTemplate.spec.template.spec.initContainers[0].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "CronJob",
+          "metadata": {
+            "name": "init-cronjob-missing"
+          }
+        }
+      ]
+    }
+  }
+]

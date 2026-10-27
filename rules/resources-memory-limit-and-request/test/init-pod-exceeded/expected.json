@@ -1,0 +1,50 @@
+[
+  {
+    "alertMessage": "Container: setup exceeds memory request",
+    "reviewPaths": [
+      "spec.initContainers[0].resources.requests.memory"
+    ],
+    "failedPaths": [
+      "spec.initContainers[0].resources.requests.memory"
+    ],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "init-pod-exceeded"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup exceeds memory-limit ",
+    "reviewPaths": [
+      "spec.initContainers[0].resources.limits.memory"
+    ],
+    "failedPaths": [
+      "spec.initContainers[0].resources.limits.memory"
+    ],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "init-pod-exceeded"
+          }
+        }
+      ]
+    }
+  }
+]

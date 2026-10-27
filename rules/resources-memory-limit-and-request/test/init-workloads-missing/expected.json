@@ -1,0 +1,242 @@
+[
+  {
+    "alertMessage": "Container: setup in Deployment: init-workloads-deployment   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[0].resources.requests.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "init-workloads-deployment"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in Deployment: init-workloads-deployment   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[0].resources.limits.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "init-workloads-deployment"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in ReplicaSet: init-workloads-replicaset   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[0].resources.requests.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "ReplicaSet",
+          "metadata": {
+            "name": "init-workloads-replicaset"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in ReplicaSet: init-workloads-replicaset   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[0].resources.limits.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "ReplicaSet",
+          "metadata": {
+            "name": "init-workloads-replicaset"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in DaemonSet: init-workloads-daemonset   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[0].resources.requests.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "DaemonSet",
+          "metadata": {
+            "name": "init-workloads-daemonset"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in DaemonSet: init-workloads-daemonset   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[0].resources.limits.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "DaemonSet",
+          "metadata": {
+            "name": "init-workloads-daemonset"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in StatefulSet: init-workloads-statefulset   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[0].resources.requests.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "StatefulSet",
+          "metadata": {
+            "name": "init-workloads-statefulset"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in StatefulSet: init-workloads-statefulset   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[0].resources.limits.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "StatefulSet",
+          "metadata": {
+            "name": "init-workloads-statefulset"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in Job: init-workloads-job   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[0].resources.requests.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+            "name": "init-workloads-job"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "alertMessage": "Container: setup in Job: init-workloads-job   does not have memory-limit or request",
+    "failedPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.template.spec.initContainers[0].resources.limits.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "batch/v1",
+          "kind": "Job",
+          "metadata": {
+            "name": "init-workloads-job"
+          }
+        }
+      ]
+    }
+  }
+]
