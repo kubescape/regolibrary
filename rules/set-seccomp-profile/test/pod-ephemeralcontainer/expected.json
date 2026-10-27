@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Pod: test does not define seccompProfile",
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        },
+        "alertScore": 7,
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.ephemeralContainers[0].securityContext.seccompProfile",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "packagename": "armo_builtins",
+        "ruleStatus": ""
+    }
+]

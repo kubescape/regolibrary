@@ -5,7 +5,8 @@ import rego.v1
 
 # Fails if pod does not define seccompProfile
 deny contains msga if {
-	path_to_containers := ["spec", "containers"]
+	paths_to_containers := {["spec", "containers"], ["spec", "initContainers"], ["spec", "ephemeralContainers"]}
+	path_to_containers := paths_to_containers[_]
 	path_to_search := ["securityContext", "seccompProfile"]
 	wl := input[_]
 	wl.kind == "Pod"
@@ -31,7 +32,8 @@ deny contains msga if {
 
 # Fails if workload does not define seccompProfile
 deny contains msga if {
-	path_to_containers := ["spec", "template", "spec", "containers"]
+	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	path_to_search := ["securityContext", "seccompProfile"]
 	wl := input[_]
@@ -59,7 +61,8 @@ deny contains msga if {
 # Fails if CronJob does not define seccompProfile
 deny contains msga if {
 	path_to_search := ["securityContext", "seccompProfile"]
-	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
+	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "containers"], ["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	wl.kind == "CronJob"
 	spec := wl.spec.jobTemplate.spec.template.spec

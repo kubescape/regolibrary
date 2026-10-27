@@ -5,7 +5,8 @@ import rego.v1
 
 # Fails if pod does not define seccompProfile as RuntimeDefault
 deny contains msga if {
-	path_to_containers := ["spec", "containers"]
+	paths_to_containers := {["spec", "containers"], ["spec", "initContainers"], ["spec", "ephemeralContainers"]}
+	path_to_containers := paths_to_containers[_]
 	path_to_search := ["securityContext", "seccompProfile", "type"]
 	wl := input[_]
 	wl.kind == "Pod"
@@ -30,7 +31,8 @@ deny contains msga if {
 # Fails if workload does not define seccompProfile as RuntimeDefault
 deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
-	path_to_containers := ["spec", "template", "spec", "containers"]
+	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	path_to_search := ["securityContext", "seccompProfile", "type"]
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
@@ -54,7 +56,8 @@ deny contains msga if {
 
 # Fails if CronJob does not define seccompProfile as RuntimeDefault
 deny contains msga if {
-	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
+	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "containers"], ["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	path_to_search := ["securityContext", "seccompProfile", "type"]	
 	wl := input[_]
 	wl.kind == "CronJob"
@@ -89,7 +92,7 @@ get_seccompProfile_definition(wl, container, i, path_to_containers, path_to_sear
 	seccompProfile_result := {"failed": false, "failed_path": [], "fix_path": []}
 } else := seccompProfile_result if {
 	wl.securityContext.seccompProfile.type != "RuntimeDefault"
-	failed_path := sprintf("%s.%s", [trim_suffix(concat(".", path_to_containers), ".containers"), concat(".", path_to_search)])
+	failed_path := sprintf("%s.%s", [concat(".", array.slice(path_to_containers, 0, count(path_to_containers) - 1)), concat(".", path_to_search)])
 	seccompProfile_result := {"failed": true, "failed_path": [failed_path], "fix_path": []}
 } else := seccompProfile_result if {
 	fix_path := [{"path": sprintf("%s[%d].%s", [concat(".", path_to_containers), i, concat(".", path_to_search)]), "value": "RuntimeDefault"}]

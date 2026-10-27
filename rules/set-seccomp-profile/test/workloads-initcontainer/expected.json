@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Workload: test does not define seccompProfile",
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        },
+        "alertScore": 7,
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.initContainers[0].securityContext.seccompProfile",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "packagename": "armo_builtins",
+        "ruleStatus": ""
+    }
+]
