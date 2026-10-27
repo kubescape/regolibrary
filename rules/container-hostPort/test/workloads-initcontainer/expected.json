@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Container: init-setup in Deployment: test   has Host-port",
+        "deletePaths": [
+            "spec.template.spec.initContainers[0].ports[0].hostPort"
+        ],
+        "failedPaths": [
+            "spec.template.spec.initContainers[0].ports[0].hostPort"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 4,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]
