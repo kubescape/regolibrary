@@ -95,6 +95,15 @@ get_seccompProfile_definition(wl, container, i, path_to_containers, path_to_sear
 	failed_path := sprintf("%s.%s", [concat(".", array.slice(path_to_containers, 0, count(path_to_containers) - 1)), concat(".", path_to_search)])
 	seccompProfile_result := {"failed": true, "failed_path": [failed_path], "fix_path": []}
 } else := seccompProfile_result if {
-	fix_path := [{"path": sprintf("%s[%d].%s", [concat(".", path_to_containers), i, concat(".", path_to_search)]), "value": "RuntimeDefault"}]
+	fix_path := fix_path_for_container(path_to_containers, i, path_to_search)
 	seccompProfile_result := {"failed": true, "failed_path": [], "fix_path": fix_path}
+}
+
+# Ephemeral containers cannot be modified once created, so no fix is offered for them.
+fix_path_for_container(path_to_containers, i, path_to_search) := [] if {
+	path_to_containers[count(path_to_containers) - 1] == "ephemeralContainers"
+}
+
+fix_path_for_container(path_to_containers, i, path_to_search) := [{"path": sprintf("%s[%d].%s", [concat(".", path_to_containers), i, concat(".", path_to_search)]), "value": "RuntimeDefault"}] if {
+	path_to_containers[count(path_to_containers) - 1] != "ephemeralContainers"
 }

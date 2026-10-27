@@ -14,12 +14,7 @@
         },
         "alertScore": 7,
         "failedPaths": [],
-        "fixPaths": [
-            {
-                "path": "spec.ephemeralContainers[0].securityContext.seccompProfile",
-                "value": "YOUR_VALUE"
-            }
-        ],
+        "fixPaths": [],
         "packagename": "armo_builtins",
         "ruleStatus": ""
     }
