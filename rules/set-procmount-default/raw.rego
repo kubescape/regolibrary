@@ -5,6 +5,8 @@ import rego.v1
 
 # Fails if container does not define the "procMount" parameter as "Default"
 deny contains msga if {
+	paths_to_containers := {["spec", "containers"]}
+
 	# checks at first if we the procMountType feature gate is enabled on the api-server
 	obj := input[_]
 	is_control_plane_info(obj)
@@ -15,7 +17,6 @@ deny contains msga if {
 	pod.kind == "Pod"
 
 	# retrieve container list
-	paths_to_containers := {["spec", "containers"]}
 	path_to_containers := paths_to_containers[_]
 	containers := object.get(pod, path_to_containers, [])
 	container := containers[i]
@@ -33,6 +34,8 @@ deny contains msga if {
 
 # Fails if an init or ephemeral container does not define the "procMount" parameter as "Default"
 deny contains msga if {
+	paths_to_containers := {["spec", "initContainers"], ["spec", "ephemeralContainers"]}
+
 	# checks at first if we the procMountType feature gate is enabled on the api-server
 	obj := input[_]
 	is_control_plane_info(obj)
@@ -43,7 +46,6 @@ deny contains msga if {
 	pod.kind == "Pod"
 
 	# retrieve container list
-	paths_to_containers := {["spec", "initContainers"], ["spec", "ephemeralContainers"]}
 	path_to_containers := paths_to_containers[_]
 	containers := object.get(pod, path_to_containers, [])
 	container := containers[i]
@@ -63,6 +65,8 @@ deny contains msga if {
 
 deny contains msga if {
 	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	paths_to_containers := {["spec", "template", "spec", "containers"]}
+
 	# checks at first if we the procMountType feature gate is enabled on the api-server
 	obj := input[_]
 	is_control_plane_info(obj)
@@ -73,7 +77,6 @@ deny contains msga if {
 	manifest_kind[wl.kind]
 
 	# retrieve container list
-	paths_to_containers := {["spec", "template", "spec", "containers"]}
 	path_to_containers := paths_to_containers[_]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
@@ -91,6 +94,8 @@ deny contains msga if {
 
 deny contains msga if {
 	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	paths_to_containers := {["spec", "template", "spec", "initContainers"]}
+
 	# checks at first if we the procMountType feature gate is enabled on the api-server
 	obj := input[_]
 	is_control_plane_info(obj)
@@ -101,7 +106,6 @@ deny contains msga if {
 	manifest_kind[wl.kind]
 
 	# retrieve container list
-	paths_to_containers := {["spec", "template", "spec", "initContainers"]}
 	path_to_containers := paths_to_containers[_]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
@@ -120,6 +124,8 @@ deny contains msga if {
 }
 
 deny contains msga if {
+	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "containers"]}
+
 	# checks at first if we the procMountType feature gate is enabled on the api-server
 	obj := input[_]
 	is_control_plane_info(obj)
@@ -130,7 +136,6 @@ deny contains msga if {
 	cj.kind == "CronJob"
 
 	# retrieve container list
-	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "containers"]}
 	path_to_containers := paths_to_containers[_]
 	containers := object.get(cj, path_to_containers, [])
 	container := containers[i]
@@ -147,6 +152,8 @@ deny contains msga if {
 }
 
 deny contains msga if {
+	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]}
+
 	# checks at first if we the procMountType feature gate is enabled on the api-server
 	obj := input[_]
 	is_control_plane_info(obj)
@@ -157,7 +164,6 @@ deny contains msga if {
 	cj.kind == "CronJob"
 
 	# retrieve container list
-	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]}
 	path_to_containers := paths_to_containers[_]
 	containers := object.get(cj, path_to_containers, [])
 	container := containers[i]
