@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: app
+              image: nginx
+              ports:
+                - containerPort: 80
+          initContainers:
+            - name: init-setup
+              image: busybox
+              ports:
+                - containerPort: 8086
+                  hostPort: 8086 # We look for this

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test
+spec:
+  containers:
+    - name: app
+      image: nginx
+      ports:
+        - containerPort: 80
+  ephemeralContainers:
+    - name: debug
+      image: busybox
+      ports:
+        - containerPort: 8086
+          hostPort: 8086 # We look for this

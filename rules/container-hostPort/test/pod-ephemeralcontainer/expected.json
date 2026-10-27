@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Container: debug has Host-port",
+        "deletePaths": [
+            "spec.ephemeralContainers[0].ports[0].hostPort"
+        ],
+        "failedPaths": [
+            "spec.ephemeralContainers[0].ports[0].hostPort"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 4,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]
