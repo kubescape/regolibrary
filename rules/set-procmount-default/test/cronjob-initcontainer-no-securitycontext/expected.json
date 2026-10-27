@@ -1,0 +1,25 @@
+[
+    {
+        "alertMessage": "CronJob: test has containers that do not set 'securityContext.procMount' to 'Default'",
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.initContainers[0].securityContext.procMount",
+                "value": "Default"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

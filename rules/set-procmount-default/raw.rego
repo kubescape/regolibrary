@@ -15,11 +15,41 @@ deny contains msga if {
 	pod.kind == "Pod"
 
 	# retrieve container list
-	paths_to_containers := {["spec", "containers"], ["spec", "initContainers"], ["spec", "ephemeralContainers"]}
+	paths_to_containers := {["spec", "containers"]}
 	path_to_containers := paths_to_containers[_]
 	containers := object.get(pod, path_to_containers, [])
 	container := containers[i]
 	not procMountSetProperly(container.securityContext)
+
+	fixPaths = [{"path": sprintf("%s[%d].securityContext.procMount", [concat(".", path_to_containers), i]), "value": "Default"}]
+	msga := {
+		"alertMessage": sprintf("Pod: %v has containers that do not set 'securityContext.procMount' to 'Default'", [pod.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"fixPaths": fixPaths,
+		"alertObject": {"k8sApiObjects": [pod]},
+	}
+}
+
+# Fails if an init or ephemeral container does not define the "procMount" parameter as "Default"
+deny contains msga if {
+	# checks at first if we the procMountType feature gate is enabled on the api-server
+	obj := input[_]
+	is_control_plane_info(obj)
+	is_proc_mount_type_enabled(obj.data.APIServerInfo.cmdLine)
+
+	# checks if procMount paramenter has the right value in init and ephemeral containers
+	pod := input[_]
+	pod.kind == "Pod"
+
+	# retrieve container list
+	paths_to_containers := {["spec", "initContainers"], ["spec", "ephemeralContainers"]}
+	path_to_containers := paths_to_containers[_]
+	containers := object.get(pod, path_to_containers, [])
+	container := containers[i]
+
+	# an init or ephemeral container may not define a securityContext at all, procMount is not set in that case either
+	not procMountSetProperly(object.get(container, "securityContext", {}))
 
 	fixPaths = [{"path": sprintf("%s[%d].securityContext.procMount", [concat(".", path_to_containers), i]), "value": "Default"}]
 	msga := {
@@ -43,11 +73,41 @@ deny contains msga if {
 	manifest_kind[wl.kind]
 
 	# retrieve container list
-	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
+	paths_to_containers := {["spec", "template", "spec", "containers"]}
 	path_to_containers := paths_to_containers[_]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 	not procMountSetProperly(container.securityContext)
+
+	fixPaths = [{"path": sprintf("%s[%d].securityContext.procMount", [concat(".", path_to_containers), i]), "value": "Default"}]
+	msga := {
+		"alertMessage": sprintf("Workload: %v has containers that do not set 'securityContext.procMount' to 'Default'", [wl.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"fixPaths": fixPaths,
+		"alertObject": {"k8sApiObjects": [wl]},
+	}
+}
+
+deny contains msga if {
+	manifest_kind := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	# checks at first if we the procMountType feature gate is enabled on the api-server
+	obj := input[_]
+	is_control_plane_info(obj)
+	is_proc_mount_type_enabled(obj.data.APIServerInfo.cmdLine)
+
+	# checks if we are managing the right workload kind
+	wl := input[_]
+	manifest_kind[wl.kind]
+
+	# retrieve container list
+	paths_to_containers := {["spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
+	containers := object.get(wl, path_to_containers, [])
+	container := containers[i]
+
+	# an init container may not define a securityContext at all, procMount is not set in that case either
+	not procMountSetProperly(object.get(container, "securityContext", {}))
 
 	fixPaths = [{"path": sprintf("%s[%d].securityContext.procMount", [concat(".", path_to_containers), i]), "value": "Default"}]
 	msga := {
@@ -70,11 +130,40 @@ deny contains msga if {
 	cj.kind == "CronJob"
 
 	# retrieve container list
-	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "containers"], ["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]}
+	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "containers"]}
 	path_to_containers := paths_to_containers[_]
 	containers := object.get(cj, path_to_containers, [])
 	container := containers[i]
 	not procMountSetProperly(container.securityContext)
+
+	fixPaths = [{"path": sprintf("%s[%d].securityContext.procMount", [concat(".", path_to_containers), i]), "value": "Default"}]
+	msga := {
+		"alertMessage": sprintf("CronJob: %v has containers that do not set 'securityContext.procMount' to 'Default'", [cj.metadata.name]),
+		"packagename": "armo_builtins",
+		"alertScore": 7,
+		"fixPaths": fixPaths,
+		"alertObject": {"k8sApiObjects": [cj]},
+	}
+}
+
+deny contains msga if {
+	# checks at first if we the procMountType feature gate is enabled on the api-server
+	obj := input[_]
+	is_control_plane_info(obj)
+	is_proc_mount_type_enabled(obj.data.APIServerInfo.cmdLine)
+
+	# checks if we are managing the right workload kind
+	cj := input[_]
+	cj.kind == "CronJob"
+
+	# retrieve container list
+	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
+	containers := object.get(cj, path_to_containers, [])
+	container := containers[i]
+
+	# an init container may not define a securityContext at all, procMount is not set in that case either
+	not procMountSetProperly(object.get(container, "securityContext", {}))
 
 	fixPaths = [{"path": sprintf("%s[%d].securityContext.procMount", [concat(".", path_to_containers), i]), "value": "Default"}]
 	msga := {
