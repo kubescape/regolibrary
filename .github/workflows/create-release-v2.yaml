@@ -55,10 +55,10 @@ jobs:
           sudo apt update && sudo apt install -y cmake
           GOPATH=$(go env GOPATH) make
 
-      - name: Setup Python 3.10.6
+      - name: Setup Python 3.10
         uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
-          python-version: 3.10.6
+          python-version: '3.10'
 
       - name: Install Python dependencies
         run: |
