@@ -59,6 +59,11 @@
       "path": "settings.postureControlInputs.cosignRequireTransparencyLog",
       "name": "Require Cosign transparency log entry",
       "description": "Whether a valid signature must also have a transparency log (Rekor) entry. Set to false to accept images signed with --tlog-upload=false, such as in private registries and air-gapped clusters; the key and signed image digest are still verified. Any other value, or no value, keeps the entry required."
+    },
+    {
+      "path": "settings.postureControlInputs.cosignRekorURL",
+      "name": "Cosign Rekor URL",
+      "description": "URL of the Rekor transparency log used to look up signatures that have no Rekor bundle, like cosign verify --rekor-url. Leave empty to keep the default behaviour. Ignored when cosignRequireTransparencyLog is false."
     }
       ]
   }
