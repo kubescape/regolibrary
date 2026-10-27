@@ -28,8 +28,8 @@ deny contains msga if {
 deny contains msga if {
 	start_of_path := "spec.template.spec."
 	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
-	path_to_containers := paths_to_containers[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	containers := object.get(wl, path_to_containers, [])
