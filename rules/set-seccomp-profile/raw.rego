@@ -5,9 +5,9 @@ import rego.v1
 
 # Fails if pod does not define seccompProfile
 deny contains msga if {
+	path_to_search := ["securityContext", "seccompProfile"]
 	paths_to_containers := {["spec", "containers"], ["spec", "initContainers"]}
 	path_to_containers := paths_to_containers[_]
-	path_to_search := ["securityContext", "seccompProfile"]
 	wl := input[_]
 	wl.kind == "Pod"
 	spec := wl.spec
@@ -56,10 +56,10 @@ deny contains msga if {
 
 # Fails if workload does not define seccompProfile
 deny contains msga if {
-	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
-	path_to_containers := paths_to_containers[_]
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	path_to_search := ["securityContext", "seccompProfile"]
+	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	spec := wl.spec.template.spec
