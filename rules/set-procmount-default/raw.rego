@@ -15,10 +15,13 @@ deny contains msga if {
 	pod.kind == "Pod"
 
 	# retrieve container list
-	container := pod.spec.containers[i]
+	paths_to_containers := {["spec", "containers"], ["spec", "initContainers"], ["spec", "ephemeralContainers"]}
+	path_to_containers := paths_to_containers[_]
+	containers := object.get(pod, path_to_containers, [])
+	container := containers[i]
 	not procMountSetProperly(container.securityContext)
 
-	fixPaths = [{"path": sprintf("spec.containers[%d].securityContext.procMount", [i]), "value": "Default"}]
+	fixPaths = [{"path": sprintf("%s[%d].securityContext.procMount", [concat(".", path_to_containers), i]), "value": "Default"}]
 	msga := {
 		"alertMessage": sprintf("Pod: %v has containers that do not set 'securityContext.procMount' to 'Default'", [pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -40,10 +43,13 @@ deny contains msga if {
 	manifest_kind[wl.kind]
 
 	# retrieve container list
-	container := wl.spec.template.spec.containers[i]
+	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
+	containers := object.get(wl, path_to_containers, [])
+	container := containers[i]
 	not procMountSetProperly(container.securityContext)
 
-	fixPaths = [{"path": sprintf("spec.template.spec.containers[%d].securityContext.procMount", [i]), "value": "Default"}]
+	fixPaths = [{"path": sprintf("%s[%d].securityContext.procMount", [concat(".", path_to_containers), i]), "value": "Default"}]
 	msga := {
 		"alertMessage": sprintf("Workload: %v has containers that do not set 'securityContext.procMount' to 'Default'", [wl.metadata.name]),
 		"packagename": "armo_builtins",
@@ -64,10 +70,13 @@ deny contains msga if {
 	cj.kind == "CronJob"
 
 	# retrieve container list
-	container := cj.spec.jobTemplate.spec.template.spec.containers[i]
+	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "containers"], ["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
+	containers := object.get(cj, path_to_containers, [])
+	container := containers[i]
 	not procMountSetProperly(container.securityContext)
 
-	fixPaths = [{"path": sprintf("spec.jobTemplate.spec.template.spec.containers[%d].securityContext.procMount", [i]), "value": "Default"}]
+	fixPaths = [{"path": sprintf("%s[%d].securityContext.procMount", [concat(".", path_to_containers), i]), "value": "Default"}]
 	msga := {
 		"alertMessage": sprintf("CronJob: %v has containers that do not set 'securityContext.procMount' to 'Default'", [cj.metadata.name]),
 		"packagename": "armo_builtins",

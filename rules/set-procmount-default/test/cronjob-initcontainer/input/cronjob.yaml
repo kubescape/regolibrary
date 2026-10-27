@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: app
+              image: nginx
+              securityContext:
+                procMount: Default
+          initContainers:
+            - name: init-setup
+              image: busybox
+              securityContext:
+                procMount: Unmasked

@@ -6,7 +6,8 @@ import rego.v1
 # Fails if pod does not define seLinuxOptions
 deny contains msga if {
 	path_to_search := ["securityContext", "seLinuxOptions"]
-	path_to_containers := ["spec", "containers"]
+	paths_to_containers := {["spec", "containers"], ["spec", "initContainers"], ["spec", "ephemeralContainers"]}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	wl.kind == "Pod"
 	spec := wl.spec
@@ -33,7 +34,8 @@ deny contains msga if {
 deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	path_to_search := ["securityContext", "seLinuxOptions"]
-	path_to_containers := ["spec", "template", "spec", "containers"]
+	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	spec := wl.spec.template.spec
@@ -59,7 +61,8 @@ deny contains msga if {
 # Fails if CronJob does not define seLinuxOptions
 deny contains msga if {
 	path_to_search := ["securityContext", "seLinuxOptions"]
-	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
+	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "containers"], ["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	wl.kind == "CronJob"
 	spec := wl.spec.jobTemplate.spec.template.spec
