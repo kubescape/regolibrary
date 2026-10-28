@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hostpath-deploy
+spec:
+  selector:
+    matchLabels:
+      app: hostpath
+  template:
+    metadata:
+      labels:
+        app: hostpath
+    spec:
+      containers:
+        - name: app
+          image: nginx:latest
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          hostPath:
+            path: /var/lib/data

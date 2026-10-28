@@ -253,6 +253,12 @@
             "patch": {
                 "name": "Images not pinned to digest"
             }
+        },
+        {
+            "controlID": "C-0319",
+            "patch": {
+                "name": "Mount security options"
+            }
         }
     ]
 }
