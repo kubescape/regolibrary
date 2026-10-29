@@ -10,7 +10,8 @@
         "actionRequired": "configuration"
     },
     "rulesNames": [
-        "verify-image-signature"
+        "verify-image-signature",
+        "verify-image-signature-v1"
     ],
     "baseScore": 7,
     "impact_statement": "",
