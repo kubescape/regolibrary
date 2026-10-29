@@ -15,6 +15,7 @@
             "trustedCosignPublicKeys": [],
             "cosignRequireTransparencyLog": ["true"],
             "cosignRekorURL": [],
+            "trustedCosignIdentities": [],
             "insecureCapabilities": [
                 "SETPCAP",
                 "NET_ADMIN",
