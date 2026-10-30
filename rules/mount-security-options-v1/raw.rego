@@ -10,8 +10,8 @@ import rego.v1
 # ephemeralContainers across Pods, templated workloads and CronJobs.
 # Effectively read-only mounts are exempt: an explicit mount readOnly,
 # image volumes (which do not support bindMountOptions), and inherently
-# read-only sources (configMap, secret, projected, downwardAPI, and PVCs
-# with source-level readOnly: true). Windows workloads are
+# read-only sources (configMap, secret, projected, downwardAPI, PVCs, NFS
+# and CSI with source-level readOnly: true). Windows workloads are
 # also exempt: noexec has no effect on Windows. MountPaths listed
 # in postureControlInputs.mountAllowList are exempt. hostPath-backed mounts
 # score higher: a writable hostPath without noexec is a node-escape vector.
@@ -59,7 +59,8 @@ allowlisted_mount(mountpath) if {
 # A mount is effectively read-only when the mount itself is read-only or
 # when its source volume is one kubelet never mounts writable. The source
 # attribute dominates: an explicit readOnly: false on a configMap mount
-# does not make it writable.
+# does not make it writable. NFS and CSI source-level readOnly settings are
+# also respected.
 is_effectively_readonly(podspec, mount) if {
 	mount.readOnly == true
 }
@@ -92,6 +93,14 @@ readonly_volume_source(volume) if {
 
 readonly_volume_source(volume) if {
         volume.persistentVolumeClaim.readOnly == true
+}
+
+readonly_volume_source(volume) if {
+        volume.nfs.readOnly == true
+}
+
+readonly_volume_source(volume) if {
+        volume.csi.readOnly == true
 }
 
 # noexec is Linux-only: skip workloads explicitly scheduled to Windows via
