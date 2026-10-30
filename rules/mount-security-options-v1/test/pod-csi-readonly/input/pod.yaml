@@ -13,5 +13,4 @@ spec:
     - name: data
       csi:
         driver: example.csi.k8s.io
-        volumeHandle: test-volume
         readOnly: true
