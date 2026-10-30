@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: image-volume-pod
+spec:
+  containers:
+    - name: app
+      image: nginx:latest
+      volumeMounts:
+        - name: app-image
+          mountPath: /app
+  volumes:
+    - name: app-image
+      image:
+        reference: registry.example.com/app:v1
