@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "container app in Deployment hostpath-deploy mounts /data without the noexec bind mount option",
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.containers[0].volumeMounts[0].bindMountOptions",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "failedPaths": [],
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "hostpath-deploy"
+                    }
+                }
+            ]
+        }
+    }
+]

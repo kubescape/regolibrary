@@ -283,6 +283,7 @@ cis-v1.23-t1.0.1,CIS-5.7.4,The default namespace should not be used
 security,C-0292,Nginx Ingress Controller End of Life
 DevOpsBest,C-0292,Nginx Ingress Controller End of Life
 ArmoBest,C-0292,Nginx Ingress Controller End of Life
+ArmoBest,C-0319,Mount security options
 nsa,C-0292,Nginx Ingress Controller End of Life
 DevOpsBest,C-0293,Service with no workload
 AllControls,C-0293,Service with no workload

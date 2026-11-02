@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: nightly-job
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: worker
+              image: busybox:latest
+              volumeMounts:
+                - name: scratch
+                  mountPath: /scratch
+          volumes:
+            - name: scratch
+              emptyDir: {}

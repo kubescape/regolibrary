@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: projected-pod
+spec:
+  containers:
+    - name: app
+      image: nginx:latest
+      volumeMounts:
+        - name: all-in-one
+          mountPath: /etc/projected
+  volumes:
+    - name: all-in-one
+      projected:
+        sources:
+          - configMap:
+              name: app-config
+          - downwardAPI:
+              items:
+                - path: labels
+                  fieldRef:
+                    fieldPath: metadata.labels

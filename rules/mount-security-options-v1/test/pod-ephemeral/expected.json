@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "container debugger in Pod debug-pod mounts /tmp without the noexec bind mount option",
+        "fixPaths": [
+            {
+                "path": "spec.ephemeralContainers[0].volumeMounts[0].bindMountOptions",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "failedPaths": [],
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "debug-pod"
+                    }
+                }
+            ]
+        }
+    }
+]
