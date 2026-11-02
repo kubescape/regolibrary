@@ -1,0 +1,65 @@
+[
+    {
+        "alertMessage": "kubelet 1.28.4 on node 'node-a' has known vulnerabilities: CVE-2024-10220",
+        "failedPaths": [
+            "status.nodeInfo.kubeletVersion"
+        ],
+        "reviewPaths": [
+            "status.nodeInfo.kubeletVersion"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Node",
+                    "metadata": {
+                        "name": "node-a"
+                    }
+                }
+            ]
+        },
+        "relatedObjects": [
+            {
+                "object": {
+                    "apiVersion": "componentvulns.kubescape.cloud/v1beta0",
+                    "data": {
+                        "applicabilityIndexDate": "2026-10-01",
+                        "assessment": "vendor-build",
+                        "component": "kubelet",
+                        "dbBuilt": "2026-10-08",
+                        "operatingSystem": "linux",
+                        "rawVersion": "v1.28.4-eks-adc7111",
+                        "version": "1.28.4",
+                        "vulnerabilities": [
+                            {
+                                "epss": 0.0123,
+                                "fixState": "fixed",
+                                "fixedIn": [
+                                    "1.28.12"
+                                ],
+                                "id": "CVE-2024-10220",
+                                "knownExploited": false,
+                                "severity": "High"
+                            }
+                        ]
+                    },
+                    "kind": "KubeletVulnerabilities",
+                    "metadata": {
+                        "name": "node-a"
+                    }
+                },
+                "failedPaths": [
+                    "data.vulnerabilities[0]"
+                ],
+                "reviewPaths": [
+                    "data.vulnerabilities[0]"
+                ],
+                "fixPaths": []
+            }
+        ]
+    }
+]

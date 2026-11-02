@@ -1,0 +1,26 @@
+{
+    "controlID": "C-0320",
+    "name": "Kubernetes API server has known vulnerabilities",
+    "description": "Detects when the Kubernetes API server version has known vulnerabilities at or above the configured minimum severity.",
+    "long_description": "The Kubernetes API server is part of the cluster itself, so a known vulnerability in it is exposed regardless of how well the workloads are configured. Kubescape reads the Kubernetes API server version from the Kubernetes API and matches it against the same vulnerability database used for image scanning. Kubernetes CVEs are attributed to a component only when the official Kubernetes CVE feed lists it as affected, so a vulnerability in another component, or one limited to another operating system, does not fail this control. Versions that cannot be assessed are reported as coverage gaps rather than as passed.",
+    "remediation": "Upgrade the control plane to a Kubernetes patch release that fixes the listed vulnerabilities.",
+    "test": "Checks the vulnerabilities found for the Kubernetes API server version, filtered by the configured minimum severity, fix availability and vendor build settings.",
+    "attributes": {
+        "controlTypeTags": [
+            "security",
+            "compliance"
+        ]
+    },
+    "rulesNames": [
+        "component-vulnerabilities-api-server"
+    ],
+    "baseScore": 8.0,
+    "category": {
+        "name": "Control plane"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
+}

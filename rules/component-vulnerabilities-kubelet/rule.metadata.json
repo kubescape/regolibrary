@@ -1,0 +1,57 @@
+{
+    "name": "component-vulnerabilities-kubelet",
+    "attributes": {},
+    "ruleLanguage": "Rego",
+    "match": [
+        {
+            "apiGroups": [
+                ""
+            ],
+            "apiVersions": [
+                "v1"
+            ],
+            "resources": [
+                "Node"
+            ]
+        }
+    ],
+    "dynamicMatch": [
+        {
+            "apiGroups": [
+                "componentvulns.kubescape.cloud"
+            ],
+            "apiVersions": [
+                "v1beta0"
+            ],
+            "resources": [
+                "KubeletVulnerabilities"
+            ]
+        }
+    ],
+    "ruleDependencies": [],
+    "configInputs": [
+        "settings.postureControlInputs.componentVulnMinSeverity",
+        "settings.postureControlInputs.componentVulnOnlyWithFix",
+        "settings.postureControlInputs.componentVulnCountVendorBuilds"
+    ],
+    "controlConfigInputs": [
+        {
+            "path": "settings.postureControlInputs.componentVulnMinSeverity",
+            "name": "Minimum severity",
+            "description": "The lowest vulnerability severity that fails the control: Negligible, Low, Medium, High or Critical."
+        },
+        {
+            "path": "settings.postureControlInputs.componentVulnOnlyWithFix",
+            "name": "Only vulnerabilities with a fix",
+            "description": "When true, only vulnerabilities with a fixed version available fail the control."
+        },
+        {
+            "path": "settings.postureControlInputs.componentVulnCountVendorBuilds",
+            "name": "Count vendor builds",
+            "description": "When true, vulnerabilities in vendor builds (for example EKS, GKE or AKS versions) fail the control. Vendors may backport fixes without changing the upstream version, so these findings are not counted by default."
+        }
+    ],
+    "description": "Fails for each node whose kubelet version has known vulnerabilities at or above the configured minimum severity.",
+    "remediation": "Upgrade the node's kubelet to a Kubernetes patch release that fixes the listed vulnerabilities, for example by upgrading the node pool.",
+    "ruleQuery": "armo_builtins"
+}

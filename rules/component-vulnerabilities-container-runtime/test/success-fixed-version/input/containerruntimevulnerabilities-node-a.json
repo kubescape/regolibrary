@@ -1,0 +1,16 @@
+{
+    "apiVersion": "componentvulns.kubescape.cloud/v1beta0",
+    "kind": "ContainerRuntimeVulnerabilities",
+    "metadata": {
+        "name": "node-a"
+    },
+    "data": {
+        "component": "containerd",
+        "version": "1.7.27",
+        "rawVersion": "containerd://1.7.27",
+        "assessment": "verified",
+        "vulnerabilities": [],
+        "dbBuilt": "2026-10-08",
+        "operatingSystem": "linux"
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "apiVersion": "componentvulns.kubescape.cloud/v1beta0",
+    "kind": "APIServerVulnerabilities",
+    "metadata": {
+        "name": "cluster"
+    },
+    "data": {
+        "component": "kube-apiserver",
+        "version": "1.28.4",
+        "rawVersion": "v1.28.4",
+        "assessment": "verified",
+        "vulnerabilities": [
+            {
+                "id": "CVE-2024-3177",
+                "severity": "Low",
+                "fixState": "fixed",
+                "knownExploited": false,
+                "fixedIn": [
+                    "1.28.9"
+                ],
+                "epss": 0.0011
+            }
+        ],
+        "dbBuilt": "2026-10-08",
+        "applicabilityIndexDate": "2026-10-01"
+    }
+}

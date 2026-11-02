@@ -1,0 +1,21 @@
+[
+    {
+        "alertMessage": "",
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 0,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Node",
+                    "metadata": {
+                        "name": "node-a"
+                    }
+                }
+            ]
+        }
+    }
+]

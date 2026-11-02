@@ -1,0 +1,64 @@
+[
+    {
+        "alertMessage": "containerd 1.7.11 on node 'node-a' has known vulnerabilities: CVE-2024-40635",
+        "failedPaths": [
+            "status.nodeInfo.containerRuntimeVersion"
+        ],
+        "reviewPaths": [
+            "status.nodeInfo.containerRuntimeVersion"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Node",
+                    "metadata": {
+                        "name": "node-a"
+                    }
+                }
+            ]
+        },
+        "relatedObjects": [
+            {
+                "object": {
+                    "apiVersion": "componentvulns.kubescape.cloud/v1beta0",
+                    "data": {
+                        "assessment": "verified",
+                        "component": "containerd",
+                        "dbBuilt": "2026-10-08",
+                        "operatingSystem": "linux",
+                        "rawVersion": "containerd://1.7.11",
+                        "version": "1.7.11",
+                        "vulnerabilities": [
+                            {
+                                "epss": 0.0004,
+                                "fixState": "fixed",
+                                "fixedIn": [
+                                    "1.7.27"
+                                ],
+                                "id": "CVE-2024-40635",
+                                "knownExploited": false,
+                                "severity": "Medium"
+                            }
+                        ]
+                    },
+                    "kind": "ContainerRuntimeVulnerabilities",
+                    "metadata": {
+                        "name": "node-a"
+                    }
+                },
+                "failedPaths": [
+                    "data.vulnerabilities[0]"
+                ],
+                "reviewPaths": [
+                    "data.vulnerabilities[0]"
+                ],
+                "fixPaths": []
+            }
+        ]
+    }
+]

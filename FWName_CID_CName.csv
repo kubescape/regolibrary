@@ -315,3 +315,9 @@ AllControls,C-0315,Agent Sandbox strict egress policy
 AllControls,C-0316,Agent Sandbox claim override restrictions
 AllControls,C-0317,Agent Substrate Worker Pod resource ceilings
 AllControls,C-0297,Agent Sandbox hardened runtime class
+AllControls,C-0320,Kubernetes API server has known vulnerabilities
+AllControls,C-0321,Kubelet has known vulnerabilities
+AllControls,C-0322,Container runtime has known vulnerabilities
+NodeVulnerabilities,C-0320,Kubernetes API server has known vulnerabilities
+NodeVulnerabilities,C-0321,Kubelet has known vulnerabilities
+NodeVulnerabilities,C-0322,Container runtime has known vulnerabilities

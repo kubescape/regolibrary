@@ -52,6 +52,9 @@
             ],
             "max_critical_vulnerabilities": ["5"],
             "max_high_vulnerabilities": ["10"],
+            "componentVulnMinSeverity": ["High"],
+            "componentVulnOnlyWithFix": ["false"],
+            "componentVulnCountVendorBuilds": ["false"],
             "sensitiveKeyNames": [
                 "aws_secret_access_key",
                 "azure_batchai_storage_key",
