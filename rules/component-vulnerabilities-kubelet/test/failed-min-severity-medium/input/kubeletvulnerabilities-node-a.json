@@ -1,0 +1,24 @@
+{
+    "apiVersion": "componentvulns.kubescape.cloud/v1beta0",
+    "kind": "KubeletVulnerabilities",
+    "metadata": {
+        "name": "node-a"
+    },
+    "data": {
+        "component": "kubelet",
+        "version": "1.28.4",
+        "rawVersion": "v1.28.4",
+        "assessment": "verified",
+        "vulnerabilities": [
+            {
+                "id": "CVE-2025-0426",
+                "severity": "Medium",
+                "fixState": "not-fixed",
+                "knownExploited": false
+            }
+        ],
+        "dbBuilt": "2026-10-08",
+        "operatingSystem": "linux",
+        "applicabilityIndexDate": "2026-10-01"
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "controlID": "C-0322",
+    "name": "Container runtime has known vulnerabilities",
+    "description": "Detects nodes whose containerd or CRI-O version has known vulnerabilities at or above the configured minimum severity.",
+    "long_description": "The container runtime is part of the cluster itself, so a known vulnerability in it is exposed regardless of how well the workloads are configured. Kubescape reads the container runtime version of each node from the Kubernetes API and matches it against the same vulnerability database used for image scanning. Versions that cannot be assessed are reported as coverage gaps rather than as passed.",
+    "remediation": "Upgrade containerd or CRI-O on the node to a release that fixes the listed vulnerabilities, for example by moving the node pool to a newer node image.",
+    "test": "Checks the vulnerabilities found for the container runtime version of each node, filtered by the configured minimum severity, fix availability and vendor build settings.",
+    "attributes": {
+        "controlTypeTags": [
+            "security",
+            "compliance"
+        ]
+    },
+    "rulesNames": [
+        "component-vulnerabilities-container-runtime"
+    ],
+    "baseScore": 7.0,
+    "category": {
+        "name": "Node escape"
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    }
+}

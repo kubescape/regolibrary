@@ -1753,6 +1753,24 @@
             "patch": {
                 "name": "Ensure that the --seccomp-default parameter is set to true"
             }
+        },
+        {
+            "controlID": "C-0320",
+            "patch": {
+                "name": "Kubernetes API server has known vulnerabilities"
+            }
+        },
+        {
+            "controlID": "C-0321",
+            "patch": {
+                "name": "Kubelet has known vulnerabilities"
+            }
+        },
+        {
+            "controlID": "C-0322",
+            "patch": {
+                "name": "Container runtime has known vulnerabilities"
+            }
         }
     ]
 }

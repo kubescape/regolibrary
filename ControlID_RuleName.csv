@@ -245,3 +245,6 @@ C-0316,agent-sandbox-claim-overrides
 C-0317,worker-pod-resource-ceilings
 C-0297,agent-sandbox-hardened-runtime-class
 C-0319,mount-security-options-v1
+C-0320,component-vulnerabilities-api-server
+C-0321,component-vulnerabilities-kubelet
+C-0322,component-vulnerabilities-container-runtime

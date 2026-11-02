@@ -1,0 +1,17 @@
+{
+    "apiVersion": "componentvulns.kubescape.cloud/v1beta0",
+    "kind": "KubeletVulnerabilities",
+    "metadata": {
+        "name": "node-b"
+    },
+    "data": {
+        "component": "kubelet",
+        "version": "1.28.12",
+        "rawVersion": "v1.28.12",
+        "assessment": "verified",
+        "vulnerabilities": [],
+        "dbBuilt": "2026-10-08",
+        "operatingSystem": "linux",
+        "applicabilityIndexDate": "2026-10-01"
+    }
+}

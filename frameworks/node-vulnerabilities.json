@@ -1,0 +1,35 @@
+{
+    "name": "NodeVulnerabilities",
+    "description": "Known vulnerabilities in the software the cluster runs on: the Kubernetes API server, the kubelet and the container runtime.",
+    "attributes": {
+        "builtin": true
+    },
+    "scanningScope": {
+        "matches": [
+            "cluster"
+        ]
+    },
+    "typeTags": [
+        "security"
+    ],
+    "activeControls": [
+        {
+            "controlID": "C-0320",
+            "patch": {
+                "name": "Kubernetes API server has known vulnerabilities"
+            }
+        },
+        {
+            "controlID": "C-0321",
+            "patch": {
+                "name": "Kubelet has known vulnerabilities"
+            }
+        },
+        {
+            "controlID": "C-0322",
+            "patch": {
+                "name": "Container runtime has known vulnerabilities"
+            }
+        }
+    ]
+}

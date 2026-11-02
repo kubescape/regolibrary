@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "kube-apiserver 1.24.4 has known vulnerabilities: CVE-2022-3172",
+        "failedPaths": [
+            "data.vulnerabilities[0]"
+        ],
+        "reviewPaths": [
+            "data.vulnerabilities[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 8,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "componentvulns.kubescape.cloud/v1beta0",
+                    "kind": "APIServerVulnerabilities",
+                    "metadata": {
+                        "name": "cluster"
+                    }
+                }
+            ]
+        }
+    }
+]

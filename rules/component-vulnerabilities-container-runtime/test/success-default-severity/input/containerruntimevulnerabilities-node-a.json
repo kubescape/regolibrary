@@ -1,0 +1,27 @@
+{
+    "apiVersion": "componentvulns.kubescape.cloud/v1beta0",
+    "kind": "ContainerRuntimeVulnerabilities",
+    "metadata": {
+        "name": "node-a"
+    },
+    "data": {
+        "component": "containerd",
+        "version": "1.7.11",
+        "rawVersion": "containerd://1.7.11",
+        "assessment": "verified",
+        "vulnerabilities": [
+            {
+                "id": "CVE-2024-40635",
+                "severity": "Medium",
+                "fixState": "fixed",
+                "knownExploited": false,
+                "fixedIn": [
+                    "1.7.27"
+                ],
+                "epss": 0.0004
+            }
+        ],
+        "dbBuilt": "2026-10-08",
+        "operatingSystem": "linux"
+    }
+}
