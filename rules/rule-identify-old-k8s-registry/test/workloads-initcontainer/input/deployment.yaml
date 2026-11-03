@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: init-deployment
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: init-deployment
+  template:
+    metadata:
+      labels:
+        app: init-deployment
+    spec:
+      initContainers:
+      - name: init-setup
+        image: k8s.gcr.io/busybox:1.28
+      containers:
+      - name: app
+        image: registry.k8s.io/pause:3.9

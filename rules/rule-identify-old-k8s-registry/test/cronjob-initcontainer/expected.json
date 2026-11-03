@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "image 'k8s.gcr.io/busybox:1.28' in container 'init-setup' comes from the deprecated k8s.gcr.io",
+        "reviewPaths": [
+            "spec.jobTemplate.spec.template.spec.initContainers[0].image"
+        ],
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.initContainers[0].image"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "init-cronjob"
+                    }
+                }
+            ]
+        }
+    }
+]
