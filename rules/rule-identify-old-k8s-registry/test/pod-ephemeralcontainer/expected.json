@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "image 'k8s.gcr.io/busybox:1.28' in container 'debugger' comes from the deprecated k8s.gcr.io",
+        "reviewPaths": [
+            "spec.ephemeralContainers[0].image"
+        ],
+        "failedPaths": [
+            "spec.ephemeralContainers[0].image"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "debug-pod"
+                    }
+                }
+            ]
+        }
+    }
+]

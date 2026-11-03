@@ -4,12 +4,15 @@ package armo_builtins
 import rego.v1
 
 deprecatedK8sRepo contains msga if {
+	paths_to_containers := {["spec", "containers"], ["spec", "initContainers"], ["spec", "ephemeralContainers"]}
 	pod := input[_]
 	pod.metadata.namespace == "kube-system"
 	k := pod.kind
 	k == "Pod"
-	container := pod.spec.containers[i]
-	path := sprintf("spec.containers[%v].image", [format_int(i, 10)])
+	path_to_containers := paths_to_containers[_]
+	containers := object.get(pod, path_to_containers, [])
+	container := containers[i]
+	path := sprintf("%s[%v].image", [concat(".", path_to_containers), format_int(i, 10)])
 	image := container.image
 	deprecated_registry(image)
 
@@ -25,12 +28,15 @@ deprecatedK8sRepo contains msga if {
 }
 
 deprecatedK8sRepo contains msga if {
+	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	wl := input[_]
 	wl.metadata.namespace == "kube-system"
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[i]
-	path := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
+	path_to_containers := paths_to_containers[_]
+	containers := object.get(wl, path_to_containers, [])
+	container := containers[i]
+	path := sprintf("%s[%v].image", [concat(".", path_to_containers), format_int(i, 10)])
 	image := container.image
 	deprecated_registry(image)
 
@@ -46,11 +52,14 @@ deprecatedK8sRepo contains msga if {
 }
 
 deprecatedK8sRepo contains msga if {
+	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "containers"], ["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]}
 	wl := input[_]
 	wl.metadata.namespace == "kube-system"
 	wl.kind == "CronJob"
-	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
-	path := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)])
+	path_to_containers := paths_to_containers[_]
+	containers := object.get(wl, path_to_containers, [])
+	container := containers[i]
+	path := sprintf("%s[%v].image", [concat(".", path_to_containers), format_int(i, 10)])
 	image := container.image
 	deprecated_registry(image)
 
