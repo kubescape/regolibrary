@@ -1,7 +1,8 @@
 {
     "name": "verify-image-signature",
     "attributes": {
-      "useFromKubescapeVersion": "v2.1.3"
+      "useFromKubescapeVersion": "v2.1.3",
+      "useUntilKubescapeVersion": "v4.0.18"
     },
     "ruleLanguage": "Rego",
     "match": [
