@@ -1,0 +1,19 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "ControlPlaneInfo",
+    "metadata": {
+        "name": "control-plane"
+    },
+    "data": {
+        "etcdDataDir": {
+            "ownership": {
+                "uid": 60,
+                "gid": 60,
+                "username": "60",
+                "groupname": "60"
+            },
+            "path": "/srv/etcd",
+            "permissions": 448
+        }
+    }
+}

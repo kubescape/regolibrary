@@ -1,16 +1,16 @@
 [
     {
-        "alertMessage": "/var/lib/minikube/etcd is not owned by root:root (actual owners are noroot:root)",
+        "alertMessage": "/var/lib/minikube/etcd is not owned by etcd:etcd (actual owners are root:etcd)",
         "alertObject": {
             "externalObjects": {
                 "apiVersion": "hostdata.kubescape.cloud/v1beta0",
                 "data": {
                     "etcdDataDir": {
                         "ownership": {
-                            "gid": 0,
-                            "groupname": "root",
                             "uid": 0,
-                            "username": "noroot"
+                            "gid": 1001,
+                            "username": "root",
+                            "groupname": "etcd"
                         },
                         "path": "/var/lib/minikube/etcd",
                         "permissions": 448
@@ -24,22 +24,22 @@
         },
         "alertScore": 2,
         "failedPaths": [],
-        "fixCommand": "chown root:root /var/lib/minikube/etcd",
+        "fixCommand": "chown etcd:etcd /var/lib/minikube/etcd",
         "fixPaths": [],
         "packagename": "armo_builtins"
     },
     {
-        "alertMessage": "/var/lib/minikube/etcd is not owned by root:root (actual owners are root:noroot)",
+        "alertMessage": "/var/lib/minikube/etcd is not owned by etcd:etcd (actual owners are etcd:root)",
         "alertObject": {
             "externalObjects": {
                 "apiVersion": "hostdata.kubescape.cloud/v1beta0",
                 "data": {
                     "etcdDataDir": {
                         "ownership": {
+                            "uid": 1001,
                             "gid": 0,
-                            "groupname": "noroot",
-                            "uid": 0,
-                            "username": "root"
+                            "username": "etcd",
+                            "groupname": "root"
                         },
                         "path": "/var/lib/minikube/etcd",
                         "permissions": 448
@@ -53,7 +53,7 @@
         },
         "alertScore": 2,
         "failedPaths": [],
-        "fixCommand": "chown root:root /var/lib/minikube/etcd",
+        "fixCommand": "chown etcd:etcd /var/lib/minikube/etcd",
         "fixPaths": [],
         "packagename": "armo_builtins"
     }
