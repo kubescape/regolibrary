@@ -87,10 +87,10 @@
         },
         "etcdDataDir": {
             "ownership": {
-                "uid": 0,
-                "gid": 0,
-                "username": "root",
-                "groupname": "root"
+                "uid": 1001,
+                "gid": 1001,
+                "username": "etcd",
+                "groupname": "etcd"
             },
             "path": "/var/lib/minikube/etcd",
             "permissions": 448

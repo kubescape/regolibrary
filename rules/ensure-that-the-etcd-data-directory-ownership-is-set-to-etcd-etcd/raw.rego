@@ -6,8 +6,8 @@ import rego.v1
 
 deny contains msg if {
 	file_obj_path := ["data", "etcdDataDir"]
-    allowed_user := "root"
-	allowed_group := "root"
+	allowed_user := "etcd"
+	allowed_group := "etcd"
 	# Filter out irrelevent resources
 	some obj in input
 	is_control_plane_info(obj)

@@ -1,0 +1,19 @@
+{
+    "apiVersion": "hostdata.kubescape.cloud/v1beta0",
+    "kind": "WorkerNodeInfo",
+    "metadata": {
+        "name": "control-plane"
+    },
+    "data": {
+        "etcdDataDir": {
+            "ownership": {
+                "uid": 0,
+                "gid": 0,
+                "username": "root",
+                "groupname": "root"
+            },
+            "path": "/srv/etcd",
+            "permissions": 448
+        }
+    }
+}
