@@ -14,6 +14,11 @@ deny contains msga if {
 	endswith(role.kind, "Role")
 	endswith(rolebinding.kind, "Binding")
 
+	# Nodes are cluster scoped. The authorizer only checks
+	# RoleBindings for requests in a namespace, so only a
+	# ClusterRoleBinding grants this permission.
+	rolebinding.kind == "ClusterRoleBinding"
+
 	rule := role.rules[p]
 
 	subject := rolebinding.subjects[k]
