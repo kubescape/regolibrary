@@ -1,0 +1,28 @@
+[
+    {
+        "alertMessage": "container: debug in pod: test  has 'latest' tag on image but imagePullPolicy is not set to 'Always'",
+        "reviewPaths": [
+            "spec.ephemeralContainers[0].image",
+            "spec.ephemeralContainers[0].imagePullPolicy"
+        ],
+        "failedPaths": [
+            "spec.ephemeralContainers[0].image",
+            "spec.ephemeralContainers[0].imagePullPolicy"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]
