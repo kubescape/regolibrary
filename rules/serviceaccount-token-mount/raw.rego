@@ -106,9 +106,12 @@ is_same_namespace(metadata1, metadata2) if {
 has_service_account_binding(service_account) if {
 	role_bindings := [role_binding | role_binding = input[_]; endswith(role_binding.kind, "Binding")]
 	role_binding := role_bindings[_]
-	role_binding.subjects[_].name == service_account.metadata.name
-	role_binding.subjects[_].namespace == service_account.metadata.namespace
-	role_binding.subjects[_].kind == "ServiceAccount"
+
+	# name, namespace and kind must all come from the same subject
+	subject := role_binding.subjects[_]
+	subject.kind == "ServiceAccount"
+	subject.name == service_account.metadata.name
+	subject.namespace == service_account.metadata.namespace
 }
 
 # checks if RoleBinding/ClusterRoleBinding has a bind with the system:authenticated group

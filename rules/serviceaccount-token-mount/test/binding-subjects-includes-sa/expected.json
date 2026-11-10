@@ -1,0 +1,41 @@
+[
+	{
+		"alertMessage": "Pod: web in the following namespace: monitoring mounts service account tokens by default",
+		"reviewPaths": [],
+		"failedPaths": [],
+		"fixPaths": [
+			{
+				"path": "spec.automountServiceAccountToken",
+				"value": "false"
+			}
+		],
+		"ruleStatus": "",
+		"packagename": "armo_builtins",
+		"alertScore": 9,
+		"alertObject": {
+			"k8sApiObjects": [
+				{
+					"apiVersion": "v1",
+					"kind": "Pod",
+					"metadata": {
+						"name": "web"
+					}
+				}
+			]
+		},
+		"relatedObjects": [
+			{
+				"object": {
+					"apiVersion": "v1",
+					"kind": "ServiceAccount",
+					"metadata": {
+						"name": "default",
+						"namespace": "monitoring"
+					}
+				},
+				"failedPaths": null,
+				"fixPaths": null
+			}
+		]
+	}
+]
