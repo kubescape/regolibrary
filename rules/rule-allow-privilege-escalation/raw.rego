@@ -8,6 +8,7 @@ deny contains msga if {
 	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
+	not is_windows_pod(pod.spec)
 	container := pod.spec.containers[i]
 	is_allow_privilege_escalation_container(container)
 	fixPath := get_fix_path(i, start_of_path, "containers")
@@ -26,6 +27,7 @@ deny contains msga if {
 	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
+	not is_windows_pod(pod.spec)
 	container := pod.spec.initContainers[i]
 	is_allow_privilege_escalation_container(container)
 	fixPath := get_fix_path(i, start_of_path, "initContainers")
@@ -44,6 +46,7 @@ deny contains msga if {
 	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
+	not is_windows_pod(pod.spec)
 	container := pod.spec.ephemeralContainers[i]
 	is_allow_privilege_escalation_container(container)
 	fixPath := get_fix_path(i, start_of_path, "ephemeralContainers")
@@ -63,6 +66,7 @@ deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
+	not is_windows_pod(wl.spec.template.spec)
 	container := wl.spec.template.spec.containers[i]
 	is_allow_privilege_escalation_container(container)
 	fixPath := get_fix_path(i, start_of_path, "containers")
@@ -82,6 +86,7 @@ deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
+	not is_windows_pod(wl.spec.template.spec)
 	container := wl.spec.template.spec.initContainers[i]
 	is_allow_privilege_escalation_container(container)
 	fixPath := get_fix_path(i, start_of_path, "initContainers")
@@ -100,6 +105,7 @@ deny contains msga if {
 	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
+	not is_windows_pod(wl.spec.jobTemplate.spec.template.spec)
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 	is_allow_privilege_escalation_container(container)
 	fixPath := get_fix_path(i, start_of_path, "containers")
@@ -118,6 +124,7 @@ deny contains msga if {
 	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
+	not is_windows_pod(wl.spec.jobTemplate.spec.template.spec)
 	container := wl.spec.jobTemplate.spec.template.spec.initContainers[i]
 	is_allow_privilege_escalation_container(container)
 	fixPath := get_fix_path(i, start_of_path, "initContainers")
@@ -159,6 +166,13 @@ is_allow_privilege_escalation_container(container) if {
 	count(psps) > 0
 	psp := psps[_]
 	not psp.spec.allowPrivilegeEscalation == false
+}
+
+# The API server rejects allowPrivilegeEscalation in a pod with spec.os.name
+# set to windows, and Pod Security Standards skip this check for such pods
+# since v1.25, so they are not evaluated here.
+is_windows_pod(spec) if {
+	spec.os.name == "windows"
 }
 
 get_fix_path(i, start_of_path, container_kind) := [
