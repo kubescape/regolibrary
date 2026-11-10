@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: init-setup
+              image: debian
+              command: ["sudo chown -R 1000 /data"] # We look for this
+          containers:
+            - name: hello
+              image: busybox
+              command: ["/bin/sh", "-c", "date"]

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+spec:
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      initContainers:
+        - name: init-setup
+          image: debian
+          command: ["sudo chown -R 1000 /data"] # We look for this
+      containers:
+        - name: app
+          image: nginx
+          command: ["nginx", "-g", "daemon off;"]
