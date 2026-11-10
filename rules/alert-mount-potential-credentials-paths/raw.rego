@@ -71,7 +71,7 @@ is_unsafe_paths(volume, start_of_path, provider, i) := result if {
 # fix_path - adding "/" at the end of the path if doesn't exist and if not a file path.
 fix_path(path) := result if {
 	# filter file path
-	not regex.match(`[\\w-]+\\.`, path)
+	not regex.match(`[\w-]+\.`, path)
 
 	# filter path that doesn't end with "/"
 	not endswith(path, "/")

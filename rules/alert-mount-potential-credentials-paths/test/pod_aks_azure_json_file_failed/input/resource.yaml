@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: reads-azure-json
+spec:
+  containers:
+  - name: app
+    image: nginx
+    volumeMounts:
+    - mountPath: /etc/kubernetes/azure.json
+      name: azure-json
+      readOnly: true
+  volumes:
+  - name: azure-json
+    hostPath:
+      path: /etc/kubernetes/azure.json
+      type: File

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reads-gcloud-adc
+spec:
+  selector:
+    matchLabels:
+      app: reads-gcloud-adc
+  template:
+    metadata:
+      labels:
+        app: reads-gcloud-adc
+    spec:
+      containers:
+      - name: app
+        image: nginx
+        volumeMounts:
+        - mountPath: /var/secrets/adc.json
+          name: adc
+      volumes:
+      - name: adc
+        hostPath:
+          path: /.config/gcloud/application_default_credentials.json
