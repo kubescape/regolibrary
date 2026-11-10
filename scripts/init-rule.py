@@ -222,19 +222,19 @@ def define_args():
     parser.add_argument('--failed-paths',
                     type=str,
                     default='',
-                    help='failed paths you want to return from rego rule. Kept for compatibility: Kubescape does not read failedPaths as evidence, so also set --review-paths or --delete-paths.')
+                    help='failed paths you want to return from rego rule. Kept for compatibility: Kubescape does not read failedPaths as evidence, so also set --review-paths or --delete-paths. The value is written into the rule as it is, so quote each path as a Rego string, for example: --failed-paths \'"spec.hostNetwork"\'.')
     parser.add_argument('--review-paths',
                     type=str,
                     default='',
-                    help='review paths you want to return from rego rule: fields the user should look at. Kubescape shows them as evidence, with the current value.')
+                    help='review paths you want to return from rego rule: fields the user should look at. Kubescape shows them as evidence, with the current value. The value is written into the rule as it is, so quote each path as a Rego string and separate several with commas, for example: --review-paths \'"spec.hostNetwork"\' (without the quotes the rule gets a Rego reference, not a path).')
     parser.add_argument('--delete-paths',
                     type=str,
                     default='',
-                    help='delete paths you want to return from rego rule: fields to remove. Kubescape shows them as evidence.')
+                    help='delete paths you want to return from rego rule: fields to remove. Kubescape shows them as evidence, with the current value. Quote each path as a Rego string, as for --review-paths, for example: --delete-paths \'"spec.hostNetwork"\'.')
     parser.add_argument('--fix-paths',
                     type=str,
                     default='',
-                    help='fix paths you want to return from rego rule: fields to add, as {"path": ..., "value": ...} objects. Kubescape shows them as evidence.')
+                    help='fix paths you want to return from rego rule: fields to add, as {"path": ..., "value": ...} objects. Kubescape shows them as evidence, with the value the rule wants and not the current one. The value is written into the rule as it is, so write each object as Rego, for example: --fix-paths \'{"path": "spec.hostNetwork", "value": "false"}\'.')
     parser.add_argument('--fix-command',
                     type=str,
                     default='',

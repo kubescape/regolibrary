@@ -61,7 +61,7 @@ You can use the sample files below to setup your VS code environment for debuggi
 When adding a new rule, create a test for it.  
 All tests are run upon pushing, please make sure they all pass.    
 This mechanism will aggregate resources accordingly, and get the default config inputs as input automatically.  
-Tests compare the whole rule response with `expected.json`, so every field the rule emits has to be listed there, including `reviewPaths`, `deletePaths` and `fixPaths`.  
+Tests compare the rule's response with `expected.json` as `RuleResponse` values, so `expected.json` has to list each field of a `RuleResponse` that the rule emits, including `failedPaths`, `reviewPaths`, `deletePaths` and `fixPaths`. A field name that `RuleResponse` does not have, a misspelled `reviewPath` for example, is dropped when the response is decoded, so a test can pass without checking it. Check the spelling of path fields in both the rule and `expected.json`.  
 To run all tests:  `cd testrunner/ && go test -v rego_test.go -run TestAllRules`
 
 ## How to create a test
