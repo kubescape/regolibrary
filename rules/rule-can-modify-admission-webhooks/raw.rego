@@ -5,7 +5,7 @@ import rego.v1
 
 # fails if user can modify admission webhooks
 deny contains msga if {
-	verbs := ["create", "update", "delete", "*"]
+	verbs := ["create", "update", "patch", "delete", "deletecollection", "*"]
 	api_groups := ["admissionregistration.k8s.io", "*"]
 	resources := ["validatingwebhookconfigurations", "mutatingwebhookconfigurations", "*"]
 	subjectVector := input[_]
