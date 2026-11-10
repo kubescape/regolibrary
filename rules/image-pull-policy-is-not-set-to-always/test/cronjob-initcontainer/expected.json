@@ -1,0 +1,28 @@
+[
+    {
+        "alertMessage": "container: init-setup in cronjob: test  has 'latest' tag on image but imagePullPolicy is not set to 'Always'",
+        "reviewPaths": [
+            "spec.jobTemplate.spec.template.spec.initContainers[0].image",
+            "spec.jobTemplate.spec.template.spec.initContainers[0].imagePullPolicy"
+        ],
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.initContainers[0].image",
+            "spec.jobTemplate.spec.template.spec.initContainers[0].imagePullPolicy"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+spec:
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      initContainers:
+        - name: init-setup
+          image: debian
+          imagePullPolicy: IfNotPresent # We look for this
+      containers:
+        - name: app
+          image: nginx:1.27
+          imagePullPolicy: IfNotPresent
