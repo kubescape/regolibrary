@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-reads-aws
+spec:
+  containers:
+  - name: app
+    image: nginx
+  ephemeralContainers:
+  - name: debugger
+    image: busybox
+    volumeMounts:
+    - mountPath: /aws
+      name: aws-config
+  volumes:
+  - name: aws-config
+    hostPath:
+      path: /.aws/config

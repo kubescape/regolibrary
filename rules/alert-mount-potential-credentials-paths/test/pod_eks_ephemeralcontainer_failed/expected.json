@@ -1,0 +1,28 @@
+[
+    {
+        "alertMessage": "Pod: debug-reads-aws has: aws-config as volume with potential credentials access.",
+        "failedPaths": [
+            "spec.volumes[0]",
+            "spec.ephemeralContainers[0].volumeMounts[0]"
+        ],
+        "deletePaths": [
+            "spec.volumes[0]",
+            "spec.ephemeralContainers[0].volumeMounts[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "debug-reads-aws"
+                    }
+                }
+            ]
+        }
+    }
+]

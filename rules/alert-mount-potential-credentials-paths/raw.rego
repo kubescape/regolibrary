@@ -13,8 +13,10 @@ deny contains msga if {
 	volume := volumes[i]
 	start_of_path := spec_data.start_of_path
 	result := is_unsafe_paths(volume, start_of_path, provider, i)
-	volumeMounts := spec.containers[j].volumeMounts
-	pathMounts = volume_mounts(volume.name, volumeMounts, sprintf("%vcontainers[%d]", [start_of_path, j]))
+	containers_key := spec_data.containers_keys[_]
+	containers := object.get(spec, containers_key, [])
+	volumeMounts := containers[j].volumeMounts
+	pathMounts = volume_mounts(volume.name, volumeMounts, sprintf("%v%v[%d]", [start_of_path, containers_key, j]))
 	finalPath := array.concat([result], pathMounts)
 
 	msga := {
@@ -28,23 +30,35 @@ deny contains msga if {
 	}
 }
 
-# get_volume - get resource spec paths for {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+# get_pod_spec - get the pod spec, its path and its container arrays for {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 get_pod_spec(resources) := result if {
 	resources_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	resources_kinds[resources.kind]
-	result = {"spec": resources.spec.template.spec, "start_of_path": "spec.template.spec."}
+	result = {
+		"spec": resources.spec.template.spec,
+		"start_of_path": "spec.template.spec.",
+		"containers_keys": ["containers", "initContainers"],
+	}
 }
 
-# get_volume - get resource spec paths for "Pod"
+# get_pod_spec - get the pod spec, its path and its container arrays for "Pod"
 get_pod_spec(resources) := result if {
 	resources.kind == "Pod"
-	result = {"spec": resources.spec, "start_of_path": "spec."}
+	result = {
+		"spec": resources.spec,
+		"start_of_path": "spec.",
+		"containers_keys": ["containers", "initContainers", "ephemeralContainers"],
+	}
 }
 
-# get_volume - get resource spec paths for "CronJob"
+# get_pod_spec - get the pod spec, its path and its container arrays for "CronJob"
 get_pod_spec(resources) := result if {
 	resources.kind == "CronJob"
-	result = {"spec": resources.spec.jobTemplate.spec.template.spec, "start_of_path": "spec.jobTemplate.spec.template.spec."}
+	result = {
+		"spec": resources.spec.jobTemplate.spec.template.spec,
+		"start_of_path": "spec.jobTemplate.spec.template.spec.",
+		"containers_keys": ["containers", "initContainers"],
+	}
 }
 
 # is_unsafe_paths - looking for cloud provider (eks/gke/aks) paths that have the potential of accessing credentials

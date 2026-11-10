@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: init-reads-azure
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+          - name: init
+            image: mcr.microsoft.com/azure-cli
+            volumeMounts:
+            - mountPath: /host-kubernetes
+              name: host-kubernetes
+          containers:
+          - name: job
+            image: busybox
+          volumes:
+          - name: host-kubernetes
+            hostPath:
+              path: /etc/kubernetes
