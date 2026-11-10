@@ -250,7 +250,6 @@ def define_args():
                     default='',
                     help='attribute "actionRequired" you want to set on rule.metadata.json file.')
     parser.add_argument('--host-sensor-rule',
-                    type=bool,
                     default=False,
                     action=argparse.BooleanOptionalAction,
                     help='attribute "hostSensorRule" you want to set on rule.metadata.json file.')
@@ -263,7 +262,6 @@ def define_args():
                     default='',
                     help='attribute "useUntilKubescapeVersion" you want to set on rule.metadata.json file.')
     parser.add_argument('--image-scan-related',
-                    type=bool,
                     default=False,
                     action=argparse.BooleanOptionalAction,
                     help='attribute "imageScanRelated" you want to set on rule.metadata.json file.')
