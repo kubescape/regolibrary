@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "container: init-setup in Deployment: test  have sudo in entrypoint",
+        "fixPaths": [],
+        "reviewPaths": [
+            "spec.template.spec.initContainers[0].command[0]"
+        ],
+        "failedPaths": [
+            "spec.template.spec.initContainers[0].command[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "container: init-setup in cronjob: test  have sudo in entrypoint",
+        "fixPaths": [],
+        "reviewPaths": [
+            "spec.jobTemplate.spec.template.spec.initContainers[0].command[0]"
+        ],
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.initContainers[0].command[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

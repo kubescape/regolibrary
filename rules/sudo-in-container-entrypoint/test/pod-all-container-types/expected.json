@@ -1,0 +1,74 @@
+[
+    {
+        "alertMessage": "container: app in pod: test  have sudo in entrypoint",
+        "fixPaths": [],
+        "reviewPaths": [
+            "spec.containers[0].command[0]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].command[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "container: init-setup in pod: test  have sudo in entrypoint",
+        "fixPaths": [],
+        "reviewPaths": [
+            "spec.initContainers[0].command[0]"
+        ],
+        "failedPaths": [
+            "spec.initContainers[0].command[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "container: debug in pod: test  have sudo in entrypoint",
+        "fixPaths": [],
+        "reviewPaths": [
+            "spec.ephemeralContainers[0].command[1]"
+        ],
+        "failedPaths": [
+            "spec.ephemeralContainers[0].command[1]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]
