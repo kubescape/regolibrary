@@ -61,7 +61,7 @@ You can use the sample files below to setup your VS code environment for debuggi
 When adding a new rule, create a test for it.  
 All tests are run upon pushing, please make sure they all pass.    
 This mechanism will aggregate resources accordingly, and get the default config inputs as input automatically.  
-Currently, tests compare the `k8sApiObjects`, `externalObjects`, `failedPaths`, and `RuleStatus` fields.  
+Tests compare the whole rule response with `expected.json`, so every field the rule emits has to be listed there, including `reviewPaths`, `deletePaths` and `fixPaths`.  
 To run all tests:  `cd testrunner/ && go test -v rego_test.go -run TestAllRules`
 
 ## How to create a test
