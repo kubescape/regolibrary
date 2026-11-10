@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: windows-pod-debug
+spec:
+  os:
+    name: windows
+  containers:
+  - name: app
+    image: mcr.microsoft.com/windows/servercore:ltsc2019
+    securityContext:
+      windowsOptions:
+        runAsUserName: "ContainerUser"
+  ephemeralContainers:
+  - name: debugger
+    image: mcr.microsoft.com/windows/servercore:ltsc2019

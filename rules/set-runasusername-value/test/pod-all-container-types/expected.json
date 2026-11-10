@@ -1,0 +1,74 @@
+[
+    {
+        "alertMessage": "Pod: windows-pod-all does not define 'securityContext.windowsOptions.runAsUserName'",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].securityContext.windowsOptions.runAsUserName",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "windows-pod-all"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Pod: windows-pod-all does not define 'securityContext.windowsOptions.runAsUserName'",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.ephemeralContainers[0].securityContext.windowsOptions.runAsUserName",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "windows-pod-all"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Pod: windows-pod-all does not define 'securityContext.windowsOptions.runAsUserName'",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.initContainers[0].securityContext.windowsOptions.runAsUserName",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "windows-pod-all"
+                    }
+                }
+            ]
+        }
+    }
+]
