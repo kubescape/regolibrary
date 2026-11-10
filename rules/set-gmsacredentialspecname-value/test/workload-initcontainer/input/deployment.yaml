@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: windows-deployment-init
+spec:
+  selector:
+    matchLabels:
+      app: windows-deployment-init
+  template:
+    metadata:
+      labels:
+        app: windows-deployment-init
+    spec:
+      os:
+        name: windows
+      initContainers:
+      - name: init
+        image: mcr.microsoft.com/windows/servercore:ltsc2019
+      containers:
+      - name: app
+        image: mcr.microsoft.com/windows/servercore:ltsc2019
+        securityContext:
+          windowsOptions:
+            gmsaCredentialSpecName: "gmsa-webapp"

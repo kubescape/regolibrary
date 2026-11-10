@@ -6,13 +6,14 @@ import rego.v1
 # Fails if a Windows pod does not define gmsaCredentialSpecName
 deny contains msga if {
 	path_to_search := ["securityContext", "windowsOptions", "gmsaCredentialSpecName"]
-	path_to_containers := ["spec", "containers"]
+	paths_to_containers := {["spec", "containers"], ["spec", "initContainers"], ["spec", "ephemeralContainers"]}
 	wl := input[_]
 	wl.kind == "Pod"
 	spec := wl.spec
 	is_windows_workload(spec)
 	no_field_in_securityContext(spec, path_to_search)
 
+	path_to_containers := paths_to_containers[_]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 	no_field_in_securityContext(container, path_to_search)
@@ -34,13 +35,14 @@ deny contains msga if {
 deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	path_to_search := ["securityContext", "windowsOptions", "gmsaCredentialSpecName"]
-	path_to_containers := ["spec", "template", "spec", "containers"]
+	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
 	spec := wl.spec.template.spec
 	is_windows_workload(spec)
 	no_field_in_securityContext(spec, path_to_search)
 
+	path_to_containers := paths_to_containers[_]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 	no_field_in_securityContext(container, path_to_search)
@@ -61,13 +63,17 @@ deny contains msga if {
 # Fails if a Windows CronJob does not define gmsaCredentialSpecName
 deny contains msga if {
 	path_to_search := ["securityContext", "windowsOptions", "gmsaCredentialSpecName"]
-	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
+	paths_to_containers := {
+		["spec", "jobTemplate", "spec", "template", "spec", "containers"],
+		["spec", "jobTemplate", "spec", "template", "spec", "initContainers"],
+	}
 	wl := input[_]
 	wl.kind == "CronJob"
 	spec := wl.spec.jobTemplate.spec.template.spec
 	is_windows_workload(spec)
 	no_field_in_securityContext(spec, path_to_search)
 
+	path_to_containers := paths_to_containers[_]
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 	no_field_in_securityContext(container, path_to_search)
