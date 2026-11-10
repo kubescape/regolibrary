@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-reads-aws
+spec:
+  initContainers:
+  - name: init
+    image: busybox
+    volumeMounts:
+    - mountPath: /work
+      name: scratch
+  containers:
+  - name: app
+    image: nginx
+    volumeMounts:
+    - mountPath: /root/.aws
+      name: aws
+  volumes:
+  - name: scratch
+    emptyDir: {}
+  - name: aws
+    hostPath:
+      path: /.aws/

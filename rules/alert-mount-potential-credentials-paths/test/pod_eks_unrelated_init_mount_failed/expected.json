@@ -1,0 +1,28 @@
+[
+    {
+        "alertMessage": "Pod: app-reads-aws has: aws as volume with potential credentials access.",
+        "failedPaths": [
+            "spec.volumes[1]",
+            "spec.containers[0].volumeMounts[0]"
+        ],
+        "deletePaths": [
+            "spec.volumes[1]",
+            "spec.containers[0].volumeMounts[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "app-reads-aws"
+                    }
+                }
+            ]
+        }
+    }
+]

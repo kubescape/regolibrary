@@ -17,6 +17,7 @@ deny contains msga if {
 	containers := object.get(spec, containers_key, [])
 	volumeMounts := containers[j].volumeMounts
 	pathMounts = volume_mounts(volume.name, volumeMounts, sprintf("%v%v[%d]", [start_of_path, containers_key, j]))
+	reports_volume(containers_key, pathMounts)
 	finalPath := array.concat([result], pathMounts)
 
 	msga := {
@@ -60,6 +61,13 @@ get_pod_spec(resources) := result if {
 		"containers_keys": ["containers", "initContainers"],
 	}
 }
+
+# reports_volume - regular containers report the unsafe volume even when they do not mount it
+# themselves (the rule's existing behaviour); init and ephemeral containers only report it
+# when they mount it, so an unrelated mount there does not add a second volume-only alert.
+reports_volume("containers", _) := true
+
+reports_volume(_, path_mounts) if count(path_mounts) > 0
 
 # is_unsafe_paths - looking for cloud provider (eks/gke/aks) paths that have the potential of accessing credentials
 is_unsafe_paths(volume, start_of_path, provider, i) := result if {
