@@ -165,19 +165,22 @@ Example of rule.metadata.json:
     ```rego
     package armo_builtins
 
-    deny[msga] {
+    import rego.v1
+
+    deny contains msga if {
 
         pod := input[_]
         pod.kind == "Pod"
         container := pod.spec.containers[i]
         container.securityContext.privileged == true
-        path := sprintf("containers[%d].securityContext.privileged", [i])
+        path := sprintf("spec.containers[%d].securityContext.privileged", [i])
 
         msga := {
             "alertMessage": sprintf("pod: %v is defined as privileged", [pod.metadata.name]),
             "packagename": "armo_builtins",
             "fixPaths": [],
-            "failedPaths": path,
+            "failedPaths": [path],
+            "reviewPaths": [path],
             "alertObject": {
                 "k8sApiObjects": [pod]
             }
@@ -185,6 +188,8 @@ Example of rule.metadata.json:
     }
     ```
     Use [opa rego reference](https://www.openpolicyagent.org/docs/latest/policy-reference/) for help with syntax
+
+    **Evidence paths.** `reviewPaths`, `deletePaths` and `fixPaths` are what Kubescape shows as evidence for a failed control: the path, its line in the manifest, and a value. For `reviewPaths` and `deletePaths` the value is the field's current value. For `fixPaths` it is the value the rule wants, not what the manifest holds, so a fix path can name a field that does not exist yet. Use `reviewPaths` for a field the user should look at, `deletePaths` for a field to remove, and `fixPaths` (a list of `{"path": ..., "value": ...}` objects) for a field that has to be added. Kubescape does not read `failedPaths`, so a path that is only there produces no evidence. It is kept in the example for compatibility. Each path is a list element, and it starts at the root of the resource named in `alertObject`: `spec.containers[0]...` for a Pod, but `spec.template.spec.containers[0]...` for a Deployment. See the [evidence guide](https://github.com/kubescape/kubescape/blob/master/docs/evidence-contract.md) for the path syntax and for how to check what a rule shows.
 
     See structure of a [rule response](https://github.com/kubescape/opa-utils/blob/master/reporthandling/datastructuresv1.go#L23)
 

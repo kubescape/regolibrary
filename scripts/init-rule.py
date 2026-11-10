@@ -24,6 +24,8 @@ msga = """{{
     	"packagename": "armo_builtins",
     	"alertScore": {alert_score},
     	"failedPaths": [{failed_paths}],
+    	"reviewPaths": [{review_paths}],
+    	"deletePaths": [{delete_paths}],
     	"fixPaths":[{fix_paths}],
         "fixCommand": "{fix_command}",
     	"alertObject": {{
@@ -35,7 +37,9 @@ msga = """{{
 raw_rego = """
 package armo_builtins
 
-deny[msga] {{
+import rego.v1
+
+deny contains msga if {{
 
 	msga := {}
 }}
@@ -88,17 +92,19 @@ def generate_alert_object(alert_object):
     else:
         return ""
 
-def create_expected_file(dirpath, test_name, alert_message, alert_score, failed_paths, fix_paths, fix_command, alert_object):
+def create_expected_file(dirpath, test_name, alert_message, alert_score, failed_paths, review_paths, delete_paths, fix_paths, fix_command, alert_object):
     with open(dirpath + '/' + 'expected.json', 'w') as f:
         f.write(generate_expected_file(test_name,
                             alert_message,
                             alert_score,
                             failed_paths,
+                            review_paths,
+                            delete_paths,
                             fix_paths,
                             fix_command,
                             alert_object))
 
-def generate_expected_file(test_name, alert_message, alert_score, failed_paths, fix_paths, fix_command, alert_object):
+def generate_expected_file(test_name, alert_message, alert_score, failed_paths, review_paths, delete_paths, fix_paths, fix_command, alert_object):
     # return empty expected if we are checking for success.
     if "success" in test_name:
         return exptected.format("")
@@ -106,6 +112,8 @@ def generate_expected_file(test_name, alert_message, alert_score, failed_paths, 
         return exptected.format(msga.format(alert_message=alert_message,
                             alert_score=alert_score,
                             failed_paths=failed_paths,
+                            review_paths=review_paths,
+                            delete_paths=delete_paths,
                             fix_paths=fix_paths,
                             fix_command=fix_command,
                             alert_object=generate_alert_object(alert_object)))
@@ -152,20 +160,24 @@ def generate_rule_metadata_file(rule_name, action_required, host_sensor_rule, us
 
 # create_raw_rego_file create the raw.rego file undert the rule directory path specified.
 # it uses generate_raw_rego to render the raw.rego file with custom values.
-def create_raw_rego_file(dirpath, alert_message, alert_score, failed_paths, fix_paths, fix_command, alert_object):
+def create_raw_rego_file(dirpath, alert_message, alert_score, failed_paths, review_paths, delete_paths, fix_paths, fix_command, alert_object):
     with open(dirpath + '/' + 'raw.rego', 'w') as f:
         f.write(generate_raw_rego(alert_message,
                             alert_score,
                             failed_paths,
+                            review_paths,
+                            delete_paths,
                             fix_paths,
                             fix_command,
                             alert_object))
 
 
-def generate_raw_rego(alert_message, alert_score, failed_paths, fix_paths, fix_command, alert_object):
+def generate_raw_rego(alert_message, alert_score, failed_paths, review_paths, delete_paths, fix_paths, fix_command, alert_object):
     return raw_rego.format(msga.format(alert_message=alert_message,
                             alert_score=alert_score,
                             failed_paths=failed_paths,
+                            review_paths=review_paths,
+                            delete_paths=delete_paths,
                             fix_paths=fix_paths,
                             fix_command=fix_command,
                             alert_object=generate_alert_object(alert_object)))
@@ -210,11 +222,19 @@ def define_args():
     parser.add_argument('--failed-paths',
                     type=str,
                     default='',
-                    help='failed paths you want to return from rego rule.')
+                    help='failed paths you want to return from rego rule. Kept for compatibility: Kubescape does not read failedPaths as evidence, so also set --review-paths or --delete-paths. The value is written into the rule as it is, so quote each path as a Rego string, for example: --failed-paths \'"spec.hostNetwork"\'.')
+    parser.add_argument('--review-paths',
+                    type=str,
+                    default='',
+                    help='review paths you want to return from rego rule: fields the user should look at. Kubescape shows them as evidence, with the current value. The value is written into the rule as it is, so quote each path as a Rego string and separate several with commas, for example: --review-paths \'"spec.hostNetwork"\' (without the quotes the rule gets a Rego reference, not a path).')
+    parser.add_argument('--delete-paths',
+                    type=str,
+                    default='',
+                    help='delete paths you want to return from rego rule: fields to remove. Kubescape shows them as evidence, with the current value. Quote each path as a Rego string, as for --review-paths, for example: --delete-paths \'"spec.hostNetwork"\'.')
     parser.add_argument('--fix-paths',
                     type=str,
                     default='',
-                    help='fix paths you want to return from rego rule.')
+                    help='fix paths you want to return from rego rule: fields to add, as {"path": ..., "value": ...} objects. Kubescape shows them as evidence, with the value the rule wants and not the current one. The value is written into the rule as it is, so write each object as Rego, for example: --fix-paths \'{"path": "spec.hostNetwork", "value": "false"}\'.')
     parser.add_argument('--fix-command',
                     type=str,
                     default='',
@@ -230,7 +250,6 @@ def define_args():
                     default='',
                     help='attribute "actionRequired" you want to set on rule.metadata.json file.')
     parser.add_argument('--host-sensor-rule',
-                    type=bool,
                     default=False,
                     action=argparse.BooleanOptionalAction,
                     help='attribute "hostSensorRule" you want to set on rule.metadata.json file.')
@@ -243,7 +262,6 @@ def define_args():
                     default='',
                     help='attribute "useUntilKubescapeVersion" you want to set on rule.metadata.json file.')
     parser.add_argument('--image-scan-related',
-                    type=bool,
                     default=False,
                     action=argparse.BooleanOptionalAction,
                     help='attribute "imageScanRelated" you want to set on rule.metadata.json file.')
@@ -280,6 +298,8 @@ def main():
                             args.alert_message,
                             args.alert_score,
                             args.failed_paths,
+                            args.review_paths,
+                            args.delete_paths,
                             args.fix_paths,
                             args.fix_command,
                             args.alert_object)
@@ -308,6 +328,8 @@ def main():
                             args.alert_message,
                             args.alert_score,
                             args.failed_paths,
+                            args.review_paths,
+                            args.delete_paths,
                             args.fix_paths,
                             args.fix_command,
                             args.alert_object)
