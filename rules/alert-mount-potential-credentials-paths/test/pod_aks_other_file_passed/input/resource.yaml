@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: reads-other-file
+spec:
+  containers:
+  - name: app
+    image: nginx
+    volumeMounts:
+    - mountPath: /etc/hosts-copy
+      name: hosts
+  volumes:
+  - name: hosts
+    hostPath:
+      path: /etc/kubernetes/manifests.yaml
+      type: File

@@ -13,8 +13,11 @@ deny contains msga if {
 	volume := volumes[i]
 	start_of_path := spec_data.start_of_path
 	result := is_unsafe_paths(volume, start_of_path, provider, i)
-	volumeMounts := spec.containers[j].volumeMounts
-	pathMounts = volume_mounts(volume.name, volumeMounts, sprintf("%vcontainers[%d]", [start_of_path, j]))
+	containers_key := spec_data.containers_keys[_]
+	containers := object.get(spec, containers_key, [])
+	volumeMounts := containers[j].volumeMounts
+	pathMounts = volume_mounts(volume.name, volumeMounts, sprintf("%v%v[%d]", [start_of_path, containers_key, j]))
+	reports_volume(containers_key, pathMounts)
 	finalPath := array.concat([result], pathMounts)
 
 	msga := {
@@ -28,24 +31,43 @@ deny contains msga if {
 	}
 }
 
-# get_volume - get resource spec paths for {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+# get_pod_spec - get the pod spec, its path and its container arrays for {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 get_pod_spec(resources) := result if {
 	resources_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	resources_kinds[resources.kind]
-	result = {"spec": resources.spec.template.spec, "start_of_path": "spec.template.spec."}
+	result = {
+		"spec": resources.spec.template.spec,
+		"start_of_path": "spec.template.spec.",
+		"containers_keys": ["containers", "initContainers"],
+	}
 }
 
-# get_volume - get resource spec paths for "Pod"
+# get_pod_spec - get the pod spec, its path and its container arrays for "Pod"
 get_pod_spec(resources) := result if {
 	resources.kind == "Pod"
-	result = {"spec": resources.spec, "start_of_path": "spec."}
+	result = {
+		"spec": resources.spec,
+		"start_of_path": "spec.",
+		"containers_keys": ["containers", "initContainers", "ephemeralContainers"],
+	}
 }
 
-# get_volume - get resource spec paths for "CronJob"
+# get_pod_spec - get the pod spec, its path and its container arrays for "CronJob"
 get_pod_spec(resources) := result if {
 	resources.kind == "CronJob"
-	result = {"spec": resources.spec.jobTemplate.spec.template.spec, "start_of_path": "spec.jobTemplate.spec.template.spec."}
+	result = {
+		"spec": resources.spec.jobTemplate.spec.template.spec,
+		"start_of_path": "spec.jobTemplate.spec.template.spec.",
+		"containers_keys": ["containers", "initContainers"],
+	}
 }
+
+# reports_volume - regular containers report the unsafe volume even when they do not mount it
+# themselves (the rule's existing behaviour); init and ephemeral containers only report it
+# when they mount it, so an unrelated mount there does not add a second volume-only alert.
+reports_volume("containers", _) := true
+
+reports_volume(_, path_mounts) if count(path_mounts) > 0
 
 # is_unsafe_paths - looking for cloud provider (eks/gke/aks) paths that have the potential of accessing credentials
 is_unsafe_paths(volume, start_of_path, provider, i) := result if {
@@ -57,7 +79,7 @@ is_unsafe_paths(volume, start_of_path, provider, i) := result if {
 # fix_path - adding "/" at the end of the path if doesn't exist and if not a file path.
 fix_path(path) := result if {
 	# filter file path
-	not regex.match(`[\\w-]+\\.`, path)
+	not regex.match(`[\w-]+\.`, path)
 
 	# filter path that doesn't end with "/"
 	not endswith(path, "/")

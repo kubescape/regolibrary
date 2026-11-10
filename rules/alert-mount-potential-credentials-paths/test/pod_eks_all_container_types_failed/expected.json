@@ -1,0 +1,80 @@
+[
+    {
+        "alertMessage": "Pod: all-read-aws has: aws as volume with potential credentials access.",
+        "failedPaths": [
+            "spec.volumes[0]",
+            "spec.containers[0].volumeMounts[0]"
+        ],
+        "deletePaths": [
+            "spec.volumes[0]",
+            "spec.containers[0].volumeMounts[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "all-read-aws"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Pod: all-read-aws has: aws as volume with potential credentials access.",
+        "failedPaths": [
+            "spec.volumes[0]",
+            "spec.ephemeralContainers[0].volumeMounts[0]"
+        ],
+        "deletePaths": [
+            "spec.volumes[0]",
+            "spec.ephemeralContainers[0].volumeMounts[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "all-read-aws"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "Pod: all-read-aws has: aws as volume with potential credentials access.",
+        "failedPaths": [
+            "spec.volumes[0]",
+            "spec.initContainers[0].volumeMounts[0]"
+        ],
+        "deletePaths": [
+            "spec.volumes[0]",
+            "spec.initContainers[0].volumeMounts[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "all-read-aws"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: all-read-aws
+spec:
+  initContainers:
+  - name: init
+    image: busybox
+    volumeMounts:
+    - mountPath: /aws
+      name: aws
+  containers:
+  - name: app
+    image: nginx
+    volumeMounts:
+    - mountPath: /aws
+      name: aws
+  ephemeralContainers:
+  - name: debugger
+    image: busybox
+    volumeMounts:
+    - mountPath: /aws
+      name: aws
+  volumes:
+  - name: aws
+    hostPath:
+      path: /.aws/

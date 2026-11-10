@@ -1,0 +1,28 @@
+[
+    {
+        "alertMessage": "CronJob: init-reads-azure has: host-kubernetes as volume with potential credentials access.",
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.volumes[0]",
+            "spec.jobTemplate.spec.template.spec.initContainers[0].volumeMounts[0]"
+        ],
+        "deletePaths": [
+            "spec.jobTemplate.spec.template.spec.volumes[0]",
+            "spec.jobTemplate.spec.template.spec.initContainers[0].volumeMounts[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "init-reads-azure"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,28 @@
+[
+    {
+        "alertMessage": "Deployment: init-reads-gcloud has: gcloud as volume with potential credentials access.",
+        "failedPaths": [
+            "spec.template.spec.volumes[0]",
+            "spec.template.spec.initContainers[0].volumeMounts[0]"
+        ],
+        "deletePaths": [
+            "spec.template.spec.volumes[0]",
+            "spec.template.spec.initContainers[0].volumeMounts[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "init-reads-gcloud"
+                    }
+                }
+            ]
+        }
+    }
+]

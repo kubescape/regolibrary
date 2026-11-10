@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: init-reads-gcloud
+spec:
+  selector:
+    matchLabels:
+      app: init-reads-gcloud
+  template:
+    metadata:
+      labels:
+        app: init-reads-gcloud
+    spec:
+      initContainers:
+      - name: init
+        image: google/cloud-sdk
+        volumeMounts:
+        - mountPath: /root/.config/gcloud
+          name: gcloud
+      containers:
+      - name: app
+        image: nginx
+      volumes:
+      - name: gcloud
+        hostPath:
+          path: /.config/gcloud
