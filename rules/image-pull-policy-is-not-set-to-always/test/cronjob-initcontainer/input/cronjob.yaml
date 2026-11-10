@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: init-setup
+              image: debian:latest
+              imagePullPolicy: IfNotPresent # We look for this
+          containers:
+            - name: hello
+              image: busybox:1.37
+              imagePullPolicy: IfNotPresent

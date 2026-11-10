@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test
+spec:
+  initContainers:
+    - name: init-setup
+      image: debian
+      command: ["sudo chown -R 1000 /data"] # We look for this
+  containers:
+    - name: app
+      image: nginx
+      command: ["sudo nginx"] # We look for this
+  ephemeralContainers:
+    - name: debug
+      image: busybox
+      command: ["/bin/sh", "sudo -i"] # We look for this

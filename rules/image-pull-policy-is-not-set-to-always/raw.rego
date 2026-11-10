@@ -4,11 +4,14 @@ package armo_builtins
 import rego.v1
 
 deny contains msga if {
+	paths_to_containers := {["spec", "containers"], ["spec", "initContainers"], ["spec", "ephemeralContainers"]}
+	path_to_containers := paths_to_containers[_]
 	pod := input[_]
 	pod.kind == "Pod"
-	container := pod.spec.containers[i]
+	containers := object.get(pod, path_to_containers, [])
+	container := containers[i]
 	is_bad_container(container)
-	paths = [sprintf("spec.containers[%v].image", [format_int(i, 10)]), sprintf("spec.containers[%v].imagePullPolicy", [format_int(i, 10)])]
+	paths = container_paths("spec.", path_to_containers, i)
 	msga := {
 		"alertMessage": sprintf("container: %v in pod: %v  has 'latest' tag on image but imagePullPolicy is not set to 'Always'", [container.name, pod.metadata.name]),
 		"packagename": "armo_builtins",
@@ -22,10 +25,13 @@ deny contains msga if {
 
 deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[i]
-	paths = [sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)]), sprintf("spec.template.spec.containers[%v].imagePullPolicy", [format_int(i, 10)])]
+	containers := object.get(wl, path_to_containers, [])
+	container := containers[i]
+	paths = container_paths("spec.template.spec.", path_to_containers, i)
 	is_bad_container(container)
 	msga := {
 		"alertMessage": sprintf("container: %v in %v: %v  has 'latest' tag on image but imagePullPolicy is not set to 'Always'", [container.name, wl.kind, wl.metadata.name]),
@@ -39,10 +45,13 @@ deny contains msga if {
 }
 
 deny contains msga if {
+	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "containers"], ["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	wl.kind == "CronJob"
-	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
-	paths = [sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)]), sprintf("spec.jobTemplate.spec.template.spec.containers[%v].imagePullPolicy", [format_int(i, 10)])]
+	containers := object.get(wl, path_to_containers, [])
+	container := containers[i]
+	paths = container_paths("spec.jobTemplate.spec.template.spec.", path_to_containers, i)
 	is_bad_container(container)
 	msga := {
 		"alertMessage": sprintf("container: %v in cronjob: %v  has 'latest' tag on image but imagePullPolicy is not set to 'Always'", [container.name, wl.metadata.name]),
@@ -53,6 +62,14 @@ deny contains msga if {
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [wl]},
 	}
+}
+
+# container_paths - image and imagePullPolicy paths of container i in the given container array
+container_paths(start_of_path, path_to_containers, i) := [
+	sprintf("%v%v[%v].image", [start_of_path, container_type, format_int(i, 10)]),
+	sprintf("%v%v[%v].imagePullPolicy", [start_of_path, container_type, format_int(i, 10)]),
+] if {
+	container_type := path_to_containers[count(path_to_containers) - 1]
 }
 
 # image tag is latest
