@@ -3,14 +3,17 @@ package armo_builtins
 
 import rego.v1
 
+# Ephemeral containers are excluded because Kubernetes forbids their resources field.
+
 # Check if container has limits
 deny contains msga if {
 	start_of_path := "spec."
 	pods := [pod | pod = input[_]; pod.kind == "Pod"]
 	pod := pods[_]
-	container := pod.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container := pod.spec[container_type][i]
 
-	fixPath := is_no_cpu_and_memory_limits_defined(container, start_of_path, i)
+	fixPath := is_no_cpu_and_memory_limits_defined(container, start_of_path, container_type, i)
 
 	msga := {
 		"alertMessage": sprintf("there are no cpu and memory  limits defined for container : %v", [container.name]),
@@ -30,9 +33,10 @@ deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
-	container := wl.spec.template.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container := wl.spec.template.spec[container_type][i]
 
-	fixPath := is_no_cpu_and_memory_limits_defined(container, start_of_path, i)
+	fixPath := is_no_cpu_and_memory_limits_defined(container, start_of_path, container_type, i)
 
 	msga := {
 		"alertMessage": sprintf("there are no cpu and memory limits defined for container : %v", [container.name]),
@@ -51,9 +55,10 @@ deny contains msga if {
 	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
-	container := wl.spec.jobTemplate.spec.template.spec.containers[i]
+	some container_type in {"containers", "initContainers"}
+	container := wl.spec.jobTemplate.spec.template.spec[container_type][i]
 
-	fixPath := is_no_cpu_and_memory_limits_defined(container, start_of_path, i)
+	fixPath := is_no_cpu_and_memory_limits_defined(container, start_of_path, container_type, i)
 
 	msga := {
 		"alertMessage": sprintf("there are no cpu and memory limits defined for container : %v", [container.name]),
@@ -66,32 +71,32 @@ deny contains msga if {
 }
 
 # no limits at all
-is_no_cpu_and_memory_limits_defined(container, start_of_path, i) := fixPath if {
+is_no_cpu_and_memory_limits_defined(container, start_of_path, container_type, i) := fixPath if {
 	not container.resources.limits
-	fixPath = [{"path": sprintf("%vcontainers[%v].resources.limits.cpu", [start_of_path, format_int(i, 10)]), "value": "YOUR_VALUE"}, {"path": sprintf("%vcontainers[%v].resources.limits.memory", [start_of_path, format_int(i, 10)]), "value": "YOUR_VALUE"}]
+	fixPath = [{"path": sprintf("%v%v[%v].resources.limits.cpu", [start_of_path, container_type, format_int(i, 10)]), "value": "YOUR_VALUE"}, {"path": sprintf("%v%v[%v].resources.limits.memory", [start_of_path, container_type, format_int(i, 10)]), "value": "YOUR_VALUE"}]
 }
 
 # only memory limit
-is_no_cpu_and_memory_limits_defined(container, start_of_path, i) := fixPath if {
+is_no_cpu_and_memory_limits_defined(container, start_of_path, container_type, i) := fixPath if {
 	container.resources.limits
 	not container.resources.limits.cpu
 	container.resources.limits.memory
-	fixPath = [{"path": sprintf("%vcontainers[%v].resources.limits.cpu", [start_of_path, format_int(i, 10)]), "value": "YOUR_VALUE"}]
+	fixPath = [{"path": sprintf("%v%v[%v].resources.limits.cpu", [start_of_path, container_type, format_int(i, 10)]), "value": "YOUR_VALUE"}]
 }
 
 # only cpu limit
-is_no_cpu_and_memory_limits_defined(container, start_of_path, i) := fixPath if {
+is_no_cpu_and_memory_limits_defined(container, start_of_path, container_type, i) := fixPath if {
 	container.resources.limits
 	not container.resources.limits.memory
 	container.resources.limits.cpu
-	fixPath = [{"path": sprintf("%vcontainers[%v].resources.limits.memory", [start_of_path, format_int(i, 10)]), "value": "YOUR_VALUE"}]
+	fixPath = [{"path": sprintf("%v%v[%v].resources.limits.memory", [start_of_path, container_type, format_int(i, 10)]), "value": "YOUR_VALUE"}]
 	failed_path = ""
 }
 
 # limits but without capu and memory
-is_no_cpu_and_memory_limits_defined(container, start_of_path, i) := fixPath if {
+is_no_cpu_and_memory_limits_defined(container, start_of_path, container_type, i) := fixPath if {
 	container.resources.limits
 	not container.resources.limits.memory
 	not container.resources.limits.cpu
-	fixPath = [{"path": sprintf("%vcontainers[%v].resources.limits.cpu", [start_of_path, format_int(i, 10)]), "value": "YOUR_VALUE"}, {"path": sprintf("%vcontainers[%v].resources.limits.memory", [start_of_path, format_int(i, 10)]), "value": "YOUR_VALUE"}]
+	fixPath = [{"path": sprintf("%v%v[%v].resources.limits.cpu", [start_of_path, container_type, format_int(i, 10)]), "value": "YOUR_VALUE"}, {"path": sprintf("%v%v[%v].resources.limits.memory", [start_of_path, container_type, format_int(i, 10)]), "value": "YOUR_VALUE"}]
 }

@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-pod
+spec:
+  initContainers:
+  - name: migrate
+    image: images.my-company.example/migrate:v1
+  - name: proxy
+    image: images.my-company.example/proxy:v2
+    restartPolicy: Always
+    resources:
+      limits:
+        cpu: "250m"
+  containers:
+  - name: app
+    image: images.my-company.example/app:v4
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+  ephemeralContainers:
+  - name: debugger
+    image: busybox:1.36
