@@ -36,6 +36,7 @@ are_unsafe_specs(obj, specs_path) := paths if {
 	# spec
 	specs := object.get(obj, specs_path, null)
 	specs != null
+	not is_windows_pod(specs)
 
 	# Check both regular containers and initContainers
 	fix_fields := ["seccompProfile"]
@@ -78,4 +79,11 @@ are_unsafe_specs(obj, specs_path) := paths if {
 is_unsafe_container(pod_spec, container) if {
 	not pod_spec.securityContext.seccompProfile
 	not container.securityContext.seccompProfile
+}
+
+# The API server rejects seccompProfile, seLinuxOptions, appArmorProfile and capabilities in a pod with spec.os.name set to windows
+# (validateWindows in pkg/apis/core/validation), so such a pod can't apply the
+# fix and is not evaluated here.
+is_windows_pod(spec) if {
+	spec.os.name == "windows"
 }

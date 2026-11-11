@@ -10,6 +10,7 @@ deny contains msga if {
 	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	wl.kind == "Pod"
+	not is_windows_pod(wl.spec)
 	wl_spec := wl.spec
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
@@ -36,6 +37,7 @@ deny contains msga if {
 	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
+	not is_windows_pod(wl.spec.template.spec)
 	wl_spec := wl.spec.template.spec
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
@@ -61,6 +63,7 @@ deny contains msga if {
 	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	wl.kind == "CronJob"
+	not is_windows_pod(wl.spec.jobTemplate.spec.template.spec)
 	wl_spec := wl.spec.jobTemplate.spec.template.spec
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
@@ -106,4 +109,11 @@ fix_path_for_container(path_to_containers, i, path_to_search) := [] if {
 
 fix_path_for_container(path_to_containers, i, path_to_search) := [{"path": sprintf("%s[%d].%s", [concat(".", path_to_containers), i, concat(".", path_to_search)]), "value": "RuntimeDefault"}] if {
 	path_to_containers[count(path_to_containers) - 1] != "ephemeralContainers"
+}
+
+# The API server rejects seccompProfile in a pod with spec.os.name set to windows
+# (validateWindows in pkg/apis/core/validation), so such a pod can't apply the
+# fix and is not evaluated here.
+is_windows_pod(spec) if {
+	spec.os.name == "windows"
 }
