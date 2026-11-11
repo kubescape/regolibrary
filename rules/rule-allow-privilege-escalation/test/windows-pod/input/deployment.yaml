@@ -13,6 +13,9 @@ spec:
     spec:
       os:
         name: windows
+      initContainers:
+      - name: init
+        image: mcr.microsoft.com/windows/nanoserver:ltsc2022
       containers:
       - name: iis
         image: mcr.microsoft.com/windows/servercore/iis:windowsservercore-ltsc2022

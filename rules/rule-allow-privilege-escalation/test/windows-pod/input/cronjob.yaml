@@ -11,6 +11,9 @@ spec:
           os:
             name: windows
           restartPolicy: OnFailure
+          initContainers:
+          - name: init
+            image: mcr.microsoft.com/windows/nanoserver:ltsc2022
           containers:
           - name: cleanup
             image: mcr.microsoft.com/windows/nanoserver:ltsc2022

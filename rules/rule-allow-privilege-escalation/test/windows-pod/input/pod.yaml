@@ -15,3 +15,6 @@ spec:
       runAsNonRoot: true
       windowsOptions:
         runAsUserName: ContainerUser
+  ephemeralContainers:
+  - name: debugger
+    image: mcr.microsoft.com/windows/nanoserver:ltsc2022
