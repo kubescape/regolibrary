@@ -5,7 +5,8 @@ import rego.v1
 
 # fails if user can approve certificate signing requests
 deny contains msga if {
-	verbs := ["update", "*"]
+	# the approval subresource accepts PATCH as well as PUT
+	verbs := ["update", "patch", "*"]
 	api_groups := ["certificates.k8s.io", "*"]
 	resources := ["certificatesigningrequests/approval", "*/approval", "*"]
 	subjectVector := input[_]
