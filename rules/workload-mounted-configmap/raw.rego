@@ -15,7 +15,7 @@ deny contains msga if {
 	configMap.metadata.name == volume.configMap.name
 	is_same_namespace(configMap.metadata, resource.metadata)
 
-	containers_path := get_containers_path(resource)
+	containers_path := get_containers_paths(resource)[_]
 	containers := object.get(resource, containers_path, [])
 	container := containers[j]
 
@@ -35,23 +35,33 @@ deny contains msga if {
 	}
 }
 
-# get_containers_path - get resource containers paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-get_containers_path(resource) := result if {
+# get_containers_paths - get resource container array paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+get_containers_paths(resource) := result if {
 	resource_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	resource_kinds[resource.kind]
-	result = ["spec", "template", "spec", "containers"]
+	result = {
+		["spec", "template", "spec", "containers"],
+		["spec", "template", "spec", "initContainers"],
+	}
 }
 
-# get_containers_path - get resource containers paths for "Pod"
-get_containers_path(resource) := result if {
+# get_containers_paths - get resource container array paths for "Pod"
+get_containers_paths(resource) := result if {
 	resource.kind == "Pod"
-	result = ["spec", "containers"]
+	result = {
+		["spec", "containers"],
+		["spec", "initContainers"],
+		["spec", "ephemeralContainers"],
+	}
 }
 
-# get_containers_path - get resource containers paths for  "CronJob"
-get_containers_path(resource) := result if {
+# get_containers_paths - get resource container array paths for  "CronJob"
+get_containers_paths(resource) := result if {
 	resource.kind == "CronJob"
-	result = ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
+	result = {
+		["spec", "jobTemplate", "spec", "template", "spec", "containers"],
+		["spec", "jobTemplate", "spec", "template", "spec", "initContainers"],
+	}
 }
 
 # get_volume_path - get resource volumes paths for {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}

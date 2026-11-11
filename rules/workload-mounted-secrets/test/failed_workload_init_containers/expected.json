@@ -1,0 +1,84 @@
+[
+    {
+        "alertMessage": "Deployment: mydeployment has mounted secret",
+        "deletePaths": [
+            "spec.template.spec.initContainers[0].volumeMounts[0]"
+        ],
+        "failedPaths": [
+            "spec.template.spec.initContainers[0].volumeMounts[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 0,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "mydeployment"
+                    }
+                }
+            ]
+        },
+        "relatedObjects": [
+            {
+                "object": {
+                    "apiVersion": "v1",
+                    "kind": "Secret",
+                    "metadata": {
+                        "name": "mysecret"
+                    },
+                    "type": "Opaque",
+                    "data": {
+                        "config": "ZXhhbXBsZQ=="
+                    }
+                },
+                "failedPaths": null,
+                "fixPaths": null
+            }
+        ]
+    },
+    {
+        "alertMessage": "CronJob: mycronjob has mounted secret",
+        "deletePaths": [
+            "spec.jobTemplate.spec.template.spec.initContainers[0].volumeMounts[0]"
+        ],
+        "failedPaths": [
+            "spec.jobTemplate.spec.template.spec.initContainers[0].volumeMounts[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 0,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "mycronjob"
+                    }
+                }
+            ]
+        },
+        "relatedObjects": [
+            {
+                "object": {
+                    "apiVersion": "v1",
+                    "kind": "Secret",
+                    "metadata": {
+                        "name": "mysecret"
+                    },
+                    "type": "Opaque",
+                    "data": {
+                        "config": "ZXhhbXBsZQ=="
+                    }
+                },
+                "failedPaths": null,
+                "fixPaths": null
+            }
+        ]
+    }
+]
