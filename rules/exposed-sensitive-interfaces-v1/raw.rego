@@ -20,8 +20,6 @@ deny contains msga if {
 	service.kind == "Service"
 	service.spec.type == "LoadBalancer"
 
-	result := wl_connectedto_service(wl, service)
-
 	load_balancer_provisioned(service)
 
 	wlvector = {
@@ -30,6 +28,8 @@ deny contains msga if {
 		"kind": wl.kind,
 		"relatedObjects": [service],
 	}
+
+	result := wl_connectedto_service(wl, service)
 
 	msga := {
 		"alertMessage": sprintf("service: %v is exposed", [service.metadata.name]),
