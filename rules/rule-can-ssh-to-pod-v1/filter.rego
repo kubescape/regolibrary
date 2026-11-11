@@ -14,11 +14,10 @@ deny contains msga if {
 	podns := pod.metadata.namespace
 	podname := pod.metadata.name
 	labels := pod.metadata.labels
-	filtered_labels := json.remove(labels, ["pod-template-hash"])
 	service := input[_]
 	service.kind == "Service"
 	service.metadata.namespace == podns
-	service.spec.selector == filtered_labels
+	selector_matches(service.spec.selector, labels)
 
 	wlvector = {
 		"name": pod.metadata.name,
@@ -48,7 +47,7 @@ deny contains msga if {
 	service := input[_]
 	service.kind == "Service"
 	service.metadata.namespace == wl.metadata.namespace
-	service.spec.selector == labels
+	selector_matches(service.spec.selector, labels)
 
 	wlvector = {
 		"name": wl.metadata.name,
@@ -77,7 +76,7 @@ deny contains msga if {
 	service := input[_]
 	service.kind == "Service"
 	service.metadata.namespace == wl.metadata.namespace
-	service.spec.selector == labels
+	selector_matches(service.spec.selector, labels)
 
 	wlvector = {
 		"name": wl.metadata.name,
@@ -95,5 +94,14 @@ deny contains msga if {
 			"k8sApiObjects": [],
 			"externalObjects": wlvector,
 		},
+	}
+}
+
+# A Service selects every pod whose labels contain all of the selector's
+# key/value pairs; the pod may carry other labels too.
+selector_matches(selector, labels) if {
+	count(selector) > 0
+	every key, value in selector {
+		labels[key] == value
 	}
 }
