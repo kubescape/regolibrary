@@ -1,0 +1,54 @@
+[
+    {
+        "alertMessage": "there are no cpu and memory limits defined for container : wait-for-db",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.template.spec.initContainers[0].resources.limits.cpu",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "init-deployment"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "there are no cpu and memory limits defined for container : fetch",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.jobTemplate.spec.template.spec.initContainers[0].resources.limits.cpu",
+                "value": "YOUR_VALUE"
+            },
+            {
+                "path": "spec.jobTemplate.spec.template.spec.initContainers[0].resources.limits.memory",
+                "value": "YOUR_VALUE"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "batch/v1",
+                    "kind": "CronJob",
+                    "metadata": {
+                        "name": "init-cronjob"
+                    }
+                }
+            ]
+        }
+    }
+]
