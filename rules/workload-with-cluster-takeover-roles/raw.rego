@@ -27,12 +27,12 @@ deny contains msga if {
 	rolebinding.roleRef.kind == role.kind
 	rolebinding.subjects[j].kind == "ServiceAccount"
 	rolebinding.subjects[j].name == sa.metadata.name
-	rolebinding.subjects[j].namespace == sa.metadata.namespace
+	rolebinding.subjects[j].namespace == obj_namespace(sa)
 
 	deletePath := sprintf("subjects[%d]", [j])
 
 	msga := {
-		"alertMessage": sprintf("%v: %v in the following namespace: %v has cluster takeover roles", [wl.kind, wl.metadata.name, wl.metadata.namespace]),
+		"alertMessage": sprintf("%v: %v in the following namespace: %v has cluster takeover roles", [wl.kind, wl.metadata.name, obj_namespace(wl)]),
 		"packagename": "armo_builtins",
 		"alertScore": 9,
 		"alertObject": {"k8sApiObjects": [wl]},
@@ -86,6 +86,10 @@ is_same_sa(wl_spec, sa_metadata, wl_metadata) if {
 	sa_metadata.name == "default"
 	is_same_namespace(sa_metadata, wl_metadata)
 }
+
+# A manifest without metadata.namespace (yaml scans) is created in the
+# namespace it is applied to, "default" unless another one is chosen
+obj_namespace(obj) := object.get(obj.metadata, "namespace", "default")
 
 # is_same_namespace supports cases where ns is not configured in the metadata
 # for yaml scans

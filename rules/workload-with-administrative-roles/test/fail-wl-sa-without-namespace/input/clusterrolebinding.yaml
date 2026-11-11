@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: web-sa-binding
+subjects:
+- kind: ServiceAccount
+  name: web-sa
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: web-role
+  apiGroup: rbac.authorization.k8s.io
