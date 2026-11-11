@@ -97,7 +97,7 @@ is_sa_auto_mounted(spec, start_of_path, wl_namespace) := [failed_path, fix_path]
 	sa := input[_]
 	sa.kind == "ServiceAccount"
 	is_same_sa(spec, sa.metadata.name)
-	is_same_namespace(sa.metadata.namespace, wl_namespace)
+	is_same_namespace(pod_namespace(sa), wl_namespace)
 	not sa.automountServiceAccountToken == false
 
 }
@@ -122,7 +122,7 @@ matching_sa_exists(spec, wl_namespace) if {
 	sa := input[_]
 	sa.kind == "ServiceAccount"
 	is_same_sa(spec, sa.metadata.name)
-	is_same_namespace(sa.metadata.namespace, wl_namespace)
+	is_same_namespace(pod_namespace(sa), wl_namespace)
 }
 
 get_failed_path(paths) := [paths[0]] if {
