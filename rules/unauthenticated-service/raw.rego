@@ -43,6 +43,21 @@ wl_connected_to_service(wl, svc) if {
 	wl.spec.selector.matchLabels == svc.spec.selector
 }
 
+# A Service selects the pods a workload creates, and those carry the pod template's labels
+wl_connected_to_service(wl, svc) if {
+	count(svc.spec.selector) > 0
+	template_labels := pod_template_labels(wl)
+	count({x | svc.spec.selector[x] == template_labels[x]}) == count(svc.spec.selector)
+}
+
+pod_template_labels(wl) := wl.spec.template.metadata.labels if {
+	wl.kind != "CronJob"
+}
+
+pod_template_labels(wl) := wl.spec.jobTemplate.spec.template.metadata.labels if {
+	wl.kind == "CronJob"
+}
+
 is_same_namespace(metadata1, metadata2) if {
 	metadata1.namespace == metadata2.namespace
 }

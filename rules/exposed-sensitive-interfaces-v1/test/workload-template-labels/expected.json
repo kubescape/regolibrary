@@ -1,0 +1,36 @@
+[{
+    "alertMessage": "service: jenkins-ui is exposed",
+    "reviewPaths": ["spec.selector.matchLabels", "spec.selector"],
+    "failedPaths": ["spec.selector.matchLabels", "spec.selector"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "externalObjects": {
+            "kind": "Deployment",
+            "name": "jenkins",
+            "namespace": "devops-tools",
+            "relatedObjects": [{
+                "apiVersion": "v1",
+                "kind": "Service",
+                "metadata": {
+                    "name": "jenkins-ui",
+                    "namespace": "devops-tools"
+                },
+                "spec": {
+                    "ports": [{
+                        "nodePort": 32000,
+                        "port": 8080,
+                        "targetPort": 8080
+                    }],
+                    "selector": {
+                        "app": "jenkins",
+                        "component": "controller"
+                    },
+                    "type": "NodePort"
+                }
+            }]
+        }
+    }
+}]
