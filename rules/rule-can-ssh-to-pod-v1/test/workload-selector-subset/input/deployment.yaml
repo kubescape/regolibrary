@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bastion
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bastion
+  template:
+    metadata:
+      labels:
+        app: bastion
+        version: v1
+    spec:
+      containers:
+      - name: sshd
+        image: linuxserver/openssh-server:latest
+        ports:
+        - containerPort: 2222
