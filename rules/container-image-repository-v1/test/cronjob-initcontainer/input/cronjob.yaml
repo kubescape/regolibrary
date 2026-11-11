@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          initContainers:
+            - name: init
+              image: bitnami/kubectl:1.31
+          containers:
+            - name: app
+              image: quay.io/kubescape/kubescape:v3.0.0
