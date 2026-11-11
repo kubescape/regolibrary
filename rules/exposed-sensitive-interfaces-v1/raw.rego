@@ -22,9 +22,7 @@ deny contains msga if {
 
 	result := wl_connectedto_service(wl, service)
 
-	# externalIP := service.spec.externalIPs[_]
-	# regal ignore:defer-assignment
-	externalIP := service.status.loadBalancer.ingress[0].ip
+	load_balancer_provisioned(service)
 
 	wlvector = {
 		"name": wl.metadata.name,
@@ -127,6 +125,16 @@ deny contains msga if {
 }
 
 # ====================================================================================
+
+# The cloud provider records the load balancer's address in status: an IP-based
+# load balancer sets ip, a DNS-based one (for example AWS ELB/NLB) sets only hostname.
+load_balancer_provisioned(service) if {
+	service.status.loadBalancer.ingress[_].ip
+}
+
+load_balancer_provisioned(service) if {
+	service.status.loadBalancer.ingress[_].hostname
+}
 
 wl_connectedto_service(wl, service) := paths if {
 	wl.metadata.namespace == service.metadata.namespace

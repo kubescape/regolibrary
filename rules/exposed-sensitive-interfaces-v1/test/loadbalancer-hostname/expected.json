@@ -1,0 +1,42 @@
+[{
+    "alertMessage": "service: argo-server-lb is exposed",
+    "reviewPaths": ["spec.selector.matchLabels", "spec.selector"],
+    "failedPaths": ["spec.selector.matchLabels", "spec.selector"],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "externalObjects": {
+            "kind": "Deployment",
+            "name": "argo-server",
+            "namespace": "default",
+            "relatedObjects": [{
+                "apiVersion": "v1",
+                "kind": "Service",
+                "metadata": {
+                    "name": "argo-server-lb",
+                    "namespace": "default"
+                },
+                "spec": {
+                    "ports": [{
+                        "port": 2746,
+                        "protocol": "TCP",
+                        "targetPort": 2746
+                    }],
+                    "selector": {
+                        "app": "argo-server"
+                    },
+                    "type": "LoadBalancer"
+                },
+                "status": {
+                    "loadBalancer": {
+                        "ingress": [{
+                            "hostname": "a1b2c3d4e5f6-1234567890.us-east-1.elb.amazonaws.com"
+                        }]
+                    }
+                }
+            }]
+        }
+    }
+}]
