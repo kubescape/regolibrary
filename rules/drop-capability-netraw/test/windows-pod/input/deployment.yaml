@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iis
+spec:
+  selector:
+    matchLabels:
+      app: iis
+  template:
+    metadata:
+      labels:
+        app: iis
+    spec:
+      os:
+        name: windows
+      securityContext:
+        runAsNonRoot: true
+        windowsOptions:
+          runAsUserName: ContainerUser
+      initContainers:
+      - name: init
+        image: mcr.microsoft.com/windows/nanoserver:ltsc2022
+      containers:
+      - name: iis
+        image: mcr.microsoft.com/windows/servercore/iis:windowsservercore-ltsc2022

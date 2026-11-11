@@ -15,6 +15,7 @@ deny contains msga if {
 	# checks if procMount paramenter has the right value in containers
 	pod := input[_]
 	pod.kind == "Pod"
+	not is_windows_pod(pod.spec)
 
 	# retrieve container list
 	path_to_containers := paths_to_containers[_]
@@ -44,6 +45,7 @@ deny contains msga if {
 	# checks if procMount paramenter has the right value in init and ephemeral containers
 	pod := input[_]
 	pod.kind == "Pod"
+	not is_windows_pod(pod.spec)
 
 	# retrieve container list
 	path_to_containers := paths_to_containers[_]
@@ -75,6 +77,7 @@ deny contains msga if {
 	# checks if we are managing the right workload kind
 	wl := input[_]
 	manifest_kind[wl.kind]
+	not is_windows_pod(wl.spec.template.spec)
 
 	# retrieve container list
 	path_to_containers := paths_to_containers[_]
@@ -104,6 +107,7 @@ deny contains msga if {
 	# checks if we are managing the right workload kind
 	wl := input[_]
 	manifest_kind[wl.kind]
+	not is_windows_pod(wl.spec.template.spec)
 
 	# retrieve container list
 	path_to_containers := paths_to_containers[_]
@@ -134,6 +138,7 @@ deny contains msga if {
 	# checks if we are managing the right workload kind
 	cj := input[_]
 	cj.kind == "CronJob"
+	not is_windows_pod(cj.spec.jobTemplate.spec.template.spec)
 
 	# retrieve container list
 	path_to_containers := paths_to_containers[_]
@@ -162,6 +167,7 @@ deny contains msga if {
 	# checks if we are managing the right workload kind
 	cj := input[_]
 	cj.kind == "CronJob"
+	not is_windows_pod(cj.spec.jobTemplate.spec.template.spec)
 
 	# retrieve container list
 	path_to_containers := paths_to_containers[_]
@@ -199,3 +205,10 @@ is_proc_mount_type_enabled(command) if {
 procMountSetProperly(securityContext) if {
 	securityContext.procMount == "Default"
 } else := false
+
+# The API server rejects procMount in a pod with spec.os.name set to windows
+# (validateWindows in pkg/apis/core/validation), so such a pod can't apply the
+# fix and is not evaluated here.
+is_windows_pod(spec) if {
+	spec.os.name == "windows"
+}
