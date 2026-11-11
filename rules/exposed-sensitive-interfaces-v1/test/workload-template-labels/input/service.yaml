@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-ui
+  namespace: devops-tools
+spec:
+  type: NodePort
+  selector:
+    app: jenkins
+    component: controller
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 32000

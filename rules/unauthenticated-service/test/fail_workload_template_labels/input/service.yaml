@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: operator
+  namespace: kubescape
+spec:
+  selector:
+    app: operator
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 4002
+      targetPort: 8080

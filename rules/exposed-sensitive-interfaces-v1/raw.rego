@@ -141,3 +141,20 @@ wl_connectedto_service(wl, service) := paths if {
 	wl.spec.selector.matchLabels == service.spec.selector
 	paths = ["spec.selector.matchLabels", "spec.selector"]
 }
+
+# A Service selects the pods a workload creates, and those carry the pod template's labels
+wl_connectedto_service(wl, service) := paths if {
+	wl.metadata.namespace == service.metadata.namespace
+	count(service.spec.selector) > 0
+	template_labels := pod_template_labels(wl)
+	count({x | service.spec.selector[x] == template_labels[x]}) == count(service.spec.selector)
+	paths := ["spec.selector.matchLabels", "spec.selector"]
+}
+
+pod_template_labels(wl) := wl.spec.template.metadata.labels if {
+	wl.kind != "CronJob"
+}
+
+pod_template_labels(wl) := wl.spec.jobTemplate.spec.template.metadata.labels if {
+	wl.kind == "CronJob"
+}

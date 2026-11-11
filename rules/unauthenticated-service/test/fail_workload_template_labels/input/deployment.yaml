@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: operator
+  namespace: kubescape
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: operator
+  template:
+    metadata:
+      labels:
+        app: operator
+        tier: backend
+    spec:
+      containers:
+      - name: operator-container
+        image: your-operator-image:latest
+        ports:
+        - containerPort: 8080

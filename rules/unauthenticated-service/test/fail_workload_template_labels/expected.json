@@ -1,0 +1,24 @@
+[
+  {
+    "alertMessage": "Unauthenticated service operator exposes operator",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "metadata": {
+            "name": "operator"
+          }
+        }
+      ]
+    },
+    "alertScore": 7,
+    "deletePaths": null,
+    "failedPaths": [],
+    "fixPaths": [],
+    "packagename": "armo_builtins",
+    "relatedObjects": [],
+    "reviewPaths": [],
+    "ruleStatus": ""
+  }
+]
