@@ -8,6 +8,7 @@ deny contains msga if {
 	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
+	not is_windows_pod(pod.spec)
 	container := pod.spec.containers[i]
 	is_mutable_filesystem(container)
 	fixPath = {"path": sprintf("%vcontainers[%d].securityContext.readOnlyRootFilesystem", [start_of_path, i]), "value": "true"}
@@ -26,6 +27,7 @@ deny contains msga if {
 	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
+	not is_windows_pod(pod.spec)
 	container := pod.spec.initContainers[i]
 	is_mutable_filesystem(container)
 	fixPath = {"path": sprintf("%vinitContainers[%d].securityContext.readOnlyRootFilesystem", [start_of_path, i]), "value": "true"}
@@ -44,6 +46,7 @@ deny contains msga if {
 	start_of_path := "spec."
 	pod := input[_]
 	pod.kind == "Pod"
+	not is_windows_pod(pod.spec)
 	container := pod.spec.ephemeralContainers[i]
 	is_mutable_filesystem(container)
 	msga := {
@@ -62,6 +65,7 @@ deny contains msga if {
 	start_of_path := "spec.template.spec."
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
+	not is_windows_pod(wl.spec.template.spec)
 	container := wl.spec.template.spec.containers[i]
 	is_mutable_filesystem(container)
 	fixPath = {"path": sprintf("%vcontainers[%d].securityContext.readOnlyRootFilesystem", [start_of_path, i]), "value": "true"}
@@ -81,6 +85,7 @@ deny contains msga if {
 	start_of_path := "spec.template.spec."
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
+	not is_windows_pod(wl.spec.template.spec)
 	container := wl.spec.template.spec.initContainers[i]
 	is_mutable_filesystem(container)
 	fixPath = {"path": sprintf("%vinitContainers[%d].securityContext.readOnlyRootFilesystem", [start_of_path, i]), "value": "true"}
@@ -100,6 +105,7 @@ deny contains msga if {
 	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
+	not is_windows_pod(wl.spec.jobTemplate.spec.template.spec)
 	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
 	is_mutable_filesystem(container)
 	fixPath = {"path": sprintf("%vcontainers[%d].securityContext.readOnlyRootFilesystem", [start_of_path, i]), "value": "true"}
@@ -119,6 +125,7 @@ deny contains msga if {
 	start_of_path := "spec.jobTemplate.spec.template.spec."
 	wl := input[_]
 	wl.kind == "CronJob"
+	not is_windows_pod(wl.spec.jobTemplate.spec.template.spec)
 	container = wl.spec.jobTemplate.spec.template.spec.initContainers[i]
 	is_mutable_filesystem(container)
 	fixPath = {"path": sprintf("%vinitContainers[%d].securityContext.readOnlyRootFilesystem", [start_of_path, i]), "value": "true"}
@@ -142,4 +149,11 @@ is_mutable_filesystem(container) if {
 is_mutable_filesystem(container) if {
 	not container.securityContext.readOnlyRootFilesystem == false
 	not container.securityContext.readOnlyRootFilesystem == true
+}
+
+# The API server rejects readOnlyRootFilesystem in a pod with spec.os.name set to windows
+# (validateWindows in pkg/apis/core/validation), so such a pod can't apply the
+# fix and is not evaluated here.
+is_windows_pod(spec) if {
+	spec.os.name == "windows"
 }

@@ -10,6 +10,7 @@ deny contains msga if {
 	# verify the object kind
 	pod := input[_]
 	pod.kind == "Pod"
+	not is_windows_pod(pod.spec)
 
 	# check securityContext has fsGroupChangePolicy set
 	not fsGroupChangePolicySetProperly(pod.spec.securityContext)
@@ -32,6 +33,7 @@ deny contains msga if {
 	# verify the object kind
 	wl := input[_]
 	manifest_kind[wl.kind]
+	not is_windows_pod(wl.spec.template.spec)
 
 	# check securityContext has fsGroupChangePolicy set
 	not fsGroupChangePolicySetProperly(wl.spec.template.spec.securityContext)
@@ -53,6 +55,7 @@ deny contains msga if {
 	# verify the object kind
 	cj := input[_]
 	cj.kind == "CronJob"
+	not is_windows_pod(cj.spec.jobTemplate.spec.template.spec)
 
 	# check securityContext has fsGroupChangePolicy set
 	not fsGroupChangePolicySetProperly(cj.spec.jobTemplate.spec.template.spec.securityContext)
@@ -71,3 +74,10 @@ deny contains msga if {
 fsGroupChangePolicySetProperly(securityContext) if {
 	regex.match(securityContext.fsGroupChangePolicy, "Always|OnRootMismatch")
 } else := false
+
+# The API server rejects fsGroupChangePolicy in a pod with spec.os.name set to windows
+# (validateWindows in pkg/apis/core/validation), so such a pod can't apply the
+# fix and is not evaluated here.
+is_windows_pod(spec) if {
+	spec.os.name == "windows"
+}

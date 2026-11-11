@@ -10,6 +10,7 @@ deny contains msga if {
 	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	wl.kind == "Pod"
+	not is_windows_pod(wl.spec)
 	spec := wl.spec
 	seccompProfile_not_defined(spec, path_to_search)
 
@@ -37,6 +38,7 @@ deny contains msga if {
 	path_to_search := ["securityContext", "seccompProfile"]
 	wl := input[_]
 	wl.kind == "Pod"
+	not is_windows_pod(wl.spec)
 	spec := wl.spec
 	seccompProfile_not_defined(spec, path_to_search)
 
@@ -62,6 +64,7 @@ deny contains msga if {
 	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
+	not is_windows_pod(wl.spec.template.spec)
 	spec := wl.spec.template.spec
 	seccompProfile_not_defined(spec, path_to_search)
 
@@ -89,6 +92,7 @@ deny contains msga if {
 	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	wl.kind == "CronJob"
+	not is_windows_pod(wl.spec.jobTemplate.spec.template.spec)
 	spec := wl.spec.jobTemplate.spec.template.spec
 	seccompProfile_not_defined(spec, path_to_search)
 
@@ -111,4 +115,11 @@ deny contains msga if {
 
 seccompProfile_not_defined(spec, path_to_search) if {
 	object.get(spec, path_to_search, "") == ""
+}
+
+# The API server rejects seccompProfile in a pod with spec.os.name set to windows
+# (validateWindows in pkg/apis/core/validation), so such a pod can't apply the
+# fix and is not evaluated here.
+is_windows_pod(spec) if {
+	spec.os.name == "windows"
 }

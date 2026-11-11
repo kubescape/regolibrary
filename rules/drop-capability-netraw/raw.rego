@@ -9,6 +9,7 @@ deny contains msga if {
 	path_to_search := ["securityContext", "capabilities"]
 	wl := input[_]
 	wl.kind == "Pod"
+	not is_windows_pod(wl.spec)
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 
@@ -34,6 +35,7 @@ deny contains msga if {
 	path_to_search := ["securityContext", "capabilities"]
 	wl := input[_]
 	wl.kind == "Pod"
+	not is_windows_pod(wl.spec)
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 
@@ -58,6 +60,7 @@ deny contains msga if {
 	path_to_search := ["securityContext", "capabilities"]
 	wl := input[_]
 	wl.kind == "Pod"
+	not is_windows_pod(wl.spec)
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 
@@ -83,6 +86,7 @@ deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
+	not is_windows_pod(wl.spec.template.spec)
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 
@@ -109,6 +113,7 @@ deny contains msga if {
 	spec_template_spec_patterns := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	wl := input[_]
 	spec_template_spec_patterns[wl.kind]
+	not is_windows_pod(wl.spec.template.spec)
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 
@@ -133,6 +138,7 @@ deny contains msga if {
 	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
 	wl := input[_]
 	wl.kind == "CronJob"
+	not is_windows_pod(wl.spec.jobTemplate.spec.template.spec)
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 	
@@ -157,6 +163,7 @@ deny contains msga if {
 	path_to_containers := ["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]
 	wl := input[_]
 	wl.kind == "CronJob"
+	not is_windows_pod(wl.spec.jobTemplate.spec.template.spec)
 	containers := object.get(wl, path_to_containers, [])
 	container := containers[i]
 
@@ -214,3 +221,10 @@ get_failed_path(paths) := paths[0] if {
 get_fixed_path(paths) := paths[1] if {
 	paths[1] != ""
 } else := []
+
+# The API server rejects capabilities in a pod with spec.os.name set to windows
+# (validateWindows in pkg/apis/core/validation), so such a pod can't apply the
+# fix and is not evaluated here.
+is_windows_pod(spec) if {
+	spec.os.name == "windows"
+}

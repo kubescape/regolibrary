@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cleanup
+spec:
+  schedule: "0 2 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          os:
+            name: windows
+          securityContext:
+            runAsNonRoot: true
+            windowsOptions:
+              runAsUserName: ContainerUser
+          restartPolicy: OnFailure
+          initContainers:
+          - name: init
+            image: mcr.microsoft.com/windows/nanoserver:ltsc2022
+          containers:
+          - name: cleanup
+            image: mcr.microsoft.com/windows/nanoserver:ltsc2022

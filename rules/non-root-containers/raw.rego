@@ -201,6 +201,7 @@ evaluate_workload_run_as_user(container, pod, start_of_path, container_type) := 
 # if runAsGroup is set to 0/ not set - suggest to set runAsGroup to 1000
 # all checks are both on the pod and the container level
 evaluate_workload_run_as_group(container, pod, start_of_path, container_type) := fixPath if {
+	not is_windows_pod(pod.spec)
 	runAsGroupValue := get_run_as_group_value(container, pod, start_of_path, container_type)
 	runAsGroupValue.value == 0
 
@@ -241,3 +242,10 @@ get_run_as_group_value(container, pod, start_of_path, container_type) := runAsGr
 choose_first_if_defined(l1, l2) := l1 if {
 	l1.defined
 } else := l2
+
+# The API server rejects runAsGroup (runAsNonRoot is allowed) in a pod with spec.os.name set to windows
+# (validateWindows in pkg/apis/core/validation), so such a pod can't apply the
+# fix and is not evaluated here.
+is_windows_pod(spec) if {
+	spec.os.name == "windows"
+}
