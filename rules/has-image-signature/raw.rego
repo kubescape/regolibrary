@@ -4,13 +4,16 @@ package armo_builtins
 import rego.v1
 
 deny contains msga if {
+	paths_to_containers := {["spec", "containers"], ["spec", "initContainers"], ["spec", "ephemeralContainers"]}
+	path_to_containers := paths_to_containers[_]
 	pod := input[_]
 	pod.kind == "Pod"
-	container := pod.spec.containers[i]
+	containers := object.get(pod, path_to_containers, [])
+	container := containers[i]
 
 	not cosign.has_signature(container.image)
 
-	failedPath := sprintf("spec.containers[%v].image", [format_int(i, 10)])
+	failedPath := image_path("spec.", path_to_containers, i)
 
 	msga := {
 		"alertMessage": sprintf("image: %v is not signed", [container.image]),
@@ -25,13 +28,16 @@ deny contains msga if {
 
 deny contains msga if {
 	wl_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
+	paths_to_containers := {["spec", "template", "spec", "containers"], ["spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	wl_kinds[wl.kind]
-	container := wl.spec.template.spec.containers[i]
+	containers := object.get(wl, path_to_containers, [])
+	container := containers[i]
 
 	not cosign.has_signature(container.image)
 
-	failedPath := sprintf("spec.template.spec.containers[%v].image", [format_int(i, 10)])
+	failedPath := image_path("spec.template.spec.", path_to_containers, i)
 
 	msga := {
 		"alertMessage": sprintf("image: %v is not signed", [container.image]),
@@ -45,13 +51,16 @@ deny contains msga if {
 }
 
 deny contains msga if {
+	paths_to_containers := {["spec", "jobTemplate", "spec", "template", "spec", "containers"], ["spec", "jobTemplate", "spec", "template", "spec", "initContainers"]}
+	path_to_containers := paths_to_containers[_]
 	wl := input[_]
 	wl.kind == "CronJob"
-	container = wl.spec.jobTemplate.spec.template.spec.containers[i]
+	containers := object.get(wl, path_to_containers, [])
+	container := containers[i]
 
 	not cosign.has_signature(container.image)
 
-	failedPath := sprintf("spec.jobTemplate.spec.template.spec.containers[%v].image", [format_int(i, 10)])
+	failedPath := image_path("spec.jobTemplate.spec.template.spec.", path_to_containers, i)
 
 	msga := {
 		"alertMessage": sprintf("image: %v is not signed", [container.image]),
@@ -62,4 +71,9 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertObject": {"k8sApiObjects": [wl]},
 	}
+}
+
+# image_path - path to the image of container i in the given container array
+image_path(start_of_path, path_to_containers, i) := sprintf("%v%v[%v].image", [start_of_path, container_type, format_int(i, 10)]) if {
+	container_type := path_to_containers[count(path_to_containers) - 1]
 }
