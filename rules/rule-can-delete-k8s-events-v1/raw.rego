@@ -6,7 +6,9 @@ import rego.v1
 # fails if user can delete events
 deny contains msga if {
 	verbs := ["delete", "deletecollection", "*"]
-	api_groups := ["", "*"]
+
+	# events.k8s.io/v1 serves the same Event objects as core v1
+	api_groups := ["", "events.k8s.io", "*"]
 	resources := ["events", "*"]
 	subjectVector := input[_]
 	role := subjectVector.relatedObjects[i]
