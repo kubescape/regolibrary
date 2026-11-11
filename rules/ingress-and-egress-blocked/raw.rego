@@ -296,6 +296,14 @@ is_ingerss_egress_policy(networkpolicie) if {
 	list_contains(networkpolicie.spec.policyTypes, "Egress")
 }
 
+# The API server defaults an omitted or empty policyTypes to ["Ingress"]
+# (plus "Egress" when egress rules are set), so a manifest scanned before
+# it reaches the cluster still isolates the selected pods for ingress.
+is_ingerss_egress_policy(networkpolicie) if {
+	networkpolicie.kind == "NetworkPolicy"
+	count(object.get(networkpolicie.spec, "policyTypes", [])) == 0
+}
+
 # CiliumNetworkPolicy / CCNP: presence of `ingress`/`egress` on any spec entry
 # determines direction (CNP/CCNP have no `policyTypes`).
 is_ingerss_egress_policy(networkpolicie) if {
