@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "image 'docker.io/nicolaka/netshoot:v0.13' in container 'debugger' comes from untrusted registry",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "fixPaths": [],
+        "ruleStatus": "",
+        "reviewPaths": [
+            "spec.ephemeralContainers[0].image"
+        ],
+        "failedPaths": [
+            "spec.ephemeralContainers[0].image"
+        ],
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test
+spec:
+  selector:
+    matchLabels:
+      app: test
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      initContainers:
+        - name: init
+          image: alpine:3.20
+      containers:
+        - name: app
+          image: quay.io/kubescape/kubescape:v3.0.0

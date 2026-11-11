@@ -4,6 +4,7 @@ go 1.25.0
 
 require (
 	github.com/armosec/armoapi-go v0.0.330
+	github.com/distribution/reference v0.5.0
 	github.com/golang/glog v1.2.5
 	github.com/kubescape/k8s-interface v0.0.161
 	github.com/kubescape/opa-utils v0.0.288

@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "image 'docker.io/library/alpine:3.20' in container 'init' comes from untrusted registry",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "fixPaths": [],
+        "ruleStatus": "",
+        "reviewPaths": [
+            "spec.template.spec.initContainers[0].image"
+        ],
+        "failedPaths": [
+            "spec.template.spec.initContainers[0].image"
+        ],
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]
