@@ -1,0 +1,8 @@
+{
+  "postureControlInputs": {
+    "imageRepositoryAllowList": [
+      "registry.corp.com",
+      "mirror.corp.com:5000"
+    ]
+  }
+}

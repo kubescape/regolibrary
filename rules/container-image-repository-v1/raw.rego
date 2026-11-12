@@ -33,16 +33,21 @@ image_in_allowed_list(image) if {
 }
 
 # boundary_ok - the allowed entry must end at a registry/repo/tag/digest boundary:
-# either the entry ends with '/', or the rest of the image is empty or starts with
-# '/', ':' or '@'. Otherwise 'registry.corp.com' would also allow an image from a
-# look-alike host such as 'registry.corp.com.evil.io'.
+# either the entry ends with '/', or the rest of the image is empty, starts with
+# '/' or '@', or is a ':' tag. Otherwise 'registry.corp.com' would also allow an
+# image from a look-alike host such as 'registry.corp.com.evil.io'.
 boundary_ok(registry, _) if endswith(registry, "/")
 
 boundary_ok(_, "")
 
 boundary_ok(_, suffix) if startswith(suffix, "/")
 
-boundary_ok(_, suffix) if startswith(suffix, ":")
+# A tag can't contain '/', so a ':' followed by a '/' is a port after the host
+# entry ('registry.corp.com:5000/app'): another registry endpoint, not a tag.
+boundary_ok(_, suffix) if {
+	startswith(suffix, ":")
+	not contains(suffix, "/")
+}
 
 boundary_ok(_, suffix) if startswith(suffix, "@")
 
