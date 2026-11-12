@@ -113,8 +113,7 @@ has_service_account_binding(service_account) if {
 	subject.name == service_account.metadata.name
 
 	# a ServiceAccount manifest without a namespace (yaml scans) is in "default" as well
-	service_account_namespace := object.get(service_account.metadata, "namespace", "default")
-	subject_namespace(subject, role_binding) == service_account_namespace
+	subject_namespace(subject, role_binding) == metadata_namespace(service_account.metadata)
 }
 
 # checks if RoleBinding/ClusterRoleBinding has a bind with the system:authenticated group
@@ -138,8 +137,10 @@ has_service_account_binding(service_account) if {
 # ("default" for a RoleBinding manifest without one, as in yaml scans)
 subject_namespace(subject, _) := subject.namespace
 
-subject_namespace(subject, rolebinding) := object.get(rolebinding.metadata, "namespace", "default") if {
+subject_namespace(subject, rolebinding) := metadata_namespace(rolebinding.metadata) if {
 	subject.kind == "ServiceAccount"
 	not subject.namespace
 	rolebinding.kind == "RoleBinding"
 }
+
+metadata_namespace(metadata) := object.get(metadata, "namespace", "default")
