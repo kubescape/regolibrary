@@ -27,14 +27,14 @@ untrusted_or_public_registries(image) if {
 	# see default-config-inputs.json for list values
 	untrusted_registries := data.postureControlInputs.untrustedRegistries
 	registry := untrusted_registries[_]
-	startswith(image, registry)
+	startswith(lower(image), lower(registry))
 }
 
 untrusted_or_public_registries(image) if {
 	# see default-config-inputs.json for list values
 	public_registries := data.postureControlInputs.publicRegistries
 	registry := public_registries[_]
-	startswith(image, registry)
+	startswith(lower(image), lower(registry))
 }
 
 # get_containers_path - get resource containers paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
