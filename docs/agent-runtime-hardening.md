@@ -36,6 +36,52 @@ Worker Pod ceilings use all configured `cpu_limit_max` and `memory_limit_max`
 values, so limits must satisfy every configured maximum. They describe Worker
 Pod resources, not per-actor limits.
 
+## OWASP LLM and MITRE ATLAS mapping
+
+This table relates each control to the
+[OWASP Top 10 for LLM Applications 2025](https://genai.owasp.org/llm-top-10/)
+and to [MITRE ATLAS](https://atlas.mitre.org/) v5.6.0 (atlas-data release
+v2026.10). It is guidance for reading findings, not a compliance claim, and it
+is not encoded in the control JSON. A control appears only where it limits the
+listed risk directly. These are posture checks: they reduce the impact of an
+attack on the agent's runtime configuration, but they do not detect the attack
+or prevent the prompt-level cause (for example LLM01 prompt injection).
+
+| Control | OWASP LLM 2025 | ATLAS technique it constrains | ATLAS mitigation it implements |
+| --- | --- | --- | --- |
+| C-0297 hardened runtime class | LLM05 Improper Output Handling | AML.T0105 Escape to Host | AML.M0032 Segmentation of AI Agent Components |
+| C-0309 service account token isolation | LLM06 Excessive Agency | AML.T0055 Unsecured Credentials | AML.M0026 Privileged AI Agent Permissions Configuration |
+| C-0311 container resource limits | LLM10 Unbounded Consumption | AML.T0029 Denial of AI Service; AML.T0034.002 Agentic Resource Consumption | AML.M0032 Segmentation of AI Agent Components |
+| C-0312 image digest pinning | LLM03 Supply Chain | AML.T0010.004 Container Registry | AML.M0014 Verify AI Artifacts |
+| C-0313 image registries | LLM03 Supply Chain | AML.T0010.004 Container Registry | — |
+| C-0314 managed network policy | — | — | AML.M0032 Segmentation of AI Agent Components (private and internal destinations only) |
+| C-0315 strict egress policy | LLM02 Sensitive Information Disclosure; LLM06 Excessive Agency | AML.T0025 Exfiltration via Cyber Means; AML.T0086 Exfiltration via AI Agent Tool Invocation | AML.M0032 Segmentation of AI Agent Components |
+| C-0316 claim override restrictions | — | — | — |
+| C-0317 Worker Pod resource ceilings | LLM10 Unbounded Consumption | AML.T0029 Denial of AI Service; AML.T0034.002 Agentic Resource Consumption | AML.M0032 Segmentation of AI Agent Components |
+
+Notes on the choices:
+
+- **C-0297** maps to LLM05 because Agent Sandbox runs model-generated code,
+  which is LLM output executed without review; gVisor or Kata limits what that
+  code can reach. AML.M0032 names container isolation and code execution
+  sandboxing directly.
+- **C-0309** removes a Kubernetes credential that the sandboxed code could
+  otherwise read and use with the service account's permissions.
+- **C-0311 and C-0317** cap compute per Pod. They do not cap per-actor use
+  inside a shared Worker Pod (see above), so they limit, not prevent, one actor
+  starving others.
+- **C-0312** blocks a tag being overwritten in the registry, which is the attack
+  AML.T0010.004 describes; the digest is the checksum AML.M0014 asks for.
+  **C-0313** only restricts which registries are trusted, so it has no
+  mitigation entry; it is not image signing (AML.M0013).
+- **C-0314** is not mapped to an OWASP risk or an exfiltration technique: the
+  managed default still allows public internet. Only **C-0315** (and the
+  existing C-0301, which is outside this framework) restrict egress enough to
+  constrain exfiltration.
+- **C-0316** stops claims from replacing template environment variables or
+  volume claim templates. No OWASP entry or ATLAS technique describes this
+  Kubernetes-level override cleanly, so it is left unmapped.
+
 ## API scope
 
 The WorkerPool field and resource ceilings were checked against
