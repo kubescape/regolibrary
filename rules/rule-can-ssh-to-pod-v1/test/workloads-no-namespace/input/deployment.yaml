@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssh-server
+spec:
+  selector:
+    matchLabels:
+      app: ssh-server
+  template:
+    metadata:
+      labels:
+        app: ssh-server
+    spec:
+      containers:
+      - name: sshd
+        image: linuxserver/openssh-server:latest
+        ports:
+        - containerPort: 2222

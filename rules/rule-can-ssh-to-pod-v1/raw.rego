@@ -11,19 +11,19 @@ deny contains msga if {
 	path := "metadata.labels"
 	pod := input[_]
 	pod.kind == "Pod"
-	podns := pod.metadata.namespace
+	podns := obj_namespace(pod)
 	podname := pod.metadata.name
 	labels := pod.metadata.labels
 	service := input[_]
 	service.kind == "Service"
-	service.metadata.namespace == podns
+	obj_namespace(service) == podns
 	selector_matches(service.spec.selector, labels)
 
 	hasSSHPorts(service)
 
 	wlvector = {
 		"name": pod.metadata.name,
-		"namespace": pod.metadata.namespace,
+		"namespace": podns,
 		"kind": pod.kind,
 		"relatedObjects": service,
 	}
@@ -49,14 +49,14 @@ deny contains msga if {
 	labels := wl.spec.template.metadata.labels
 	service := input[_]
 	service.kind == "Service"
-	service.metadata.namespace == wl.metadata.namespace
+	obj_namespace(service) == obj_namespace(wl)
 	selector_matches(service.spec.selector, labels)
 
 	hasSSHPorts(service)
 
 	wlvector = {
 		"name": wl.metadata.name,
-		"namespace": wl.metadata.namespace,
+		"namespace": obj_namespace(wl),
 		"kind": wl.kind,
 		"relatedObjects": service,
 	}
@@ -81,14 +81,14 @@ deny contains msga if {
 	labels := wl.spec.jobTemplate.spec.template.metadata.labels
 	service := input[_]
 	service.kind == "Service"
-	service.metadata.namespace == wl.metadata.namespace
+	obj_namespace(service) == obj_namespace(wl)
 	selector_matches(service.spec.selector, labels)
 
 	hasSSHPorts(service)
 
 	wlvector = {
 		"name": wl.metadata.name,
-		"namespace": wl.metadata.namespace,
+		"namespace": obj_namespace(wl),
 		"kind": wl.kind,
 		"relatedObjects": service,
 	}
@@ -105,6 +105,11 @@ deny contains msga if {
 		},
 	}
 }
+
+# A manifest without metadata.namespace is created in the namespace it is
+# applied to, so two such manifests applied together share it; like a
+# cluster that defaults it, treat a missing namespace as "default".
+obj_namespace(obj) := object.get(obj.metadata, "namespace", "default")
 
 # A Service selects every pod whose labels contain all of the selector's
 # key/value pairs; the pod may carry other labels too.
