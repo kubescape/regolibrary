@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "the following pods are defined as privileged: add-all-pod",
+        "fixPaths": [],
+        "deletePaths": [
+            "spec.containers[0].securityContext.capabilities.add[0]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].securityContext.capabilities.add[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "add-all-pod"
+                    }
+                }
+            ]
+        }
+    }
+]
