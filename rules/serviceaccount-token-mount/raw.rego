@@ -111,7 +111,7 @@ has_service_account_binding(service_account) if {
 	subject := role_binding.subjects[_]
 	subject.kind == "ServiceAccount"
 	subject.name == service_account.metadata.name
-	subject.namespace == service_account.metadata.namespace
+	subject_namespace(subject, role_binding) == service_account.metadata.namespace
 }
 
 # checks if RoleBinding/ClusterRoleBinding has a bind with the system:authenticated group
@@ -128,4 +128,15 @@ has_service_account_binding(service_account) if {
 	role_bindings := [role_binding | role_binding = input[_]; endswith(role_binding.kind, "Binding")]
 	role_binding := role_bindings[_]
 	role_binding.subjects[_].name == "system:serviceaccounts"
+}
+
+# A RoleBinding can leave out the namespace of a ServiceAccount subject,
+# which Kubernetes then resolves to the RoleBinding's own namespace
+# ("default" for a RoleBinding manifest without one, as in yaml scans)
+subject_namespace(subject, _) := subject.namespace
+
+subject_namespace(subject, rolebinding) := object.get(rolebinding.metadata, "namespace", "default") if {
+	subject.kind == "ServiceAccount"
+	not subject.namespace
+	rolebinding.kind == "RoleBinding"
 }

@@ -16,9 +16,9 @@ deny contains msga if {
 
 	rule := role.rules[p]
 	subject := rolebinding.subjects[k]
-	is_same_subjects(subjectVector, subject)
+	is_same_subjects(subjectVector, subject, rolebinding)
 
-	is_same_subjects(subjectVector, subject)
+	is_same_subjects(subjectVector, subject, rolebinding)
 	rule_path := sprintf("relatedObjects[%d].rules[%d]", [i, p])
 
 	verb_path := [sprintf("%s.verbs[%d]", [rule_path, l]) | verb = rule.verbs[l]; verb in verbs]
@@ -52,15 +52,26 @@ deny contains msga if {
 }
 
 # for service accounts
-is_same_subjects(subjectVector, subject) if {
+is_same_subjects(subjectVector, subject, rolebinding) if {
 	subjectVector.kind == subject.kind
 	subjectVector.name == subject.name
-	subjectVector.namespace == subject.namespace
+	subject_namespace(subjectVector, rolebinding) == subject_namespace(subject, rolebinding)
 }
 
 # for users/ groups
-is_same_subjects(subjectVector, subject) if {
+is_same_subjects(subjectVector, subject, _) if {
 	subjectVector.kind == subject.kind
 	subjectVector.name == subject.name
 	subjectVector.apiGroup == subject.apiGroup
+}
+
+# A RoleBinding can leave out the namespace of a ServiceAccount subject,
+# which Kubernetes then resolves to the RoleBinding's own namespace
+# ("default" for a RoleBinding manifest without one, as in yaml scans)
+subject_namespace(subject, _) := subject.namespace
+
+subject_namespace(subject, rolebinding) := object.get(rolebinding.metadata, "namespace", "default") if {
+	subject.kind == "ServiceAccount"
+	not subject.namespace
+	rolebinding.kind == "RoleBinding"
 }
