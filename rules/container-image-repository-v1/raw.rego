@@ -29,7 +29,22 @@ image_in_allowed_list(image) if {
 	allowedlist := data.postureControlInputs.imageRepositoryAllowList
 	registry := allowedlist[_]
 	startswith(image, registry)
+	boundary_ok(registry, trim_prefix(image, registry))
 }
+
+# boundary_ok - the allowed entry must end at a registry/repo/tag/digest boundary:
+# either the entry ends with '/', or the rest of the image is empty or starts with
+# '/', ':' or '@'. Otherwise 'registry.corp.com' would also allow an image from a
+# look-alike host such as 'registry.corp.com.evil.io'.
+boundary_ok(registry, _) if endswith(registry, "/")
+
+boundary_ok(_, "")
+
+boundary_ok(_, suffix) if startswith(suffix, "/")
+
+boundary_ok(_, suffix) if startswith(suffix, ":")
+
+boundary_ok(_, suffix) if startswith(suffix, "@")
 
 # get_containers_path - get resource containers paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 get_containers_path(resource) := result if {
