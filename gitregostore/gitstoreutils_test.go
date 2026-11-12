@@ -1,6 +1,7 @@
 package gitregostore
 
 import (
+	"context"
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
@@ -549,7 +550,7 @@ func TestGetVerifiedReleaseArtifact(t *testing.T) {
 		"frameworks": digest,
 	}
 
-	got, err := gs.getVerifiedReleaseArtifact("frameworks.json", checksums)
+	got, err := gs.getVerifiedReleaseArtifact(context.Background(), "frameworks.json", checksums)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -580,7 +581,7 @@ func TestGetVerifiedReleaseArtifactChecksumMismatch(t *testing.T) {
 		"frameworks": digest,
 	}
 
-	_, err := gs.getVerifiedReleaseArtifact("frameworks.json", checksums)
+	_, err := gs.getVerifiedReleaseArtifact(context.Background(), "frameworks.json", checksums)
 	if err == nil {
 		t.Fatal("expected checksum mismatch error, got nil")
 	}
@@ -602,6 +603,7 @@ func TestGetVerifiedReleaseArtifactMissingChecksum(t *testing.T) {
 	}
 
 	_, err := gs.getVerifiedReleaseArtifact(
+		context.Background(),
 		"frameworks.json",
 		map[string]string{},
 	)
@@ -632,7 +634,7 @@ func TestGetReleaseChecksumsMissingSignature(t *testing.T) {
 		httpClient: http.DefaultClient,
 	}
 
-	_, err := gs.getReleaseChecksums()
+	_, err := gs.getReleaseChecksums(context.Background())
 	if err == nil {
 		t.Fatal("expected missing signature error, got nil")
 	}
@@ -660,7 +662,7 @@ func TestGetReleaseChecksumsInvalidSignatureBundle(t *testing.T) {
 		httpClient: http.DefaultClient,
 	}
 
-	_, err := gs.getReleaseChecksums()
+	_, err := gs.getReleaseChecksums(context.Background())
 	if err == nil {
 		t.Fatal("expected invalid signature bundle error, got nil")
 	}
@@ -691,7 +693,7 @@ func TestGetReleaseChecksumsMissingSignatureBundleIsVerificationFailure(t *testi
 		httpClient: server.Client(),
 	}
 
-	_, err := gs.getReleaseChecksums()
+	_, err := gs.getReleaseChecksums(context.Background())
 	if err == nil {
 		t.Fatal("expected checksum verification error")
 	}

@@ -1,9 +1,11 @@
 package gitregostore
 
 import (
+	"context"
 	"net/http"
 	"strings"
 	"sync"
+	"time"
 
 	// "github.com/armosec/capacketsgo/opapolicy"
 	"github.com/armosec/armoapi-go/armotypes"
@@ -28,6 +30,7 @@ type GitRegoStore struct {
 	ControlRuleRelations               dataframe.DataFrame
 	FrameworkControlRelations          dataframe.DataFrame
 	httpClient                         *http.Client
+	requestTimeout                     time.Duration // per-request bound; DefaultRequestTimeout when zero
 	Tag                                string
 	Owner                              string
 	CurGitVersion                      string
@@ -92,10 +95,17 @@ func NewGitRegoStore(baseUrl string, owner string, repository string, path strin
 	return gs
 }
 
-// SetRegoObjects pulls opa obj from git and stores in gitregostore
+// SetRegoObjects pulls opa obj from git and stores in gitregostore.
+// Each HTTP request is bounded by DefaultRequestTimeout; use SetRegoObjectsWithContext to cancel the pull.
 func (gs *GitRegoStore) SetRegoObjects() error {
-	err := gs.setObjects()
-	return err
+	return gs.SetRegoObjectsWithContext(context.Background())
+}
+
+// SetRegoObjectsWithContext is like SetRegoObjects, but the pull is aborted when ctx is cancelled or
+// its deadline expires. The returned error then wraps context.Canceled or context.DeadlineExceeded
+// and the store is left unchanged. When Watch is enabled, the periodic refresh stops once ctx is done.
+func (gs *GitRegoStore) SetRegoObjectsWithContext(ctx context.Context) error {
+	return gs.setObjects(ctx)
 }
 
 // NewGitRegoStoreV2 - generates git store object for production v2 regolibrary release files.
