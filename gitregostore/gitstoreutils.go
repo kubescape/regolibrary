@@ -2,6 +2,7 @@ package gitregostore
 
 import (
 	"bytes"
+	"context"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
@@ -11,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"regexp"
+	"sort"
 	"strings"
 	"sync"
 	"time"
@@ -59,7 +61,6 @@ var (
 
 	storeSetterMapping = map[string]storeSetter{
 		attackTracksJsonFileName:          (*GitRegoStore).setAttackTracks,
-		frameworksJsonFileName:            (*GitRegoStore).setFrameworks,
 		controlsJsonFileName:              (*GitRegoStore).setControls,
 		rulesJsonFileName:                 (*GitRegoStore).setRules,
 		frameworkControlRelationsFileName: (*GitRegoStore).setFrameworkControlRelations,
@@ -129,77 +130,202 @@ func (gs *GitRegoStore) setControl(respStr string) error {
 
 // ======================== set Objects From Release =============================================
 
-func (gs *GitRegoStore) setObjects() error {
-	var wg sync.WaitGroup
-	wg.Add(1)
-	var e error
-	go func() {
-		f := true
-		for {
-			if err := gs.setObjectsFromReleaseOnce(); err != nil {
-				e = err
-			}
-			if f {
-				wg.Done() // first update to done
-				f = false
-			}
-			if !gs.Watch {
-				return
-			}
-			time.Sleep(time.Duration(gs.FrequencyPullFromGitMinutes) * time.Minute)
-		}
-	}()
-	wg.Wait()
-	return e
+// DefaultRequestTimeout bounds every single HTTP request made while pulling a release.
+// It never extends a deadline already carried by the caller's context.
+const DefaultRequestTimeout = 60 * time.Second
+
+// releaseArtifacts holds the raw content of a fully downloaded (and, when possible, verified) release.
+// Nothing is applied to the store until every artifact has been downloaded.
+type releaseArtifacts struct {
+	files              map[string]string
+	securityFrameworks string
+	hasSecurity        bool
 }
 
-func (gs *GitRegoStore) setObjectsFromReleaseOnce() error {
-	checksums, err := gs.getReleaseChecksums()
-	verifyArtifacts := err == nil
-	if err != nil && !errors.Is(err, errHTTPNotFound) {
+func (gs *GitRegoStore) setObjects(ctx context.Context) error {
+	err := gs.setObjectsFromReleaseOnce(ctx)
+	if gs.Watch {
+		go gs.watchRelease(ctx)
+	}
+	return err
+}
+
+// watchRelease periodically pulls the release again until ctx is done.
+func (gs *GitRegoStore) watchRelease(ctx context.Context) {
+	interval := time.Duration(gs.FrequencyPullFromGitMinutes) * time.Minute
+	if interval <= 0 {
+		return
+	}
+	ticker := time.NewTicker(interval)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
+			_ = gs.setObjectsFromReleaseOnce(ctx)
+		}
+	}
+}
+
+func (gs *GitRegoStore) setObjectsFromReleaseOnce(ctx context.Context) error {
+	artifacts, err := gs.downloadRelease(ctx)
+	if err != nil {
 		return err
 	}
 
-	for kind, storeSetterMappingFunc := range storeSetterMapping {
-		var respStr string
+	return gs.applyRelease(artifacts)
+}
 
-		if verifyArtifacts {
-			respStr, err = gs.getVerifiedReleaseArtifact(kind, checksums)
-		} else {
-			respStr, err = HttpGetter(
-				gs.httpClient,
-				fmt.Sprintf("%s/%s", gs.URL, gs.stripExtention(kind)),
-			)
-		}
-
-		if err != nil {
-			return err
-		}
-
-		if kind == frameworksJsonFileName {
-			if verifyArtifacts {
-				if err = gs.setFrameworksFromRelease(respStr, checksums); err != nil {
-					return err
-				}
-			} else {
-				if err = gs.setFrameworks(respStr); err != nil {
-					return err
-				}
-			}
-			continue
-		}
-
-		if err = storeSetterMappingFunc(gs, respStr); err != nil {
-			return err
-		}
+// downloadRelease downloads every release artifact without touching the store state.
+func (gs *GitRegoStore) downloadRelease(ctx context.Context) (*releaseArtifacts, error) {
+	checksums, err := gs.getReleaseChecksums(ctx)
+	verifyArtifacts := err == nil
+	if err != nil && !errors.Is(err, errHTTPNotFound) {
+		return nil, err
 	}
 
+	fetch := func(kind string) (string, error) {
+		if verifyArtifacts {
+			return gs.getVerifiedReleaseArtifact(ctx, kind, checksums)
+		}
+		return gs.httpGet(ctx, fmt.Sprintf("%s/%s", gs.URL, gs.stripExtention(kind)))
+	}
+
+	artifacts := &releaseArtifacts{files: make(map[string]string, len(storeSetterMapping)+1)}
+	kinds := []string{frameworksJsonFileName}
+	for kind := range storeSetterMapping {
+		kinds = append(kinds, kind)
+	}
+
+	for _, kind := range kinds {
+		respStr, err := fetch(kind)
+		if err != nil {
+			return nil, err
+		}
+		artifacts.files[kind] = respStr
+	}
+
+	// from a certain tag we have security frameworks
+	if gs.versionHasSecurityFrameworks() {
+		respStr, err := fetch(securityFrameworksJsonFileName)
+		if err != nil {
+			return nil, wrapDownloadError(
+				fmt.Sprintf("error getting: %s from: '%s'", securityFrameworksJsonFileName, gs.URL),
+				err,
+			)
+		}
+		artifacts.securityFrameworks = respStr
+		artifacts.hasSecurity = true
+	}
+
+	return artifacts, nil
+}
+
+// applyRelease decodes and prepares every downloaded artifact in a staging store and publishes the result to
+// gs only if all of them succeeded. On error gs is left completely unchanged.
+func (gs *GitRegoStore) applyRelease(artifacts *releaseArtifacts) error {
+	staged, err := stageRelease(artifacts)
+	if err != nil {
+		return err
+	}
+
+	gs.publishRelease(staged)
 	return nil
 }
 
-func (gs *GitRegoStore) getReleaseChecksums() (map[string]string, error) {
-	respStr, err := HttpGetter(
-		gs.httpClient,
+// stageRelease prepares the complete new state in a private store that no other goroutine can see.
+// Artifacts are processed in a fixed order, so the reported error does not depend on map iteration order.
+func stageRelease(artifacts *releaseArtifacts) (*GitRegoStore, error) {
+	staged := &GitRegoStore{}
+
+	if respStr, ok := artifacts.files[frameworksJsonFileName]; ok {
+		if err := staged.setFrameworks(respStr, artifacts.securityFrameworks, artifacts.hasSecurity); err != nil {
+			return nil, err
+		}
+	}
+
+	kinds := make([]string, 0, len(storeSetterMapping))
+	for kind := range storeSetterMapping {
+		kinds = append(kinds, kind)
+	}
+	sort.Strings(kinds)
+
+	for _, kind := range kinds {
+		respStr, ok := artifacts.files[kind]
+		if !ok {
+			continue
+		}
+		if err := storeSetterMapping[kind](staged, respStr); err != nil {
+			return nil, fmt.Errorf("error preparing %s: %w", kind, err)
+		}
+	}
+
+	return staged, nil
+}
+
+// publishRelease swaps the staged state into gs. Every lock protecting the published fields is held for the
+// whole swap, so a reader holding any of them (even several at once) sees either the old or the new state.
+// Locks are taken in the order readers already nest them (frameworks, controls, rules, relations), which
+// avoids lock-order inversions.
+func (gs *GitRegoStore) publishRelease(staged *GitRegoStore) {
+	gs.frameworksLock.Lock()
+	defer gs.frameworksLock.Unlock()
+	gs.controlsLock.Lock()
+	defer gs.controlsLock.Unlock()
+	gs.attackTrackControlsLock.Lock()
+	defer gs.attackTrackControlsLock.Unlock()
+	gs.rulesLock.Lock()
+	defer gs.rulesLock.Unlock()
+	gs.controlRelationsLock.Lock()
+	defer gs.controlRelationsLock.Unlock()
+	gs.frameworkRelationsLock.Lock()
+	defer gs.frameworkRelationsLock.Unlock()
+	gs.attackTracksLock.Lock()
+	defer gs.attackTracksLock.Unlock()
+	gs.DefaultConfigInputsLock.Lock()
+	defer gs.DefaultConfigInputsLock.Unlock()
+	gs.systemPostureExceptionPoliciesLock.Lock()
+	defer gs.systemPostureExceptionPoliciesLock.Unlock()
+
+	gs.Frameworks = staged.Frameworks
+	gs.Controls = staged.Controls
+	gs.AttackTrackControls = staged.AttackTrackControls
+	gs.Rules = staged.Rules
+	gs.ControlRuleRelations = staged.ControlRuleRelations
+	gs.FrameworkControlRelations = staged.FrameworkControlRelations
+	gs.AttackTracks = staged.AttackTracks
+	gs.DefaultConfigInputs = staged.DefaultConfigInputs
+	gs.SystemPostureExceptionPolicies = staged.SystemPostureExceptionPolicies
+}
+
+// httpGet issues a context-aware GET using the store's HTTP client and request timeout.
+func (gs *GitRegoStore) httpGet(ctx context.Context, fullURL string) (string, error) {
+	timeout := gs.requestTimeout
+	if timeout <= 0 {
+		timeout = DefaultRequestTimeout
+	}
+	return httpGetter(ctx, gs.httpClient, fullURL, timeout)
+}
+
+// isContextError reports whether err was caused by cancellation or a deadline.
+func isContextError(err error) bool {
+	return errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded)
+}
+
+// wrapDownloadError adds context to a download error. The cause is wrapped (so callers can use errors.Is
+// with context.Canceled / context.DeadlineExceeded) only when it is a cancellation or timeout; other causes
+// keep their previous, flattened form so that e.g. errHTTPNotFound is not accidentally propagated.
+func wrapDownloadError(msg string, err error) error {
+	if isContextError(err) {
+		return fmt.Errorf("%s: %w", msg, err)
+	}
+	return fmt.Errorf("%s: %s", msg, err)
+}
+
+func (gs *GitRegoStore) getReleaseChecksums(ctx context.Context) (map[string]string, error) {
+	respStr, err := gs.httpGet(
+		ctx,
 		fmt.Sprintf("%s/%s", gs.URL, checksumsFileName),
 	)
 	if err != nil {
@@ -211,11 +337,19 @@ func (gs *GitRegoStore) getReleaseChecksums() (map[string]string, error) {
 		)
 	}
 
-	signatureBundle, err := HttpGetter(
-		gs.httpClient,
+	signatureBundle, err := gs.httpGet(
+		ctx,
 		fmt.Sprintf("%s/%s", gs.URL, checksumsSignatureFileName),
 	)
 	if err != nil {
+		if isContextError(err) {
+			return nil, fmt.Errorf(
+				"error getting %s from: '%s': %w",
+				checksumsSignatureFileName,
+				gs.URL,
+				err,
+			)
+		}
 		return nil, fmt.Errorf(
 			"%w: error getting %s from: '%s': %s",
 			ErrChecksumVerification,
@@ -346,6 +480,7 @@ func verifyChecksumManifestSignatureWithTrustedMaterial(
 }
 
 func (gs *GitRegoStore) getVerifiedReleaseArtifact(
+	ctx context.Context,
 	filename string,
 	checksums map[string]string,
 ) (string, error) {
@@ -360,8 +495,8 @@ func (gs *GitRegoStore) getVerifiedReleaseArtifact(
 		)
 	}
 
-	respStr, err := HttpGetter(
-		gs.httpClient,
+	respStr, err := gs.httpGet(
+		ctx,
 		fmt.Sprintf("%s/%s", gs.URL, artifactName),
 	)
 	if err != nil {
@@ -467,52 +602,14 @@ func verifyChecksum(content string, expectedChecksum string) error {
 	return nil
 }
 
-func (gs *GitRegoStore) setFrameworksFromRelease(
-	respStr string,
-	checksums map[string]string,
-) error {
+func (gs *GitRegoStore) setFrameworks(respStr, securityRespStr string, hasSecurity bool) error {
 	frameworks := []opapolicy.Framework{}
 	if err := JSONDecoder(respStr).Decode(&frameworks); err != nil {
 		return err
 	}
-
-	if gs.versionHasSecurityFrameworks() {
-		respStr1, err := gs.getVerifiedReleaseArtifact(
-			securityFrameworksJsonFileName,
-			checksums,
-		)
-		if err != nil {
-			return err
-		}
-
+	if hasSecurity {
 		securityFrameworks := []opapolicy.Framework{}
-		if err := JSONDecoder(respStr1).Decode(&securityFrameworks); err != nil {
-			return err
-		}
-
-		frameworks = append(frameworks, securityFrameworks...)
-	}
-
-	gs.frameworksLock.Lock()
-	defer gs.frameworksLock.Unlock()
-
-	gs.Frameworks = frameworks
-	return nil
-}
-
-func (gs *GitRegoStore) setFrameworks(respStr string) error {
-	frameworks := []opapolicy.Framework{}
-	if err := JSONDecoder(respStr).Decode(&frameworks); err != nil {
-		return err
-	}
-	// from a certain tag we have security frameworks
-	if gs.versionHasSecurityFrameworks() {
-		respStr1, err := HttpGetter(gs.httpClient, fmt.Sprintf("%s/%s", gs.URL, gs.stripExtention(securityFrameworksJsonFileName)))
-		if err != nil {
-			return fmt.Errorf("error getting: %s from: '%s' ,error: %s", securityFrameworksJsonFileName, gs.URL, err)
-		}
-		securityFrameworks := []opapolicy.Framework{}
-		if err := JSONDecoder(respStr1).Decode(&securityFrameworks); err != nil {
+		if err := JSONDecoder(securityRespStr).Decode(&securityFrameworks); err != nil {
 			return err
 		}
 		frameworks = append(frameworks, securityFrameworks...)
@@ -613,6 +710,9 @@ func (gs *GitRegoStore) setSystemPostureExceptionPolicies(respStr string) error 
 
 func (gs *GitRegoStore) setFrameworkControlRelations(respStr string) error {
 	df := dataframe.ReadCSV(strings.NewReader(respStr))
+	if df.Err != nil {
+		return df.Err
+	}
 
 	gs.frameworkRelationsLock.Lock()
 	gs.FrameworkControlRelations = df
@@ -623,6 +723,9 @@ func (gs *GitRegoStore) setFrameworkControlRelations(respStr string) error {
 
 func (gs *GitRegoStore) setControlRuleRelations(respStr string) error {
 	df := dataframe.ReadCSV(strings.NewReader(respStr))
+	if df.Err != nil {
+		return df.Err
+	}
 
 	gs.controlRelationsLock.Lock()
 	gs.ControlRuleRelations = df
@@ -638,8 +741,25 @@ func JSONDecoder(origin string) *json.Decoder {
 	return dec
 }
 
+// HttpGetter performs a GET request bounded by DefaultRequestTimeout.
+// Use HttpGetterWithContext to make the request cancellable by the caller.
 func HttpGetter(httpClient *http.Client, fullURL string) (string, error) {
-	req, err := http.NewRequest("GET", fullURL, nil)
+	return HttpGetterWithContext(context.Background(), httpClient, fullURL)
+}
+
+// HttpGetterWithContext performs a GET request that is aborted when ctx is cancelled or its deadline expires.
+// The request is additionally bounded by DefaultRequestTimeout, which never extends an earlier ctx deadline.
+// Cancellation and timeout errors wrap context.Canceled / context.DeadlineExceeded.
+func HttpGetterWithContext(ctx context.Context, httpClient *http.Client, fullURL string) (string, error) {
+	return httpGetter(ctx, httpClient, fullURL, DefaultRequestTimeout)
+}
+
+func httpGetter(ctx context.Context, httpClient *http.Client, fullURL string, timeout time.Duration) (string, error) {
+	// The timeout covers reading the whole body, so cancel only after HTTPRespToString returns.
+	ctx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, fullURL, nil)
 	if err != nil {
 		return "", err
 	}
@@ -672,7 +792,7 @@ func HTTPRespToString(resp *http.Response) (string, error) {
 		if respStrNewLen > 1024 {
 			respStrNewLen = 1024
 		}
-		return "", fmt.Errorf("HTTP request failed. URL: '%s', Read-ERROR: '%s', HTTP-CODE: '%s', BODY(top): '%s', HTTP-HEADERS: %v, HTTP-BODY-BUFFER-LENGTH: %v", resp.Request.URL.RequestURI(), err, resp.Status, respStr[:respStrNewLen], resp.Header, bytesNum)
+		return "", fmt.Errorf("HTTP request failed. URL: '%s', Read-ERROR: '%w', HTTP-CODE: '%s', BODY(top): '%s', HTTP-HEADERS: %v, HTTP-BODY-BUFFER-LENGTH: %v", resp.Request.URL.RequestURI(), err, resp.Status, respStr[:respStrNewLen], resp.Header, bytesNum)
 	}
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
 		if resp.StatusCode == http.StatusNotFound {
