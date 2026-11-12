@@ -50,14 +50,14 @@ or prevent the prompt-level cause (for example LLM01 prompt injection).
 | Control | OWASP LLM 2025 | ATLAS technique it constrains | ATLAS mitigation it implements |
 | --- | --- | --- | --- |
 | C-0297 hardened runtime class | LLM05 Improper Output Handling | AML.T0105 Escape to Host | AML.M0032 Segmentation of AI Agent Components |
-| C-0309 service account token isolation | LLM06 Excessive Agency | AML.T0055 Unsecured Credentials | AML.M0026 Privileged AI Agent Permissions Configuration |
-| C-0311 container resource limits | LLM10 Unbounded Consumption | AML.T0029 Denial of AI Service; AML.T0034.002 Agentic Resource Consumption | AML.M0032 Segmentation of AI Agent Components |
-| C-0312 image digest pinning | LLM03 Supply Chain | AML.T0010.004 Container Registry | AML.M0014 Verify AI Artifacts |
+| C-0309 service account token automounting | LLM06 Excessive Agency | AML.T0055 Unsecured Credentials (automounted token only) | AML.M0026 Privileged AI Agent Permissions Configuration |
+| C-0311 container resource limits | LLM10 Unbounded Consumption (Pod CPU and memory only) | AML.T0029 Denial of AI Service; AML.T0034.002 Agentic Resource Consumption (local compute only) | AML.M0032 Segmentation of AI Agent Components |
+| C-0312 image digest pinning | LLM03 Supply Chain | AML.T0010.004 Container Registry (pinned references do not follow a changed tag) | — |
 | C-0313 image registries | LLM03 Supply Chain | AML.T0010.004 Container Registry | — |
-| C-0314 managed network policy | — | — | AML.M0032 Segmentation of AI Agent Components (private and internal destinations only) |
-| C-0315 strict egress policy | LLM02 Sensitive Information Disclosure; LLM06 Excessive Agency | AML.T0025 Exfiltration via Cyber Means; AML.T0086 Exfiltration via AI Agent Tool Invocation | AML.M0032 Segmentation of AI Agent Components |
+| C-0314 managed network policy | — | — | — |
+| C-0315 strict egress policy | LLM02 Sensitive Information Disclosure; LLM06 Excessive Agency (template policy only) | AML.T0025 Exfiltration via Cyber Means; AML.T0086 Exfiltration via AI Agent Tool Invocation (template policy only) | AML.M0032 Segmentation of AI Agent Components (template policy only) |
 | C-0316 claim override restrictions | — | — | — |
-| C-0317 Worker Pod resource ceilings | LLM10 Unbounded Consumption | AML.T0029 Denial of AI Service; AML.T0034.002 Agentic Resource Consumption | AML.M0032 Segmentation of AI Agent Components |
+| C-0317 Worker Pod resource ceilings | LLM10 Unbounded Consumption (Worker Pod CPU and memory only) | AML.T0029 Denial of AI Service; AML.T0034.002 Agentic Resource Consumption (local compute only) | AML.M0032 Segmentation of AI Agent Components |
 
 Notes on the choices:
 
@@ -65,19 +65,35 @@ Notes on the choices:
   which is LLM output executed without review; gVisor or Kata limits what that
   code can reach. AML.M0032 names container isolation and code execution
   sandboxing directly.
-- **C-0309** removes a Kubernetes credential that the sandboxed code could
-  otherwise read and use with the service account's permissions.
-- **C-0311 and C-0317** cap compute per Pod. They do not cap per-actor use
-  inside a shared Worker Pod (see above), so they limit, not prevent, one actor
-  starving others.
-- **C-0312** blocks a tag being overwritten in the registry, which is the attack
-  AML.T0010.004 describes; the digest is the checksum AML.M0014 asks for.
+- **C-0309** checks only `automountServiceAccountToken` on Sandbox and
+  SandboxTemplate resources. It stops the automatically mounted token, but not
+  a token the Pod mounts explicitly, for example through a projected volume.
+- **C-0311 and C-0317** cap CPU and memory per Pod. They do not limit external
+  API calls, token budgets or other spend outside the Pod, which is part of
+  what AML.T0034.002 covers, and they do not cap per-actor use inside a shared
+  Worker Pod (see above). They limit, not prevent, one actor starving others.
+- **C-0312** checks only that each image reference has the form
+  `@sha256:` followed by 64 lowercase hex characters. A pinned reference keeps
+  pointing at the same image if a registry tag is later overwritten, which
+  limits the effect of AML.T0010.004 on that workload. It does not stop the tag
+  from being overwritten, and it does not check that the digest belongs to a
+  trusted image: a malicious image also has a valid digest. It is therefore not
+  mapped to AML.M0014 Verify AI Artifacts. Trusted-digest or signature
+  verification is a separate control that this framework does not provide.
   **C-0313** only restricts which registries are trusted, so it has no
-  mitigation entry; it is not image signing (AML.M0013).
-- **C-0314** is not mapped to an OWASP risk or an exfiltration technique: the
-  managed default still allows public internet. Only **C-0315** (and the
-  existing C-0301, which is outside this framework) restrict egress enough to
-  constrain exfiltration.
+  mitigation entry either; it is not image signing (AML.M0013).
+- **C-0314** checks only that SandboxTemplate networking is controller-managed.
+  The managed default still allows public internet, so a passing result does
+  not show segmentation or constrained egress, and the control is left
+  unmapped.
+- **C-0315** checks the SandboxTemplate's own policy: managed networking with
+  an explicit empty `networkPolicy.egress` list. Kubernetes NetworkPolicies are
+  additive, so another policy that selects the same Pod can still allow egress,
+  and enforcement depends on the cluster's network plugin. A passing result
+  constrains exfiltration only if no other policy opens egress for that Pod and
+  the plugin enforces NetworkPolicy; check the effective policy in the cluster.
+  The existing C-0301, outside this framework, requires an explicitly scoped
+  policy as well.
 - **C-0316** stops claims from replacing template environment variables or
   volume claim templates. No OWASP entry or ATLAS technique describes this
   Kubernetes-level override cleanly, so it is left unmapped.
