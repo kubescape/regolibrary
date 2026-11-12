@@ -9,7 +9,7 @@ deny contains msga if {
 	ingress.kind == "Ingress"
 
 	# Check if ingress has TLS enabled
-	not ingress.spec.tls
+	not has_tls(ingress)
 
 	msga := {
 		"alertMessage": sprintf("Ingress '%v' has not TLS definition", [ingress.metadata.name]),
@@ -22,4 +22,9 @@ deny contains msga if {
 		"alertScore": 7,
 		"alertObject": {"k8sApiObjects": [ingress]},
 	}
+}
+
+# An empty tls list configures no TLS, the same as leaving it out
+has_tls(ingress) if {
+	count(ingress.spec.tls) > 0
 }
