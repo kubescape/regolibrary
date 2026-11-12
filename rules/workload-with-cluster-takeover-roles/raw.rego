@@ -27,7 +27,7 @@ deny contains msga if {
 	rolebinding.roleRef.kind == role.kind
 	rolebinding.subjects[j].kind == "ServiceAccount"
 	rolebinding.subjects[j].name == sa.metadata.name
-	rolebinding.subjects[j].namespace == obj_namespace(sa)
+	subject_namespace(rolebinding.subjects[j], rolebinding) == obj_namespace(sa)
 
 	deletePath := sprintf("subjects[%d]", [j])
 
@@ -92,6 +92,16 @@ service_account_name(wl_spec) := wl_spec.serviceAccountName if {
 # A manifest without metadata.namespace (yaml scans) is created in the
 # namespace it is applied to, "default" unless another one is chosen
 obj_namespace(obj) := object.get(obj.metadata, "namespace", "default")
+
+# A RoleBinding can leave out the namespace of a ServiceAccount subject,
+# which Kubernetes then resolves to the RoleBinding's own namespace
+# ("default" for a RoleBinding manifest without one, as in yaml scans)
+subject_namespace(subject, _) := subject.namespace
+
+subject_namespace(subject, rolebinding) := obj_namespace(rolebinding) if {
+	not subject.namespace
+	rolebinding.kind == "RoleBinding"
+}
 
 # is_same_namespace supports cases where ns is not configured in the metadata
 # for yaml scans

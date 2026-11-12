@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: bind-test
+  namespace: other
+subjects:
+# no namespace: this is other/default, not the pod's default/default
+- kind: ServiceAccount
+  name: default
+roleRef:
+  kind: ClusterRole
+  name: test
+  apiGroup: rbac.authorization.k8s.io
