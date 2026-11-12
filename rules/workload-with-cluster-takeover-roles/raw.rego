@@ -77,15 +77,17 @@ is_sa_auto_mounted(wl_spec, sa) if {
 }
 
 is_same_sa(wl_spec, sa_metadata, wl_metadata) if {
-	wl_spec.serviceAccountName == sa_metadata.name
+	service_account_name(wl_spec) == sa_metadata.name
 	is_same_namespace(sa_metadata, wl_metadata)
 }
 
-is_same_sa(wl_spec, sa_metadata, wl_metadata) if {
-	not wl_spec.serviceAccountName
-	sa_metadata.name == "default"
-	is_same_namespace(sa_metadata, wl_metadata)
-}
+# serviceAccount is the deprecated alias of serviceAccountName, which wins when
+# both are set; with neither set the pod runs as the "default" service account
+service_account_name(wl_spec) := wl_spec.serviceAccountName if {
+	wl_spec.serviceAccountName != ""
+} else := wl_spec.serviceAccount if {
+	wl_spec.serviceAccount != ""
+} else := "default"
 
 # is_same_namespace supports cases where ns is not configured in the metadata
 # for yaml scans
