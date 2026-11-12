@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"net/url"
 	"regexp"
+	"sort"
 	"strings"
 	"sync"
 	"time"
@@ -221,22 +222,81 @@ func (gs *GitRegoStore) downloadRelease(ctx context.Context) (*releaseArtifacts,
 	return artifacts, nil
 }
 
-// applyRelease sets the downloaded artifacts in the store.
+// applyRelease decodes and prepares every downloaded artifact in a staging store and publishes the result to
+// gs only if all of them succeeded. On error gs is left completely unchanged.
 func (gs *GitRegoStore) applyRelease(artifacts *releaseArtifacts) error {
-	for kind, respStr := range artifacts.files {
-		if kind == frameworksJsonFileName {
-			if err := gs.setFrameworks(respStr, artifacts.securityFrameworks, artifacts.hasSecurity); err != nil {
-				return err
-			}
-			continue
-		}
+	staged, err := stageRelease(artifacts)
+	if err != nil {
+		return err
+	}
 
-		if err := storeSetterMapping[kind](gs, respStr); err != nil {
-			return err
+	gs.publishRelease(staged)
+	return nil
+}
+
+// stageRelease prepares the complete new state in a private store that no other goroutine can see.
+// Artifacts are processed in a fixed order, so the reported error does not depend on map iteration order.
+func stageRelease(artifacts *releaseArtifacts) (*GitRegoStore, error) {
+	staged := &GitRegoStore{}
+
+	if respStr, ok := artifacts.files[frameworksJsonFileName]; ok {
+		if err := staged.setFrameworks(respStr, artifacts.securityFrameworks, artifacts.hasSecurity); err != nil {
+			return nil, err
 		}
 	}
 
-	return nil
+	kinds := make([]string, 0, len(storeSetterMapping))
+	for kind := range storeSetterMapping {
+		kinds = append(kinds, kind)
+	}
+	sort.Strings(kinds)
+
+	for _, kind := range kinds {
+		respStr, ok := artifacts.files[kind]
+		if !ok {
+			continue
+		}
+		if err := storeSetterMapping[kind](staged, respStr); err != nil {
+			return nil, fmt.Errorf("error preparing %s: %w", kind, err)
+		}
+	}
+
+	return staged, nil
+}
+
+// publishRelease swaps the staged state into gs. Every lock protecting the published fields is held for the
+// whole swap, so a reader holding any of them (even several at once) sees either the old or the new state.
+// Locks are taken in the order readers already nest them (frameworks, controls, rules, relations), which
+// avoids lock-order inversions.
+func (gs *GitRegoStore) publishRelease(staged *GitRegoStore) {
+	gs.frameworksLock.Lock()
+	defer gs.frameworksLock.Unlock()
+	gs.controlsLock.Lock()
+	defer gs.controlsLock.Unlock()
+	gs.attackTrackControlsLock.Lock()
+	defer gs.attackTrackControlsLock.Unlock()
+	gs.rulesLock.Lock()
+	defer gs.rulesLock.Unlock()
+	gs.controlRelationsLock.Lock()
+	defer gs.controlRelationsLock.Unlock()
+	gs.frameworkRelationsLock.Lock()
+	defer gs.frameworkRelationsLock.Unlock()
+	gs.attackTracksLock.Lock()
+	defer gs.attackTracksLock.Unlock()
+	gs.DefaultConfigInputsLock.Lock()
+	defer gs.DefaultConfigInputsLock.Unlock()
+	gs.systemPostureExceptionPoliciesLock.Lock()
+	defer gs.systemPostureExceptionPoliciesLock.Unlock()
+
+	gs.Frameworks = staged.Frameworks
+	gs.Controls = staged.Controls
+	gs.AttackTrackControls = staged.AttackTrackControls
+	gs.Rules = staged.Rules
+	gs.ControlRuleRelations = staged.ControlRuleRelations
+	gs.FrameworkControlRelations = staged.FrameworkControlRelations
+	gs.AttackTracks = staged.AttackTracks
+	gs.DefaultConfigInputs = staged.DefaultConfigInputs
+	gs.SystemPostureExceptionPolicies = staged.SystemPostureExceptionPolicies
 }
 
 // httpGet issues a context-aware GET using the store's HTTP client and request timeout.
@@ -650,6 +710,9 @@ func (gs *GitRegoStore) setSystemPostureExceptionPolicies(respStr string) error 
 
 func (gs *GitRegoStore) setFrameworkControlRelations(respStr string) error {
 	df := dataframe.ReadCSV(strings.NewReader(respStr))
+	if df.Err != nil {
+		return df.Err
+	}
 
 	gs.frameworkRelationsLock.Lock()
 	gs.FrameworkControlRelations = df
@@ -660,6 +723,9 @@ func (gs *GitRegoStore) setFrameworkControlRelations(respStr string) error {
 
 func (gs *GitRegoStore) setControlRuleRelations(respStr string) error {
 	df := dataframe.ReadCSV(strings.NewReader(respStr))
+	if df.Err != nil {
+		return df.Err
+	}
 
 	gs.controlRelationsLock.Lock()
 	gs.ControlRuleRelations = df
