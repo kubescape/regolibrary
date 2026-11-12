@@ -8,7 +8,7 @@ deny contains msga if {
 	start_of_path := get_beginning_of_path(wl)
 
 	msga := {
-		"alertMessage": sprintf("%v: %v in the following namespace: %v mounts service account tokens by default", [wl.kind, wl.metadata.name, wl.metadata.namespace]),
+		"alertMessage": sprintf("%v: %v in the following namespace: %v mounts service account tokens by default", [wl.kind, wl.metadata.name, object.get(wl.metadata, "namespace", "default")]),
 		"packagename": "armo_builtins",
 		"alertScore": 9,
 		"alertObject": {"k8sApiObjects": [wl]},

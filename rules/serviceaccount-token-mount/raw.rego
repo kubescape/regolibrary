@@ -19,7 +19,7 @@ deny contains msga if {
 	fixed_path := get_fixed_path(result)
 
 	msga := {
-		"alertMessage": sprintf("%v: %v in the following namespace: %v mounts service account tokens by default", [wl.kind, wl.metadata.name, wl.metadata.namespace]),
+		"alertMessage": sprintf("%v: %v in the following namespace: %v mounts service account tokens by default", [wl.kind, wl.metadata.name, metadata_namespace(wl.metadata)]),
 		"packagename": "armo_builtins",
 		"alertScore": 9,
 		"fixPaths": fixed_path,
