@@ -1,0 +1,22 @@
+[
+  {
+    "alertMessage": "Pod: missing-alias-pod in namespace app references missing ServiceAccount api-runner",
+    "packagename": "armo_builtins",
+    "failedPaths": [
+      "spec.serviceAccount"
+    ],
+    "fixPaths": [],
+    "alertScore": 5,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "v1",
+          "kind": "Pod",
+          "metadata": {
+            "name": "missing-alias-pod"
+          }
+        }
+      ]
+    }
+  }
+]

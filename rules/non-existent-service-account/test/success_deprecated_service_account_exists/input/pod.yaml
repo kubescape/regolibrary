@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alias-pod
+  namespace: app
+spec:
+  # deprecated alias of serviceAccountName
+  serviceAccount: api-runner
+  containers:
+  - name: app
+    image: nginx
