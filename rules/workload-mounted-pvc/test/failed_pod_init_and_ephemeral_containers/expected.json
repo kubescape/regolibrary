@@ -1,0 +1,96 @@
+[
+    {
+        "alertMessage": "Pod: mypod has mounted PVC",
+        "deletePaths": [
+            "spec.initContainers[0].volumeMounts[0]"
+        ],
+        "failedPaths": [
+            "spec.initContainers[0].volumeMounts[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 0,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "mypod"
+                    }
+                }
+            ]
+        },
+        "relatedObjects": [
+            {
+                "object": {
+                    "apiVersion": "v1",
+                    "kind": "PersistentVolumeClaim",
+                    "metadata": {
+                        "name": "myclaim"
+                    },
+                    "spec": {
+                        "accessModes": [
+                            "ReadWriteOnce"
+                        ],
+                        "resources": {
+                            "requests": {
+                                "storage": "1Gi"
+                            }
+                        }
+                    }
+                },
+                "failedPaths": null,
+                "fixPaths": null
+            }
+        ]
+    },
+    {
+        "alertMessage": "Pod: mypod has mounted PVC",
+        "deletePaths": [
+            "spec.ephemeralContainers[0].volumeMounts[0]"
+        ],
+        "failedPaths": [
+            "spec.ephemeralContainers[0].volumeMounts[0]"
+        ],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 0,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "mypod"
+                    }
+                }
+            ]
+        },
+        "relatedObjects": [
+            {
+                "object": {
+                    "apiVersion": "v1",
+                    "kind": "PersistentVolumeClaim",
+                    "metadata": {
+                        "name": "myclaim"
+                    },
+                    "spec": {
+                        "accessModes": [
+                            "ReadWriteOnce"
+                        ],
+                        "resources": {
+                            "requests": {
+                                "storage": "1Gi"
+                            }
+                        }
+                    }
+                },
+                "failedPaths": null,
+                "fixPaths": null
+            }
+        ]
+    }
+]
