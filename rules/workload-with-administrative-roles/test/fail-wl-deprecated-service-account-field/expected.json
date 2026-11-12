@@ -1,0 +1,94 @@
+[
+    {
+        "alertMessage": "Deployment: web in the following namespace: default has administrative roles",
+        "failedPaths": null,
+        "reviewPaths": null,
+        "deletePaths": null,
+        "fixPaths": null,
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 9,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "apps/v1",
+                    "kind": "Deployment",
+                    "metadata": {
+                        "name": "web"
+                    }
+                }
+            ]
+        },
+        "relatedObjects": [
+            {
+                "object": {
+                    "apiVersion": "v1",
+                    "kind": "ServiceAccount",
+                    "metadata": {
+                        "name": "web-sa",
+                        "namespace": "default"
+                    }
+                },
+                "failedPaths": null,
+                "reviewPaths": null,
+                "deletePaths": null,
+                "fixPaths": null
+            },
+            {
+                "object": {
+                    "apiVersion": "rbac.authorization.k8s.io/v1",
+                    "kind": "ClusterRoleBinding",
+                    "metadata": {
+                        "name": "web-sa-binding"
+                    },
+                    "roleRef": {
+                        "apiGroup": "rbac.authorization.k8s.io",
+                        "kind": "ClusterRole",
+                        "name": "web-role"
+                    },
+                    "subjects": [
+                        {
+                            "kind": "ServiceAccount",
+                            "name": "web-sa",
+                            "namespace": "default"
+                        }
+                    ]
+                },
+                "failedPaths": null,
+                "reviewPaths": [
+                    "roleRef"
+                ],
+                "deletePaths": [
+                    "subjects[0]"
+                ],
+                "fixPaths": null
+            },
+            {
+                "object": {
+                    "apiVersion": "rbac.authorization.k8s.io/v1",
+                    "kind": "ClusterRole",
+                    "metadata": {
+                        "name": "web-role"
+                    },
+                    "rules": [
+                        {
+                            "apiGroups": [
+                                "*"
+                            ],
+                            "resources": [
+                                "*"
+                            ],
+                            "verbs": [
+                                "*"
+                            ]
+                        }
+                    ]
+                },
+                "failedPaths": null,
+                "reviewPaths": null,
+                "deletePaths": null,
+                "fixPaths": null
+            }
+        ]
+    }
+]
