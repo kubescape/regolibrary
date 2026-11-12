@@ -1,0 +1,41 @@
+[
+	{
+		"alertMessage": "Pod: alias-pod in the following namespace: default mounts service account tokens by default",
+		"reviewPaths": [],
+		"failedPaths": [],
+		"fixPaths": [
+			{
+				"path": "spec.automountServiceAccountToken",
+				"value": "false"
+			}
+		],
+		"ruleStatus": "",
+		"packagename": "armo_builtins",
+		"alertScore": 9,
+		"alertObject": {
+			"k8sApiObjects": [
+				{
+					"apiVersion": "v1",
+					"kind": "Pod",
+					"metadata": {
+						"name": "alias-pod"
+					}
+				}
+			]
+		},
+		"relatedObjects": [
+			{
+				"object": {
+					"apiVersion": "v1",
+					"kind": "ServiceAccount",
+					"metadata": {
+						"name": "build-bot",
+						"namespace": "default"
+					}
+				},
+				"failedPaths": null,
+				"fixPaths": null
+			}
+		]
+	}
+]

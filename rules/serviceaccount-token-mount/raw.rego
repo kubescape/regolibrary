@@ -75,13 +75,16 @@ get_fixed_path(paths) := [paths[1]] if {
 } else := []
 
 is_same_sa(spec, serviceAccountName) if {
-	spec.serviceAccountName == serviceAccountName
+	service_account_name(spec) == serviceAccountName
 }
 
-is_same_sa(spec, serviceAccountName) if {
-	not spec.serviceAccountName
-	serviceAccountName == "default"
-}
+# serviceAccount is the deprecated alias of serviceAccountName, which wins when
+# both are set; with neither set the pod runs as the "default" service account
+service_account_name(spec) := spec.serviceAccountName if {
+	spec.serviceAccountName != ""
+} else := spec.serviceAccount if {
+	spec.serviceAccount != ""
+} else := "default"
 
 is_same_namespace(metadata1, metadata2) if {
 	metadata1.namespace == metadata2.namespace

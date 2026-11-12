@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alias-pod
+  namespace: default
+spec:
+  # deprecated alias of serviceAccountName
+  serviceAccount: build-bot
+  containers:
+  - name: app
+    image: nginx
