@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: builder-pod-reader
+  namespace: ci
+subjects:
+# no namespace: the subject is the "builder" ServiceAccount in "ci"
+- kind: ServiceAccount
+  name: builder
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pod-reader

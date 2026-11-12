@@ -14,7 +14,7 @@ deny contains msga if {
 	endswith(rolebinding.kind, "Binding")
 
 	subject := rolebinding.subjects[k]
-	is_same_subjects(subjectVector, subject)
+	is_same_subjects(subjectVector, subject, rolebinding)
 
 	msga := {
 		"alertMessage": sprintf("service account: %v has the following permissions in the cluster", [subjectVector.name]),
@@ -32,8 +32,19 @@ deny contains msga if {
 # ===============================================================
 
 # for service accounts
-is_same_subjects(subjectVector, subject) if {
+is_same_subjects(subjectVector, subject, rolebinding) if {
 	subjectVector.kind == subject.kind
 	subjectVector.name == subject.name
-	subjectVector.namespace == subject.namespace
+	subject_namespace(subjectVector, rolebinding) == subject_namespace(subject, rolebinding)
+}
+
+# A RoleBinding can leave out the namespace of a ServiceAccount subject,
+# which Kubernetes then resolves to the RoleBinding's own namespace
+# ("default" for a RoleBinding manifest without one, as in yaml scans)
+subject_namespace(subject, _) := subject.namespace
+
+subject_namespace(subject, rolebinding) := object.get(rolebinding.metadata, "namespace", "default") if {
+	subject.kind == "ServiceAccount"
+	not subject.namespace
+	rolebinding.kind == "RoleBinding"
 }

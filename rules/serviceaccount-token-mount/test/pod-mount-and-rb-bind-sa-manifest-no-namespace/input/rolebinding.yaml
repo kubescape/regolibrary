@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: builder-binding
+subjects:
+# no namespace on the subject, the binding nor the ServiceAccount (yaml scan)
+- kind: ServiceAccount
+  name: builder
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: my-role
