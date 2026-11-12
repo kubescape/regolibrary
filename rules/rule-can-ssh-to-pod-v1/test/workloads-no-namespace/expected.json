@@ -1,0 +1,33 @@
+[{
+    "alertMessage": "Deployment: ssh-server is exposed by SSH services: {\"apiVersion\": \"v1\", \"kind\": \"Service\", \"metadata\": {\"name\": \"ssh-service\"}, \"spec\": {\"ports\": [{\"port\": 22, \"protocol\": \"TCP\", \"targetPort\": 2222}], \"selector\": {\"app\": \"ssh-server\"}}}",
+    "reviewPaths": ["spec.template.metadata.labels"],
+    "failedPaths": ["spec.template.metadata.labels"],
+    "fixPaths": null,
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+        "externalObjects": {
+            "kind": "Deployment",
+            "name": "ssh-server",
+            "namespace": "default",
+            "relatedObjects": {
+                "apiVersion": "v1",
+                "kind": "Service",
+                "metadata": {
+                    "name": "ssh-service"
+                },
+                "spec": {
+                    "ports": [{
+                        "port": 22,
+                        "protocol": "TCP",
+                        "targetPort": 2222
+                    }],
+                    "selector": {
+                        "app": "ssh-server"
+                    }
+                }
+            }
+        }
+    }
+}]

@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mycronjob
+spec:
+  schedule: 0 * * * *
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: app
+            image: nginx
+            volumeMounts:
+            - name: scratch
+              mountPath: /scratch
+          volumes:
+          - name: scratch
+            emptyDir: {}
+          - name: target
+            persistentVolumeClaim:
+              claimName: myclaim
+          initContainers:
+          - name: setup
+            image: busybox
+            volumeMounts:
+            - name: target
+              mountPath: /data
+          restartPolicy: OnFailure

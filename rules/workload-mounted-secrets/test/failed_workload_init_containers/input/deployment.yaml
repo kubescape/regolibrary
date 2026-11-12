@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeployment
+spec:
+  selector:
+    matchLabels:
+      app: x
+  template:
+    metadata:
+      labels:
+        app: x
+    spec:
+      containers:
+      - name: app
+        image: nginx
+        volumeMounts:
+        - name: scratch
+          mountPath: /scratch
+      volumes:
+      - name: scratch
+        emptyDir: {}
+      - name: target
+        secret:
+          secretName: mysecret
+      initContainers:
+      - name: setup
+        image: busybox
+        volumeMounts:
+        - name: target
+          mountPath: /data

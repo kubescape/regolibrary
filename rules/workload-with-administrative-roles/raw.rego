@@ -27,12 +27,12 @@ deny contains msga if {
 	rolebinding.roleRef.name == role.metadata.name
 	rolebinding.subjects[j].kind == "ServiceAccount"
 	rolebinding.subjects[j].name == sa.metadata.name
-	rolebinding.subjects[j].namespace == sa.metadata.namespace
+	rolebinding.subjects[j].namespace == obj_namespace(sa)
 
 	deletePath := sprintf("subjects[%d]", [j])
 
 	msga := {
-		"alertMessage": sprintf("%v: %v in the following namespace: %v has administrative roles", [wl.kind, wl.metadata.name, wl.metadata.namespace]),
+		"alertMessage": sprintf("%v: %v in the following namespace: %v has administrative roles", [wl.kind, wl.metadata.name, obj_namespace(wl)]),
 		"packagename": "armo_builtins",
 		"alertScore": 9,
 		"alertObject": {"k8sApiObjects": [wl]},
@@ -78,15 +78,21 @@ is_sa_auto_mounted(wl_spec, sa) if {
 }
 
 is_same_sa(wl_spec, sa_metadata, wl_metadata) if {
-	wl_spec.serviceAccountName == sa_metadata.name
+	service_account_name(wl_spec) == sa_metadata.name
 	is_same_namespace(sa_metadata, wl_metadata)
 }
 
-is_same_sa(wl_spec, sa_metadata, wl_metadata) if {
-	not wl_spec.serviceAccountName
-	sa_metadata.name == "default"
-	is_same_namespace(sa_metadata, wl_metadata)
-}
+# serviceAccount is the deprecated alias of serviceAccountName, which wins when
+# both are set; with neither set the pod runs as the "default" service account
+service_account_name(wl_spec) := wl_spec.serviceAccountName if {
+	wl_spec.serviceAccountName != ""
+} else := wl_spec.serviceAccount if {
+	wl_spec.serviceAccount != ""
+} else := "default"
+
+# A manifest without metadata.namespace (yaml scans) is created in the
+# namespace it is applied to, "default" unless another one is chosen
+obj_namespace(obj) := object.get(obj.metadata, "namespace", "default")
 
 # is_same_namespace supports cases where ns is not configured in the metadata
 # for yaml scans

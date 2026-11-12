@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "Ingress 'my-ingress' has not TLS definition",
+        "failedPaths": [],
+        "fixPaths": [
+            {
+                "path": "spec.tls",
+                "value": "\u003cyour-tls-definition\u003e"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "networking.k8s.io/v1",
+                    "kind": "Ingress",
+                    "metadata": {
+                        "name": "my-ingress"
+                    }
+                }
+            ]
+        }
+    }
+]

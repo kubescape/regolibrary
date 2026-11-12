@@ -15,7 +15,7 @@ deny contains msga if {
 	secret.metadata.name == volume.secret.secretName
 	is_same_namespace(secret.metadata, resource.metadata)
 
-	containers_path := get_containers_path(resource)
+	containers_path := get_containers_paths(resource)[_]
 	containers := object.get(resource, containers_path, [])
 	container := containers[j]
 
@@ -42,23 +42,33 @@ get_volumes_path(resource) := result if {
 	result = ["spec", "template", "spec", "volumes"]
 }
 
-# get_containers_path - get resource containers paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
-get_containers_path(resource) := result if {
+# get_containers_paths - get resource container array paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
+get_containers_paths(resource) := result if {
 	resource_kinds := {"Deployment", "ReplicaSet", "DaemonSet", "StatefulSet", "Job"}
 	resource_kinds[resource.kind]
-	result = ["spec", "template", "spec", "containers"]
+	result = {
+		["spec", "template", "spec", "containers"],
+		["spec", "template", "spec", "initContainers"],
+	}
 }
 
-# get_containers_path - get resource containers paths for "Pod"
-get_containers_path(resource) := result if {
+# get_containers_paths - get resource container array paths for "Pod"
+get_containers_paths(resource) := result if {
 	resource.kind == "Pod"
-	result = ["spec", "containers"]
+	result = {
+		["spec", "containers"],
+		["spec", "initContainers"],
+		["spec", "ephemeralContainers"],
+	}
 }
 
-# get_containers_path - get resource containers paths for  "CronJob"
-get_containers_path(resource) := result if {
+# get_containers_paths - get resource container array paths for  "CronJob"
+get_containers_paths(resource) := result if {
 	resource.kind == "CronJob"
-	result = ["spec", "jobTemplate", "spec", "template", "spec", "containers"]
+	result = {
+		["spec", "jobTemplate", "spec", "template", "spec", "containers"],
+		["spec", "jobTemplate", "spec", "template", "spec", "initContainers"],
+	}
 }
 
 # get_volumes_path - get resource volumes paths for "Pod"
