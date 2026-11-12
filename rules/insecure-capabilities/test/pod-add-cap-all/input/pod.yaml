@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test
+spec:
+  containers:
+  - name: test
+    image: nginx
+    securityContext:
+      capabilities:
+        # only ALL itself (in any case) adds every capability: containerd turns
+        # CAP_ALL into the unknown CAP_CAP_ALL and CRI-O rejects it
+        add: ["CAP_ALL", "all"]

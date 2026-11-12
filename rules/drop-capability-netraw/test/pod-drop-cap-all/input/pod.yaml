@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: audit-pod
+spec:
+  containers:
+  # only ALL itself drops every capability: containerd turns CAP_ALL into the
+  # unknown CAP_CAP_ALL, so NET_RAW is still granted
+  - name: test-container
+    image: hashicorp/http-echo:0.2.3
+    securityContext:
+      capabilities:
+        drop: ["CAP_ALL"]
