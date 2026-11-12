@@ -204,5 +204,13 @@ isPrivilegedContainer(container, i, array_name, start_of_path) := path if {
 
 # "ALL" adds every capability, SYS_ADMIN included
 is_privileged_capability(capability) if {
-	capability in {"SYS_ADMIN", "ALL"}
+	capability_name(capability) in {"SYS_ADMIN", "ALL"}
 }
+
+# The API server doesn't normalize capability names: containerd upper-cases
+# them and CRI-O also takes them with a CAP_ prefix, so compare them that way.
+# Only ALL itself (in any case) means all capabilities to them: CAP_ALL
+# becomes the unknown CAP_CAP_ALL in containerd, so it is not read as ALL.
+capability_name(capability) := upper(capability) if {
+	upper(capability) == "CAP_ALL"
+} else := trim_prefix(upper(capability), "CAP_")

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: add-all-case-pod
+spec:
+  containers:
+  # the runtimes treat "all" like ALL
+  - name: test-container
+    image: hashicorp/http-echo:0.2.3
+    securityContext:
+      capabilities:
+        add: ["all"]
+  # CAP_ALL is not ALL to the runtimes (containerd makes it CAP_CAP_ALL)
+  - name: test-container2
+    image: hashicorp/http-echo:0.2.3
+    securityContext:
+      capabilities:
+        add: ["CAP_ALL"]
