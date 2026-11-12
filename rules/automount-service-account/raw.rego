@@ -140,13 +140,16 @@ pod_namespace(obj) := ns if {
 } else := "default"
 
 is_same_sa(spec, serviceAccountName) if {
-	spec.serviceAccountName == serviceAccountName
+	service_account_name(spec) == serviceAccountName
 }
 
-is_same_sa(spec, serviceAccountName) if {
-	not spec.serviceAccountName
-	serviceAccountName == "default"
-}
+# serviceAccount is the deprecated alias of serviceAccountName, which wins when
+# both are set; with neither set the pod runs as the "default" service account
+service_account_name(spec) := spec.serviceAccountName if {
+	spec.serviceAccountName != ""
+} else := spec.serviceAccount if {
+	spec.serviceAccount != ""
+} else := "default"
 
 is_same_namespace(ns1, ns2) if {
 	ns1 == ns2
