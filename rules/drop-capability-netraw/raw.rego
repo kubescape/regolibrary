@@ -186,9 +186,8 @@ deny contains msga if {
 container_doesnt_drop_NET_RAW(container, i, path_to_containers, path_to_search) := [failed_path, fix_path] if {
 	path_to_drop := array.concat(path_to_search, ["drop"])
 	drop_list := object.get(container, path_to_drop, [])
-	not "NET_RAW" in drop_list
-	not "ALL" in drop_list
-	not "all" in drop_list
+	not has_capability(drop_list, "NET_RAW")
+	not has_capability(drop_list, "ALL")
 	fixpath := sprintf("%s[%d].%s[%d]", [concat(".", path_to_containers), i, concat(".", path_to_drop), count(drop_list)])
 	fix_path := [{"path": fixpath, "value": "NET_RAW"}]
 	failed_path := ""
@@ -198,21 +197,22 @@ container_doesnt_drop_NET_RAW(container, i, path_to_containers, path_to_search) 
 container_doesnt_drop_NET_RAW(container, i, path_to_containers, path_to_search) := [failed_path, fix_path] if {
 	path_to_drop := array.concat(path_to_search, ["drop"])
 	drop_list := object.get(container, path_to_drop, [])
-	all_in_list(drop_list)
+	has_capability(drop_list, "ALL")
 	path_to_add := array.concat(path_to_search, ["add"])
 	add_list := object.get(container, path_to_add, [])
-	"NET_RAW" in add_list
+	has_capability(add_list, "NET_RAW")
 	failed_path := [sprintf("%s[%d].%s", [concat(".", path_to_containers), i, concat(".", path_to_add)])]
 	fix_path := ""
 }
 
-all_in_list(list) if {
-	"all" in list
+has_capability(list, name) if {
+	some capability in list
+	capability_name(capability) == name
 }
 
-all_in_list(list) if {
-	"ALL" in list
-}
+# The API server doesn't normalize capability names: containerd upper-cases
+# them and CRI-O also takes them with a CAP_ prefix, so compare them that way
+capability_name(capability) := trim_prefix(upper(capability), "CAP_")
 
 get_failed_path(paths) := paths[0] if {
 	paths[0] != ""

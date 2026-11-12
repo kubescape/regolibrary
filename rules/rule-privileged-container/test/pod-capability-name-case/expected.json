@@ -1,0 +1,50 @@
+[
+    {
+        "alertMessage": "the following pods are defined as privileged: audit-pod",
+        "fixPaths": [],
+        "deletePaths": [
+            "spec.containers[0].securityContext.capabilities.add[0]"
+        ],
+        "failedPaths": [
+            "spec.containers[0].securityContext.capabilities.add[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "audit-pod"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "the following pods are defined as privileged: audit-pod",
+        "fixPaths": [],
+        "deletePaths": [
+            "spec.containers[1].securityContext.capabilities.add[0]"
+        ],
+        "failedPaths": [
+            "spec.containers[1].securityContext.capabilities.add[0]"
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 3,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "audit-pod"
+                    }
+                }
+            ]
+        }
+    }
+]

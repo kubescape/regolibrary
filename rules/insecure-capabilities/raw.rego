@@ -130,7 +130,11 @@ deny contains msga if {
 
 is_dangerous_capabilities(container, start_of_path, i, container_type) := path if {
 	# see default-config-inputs.json for list values
-	insecureCapabilities := data.postureControlInputs.insecureCapabilities
-	path = [sprintf("%v%v[%v].securityContext.capabilities.add[%v]", [start_of_path, container_type, format_int(i, 10), format_int(k, 10)]) | capability = container.securityContext.capabilities.add[k]; cautils.list_contains(insecureCapabilities, capability)]
+	insecureCapabilities := [capability_name(listed) | some listed in data.postureControlInputs.insecureCapabilities]
+	path = [sprintf("%v%v[%v].securityContext.capabilities.add[%v]", [start_of_path, container_type, format_int(i, 10), format_int(k, 10)]) | capability = container.securityContext.capabilities.add[k]; cautils.list_contains(insecureCapabilities, capability_name(capability))]
 	count(path) > 0
 }
+
+# The API server doesn't normalize capability names: containerd upper-cases
+# them and CRI-O also takes them with a CAP_ prefix, so compare them that way
+capability_name(capability) := trim_prefix(upper(capability), "CAP_")

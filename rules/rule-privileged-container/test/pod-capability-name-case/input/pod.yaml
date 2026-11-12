@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: audit-pod
+spec:
+  containers:
+  # containerd upper-cases capability names and CRI-O also takes the CAP_ prefix,
+  # so both containers get SYS_ADMIN
+  - name: test-container
+    image: hashicorp/http-echo:0.2.3
+    securityContext:
+      capabilities:
+        add: ["sys_admin"]
+  - name: test-container2
+    image: hashicorp/http-echo:0.2.3
+    securityContext:
+      capabilities:
+        add: ["CAP_SYS_ADMIN"]

@@ -1,0 +1,22 @@
+[
+    {
+        "alertMessage": "Pod: audit-pod does not drop the capability NET_RAW",
+        "deletePaths": ["spec.containers[2].securityContext.capabilities.add"],
+        "failedPaths": ["spec.containers[2].securityContext.capabilities.add"],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "audit-pod"
+                    }
+                }
+            ]
+        }
+    }
+]

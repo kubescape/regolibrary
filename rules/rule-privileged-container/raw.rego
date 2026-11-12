@@ -182,22 +182,26 @@ deny contains msga if {
 # Only SYS_ADMIN capability
 isPrivilegedContainer(container, i, array_name, start_of_path) := path if {
 	not container.securityContext.privileged == true
-	path = [sprintf("%v%v[%v].securityContext.capabilities.add[%v]", [start_of_path, array_name, format_int(i, 10), format_int(k, 10)]) | capabilite = container.securityContext.capabilities.add[k]; capabilite == "SYS_ADMIN"]
+	path = [sprintf("%v%v[%v].securityContext.capabilities.add[%v]", [start_of_path, array_name, format_int(i, 10), format_int(k, 10)]) | capabilite = container.securityContext.capabilities.add[k]; capability_name(capabilite) == "SYS_ADMIN"]
 	count(path) > 0
 }
 
 # Only securityContext.privileged == true
 isPrivilegedContainer(container, i, array_name, start_of_path) := path if {
 	container.securityContext.privileged == true
-	path1 = [sprintf("%v%v[%v].securityContext.capabilities.add[%v]", [start_of_path, array_name, format_int(i, 10), format_int(k, 10)]) | capabilite = container.securityContext.capabilities.add[k]; capabilite == "SYS_ADMIN"]
+	path1 = [sprintf("%v%v[%v].securityContext.capabilities.add[%v]", [start_of_path, array_name, format_int(i, 10), format_int(k, 10)]) | capabilite = container.securityContext.capabilities.add[k]; capability_name(capabilite) == "SYS_ADMIN"]
 	count(path1) < 1
 	path = [sprintf("%v%v[%v].securityContext.privileged", [start_of_path, array_name, format_int(i, 10)])]
 }
 
 # SYS_ADMIN capability && securityContext.privileged == true
 isPrivilegedContainer(container, i, array_name, start_of_path) := path if {
-	path1 = [sprintf("%v%v[%v].securityContext.capabilities.add[%v]", [start_of_path, array_name, format_int(i, 10), format_int(k, 10)]) | capabilite = container.securityContext.capabilities.add[k]; capabilite == "SYS_ADMIN"]
+	path1 = [sprintf("%v%v[%v].securityContext.capabilities.add[%v]", [start_of_path, array_name, format_int(i, 10), format_int(k, 10)]) | capabilite = container.securityContext.capabilities.add[k]; capability_name(capabilite) == "SYS_ADMIN"]
 	count(path1) > 0
 	container.securityContext.privileged == true
 	path = array.concat(path1, [sprintf("%v%v[%v].securityContext.privileged", [start_of_path, array_name, format_int(i, 10)])])
 }
+
+# The API server doesn't normalize capability names: containerd upper-cases
+# them and CRI-O also takes them with a CAP_ prefix, so compare them that way
+capability_name(capability) := trim_prefix(upper(capability), "CAP_")
