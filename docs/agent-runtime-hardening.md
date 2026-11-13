@@ -51,13 +51,13 @@ or prevent the prompt-level cause (for example LLM01 prompt injection).
 | --- | --- | --- | --- |
 | C-0297 hardened runtime class | LLM05 Improper Output Handling | AML.T0105 Escape to Host | AML.M0032 Segmentation of AI Agent Components |
 | C-0309 service account token automounting | LLM06 Excessive Agency | AML.T0055 Unsecured Credentials (automounted token only) | AML.M0026 Privileged AI Agent Permissions Configuration |
-| C-0311 container resource limits | LLM10 Unbounded Consumption (Pod CPU and memory only) | AML.T0029 Denial of AI Service; AML.T0034.002 Agentic Resource Consumption (local compute only) | AML.M0032 Segmentation of AI Agent Components |
+| C-0311 container resource limits | LLM10 Unbounded Consumption (partial: a CPU and memory limit must be declared; its value is not checked) | — | — |
 | C-0312 image digest pinning | LLM03 Supply Chain | AML.T0010.004 Container Registry (pinned references do not follow a changed tag) | — |
 | C-0313 image registries | LLM03 Supply Chain | AML.T0010.004 Container Registry | — |
 | C-0314 managed network policy | — | — | — |
 | C-0315 strict egress policy | LLM02 Sensitive Information Disclosure; LLM06 Excessive Agency (template policy only) | AML.T0025 Exfiltration via Cyber Means; AML.T0086 Exfiltration via AI Agent Tool Invocation (template policy only) | AML.M0032 Segmentation of AI Agent Components (template policy only) |
 | C-0316 claim override restrictions | — | — | — |
-| C-0317 Worker Pod resource ceilings | LLM10 Unbounded Consumption (Worker Pod CPU and memory only) | AML.T0029 Denial of AI Service; AML.T0034.002 Agentic Resource Consumption (local compute only) | AML.M0032 Segmentation of AI Agent Components |
+| C-0317 Worker Pod resource ceilings | LLM10 Unbounded Consumption (only for a resource whose maximum is configured) | AML.T0029 Denial of AI Service; AML.T0034.002 Agentic Resource Consumption (local compute only; only for a resource whose maximum is configured) | AML.M0032 Segmentation of AI Agent Components (only for a resource whose maximum is configured) |
 
 Notes on the choices:
 
@@ -68,10 +68,22 @@ Notes on the choices:
 - **C-0309** checks only `automountServiceAccountToken` on Sandbox and
   SandboxTemplate resources. It stops the automatically mounted token, but not
   a token the Pod mounts explicitly, for example through a projected volume.
-- **C-0311 and C-0317** cap CPU and memory per Pod. They do not limit external
-  API calls, token budgets or other spend outside the Pod, which is part of
-  what AML.T0034.002 covers, and they do not cap per-actor use inside a shared
-  Worker Pod (see above). They limit, not prevent, one actor starving others.
+- **C-0311** checks only that every container and init container in a Sandbox
+  or SandboxTemplate declares a CPU and a memory limit. It does not compare the
+  values with any ceiling, so a manifest with an arbitrarily high limit passes.
+  That is evidence that a limit exists, not that consumption is bounded to a
+  safe level, so the control maps to LLM10 only as a partial measure and has no
+  ATLAS technique or mitigation entry.
+- **C-0317** compares the WorkerPool's `spec.template.resources.limits` with
+  the `cpu_limit_max` and `memory_limit_max` inputs. It checks CPU only when
+  `cpu_limit_max` is non-empty and memory only when `memory_limit_max` is
+  non-empty; then a missing limit also fails. If a maximum list is empty, the
+  rule checks nothing for that resource, including a missing limit. The
+  mapping holds only for resources whose maximum is configured.
+- Neither control limits external API calls, token budgets or other spend
+  outside the Pod, which is part of what AML.T0034.002 covers, and neither caps
+  per-actor use inside a shared Worker Pod (see above). At best they limit, not
+  prevent, one actor starving others.
 - **C-0312** checks only that each image reference has the form
   `@sha256:` followed by 64 lowercase hex characters. A pinned reference keeps
   pointing at the same image if a registry tag is later overwritten, which
