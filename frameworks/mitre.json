@@ -1,6 +1,6 @@
 {
     "name": "MITRE",
-    "description": "Testing MITRE for Kubernetes as suggested by microsoft in https://www.microsoft.com/security/blog/wp-content/uploads/2020/04/k8s-matrix.png",
+    "description": "Kubernetes configuration checks, permission checks, inventories, and supporting mitigations mapped to Microsoft's Threat Matrix for Kubernetes, inspired by MITRE ATT&CK: https://microsoft.github.io/Threat-Matrix-for-Kubernetes/. Membership does not imply complete technique detection.",
     "attributes": {
         "builtin": true
     },
@@ -31,6 +31,12 @@
             }
         },
         {
+            "controlID": "C-0013",
+            "patch": {
+                "name": "Non-root containers"
+            }
+        },
+        {
             "controlID": "C-0014",
             "patch": {
                 "name": "Access Kubernetes dashboard"
@@ -40,6 +46,18 @@
             "controlID": "C-0015",
             "patch": {
                 "name": "List Kubernetes secrets"
+            }
+        },
+        {
+            "controlID": "C-0016",
+            "patch": {
+                "name": "Allow privilege escalation"
+            }
+        },
+        {
+            "controlID": "C-0017",
+            "patch": {
+                "name": "Immutable container filesystem"
             }
         },
         {
@@ -61,9 +79,21 @@
             }
         },
         {
+            "controlID": "C-0030",
+            "patch": {
+                "name": "Ingress and Egress blocked"
+            }
+        },
+        {
             "controlID": "C-0031",
             "patch": {
                 "name": "Delete Kubernetes events"
+            }
+        },
+        {
+            "controlID": "C-0034",
+            "patch": {
+                "name": "Automatic mapping of service account"
             }
         },
         {
@@ -85,9 +115,21 @@
             }
         },
         {
+            "controlID": "C-0038",
+            "patch": {
+                "name": "Host PID/IPC privileges"
+            }
+        },
+        {
             "controlID": "C-0039",
             "patch": {
                 "name": "Validate admission controller (mutating)"
+            }
+        },
+        {
+            "controlID": "C-0041",
+            "patch": {
+                "name": "HostNetwork access"
             }
         },
         {
@@ -100,6 +142,12 @@
             "controlID": "C-0045",
             "patch": {
                 "name": "Writable hostPath mount"
+            }
+        },
+        {
+            "controlID": "C-0046",
+            "patch": {
+                "name": "Insecure capabilities"
             }
         },
         {
@@ -157,12 +205,6 @@
             }
         },
         {
-            "controlID": "C-0068",
-            "patch": {
-                "name": "PSP enabled"
-            }
-        },
-        {
             "controlID": "C-0069",
             "patch": {
                 "name": "Disable anonymous access to Kubelet service"
@@ -172,6 +214,144 @@
             "controlID": "C-0070",
             "patch": {
                 "name": "Enforce Kubelet client TLS authentication"
+            }
+        },
+        {
+            "controlID": "C-0074",
+            "patch": {
+                "name": "Container runtime socket mounted"
+            }
+        },
+        {
+            "controlID": "C-0078",
+            "patch": {
+                "name": "Images from allowed registry"
+            }
+        },
+        {
+            "controlID": "C-0084",
+            "patch": {
+                "name": "Workloads with RCE vulnerabilities exposed to external traffic"
+            }
+        },
+        {
+            "controlID": "C-0088",
+            "patch": {
+                "name": "RBAC enabled"
+            }
+        },
+        {
+            "controlID": "C-0113",
+            "patch": {
+                "name": "Ensure that the API Server --anonymous-auth argument is set to false"
+            }
+        },
+        {
+            "controlID": "C-0127",
+            "patch": {
+                "name": "Ensure that the admission control plugin NodeRestriction is set"
+            }
+        },
+        {
+            "controlID": "C-0173",
+            "patch": {
+                "name": "Ensure that the --authorization-mode argument is not set to AlwaysAllow"
+            }
+        },
+        {
+            "controlID": "C-0175",
+            "patch": {
+                "name": "Verify that the --read-only-port argument is set to 0"
+            }
+        },
+        {
+            "controlID": "C-0188",
+            "patch": {
+                "name": "Minimize access to create pods"
+            }
+        },
+        {
+            "controlID": "C-0191",
+            "patch": {
+                "name": "Limit use of the Bind, Impersonate and Escalate permissions in the Kubernetes cluster"
+            }
+        },
+        {
+            "controlID": "C-0193",
+            "patch": {
+                "name": "Minimize the admission of privileged containers"
+            }
+        },
+        {
+            "controlID": "C-0197",
+            "patch": {
+                "name": "Minimize the admission of containers with allowPrivilegeEscalation"
+            }
+        },
+        {
+            "controlID": "C-0210",
+            "patch": {
+                "name": "Ensure that the seccomp profile is set to docker/default in your pod definitions"
+            }
+        },
+        {
+            "controlID": "C-0262",
+            "patch": {
+                "name": "Anonymous user has RoleBinding"
+            }
+        },
+        {
+            "controlID": "C-0263",
+            "patch": {
+                "name": "Ingress uses TLS"
+            }
+        },
+        {
+            "controlID": "C-0268",
+            "patch": {
+                "name": "Ensure CPU requests are set"
+            }
+        },
+        {
+            "controlID": "C-0269",
+            "patch": {
+                "name": "Ensure memory requests are set"
+            }
+        },
+        {
+            "controlID": "C-0270",
+            "patch": {
+                "name": "Ensure CPU limits are set"
+            }
+        },
+        {
+            "controlID": "C-0271",
+            "patch": {
+                "name": "Ensure memory limits are set"
+            }
+        },
+        {
+            "controlID": "C-0279",
+            "patch": {
+                "name": "Minimize access to the proxy sub-resource of nodes"
+            }
+        },
+        {
+            "controlID": "C-0281",
+            "patch": {
+                "name": "Minimize access to webhook configuration objects"
+            }
+        },
+        {
+            "controlID": "C-0282",
+            "patch": {
+                "name": "Minimize access to the service account token creation"
+            }
+        },
+        {
+            "controlID": "C-0306",
+            "patch": {
+                "name": "Images not pinned to digest"
             }
         }
     ]
