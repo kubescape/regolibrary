@@ -56,11 +56,12 @@ allowlisted_mount(mountpath) if {
 	mountpath in data.postureControlInputs.mountAllowList
 }
 
-# A mount is effectively read-only when the mount itself is read-only or
-# when its source volume is one kubelet never mounts writable. The source
-# attribute dominates: an explicit readOnly: false on a configMap mount
-# does not make it writable. NFS and CSI source-level readOnly settings are
-# also respected.
+# A mount is effectively read-only when the mount itself is read-only, when
+# its source volume is one kubelet never mounts writable, or when the
+# source carries its own readOnly flag (e.g. persistentVolumeClaim). The
+# source attribute dominates: an explicit readOnly: false on such a mount
+# does not make it writable. Image volumes are always read-only and reject
+# bindMountOptions, so the remediation could not apply there either.
 is_effectively_readonly(podspec, mount) if {
 	mount.readOnly == true
 }
@@ -69,6 +70,12 @@ is_effectively_readonly(podspec, mount) if {
 	volume := podspec.volumes[_]
 	volume.name == mount.name
 	readonly_volume_source(volume)
+}
+
+is_effectively_readonly(podspec, mount) if {
+	volume := podspec.volumes[_]
+	volume.name == mount.name
+	volume[_].readOnly == true
 }
 
 readonly_volume_source(volume) if {
@@ -88,19 +95,19 @@ readonly_volume_source(volume) if {
 }
 
 readonly_volume_source(volume) if {
-        volume.image
+	volume.image
 }
 
 readonly_volume_source(volume) if {
-        volume.persistentVolumeClaim.readOnly == true
+	volume.persistentVolumeClaim.readOnly == true
 }
 
 readonly_volume_source(volume) if {
-        volume.nfs.readOnly == true
+	volume.nfs.readOnly == true
 }
 
 readonly_volume_source(volume) if {
-        volume.csi.readOnly == true
+	volume.csi.readOnly == true
 }
 
 # noexec is Linux-only: skip workloads explicitly scheduled to Windows via
