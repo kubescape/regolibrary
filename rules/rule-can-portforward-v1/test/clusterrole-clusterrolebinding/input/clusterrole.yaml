@@ -4,5 +4,5 @@ metadata:
   name: test
 rules:
 - apiGroups: ["*"]
-  resources: ["pods/*", "secrets", "users"]
+  resources: ["pods/portforward", "secrets", "users"]
   verbs: ["create"]

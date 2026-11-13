@@ -36,7 +36,7 @@
                 },
                 "rules": [{
                     "apiGroups": [""],
-                    "resources": ["pods/*"],
+                    "resources": ["pods/exec"],
                     "verbs": ["create", "list"]
                 }]
             }]
