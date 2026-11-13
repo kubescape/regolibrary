@@ -36,6 +36,80 @@ Worker Pod ceilings use all configured `cpu_limit_max` and `memory_limit_max`
 values, so limits must satisfy every configured maximum. They describe Worker
 Pod resources, not per-actor limits.
 
+## OWASP LLM and MITRE ATLAS mapping
+
+This table relates each control to the
+[OWASP Top 10 for LLM Applications 2025](https://genai.owasp.org/llm-top-10/)
+and to [MITRE ATLAS](https://atlas.mitre.org/) v5.6.0 (atlas-data release
+v2026.10). It is guidance for reading findings, not a compliance claim, and it
+is not encoded in the control JSON. A control appears only where it limits the
+listed risk directly. These are posture checks: they reduce the impact of an
+attack on the agent's runtime configuration, but they do not detect the attack
+or prevent the prompt-level cause (for example LLM01 prompt injection).
+
+| Control | OWASP LLM 2025 | ATLAS technique it constrains | ATLAS mitigation it implements |
+| --- | --- | --- | --- |
+| C-0297 hardened runtime class | LLM05 Improper Output Handling | AML.T0105 Escape to Host | AML.M0032 Segmentation of AI Agent Components |
+| C-0309 service account token automounting | LLM06 Excessive Agency | AML.T0055 Unsecured Credentials (automounted token only) | AML.M0026 Privileged AI Agent Permissions Configuration |
+| C-0311 container resource limits | LLM10 Unbounded Consumption (partial: a CPU and memory limit must be declared; its value is not checked) | — | — |
+| C-0312 image digest pinning | LLM03 Supply Chain | AML.T0010.004 Container Registry (pinned references do not follow a changed tag) | — |
+| C-0313 image registries | LLM03 Supply Chain | AML.T0010.004 Container Registry | — |
+| C-0314 managed network policy | — | — | — |
+| C-0315 strict egress policy | LLM02 Sensitive Information Disclosure; LLM06 Excessive Agency (template policy only) | AML.T0025 Exfiltration via Cyber Means; AML.T0086 Exfiltration via AI Agent Tool Invocation (template policy only) | AML.M0032 Segmentation of AI Agent Components (template policy only) |
+| C-0316 claim override restrictions | — | — | — |
+| C-0317 Worker Pod resource ceilings | LLM10 Unbounded Consumption (only for a resource whose maximum is configured) | AML.T0029 Denial of AI Service; AML.T0034.002 Agentic Resource Consumption (local compute only; only for a resource whose maximum is configured) | AML.M0032 Segmentation of AI Agent Components (only for a resource whose maximum is configured) |
+
+Notes on the choices:
+
+- **C-0297** maps to LLM05 because Agent Sandbox runs model-generated code,
+  which is LLM output executed without review; gVisor or Kata limits what that
+  code can reach. AML.M0032 names container isolation and code execution
+  sandboxing directly.
+- **C-0309** checks only `automountServiceAccountToken` on Sandbox and
+  SandboxTemplate resources. It stops the automatically mounted token, but not
+  a token the Pod mounts explicitly, for example through a projected volume.
+- **C-0311** checks only that every container and init container in a Sandbox
+  or SandboxTemplate declares a CPU and a memory limit. It does not compare the
+  values with any ceiling, so a manifest with an arbitrarily high limit passes.
+  That is evidence that a limit exists, not that consumption is bounded to a
+  safe level, so the control maps to LLM10 only as a partial measure and has no
+  ATLAS technique or mitigation entry.
+- **C-0317** compares the WorkerPool's `spec.template.resources.limits` with
+  the `cpu_limit_max` and `memory_limit_max` inputs. It checks CPU only when
+  `cpu_limit_max` is non-empty and memory only when `memory_limit_max` is
+  non-empty; then a missing limit also fails. If a maximum list is empty, the
+  rule checks nothing for that resource, including a missing limit. The
+  mapping holds only for resources whose maximum is configured.
+- Neither control limits external API calls, token budgets or other spend
+  outside the Pod, which is part of what AML.T0034.002 covers, and neither caps
+  per-actor use inside a shared Worker Pod (see above). At best they limit, not
+  prevent, one actor starving others.
+- **C-0312** checks only that each image reference has the form
+  `@sha256:` followed by 64 lowercase hex characters. A pinned reference keeps
+  pointing at the same image if a registry tag is later overwritten, which
+  limits the effect of AML.T0010.004 on that workload. It does not stop the tag
+  from being overwritten, and it does not check that the digest belongs to a
+  trusted image: a malicious image also has a valid digest. It is therefore not
+  mapped to AML.M0014 Verify AI Artifacts. Trusted-digest or signature
+  verification is a separate control that this framework does not provide.
+  **C-0313** only restricts which registries are trusted, so it has no
+  mitigation entry either; it is not image signing (AML.M0013).
+- **C-0314** checks only that SandboxTemplate networking is controller-managed.
+  The managed default still allows public internet, so a passing result does
+  not show segmentation or constrained egress, and the control is left
+  unmapped.
+- **C-0315** checks the SandboxTemplate's own policy: managed networking with
+  an explicit empty `networkPolicy.egress` list. Kubernetes NetworkPolicies are
+  additive, so another policy that selects the same Pod can still allow egress,
+  and enforcement depends on the cluster's network plugin. A passing result
+  constrains exfiltration only if no other policy opens egress for that Pod and
+  the plugin enforces NetworkPolicy; check the effective policy in the cluster.
+  The existing C-0301, outside this framework, requires an explicitly scoped
+  policy as well.
+- **C-0316** stops claims from replacing template environment variables or
+  volume claim templates. No OWASP entry or ATLAS technique describes this
+  Kubernetes-level override cleanly, so it is left unmapped.
+
 ## API scope
 
 The WorkerPool field and resource ceilings were checked against
