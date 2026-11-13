@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "image 'QUAY.IO/kubescape/kubescape:v3.0.0' in container 'app' comes from untrusted registry",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "fixPaths": [],
+        "ruleStatus": "",
+        "reviewPaths": [
+            "spec.containers[0].image"
+        ],
+        "failedPaths": [
+            "spec.containers[0].image"
+        ],
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]
