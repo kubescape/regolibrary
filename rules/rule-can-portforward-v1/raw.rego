@@ -6,7 +6,10 @@ import rego.v1
 deny contains msga if {
 	verbs := ["create", "*"]
 	api_groups := ["", "*"]
-	resources := ["pods/portforward", "*/portforward", "pods/*", "*"]
+	# RBAC has no "pods/*" form: besides an exact match only "*" and
+	# "*/<subresource>" are wildcards (ResourceMatches in
+	# pkg/apis/rbac/v1/evaluation_helpers.go), so "pods/*" grants nothing
+	resources := ["pods/portforward", "*/portforward", "*"]
 	subjectVector := input[_]
 	role := subjectVector.relatedObjects[i]
 	rolebinding := subjectVector.relatedObjects[j]

@@ -61,7 +61,7 @@
                                     "*"
                                 ],
                                 "resources": [
-                                    "pods/*",
+                                    "pods/portforward",
                                     "secrets",
                                     "users"
                                 ],
@@ -137,7 +137,7 @@
                                     "*"
                                 ],
                                 "resources": [
-                                    "pods/*",
+                                    "pods/portforward",
                                     "secrets",
                                     "users"
                                 ],

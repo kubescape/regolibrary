@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: test
+rules:
+# "pods/*" is not a wildcard in RBAC: it matches no request, pods/portforward included
+- apiGroups: ["*"]
+  resources: ["pods/*", "secrets", "users"]
+  verbs: ["create"]
