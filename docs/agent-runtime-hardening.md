@@ -40,8 +40,8 @@ Pod resources, not per-actor limits.
 
 This table relates each control to the
 [OWASP Top 10 for LLM Applications 2025](https://genai.owasp.org/llm-top-10/)
-and to [MITRE ATLAS](https://atlas.mitre.org/) v5.6.0 (atlas-data release
-v2026.10). It is guidance for reading findings, not a compliance claim, and it
+and to [MITRE ATLAS](https://atlas.mitre.org/) (atlas-data release 2026.10,
+data format 6.1.0). It is guidance for reading findings, not a compliance claim, and it
 is not encoded in the control JSON. A control appears only where it limits the
 listed risk directly. These are posture checks: they reduce the impact of an
 attack on the agent's runtime configuration, but they do not detect the attack
@@ -50,7 +50,7 @@ or prevent the prompt-level cause (for example LLM01 prompt injection).
 | Control | OWASP LLM 2025 | ATLAS technique it constrains | ATLAS mitigation it implements |
 | --- | --- | --- | --- |
 | C-0297 hardened runtime class | LLM05 Improper Output Handling | AML.T0105 Escape to Host | AML.M0032 Segmentation of AI Agent Components |
-| C-0309 service account token automounting | LLM06 Excessive Agency | AML.T0055 Unsecured Credentials (automounted token only) | AML.M0026 Privileged AI Agent Permissions Configuration |
+| C-0309 service account token automounting | LLM06 Excessive Agency | AML.T0055 Unsecured Credentials (automounted token only) | AML.M0026 Manage AI Agent Service Access |
 | C-0311 container resource limits | LLM10 Unbounded Consumption (partial: a CPU and memory limit must be declared; its value is not checked) | — | — |
 | C-0312 image digest pinning | LLM03 Supply Chain | AML.T0010.004 Container Registry (pinned references do not follow a changed tag) | — |
 | C-0313 image registries | LLM03 Supply Chain | AML.T0010.004 Container Registry | — |
