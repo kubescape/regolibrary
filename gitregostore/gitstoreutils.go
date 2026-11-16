@@ -174,7 +174,7 @@ func (gs *GitRegoStore) setObjectsFromReleaseOnce(ctx context.Context) error {
 		return err
 	}
 
-	return gs.applyRelease(artifacts)
+	return gs.applyRelease(ctx, artifacts)
 }
 
 // downloadRelease downloads every release artifact without touching the store state.
@@ -223,10 +223,13 @@ func (gs *GitRegoStore) downloadRelease(ctx context.Context) (*releaseArtifacts,
 }
 
 // applyRelease decodes and prepares every downloaded artifact in a staging store and publishes the result to
-// gs only if all of them succeeded. On error gs is left completely unchanged.
-func (gs *GitRegoStore) applyRelease(artifacts *releaseArtifacts) error {
+// gs only if all of them succeeded and ctx is still live. On error gs is left completely unchanged.
+func (gs *GitRegoStore) applyRelease(ctx context.Context, artifacts *releaseArtifacts) error {
 	staged, err := stageRelease(artifacts)
 	if err != nil {
+		return err
+	}
+	if err := ctx.Err(); err != nil {
 		return err
 	}
 
@@ -301,11 +304,14 @@ func (gs *GitRegoStore) publishRelease(staged *GitRegoStore) {
 
 // httpGet issues a context-aware GET using the store's HTTP client and request timeout.
 func (gs *GitRegoStore) httpGet(ctx context.Context, fullURL string) (string, error) {
-	timeout := gs.requestTimeout
-	if timeout <= 0 {
-		timeout = DefaultRequestTimeout
+	return httpGetter(ctx, gs.httpClient, fullURL, gs.effectiveRequestTimeout())
+}
+
+func (gs *GitRegoStore) effectiveRequestTimeout() time.Duration {
+	if gs.requestTimeout <= 0 {
+		return DefaultRequestTimeout
 	}
-	return httpGetter(ctx, gs.httpClient, fullURL, timeout)
+	return gs.requestTimeout
 }
 
 // isContextError reports whether err was caused by cancellation or a deadline.
@@ -360,9 +366,14 @@ func (gs *GitRegoStore) getReleaseChecksums(ctx context.Context) (map[string]str
 	}
 
 	if err := verifyChecksumManifestSignature(
+		ctx,
 		[]byte(respStr),
 		[]byte(signatureBundle),
+		gs.effectiveRequestTimeout(),
 	); err != nil {
+		if isContextError(err) {
+			return nil, fmt.Errorf("error verifying %s: %w", checksumsFileName, err)
+		}
 		return nil, fmt.Errorf(
 			"%w: error verifying %s: %w",
 			ErrChecksumVerification,
@@ -391,15 +402,36 @@ var trustedRootCache struct {
 	material *root.LiveTrustedRoot
 }
 
-func fetchTrustedRoot() (*root.LiveTrustedRoot, error) {
+func fetchTrustedRoot(ctx context.Context, timeout time.Duration) (*root.LiveTrustedRoot, error) {
 	trustedRootCache.mu.RLock()
-	if trustedRootCache.material != nil {
-		material := trustedRootCache.material
-		trustedRootCache.mu.RUnlock()
+	material := trustedRootCache.material
+	trustedRootCache.mu.RUnlock()
+	if material != nil {
 		return material, nil
 	}
-	trustedRootCache.mu.RUnlock()
 
+	ctx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	type result struct {
+		material *root.LiveTrustedRoot
+		err      error
+	}
+	done := make(chan result, 1)
+	go func() {
+		material, err := cacheTrustedRoot()
+		done <- result{material, err}
+	}()
+
+	select {
+	case r := <-done:
+		return r.material, r.err
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	}
+}
+
+func cacheTrustedRoot() (*root.LiveTrustedRoot, error) {
 	trustedRootCache.mu.Lock()
 	defer trustedRootCache.mu.Unlock()
 
@@ -421,15 +453,17 @@ func fetchTrustedRoot() (*root.LiveTrustedRoot, error) {
 }
 
 func verifyChecksumManifestSignature(
+	ctx context.Context,
 	manifest []byte,
 	signatureBundle []byte,
+	timeout time.Duration,
 ) error {
 	var sigstoreBundle bundle.Bundle
 	if err := sigstoreBundle.UnmarshalJSON(signatureBundle); err != nil {
 		return fmt.Errorf("invalid Sigstore bundle: %w", err)
 	}
 
-	trustedRoot, err := fetchTrustedRoot()
+	trustedRoot, err := fetchTrustedRoot(ctx, timeout)
 	if err != nil {
 		return fmt.Errorf("failed to fetch Sigstore trusted root: %w", err)
 	}

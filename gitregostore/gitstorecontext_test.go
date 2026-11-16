@@ -12,6 +12,8 @@ import (
 	"time"
 
 	opapolicy "github.com/kubescape/opa-utils/reporthandling"
+	"github.com/sigstore/sigstore-go/pkg/root"
+	"github.com/sigstore/sigstore-go/pkg/tuf"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -394,4 +396,92 @@ func TestPlainFailureIsNotReportedAsCancellation(t *testing.T) {
 	require.Error(t, err)
 	assert.False(t, errors.Is(err, context.Canceled))
 	assert.False(t, errors.Is(err, context.DeadlineExceeded))
+}
+
+const minimalSigstoreBundle = `{"mediaType":"application/vnd.dev.sigstore.bundle.v0.3+json","verificationMaterial":{"publicKey":{"hint":"x"}},"messageSignature":{"messageDigest":{"algorithm":"SHA2_256","digest":"AAAA"},"signature":"AAAA"}}`
+
+// blockTrustedRootFetch makes the Sigstore trusted-root fetch hang until the test ends and reports when it started.
+func blockTrustedRootFetch(t *testing.T) <-chan struct{} {
+	t.Helper()
+
+	trustedRootCache.mu.Lock()
+	trustedRootCache.material = nil
+	trustedRootCache.mu.Unlock()
+
+	started := make(chan struct{})
+	release := make(chan struct{})
+	original := fetchTrustedRootFromSigstore
+	fetchTrustedRootFromSigstore = func(*tuf.Options) (*root.LiveTrustedRoot, error) {
+		close(started)
+		<-release
+		return nil, errors.New("trusted root fetch released")
+	}
+	t.Cleanup(func() {
+		close(release)
+		select {
+		case <-started:
+		case <-time.After(waitForServer):
+			t.Error("the trusted root was never fetched")
+		}
+		fetchTrustedRootFromSigstore = original
+		trustedRootCache.mu.Lock()
+		trustedRootCache.material = nil
+		trustedRootCache.mu.Unlock()
+	})
+	return started
+}
+
+func signedReleaseServer(t *testing.T) *releaseServer {
+	t.Helper()
+	rs := newReleaseServer(t)
+	rs.extra[checksumsFileName] = "irrelevant"
+	rs.extra[checksumsSignatureFileName] = minimalSigstoreBundle
+	return rs
+}
+
+func TestCancelledWhileFetchingTrustedRoot(t *testing.T) {
+	started := blockTrustedRootFetch(t)
+	gs := signedReleaseServer(t).oldStore()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	errCh := make(chan error, 1)
+	go func() { errCh <- gs.SetRegoObjectsWithContext(ctx) }()
+
+	select {
+	case <-started:
+	case <-time.After(waitForServer):
+		t.Fatal("the trusted root was never fetched")
+	}
+	cancel()
+
+	select {
+	case err := <-errCh:
+		require.Error(t, err)
+		assert.ErrorIs(t, err, context.Canceled)
+		assert.NotErrorIs(t, err, ErrChecksumVerification)
+	case <-time.After(waitForServer):
+		t.Fatal("SetRegoObjectsWithContext did not return after cancellation")
+	}
+	assertStoreUntouched(t, gs)
+}
+
+func TestTrustedRootFetchIsBoundedByRequestTimeout(t *testing.T) {
+	blockTrustedRootFetch(t)
+	gs := signedReleaseServer(t).oldStore()
+	gs.requestTimeout = 200 * time.Millisecond
+
+	errCh := make(chan error, 1)
+	go func() { errCh <- gs.SetRegoObjectsWithContext(context.Background()) }()
+
+	select {
+	case err := <-errCh:
+		require.Error(t, err)
+		assert.ErrorIs(t, err, context.DeadlineExceeded)
+		assert.NotErrorIs(t, err, ErrChecksumVerification)
+	case <-time.After(waitForServer):
+		t.Fatal("the trusted root fetch was not bounded by the request timeout")
+	}
+	assertStoreUntouched(t, gs)
 }

@@ -737,7 +737,7 @@ func TestFetchTrustedRootRetriesAfterFailureAndCachesSuccess(t *testing.T) {
 		return &root.LiveTrustedRoot{TrustedRoot: &root.TrustedRoot{}}, nil
 	}
 
-	_, err := fetchTrustedRoot()
+	_, err := fetchTrustedRoot(context.Background(), DefaultRequestTimeout)
 	if err == nil {
 		t.Fatal("expected first trusted-root fetch to fail")
 	}
@@ -746,7 +746,7 @@ func TestFetchTrustedRootRetriesAfterFailureAndCachesSuccess(t *testing.T) {
 		t.Fatalf("expected 1 fetch call, got %d", calls)
 	}
 
-	_, err = fetchTrustedRoot()
+	_, err = fetchTrustedRoot(context.Background(), DefaultRequestTimeout)
 	if err != nil {
 		t.Fatalf("expected retry to succeed, got %v", err)
 	}
@@ -758,7 +758,7 @@ func TestFetchTrustedRootRetriesAfterFailureAndCachesSuccess(t *testing.T) {
 		)
 	}
 
-	_, err = fetchTrustedRoot()
+	_, err = fetchTrustedRoot(context.Background(), DefaultRequestTimeout)
 	if err != nil {
 		t.Fatalf("expected cached trusted root, got %v", err)
 	}
@@ -826,7 +826,7 @@ func TestFetchTrustedRootWithReadOnlyHome(t *testing.T) {
 		return &root.LiveTrustedRoot{TrustedRoot: &root.TrustedRoot{}}, nil
 	}
 
-	_, err = fetchTrustedRoot()
+	_, err = fetchTrustedRoot(context.Background(), DefaultRequestTimeout)
 	if err != nil {
 		t.Fatalf("expected trusted-root fetch to succeed with read-only HOME: %v", err)
 	}
