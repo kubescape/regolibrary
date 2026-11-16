@@ -32,7 +32,7 @@ func validArtifacts(overrides map[string]string) *releaseArtifacts {
 func populatedStore(t *testing.T) *GitRegoStore {
 	t.Helper()
 	gs := &GitRegoStore{}
-	require.NoError(t, gs.applyRelease(validArtifacts(map[string]string{
+	require.NoError(t, gs.applyRelease(context.Background(), validArtifacts(map[string]string{
 		frameworksJsonFileName:         `[{"name":"old-fw"}]`,
 		attackTracksJsonFileName:       `[{"metadata":{"name":"old-track"}}]`,
 		controlsJsonFileName:           `[{"name":"old-control","controlID":"C-0001"}]`,
@@ -100,7 +100,7 @@ func snapshot(gs *GitRegoStore) storeSnapshot {
 func TestApplyReleaseAppliesAllArtifacts(t *testing.T) {
 	gs := &GitRegoStore{}
 
-	require.NoError(t, gs.applyRelease(validArtifacts(nil)))
+	require.NoError(t, gs.applyRelease(context.Background(), validArtifacts(nil)))
 
 	got := snapshot(gs)
 	assert.Equal(t, []string{"new-fw", "new-security-fw"}, got.frameworks)
@@ -143,16 +143,52 @@ func TestApplyReleaseFailureLeavesStoreUnchanged(t *testing.T) {
 				tt.art(artifacts)
 			}
 
-			require.Error(t, gs.applyRelease(artifacts))
+			require.Error(t, gs.applyRelease(context.Background(), artifacts))
 			assert.Equal(t, before, snapshot(gs), "a failed apply must not change the store")
 		})
 	}
 }
 
+func TestApplyReleaseCancelledBeforePublishLeavesStoreUnchanged(t *testing.T) {
+	gs := populatedStore(t)
+	before := snapshot(gs)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	err := gs.applyRelease(ctx, validArtifacts(nil))
+	require.ErrorIs(t, err, context.Canceled)
+	assert.Equal(t, before, snapshot(gs))
+}
+
+func TestApplyReleaseCancelledWhileWaitingForPublicationLocks(t *testing.T) {
+	gs := populatedStore(t)
+	before := snapshot(gs)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	gs.rulesLock.RLock()
+	errCh := make(chan error, 1)
+	go func() { errCh <- gs.applyRelease(ctx, validArtifacts(nil)) }()
+
+	time.Sleep(50 * time.Millisecond)
+	cancel()
+	gs.rulesLock.RUnlock()
+
+	select {
+	case err := <-errCh:
+		require.ErrorIs(t, err, context.Canceled)
+	case <-time.After(5 * time.Second):
+		t.Fatal("applyRelease did not return")
+	}
+	assert.Equal(t, before, snapshot(gs))
+}
+
 func TestApplyReleaseFailureOnEmptyStoreStaysEmpty(t *testing.T) {
 	gs := &GitRegoStore{}
 
-	require.Error(t, gs.applyRelease(validArtifacts(map[string]string{rulesJsonFileName: `[`})))
+	require.Error(t, gs.applyRelease(context.Background(), validArtifacts(map[string]string{rulesJsonFileName: `[`})))
 
 	assert.Equal(t, storeSnapshot{}, snapshot(gs))
 }
@@ -161,10 +197,10 @@ func TestApplyReleaseRetryAfterFailureSucceeds(t *testing.T) {
 	gs := populatedStore(t)
 	before := snapshot(gs)
 
-	require.Error(t, gs.applyRelease(validArtifacts(map[string]string{rulesJsonFileName: `[`})))
+	require.Error(t, gs.applyRelease(context.Background(), validArtifacts(map[string]string{rulesJsonFileName: `[`})))
 	assert.Equal(t, before, snapshot(gs))
 
-	require.NoError(t, gs.applyRelease(validArtifacts(nil)))
+	require.NoError(t, gs.applyRelease(context.Background(), validArtifacts(nil)))
 	got := snapshot(gs)
 	assert.Equal(t, []string{"new-rule"}, got.rules)
 	assert.Equal(t, []string{"new-control"}, got.controls)
@@ -209,7 +245,7 @@ func TestApplyReleaseConcurrentReadersSeeConsistentState(t *testing.T) {
 	stateA.hasSecurity, stateB.hasSecurity = false, false
 
 	gs := &GitRegoStore{}
-	require.NoError(t, gs.applyRelease(stateA))
+	require.NoError(t, gs.applyRelease(context.Background(), stateA))
 
 	stop := make(chan struct{})
 	var wg sync.WaitGroup
@@ -263,7 +299,7 @@ func TestApplyReleaseConcurrentReadersSeeConsistentState(t *testing.T) {
 			if i%2 == 0 {
 				next = stateB
 			}
-			assert.NoError(t, gs.applyRelease(next))
+			assert.NoError(t, gs.applyRelease(context.Background(), next))
 		}
 	}()
 

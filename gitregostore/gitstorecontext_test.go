@@ -8,10 +8,13 @@ import (
 	"net/http/httptest"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
 	opapolicy "github.com/kubescape/opa-utils/reporthandling"
+	"github.com/sigstore/sigstore-go/pkg/root"
+	"github.com/sigstore/sigstore-go/pkg/tuf"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -394,4 +397,179 @@ func TestPlainFailureIsNotReportedAsCancellation(t *testing.T) {
 	require.Error(t, err)
 	assert.False(t, errors.Is(err, context.Canceled))
 	assert.False(t, errors.Is(err, context.DeadlineExceeded))
+}
+
+const minimalSigstoreBundle = `{"mediaType":"application/vnd.dev.sigstore.bundle.v0.3+json","verificationMaterial":{"publicKey":{"hint":"x"}},"messageSignature":{"messageDigest":{"algorithm":"SHA2_256","digest":"AAAA"},"signature":"AAAA"}}`
+
+// blockTrustedRootFetch makes the Sigstore trusted-root fetch hang until the test ends and reports when it started.
+func resetTrustedRootCache(t *testing.T) {
+	t.Helper()
+	deadline := time.Now().Add(waitForServer)
+	for {
+		trustedRootCache.mu.Lock()
+		idle := trustedRootCache.inFlight == nil
+		if idle {
+			trustedRootCache.material = nil
+		}
+		trustedRootCache.mu.Unlock()
+		if idle {
+			return
+		}
+		if time.Now().After(deadline) {
+			t.Error("a trusted root fetch is still in flight")
+			return
+		}
+		time.Sleep(time.Millisecond)
+	}
+}
+
+func blockTrustedRootFetch(t *testing.T) <-chan struct{} {
+	t.Helper()
+
+	resetTrustedRootCache(t)
+
+	started := make(chan struct{})
+	release := make(chan struct{})
+	original := fetchTrustedRootFromSigstore
+	fetchTrustedRootFromSigstore = func(*tuf.Options) (*root.LiveTrustedRoot, error) {
+		close(started)
+		<-release
+		return nil, errors.New("trusted root fetch released")
+	}
+	t.Cleanup(func() {
+		close(release)
+		resetTrustedRootCache(t)
+		fetchTrustedRootFromSigstore = original
+	})
+	return started
+}
+
+func signedReleaseServer(t *testing.T) *releaseServer {
+	t.Helper()
+	rs := newReleaseServer(t)
+	rs.extra[checksumsFileName] = "irrelevant"
+	rs.extra[checksumsSignatureFileName] = minimalSigstoreBundle
+	return rs
+}
+
+func TestCancelledWhileFetchingTrustedRoot(t *testing.T) {
+	started := blockTrustedRootFetch(t)
+	gs := signedReleaseServer(t).oldStore()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	errCh := make(chan error, 1)
+	go func() { errCh <- gs.SetRegoObjectsWithContext(ctx) }()
+
+	select {
+	case <-started:
+	case <-time.After(waitForServer):
+		t.Fatal("the trusted root was never fetched")
+	}
+	cancel()
+
+	select {
+	case err := <-errCh:
+		require.Error(t, err)
+		assert.ErrorIs(t, err, context.Canceled)
+		assert.NotErrorIs(t, err, ErrChecksumVerification)
+	case <-time.After(waitForServer):
+		t.Fatal("SetRegoObjectsWithContext did not return after cancellation")
+	}
+	assertStoreUntouched(t, gs)
+}
+
+func TestTrustedRootFetchIsBoundedByRequestTimeout(t *testing.T) {
+	blockTrustedRootFetch(t)
+	gs := signedReleaseServer(t).oldStore()
+	gs.requestTimeout = 200 * time.Millisecond
+
+	errCh := make(chan error, 1)
+	go func() { errCh <- gs.SetRegoObjectsWithContext(context.Background()) }()
+
+	select {
+	case err := <-errCh:
+		require.Error(t, err)
+		assert.ErrorIs(t, err, context.DeadlineExceeded)
+		assert.NotErrorIs(t, err, ErrChecksumVerification)
+	case <-time.After(waitForServer):
+		t.Fatal("the trusted root fetch was not bounded by the request timeout")
+	}
+	assertStoreUntouched(t, gs)
+}
+
+func TestSecondCallerIsNotBlockedByAStalledTrustedRootFetch(t *testing.T) {
+	resetTrustedRootCache(t)
+
+	var calls atomic.Int32
+	release := make(chan struct{})
+	original := fetchTrustedRootFromSigstore
+	fetchTrustedRootFromSigstore = func(*tuf.Options) (*root.LiveTrustedRoot, error) {
+		calls.Add(1)
+		<-release
+		return &root.LiveTrustedRoot{TrustedRoot: &root.TrustedRoot{}}, nil
+	}
+	released := false
+	t.Cleanup(func() {
+		if !released {
+			close(release)
+		}
+		resetTrustedRootCache(t)
+		fetchTrustedRootFromSigstore = original
+	})
+
+	_, err := fetchTrustedRoot(context.Background(), 100*time.Millisecond)
+	require.ErrorIs(t, err, context.DeadlineExceeded)
+
+	errCh := make(chan error, 1)
+	go func() {
+		_, err := fetchTrustedRoot(context.Background(), 100*time.Millisecond)
+		errCh <- err
+	}()
+	select {
+	case err := <-errCh:
+		require.ErrorIs(t, err, context.DeadlineExceeded)
+	case <-time.After(waitForServer):
+		t.Fatal("a second caller blocked behind the stalled fetch")
+	}
+	assert.Equal(t, int32(1), calls.Load(), "the second caller must share the in-flight fetch")
+
+	close(release)
+	released = true
+	material, err := fetchTrustedRoot(context.Background(), waitForServer)
+	require.NoError(t, err)
+	assert.NotNil(t, material)
+	assert.Equal(t, int32(1), calls.Load())
+}
+
+func TestStalledTrustedRootDownloadIsBounded(t *testing.T) {
+	resetTrustedRootCache(t)
+
+	hang := make(chan struct{})
+	server := httptest.NewServer(http.HandlerFunc(func(_ http.ResponseWriter, r *http.Request) {
+		select {
+		case <-r.Context().Done():
+		case <-hang:
+		}
+	}))
+	originalFetch := fetchTrustedRootFromSigstore
+	originalTimeout := trustedRootRequestTimeout
+	trustedRootRequestTimeout = 100 * time.Millisecond
+	fetchTrustedRootFromSigstore = func(opts *tuf.Options) (*root.LiveTrustedRoot, error) {
+		_, err := opts.Fetcher.DownloadFile(server.URL, 1024, 0)
+		return nil, err
+	}
+	t.Cleanup(func() {
+		close(hang)
+		server.Close()
+		resetTrustedRootCache(t)
+		fetchTrustedRootFromSigstore = originalFetch
+		trustedRootRequestTimeout = originalTimeout
+	})
+
+	start := time.Now()
+	_, err := fetchTrustedRoot(context.Background(), waitForServer)
+	require.Error(t, err)
+	assert.Less(t, time.Since(start), waitForServer/2, "the stalled download must fail on its own")
 }

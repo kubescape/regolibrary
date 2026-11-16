@@ -25,6 +25,7 @@ import (
 	"github.com/sigstore/sigstore-go/pkg/root"
 	"github.com/sigstore/sigstore-go/pkg/tuf"
 	"github.com/sigstore/sigstore-go/pkg/verify"
+	"github.com/theupdateframework/go-tuf/v2/metadata/fetcher"
 	"go.uber.org/zap"
 )
 
@@ -174,7 +175,7 @@ func (gs *GitRegoStore) setObjectsFromReleaseOnce(ctx context.Context) error {
 		return err
 	}
 
-	return gs.applyRelease(artifacts)
+	return gs.applyRelease(ctx, artifacts)
 }
 
 // downloadRelease downloads every release artifact without touching the store state.
@@ -223,15 +224,14 @@ func (gs *GitRegoStore) downloadRelease(ctx context.Context) (*releaseArtifacts,
 }
 
 // applyRelease decodes and prepares every downloaded artifact in a staging store and publishes the result to
-// gs only if all of them succeeded. On error gs is left completely unchanged.
-func (gs *GitRegoStore) applyRelease(artifacts *releaseArtifacts) error {
+// gs only if all of them succeeded and ctx is still live. On error gs is left completely unchanged.
+func (gs *GitRegoStore) applyRelease(ctx context.Context, artifacts *releaseArtifacts) error {
 	staged, err := stageRelease(artifacts)
 	if err != nil {
 		return err
 	}
 
-	gs.publishRelease(staged)
-	return nil
+	return gs.publishRelease(ctx, staged)
 }
 
 // stageRelease prepares the complete new state in a private store that no other goroutine can see.
@@ -268,7 +268,7 @@ func stageRelease(artifacts *releaseArtifacts) (*GitRegoStore, error) {
 // whole swap, so a reader holding any of them (even several at once) sees either the old or the new state.
 // Locks are taken in the order readers already nest them (frameworks, controls, rules, relations), which
 // avoids lock-order inversions.
-func (gs *GitRegoStore) publishRelease(staged *GitRegoStore) {
+func (gs *GitRegoStore) publishRelease(ctx context.Context, staged *GitRegoStore) error {
 	gs.frameworksLock.Lock()
 	defer gs.frameworksLock.Unlock()
 	gs.controlsLock.Lock()
@@ -288,6 +288,10 @@ func (gs *GitRegoStore) publishRelease(staged *GitRegoStore) {
 	gs.systemPostureExceptionPoliciesLock.Lock()
 	defer gs.systemPostureExceptionPoliciesLock.Unlock()
 
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+
 	gs.Frameworks = staged.Frameworks
 	gs.Controls = staged.Controls
 	gs.AttackTrackControls = staged.AttackTrackControls
@@ -297,15 +301,19 @@ func (gs *GitRegoStore) publishRelease(staged *GitRegoStore) {
 	gs.AttackTracks = staged.AttackTracks
 	gs.DefaultConfigInputs = staged.DefaultConfigInputs
 	gs.SystemPostureExceptionPolicies = staged.SystemPostureExceptionPolicies
+	return nil
 }
 
 // httpGet issues a context-aware GET using the store's HTTP client and request timeout.
 func (gs *GitRegoStore) httpGet(ctx context.Context, fullURL string) (string, error) {
-	timeout := gs.requestTimeout
-	if timeout <= 0 {
-		timeout = DefaultRequestTimeout
+	return httpGetter(ctx, gs.httpClient, fullURL, gs.effectiveRequestTimeout())
+}
+
+func (gs *GitRegoStore) effectiveRequestTimeout() time.Duration {
+	if gs.requestTimeout <= 0 {
+		return DefaultRequestTimeout
 	}
-	return httpGetter(ctx, gs.httpClient, fullURL, timeout)
+	return gs.requestTimeout
 }
 
 // isContextError reports whether err was caused by cancellation or a deadline.
@@ -360,9 +368,14 @@ func (gs *GitRegoStore) getReleaseChecksums(ctx context.Context) (map[string]str
 	}
 
 	if err := verifyChecksumManifestSignature(
+		ctx,
 		[]byte(respStr),
 		[]byte(signatureBundle),
+		gs.effectiveRequestTimeout(),
 	); err != nil {
+		if isContextError(err) {
+			return nil, fmt.Errorf("error verifying %s: %w", checksumsFileName, err)
+		}
 		return nil, fmt.Errorf(
 			"%w: error verifying %s: %w",
 			ErrChecksumVerification,
@@ -386,50 +399,76 @@ func (gs *GitRegoStore) getReleaseChecksums(ctx context.Context) (map[string]str
 
 var fetchTrustedRootFromSigstore = root.NewLiveTrustedRoot
 
+var trustedRootRequestTimeout = DefaultRequestTimeout
+
 var trustedRootCache struct {
-	mu       sync.RWMutex
+	mu       sync.Mutex
 	material *root.LiveTrustedRoot
+	inFlight *trustedRootFetch
 }
 
-func fetchTrustedRoot() (*root.LiveTrustedRoot, error) {
-	trustedRootCache.mu.RLock()
-	if trustedRootCache.material != nil {
-		material := trustedRootCache.material
-		trustedRootCache.mu.RUnlock()
+type trustedRootFetch struct {
+	done     chan struct{}
+	material *root.LiveTrustedRoot
+	err      error
+}
+
+func fetchTrustedRoot(ctx context.Context, timeout time.Duration) (*root.LiveTrustedRoot, error) {
+	trustedRootCache.mu.Lock()
+	if material := trustedRootCache.material; material != nil {
+		trustedRootCache.mu.Unlock()
 		return material, nil
 	}
-	trustedRootCache.mu.RUnlock()
-
-	trustedRootCache.mu.Lock()
-	defer trustedRootCache.mu.Unlock()
-
-	if trustedRootCache.material != nil {
-		return trustedRootCache.material, nil
+	fetch := trustedRootCache.inFlight
+	if fetch == nil {
+		fetch = &trustedRootFetch{done: make(chan struct{})}
+		trustedRootCache.inFlight = fetch
+		go fetch.run()
 	}
+	trustedRootCache.mu.Unlock()
 
+	ctx, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	select {
+	case <-fetch.done:
+		return fetch.material, fetch.err
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	}
+}
+
+func (f *trustedRootFetch) run() {
 	opts := tuf.DefaultOptions()
 	opts.DisableLocalCache = true
-
-	material, err := fetchTrustedRootFromSigstore(opts)
-	if err != nil {
-		return nil, err
+	if tufFetcher, ok := opts.Fetcher.(*fetcher.DefaultFetcher); ok {
+		tufFetcher.SetHTTPClient(&http.Client{Timeout: trustedRootRequestTimeout})
 	}
 
-	trustedRootCache.material = material
+	f.material, f.err = fetchTrustedRootFromSigstore(opts)
 
-	return material, nil
+	trustedRootCache.mu.Lock()
+	if f.err == nil {
+		trustedRootCache.material = f.material
+	}
+	trustedRootCache.inFlight = nil
+	trustedRootCache.mu.Unlock()
+
+	close(f.done)
 }
 
 func verifyChecksumManifestSignature(
+	ctx context.Context,
 	manifest []byte,
 	signatureBundle []byte,
+	timeout time.Duration,
 ) error {
 	var sigstoreBundle bundle.Bundle
 	if err := sigstoreBundle.UnmarshalJSON(signatureBundle); err != nil {
 		return fmt.Errorf("invalid Sigstore bundle: %w", err)
 	}
 
-	trustedRoot, err := fetchTrustedRoot()
+	trustedRoot, err := fetchTrustedRoot(ctx, timeout)
 	if err != nil {
 		return fmt.Errorf("failed to fetch Sigstore trusted root: %w", err)
 	}
