@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -484,4 +485,57 @@ func TestTrustedRootFetchIsBoundedByRequestTimeout(t *testing.T) {
 		t.Fatal("the trusted root fetch was not bounded by the request timeout")
 	}
 	assertStoreUntouched(t, gs)
+}
+
+func TestSecondCallerIsNotBlockedByAStalledTrustedRootFetch(t *testing.T) {
+	trustedRootCache.mu.Lock()
+	trustedRootCache.material = nil
+	trustedRootCache.mu.Unlock()
+
+	var calls atomic.Int32
+	release := make(chan struct{})
+	original := fetchTrustedRootFromSigstore
+	fetchTrustedRootFromSigstore = func(*tuf.Options) (*root.LiveTrustedRoot, error) {
+		calls.Add(1)
+		<-release
+		return &root.LiveTrustedRoot{TrustedRoot: &root.TrustedRoot{}}, nil
+	}
+	released := false
+	t.Cleanup(func() {
+		if !released {
+			close(release)
+		}
+		require.Eventually(t, func() bool {
+			trustedRootCache.mu.Lock()
+			defer trustedRootCache.mu.Unlock()
+			return trustedRootCache.material != nil
+		}, waitForServer, 5*time.Millisecond)
+		fetchTrustedRootFromSigstore = original
+		trustedRootCache.mu.Lock()
+		trustedRootCache.material = nil
+		trustedRootCache.mu.Unlock()
+	})
+
+	_, err := fetchTrustedRoot(context.Background(), 100*time.Millisecond)
+	require.ErrorIs(t, err, context.DeadlineExceeded)
+
+	errCh := make(chan error, 1)
+	go func() {
+		_, err := fetchTrustedRoot(context.Background(), 100*time.Millisecond)
+		errCh <- err
+	}()
+	select {
+	case err := <-errCh:
+		require.ErrorIs(t, err, context.DeadlineExceeded)
+	case <-time.After(waitForServer):
+		t.Fatal("a second caller blocked behind the stalled fetch")
+	}
+	assert.Equal(t, int32(1), calls.Load(), "the second caller must share the in-flight fetch")
+
+	close(release)
+	released = true
+	material, err := fetchTrustedRoot(context.Background(), waitForServer)
+	require.NoError(t, err)
+	assert.NotNil(t, material)
+	assert.Equal(t, int32(1), calls.Load())
 }

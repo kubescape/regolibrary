@@ -161,6 +161,30 @@ func TestApplyReleaseCancelledBeforePublishLeavesStoreUnchanged(t *testing.T) {
 	assert.Equal(t, before, snapshot(gs))
 }
 
+func TestApplyReleaseCancelledWhileWaitingForPublicationLocks(t *testing.T) {
+	gs := populatedStore(t)
+	before := snapshot(gs)
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	gs.rulesLock.RLock()
+	errCh := make(chan error, 1)
+	go func() { errCh <- gs.applyRelease(ctx, validArtifacts(nil)) }()
+
+	time.Sleep(50 * time.Millisecond)
+	cancel()
+	gs.rulesLock.RUnlock()
+
+	select {
+	case err := <-errCh:
+		require.ErrorIs(t, err, context.Canceled)
+	case <-time.After(5 * time.Second):
+		t.Fatal("applyRelease did not return")
+	}
+	assert.Equal(t, before, snapshot(gs))
+}
+
 func TestApplyReleaseFailureOnEmptyStoreStaysEmpty(t *testing.T) {
 	gs := &GitRegoStore{}
 

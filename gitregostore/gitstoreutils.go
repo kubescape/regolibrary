@@ -229,12 +229,8 @@ func (gs *GitRegoStore) applyRelease(ctx context.Context, artifacts *releaseArti
 	if err != nil {
 		return err
 	}
-	if err := ctx.Err(); err != nil {
-		return err
-	}
 
-	gs.publishRelease(staged)
-	return nil
+	return gs.publishRelease(ctx, staged)
 }
 
 // stageRelease prepares the complete new state in a private store that no other goroutine can see.
@@ -271,7 +267,7 @@ func stageRelease(artifacts *releaseArtifacts) (*GitRegoStore, error) {
 // whole swap, so a reader holding any of them (even several at once) sees either the old or the new state.
 // Locks are taken in the order readers already nest them (frameworks, controls, rules, relations), which
 // avoids lock-order inversions.
-func (gs *GitRegoStore) publishRelease(staged *GitRegoStore) {
+func (gs *GitRegoStore) publishRelease(ctx context.Context, staged *GitRegoStore) error {
 	gs.frameworksLock.Lock()
 	defer gs.frameworksLock.Unlock()
 	gs.controlsLock.Lock()
@@ -291,6 +287,10 @@ func (gs *GitRegoStore) publishRelease(staged *GitRegoStore) {
 	gs.systemPostureExceptionPoliciesLock.Lock()
 	defer gs.systemPostureExceptionPoliciesLock.Unlock()
 
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+
 	gs.Frameworks = staged.Frameworks
 	gs.Controls = staged.Controls
 	gs.AttackTrackControls = staged.AttackTrackControls
@@ -300,6 +300,7 @@ func (gs *GitRegoStore) publishRelease(staged *GitRegoStore) {
 	gs.AttackTracks = staged.AttackTracks
 	gs.DefaultConfigInputs = staged.DefaultConfigInputs
 	gs.SystemPostureExceptionPolicies = staged.SystemPostureExceptionPolicies
+	return nil
 }
 
 // httpGet issues a context-aware GET using the store's HTTP client and request timeout.
@@ -398,58 +399,56 @@ func (gs *GitRegoStore) getReleaseChecksums(ctx context.Context) (map[string]str
 var fetchTrustedRootFromSigstore = root.NewLiveTrustedRoot
 
 var trustedRootCache struct {
-	mu       sync.RWMutex
+	mu       sync.Mutex
 	material *root.LiveTrustedRoot
+	inFlight *trustedRootFetch
+}
+
+type trustedRootFetch struct {
+	done     chan struct{}
+	material *root.LiveTrustedRoot
+	err      error
 }
 
 func fetchTrustedRoot(ctx context.Context, timeout time.Duration) (*root.LiveTrustedRoot, error) {
-	trustedRootCache.mu.RLock()
-	material := trustedRootCache.material
-	trustedRootCache.mu.RUnlock()
-	if material != nil {
+	trustedRootCache.mu.Lock()
+	if material := trustedRootCache.material; material != nil {
+		trustedRootCache.mu.Unlock()
 		return material, nil
 	}
+	fetch := trustedRootCache.inFlight
+	if fetch == nil {
+		fetch = &trustedRootFetch{done: make(chan struct{})}
+		trustedRootCache.inFlight = fetch
+		go fetch.run()
+	}
+	trustedRootCache.mu.Unlock()
 
 	ctx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
-	type result struct {
-		material *root.LiveTrustedRoot
-		err      error
-	}
-	done := make(chan result, 1)
-	go func() {
-		material, err := cacheTrustedRoot()
-		done <- result{material, err}
-	}()
-
 	select {
-	case r := <-done:
-		return r.material, r.err
+	case <-fetch.done:
+		return fetch.material, fetch.err
 	case <-ctx.Done():
 		return nil, ctx.Err()
 	}
 }
 
-func cacheTrustedRoot() (*root.LiveTrustedRoot, error) {
-	trustedRootCache.mu.Lock()
-	defer trustedRootCache.mu.Unlock()
-
-	if trustedRootCache.material != nil {
-		return trustedRootCache.material, nil
-	}
-
+func (f *trustedRootFetch) run() {
 	opts := tuf.DefaultOptions()
 	opts.DisableLocalCache = true
 
-	material, err := fetchTrustedRootFromSigstore(opts)
-	if err != nil {
-		return nil, err
+	f.material, f.err = fetchTrustedRootFromSigstore(opts)
+
+	trustedRootCache.mu.Lock()
+	if f.err == nil {
+		trustedRootCache.material = f.material
 	}
+	trustedRootCache.inFlight = nil
+	trustedRootCache.mu.Unlock()
 
-	trustedRootCache.material = material
-
-	return material, nil
+	close(f.done)
 }
 
 func verifyChecksumManifestSignature(
