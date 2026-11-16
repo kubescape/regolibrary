@@ -542,3 +542,34 @@ func TestSecondCallerIsNotBlockedByAStalledTrustedRootFetch(t *testing.T) {
 	assert.NotNil(t, material)
 	assert.Equal(t, int32(1), calls.Load())
 }
+
+func TestStalledTrustedRootDownloadIsBounded(t *testing.T) {
+	resetTrustedRootCache(t)
+
+	hang := make(chan struct{})
+	server := httptest.NewServer(http.HandlerFunc(func(_ http.ResponseWriter, r *http.Request) {
+		select {
+		case <-r.Context().Done():
+		case <-hang:
+		}
+	}))
+	originalFetch := fetchTrustedRootFromSigstore
+	originalTimeout := trustedRootRequestTimeout
+	trustedRootRequestTimeout = 100 * time.Millisecond
+	fetchTrustedRootFromSigstore = func(opts *tuf.Options) (*root.LiveTrustedRoot, error) {
+		_, err := opts.Fetcher.DownloadFile(server.URL, 1024, 0)
+		return nil, err
+	}
+	t.Cleanup(func() {
+		close(hang)
+		server.Close()
+		resetTrustedRootCache(t)
+		fetchTrustedRootFromSigstore = originalFetch
+		trustedRootRequestTimeout = originalTimeout
+	})
+
+	start := time.Now()
+	_, err := fetchTrustedRoot(context.Background(), waitForServer)
+	require.Error(t, err)
+	assert.Less(t, time.Since(start), waitForServer/2, "the stalled download must fail on its own")
+}

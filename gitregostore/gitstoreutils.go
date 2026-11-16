@@ -25,6 +25,7 @@ import (
 	"github.com/sigstore/sigstore-go/pkg/root"
 	"github.com/sigstore/sigstore-go/pkg/tuf"
 	"github.com/sigstore/sigstore-go/pkg/verify"
+	"github.com/theupdateframework/go-tuf/v2/metadata/fetcher"
 	"go.uber.org/zap"
 )
 
@@ -398,6 +399,8 @@ func (gs *GitRegoStore) getReleaseChecksums(ctx context.Context) (map[string]str
 
 var fetchTrustedRootFromSigstore = root.NewLiveTrustedRoot
 
+var trustedRootRequestTimeout = DefaultRequestTimeout
+
 var trustedRootCache struct {
 	mu       sync.Mutex
 	material *root.LiveTrustedRoot
@@ -438,6 +441,9 @@ func fetchTrustedRoot(ctx context.Context, timeout time.Duration) (*root.LiveTru
 func (f *trustedRootFetch) run() {
 	opts := tuf.DefaultOptions()
 	opts.DisableLocalCache = true
+	if tufFetcher, ok := opts.Fetcher.(*fetcher.DefaultFetcher); ok {
+		tufFetcher.SetHTTPClient(&http.Client{Timeout: trustedRootRequestTimeout})
+	}
 
 	f.material, f.err = fetchTrustedRootFromSigstore(opts)
 
