@@ -402,12 +402,31 @@ func TestPlainFailureIsNotReportedAsCancellation(t *testing.T) {
 const minimalSigstoreBundle = `{"mediaType":"application/vnd.dev.sigstore.bundle.v0.3+json","verificationMaterial":{"publicKey":{"hint":"x"}},"messageSignature":{"messageDigest":{"algorithm":"SHA2_256","digest":"AAAA"},"signature":"AAAA"}}`
 
 // blockTrustedRootFetch makes the Sigstore trusted-root fetch hang until the test ends and reports when it started.
+func resetTrustedRootCache(t *testing.T) {
+	t.Helper()
+	deadline := time.Now().Add(waitForServer)
+	for {
+		trustedRootCache.mu.Lock()
+		idle := trustedRootCache.inFlight == nil
+		if idle {
+			trustedRootCache.material = nil
+		}
+		trustedRootCache.mu.Unlock()
+		if idle {
+			return
+		}
+		if time.Now().After(deadline) {
+			t.Error("a trusted root fetch is still in flight")
+			return
+		}
+		time.Sleep(time.Millisecond)
+	}
+}
+
 func blockTrustedRootFetch(t *testing.T) <-chan struct{} {
 	t.Helper()
 
-	trustedRootCache.mu.Lock()
-	trustedRootCache.material = nil
-	trustedRootCache.mu.Unlock()
+	resetTrustedRootCache(t)
 
 	started := make(chan struct{})
 	release := make(chan struct{})
@@ -419,15 +438,8 @@ func blockTrustedRootFetch(t *testing.T) <-chan struct{} {
 	}
 	t.Cleanup(func() {
 		close(release)
-		select {
-		case <-started:
-		case <-time.After(waitForServer):
-			t.Error("the trusted root was never fetched")
-		}
+		resetTrustedRootCache(t)
 		fetchTrustedRootFromSigstore = original
-		trustedRootCache.mu.Lock()
-		trustedRootCache.material = nil
-		trustedRootCache.mu.Unlock()
 	})
 	return started
 }
@@ -488,9 +500,7 @@ func TestTrustedRootFetchIsBoundedByRequestTimeout(t *testing.T) {
 }
 
 func TestSecondCallerIsNotBlockedByAStalledTrustedRootFetch(t *testing.T) {
-	trustedRootCache.mu.Lock()
-	trustedRootCache.material = nil
-	trustedRootCache.mu.Unlock()
+	resetTrustedRootCache(t)
 
 	var calls atomic.Int32
 	release := make(chan struct{})
@@ -505,15 +515,8 @@ func TestSecondCallerIsNotBlockedByAStalledTrustedRootFetch(t *testing.T) {
 		if !released {
 			close(release)
 		}
-		require.Eventually(t, func() bool {
-			trustedRootCache.mu.Lock()
-			defer trustedRootCache.mu.Unlock()
-			return trustedRootCache.material != nil
-		}, waitForServer, 5*time.Millisecond)
+		resetTrustedRootCache(t)
 		fetchTrustedRootFromSigstore = original
-		trustedRootCache.mu.Lock()
-		trustedRootCache.material = nil
-		trustedRootCache.mu.Unlock()
 	})
 
 	_, err := fetchTrustedRoot(context.Background(), 100*time.Millisecond)
