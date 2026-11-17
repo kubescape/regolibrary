@@ -1,0 +1,8 @@
+{
+  "postureControlInputs": {
+    "untrustedRegistries": [
+      "docker.io/"
+    ],
+    "publicRegistries": []
+  }
+}

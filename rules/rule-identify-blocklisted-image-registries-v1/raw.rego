@@ -9,7 +9,7 @@ untrustedImageRepo contains msga if {
 	containers := object.get(wl, containers_path, [])
 	container := containers[i]
 	name := image.parse_normalized_name(container.image)
-	untrusted_or_public_registries(name)
+	untrusted_or_public_registries(image.parse_normalized_name(lower_host(container.image)))
 	path := sprintf("%s[%d].image", [concat(".", containers_path), i])
 
 	msga := {
@@ -36,6 +36,14 @@ untrusted_or_public_registries(image) if {
 	registry := public_registries[_]
 	registry_match(lower(image), lower(registry))
 }
+
+# lower_host - the Docker Hub alias is only normalized when lowercase
+# ('INDEX.DOCKER.IO' stays as is), so lower the host before parsing.
+lower_host(img) := concat("/", array.concat([lower(parts[0])], array.slice(parts, 1, count(parts)))) if {
+	parts := split(img, "/")
+	count(parts) > 1
+	regex.match(`[.:]`, parts[0])
+} else := img
 
 registry_match(image, registry) if {
 	startswith(image, registry)
