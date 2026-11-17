@@ -1,0 +1,7 @@
+{
+  "postureControlInputs": {
+    "imageRepositoryAllowList": [
+      "quay.io/kubescape/kubescape"
+    ]
+  }
+}

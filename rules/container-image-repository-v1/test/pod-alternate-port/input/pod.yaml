@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test
+spec:
+  containers:
+    - name: app
+      image: registry.corp.com/team/app:1.0
+    - name: mirror
+      image: mirror.corp.com:5000/team/app:1.0
+    # same host as the allowed entry, but another registry endpoint
+    - name: other-port
+      image: registry.corp.com:5000/team/app:1.0

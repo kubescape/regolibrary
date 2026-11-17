@@ -1,0 +1,26 @@
+[
+    {
+        "alertMessage": "image 'registry.corp.com:5000/team/app:1.0' in container 'other-port' comes from untrusted registry",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "fixPaths": [],
+        "ruleStatus": "",
+        "reviewPaths": [
+            "spec.containers[2].image"
+        ],
+        "failedPaths": [
+            "spec.containers[2].image"
+        ],
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]
