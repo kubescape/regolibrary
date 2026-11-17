@@ -70,9 +70,27 @@ are_unsafe_specs(obj, specs_path) := paths if {
 	]
 
 	# Combine both sets of paths
-	paths := array.concat(container_paths, init_container_paths)
+	regular_paths := array.concat(container_paths, init_container_paths)
+	paths := array.concat(regular_paths, ephemeral_container_paths(obj, specs_path, specs, fix_fields))
 	count(paths) > 0
 }
+
+# Ephemeral containers exist only on Pods, not in workload templates
+ephemeral_container_paths(obj, specs_path, specs, fix_fields) := paths if {
+	specs_path == ["spec"]
+	ephemeral_path := array.concat(specs_path, ["ephemeralContainers"])
+	ephemeral_containers := object.get(obj, ephemeral_path, [])
+	ephemeral_fix_path := concat(".", ephemeral_path)
+	paths := [[{
+		"path": sprintf("%s[%d].securityContext.%s", [ephemeral_fix_path, i, field]),
+		"value": "YOUR_VALUE",
+	} |
+		field := fix_fields[j]
+	] |
+		container = ephemeral_containers[i]
+		is_unsafe_container(specs, container)
+	]
+} else := []
 
 # A container is unsafe if it has no seccomp profile defined
 # at either pod level or container level
