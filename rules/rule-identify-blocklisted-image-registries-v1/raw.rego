@@ -27,15 +27,35 @@ untrusted_or_public_registries(image) if {
 	# see default-config-inputs.json for list values
 	untrusted_registries := data.postureControlInputs.untrustedRegistries
 	registry := untrusted_registries[_]
-	startswith(lower(image), lower(registry))
+	registry_match(lower(image), lower(registry))
 }
 
 untrusted_or_public_registries(image) if {
 	# see default-config-inputs.json for list values
 	public_registries := data.postureControlInputs.publicRegistries
 	registry := public_registries[_]
-	startswith(lower(image), lower(registry))
+	registry_match(lower(image), lower(registry))
 }
+
+registry_match(image, registry) if {
+	startswith(image, registry)
+	boundary_ok(registry, trim_prefix(image, registry))
+}
+
+# Same boundary as C-0078: a host-only entry such as 'quay.io' must not match
+# 'quay.io.evil.io/...' or 'quay.io:5000/...'.
+boundary_ok(registry, _) if endswith(registry, "/")
+
+boundary_ok(_, "")
+
+boundary_ok(_, suffix) if startswith(suffix, "/")
+
+boundary_ok(_, suffix) if {
+	startswith(suffix, ":")
+	not contains(suffix, "/")
+}
+
+boundary_ok(_, suffix) if startswith(suffix, "@")
 
 # get_containers_path - get resource containers paths for  {"Deployment","ReplicaSet","DaemonSet","StatefulSet","Job"}
 get_containers_path(resource) := result if {
