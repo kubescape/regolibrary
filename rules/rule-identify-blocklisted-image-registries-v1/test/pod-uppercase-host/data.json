@@ -1,0 +1,8 @@
+{
+  "postureControlInputs": {
+    "untrustedRegistries": [
+      "quay.io/"
+    ],
+    "publicRegistries": []
+  }
+}

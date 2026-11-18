@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test
+spec:
+  containers:
+    - name: lower
+      image: index.docker.io/library/nginx:1
+    - name: upper
+      image: INDEX.DOCKER.IO/library/nginx:1

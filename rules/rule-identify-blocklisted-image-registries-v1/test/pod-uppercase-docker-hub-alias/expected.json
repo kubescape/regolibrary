@@ -1,0 +1,50 @@
+[
+    {
+        "alertMessage": "image 'docker.io/library/nginx:1' in container 'lower' comes from untrusted registry",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "fixPaths": [],
+        "ruleStatus": "",
+        "reviewPaths": [
+            "spec.containers[0].image"
+        ],
+        "failedPaths": [
+            "spec.containers[0].image"
+        ],
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    },
+    {
+        "alertMessage": "image 'INDEX.DOCKER.IO/library/nginx:1' in container 'upper' comes from untrusted registry",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "fixPaths": [],
+        "ruleStatus": "",
+        "reviewPaths": [
+            "spec.containers[1].image"
+        ],
+        "failedPaths": [
+            "spec.containers[1].image"
+        ],
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "name": "test"
+                    }
+                }
+            ]
+        }
+    }
+]

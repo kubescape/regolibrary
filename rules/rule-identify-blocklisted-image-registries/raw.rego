@@ -88,5 +88,5 @@ docker_host_wrapper(image) := result if {
 # regexify - returns a registry regex to be searched only for the image host.
 regexify(registry) := result if {
 	endswith(registry, "/")
-	result = sprintf("^%s.*$", [registry])
-} else := sprintf("^%s\/.*$", [registry])
+	result = sprintf("(?i)^%s.*$", [registry])
+} else := sprintf("(?i)^%s\/.*$", [registry])
