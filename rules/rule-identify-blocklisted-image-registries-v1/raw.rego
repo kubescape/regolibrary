@@ -8,8 +8,8 @@ untrustedImageRepo contains msga if {
 	containers_path := get_containers_path(wl)[_]
 	containers := object.get(wl, containers_path, [])
 	container := containers[i]
-	name := image.parse_normalized_name(container.image)
 	untrusted_or_public_registries(image.parse_normalized_name(lower_host(container.image)))
+	name := image.parse_normalized_name(container.image)
 	path := sprintf("%s[%d].image", [concat(".", containers_path), i])
 
 	msga := {
