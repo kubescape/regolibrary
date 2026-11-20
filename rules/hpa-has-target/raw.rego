@@ -18,6 +18,7 @@ deny contains msga if {
 		"alertMessage": sprintf("HorizontalPodAutoscaler '%v' scaleTargetRef points to %v '%v' which does not exist in namespace '%v'", [hpa.metadata.name, target_kind, target_name, namespace]),
 		"packagename": "armo_builtins",
 		"failedPaths": ["spec.scaleTargetRef.name"],
+		"reviewPaths": ["spec.scaleTargetRef.name"],
 		"fixPaths": [],
 		"alertScore": 4,
 		"alertObject": {"k8sApiObjects": [hpa]},

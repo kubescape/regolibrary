@@ -1,22 +1,25 @@
 [
-    {
-        "alertMessage": "SandboxTemplate envVarsInjectionPolicy permits claims to replace template values",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
-                    "kind": "SandboxTemplate",
-                    "metadata": {
-                        "name": "envvarsinjectionpolicy-overrides"
-                    }
-                }
-            ]
-        },
-        "alertScore": 8,
-        "failedPaths": [
-            "spec.envVarsInjectionPolicy"
-        ],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+  {
+    "alertMessage": "SandboxTemplate envVarsInjectionPolicy permits claims to replace template values",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+          "kind": "SandboxTemplate",
+          "metadata": {
+            "name": "envvarsinjectionpolicy-overrides"
+          }
+        }
+      ]
+    },
+    "alertScore": 8,
+    "failedPaths": [
+      "spec.envVarsInjectionPolicy"
+    ],
+    "fixPaths": [],
+    "packagename": "armo_builtins",
+    "reviewPaths": [
+      "spec.envVarsInjectionPolicy"
+    ]
+  }
 ]

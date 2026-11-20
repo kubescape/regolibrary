@@ -17,7 +17,10 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.jobTemplate.spec.selector.matchLabels"
+    ]
   },
   {
     "alertMessage": "Job: mismatching-selector-job selector does not match pod template labels",
@@ -37,6 +40,9 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.selector.matchLabels"
+    ]
   }
 ]

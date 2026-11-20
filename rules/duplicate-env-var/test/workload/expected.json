@@ -17,7 +17,10 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.template.spec.containers[0].env[0].name"
+    ]
   },
   {
     "alertMessage": "Deployment: duplicate-env-deployment container app has duplicate environment variable name APP_MODE at this entry",
@@ -37,7 +40,10 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.template.spec.containers[0].env[1].name"
+    ]
   },
   {
     "alertMessage": "Deployment: duplicate-env-deployment container app has duplicate environment variable name APP_MODE at this entry",
@@ -57,6 +63,9 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.template.spec.containers[0].env[2].name"
+    ]
   }
 ]

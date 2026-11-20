@@ -1,22 +1,25 @@
 [
-    {
-        "alertMessage": "WorkerPool image uses a registry outside imageRepositoryAllowList",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "ate.dev/v1alpha1",
-                    "kind": "WorkerPool",
-                    "metadata": {
-                        "name": "worker-port"
-                    }
-                }
-            ]
-        },
-        "alertScore": 8,
-        "failedPaths": [
-            "spec.workerImage"
-        ],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+  {
+    "alertMessage": "WorkerPool image uses a registry outside imageRepositoryAllowList",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "ate.dev/v1alpha1",
+          "kind": "WorkerPool",
+          "metadata": {
+            "name": "worker-port"
+          }
+        }
+      ]
+    },
+    "alertScore": 8,
+    "failedPaths": [
+      "spec.workerImage"
+    ],
+    "fixPaths": [],
+    "packagename": "armo_builtins",
+    "reviewPaths": [
+      "spec.workerImage"
+    ]
+  }
 ]

@@ -1,23 +1,26 @@
 [
-    {
-        "alertMessage": "SandboxTemplate 'malformed-egress' has a structurally invalid egress block.",
-        "failedPaths": [
-            "spec.networkPolicy.egress"
-        ],
-        "fixPaths": [],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
-                    "kind": "SandboxTemplate",
-                    "metadata": {
-                        "name": "malformed-egress"
-                    }
-                }
-            ]
+  {
+    "alertMessage": "SandboxTemplate 'malformed-egress' has a structurally invalid egress block.",
+    "failedPaths": [
+      "spec.networkPolicy.egress"
+    ],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+          "kind": "SandboxTemplate",
+          "metadata": {
+            "name": "malformed-egress"
+          }
         }
-    }
+      ]
+    },
+    "reviewPaths": [
+      "spec.networkPolicy.egress"
+    ]
+  }
 ]

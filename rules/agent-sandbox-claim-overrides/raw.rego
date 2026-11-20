@@ -9,5 +9,5 @@ deny contains msg if {
 	field := ["envVarsInjectionPolicy", "volumeClaimTemplatesPolicy"][_]
 	wl.spec[field] == "Overrides"
 	path := concat("", ["spec.", field])
-	msg := {"alertMessage": sprintf("SandboxTemplate %s permits claims to replace template values", [field]), "packagename": "armo_builtins", "failedPaths": [path], "fixPaths": [], "alertScore": 8, "alertObject": {"k8sApiObjects": [wl]}}
+	msg := {"alertMessage": sprintf("SandboxTemplate %s permits claims to replace template values", [field]), "packagename": "armo_builtins", "failedPaths": [path], "reviewPaths": [path], "fixPaths": [], "alertScore": 8, "alertObject": {"k8sApiObjects": [wl]}}
 }

@@ -1,23 +1,26 @@
 [
-    {
-        "alertMessage": "Sandbox 'direct-enabled-token' must set automountServiceAccountToken to false; direct Sandbox resources do not receive the SandboxTemplate secure default.",
-        "failedPaths": [
-            "spec.podTemplate.spec.automountServiceAccountToken"
-        ],
-        "fixPaths": [],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "agents.x-k8s.io/v1beta1",
-                    "kind": "Sandbox",
-                    "metadata": {
-                        "name": "direct-enabled-token"
-                    }
-                }
-            ]
+  {
+    "alertMessage": "Sandbox 'direct-enabled-token' must set automountServiceAccountToken to false; direct Sandbox resources do not receive the SandboxTemplate secure default.",
+    "failedPaths": [
+      "spec.podTemplate.spec.automountServiceAccountToken"
+    ],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "agents.x-k8s.io/v1beta1",
+          "kind": "Sandbox",
+          "metadata": {
+            "name": "direct-enabled-token"
+          }
         }
-    }
+      ]
+    },
+    "reviewPaths": [
+      "spec.podTemplate.spec.automountServiceAccountToken"
+    ]
+  }
 ]

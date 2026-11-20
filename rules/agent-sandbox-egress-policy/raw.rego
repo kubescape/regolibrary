@@ -69,6 +69,7 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": ["spec.networkPolicyManagement"],
+		"reviewPaths": ["spec.networkPolicyManagement"],
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [template]},
 	}
@@ -87,6 +88,7 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": ["spec.networkPolicy"],
+		"reviewPaths": ["spec.networkPolicy"],
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [template]},
 	}
@@ -107,6 +109,7 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": ["spec.networkPolicy"],
+		"reviewPaths": ["spec.networkPolicy"],
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [template]},
 	}
@@ -130,6 +133,7 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": ["spec.networkPolicy.egress"],
+		"reviewPaths": ["spec.networkPolicy.egress"],
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [template]},
 	}
@@ -156,6 +160,7 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": ["spec.networkPolicy.egress"],
+		"reviewPaths": ["spec.networkPolicy.egress"],
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [template]},
 	}

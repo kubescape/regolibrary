@@ -39,4 +39,4 @@ agent_registry_allowed(image, allowed) if {
 	count(split(image, "/")) == 1
 }
 
-agent_registry_message(wl, path) := {"alertMessage": sprintf("%v image uses a registry outside imageRepositoryAllowList", [wl.kind]), "packagename": "armo_builtins", "failedPaths": [path], "fixPaths": [], "alertScore": 8, "alertObject": {"k8sApiObjects": [wl]}}
+agent_registry_message(wl, path) := {"alertMessage": sprintf("%v image uses a registry outside imageRepositoryAllowList", [wl.kind]), "packagename": "armo_builtins", "failedPaths": [path], "reviewPaths": [path], "fixPaths": [], "alertScore": 8, "alertObject": {"k8sApiObjects": [wl]}}

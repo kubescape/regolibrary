@@ -1,22 +1,25 @@
 [
-    {
-        "alertMessage": "Worker Pod CPU limit is missing or exceeds the configured ceiling",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "ate.dev/v1alpha1",
-                    "kind": "WorkerPool",
-                    "metadata": {
-                        "name": "cpu-milli"
-                    }
-                }
-            ]
-        },
-        "alertScore": 7,
-        "failedPaths": [
-            "spec.template.resources.limits.cpu"
-        ],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+  {
+    "alertMessage": "Worker Pod CPU limit is missing or exceeds the configured ceiling",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "ate.dev/v1alpha1",
+          "kind": "WorkerPool",
+          "metadata": {
+            "name": "cpu-milli"
+          }
+        }
+      ]
+    },
+    "alertScore": 7,
+    "failedPaths": [
+      "spec.template.resources.limits.cpu"
+    ],
+    "fixPaths": [],
+    "packagename": "armo_builtins",
+    "reviewPaths": [
+      "spec.template.resources.limits.cpu"
+    ]
+  }
 ]

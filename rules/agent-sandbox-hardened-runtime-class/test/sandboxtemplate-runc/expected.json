@@ -1,22 +1,25 @@
 [
-    {
-        "alertMessage": "SandboxTemplate 'sandboxtemplate-runc' uses runtimeClassName 'runc', which is not in the approved hardened runtime list.",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
-                    "kind": "SandboxTemplate",
-                    "metadata": {
-                        "name": "sandboxtemplate-runc"
-                    }
-                }
-            ]
-        },
-        "alertScore": 7,
-        "failedPaths": [
-            "spec.podTemplate.spec.runtimeClassName"
-        ],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+  {
+    "alertMessage": "SandboxTemplate 'sandboxtemplate-runc' uses runtimeClassName 'runc', which is not in the approved hardened runtime list.",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+          "kind": "SandboxTemplate",
+          "metadata": {
+            "name": "sandboxtemplate-runc"
+          }
+        }
+      ]
+    },
+    "alertScore": 7,
+    "failedPaths": [
+      "spec.podTemplate.spec.runtimeClassName"
+    ],
+    "fixPaths": [],
+    "packagename": "armo_builtins",
+    "reviewPaths": [
+      "spec.podTemplate.spec.runtimeClassName"
+    ]
+  }
 ]

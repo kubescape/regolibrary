@@ -1,22 +1,25 @@
 [
-    {
-        "alertMessage": "Container \"actor\" is missing [\"cpu\"] limits",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "agents.x-k8s.io/v1beta1",
-                    "kind": "Sandbox",
-                    "metadata": {
-                        "name": "sandbox-containers-no-cpu"
-                    }
-                }
-            ]
-        },
-        "alertScore": 7,
-        "failedPaths": [
-            "spec.podTemplate.spec.containers[0].resources.limits"
-        ],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+  {
+    "alertMessage": "Container \"actor\" is missing [\"cpu\"] limits",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "agents.x-k8s.io/v1beta1",
+          "kind": "Sandbox",
+          "metadata": {
+            "name": "sandbox-containers-no-cpu"
+          }
+        }
+      ]
+    },
+    "alertScore": 7,
+    "failedPaths": [
+      "spec.podTemplate.spec.containers[0].resources.limits"
+    ],
+    "fixPaths": [],
+    "packagename": "armo_builtins",
+    "reviewPaths": [
+      "spec.podTemplate.spec.containers[0].resources.limits"
+    ]
+  }
 ]

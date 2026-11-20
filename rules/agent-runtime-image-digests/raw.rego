@@ -17,4 +17,4 @@ agent_digest_image_refs(wl) := [ref | some i; some set in [{"name": "containers"
 
 agent_digest_image_refs(wl) := [{"image": wl.spec.workerImage, "path": "spec.workerImage"}] if wl.kind == "WorkerPool"
 
-agent_digest_message(wl, path) := {"alertMessage": sprintf("%v image must be pinned to an exact SHA-256 digest", [wl.kind]), "packagename": "armo_builtins", "failedPaths": [path], "fixPaths": [], "alertScore": 8, "alertObject": {"k8sApiObjects": [wl]}}
+agent_digest_message(wl, path) := {"alertMessage": sprintf("%v image must be pinned to an exact SHA-256 digest", [wl.kind]), "packagename": "armo_builtins", "failedPaths": [path], "reviewPaths": [path], "fixPaths": [], "alertScore": 8, "alertObject": {"k8sApiObjects": [wl]}}

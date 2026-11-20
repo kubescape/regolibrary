@@ -16,6 +16,7 @@ deny contains msga if {
 		"alertMessage": sprintf("%v '%v' backendRef '%v' does not exist in namespace '%v'", [route.kind, route.metadata.name, ref.name, namespace]),
 		"packagename": "armo_builtins",
 		"failedPaths": [sprintf("spec.rules[%d].backendRefs[%d].name", [i, j])],
+		"reviewPaths": [sprintf("spec.rules[%d].backendRefs[%d].name", [i, j])],
 		"fixPaths": [],
 		"alertScore": 4,
 		"alertObject": {"k8sApiObjects": [route]},
