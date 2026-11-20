@@ -2,7 +2,9 @@
   {
     "alertMessage": "Service 'drift-svc' selector matches no workloads in namespace 'default'",
     "packagename": "armo_builtins",
-    "failedPaths": ["spec.selector"],
+    "failedPaths": [
+      "spec.selector"
+    ],
     "fixPaths": [],
     "alertScore": 3,
     "alertObject": {
@@ -15,6 +17,9 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.selector"
+    ]
   }
 ]

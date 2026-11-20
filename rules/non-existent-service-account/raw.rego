@@ -15,6 +15,7 @@ deny contains msga if {
 		"alertMessage": sprintf("%v: %v in namespace %v references missing ServiceAccount %v", [wl.kind, wl.metadata.name, wl_namespace, sa.name]),
 		"packagename": "armo_builtins",
 		"failedPaths": [sprintf("%v%v", [info.path, sa.field])],
+		"reviewPaths": [sprintf("%v%v", [info.path, sa.field])],
 		"fixPaths": [],
 		"alertScore": 5,
 		"alertObject": {"k8sApiObjects": [wl]},

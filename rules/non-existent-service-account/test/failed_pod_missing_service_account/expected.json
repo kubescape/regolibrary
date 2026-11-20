@@ -17,6 +17,9 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.serviceAccountName"
+    ]
   }
 ]

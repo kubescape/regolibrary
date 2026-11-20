@@ -1,22 +1,25 @@
 [
-    {
-        "alertMessage": "SandboxTemplate volumeClaimTemplatesPolicy permits claims to replace template values",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
-                    "kind": "SandboxTemplate",
-                    "metadata": {
-                        "name": "volumeclaimtemplatespolicy-overrides"
-                    }
-                }
-            ]
-        },
-        "alertScore": 8,
-        "failedPaths": [
-            "spec.volumeClaimTemplatesPolicy"
-        ],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+  {
+    "alertMessage": "SandboxTemplate volumeClaimTemplatesPolicy permits claims to replace template values",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+          "kind": "SandboxTemplate",
+          "metadata": {
+            "name": "volumeclaimtemplatespolicy-overrides"
+          }
+        }
+      ]
+    },
+    "alertScore": 8,
+    "failedPaths": [
+      "spec.volumeClaimTemplatesPolicy"
+    ],
+    "fixPaths": [],
+    "packagename": "armo_builtins",
+    "reviewPaths": [
+      "spec.volumeClaimTemplatesPolicy"
+    ]
+  }
 ]

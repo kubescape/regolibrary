@@ -1,22 +1,25 @@
 [
-    {
-        "alertMessage": "SandboxTemplate 'sandboxtemplate-none' does not define runtimeClassName.",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
-                    "kind": "SandboxTemplate",
-                    "metadata": {
-                        "name": "sandboxtemplate-none"
-                    }
-                }
-            ]
-        },
-        "alertScore": 7,
-        "failedPaths": [
-            "spec.podTemplate.spec.runtimeClassName"
-        ],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+  {
+    "alertMessage": "SandboxTemplate 'sandboxtemplate-none' does not define runtimeClassName.",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+          "kind": "SandboxTemplate",
+          "metadata": {
+            "name": "sandboxtemplate-none"
+          }
+        }
+      ]
+    },
+    "alertScore": 7,
+    "failedPaths": [
+      "spec.podTemplate.spec.runtimeClassName"
+    ],
+    "fixPaths": [],
+    "packagename": "armo_builtins",
+    "reviewPaths": [
+      "spec.podTemplate.spec.runtimeClassName"
+    ]
+  }
 ]

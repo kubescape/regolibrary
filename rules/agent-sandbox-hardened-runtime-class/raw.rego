@@ -19,6 +19,7 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": ["spec.podTemplate.spec.runtimeClassName"],
+		"reviewPaths": ["spec.podTemplate.spec.runtimeClassName"],
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [template]},
 	}
@@ -41,6 +42,7 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": ["spec.podTemplate.spec.runtimeClassName"],
+		"reviewPaths": ["spec.podTemplate.spec.runtimeClassName"],
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [template]},
 	}

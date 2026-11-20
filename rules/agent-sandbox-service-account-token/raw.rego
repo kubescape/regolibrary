@@ -17,6 +17,7 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": ["spec.podTemplate.spec.automountServiceAccountToken"],
+		"reviewPaths": ["spec.podTemplate.spec.automountServiceAccountToken"],
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [sandbox]},
 	}
@@ -36,6 +37,7 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": ["spec.podTemplate.spec.automountServiceAccountToken"],
+		"reviewPaths": ["spec.podTemplate.spec.automountServiceAccountToken"],
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [template]},
 	}

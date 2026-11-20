@@ -1,23 +1,26 @@
 [
-    {
-        "alertMessage": "SandboxTemplate 'template-enabled-token' explicitly enables service account token automounting; omit the field or set it to false.",
-        "failedPaths": [
-            "spec.podTemplate.spec.automountServiceAccountToken"
-        ],
-        "fixPaths": [],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
-                    "kind": "SandboxTemplate",
-                    "metadata": {
-                        "name": "template-enabled-token"
-                    }
-                }
-            ]
+  {
+    "alertMessage": "SandboxTemplate 'template-enabled-token' explicitly enables service account token automounting; omit the field or set it to false.",
+    "failedPaths": [
+      "spec.podTemplate.spec.automountServiceAccountToken"
+    ],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+          "kind": "SandboxTemplate",
+          "metadata": {
+            "name": "template-enabled-token"
+          }
         }
-    }
+      ]
+    },
+    "reviewPaths": [
+      "spec.podTemplate.spec.automountServiceAccountToken"
+    ]
+  }
 ]

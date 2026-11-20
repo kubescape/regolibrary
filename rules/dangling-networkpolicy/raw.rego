@@ -16,6 +16,7 @@ deny contains msga if {
 		"alertMessage": sprintf("NetworkPolicy '%v' podSelector matches no workloads in namespace '%v'", [policy.metadata.name, namespace]),
 		"packagename": "armo_builtins",
 		"failedPaths": ["spec.podSelector"],
+		"reviewPaths": ["spec.podSelector"],
 		"fixPaths": [],
 		"alertScore": 4,
 		"alertObject": {"k8sApiObjects": [policy]},

@@ -120,6 +120,7 @@ make_alert(obj, kind, name, container, env_name, path) := {
 	"alertMessage": sprintf("%v: %v container %v has duplicate environment variable name %v at this entry", [kind, name, container.name, env_name]),
 	"packagename": "armo_builtins",
 	"failedPaths": [path],
+	"reviewPaths": [path],
 	"fixPaths": [],
 	"alertScore": 3,
 	"alertObject": {"k8sApiObjects": [obj]},
