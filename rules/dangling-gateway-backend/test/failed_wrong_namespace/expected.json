@@ -2,7 +2,9 @@
   {
     "alertMessage": "HTTPRoute 'ns-route' backendRef 'web-service' does not exist in namespace 'default'",
     "packagename": "armo_builtins",
-    "failedPaths": ["spec.rules[0].backendRefs[0].name"],
+    "failedPaths": [
+      "spec.rules[0].backendRefs[0].name"
+    ],
     "fixPaths": [],
     "alertScore": 4,
     "alertObject": {
@@ -15,6 +17,9 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.rules[0].backendRefs[0].name"
+    ]
   }
 ]

@@ -17,7 +17,10 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.template.spec.containers[0].env[0].name"
+    ]
   },
   {
     "alertMessage": "ReplicationController: duplicate-env-replicationcontroller container app has duplicate environment variable name RC_MODE at this entry",
@@ -37,6 +40,9 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.template.spec.containers[0].env[1].name"
+    ]
   }
 ]

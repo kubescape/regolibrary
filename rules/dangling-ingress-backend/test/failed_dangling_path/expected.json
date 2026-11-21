@@ -2,7 +2,9 @@
   {
     "alertMessage": "Ingress 'my-ingress' backend Service 'ghost-service' does not exist in namespace 'default'",
     "packagename": "armo_builtins",
-    "failedPaths": ["spec.rules[0].http.paths[0].backend.service.name"],
+    "failedPaths": [
+      "spec.rules[0].http.paths[0].backend.service.name"
+    ],
     "fixPaths": [],
     "alertScore": 4,
     "alertObject": {
@@ -15,6 +17,9 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.rules[0].http.paths[0].backend.service.name"
+    ]
   }
 ]

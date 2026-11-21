@@ -8,7 +8,7 @@ deny contains msg if {
 	wl := input[_]
 	wl.kind == "SandboxTemplate"
 	not agent_sandbox_has_strict_egress(wl)
-	msg := {"alertMessage": "Strict mode requires an explicit managed default-deny egress policy; the managed default still permits public internet", "packagename": "armo_builtins", "failedPaths": ["spec.networkPolicy"], "fixPaths": [], "alertScore": 8, "alertObject": {"k8sApiObjects": [wl]}}
+	msg := {"alertMessage": "Strict mode requires an explicit managed default-deny egress policy; the managed default still permits public internet", "packagename": "armo_builtins", "failedPaths": ["spec.networkPolicy"], "reviewPaths": ["spec.networkPolicy"], "fixPaths": [], "alertScore": 8, "alertObject": {"k8sApiObjects": [wl]}}
 }
 
 agent_sandbox_has_strict_egress(wl) if {

@@ -15,6 +15,7 @@ deny contains msga if {
 		"alertMessage": sprintf("%v: %v selector does not match pod template labels", [wl.kind, wl.metadata.name]),
 		"packagename": "armo_builtins",
 		"failedPaths": [failed_path],
+		"reviewPaths": [failed_path],
 		"fixPaths": [],
 		"alertScore": 3,
 		"alertObject": {"k8sApiObjects": [wl]},

@@ -37,7 +37,7 @@ worker_memory_limit_invalid(limit, maximum) if {
 	worker_memory_bytes(limit) > worker_memory_bytes(maximum)
 }
 
-worker_ceiling_message(wl, path, resource) := {"alertMessage": sprintf("Worker Pod %s limit is missing or exceeds the configured ceiling", [resource]), "packagename": "armo_builtins", "failedPaths": [path], "fixPaths": [], "alertScore": 7, "alertObject": {"k8sApiObjects": [wl]}}
+worker_ceiling_message(wl, path, resource) := {"alertMessage": sprintf("Worker Pod %s limit is missing or exceeds the configured ceiling", [resource]), "packagename": "armo_builtins", "failedPaths": [path], "reviewPaths": [path], "fixPaths": [], "alertScore": 7, "alertObject": {"k8sApiObjects": [wl]}}
 
 worker_cpu_millicores(q) := n if {
 	s := sprintf("%v", [q])

@@ -1,22 +1,25 @@
 [
-    {
-        "alertMessage": "Sandbox image must be pinned to an exact SHA-256 digest",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "agents.x-k8s.io/v1beta1",
-                    "kind": "Sandbox",
-                    "metadata": {
-                        "name": "sandbox-initContainers-uppercase"
-                    }
-                }
-            ]
-        },
-        "alertScore": 8,
-        "failedPaths": [
-            "spec.podTemplate.spec.initContainers[0].image"
-        ],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+  {
+    "alertMessage": "Sandbox image must be pinned to an exact SHA-256 digest",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "agents.x-k8s.io/v1beta1",
+          "kind": "Sandbox",
+          "metadata": {
+            "name": "sandbox-initContainers-uppercase"
+          }
+        }
+      ]
+    },
+    "alertScore": 8,
+    "failedPaths": [
+      "spec.podTemplate.spec.initContainers[0].image"
+    ],
+    "fixPaths": [],
+    "packagename": "armo_builtins",
+    "reviewPaths": [
+      "spec.podTemplate.spec.initContainers[0].image"
+    ]
+  }
 ]

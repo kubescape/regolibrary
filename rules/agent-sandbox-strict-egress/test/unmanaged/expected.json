@@ -1,22 +1,25 @@
 [
-    {
-        "alertMessage": "Strict mode requires an explicit managed default-deny egress policy; the managed default still permits public internet",
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
-                    "kind": "SandboxTemplate",
-                    "metadata": {
-                        "name": "unmanaged"
-                    }
-                }
-            ]
-        },
-        "alertScore": 8,
-        "failedPaths": [
-            "spec.networkPolicy"
-        ],
-        "fixPaths": [],
-        "packagename": "armo_builtins"
-    }
+  {
+    "alertMessage": "Strict mode requires an explicit managed default-deny egress policy; the managed default still permits public internet",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+          "kind": "SandboxTemplate",
+          "metadata": {
+            "name": "unmanaged"
+          }
+        }
+      ]
+    },
+    "alertScore": 8,
+    "failedPaths": [
+      "spec.networkPolicy"
+    ],
+    "fixPaths": [],
+    "packagename": "armo_builtins",
+    "reviewPaths": [
+      "spec.networkPolicy"
+    ]
+  }
 ]

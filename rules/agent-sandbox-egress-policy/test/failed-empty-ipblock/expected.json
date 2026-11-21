@@ -1,23 +1,26 @@
 [
-    {
-        "alertMessage": "SandboxTemplate 'empty-ipblock' has an egress rule without a scoped 'to' selector, which permits traffic to any destination.",
-        "failedPaths": [
-            "spec.networkPolicy.egress"
-        ],
-        "fixPaths": [],
-        "ruleStatus": "",
-        "packagename": "armo_builtins",
-        "alertScore": 7,
-        "alertObject": {
-            "k8sApiObjects": [
-                {
-                    "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
-                    "kind": "SandboxTemplate",
-                    "metadata": {
-                        "name": "empty-ipblock"
-                    }
-                }
-            ]
+  {
+    "alertMessage": "SandboxTemplate 'empty-ipblock' has an egress rule without a scoped 'to' selector, which permits traffic to any destination.",
+    "failedPaths": [
+      "spec.networkPolicy.egress"
+    ],
+    "fixPaths": [],
+    "ruleStatus": "",
+    "packagename": "armo_builtins",
+    "alertScore": 7,
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "extensions.agents.x-k8s.io/v1beta1",
+          "kind": "SandboxTemplate",
+          "metadata": {
+            "name": "empty-ipblock"
+          }
         }
-    }
+      ]
+    },
+    "reviewPaths": [
+      "spec.networkPolicy.egress"
+    ]
+  }
 ]

@@ -16,4 +16,4 @@ deny contains msg if {
 	msg := agent_limit_message(wl, container, missing, path)
 }
 
-agent_limit_message(wl, container, missing, path) := {"alertMessage": sprintf("Container %q is missing %v limits", [container.name, missing]), "packagename": "armo_builtins", "failedPaths": [path], "fixPaths": [], "alertScore": 7, "alertObject": {"k8sApiObjects": [wl]}}
+agent_limit_message(wl, container, missing, path) := {"alertMessage": sprintf("Container %q is missing %v limits", [container.name, missing]), "packagename": "armo_builtins", "failedPaths": [path], "reviewPaths": [path], "fixPaths": [], "alertScore": 7, "alertObject": {"k8sApiObjects": [wl]}}

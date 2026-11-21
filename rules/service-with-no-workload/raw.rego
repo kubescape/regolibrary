@@ -18,6 +18,7 @@ deny contains msga if {
 		"alertMessage": sprintf("Service '%v' selector matches no workloads in namespace '%v'", [service.metadata.name, service_namespace(service)]),
 		"packagename": "armo_builtins",
 		"failedPaths": ["spec.selector"],
+		"reviewPaths": ["spec.selector"],
 		"fixPaths": [],
 		"alertScore": 3,
 		"alertObject": {"k8sApiObjects": [service]},

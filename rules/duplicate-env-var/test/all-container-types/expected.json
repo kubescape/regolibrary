@@ -17,7 +17,10 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.containers[0].env[0].name"
+    ]
   },
   {
     "alertMessage": "Pod: duplicate-env-all-container-types container app has duplicate environment variable name APP_MODE at this entry",
@@ -37,7 +40,10 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.containers[0].env[1].name"
+    ]
   },
   {
     "alertMessage": "Pod: duplicate-env-all-container-types container debug has duplicate environment variable name DEBUG_MODE at this entry",
@@ -57,7 +63,10 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.ephemeralContainers[0].env[0].name"
+    ]
   },
   {
     "alertMessage": "Pod: duplicate-env-all-container-types container debug has duplicate environment variable name DEBUG_MODE at this entry",
@@ -77,7 +86,10 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.ephemeralContainers[0].env[1].name"
+    ]
   },
   {
     "alertMessage": "Pod: duplicate-env-all-container-types container setup has duplicate environment variable name SETUP_MODE at this entry",
@@ -97,7 +109,10 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.initContainers[0].env[0].name"
+    ]
   },
   {
     "alertMessage": "Pod: duplicate-env-all-container-types container setup has duplicate environment variable name SETUP_MODE at this entry",
@@ -117,6 +132,9 @@
           }
         }
       ]
-    }
+    },
+    "reviewPaths": [
+      "spec.initContainers[0].env[1].name"
+    ]
   }
 ]
