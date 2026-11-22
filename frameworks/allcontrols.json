@@ -1755,6 +1755,12 @@
             }
         },
         {
+            "controlID": "C-0319",
+            "patch": {
+                "name": "Mount security options"
+            }
+        },
+        {
             "controlID": "C-0320",
             "patch": {
                 "name": "Kubernetes API server has known vulnerabilities"
