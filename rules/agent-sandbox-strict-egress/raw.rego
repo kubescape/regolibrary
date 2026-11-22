@@ -24,10 +24,17 @@ agent_sandbox_has_strict_egress(wl) if {
 # spec.networkPolicy when it is there, even as null, otherwise spec, so the
 # evidence points at a field that is there.
 strict_egress_review_paths(wl) := ["spec.networkPolicy"] if {
-	_ = wl.spec.networkPolicy
+	has_network_policy(wl)
 } else := ["spec"]
 
-# An omitted policy is added as a managed default-deny one: an empty egress list.
-strict_egress_fix_paths(wl) := [] if {
+# An omitted policy is added as a managed default-deny one: an empty egress
+# list. Only while the policy is managed: an Unmanaged template still fails
+# with one, so there is no fix to propose.
+strict_egress_fix_paths(wl) := [{"path": "spec.networkPolicy.egress", "value": "[]"}] if {
+	not has_network_policy(wl)
+	object.get(wl, ["spec", "networkPolicyManagement"], null) in {null, "Managed"}
+} else := []
+
+has_network_policy(wl) if {
 	_ = wl.spec.networkPolicy
-} else := [{"path": "spec.networkPolicy.egress", "value": "[]"}]
+}
