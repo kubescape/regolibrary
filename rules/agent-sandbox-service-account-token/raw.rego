@@ -17,8 +17,8 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": ["spec.podTemplate.spec.automountServiceAccountToken"],
-		"reviewPaths": ["spec.podTemplate.spec.automountServiceAccountToken"],
-		"fixPaths": [],
+		"reviewPaths": automount_review_paths(sandbox),
+		"fixPaths": automount_fix_paths(sandbox),
 		"alertObject": {"k8sApiObjects": [sandbox]},
 	}
 }
@@ -44,3 +44,20 @@ deny contains msga if {
 }
 
 resource_name(resource) := object.get(resource, ["metadata", "name"], "<unnamed>")
+
+# The field when the Sandbox sets it, otherwise its deepest parent that exists,
+# so the evidence points at a field that is there.
+automount_review_paths(sandbox) := ["spec.podTemplate.spec.automountServiceAccountToken"] if {
+	_ = sandbox.spec.podTemplate.spec.automountServiceAccountToken
+} else := ["spec.podTemplate.spec"] if {
+	is_object(sandbox.spec.podTemplate.spec)
+} else := ["spec.podTemplate"] if {
+	is_object(sandbox.spec.podTemplate)
+} else := ["spec"] if {
+	is_object(sandbox.spec)
+} else := []
+
+# An omitted field is added as false. One that is set is left to the reviewer.
+automount_fix_paths(sandbox) := [] if {
+	_ = sandbox.spec.podTemplate.spec.automountServiceAccountToken
+} else := [{"path": "spec.podTemplate.spec.automountServiceAccountToken", "value": "false"}]

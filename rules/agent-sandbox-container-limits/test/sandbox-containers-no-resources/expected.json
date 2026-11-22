@@ -1,0 +1,34 @@
+[
+  {
+    "alertMessage": "Container \"actor\" is missing [\"cpu\", \"memory\"] limits",
+    "alertObject": {
+      "k8sApiObjects": [
+        {
+          "apiVersion": "agents.x-k8s.io/v1beta1",
+          "kind": "Sandbox",
+          "metadata": {
+            "name": "sandbox-containers-no-resources"
+          }
+        }
+      ]
+    },
+    "alertScore": 7,
+    "failedPaths": [
+      "spec.podTemplate.spec.containers[0].resources.limits"
+    ],
+    "fixPaths": [
+      {
+        "path": "spec.podTemplate.spec.containers[0].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+      },
+      {
+        "path": "spec.podTemplate.spec.containers[0].resources.limits.memory",
+        "value": "YOUR_VALUE"
+      }
+    ],
+    "packagename": "armo_builtins",
+    "reviewPaths": [
+      "spec.podTemplate.spec.containers[0]"
+    ]
+  }
+]

@@ -4,7 +4,12 @@
     "failedPaths": [
       "spec.podTemplate.spec.automountServiceAccountToken"
     ],
-    "fixPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.podTemplate.spec.automountServiceAccountToken",
+        "value": "false"
+      }
+    ],
     "ruleStatus": "",
     "packagename": "armo_builtins",
     "alertScore": 7,
@@ -20,7 +25,7 @@
       ]
     },
     "reviewPaths": [
-      "spec.podTemplate.spec.automountServiceAccountToken"
+      "spec.podTemplate.spec"
     ]
   }
 ]

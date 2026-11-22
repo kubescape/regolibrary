@@ -19,7 +19,7 @@
     "fixPaths": [],
     "packagename": "armo_builtins",
     "reviewPaths": [
-      "spec.podTemplate.spec.runtimeClassName"
+      "spec.podTemplate.spec"
     ]
   }
 ]

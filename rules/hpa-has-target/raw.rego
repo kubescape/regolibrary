@@ -18,7 +18,7 @@ deny contains msga if {
 		"alertMessage": sprintf("HorizontalPodAutoscaler '%v' scaleTargetRef points to %v '%v' which does not exist in namespace '%v'", [hpa.metadata.name, target_kind, target_name, namespace]),
 		"packagename": "armo_builtins",
 		"failedPaths": ["spec.scaleTargetRef.name"],
-		"reviewPaths": ["spec.scaleTargetRef.name"],
+		"reviewPaths": [scale_target_review_path(scale_target_ref)],
 		"fixPaths": [],
 		"alertScore": 4,
 		"alertObject": {"k8sApiObjects": [hpa]},
@@ -40,3 +40,9 @@ target_exists(kind, name, namespace, resources) if {
 	wl_namespace := object.get(wl.metadata, "namespace", "default")
 	wl_namespace == namespace
 }
+
+# scaleTargetRef.name when it is set, otherwise scaleTargetRef, which a known
+# target kind means is there.
+scale_target_review_path(scale_target_ref) := "spec.scaleTargetRef.name" if {
+	_ = scale_target_ref.name
+} else := "spec.scaleTargetRef"

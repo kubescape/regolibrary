@@ -20,7 +20,7 @@
       ]
     },
     "reviewPaths": [
-      "spec.podTemplate.spec.runtimeClassName"
+      "spec.podTemplate.spec"
     ]
   }
 ]
