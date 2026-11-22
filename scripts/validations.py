@@ -116,15 +116,28 @@ def validate_controls():
                 validate_attack_track_attributes(control=control)
 
 
+# Rules that are intentionally exempt from requiring a test/ directory.
+# - has-image-signature, verify-image-signature, verify-image-signature-v1: rely on Armo built-in cosign functions not supported in the Go OPA runner.
+# - exposed-critical-pods: requires composite external vulnerability scan objects.
+# - CVE-2022-23648, CVE-2022-24348, CVE-2022-39328, CVE-2022-47633: legacy CVE rules without test suites.
+RULES_EXEMPT_FROM_TESTS = {
+    "CVE-2022-23648",
+    "CVE-2022-24348",
+    "CVE-2022-39328",
+    "CVE-2022-47633",
+    "exposed-critical-pods",
+    "has-image-signature",
+    "verify-image-signature",
+    "verify-image-signature-v1",
+}
+
 # Test that each rule directory in the "rules" directory has a non-empty "tests" subdirectory
 def validate_tests_dir_for_rule(rule_dir):
-        tests_dir = os.path.join(RULES_DIR, rule_dir, "test")
-        # TODO: Uncomment the assert statements below once all rules have tests
-        # for now, just print a message
-        if not os.path.isdir(tests_dir):
-            print(f"Rule '{rule_dir}' does not have tests")
-        # assert os.path.isdir(tests_dir), f"Tests directory {tests_dir} does not exist"
-        # assert len(os.listdir(tests_dir)) > 0, f"Tests directory {tests_dir} is empty"
+    if rule_dir in RULES_EXEMPT_FROM_TESTS:
+        return
+    tests_dir = os.path.join(RULES_DIR, rule_dir, "test")
+    assert os.path.isdir(tests_dir), f"Tests directory {tests_dir} does not exist"
+    assert len(os.listdir(tests_dir)) > 0, f"Tests directory {tests_dir} is empty"
 
 def fill_controlID_to_filename_map():
     for filename in os.listdir(CONTROLS_DIR):
