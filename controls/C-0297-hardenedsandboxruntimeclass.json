@@ -6,7 +6,7 @@
         ]
     },
     "description": "Ensure Sandbox and SandboxTemplate resources use an approved hardened runtimeClassName to isolate untrusted workloads from the host kernel.",
-    "long_description": "Untrusted or multi-tenant agent workloads pose severe risks to host nodes if executed with standard container runtimes. Sandboxed container runtimes (such as gVisor, Kata Containers, or other hardened runtimes) provide kernel-level virtualization and process boundary isolation. Configuring an approved `runtimeClassName` ensures that Sandbox and SandboxTemplate workloads are isolated from the host operating system kernel, mitigating container escape risks.",
+    "long_description": "Untrusted or multi-tenant agent workloads pose severe risks to host nodes if executed with standard container runtimes. Sandboxed container runtimes (such as gVisor, Kata Containers, or other hardened runtimes) add an isolation boundary between the workload and the host kernel. This control checks that Sandbox and SandboxTemplate workloads set `runtimeClassName` to one of the approved names in `hardenedSandboxRuntimeClasses`. It only compares the name against that list and does not inspect the handler of the referenced RuntimeClass, so the list should contain only RuntimeClasses that use a hardened runtime.",
     "remediation": "Set spec.podTemplate.spec.runtimeClassName on the Sandbox or SandboxTemplate to an approved hardened runtime.",
     "rulesNames": [
         "agent-sandbox-hardened-runtime-class"

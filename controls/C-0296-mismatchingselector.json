@@ -6,7 +6,7 @@
         ]
     },
     "description": "A workload selector that does not match its pod template labels can prevent the controller from managing the intended pods. This usually results from label drift or copy-paste mistakes.",
-    "long_description": "Workload controllers (such as Deployments, StatefulSets, DaemonSets, and Jobs) rely on label selectors to identify and manage the Pods they own. If the selector defined in `spec.selector` does not match the labels in `spec.template.metadata.labels`, the controller cannot find or adopt its own Pods, resulting in reconciliation failures, unmanaged orphaned pods, or repeated restart loops. Validating selector and label alignment ensures workload controllers function properly.",
+    "long_description": "Workload controllers (such as Deployments, StatefulSets, DaemonSets, and Jobs) rely on label selectors to identify the Pods they own. If the selector defined in `spec.selector` does not match the labels in `spec.template.metadata.labels`, the controller cannot select the Pods created from its own template. For apps/v1 workloads the API server rejects such a spec, so the mismatch shows up as a manifest that fails to apply, for example in a CI pipeline or a GitOps sync. Checking selector and label alignment catches these manifests before they are applied.",
     "remediation": "Update spec.selector, spec.jobTemplate.spec.selector, or the pod template labels so the selector matches the pod template labels.",
     "rulesNames": [
         "mismatching-selector"

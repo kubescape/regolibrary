@@ -6,7 +6,7 @@
         ]
     },
     "description": "A Service whose selector does not match any workload pod is dangling. It typically results from a workload being renamed or deleted, or from a typo in the selector or pod labels. Dangling Services consume cluster names and can cause silent routing failures.",
-    "long_description": "A Service in Kubernetes abstracts network access to a set of Pods using label selectors. When a Service's selector matches no pods in the namespace, the Service becomes dangling. Dangling Services clutter the cluster namespace, exhaust endpoint resources, and can lead to silent routing failures or unexpected behavior when newly deployed workloads inadvertently match orphaned selectors. Ensuring all Services actively route to running workloads prevents configuration drift, dead endpoints, and unintended traffic routing.",
+    "long_description": "A Service in Kubernetes abstracts network access to a set of Pods using label selectors. When a Service's selector matches no Pod or workload pod template in its namespace, the Service is dangling. Dangling Services clutter the namespace, can hide routing failures, and can send unexpected traffic to a workload that is later deployed with labels matching the orphaned selector. A matching workload template does not guarantee running Pods (for example, a Deployment scaled to zero replicas), so this control only reports Services that no workload in the namespace could back.",
     "remediation": "Verify the Service selector matches the labels of an existing workload in the same namespace, or remove the Service if it is no longer needed.",
     "rulesNames": [
         "service-with-no-workload"
