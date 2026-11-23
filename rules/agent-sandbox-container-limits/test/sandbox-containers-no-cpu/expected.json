@@ -16,7 +16,12 @@
     "failedPaths": [
       "spec.podTemplate.spec.containers[0].resources.limits"
     ],
-    "fixPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.podTemplate.spec.containers[0].resources.limits.cpu",
+        "value": "YOUR_VALUE"
+      }
+    ],
     "packagename": "armo_builtins",
     "reviewPaths": [
       "spec.podTemplate.spec.containers[0].resources.limits"

@@ -16,10 +16,15 @@
     "failedPaths": [
       "spec.networkPolicy"
     ],
-    "fixPaths": [],
+    "fixPaths": [
+      {
+        "path": "spec.networkPolicy.egress",
+        "value": "[]"
+      }
+    ],
     "packagename": "armo_builtins",
     "reviewPaths": [
-      "spec.networkPolicy"
+      "spec"
     ]
   }
 ]

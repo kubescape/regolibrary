@@ -19,7 +19,7 @@ deny contains msga if {
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": ["spec.podTemplate.spec.runtimeClassName"],
-		"reviewPaths": ["spec.podTemplate.spec.runtimeClassName"],
+		"reviewPaths": runtime_class_review_paths(template),
 		"fixPaths": [],
 		"alertObject": {"k8sApiObjects": [template]},
 	}
@@ -47,3 +47,15 @@ deny contains msga if {
 		"alertObject": {"k8sApiObjects": [template]},
 	}
 }
+
+# runtimeClassName when it is set, even to "", otherwise its deepest parent
+# that exists, so the evidence points at a field that is there.
+runtime_class_review_paths(template) := ["spec.podTemplate.spec.runtimeClassName"] if {
+	_ = template.spec.podTemplate.spec.runtimeClassName
+} else := ["spec.podTemplate.spec"] if {
+	is_object(template.spec.podTemplate.spec)
+} else := ["spec.podTemplate"] if {
+	is_object(template.spec.podTemplate)
+} else := ["spec"] if {
+	is_object(template.spec)
+} else := []
