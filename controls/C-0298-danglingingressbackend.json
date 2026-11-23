@@ -6,7 +6,7 @@
         ]
     },
     "description": "An Ingress whose backend references a Service that does not exist in the same namespace produces broken routing with no traffic. It typically results from a Service being renamed, deleted, or a typo in the backend service name.",
-    "long_description": "Ingress resources route external HTTP/HTTPS traffic to internal cluster Services. If an Ingress backend references a Service name that does not exist in the namespace, the ingress controller cannot establish upstream routes, causing 502/503 errors and complete disruption of incoming traffic. This usually happens after a service deletion, renaming, or misspelling in routing configurations. Ensuring all Ingress backend targets exist guarantees seamless traffic forwarding.",
+    "long_description": "Ingress resources route external HTTP/HTTPS traffic to internal cluster Services. If an Ingress backend references a Service name that does not exist in the namespace, the ingress controller has no upstream for that route, and requests to it typically fail with 502 or 503 errors. This usually happens after a Service is deleted or renamed, or because of a misspelled backend service name. This control only checks that the referenced Service exists. An existing Service can still have no ready endpoints, so passing it does not guarantee that traffic is served.",
     "remediation": "Create the referenced Service or correct the Ingress backend service name.",
     "rulesNames": [
         "dangling-ingress-backend"
