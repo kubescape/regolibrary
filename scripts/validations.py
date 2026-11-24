@@ -121,10 +121,6 @@ def validate_controls():
 # - exposed-critical-pods: requires composite external vulnerability scan objects.
 # - CVE-2022-23648, CVE-2022-24348, CVE-2022-39328, CVE-2022-47633: legacy CVE rules without test suites.
 RULES_EXEMPT_FROM_TESTS = {
-    "CVE-2022-23648",
-    "CVE-2022-24348",
-    "CVE-2022-39328",
-    "CVE-2022-47633",
     "exposed-critical-pods",
     "has-image-signature",
     "verify-image-signature",
