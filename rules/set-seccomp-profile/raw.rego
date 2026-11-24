@@ -123,3 +123,7 @@ seccompProfile_not_defined(spec, path_to_search) if {
 is_windows_pod(spec) if {
 	spec.os.name == "windows"
 }
+
+is_windows_pod(spec) if {
+	spec.nodeSelector["kubernetes.io/os"] == "windows"
+}

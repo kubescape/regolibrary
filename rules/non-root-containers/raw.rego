@@ -249,3 +249,7 @@ choose_first_if_defined(l1, l2) := l1 if {
 is_windows_pod(spec) if {
 	spec.os.name == "windows"
 }
+
+is_windows_pod(spec) if {
+	spec.nodeSelector["kubernetes.io/os"] == "windows"
+}
