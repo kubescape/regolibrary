@@ -187,14 +187,60 @@ cilium_endpoint_selector_matches(spec, _) if {
 	count(object.get(spec.endpointSelector, "matchExpressions", [])) == 0
 }
 
+# --- NetworkPolicy podSelector match (shared across pod/workload/cronjob) ---
+
+# Full Kubernetes LabelSelector semantics: every matchLabels entry AND every
+# matchExpressions requirement must match.
+label_selector_matches(selector, labels) if {
+	not match_labels_mismatch(object.get(selector, "matchLabels", {}), labels)
+	not match_expressions_mismatch(object.get(selector, "matchExpressions", []), labels)
+}
+
+match_labels_mismatch(match_labels, labels) if {
+	match_labels[k]
+	not labels[k] == match_labels[k]
+}
+
+match_expressions_mismatch(expressions, labels) if {
+	expression := expressions[_]
+	not expression_matches(expression, labels)
+}
+
+expression_matches(expression, labels) if {
+	expression.operator == "In"
+	label_value := labels[expression.key]
+	label_value in object.get(expression, "values", [])
+}
+
+expression_matches(expression, labels) if {
+	expression.operator == "NotIn"
+	not labels[expression.key]
+}
+
+expression_matches(expression, labels) if {
+	expression.operator == "NotIn"
+	label_value := labels[expression.key]
+	not label_value in object.get(expression, "values", [])
+}
+
+expression_matches(expression, labels) if {
+	expression.operator == "Exists"
+	labels[expression.key]
+}
+
+expression_matches(expression, labels) if {
+	expression.operator == "DoesNotExist"
+	not labels[expression.key]
+}
+
 # --- Pod connection checks ---
 
-# Standard NetworkPolicy with podSelector (with labels)
+# Standard NetworkPolicy with a non-empty podSelector
 pod_connected_to_network_policy(pod, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(networkpolicie.metadata, pod.metadata)
 	count(networkpolicie.spec.podSelector) > 0
-	count({x | networkpolicie.spec.podSelector.matchLabels[x] == pod.metadata.labels[x]}) == count(networkpolicie.spec.podSelector.matchLabels)
+	label_selector_matches(networkpolicie.spec.podSelector, object.get(pod.metadata, "labels", {}))
 }
 
 # Standard NetworkPolicy with empty podSelector (selects all pods in namespace)
@@ -228,12 +274,12 @@ wlConnectedToNetworkPolicy(wl, networkpolicie) if {
 	count(networkpolicie.spec.podSelector) == 0
 }
 
-# Standard NetworkPolicy with podSelector (with labels)
+# Standard NetworkPolicy with a non-empty podSelector
 wlConnectedToNetworkPolicy(wl, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(wl.metadata, networkpolicie.metadata)
 	count(networkpolicie.spec.podSelector) > 0
-	count({x | networkpolicie.spec.podSelector.matchLabels[x] == wl.spec.template.metadata.labels[x]}) == count(networkpolicie.spec.podSelector.matchLabels)
+	label_selector_matches(networkpolicie.spec.podSelector, object.get(wl.spec.template.metadata, "labels", {}))
 }
 
 # CiliumNetworkPolicy
@@ -260,12 +306,12 @@ cronjob_connected_to_network_policy(cj, networkpolicie) if {
 	count(networkpolicie.spec.podSelector) == 0
 }
 
-# Standard NetworkPolicy with podSelector (with labels)
+# Standard NetworkPolicy with a non-empty podSelector
 cronjob_connected_to_network_policy(cj, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(cj.metadata, networkpolicie.metadata)
 	count(networkpolicie.spec.podSelector) > 0
-	count({x | networkpolicie.spec.podSelector.matchLabels[x] == cj.spec.jobTemplate.spec.template.metadata.labels[x]}) == count(networkpolicie.spec.podSelector.matchLabels)
+	label_selector_matches(networkpolicie.spec.podSelector, object.get(cj.spec.jobTemplate.spec.template.metadata, "labels", {}))
 }
 
 # CiliumNetworkPolicy
@@ -302,6 +348,12 @@ is_ingerss_egress_policy(networkpolicie) if {
 is_ingerss_egress_policy(networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	count(object.get(networkpolicie.spec, "policyTypes", [])) == 0
+}
+
+# An explicit `policyTypes:` with no value (null) is treated like an omitted one.
+is_ingerss_egress_policy(networkpolicie) if {
+	networkpolicie.kind == "NetworkPolicy"
+	object.get(networkpolicie.spec, "policyTypes", []) == null
 }
 
 # CiliumNetworkPolicy / CCNP: presence of `ingress`/`egress` on any spec entry

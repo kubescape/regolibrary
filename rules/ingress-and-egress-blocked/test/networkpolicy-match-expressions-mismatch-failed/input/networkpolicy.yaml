@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-tier-only
+  namespace: my-ns
+spec:
+  podSelector:
+    matchLabels:
+      app: backend
+    matchExpressions:
+      - key: tier
+        operator: In
+        values:
+          - api
+  policyTypes:
+    - Ingress
+    - Egress
