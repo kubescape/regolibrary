@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend
+  namespace: my-ns
+  labels:
+    app: backend
+spec:
+  containers:
+    - name: backend
+      image: backend:1.0

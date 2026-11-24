@@ -279,7 +279,7 @@ wlConnectedToNetworkPolicy(wl, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(wl.metadata, networkpolicie.metadata)
 	count(networkpolicie.spec.podSelector) > 0
-	label_selector_matches(networkpolicie.spec.podSelector, object.get(wl.spec.template.metadata, "labels", {}))
+	label_selector_matches(networkpolicie.spec.podSelector, object.get(wl, ["spec", "template", "metadata", "labels"], {}))
 }
 
 # CiliumNetworkPolicy
@@ -311,7 +311,7 @@ cronjob_connected_to_network_policy(cj, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(cj.metadata, networkpolicie.metadata)
 	count(networkpolicie.spec.podSelector) > 0
-	label_selector_matches(networkpolicie.spec.podSelector, object.get(cj.spec.jobTemplate.spec.template.metadata, "labels", {}))
+	label_selector_matches(networkpolicie.spec.podSelector, object.get(cj, ["spec", "jobTemplate", "spec", "template", "metadata", "labels"], {}))
 }
 
 # CiliumNetworkPolicy
