@@ -1,0 +1,11 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: backup
+spec:
+  template:
+    spec:
+      containers:
+        - name: backup
+          image: busybox:1.36
+      restartPolicy: Never

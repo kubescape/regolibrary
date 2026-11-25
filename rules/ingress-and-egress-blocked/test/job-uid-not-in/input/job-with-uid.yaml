@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: admitted
+  uid: 27828dd2-d151-42a7-94aa-379b0003718b
+  resourceVersion: "1234"
+spec:
+  selector:
+    matchLabels:
+      batch.kubernetes.io/controller-uid: 27828dd2-d151-42a7-94aa-379b0003718b
+  template:
+    metadata:
+      labels:
+        job-name: admitted
+        batch.kubernetes.io/job-name: admitted
+        controller-uid: 27828dd2-d151-42a7-94aa-379b0003718b
+        batch.kubernetes.io/controller-uid: 27828dd2-d151-42a7-94aa-379b0003718b
+    spec:
+      containers:
+        - name: backup
+          image: busybox:1.36
+      restartPolicy: Never
