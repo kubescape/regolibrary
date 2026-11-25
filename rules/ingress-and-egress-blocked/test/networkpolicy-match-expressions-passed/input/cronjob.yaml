@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: batch
+  namespace: my-ns
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: batch
+            team: payments
+        spec:
+          containers:
+            - name: batch
+              image: batch:1.0
+          restartPolicy: OnFailure

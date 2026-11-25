@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: backend-and-batch
+  namespace: my-ns
+spec:
+  podSelector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - backend
+          - batch
+      - key: tier
+        operator: NotIn
+        values:
+          - public
+      - key: team
+        operator: Exists
+      - key: debug
+        operator: DoesNotExist
+  policyTypes:
+    - Ingress
+    - Egress

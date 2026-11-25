@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cleanup
+  namespace: my-ns
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: cleanup
+              image: cleanup:1.0
+          restartPolicy: OnFailure

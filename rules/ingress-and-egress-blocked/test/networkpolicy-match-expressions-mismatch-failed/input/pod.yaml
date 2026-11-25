@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: backend-web
+  namespace: my-ns
+  labels:
+    app: backend
+    tier: web
+spec:
+  containers:
+    - name: backend
+      image: backend:1.0

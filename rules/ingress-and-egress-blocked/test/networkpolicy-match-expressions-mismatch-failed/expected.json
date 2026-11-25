@@ -1,0 +1,25 @@
+[
+    {
+        "alertMessage": "Pod: backend-web does not have ingress/egress defined",
+        "failedPaths": [],
+        "fixPaths": [],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 7,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "app": "backend",
+                            "tier": "web"
+                        },
+                        "name": "backend-web"
+                    }
+                }
+            ]
+        }
+    }
+]
