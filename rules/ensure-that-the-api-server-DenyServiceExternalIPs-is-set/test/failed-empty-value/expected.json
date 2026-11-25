@@ -1,0 +1,36 @@
+[
+    {
+        "alertMessage": "admission control plugin DenyServiceExternalIPs is not enabled.",
+        "failedPaths": [
+            "spec.containers[0].command[5]"
+        ],
+        "reviewPaths": [
+            "spec.containers[0].command[5]"
+        ],
+        "deletePaths": null,
+        "fixPaths": [
+            {
+                "path": "spec.containers[0].command[5]",
+                "value": "--enable-admission-plugins=DenyServiceExternalIPs"
+            }
+        ],
+        "ruleStatus": "",
+        "packagename": "armo_builtins",
+        "alertScore": 2,
+        "alertObject": {
+            "k8sApiObjects": [
+                {
+                    "apiVersion": "v1",
+                    "kind": "Pod",
+                    "metadata": {
+                        "labels": {
+                            "component": "kube-apiserver",
+                            "tier": "control-plane"
+                        },
+                        "name": "kube-apiserver-minikube"
+                    }
+                }
+            ]
+        }
+    }
+]
