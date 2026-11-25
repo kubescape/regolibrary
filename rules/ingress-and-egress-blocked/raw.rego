@@ -75,7 +75,7 @@ deny contains msga if {
 	count(goodPolicies) < 1
 
 	msga := {
-		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, wl.metadata.name]),
+		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, workload_name(wl)]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [],
@@ -94,7 +94,7 @@ deny contains msga if {
 	count(network_policies_connected_to_pod) < 1
 
 	msga := {
-		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, wl.metadata.name]),
+		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, workload_name(wl)]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [],
@@ -114,7 +114,7 @@ deny contains msga if {
 	count(goodPolicies) < 1
 
 	msga := {
-		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, wl.metadata.name]),
+		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, workload_name(wl)]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [],
@@ -132,7 +132,7 @@ deny contains msga if {
 	count(network_policies_connected_to_pod) < 1
 
 	msga := {
-		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, wl.metadata.name]),
+		"alertMessage": sprintf("%v: %v has Pods which don't have ingress/egress defined", [wl.kind, workload_name(wl)]),
 		"packagename": "armo_builtins",
 		"alertScore": 7,
 		"failedPaths": [],
@@ -140,6 +140,13 @@ deny contains msga if {
 		"alertObject": {"k8sApiObjects": [wl]},
 	}
 }
+
+# Before admission, a workload may only have a generateName prefix.
+workload_name(wl) := name if {
+	name := wl.metadata.name
+	is_string(name)
+	name != ""
+} else := wl.metadata.generateName
 
 is_same_namespace(metadata1, metadata2) if {
 	metadata1.namespace == metadata2.namespace
@@ -189,6 +196,33 @@ cilium_endpoint_selector_matches(spec, _) if {
 
 # --- NetworkPolicy podSelector match (shared across pod/workload/cronjob) ---
 
+template_labels(spec) := {k: v | some k, v in spec.template.metadata.labels}
+
+# Kubernetes treats empty metadata strings as unset on creation.
+job_metadata_value(metadata, key) := value if {
+	value := metadata[key]
+	value != ""
+} else := null
+
+# Automatic Job selectors add both generations of labels to the Pod template.
+# null means the key will exist but its value is assigned at creation time.
+job_pod_labels(spec, job_metadata) := labels if {
+	# Persisted Jobs already have the labels assigned by their API server.
+	job_metadata_value(job_metadata, "resourceVersion") == null
+	not spec.manualSelector == true
+	name := job_metadata_value(job_metadata, "name")
+	labels := object.union({
+		"job-name": name,
+		"batch.kubernetes.io/job-name": name,
+		"controller-uid": null,
+		"batch.kubernetes.io/controller-uid": null,
+	}, template_labels(spec))
+} else := template_labels(spec)
+
+workload_pod_labels(wl) := job_pod_labels(wl.spec, wl.metadata) if {
+	wl.kind == "Job"
+} else := object.get(wl, ["spec", "template", "metadata", "labels"], {})
+
 # Full Kubernetes LabelSelector semantics: every matchLabels entry AND every
 # matchExpressions requirement must match.
 label_selector_matches(selector, labels) if {
@@ -220,6 +254,8 @@ expression_matches(expression, labels) if {
 expression_matches(expression, labels) if {
 	expression.operator == "NotIn"
 	label_value := labels[expression.key]
+	# An unknown generated value could be one of the excluded strings.
+	is_string(label_value)
 	not label_value in object.get(expression, "values", [])
 }
 
@@ -279,7 +315,7 @@ wlConnectedToNetworkPolicy(wl, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(wl.metadata, networkpolicie.metadata)
 	count(networkpolicie.spec.podSelector) > 0
-	label_selector_matches(networkpolicie.spec.podSelector, object.get(wl, ["spec", "template", "metadata", "labels"], {}))
+	label_selector_matches(networkpolicie.spec.podSelector, workload_pod_labels(wl))
 }
 
 # CiliumNetworkPolicy
@@ -311,7 +347,8 @@ cronjob_connected_to_network_policy(cj, networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
 	is_same_namespace(cj.metadata, networkpolicie.metadata)
 	count(networkpolicie.spec.podSelector) > 0
-	label_selector_matches(networkpolicie.spec.podSelector, object.get(cj, ["spec", "jobTemplate", "spec", "template", "metadata", "labels"], {}))
+	# Each scheduled Job gets its own name and UID.
+	label_selector_matches(networkpolicie.spec.podSelector, job_pod_labels(cj.spec.jobTemplate.spec, {}))
 }
 
 # CiliumNetworkPolicy

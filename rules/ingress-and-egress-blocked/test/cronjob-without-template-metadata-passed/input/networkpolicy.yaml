@@ -6,6 +6,10 @@ metadata:
 spec:
   podSelector:
     matchExpressions:
+      - key: batch.kubernetes.io/job-name
+        operator: Exists
+      - key: controller-uid
+        operator: Exists
       - key: debug
         operator: DoesNotExist
   policyTypes:

@@ -1,0 +1,11 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: isolate
+spec:
+  policyTypes: [Ingress, Egress]
+  podSelector:
+    matchExpressions:
+      - key: batch.kubernetes.io/controller-uid
+        operator: NotIn
+        values: [89191be0-d882-42ed-94ad-0aaf0cfc6182]

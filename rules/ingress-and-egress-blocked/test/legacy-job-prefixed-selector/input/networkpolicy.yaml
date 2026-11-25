@@ -1,0 +1,9 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: isolate
+spec:
+  policyTypes: [Ingress, Egress]
+  podSelector:
+    matchLabels:
+      batch.kubernetes.io/job-name: backup
