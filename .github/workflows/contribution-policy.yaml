@@ -1,0 +1,40 @@
+name: Contribution policy automation
+
+on:
+  issues:
+    types: [opened, reopened, labeled, unlabeled, assigned, unassigned, closed]
+  issue_comment:
+    types: [created]
+  pull_request_target:
+    types: [opened, reopened, edited, synchronize, closed, labeled, unlabeled]
+  schedule:
+    - cron: '17 6 * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+# The three-assignment limit is per repository. Preserve queued commands.
+concurrency:
+  group: contribution-policy
+  queue: max
+  cancel-in-progress: false
+
+jobs:
+  policy:
+    if: >-
+      github.repository_owner == 'kubescape' &&
+      vars.CONTRIBUTION_POLICY_START != '' &&
+      (github.event_name != 'issue_comment' || github.event.comment.user.type != 'Bot')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: write
+      statuses: write
+    steps:
+      # The rollout tool replaces this placeholder with a full reviewed commit SHA.
+      # No checkout: contributor code is never executed by this privileged job.
+      - uses: kubescape/workflows/.github/actions/contribution-policy@ebfbc6585571c9d32714c404dc5cc8b42d8811f0
+        with:
+          start: ${{ vars.CONTRIBUTION_POLICY_START }}
