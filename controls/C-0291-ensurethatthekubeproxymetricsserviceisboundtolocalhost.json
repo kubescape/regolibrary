@@ -4,6 +4,7 @@
     "description": "Do not bind the kube-proxy metrics port to non-loopback addresses.",
     "long_description": "The kube-proxy metrics service exposes internal cluster metrics that could provide information useful to an attacker. By binding the metrics service to localhost (127.0.0.1), you ensure that these metrics are only accessible from the local node and cannot be accessed remotely.",
     "remediation": "If running kube-proxy with a configuration file, edit the kube-proxy configuration file and set the metricsBindAddress to `127.0.0.1:10249`.\n\nIf running kube-proxy with command line arguments, set `--metrics-bind-address=127.0.0.1:10249`.\n\nRestart kube-proxy for changes to take effect.",
+    "test": "Reads the kube-proxy configuration from its ConfigMap and fails if metricsBindAddress is not set, is empty, or binds to all interfaces (0.0.0.0).",
     "manual_test": "Run the following command on each worker node:\n\n```\nps -ef | grep kube-proxy\n```\n\nVerify that the `--metrics-bind-address` argument is set to `127.0.0.1:10249` or is bound to localhost.\n\nAlternatively, check the kube-proxy ConfigMap:\n\n```\nkubectl get configmap kube-proxy -n kube-system -o yaml | grep metricsBindAddress\n```",
     "references": [],
     "attributes": {
