@@ -23,3 +23,4 @@ spec:
       containers:
       - name: iis
         image: mcr.microsoft.com/windows/servercore/iis:windowsservercore-ltsc2022
+        securityContext: {}

@@ -117,3 +117,7 @@ fix_path_for_container(path_to_containers, i, path_to_search) := [{"path": sprin
 is_windows_pod(spec) if {
 	spec.os.name == "windows"
 }
+
+is_windows_pod(spec) if {
+	spec.nodeSelector["kubernetes.io/os"] == "windows"
+}

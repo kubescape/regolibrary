@@ -232,3 +232,7 @@ get_fixed_path(paths) := paths[1] if {
 is_windows_pod(spec) if {
 	spec.os.name == "windows"
 }
+
+is_windows_pod(spec) if {
+	spec.nodeSelector["kubernetes.io/os"] == "windows"
+}

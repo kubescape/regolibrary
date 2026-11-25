@@ -175,6 +175,10 @@ is_windows_pod(spec) if {
 	spec.os.name == "windows"
 }
 
+is_windows_pod(spec) if {
+	spec.nodeSelector["kubernetes.io/os"] == "windows"
+}
+
 get_fix_path(i, start_of_path, container_kind) := [
 	{"path": sprintf("%v%v[%v].securityContext.allowPrivilegeEscalation", [start_of_path, container_kind, i]), "value": "false"},
 	{"path": sprintf("%v%v[%v].securityContext.privileged", [start_of_path, container_kind, i]), "value": "false"},
