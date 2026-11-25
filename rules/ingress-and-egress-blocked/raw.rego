@@ -353,7 +353,7 @@ is_ingerss_egress_policy(networkpolicie) if {
 # An explicit `policyTypes:` with no value (null) is treated like an omitted one.
 is_ingerss_egress_policy(networkpolicie) if {
 	networkpolicie.kind == "NetworkPolicy"
-	object.get(networkpolicie.spec, "policyTypes", []) == null
+	networkpolicie.spec.policyTypes == null
 }
 
 # CiliumNetworkPolicy / CCNP: presence of `ingress`/`egress` on any spec entry
