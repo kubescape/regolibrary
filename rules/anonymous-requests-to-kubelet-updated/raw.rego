@@ -10,8 +10,7 @@ deny contains msga if {
 	is_kubelet_info(obj)
 	command := obj.data.cmdLine
 
-	contains(command, "--anonymous-auth")
-	contains(command, "--anonymous-auth=true")
+	anonymous_auth_flag_enabled(command)
 
 	external_obj := json.filter(obj, ["apiVersion", "data/cmdLine", "kind", "metadata"])
 
@@ -79,6 +78,11 @@ deny contains msga if {
 		}},
 	}
 }
+
+anonymous_auth_flag_enabled(command) if contains(command, "--anonymous-auth=true")
+
+# A bare boolean flag means true.
+anonymous_auth_flag_enabled(command) if regex.match(`(^|[[:space:]])--anonymous-auth([[:space:]]|$)`, command)
 
 is_kubelet_info(obj) if {
 	obj.kind == "KubeletInfo"
