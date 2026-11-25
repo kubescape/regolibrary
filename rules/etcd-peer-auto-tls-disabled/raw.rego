@@ -38,6 +38,17 @@ invalid_flag(container) := result if {
 	}
 }
 
+# A bare boolean flag means true.
+invalid_flag(container) := result if {
+	cmd := get_flags(container)
+	cmd[i] == "--peer-auto-tls"
+	path := flag_path(container, i)
+	result = {
+		"failed_paths": [path],
+		"fix_paths": [{"path": path, "value": "--peer-auto-tls=false"}],
+	}
+}
+
 # Combine command and args so flags are detected regardless of where the
 # distribution places them. kubeadm puts flags in command; RKE2/k3s keep
 # command as ["etcd"] and pass all flags via args.
