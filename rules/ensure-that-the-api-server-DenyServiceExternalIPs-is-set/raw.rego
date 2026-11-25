@@ -28,7 +28,7 @@ is_api_server(obj) if {
 }
 
 get_flag_values(cmd) := {"origin": origin, "values": values} if {
-	re := " ?--enable-admission-plugins=(.+?)(?: |$)"
+	re := " ?--enable-admission-plugins=(.*?)(?: |$)"
 	matchs := regex.find_all_string_submatch_n(re, cmd, -1)
 	count(matchs) == 1
 	values := [val | val := split(matchs[0][1], ",")[j]; val != ""]

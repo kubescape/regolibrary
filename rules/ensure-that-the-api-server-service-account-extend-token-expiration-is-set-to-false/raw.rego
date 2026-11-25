@@ -39,6 +39,17 @@ invalid_flag(container) := result if {
 	}
 }
 
+# A bare boolean flag means true.
+invalid_flag(container) := result if {
+	cmd := get_flags(container)
+	cmd[i] == "--service-account-extend-token-expiration"
+	path := flag_path(container, i)
+	result = {
+		"failed_paths": [path],
+		"fix_paths": [{"path": path, "value": "--service-account-extend-token-expiration=false"}],
+	}
+}
+
 invalid_flag(container) := result if {
 	cmd := get_flags(container)
 	full_cmd = concat(" ", cmd)
