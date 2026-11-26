@@ -27,14 +27,25 @@ is_etcd_pod(obj) if {
 	endswith(split(obj.spec.containers[0].command[0], " ")[0], "etcd")
 }
 
+# A repeated boolean flag takes its value from the last occurrence in
+# command + args.
+last_flag_index(flags) := max({i |
+	some i, arg in flags
+	split(arg, "=")[0] == "--peer-auto-tls"
+})
+
 invalid_flag(container) := result if {
-	cmd := get_flags(container)
-	contains(cmd[i], "--peer-auto-tls=true")
-	fixed = replace(cmd[i], "--peer-auto-tls=true", "--peer-auto-tls=false")
+	flags := get_flags(container)
+	i := last_flag_index(flags)
+
+	# A bare boolean flag means true, and the flag parser also accepts the
+	# true spellings of strconv.ParseBool.
+	suffix := trim_prefix(flags[i], "--peer-auto-tls")
+	suffix in {"", "=1", "=t", "=T", "=true", "=TRUE", "=True"}
 	path := flag_path(container, i)
-	result = {
+	result := {
 		"failed_paths": [path],
-		"fix_paths": [{"path": path, "value": fixed}],
+		"fix_paths": [{"path": path, "value": "--peer-auto-tls=false"}],
 	}
 }
 
