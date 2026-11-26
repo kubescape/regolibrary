@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    component: etcd
+    tier: control-plane
+  name: etcd-minikube
+  namespace: kube-system
+spec:
+  containers:
+    - command:
+        - etcd
+        - '--peer-auto-tls=true'
+        - '--peer-auto-tls'
+        - '--advertise-client-urls=https://192.168.49.2:2379'
+        - '--data-dir=/var/lib/minikube/etcd'
+        - '--name=minikube'
+      image: k8s.gcr.io/etcd:3.5.3-0
+      name: etcd
