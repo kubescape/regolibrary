@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    component: kube-scheduler
+    tier: control-plane
+  name: kube-scheduler
+  namespace: kube-system
+spec:
+  containers:
+    - command:
+        - kube-scheduler
+      args:
+        - '--v=2'
+        - '--profiling=1'
+      image: registry.k8s.io/kube-scheduler:v1.31.0
+      name: kube-scheduler

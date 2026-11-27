@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    component: kube-apiserver
+    tier: control-plane
+  name: kube-apiserver
+  namespace: kube-system
+spec:
+  containers:
+    - command:
+        - kube-apiserver
+        - '--v=2'
+        - '--anonymous-auth=true'
+        - '--anonymous-auth=true'
+      image: registry.k8s.io/kube-apiserver:v1.31.0
+      name: kube-apiserver

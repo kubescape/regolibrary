@@ -27,35 +27,31 @@ is_api_server(obj) if {
 	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
 }
 
-# Assume flag set only once
-invalid_flag(container) := result if {
-	cmd := get_flags(container)
-	contains(cmd[i], "--anonymous-auth=true")
-	fixed = replace(cmd[i], "--anonymous-auth=true", "--anonymous-auth=false")
-	path := flag_path(container, i)
-	result = {
-		"failed_paths": [path],
-		"fix_paths": [{"path": path, "value": fixed}],
-	}
-}
+# A repeated flag takes its value from the last occurrence in command + args,
+# the same way pflag parses it.
+last_flag_index(flags) := max({i |
+	some i, arg in flags
+	split(arg, "=")[0] == "--anonymous-auth"
+})
 
-# A bare boolean flag means true.
 invalid_flag(container) := result if {
-	cmd := get_flags(container)
-	cmd[i] == "--anonymous-auth"
+	flags := get_flags(container)
+	i := last_flag_index(flags)
+
+	# A bare boolean flag means true, and pflag accepts every true spelling of strconv.ParseBool.
+	suffix := trim_prefix(flags[i], "--anonymous-auth")
+	suffix in {"", "=1", "=t", "=T", "=true", "=TRUE", "=True"}
 	path := flag_path(container, i)
-	result = {
+	result := {
 		"failed_paths": [path],
 		"fix_paths": [{"path": path, "value": "--anonymous-auth=false"}],
 	}
 }
 
 invalid_flag(container) := result if {
-	cmd := get_flags(container)
-	full_cmd = concat(" ", cmd)
-	not contains(full_cmd, "--anonymous-auth")
+	not last_flag_index(get_flags(container))
 	path := append_path(container, 0)
-	result = {
+	result := {
 		"failed_paths": [],
 		"fix_paths": [{
 			"path": path,

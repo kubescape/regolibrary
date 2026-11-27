@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    component: kube-controller-manager
+    tier: control-plane
+  name: kube-controller-manager
+  namespace: kube-system
+spec:
+  containers:
+    - command:
+        - kube-controller-manager
+      args:
+        - '--v=2'
+        - '--profiling=false'
+        - '--profiling=true'
+      image: registry.k8s.io/kube-controller-manager:v1.31.0
+      name: kube-controller-manager
