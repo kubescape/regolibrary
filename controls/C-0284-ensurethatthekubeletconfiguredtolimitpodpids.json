@@ -4,7 +4,7 @@
     "description": "Ensure that the Kubelet sets limits on the number of PIDs that can be created by pods running on the node.",
     "long_description": "Ensure that the Kubelet sets limits on the number of PIDs that can be created by pods running on the node. By default pods running in a cluster can consume any number of PIDs, potentially exhausting the resources available on the node. Setting an appropriate limit reduces the risk of a denial of service attack on cluster nodes.",
     "remediation": "Decide on an appropriate level for this parameter and set it, either via the `--pod-max-pids` command line parameter or the `PodPidsLimit` configuration file setting.",
-    "test": "Reads the kubelet command line and configuration file, and fails if neither the --pod-max-pids argument nor the podPidsLimit setting is set. If --pod-max-pids is not set, the kubelet configuration file must be readable by the host sensor for the check to run.",
+    "test": "Reads the kubelet command line and configuration file, and fails if neither the --pod-max-pids argument nor the podPidsLimit setting is set. If --pod-max-pids is absent and the kubelet configuration file is missing or unreadable, the check cannot confirm the PID limit. Verify the limit manually.",
     "manual_test": "Review the Kubelet's start-up parameters for the value of --pod-max-pids, and check the Kubelet configuration file for the PodPidsLimit . If neither of these values is set, then there is no limit in place.",
     "references": [
         "https://workbench.cisecurity.org/sections/2633393/recommendations/4262020"

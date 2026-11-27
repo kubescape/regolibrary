@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-apiserver
+  namespace: kube-system
+spec:
+  containers:
+    - name: kube-apiserver
+      image: registry.k8s.io/kube-apiserver:v1.32.0
+      command:
+        - kube-apiserver
+        - --service-account-extend-token-expiration=true
+      args:
+        - --service-account-extend-token-expiration=false
+        - --secure-port=6443

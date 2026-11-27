@@ -27,33 +27,27 @@ is_api_server(obj) if {
 	endswith(obj.spec.containers[0].command[0], "kube-apiserver")
 }
 
-# Assume flag set only once
-invalid_flag(container) := result if {
-	cmd := get_flags(container)
-	contains(cmd[i], "--service-account-extend-token-expiration=true")
-	fixed = replace(cmd[i], "--service-account-extend-token-expiration=true", "--service-account-extend-token-expiration=false")
-	path := flag_path(container, i)
-	result = {
-		"failed_paths": [path],
-		"fix_paths": [{"path": path, "value": fixed}],
-	}
-}
+# A repeated boolean flag takes its value from the last occurrence in command + args.
+last_flag_index(flags) := max({i |
+	some i, arg in flags
+	split(arg, "=")[0] == "--service-account-extend-token-expiration"
+})
 
-# A bare boolean flag means true.
 invalid_flag(container) := result if {
-	cmd := get_flags(container)
-	cmd[i] == "--service-account-extend-token-expiration"
+	flags := get_flags(container)
+	i := last_flag_index(flags)
+	# pflag accepts a bare boolean flag and the true spellings from strconv.ParseBool.
+	suffix := trim_prefix(flags[i], "--service-account-extend-token-expiration")
+	suffix in {"", "=1", "=t", "=T", "=true", "=TRUE", "=True"}
 	path := flag_path(container, i)
-	result = {
+	result := {
 		"failed_paths": [path],
 		"fix_paths": [{"path": path, "value": "--service-account-extend-token-expiration=false"}],
 	}
 }
 
 invalid_flag(container) := result if {
-	cmd := get_flags(container)
-	full_cmd = concat(" ", cmd)
-	not contains(full_cmd, "--service-account-extend-token-expiration")
+	not last_flag_index(get_flags(container))
 	path := append_path(container, 0)
 	result = {
 		"failed_paths": [],
