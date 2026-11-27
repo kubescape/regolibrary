@@ -5,6 +5,7 @@ import rego.v1
 
 deny contains msga if {
 	resource := input[_]
+	not is_kubernetes_default_resource(resource)
 	result := is_default_namespace(resource.metadata)
 	failed_path := get_failed_path(result)
 	fixed_path := get_fixed_path(result)
@@ -38,3 +39,15 @@ get_failed_path(paths) := [paths[0]] if {
 get_fixed_path(paths) := [paths[1]] if {
 	paths[1] != ""
 } else := []
+
+# The kubernetes EndpointSlice is created and kept in sync by the kube-apiserver
+# in the default namespace, alongside the kubernetes Service and Endpoints, and is
+# excluded by the CIS benchmark like them (CIS 5.7.4: kubescape/regolibrary#644).
+# It is matched by its exact name: labels such as kubernetes.io/service-name can be
+# set on any EndpointSlice, but this name in the default namespace is the
+# apiserver's own.
+is_kubernetes_default_resource(resource) if {
+	resource.kind == "EndpointSlice"
+	resource.metadata.name == "kubernetes"
+	resource.metadata.namespace == "default"
+}
