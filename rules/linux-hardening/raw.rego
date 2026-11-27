@@ -92,10 +92,21 @@ ephemeral_container_paths(obj, specs_path, specs, fix_fields) := paths if {
 	]
 } else := []
 
-# A container is unsafe if it has no seccomp profile defined
-# at either pod level or container level
+# A container is unsafe if its seccomp profile does not restrict anything: it
+# has none, or the profile in effect is Unconfined. A container's own
+# seccompProfile replaces the pod's, so the pod's profile only counts for
+# containers that don't set one.
 is_unsafe_container(pod_spec, container) if {
-	not pod_spec.securityContext.seccompProfile
+	not effective_seccomp_profile_type(pod_spec, container)
+}
+
+is_unsafe_container(pod_spec, container) if {
+	effective_seccomp_profile_type(pod_spec, container) == "Unconfined"
+}
+
+effective_seccomp_profile_type(_, container) := container.securityContext.seccompProfile.type
+
+effective_seccomp_profile_type(pod_spec, container) := pod_spec.securityContext.seccompProfile.type if {
 	not container.securityContext.seccompProfile
 }
 
