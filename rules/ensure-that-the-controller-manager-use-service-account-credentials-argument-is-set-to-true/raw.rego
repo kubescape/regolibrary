@@ -27,23 +27,33 @@ is_controller_manager(obj) if {
 	endswith(obj.spec.containers[0].command[0], "kube-controller-manager")
 }
 
-# Assume flag set only once
+# A repeated flag takes its value from the last occurrence in command + args,
+# the same way pflag parses it.
+last_flag_index(flags) := max({i |
+	some i, arg in flags
+	split(arg, "=")[0] == "--use-service-account-credentials"
+})
+
 invalid_flag(container) := result if {
-	cmd := get_flags(container)
-	cmd[i] == "--use-service-account-credentials=false"
+	flags := get_flags(container)
+	i := last_flag_index(flags)
+
+	# A bare boolean flag means true, and pflag also accepts the false
+	# spellings of strconv.ParseBool.
+	suffix := trim_prefix(flags[i], "--use-service-account-credentials")
+	suffix in {"=0", "=f", "=F", "=false", "=FALSE", "=False"}
 	path := flag_path(container, i)
-	result = {
+	result := {
 		"failed_paths": [path],
 		"fix_paths": [{"path": path, "value": "--use-service-account-credentials=true"}],
 	}
 }
 
+# The flag is off by default, so a missing flag fails too.
 invalid_flag(container) := result if {
-	cmd := get_flags(container)
-	full_cmd = concat(" ", cmd)
-	not contains(full_cmd, "--use-service-account-credentials")
+	not last_flag_index(get_flags(container))
 	path := append_path(container, 0)
-	result = {
+	result := {
 		"failed_paths": [],
 		"fix_paths": [{
 			"path": path,
