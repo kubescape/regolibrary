@@ -32,11 +32,16 @@ is_etcd_pod(obj) if {
 # command as ["etcd"] and pass all flags via args.
 get_flags(container) := array.concat(container.command, [arg | arg := container.args[_]])
 
-# Assume flag set only once
+# A repeated flag takes its value from the last occurrence in command + args,
+# the same way the flag parser reads it.
+last_flag_index(flags) := max({i |
+	some i, arg in flags
+	split(arg, "=")[0] == "--client-cert-auth"
+})
+
+# The flag is off by default, so a missing flag fails.
 invalid_flag(container) := result if {
-	cmd := get_flags(container)
-	full_cmd = concat(" ", cmd)
-	not contains(full_cmd, "--client-cert-auth")
+	not last_flag_index(get_flags(container))
 	result := {
 		"failed_paths": [],
 		"fix_paths": [{
@@ -47,13 +52,17 @@ invalid_flag(container) := result if {
 }
 
 invalid_flag(container) := result if {
-	cmd := get_flags(container)
-	contains(cmd[i], "--client-cert-auth=false")
-	fixed = replace(cmd[i], "--client-cert-auth=false", "--client-cert-auth=true")
+	flags := get_flags(container)
+	i := last_flag_index(flags)
+
+	# A bare boolean flag means true, and the flag parser also accepts the
+	# false spellings of strconv.ParseBool.
+	suffix := trim_prefix(flags[i], "--client-cert-auth")
+	suffix in {"=0", "=f", "=F", "=false", "=FALSE", "=False"}
 	path := flag_path(container, i)
-	result = {
+	result := {
 		"failed_paths": [path],
-		"fix_paths": [{"path": path, "value": fixed}],
+		"fix_paths": [{"path": path, "value": "--client-cert-auth=true"}],
 	}
 }
 
